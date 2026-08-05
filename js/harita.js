@@ -21,7 +21,6 @@ import * as depo from './depo.js';
 // Neden parçalı: git'in dosya başına 100 MB sınırı var, harita 357 MB.
 export const HARITA_KLASORU = 'harita';
 
-const HARITA_DOSYA = 'balkan.pmtiles';
 const PMTILES_IMZASI = 'PMTiles';
 
 let harita = null;
@@ -40,51 +39,97 @@ class BlobKaynak {
   }
 }
 
-// Dosya varsa boyutunu, yoksa 0 döner.
+// Parça listesi indirmede kaydediliyor; sonraki açılışlarda ağa gerek kalmasın diye.
+async function parcaListesi() {
+  const { ayarOku } = await import('./veri.js');
+  return ayarOku('haritaParcalari', null);
+}
+
+// Kayıtlı parçaları tek bir Blob gibi gösterir. Blob birleştirmesi ucuz:
+// veriyi belleğe kopyalamaz, parçalara referans tutar.
+async function haritaBlobu() {
+  const bilgi = await parcaListesi();
+  if (!bilgi?.parcalar?.length) return null;
+
+  const parcalar = [];
+  for (const p of bilgi.parcalar) {
+    const b = await depo.oku('harita', p.ad);
+    if (!b || b.size !== p.boyut) return null;
+    parcalar.push(b);
+  }
+  return new Blob(parcalar);
+}
+
+// Harita tamsa toplam boyutu, değilse 0 döner.
 export async function haritaVarMi() {
-  const b = await depo.boyut('harita', HARITA_DOSYA);
-  return b > 1_000_000 ? b : 0;
+  const bilgi = await parcaListesi();
+  if (!bilgi?.parcalar?.length) return 0;
+
+  let toplam = 0;
+  for (const p of bilgi.parcalar) {
+    const b = await depo.boyut('harita', p.ad);
+    if (b !== p.boyut) return 0;      // eksik parça = harita yok
+    toplam += b;
+  }
+  return toplam;
 }
 
 export async function haritaIndir(ilerleme) {
+  const { ayarYaz } = await import('./veri.js');
+
   const liste = await fetch(`${HARITA_KLASORU}/parcalar.json`);
   if (!liste.ok) throw new Error(`Parça listesi alınamadı (${liste.status})`);
   const bilgi = await liste.json();
 
-  const inenler = [];
-  let inen = 0;
+  // Yarım kalmış bir indirmenin kalıntısı karışmasın.
+  await ayarYaz('haritaParcalari', null);
+  for (const p of bilgi.parcalar) await depo.sil('harita', p.ad);
 
+  let inen = 0;
   for (const parca of bilgi.parcalar) {
     const yanit = await fetch(`${HARITA_KLASORU}/${parca.ad}`);
     if (!yanit.ok) throw new Error(`${parca.ad} inmedi (${yanit.status})`);
 
-    const blob = await yanit.blob();
+    // Gövdeyi akış halinde okuyoruz: response.blob() büyük dosyalarda
+    // başarısız olabiliyor, ayrıca tek seferde 357 MB'ı belleğe almak
+    // telefonda zaten istenmeyen bir şey. Aynı anda en fazla bir parça tutuluyor.
+    const okuyucu = yanit.body.getReader();
+    const dilimler = [];
+    for (;;) {
+      const { done, value } = await okuyucu.read();
+      if (done) break;
+      dilimler.push(value);
+      ilerleme?.(inen + dilimler.reduce((t, d) => t + d.length, 0), bilgi.toplamBoyut);
+    }
+
+    const blob = new Blob(dilimler);
     if (blob.size !== parca.boyut) {
       throw new Error(`${parca.ad} eksik indi: ${blob.size} / ${parca.boyut}`);
     }
-    inenler.push(blob);
+    await depo.yaz('harita', parca.ad, blob);
     inen += blob.size;
     ilerleme?.(inen, bilgi.toplamBoyut);
   }
 
-  await depo.yaz('harita', HARITA_DOSYA, inenler);
+  await ayarYaz('haritaParcalari', bilgi);
 
-  // Doğrulama: boyut tam mı ve dosya gerçekten pmtiles mi?
-  const yazilan = await depo.oku('harita', HARITA_DOSYA);
-  const imza = yazilan
-    ? new TextDecoder().decode(await yazilan.slice(0, 7).arrayBuffer())
+  // Doğrulama: parçalar tam mı ve birleşince gerçekten pmtiles mi?
+  const birlesik = await haritaBlobu();
+  const imza = birlesik
+    ? new TextDecoder().decode(await birlesik.slice(0, 7).arrayBuffer())
     : '';
 
-  if (!yazilan || yazilan.size !== bilgi.toplamBoyut || imza !== PMTILES_IMZASI) {
-    await depo.sil('harita', HARITA_DOSYA);   // yarım dosya "harita var" görünmesin
+  if (!birlesik || birlesik.size !== bilgi.toplamBoyut || imza !== PMTILES_IMZASI) {
+    await ayarYaz('haritaParcalari', null);
+    for (const p of bilgi.parcalar) await depo.sil('harita', p.ad);
     throw new Error(
-      !yazilan || yazilan.size !== bilgi.toplamBoyut
-        ? `Eksik yazıldı: ${yazilan?.size || 0} / ${bilgi.toplamBoyut} bayt`
-        : 'Yazılan dosya harita değil — indirme bozulmuş'
+      !birlesik || birlesik.size !== bilgi.toplamBoyut
+        ? `Eksik yazıldı: ${birlesik?.size || 0} / ${bilgi.toplamBoyut} bayt`
+        : 'İnen dosya harita değil — indirme bozulmuş'
     );
   }
 
-  return yazilan.size;
+  return birlesik.size;
 }
 
 // ---- Harita kurulumu ------------------------------------------------------
@@ -149,8 +194,8 @@ export async function haritaKur() {
 
     if (boyut) {
       try {
-        const dosya = await depo.oku('harita', HARITA_DOSYA);
-        if (!dosya) throw new Error('harita dosyası okunamadı');
+        const dosya = await haritaBlobu();
+        if (!dosya) throw new Error('harita parçaları okunamadı');
         pmt = new pmtiles.PMTiles(new BlobKaynak(dosya, 'sefer-harita'));
 
         // pmtiles:// isteklerini dosyadan karşıla. Ağ hiç devreye girmiyor.
