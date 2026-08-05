@@ -1,8 +1,9 @@
 // Sefer — offline harita.
 //
-// Harita verisi tek bir .pmtiles dosyası: 6 ülke, sokak seviyesi, ~357 MB.
-// Ev wifi'sinde bir kez indirilip telefonun dosya sistemine (OPFS) yazılıyor.
-// Sonrasında hiçbir ağ isteği yok — uçak modunda da aynı çalışıyor.
+// Harita verisi bir .pmtiles arşivi: 6 ülke, sokak seviyesi, ~357 MB.
+// Ev wifi'sinde bir kez indirilip cihaza kaydediliyor (depo.js hangi yolu
+// kullanacağına karar veriyor). Sonrasında hiçbir ağ isteği yok — uçak
+// modunda da aynı çalışıyor.
 
 // maplibregl ve pmtiles index.html'den yükleniyor (global). ES modülü olarak değil,
 // çünkü MapLibre v6 özel protokolleri artık çağırmıyor — pmtiles'ın çalıştığı
@@ -11,8 +12,6 @@
 import { aktifSefer, duraklar } from './sefer.js';
 import * as depo from './depo.js';
 
-// Harita paketi GitHub Release eki olarak duruyor: depoda 100 MB dosya sınırı var,
-// Release'de 2 GB. Kişisel veri içermiyor (kamuya açık Protomaps verisi).
 // Harita, uygulamayla AYNI adreste, parçalar halinde duruyor.
 //
 // Neden Release değil: GitHub'ın release dosya sunucusu CORS başlığı vermiyor,
