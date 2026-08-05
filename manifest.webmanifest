@@ -1,0 +1,18 @@
+{
+  "name": "Sefer",
+  "short_name": "Sefer",
+  "description": "Gezi anı defteri — internetsiz çalışır",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#12100e",
+  "theme_color": "#12100e",
+  "lang": "tr",
+  "dir": "ltr",
+  "icons": [
+    { "src": "ikon/ikon-180.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "ikon/ikon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "ikon/ikon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

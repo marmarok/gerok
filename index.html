@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+<meta name="theme-color" content="#12100e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Sefer">
+<title>Sefer</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="ikon/ikon-180.png">
+<link rel="stylesheet" href="vendor/maplibre-gl.css">
+<link rel="stylesheet" href="css/stil.css">
+</head>
+<body>
+
+<div id="yukleniyor" class="acilis">
+  <div class="acilis-ic">
+    <div class="acilis-ad">Sefer</div>
+    <div class="acilis-not">açılıyor…</div>
+  </div>
+</div>
+
+<header id="ustBar">
+  <div class="ust-sol">
+    <div id="ustBaslik">Sefer</div>
+    <div id="ustAlt" class="ust-alt"></div>
+  </div>
+  <div class="ust-sag">
+    <button id="izRozet" class="rozet" title="İz kaydı">
+      <span class="nokta"></span><span id="izYazi">kapalı</span>
+    </button>
+  </div>
+</header>
+
+<main id="govde">
+
+  <!-- ---------- ZAMAN ÇİZGİSİ ---------- -->
+  <section id="ekran-zaman" class="ekran">
+    <div id="zamanListe" class="liste"></div>
+  </section>
+
+  <!-- ---------- HARİTA ---------- -->
+  <section id="ekran-harita" class="ekran">
+    <div id="haritaKap">
+      <div id="harita"></div>
+      <div id="haritaUyari" class="harita-uyari gizli"></div>
+      <div class="harita-dugmeler">
+        <button id="haritaBenim" class="yuvarlak" title="Konumuma git">◎</button>
+        <button id="haritaHepsi" class="yuvarlak" title="Tüm rotayı göster">⤢</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- KAYIT ---------- -->
+  <section id="ekran-kayit" class="ekran">
+    <div class="kayit-alan">
+      <button id="btnSes" class="buyuk-dugme birincil">
+        <span class="dugme-ikon">🎙</span>
+        <span class="dugme-ad">Sesli not</span>
+        <span class="dugme-alt">Basılı tut, konuş, bırak</span>
+      </button>
+
+      <button id="btnOrtam" class="buyuk-dugme vurgu">
+        <span class="dugme-ikon">🌊</span>
+        <span class="dugme-ad">Ortam sesi</span>
+        <span class="dugme-alt">30 saniye · konuşma, sadece dinlet</span>
+      </button>
+
+      <div class="dugme-satir">
+        <button id="btnYazi" class="orta-dugme"><span>✎</span>Yazı</button>
+        <button id="btnIsaret" class="orta-dugme"><span>📍</span>Buradayım</button>
+      </div>
+      <div class="dugme-satir">
+        <button id="btnKisi" class="orta-dugme"><span>👤</span>Tanıştık</button>
+        <button id="btnFiyat" class="orta-dugme"><span>🧾</span>Fiyat</button>
+      </div>
+      <div class="dugme-satir">
+        <button id="btnFoto" class="orta-dugme genis"><span>🖼</span>Fotoğraf ekle</button>
+      </div>
+
+      <div id="kayitDurum" class="kayit-durum"></div>
+    </div>
+  </section>
+
+  <!-- ---------- DURAKLAR ---------- -->
+  <section id="ekran-duraklar" class="ekran">
+    <div class="yol-modu-kap">
+      <button id="btnYolModu" class="yol-modu">
+        <span class="yol-ad">Yol Modu</span>
+        <span class="yol-alt">Ekran açık kalır, durağa yaklaşınca uyarır</span>
+      </button>
+    </div>
+    <div id="duraklarListe" class="liste"></div>
+  </section>
+
+  <!-- ---------- SEFER ---------- -->
+  <section id="ekran-sefer" class="ekran">
+    <div id="seferPanel" class="panel-alan"></div>
+  </section>
+
+</main>
+
+<nav id="altBar">
+  <button data-ekran="zaman"    class="sekme secili"><span>🕘</span>Zaman</button>
+  <button data-ekran="harita"   class="sekme"><span>🗺</span>Harita</button>
+  <button data-ekran="kayit"    class="sekme buyuk"><span>＋</span>Kayıt</button>
+  <button data-ekran="duraklar" class="sekme"><span>📌</span>Duraklar</button>
+  <button data-ekran="sefer"    class="sekme"><span>⚙</span>Sefer</button>
+</nav>
+
+<!-- Örtü katmanı: kayıt yaparken, Gün Sonu akışında, uyarılarda kullanılıyor -->
+<div id="ortu" class="ortu gizli">
+  <div id="ortuIc" class="ortu-ic"></div>
+</div>
+
+<!-- Ses kaydı sırasında ekranı kaplayan geri bildirim -->
+<div id="sesKatman" class="ses-katman gizli">
+  <div class="ses-halka"><div id="sesSure">0:00</div></div>
+  <div id="sesIpucu" class="ses-ipucu">Bırakınca kaydedilir</div>
+</div>
+
+<input type="file" id="fotoSecici" accept="image/*,video/*" multiple hidden>
+<input type="file" id="dosyaSecici" accept=".sefer,.json,application/json" hidden>
+
+<script src="vendor/maplibre-gl.js"></script>
+<script src="vendor/pmtiles.js"></script>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

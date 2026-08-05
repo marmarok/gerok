@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#12100e">
+<title>Sefer — kurulum</title>
+<style>
+  :root {
+    --zemin:#12100e; --kat:#1c1917; --kat2:#262220; --cizgi:#38322e;
+    --yazi:#f0ebe5; --soluk:#a09488; --cok-soluk:#6b625a;
+    --vurgu:#e0a458; --kirmizi:#d9634f; --yesil:#7ba05b;
+  }
+  * { box-sizing:border-box; }
+  body {
+    margin:0; background:var(--zemin); color:var(--yazi);
+    font-family:-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+    line-height:1.6; padding:0 0 60px;
+  }
+  .kap { max-width:620px; margin:0 auto; padding:0 20px; }
+  header { padding:48px 0 30px; text-align:center; }
+  .ad { font-size:34px; font-weight:300; letter-spacing:.3em; color:var(--vurgu);
+        text-transform:uppercase; padding-left:.3em; }
+  .alt { color:var(--soluk); margin-top:10px; font-size:15px; }
+
+  .uyari {
+    background:linear-gradient(160deg,#2a2119,var(--kat));
+    border:1px solid #4a3a22; border-radius:14px; padding:16px 18px; margin:22px 0;
+  }
+  .uyari b { color:var(--vurgu); }
+
+  ol { list-style:none; counter-reset:adim; padding:0; margin:34px 0 0; }
+  ol li {
+    counter-increment:adim; position:relative;
+    padding:0 0 26px 52px; margin:0;
+  }
+  ol li::before {
+    content:counter(adim); position:absolute; left:0; top:-2px;
+    width:34px; height:34px; border-radius:50%;
+    background:var(--kat2); border:1px solid var(--cizgi); color:var(--vurgu);
+    display:flex; align-items:center; justify-content:center;
+    font-size:15px; font-weight:600;
+  }
+  ol li::after {
+    content:''; position:absolute; left:17px; top:36px; bottom:6px; width:1px;
+    background:var(--cizgi);
+  }
+  ol li:last-child::after { display:none; }
+  .baslik { font-size:17px; font-weight:600; margin-bottom:5px; }
+  .aciklama { color:var(--soluk); font-size:14.5px; }
+  .aciklama b { color:var(--yazi); font-weight:600; }
+
+  .kutu {
+    background:var(--kat); border:1px solid var(--cizgi);
+    border-radius:11px; padding:12px 15px; margin-top:11px; font-size:14px;
+    color:var(--soluk);
+  }
+  .kutu.dikkat { border-color:var(--kirmizi); }
+  .kutu.dikkat b { color:var(--kirmizi); }
+
+  .simge { font-family:ui-monospace,Menlo,monospace; background:var(--kat2);
+           padding:2px 7px; border-radius:5px; font-size:13.5px; color:var(--yazi); }
+
+  h2 { font-size:13px; letter-spacing:.14em; text-transform:uppercase;
+       color:var(--vurgu); margin:48px 0 6px; font-weight:600; }
+  .son { border-top:1px solid var(--cizgi); margin-top:46px; padding-top:26px;
+         color:var(--cok-soluk); font-size:13.5px; }
+  a { color:var(--vurgu); }
+</style>
+</head>
+<body>
+<div class="kap">
+
+<header>
+  <div class="ad">Sefer</div>
+  <div class="alt">Kurulum — 5 dakika sürer</div>
+</header>
+
+<div class="uyari">
+  <b>İki şeyi yolda değil, evde yap:</b> uygulamayı kur ve haritayı indir.
+  Harita 357 MB ve yurtdışında internet olmayacak. Kalkıştan önce bitir.
+</div>
+
+<h2>Telefona kurmak</h2>
+<ol>
+  <li>
+    <div class="baslik">Bu sayfayı <b>Safari</b>'de aç</div>
+    <div class="aciklama">Chrome ya da başka tarayıcı olmaz — iPhone'a uygulama
+    eklemeyi yalnızca Safari yapabiliyor. Bu bağlantı sana WhatsApp'tan geldiyse
+    sağ üstten "Safari'de Aç" de.</div>
+  </li>
+
+  <li>
+    <div class="baslik">Uygulamanın adresini aç</div>
+    <div class="aciklama">Aynı adresin sonundaki <span class="simge">/kurulum.html</span>
+    kısmını sil, sadece ana adres kalsın. Karanlık bir ekranda büyük harflerle
+    <b>SEFER</b> yazısı göreceksin.</div>
+  </li>
+
+  <li>
+    <div class="baslik">Paylaş düğmesine dokun</div>
+    <div class="aciklama">Ekranın altındaki, içinden yukarı ok çıkan kare
+    <span class="simge">⬆</span> düğmesi.</div>
+  </li>
+
+  <li>
+    <div class="baslik">"Ana Ekrana Ekle"yi seç</div>
+    <div class="aciklama">Açılan listede biraz aşağı kaydırman gerekebilir.
+    Sonra sağ üstten <b>Ekle</b>.</div>
+    <div class="kutu">Artık ana ekranında turuncu yollu bir ikon var.
+    <b>Bundan sonra hep o ikondan aç</b> — Safari'den açarsan bazı özellikler
+    çalışmaz.</div>
+  </li>
+
+  <li>
+    <div class="baslik">İkondan aç ve adını yaz</div>
+    <div class="aciklama">Her kaydın kime ait olduğu bununla yazılıyor.
+    Sonradan Sefer sekmesinden değiştirebilirsin.</div>
+  </li>
+</ol>
+
+<h2>İzinler</h2>
+<ol>
+  <li>
+    <div class="baslik">Konum</div>
+    <div class="aciklama">Hemen soracak. <b>"Uygulamayı Kullanırken İzin Ver"</b> de.
+    Bu olmadan harita üzerinde rota çizilmez ve fotoğrafların yeri bulunamaz.</div>
+  </li>
+  <li>
+    <div class="baslik">Mikrofon</div>
+    <div class="aciklama">İlk sesli notu kaydetmeye çalıştığında soracak.
+    <b>İzin Ver</b>.</div>
+  </li>
+  <li>
+    <div class="baslik">Bildirim</div>
+    <div class="aciklama">Akşam "Gün Sonu" hatırlatması ve durağa yaklaşma uyarısı
+    için gerekiyor. <b>İzin Ver</b>.</div>
+  </li>
+  <li>
+    <div class="baslik">Kalıcı depolama</div>
+    <div class="aciklama">Sefer sekmesi → <b>Kalıcı depolama iste</b>.
+    Telefonun yeri daralınca kayıtlarımızı silmesin diye.</div>
+  </li>
+</ol>
+
+<h2>İçini doldurmak</h2>
+<ol>
+  <li>
+    <div class="baslik">Sefer paketini yükle</div>
+    <div class="aciklama">Sana gönderilen <span class="simge">.sefer</span> dosyasını
+    Dosyalar'a kaydet. Sonra uygulamada Sefer sekmesi → <b>Sefer paketi yükle</b> →
+    dosyayı seç. Rota, duraklar ve hatırlatıcılar gelecek.</div>
+  </li>
+
+  <li>
+    <div class="baslik">Haritayı indir</div>
+    <div class="aciklama">Sefer sekmesi → <b>Harita paketini indir</b>.
+    357 MB, birkaç dakika sürer.</div>
+    <div class="kutu dikkat"><b>Mutlaka ev wifi'sinde.</b> Yurtdışında bunu indiremezsin
+    ve harita olmadan uygulamanın harita ekranı boş kalır.</div>
+  </li>
+
+  <li>
+    <div class="baslik">Uçak modunda dene</div>
+    <div class="aciklama">Telefonu uçak moduna al, uygulamayı aç, Harita sekmesine git.
+    Balkanlar görünüyorsa her şey tamam. Görünmüyorsa haritayı yeniden indir.</div>
+  </li>
+</ol>
+
+<h2>Yolda nasıl kullanılır</h2>
+<ol>
+  <li>
+    <div class="baslik">Araçtayken Yol Modu</div>
+    <div class="aciklama">Duraklar sekmesi → <b>Yol Modu</b>. Ekran açık kalır,
+    rota çizilir, durağa 2 km kala uyarır ve orada unutulmayacakları gösterir.</div>
+    <div class="kutu">Yol Modu bataryayı hızlı yer. Araçta telefonu şarjda tut.
+    Şarj %20'nin altına inince uygulama kendini yavaşlatır.</div>
+  </li>
+  <li>
+    <div class="baslik">Gün içinde</div>
+    <div class="aciklama">Fotoğrafı <b>her zamanki kameranla</b> çek — uygulamadan değil.
+    Uygulama sesli not, ortam sesi, yazı ve işaret için.</div>
+    <div class="kutu"><b>Ortam sesi</b> en değerli olanı: konuşmadan 30 saniye,
+    o yerin nasıl duyulduğunu kaydet. Çarşı, yağmur, ezan, dalga.
+    Fotoğraf herkeste var — ses kimsede yok.</div>
+  </li>
+  <li>
+    <div class="baslik">Akşam otelde: Gün Sonu</div>
+    <div class="aciklama">Sefer sekmesi → <b>Gün Sonu</b>. 90 saniye sürer ve
+    her şeyi tek seferde halleder: günün özeti, sesli günlüğün, günün sıradan karesi,
+    fotoğrafların, yedek ve arkadaşına gönderme.</div>
+  </li>
+  <li>
+    <div class="baslik">Eşitleme</div>
+    <div class="aciklama">Gün Sonu'nun son adımında <b>Günümü gönder</b> → AirDrop →
+    karşı taraf. O da Dosyalar'a kaydedip Sefer sekmesinden <b>Gelen paketi al</b> der.
+    İnternet gerekmez. Aynı paketi iki kez alsan da hiçbir şey yinelenmez.</div>
+  </li>
+</ol>
+
+<div class="son">
+  <p><b>Uygulama internetsiz çalışır.</b> Kurulduktan ve harita indirildikten sonra
+  hiçbir şey için ağa ihtiyacı yok. Kayıtlar telefonun içinde durur, hiçbir sunucuya
+  gitmez.</p>
+  <p><b>Fotoğraf ve videolar uygulamaya kopyalanmaz.</b> Galerinde tam kalitede kalır;
+  uygulama sadece küçük bir önizleme, saat ve konum tutar. Dönüşte orijinaller
+  doğrudan telefondan arşive alınır.</p>
+  <p><b>Bir şey ters giderse:</b> Gün Sonu'ndaki yedeği almayı ihmal etme.
+  Uygulama silinse bile o dosyadan her şey geri gelir.</p>
+</div>
+
+</div>
+</body>
+</html>

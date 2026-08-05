@@ -1,0 +1,6 @@
+# Yerel deneme dosyaları — sefer paketi, rota, koordinat gibi kişisel veriler
+# hiçbir zaman depoya girmez.
+deneme/
+*.sefer
+*.pmtiles
+.DS_Store
