@@ -9,6 +9,7 @@
 // sürüm v5, o da tek dosyalık klasik bir betik olarak geliyor.
 /* global maplibregl, pmtiles */
 import { aktifSefer, duraklar } from './sefer.js';
+import * as depo from './depo.js';
 
 // Harita paketi GitHub Release eki olarak duruyor: depoda 100 MB dosya sınırı var,
 // Release'de 2 GB. Kişisel veri içermiyor (kamuya açık Protomaps verisi).
@@ -27,32 +28,22 @@ let harita = null;
 let kuruluyor = null;
 let pmt = null;
 
-// ---- OPFS'teki dosyayı pmtiles'a okutan kaynak ----------------------------
+// ---- Kayıtlı dosyayı pmtiles'a okutan kaynak ------------------------------
+// pmtiles yalnızca "şu konumdan şu kadar bayt ver" diyor; Blob.slice bunu
+// hem OPFS hem IndexedDB tarafında aynı şekilde karşılıyor.
 
-class OpfsKaynak {
-  constructor(dosya, anahtar) { this.dosya = dosya; this.anahtar = anahtar; }
+class BlobKaynak {
+  constructor(blob, anahtar) { this.blob = blob; this.anahtar = anahtar; }
   getKey() { return this.anahtar; }
   async getBytes(konum, uzunluk) {
-    const dilim = this.dosya.slice(konum, konum + uzunluk);
-    return { data: await dilim.arrayBuffer() };
+    return { data: await this.blob.slice(konum, konum + uzunluk).arrayBuffer() };
   }
-}
-
-async function haritaKlasoru() {
-  const kok = await navigator.storage.getDirectory();
-  return kok.getDirectoryHandle('harita', { create: true });
 }
 
 // Dosya varsa boyutunu, yoksa 0 döner.
 export async function haritaVarMi() {
-  try {
-    const klasor = await haritaKlasoru();
-    const tutamac = await klasor.getFileHandle(HARITA_DOSYA);
-    const dosya = await tutamac.getFile();
-    return dosya.size > 1_000_000 ? dosya.size : 0;
-  } catch {
-    return 0;
-  }
+  const b = await depo.boyut('harita', HARITA_DOSYA);
+  return b > 1_000_000 ? b : 0;
 }
 
 export async function haritaIndir(ilerleme) {
@@ -60,43 +51,36 @@ export async function haritaIndir(ilerleme) {
   if (!liste.ok) throw new Error(`Parça listesi alınamadı (${liste.status})`);
   const bilgi = await liste.json();
 
-  const klasor = await haritaKlasoru();
-  const tutamac = await klasor.getFileHandle(HARITA_DOSYA, { create: true });
-  const yazici = await tutamac.createWritable();
-
+  const inenler = [];
   let inen = 0;
-  try {
-    for (const parca of bilgi.parcalar) {
-      const yanit = await fetch(`${HARITA_KLASORU}/${parca.ad}`);
-      if (!yanit.ok) throw new Error(`${parca.ad} inmedi (${yanit.status})`);
 
-      const okuyucu = yanit.body.getReader();
-      for (;;) {
-        const { done, value } = await okuyucu.read();
-        if (done) break;
-        await yazici.write(value);
-        inen += value.length;
-        ilerleme?.(inen, bilgi.toplamBoyut);
-      }
+  for (const parca of bilgi.parcalar) {
+    const yanit = await fetch(`${HARITA_KLASORU}/${parca.ad}`);
+    if (!yanit.ok) throw new Error(`${parca.ad} inmedi (${yanit.status})`);
+
+    const blob = await yanit.blob();
+    if (blob.size !== parca.boyut) {
+      throw new Error(`${parca.ad} eksik indi: ${blob.size} / ${parca.boyut}`);
     }
-    await yazici.close();
-  } catch (hata) {
-    // Yarım kalan dosya "harita var" gibi görünmesin — sil, temiz başla.
-    try { await yazici.close(); } catch { /* zaten kapalı */ }
-    try { await klasor.removeEntry(HARITA_DOSYA); } catch { /* yoktu */ }
-    throw hata;
+    inenler.push(blob);
+    inen += blob.size;
+    ilerleme?.(inen, bilgi.toplamBoyut);
   }
 
-  // Doğrulama: boyut tam mı ve dosya gerçekten pmtiles mi?
-  const yazilan = await (await klasor.getFileHandle(HARITA_DOSYA)).getFile();
-  const imza = new TextDecoder().decode(await yazilan.slice(0, 7).arrayBuffer());
+  await depo.yaz('harita', HARITA_DOSYA, inenler);
 
-  if (yazilan.size !== bilgi.toplamBoyut || imza !== PMTILES_IMZASI) {
-    await klasor.removeEntry(HARITA_DOSYA);
+  // Doğrulama: boyut tam mı ve dosya gerçekten pmtiles mi?
+  const yazilan = await depo.oku('harita', HARITA_DOSYA);
+  const imza = yazilan
+    ? new TextDecoder().decode(await yazilan.slice(0, 7).arrayBuffer())
+    : '';
+
+  if (!yazilan || yazilan.size !== bilgi.toplamBoyut || imza !== PMTILES_IMZASI) {
+    await depo.sil('harita', HARITA_DOSYA);   // yarım dosya "harita var" görünmesin
     throw new Error(
-      yazilan.size !== bilgi.toplamBoyut
-        ? `Eksik indi: ${yazilan.size} / ${bilgi.toplamBoyut} bayt`
-        : 'İnen dosya harita değil — indirme bozulmuş'
+      !yazilan || yazilan.size !== bilgi.toplamBoyut
+        ? `Eksik yazıldı: ${yazilan?.size || 0} / ${bilgi.toplamBoyut} bayt`
+        : 'Yazılan dosya harita değil — indirme bozulmuş'
     );
   }
 
@@ -165,9 +149,9 @@ export async function haritaKur() {
 
     if (boyut) {
       try {
-        const klasor = await haritaKlasoru();
-        const dosya = await (await klasor.getFileHandle(HARITA_DOSYA)).getFile();
-        pmt = new pmtiles.PMTiles(new OpfsKaynak(dosya, 'sefer-harita'));
+        const dosya = await depo.oku('harita', HARITA_DOSYA);
+        if (!dosya) throw new Error('harita dosyası okunamadı');
+        pmt = new pmtiles.PMTiles(new BlobKaynak(dosya, 'sefer-harita'));
 
         // pmtiles:// isteklerini dosyadan karşıla. Ağ hiç devreye girmiyor.
         maplibregl.addProtocol('pmtiles', async (istek) => {

@@ -198,45 +198,16 @@ export async function seferler() {
   return sarmala(islem(['sefer']).objectStore('sefer').getAll());
 }
 
-// ---- Medya deposu (OPFS) --------------------------------------------------
-// Ses ve fotoğraf önizlemeleri IndexedDB yerine dosya sisteminde durur:
-// büyük ikili veride hem daha hızlı hem tarayıcı temizliğine karşı daha dayanıklı.
+// ---- Medya deposu ---------------------------------------------------------
+// Ses kayıtları ve fotoğraf önizlemeleri. Hangi depolama yolunun kullanıldığına
+// depo.js karar veriyor (OPFS ya da IndexedDB) — bkz. oradaki açıklama.
 
-async function medyaKlasoru() {
-  const kok = await navigator.storage.getDirectory();
-  return kok.getDirectoryHandle('medya', { create: true });
-}
+import * as depo from './depo.js';
 
-export async function medyaYaz(id, blob) {
-  const klasor = await medyaKlasoru();
-  const dosya = await klasor.getFileHandle(id, { create: true });
-  const yazici = await dosya.createWritable();
-  await yazici.write(blob);
-  await yazici.close();
-  return id;
-}
-
-export async function medyaOku(id) {
-  try {
-    const klasor = await medyaKlasoru();
-    const dosya = await klasor.getFileHandle(id);
-    return await dosya.getFile();
-  } catch {
-    return null;
-  }
-}
-
-export async function medyaSil(id) {
-  try {
-    const klasor = await medyaKlasoru();
-    await klasor.removeEntry(id);
-  } catch { /* yoksa sorun değil */ }
-}
-
-export async function medyaUrl(id) {
-  const dosya = await medyaOku(id);
-  return dosya ? URL.createObjectURL(dosya) : null;
-}
+export const medyaYaz = (id, blob) => depo.yaz('medya', id, blob);
+export const medyaOku = (id) => depo.oku('medya', id);
+export const medyaSil = (id) => depo.sil('medya', id);
+export const medyaUrl = (id) => depo.url('medya', id);
 
 // ---- Depolama sağlığı -----------------------------------------------------
 
