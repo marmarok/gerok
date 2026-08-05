@@ -80,12 +80,24 @@ export async function haritaIndir(ilerleme) {
   if (!liste.ok) throw new Error(`Parça listesi alınamadı (${liste.status})`);
   const bilgi = await liste.json();
 
-  // Yarım kalmış bir indirmenin kalıntısı karışmasın.
+  // İndirme yarıda kesilirse tamamlanmış parçalar duruyor — onlar yeniden inmez.
+  // 357 MB'ın tek seferde inmesini şart koşmuyoruz: telefon uykuya dalsa,
+  // uygulama arka plana atılsa ya da wifi bir an kopsa kaldığı yerden devam eder.
   await ayarYaz('haritaParcalari', null);
-  for (const p of bilgi.parcalar) await depo.sil('harita', p.ad);
 
+  const eksikler = [];
   let inen = 0;
-  for (const parca of bilgi.parcalar) {
+  for (const p of bilgi.parcalar) {
+    if (await depo.boyut('harita', p.ad) === p.boyut) {
+      inen += p.boyut;                 // bu parça zaten tam
+    } else {
+      await depo.sil('harita', p.ad);  // yarım kalmışsa at, baştan insin
+      eksikler.push(p);
+    }
+  }
+  ilerleme?.(inen, bilgi.toplamBoyut);
+
+  for (const parca of eksikler) {
     const yanit = await fetch(`${HARITA_KLASORU}/${parca.ad}`);
     if (!yanit.ok) throw new Error(`${parca.ad} inmedi (${yanit.status})`);
 

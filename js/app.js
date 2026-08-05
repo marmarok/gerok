@@ -700,7 +700,8 @@ async function haritaIndirmeSor() {
   ortuAc(`
     <div class="ortu-baslik">Offline harita</div>
     <div class="ortu-alt">357 MB, beş parça halinde iner. Altı ülkenin tamamı, sokak seviyesinde.
-    <b>Ev wifi'sinde indir</b> — yolda internet olmayacak.</div>
+    <b>Ev wifi'sinde indir</b> — yolda internet olmayacak.
+    Yarıda kesilirse sorun değil: <b>Tekrar dene</b> kaldığı yerden sürdürür.</div>
     <div id="haritaIlerleme" class="panel-not">Hazır.</div>
     <button class="eylem-dugme birincil" id="haritaBasla">İndir</button>
   `);
@@ -719,7 +720,7 @@ async function haritaIndirmeSor() {
       paneliCiz();
     } catch (hata) {
       const e = $('#haritaIlerleme');
-      if (e) e.textContent = `Olmadı: ${hata.message}`;
+      if (e) e.textContent = `Kesildi: ${hata.message} — inen parçalar duruyor, "Tekrar dene" kaldığı yerden sürdürür.`;
       $('#haritaBasla').textContent = 'Tekrar dene';
       $('#haritaBasla').disabled = false;
     }
