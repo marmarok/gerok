@@ -113,7 +113,7 @@ export async function paketGonder(bildir, sadeceGun = null) {
     const paket = await paketUret({ sadeceGun });
     const metin = JSON.stringify(paket);
     const blob = new Blob([metin], { type: 'application/json' });
-    const ad = `gerok-${paket.kisi || 'ben'}-${tarihEtiketi()}.gerok`;
+    const ad = `gerok-${paket.kisi || 'ben'}-${tarihEtiketi()}.gerok.json`;
     const dosya = new File([blob], ad, { type: 'application/json' });
 
     // iOS'ta paylaş sayfası açılır; oradan AirDrop seçiliyor.
@@ -138,7 +138,7 @@ export async function paketGonder(bildir, sadeceGun = null) {
 export function paketAl(bildir, tazele) {
   const secici = document.createElement('input');
   secici.type = 'file';
-  secici.accept = '.gerok,.json,application/json';
+  secici.accept = ".json,application/json";
 
   secici.addEventListener('change', async () => {
     const dosya = secici.files[0];
@@ -172,7 +172,7 @@ export async function yedekAl(bildir) {
     const paket = await paketUret();
     paket.yedek = true;
     const blob = new Blob([JSON.stringify(paket)], { type: 'application/json' });
-    const ad = `gerok-yedek-${tarihEtiketi()}.gerok`;
+    const ad = `gerok-yedek-${tarihEtiketi()}.gerok.json`;
     const dosya = new File([blob], ad, { type: 'application/json' });
 
     if (navigator.canShare?.({ files: [dosya] })) {
