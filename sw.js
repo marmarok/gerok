@@ -4,7 +4,7 @@
 
 // DİKKAT: her yayında bu sürüm değişmeli, yoksa telefonlar eski dosyaları
 // önbellekten sunmaya devam eder. arac/yayinla.sh bunu kendiliğinden günceller.
-const SURUM = 'sefer-20260806-000339';
+const SURUM = 'sefer-20260806-001126';
 
 const DOSYALAR = [
   './',
@@ -51,7 +51,11 @@ self.addEventListener('fetch', (olay) => {
   if (istek.method !== 'GET') return;
 
   const url = new URL(istek.url);
-  if (url.origin !== self.location.origin) return;   // harita indirmesi vs. karışmasın
+  if (url.origin !== self.location.origin) return;
+
+  // Harita parçaları 357 MB. Servis worker önbelleğine de kopyalanırsa cihazda
+  // iki kat yer kaplar — dosya sistemine (OPFS) zaten yazılıyor, buraya girmesin.
+  if (url.pathname.includes('/harita/')) return;
 
   olay.respondWith((async () => {
     const onbellekli = await caches.match(istek);

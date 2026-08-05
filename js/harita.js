@@ -12,17 +12,16 @@ import { aktifSefer, duraklar } from './sefer.js';
 
 // Harita paketi GitHub Release eki olarak duruyor: depoda 100 MB dosya sınırı var,
 // Release'de 2 GB. Kişisel veri içermiyor (kamuya açık Protomaps verisi).
-export const HARITA_ADRESI =
-  'https://github.com/marmarok/sefer/releases/download/harita-v1/balkan-z14.pmtiles';
+// Harita, uygulamayla AYNI adreste, parçalar halinde duruyor.
+//
+// Neden Release değil: GitHub'ın release dosya sunucusu CORS başlığı vermiyor,
+// tarayıcı indirmeyi engelliyor (denendi, "Failed to fetch"). Aynı kökenden
+// sunulunca böyle bir sorun kalmıyor.
+// Neden parçalı: git'in dosya başına 100 MB sınırı var, harita 357 MB.
+export const HARITA_KLASORU = 'harita';
 
 const HARITA_DOSYA = 'balkan.pmtiles';
-
-// Adres ayarlardan değiştirilebiliyor: sınamada yerel dosyayı kullanmak için,
-// ve yayın adresi bir gün değişirse uygulamayı yeniden yayınlamak gerekmesin diye.
-async function haritaAdresi() {
-  const { ayarOku } = await import('./veri.js');
-  return await ayarOku('haritaAdresi', null) || HARITA_ADRESI;
-}
+const PMTILES_IMZASI = 'PMTiles';
 
 let harita = null;
 let kuruluyor = null;
@@ -57,37 +56,51 @@ export async function haritaVarMi() {
 }
 
 export async function haritaIndir(ilerleme) {
-  const yanit = await fetch(await haritaAdresi());
-  if (!yanit.ok) throw new Error(`Sunucu ${yanit.status} döndü`);
+  const liste = await fetch(`${HARITA_KLASORU}/parcalar.json`);
+  if (!liste.ok) throw new Error(`Parça listesi alınamadı (${liste.status})`);
+  const bilgi = await liste.json();
 
-  const toplam = Number(yanit.headers.get('content-length')) || 0;
   const klasor = await haritaKlasoru();
   const tutamac = await klasor.getFileHandle(HARITA_DOSYA, { create: true });
   const yazici = await tutamac.createWritable();
 
-  const okuyucu = yanit.body.getReader();
   let inen = 0;
   try {
-    for (;;) {
-      const { done, value } = await okuyucu.read();
-      if (done) break;
-      await yazici.write(value);
-      inen += value.length;
-      ilerleme?.(inen, toplam);
+    for (const parca of bilgi.parcalar) {
+      const yanit = await fetch(`${HARITA_KLASORU}/${parca.ad}`);
+      if (!yanit.ok) throw new Error(`${parca.ad} inmedi (${yanit.status})`);
+
+      const okuyucu = yanit.body.getReader();
+      for (;;) {
+        const { done, value } = await okuyucu.read();
+        if (done) break;
+        await yazici.write(value);
+        inen += value.length;
+        ilerleme?.(inen, bilgi.toplamBoyut);
+      }
     }
     await yazici.close();
   } catch (hata) {
-    // Yarım kalan dosya "harita var" gibi görünmesin.
+    // Yarım kalan dosya "harita var" gibi görünmesin — sil, temiz başla.
     try { await yazici.close(); } catch { /* zaten kapalı */ }
     try { await klasor.removeEntry(HARITA_DOSYA); } catch { /* yoktu */ }
     throw hata;
   }
 
-  if (inen < 1_000_000) {
+  // Doğrulama: boyut tam mı ve dosya gerçekten pmtiles mi?
+  const yazilan = await (await klasor.getFileHandle(HARITA_DOSYA)).getFile();
+  const imza = new TextDecoder().decode(await yazilan.slice(0, 7).arrayBuffer());
+
+  if (yazilan.size !== bilgi.toplamBoyut || imza !== PMTILES_IMZASI) {
     await klasor.removeEntry(HARITA_DOSYA);
-    throw new Error('İnen dosya çok küçük — indirme yarıda kalmış');
+    throw new Error(
+      yazilan.size !== bilgi.toplamBoyut
+        ? `Eksik indi: ${yazilan.size} / ${bilgi.toplamBoyut} bayt`
+        : 'İnen dosya harita değil — indirme bozulmuş'
+    );
   }
-  return inen;
+
+  return yazilan.size;
 }
 
 // ---- Harita kurulumu ------------------------------------------------------

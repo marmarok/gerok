@@ -696,10 +696,10 @@ function fiyatSor() {
 }
 
 async function haritaIndirmeSor() {
-  const { haritaIndir, HARITA_ADRESI } = await import('./harita.js');
+  const { haritaIndir } = await import('./harita.js');
   ortuAc(`
     <div class="ortu-baslik">Offline harita</div>
-    <div class="ortu-alt">357 MB. Altı ülkenin tamamı, sokak seviyesinde.
+    <div class="ortu-alt">357 MB, beş parça halinde iner. Altı ülkenin tamamı, sokak seviyesinde.
     <b>Ev wifi'sinde indir</b> — yolda internet olmayacak.</div>
     <div id="haritaIlerleme" class="panel-not">Hazır.</div>
     <button class="eylem-dugme birincil" id="haritaBasla">İndir</button>

@@ -1,0 +1,26 @@
+{
+  "toplamBoyut": 374819701,
+  "sha256": "9a2b6b832111f58e02de644145993ce6c57c1eae775c9e993621400e6223a8d1",
+  "parcalar": [
+    {
+      "ad": "parca-01.bin",
+      "boyut": 75000000
+    },
+    {
+      "ad": "parca-02.bin",
+      "boyut": 75000000
+    },
+    {
+      "ad": "parca-03.bin",
+      "boyut": 75000000
+    },
+    {
+      "ad": "parca-04.bin",
+      "boyut": 75000000
+    },
+    {
+      "ad": "parca-05.bin",
+      "boyut": 74819701
+    }
+  ]
+}
