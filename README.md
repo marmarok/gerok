@@ -1,8 +1,8 @@
-# Sefer
+# Gerok
 
 İnternetsiz çalışan gezi anı defteri. Telefona kurulan bir web uygulaması (PWA).
 
-Bir gezi = bir **Sefer**. İçinde günlere göre dizilmiş anılar, üzerine oturdukları
+Bir gezi = bir **Gerok**. İçinde günlere göre dizilmiş anılar, üzerine oturdukları
 offline bir harita, planlanan duraklar ve o duraklara yaklaşınca çalan hatırlatıcılar.
 
 ## Ne yapar
@@ -43,23 +43,23 @@ kurulum.html          kullanıcı için kurulum kartı
 sw.js                 servis worker — tam offline
 js/veri.js            IndexedDB + OPFS depolama
 js/iz.js              GPS iz kaydı, mesafe hesabı
-js/sefer.js           sefer paketi, gün mantığı, ülke tespiti
+js/gerok.js           gerok paketi, gün mantığı, ülke tespiti
 js/kayit.js           kayıt türleri, ses kaydı, EXIF okuma
 js/harita.js          MapLibre + pmtiles, offline harita
 js/gunsonu.js         Gün Sonu akışı, özel kayıtlar
 js/esitleme.js        AirDrop paketi, birleştirme, yedek
 ```
 
-## Sefer paketi
+## Gerok paketi
 
-Rota, duraklar ve hatırlatıcılar **bu depoda değil**. Ayrı bir `.sefer` dosyası
+Rota, duraklar ve hatırlatıcılar **bu depoda değil**. Ayrı bir `.gerok` dosyası
 olarak uygulamaya yükleniyor. Depo yalnızca uygulama kodunu içerir.
 
 Paket biçimi:
 
 ```json
 {
-  "sefer":   { "id": "...", "ad": "...", "baslangic": "...", "bitis": "..." },
+  "gerok":   { "id": "...", "ad": "...", "baslangic": "...", "bitis": "..." },
   "gunler":  [ { "no": 1, "baslik": "...", "pencere": ["...", "..."] } ],
   "duraklar":[ { "id": "...", "ad": "...", "lat": 0, "lon": 0,
                  "yaricap": 2000, "gun": 1, "unutma": ["..."] } ]
@@ -79,7 +79,7 @@ pmtiles extract https://build.protomaps.com/<tarih>.pmtiles bolge.pmtiles \
 ```
 
 Vektör harita olduğu için zoom 14'ün ötesine de yakınlaşılabilir; yalnızca yeni
-detay eklenmez. Dosya, uygulamanın Sefer sekmesinden bir kez indirilip cihazın
+detay eklenmez. Dosya, uygulamanın Gerok sekmesinden bir kez indirilip cihazın
 dosya sistemine (OPFS) yazılır.
 
 **MapLibre sürüm notu:** v6 özel protokolleri (`addProtocol`) artık çağırmıyor,

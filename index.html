@@ -6,8 +6,8 @@
 <meta name="theme-color" content="#12100e">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Sefer">
-<title>Sefer</title>
+<meta name="apple-mobile-web-app-title" content="Gerok">
+<title>Gerok</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="ikon/ikon-180.png">
 <link rel="stylesheet" href="vendor/maplibre-gl.css">
@@ -17,14 +17,14 @@
 
 <div id="yukleniyor" class="acilis">
   <div class="acilis-ic">
-    <div class="acilis-ad">Sefer</div>
+    <div class="acilis-ad">Gerok</div>
     <div class="acilis-not">açılıyor…</div>
   </div>
 </div>
 
 <header id="ustBar">
   <div class="ust-sol">
-    <div id="ustBaslik">Sefer</div>
+    <div id="ustBaslik">Gerok</div>
     <div id="ustAlt" class="ust-alt"></div>
   </div>
   <div class="ust-sag">
@@ -95,9 +95,9 @@
     <div id="duraklarListe" class="liste"></div>
   </section>
 
-  <!-- ---------- SEFER ---------- -->
-  <section id="ekran-sefer" class="ekran">
-    <div id="seferPanel" class="panel-alan"></div>
+  <!-- ---------- GEROK ---------- -->
+  <section id="ekran-gerok" class="ekran">
+    <div id="gerokPanel" class="panel-alan"></div>
   </section>
 
 </main>
@@ -107,7 +107,7 @@
   <button data-ekran="harita"   class="sekme"><span>🗺</span>Harita</button>
   <button data-ekran="kayit"    class="sekme buyuk"><span>＋</span>Kayıt</button>
   <button data-ekran="duraklar" class="sekme"><span>📌</span>Duraklar</button>
-  <button data-ekran="sefer"    class="sekme"><span>⚙</span>Sefer</button>
+  <button data-ekran="gerok"    class="sekme"><span>⚙</span>Gerok</button>
 </nav>
 
 <!-- Örtü katmanı: kayıt yaparken, Gün Sonu akışında, uyarılarda kullanılıyor -->
@@ -122,7 +122,7 @@
 </div>
 
 <input type="file" id="fotoSecici" accept="image/*,video/*" multiple hidden>
-<input type="file" id="dosyaSecici" accept=".sefer,.json,application/json" hidden>
+<input type="file" id="dosyaSecici" accept=".gerok,.json,application/json" hidden>
 
 <script src="vendor/maplibre-gl.js"></script>
 <script src="vendor/pmtiles.js"></script>

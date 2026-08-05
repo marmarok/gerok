@@ -1,10 +1,10 @@
-// Sefer — servis worker.
+// Gerok — servis worker.
 // Uygulamanın kendisi tamamen önbelleğe alınıyor: bir kez açıldıktan sonra
 // internet olmadan da çalışıyor. Harita ve kayıtlar zaten cihazın içinde.
 
 // DİKKAT: her yayında bu sürüm değişmeli, yoksa telefonlar eski dosyaları
 // önbellekten sunmaya devam eder. arac/yayinla.sh bunu kendiliğinden günceller.
-const SURUM = 'sefer-20260806-003006';
+const SURUM = 'gerok-20260806-005444';
 
 const DOSYALAR = [
   './',
@@ -15,7 +15,7 @@ const DOSYALAR = [
   './js/veri.js',
   './js/depo.js',
   './js/iz.js',
-  './js/sefer.js',
+  './js/gerok.js',
   './js/kayit.js',
   './js/harita.js',
   './js/gunsonu.js',

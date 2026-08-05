@@ -1,4 +1,4 @@
-// Sefer — dosya deposu.
+// Gerok — dosya deposu.
 //
 // Ses kayıtları, fotoğraf önizlemeleri ve 357 MB'lık harita burada durur.
 //
@@ -21,7 +21,7 @@ async function opfsYazabiliyorMu() {
     if (typeof dosya.createWritable !== 'function') return false;
 
     const yazici = await dosya.createWritable();
-    await yazici.write(new Blob(['sefer']));
+    await yazici.write(new Blob(['gerok']));
     await yazici.close();
 
     const geri = await (await deneme.getFileHandle('yaz.tmp')).getFile();
@@ -48,7 +48,7 @@ export function kullanilanYol() { return secilenYol; }
 function idbAc() {
   if (idbDb) return Promise.resolve(idbDb);
   return new Promise((tamam, hata) => {
-    const istek = indexedDB.open('sefer-dosyalar', 1);
+    const istek = indexedDB.open('gerok-dosyalar', 1);
     istek.onupgradeneeded = (e) => {
       const d = e.target.result;
       if (!d.objectStoreNames.contains('dosyalar')) {

@@ -1,9 +1,9 @@
-// Sefer — kayıt türleri.
+// Gerok — kayıt türleri.
 // Sesli not, ortam sesi, yazı, işaret, kişi, fiyat, fotoğraf.
 
 import { kayitEkle, medyaYaz, yeniKimlik, izGetir, izdenKonum } from './veri.js';
 import { suAnkiKonum } from './iz.js';
-import { gunNo, aktifSefer, yonelmeEki } from './sefer.js';
+import { gunNo, aktifGerok, yonelmeEki } from './gerok.js';
 
 let sahip = { id: null, ad: null };
 export function sahipAyarla(s) { sahip = s; }
@@ -29,7 +29,7 @@ async function kayitKur(tur, ekler = {}) {
 
   return {
     id: yeniKimlik(tur),
-    seferId: aktifSefer()?.id || null,
+    gerokId: aktifGerok()?.id || null,
     tur, t,
     olusturma: Date.now(),
     gun: gunNo(t),

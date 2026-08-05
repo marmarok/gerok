@@ -1,8 +1,8 @@
-// Sefer — veri katmanı.
+// Gerok — veri katmanı.
 // Her şey telefonun içinde durur: IndexedDB'de kayıtlar, OPFS'te ses ve önizleme dosyaları.
 // Hiçbir sunucuya bağlanmaz.
 
-const DB_ADI = 'sefer';
+const DB_ADI = 'gerok';
 const DB_SURUM = 1;
 
 let db = null;
@@ -48,8 +48,8 @@ export function ac() {
       if (!d.objectStoreNames.contains('ayarlar')) {
         d.createObjectStore('ayarlar', { keyPath: 'anahtar' });
       }
-      if (!d.objectStoreNames.contains('sefer')) {
-        d.createObjectStore('sefer', { keyPath: 'id' });
+      if (!d.objectStoreNames.contains('gerok')) {
+        d.createObjectStore('gerok', { keyPath: 'id' });
       }
     };
 
@@ -180,22 +180,22 @@ export async function ayarOku(anahtar, varsayilan = null) {
   return k ? k.deger : varsayilan;
 }
 
-// ---- Sefer paketi ---------------------------------------------------------
+// ---- Gerok paketi ---------------------------------------------------------
 
-export async function seferYaz(sefer) {
+export async function gerokYaz(gerok) {
   await ac();
-  const t = islem(['sefer'], 'readwrite');
-  await sarmala(t.objectStore('sefer').put(sefer));
+  const t = islem(['gerok'], 'readwrite');
+  await sarmala(t.objectStore('gerok').put(gerok));
 }
 
-export async function seferOku(id) {
+export async function gerokOku(id) {
   await ac();
-  return sarmala(islem(['sefer']).objectStore('sefer').get(id));
+  return sarmala(islem(['gerok']).objectStore('gerok').get(id));
 }
 
-export async function seferler() {
+export async function geroklar() {
   await ac();
-  return sarmala(islem(['sefer']).objectStore('sefer').getAll());
+  return sarmala(islem(['gerok']).objectStore('gerok').getAll());
 }
 
 // ---- Medya deposu ---------------------------------------------------------

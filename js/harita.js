@@ -1,4 +1,4 @@
-// Sefer — offline harita.
+// Gerok — offline harita.
 //
 // Harita verisi bir .pmtiles arşivi: 6 ülke, sokak seviyesi, ~357 MB.
 // Ev wifi'sinde bir kez indirilip cihaza kaydediliyor (depo.js hangi yolu
@@ -9,7 +9,7 @@
 // çünkü MapLibre v6 özel protokolleri artık çağırmıyor — pmtiles'ın çalıştığı
 // sürüm v5, o da tek dosyalık klasik bir betik olarak geliyor.
 /* global maplibregl, pmtiles */
-import { aktifSefer, duraklar } from './sefer.js';
+import { aktifGerok, duraklar } from './gerok.js';
 import * as depo from './depo.js';
 
 // Harita, uygulamayla AYNI adreste, parçalar halinde duruyor.
@@ -198,7 +198,7 @@ export async function haritaKur() {
       try {
         const dosya = await haritaBlobu();
         if (!dosya) throw new Error('harita parçaları okunamadı');
-        pmt = new pmtiles.PMTiles(new BlobKaynak(dosya, 'sefer-harita'));
+        pmt = new pmtiles.PMTiles(new BlobKaynak(dosya, 'gerok-harita'));
 
         // pmtiles:// isteklerini dosyadan karşıla. Ağ hiç devreye girmiyor.
         maplibregl.addProtocol('pmtiles', async (istek) => {
@@ -220,12 +220,12 @@ export async function haritaKur() {
         uyari?.classList.add('gizli');
       } catch (hata) {
         console.warn('harita dosyası açılamadı', hata);
-        uyari.textContent = 'Harita dosyası okunamadı. Sefer sekmesinden yeniden indir.';
+        uyari.textContent = 'Harita dosyası okunamadı. Gerok sekmesinden yeniden indir.';
         uyari.classList.remove('gizli');
       }
     } else {
       uyari.innerHTML = 'Offline harita henüz indirilmedi.<br>' +
-        '<b>Sefer</b> sekmesinden, <b>ev wifi\'sindeyken</b> indir — yolda internet olmayacak.';
+        '<b>Gerok</b> sekmesinden, <b>ev wifi\'sindeyken</b> indir — yolda internet olmayacak.';
       uyari.classList.remove('gizli');
     }
 

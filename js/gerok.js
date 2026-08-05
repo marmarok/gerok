@@ -1,22 +1,22 @@
-// Sefer — sefer paketi: rota, günler, duraklar, sınır geçişleri.
+// Gerok — gerok paketi: rota, günler, duraklar, sınır geçişleri.
 // Paket uygulamanın içine gömülü DEĞİL; ayrı bir dosya olarak yükleniyor.
 // Böylece rota, otel adı, koordinat gibi hiçbir bilgi yayınlanan koda girmiyor.
 
-import { seferYaz, seferOku, seferler, ayarYaz, ayarOku } from './veri.js';
+import { gerokYaz, gerokOku, geroklar, ayarYaz, ayarOku } from './veri.js';
 import { mesafe } from './iz.js';
 
 let aktif = null;
 
-export function aktifSefer() { return aktif; }
+export function aktifGerok() { return aktif; }
 
 export async function baslat() {
-  const id = await ayarOku('aktifSeferId');
-  if (id) aktif = await seferOku(id);
+  const id = await ayarOku('aktifGerokId');
+  if (id) aktif = await gerokOku(id);
   if (!aktif) {
-    const hepsi = await seferler();
+    const hepsi = await geroklar();
     if (hepsi.length) {
       aktif = hepsi[0];
-      await ayarYaz('aktifSeferId', aktif.id);
+      await ayarYaz('aktifGerokId', aktif.id);
     }
   }
   return aktif;
@@ -27,23 +27,23 @@ export async function paketYukle(metin) {
   try {
     paket = typeof metin === 'string' ? JSON.parse(metin) : metin;
   } catch {
-    throw new Error('Dosya okunamadı — geçerli bir Sefer paketi değil.');
+    throw new Error('Dosya okunamadı — geçerli bir Gerok paketi değil.');
   }
-  if (!paket.sefer?.id || !Array.isArray(paket.gunler)) {
-    throw new Error('Bu dosya bir Sefer paketine benzemiyor.');
+  if (!paket.gerok?.id || !Array.isArray(paket.gunler)) {
+    throw new Error('Bu dosya bir Gerok paketine benzemiyor.');
   }
 
   const kayit = {
-    id: paket.sefer.id,
-    ...paket.sefer,
+    id: paket.gerok.id,
+    ...paket.gerok,
     gunler: paket.gunler,
     duraklar: paket.duraklar || [],
     sinirGecisleri: paket.sinirGecisleri || [],
     yuklenme: Date.now()
   };
 
-  await seferYaz(kayit);
-  await ayarYaz('aktifSeferId', kayit.id);
+  await gerokYaz(kayit);
+  await ayarYaz('aktifGerokId', kayit.id);
   aktif = kayit;
   return kayit;
 }
@@ -52,48 +52,48 @@ export async function paketYukle(metin) {
 // Gezi günleri gece yarısında değil, programın kendi pencerelerinde değişiyor.
 // 2. gün saat 00:55'te uçaktan inerek başlıyor — takvim günü mantığı bunu bölerdi.
 
-export function gunBul(zaman, sefer = aktif) {
-  if (!sefer?.gunler) return null;
-  for (const g of sefer.gunler) {
+export function gunBul(zaman, gerok = aktif) {
+  if (!gerok?.gunler) return null;
+  for (const g of gerok.gunler) {
     const [bas, bit] = g.pencere.map(s => new Date(s).getTime());
     if (zaman >= bas && zaman <= bit) return g;
   }
   return null;
 }
 
-export function gunNo(zaman, sefer = aktif) {
-  return gunBul(zaman, sefer)?.no ?? null;
+export function gunNo(zaman, gerok = aktif) {
+  return gunBul(zaman, gerok)?.no ?? null;
 }
 
-export function bugununGunu(sefer = aktif) {
-  return gunBul(Date.now(), sefer);
+export function bugununGunu(gerok = aktif) {
+  return gunBul(Date.now(), gerok);
 }
 
-export function seferBasladiMi(sefer = aktif) {
-  if (!sefer) return false;
-  return Date.now() >= new Date(sefer.baslangic).getTime();
+export function gerokBasladiMi(gerok = aktif) {
+  if (!gerok) return false;
+  return Date.now() >= new Date(gerok.baslangic).getTime();
 }
 
-export function seferBittiMi(sefer = aktif) {
-  if (!sefer) return false;
-  return Date.now() > new Date(sefer.bitis).getTime();
+export function gerokBittiMi(gerok = aktif) {
+  if (!gerok) return false;
+  return Date.now() > new Date(gerok.bitis).getTime();
 }
 
 // ---- Duraklar -------------------------------------------------------------
 
-export function duraklar(sefer = aktif) { return sefer?.duraklar || []; }
+export function duraklar(gerok = aktif) { return gerok?.duraklar || []; }
 
-export function gununDuraklari(gun, sefer = aktif) {
-  return duraklar(sefer).filter(d => d.gun === gun);
+export function gununDuraklari(gun, gerok = aktif) {
+  return duraklar(gerok).filter(d => d.gun === gun);
 }
 
-export function durakBul(id, sefer = aktif) {
-  return duraklar(sefer).find(d => d.id === id) || null;
+export function durakBul(id, gerok = aktif) {
+  return duraklar(gerok).find(d => d.id === id) || null;
 }
 
 // Verilen konuma yakın duraklar, yakından uzağa.
-export function yakinDuraklar(lat, lon, enFazlaMetre = 30000, sefer = aktif) {
-  return duraklar(sefer)
+export function yakinDuraklar(lat, lon, enFazlaMetre = 30000, gerok = aktif) {
+  return duraklar(gerok)
     .map(d => ({ durak: d, uzaklik: mesafe(lat, lon, d.lat, d.lon) }))
     .filter(x => x.uzaklik <= enFazlaMetre)
     .sort((a, b) => a.uzaklik - b.uzaklik);
@@ -117,14 +117,14 @@ const ULKE_KUTULARI = [
 ];
 
 // Kutular kenarlarda üst üste biniyor; en yakın durağın ülkesi tie-break yapıyor.
-export function ulkeBul(lat, lon, sefer = aktif) {
+export function ulkeBul(lat, lon, gerok = aktif) {
   const adaylar = ULKE_KUTULARI.filter(u =>
     lon >= u.kutu[0] && lat >= u.kutu[1] && lon <= u.kutu[2] && lat <= u.kutu[3]
   );
   if (adaylar.length === 0) return null;
   if (adaylar.length === 1) return adaylar[0];
 
-  const yakin = yakinDuraklar(lat, lon, 60000, sefer);
+  const yakin = yakinDuraklar(lat, lon, 60000, gerok);
   for (const { durak } of yakin) {
     const eslesen = adaylar.find(u => u.kod === durak.ulke);
     if (eslesen) return eslesen;
@@ -171,5 +171,5 @@ export function tarihUzun(zaman) {
 }
 
 export function gunBasligi(g) {
-  return g ? `Gün ${g.no} · ${g.baslik}` : 'Sefer dışı';
+  return g ? `Gün ${g.no} · ${g.baslik}` : 'Gerok dışı';
 }

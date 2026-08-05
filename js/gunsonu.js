@@ -1,4 +1,4 @@
-// Sefer — Gün Sonu.
+// Gerok — Gün Sonu.
 //
 // Yedi ayrı akşam ritüeli yerine tek ekran, aşağı doğru akan, ~90 saniye:
 // özet → sesli günlük → sıradan kare → kişi/fiyat → fotoğrafları topla →
@@ -8,7 +8,7 @@
 
 import * as veri from './veri.js';
 import * as iz from './iz.js';
-import * as sefer from './sefer.js';
+import * as gerok from './gerok.js';
 import * as kayit from './kayit.js';
 import { paketGonder, yedekAl } from './esitleme.js';
 
@@ -23,13 +23,13 @@ const ADIMLAR = ['ozet', 'gunluk', 'siradan', 'ufak', 'fotograf', 'kapanis'];
 
 export async function gunSonuAc(durum, tazele) {
   tazeleDisari = tazele;
-  gun = sefer.bugununGunu() || sonGun();
+  gun = gerok.bugununGunu() || sonGun();
   adim = 0;
   await ciz(durum);
 }
 
 function sonGun() {
-  const s = sefer.aktifSefer();
+  const s = gerok.aktifGerok();
   if (!s?.gunler?.length) return null;
   const gecmis = s.gunler.filter(g => new Date(g.pencere[0]).getTime() <= Date.now());
   return gecmis[gecmis.length - 1] || s.gunler[0];
@@ -86,14 +86,14 @@ async function ozetAdimi(durum) {
   const ulkeler = [...new Set(bugunkuler.filter(k => k.tur === 'sinir').map(k => k.ulke))];
 
   ortu(`
-    ${ustBilgi(gun ? `Gün ${gun.no} · ${gun.baslik}` : 'Bugün', gun ? sefer.tarihUzun(new Date(gun.tarih).getTime()) : '')}
+    ${ustBilgi(gun ? `Gün ${gun.no} · ${gun.baslik}` : 'Bugün', gun ? gerok.tarihUzun(new Date(gun.tarih).getTime()) : '')}
     <div class="gs-ozet">
       <div class="gs-kutu"><div class="gs-sayi">${km.toFixed(0)}</div><div class="gs-etiket">km yol</div></div>
       <div class="gs-kutu"><div class="gs-sayi">${gorseller}</div><div class="gs-etiket">fotoğraf</div></div>
       <div class="gs-kutu"><div class="gs-sayi">${sesler}</div><div class="gs-etiket">ses kaydı</div></div>
       <div class="gs-kutu"><div class="gs-sayi">${bugunkuler.length}</div><div class="gs-etiket">toplam kayıt</div></div>
     </div>
-    ${ulkeler.length ? `<div class="panel-not">Bugün geçtiğin sınır: ${ulkeler.map(sefer.ulkeAdi).join(', ')}</div>` : ''}
+    ${ulkeler.length ? `<div class="panel-not">Bugün geçtiğin sınır: ${ulkeler.map(gerok.ulkeAdi).join(', ')}</div>` : ''}
     <div class="gs-dugmeler">
       <button class="eylem-dugme" id="gsCik">Şimdi değil</button>
       <button class="eylem-dugme birincil" id="gsIleri">Başla</button>
@@ -291,7 +291,7 @@ async function kapanisAdimi(durum) {
   $('#gsBitir').onclick = async () => { kapat(); await tazeleDisari?.(); };
 }
 
-// ---- Sefer başı ve sonu ---------------------------------------------------
+// ---- Gerok başı ve sonu ---------------------------------------------------
 //
 // Anıları bir döneme oturtan çerçeve. Gezinin başında ve sonunda birer kayıt,
 // bir de 2036'ya mühürlü mektup.

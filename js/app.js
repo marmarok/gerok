@@ -1,8 +1,8 @@
-// Sefer — uygulama omurgası: açılış, ekran yönlendirme, arayüz.
+// Gerok — uygulama omurgası: açılış, ekran yönlendirme, arayüz.
 
 import * as veri from './veri.js';
 import * as iz from './iz.js';
-import * as sefer from './sefer.js';
+import * as gerok from './gerok.js';
 import * as kayit from './kayit.js';
 import { haritaKur, haritaGuncelle, haritaBoyutTazele, konumaGit, hepsiniGoster } from './harita.js';
 import { gunSonuAc, baslangicKaydiAc, bitisKaydiAc, mektupAc } from './gunsonu.js';
@@ -26,7 +26,7 @@ let durum = {
 
 async function baslat() {
   await veri.ac();
-  await sefer.baslat();
+  await gerok.baslat();
 
   // Cihaz kimliği: iki telefonun kayıtlarını birbirinden ayıran şey.
   let cihaz = await veri.ayarOku('cihazKimligi');
@@ -67,7 +67,7 @@ async function tazele() {
   ustBariYaz();
   if (durum.ekran === 'zaman') zamanCizgisiCiz();
   if (durum.ekran === 'duraklar') duraklariCiz();
-  if (durum.ekran === 'sefer') paneliCiz();
+  if (durum.ekran === 'gerok') paneliCiz();
   if (durum.ekran === 'harita') haritaGuncelle(durum.kayitlar, durum.izNoktalari);
 }
 
@@ -87,7 +87,7 @@ function ekranAc(ad) {
 
   if (ad === 'zaman') zamanCizgisiCiz();
   if (ad === 'duraklar') duraklariCiz();
-  if (ad === 'sefer') paneliCiz();
+  if (ad === 'gerok') paneliCiz();
   if (ad === 'harita') {
     haritaKur().then(() => {
       haritaBoyutTazele();
@@ -97,22 +97,22 @@ function ekranAc(ad) {
 }
 
 function ustBariYaz() {
-  const s = sefer.aktifSefer();
-  const g = sefer.bugununGunu();
-  $('#ustBaslik').textContent = s ? s.ad : 'Sefer';
+  const s = gerok.aktifGerok();
+  const g = gerok.bugununGunu();
+  $('#ustBaslik').textContent = s ? s.ad : 'Gerok';
   $('#ustAlt').textContent = g
-    ? sefer.gunBasligi(g)
-    : (s ? (sefer.seferBittiMi() ? 'Sefer tamamlandı' : 'Sefer henüz başlamadı') : 'Sefer paketi yüklenmedi');
+    ? gerok.gunBasligi(g)
+    : (s ? (gerok.gerokBittiMi() ? 'Gerok tamamlandı' : 'Gerok henüz başlamadı') : 'Gerok paketi yüklenmedi');
 }
 
 // ------------------------------------------------------------ zaman çizgisi -
 
 function zamanCizgisiCiz() {
   const kap = $('#zamanListe');
-  const s = sefer.aktifSefer();
+  const s = gerok.aktifGerok();
 
   if (!s) {
-    kap.innerHTML = bosDurum('🧭', 'Henüz bir sefer yüklenmedi.<br>Sefer sekmesinden paketi yükle.');
+    kap.innerHTML = bosDurum('🧭', 'Henüz bir gerok yüklenmedi.<br>Gerok sekmesinden paketi yükle.');
     return;
   }
   if (!durum.kayitlar.length) {
@@ -140,9 +140,9 @@ function zamanCizgisiCiz() {
     const kayitlar = gruplar.get(anahtar).slice().reverse();
 
     html += `<div class="gun-basligi">
-      <div class="gun-no">${anahtar === 'disi' ? 'Sefer dışı' : `Gün ${anahtar}`}</div>
+      <div class="gun-no">${anahtar === 'disi' ? 'Gerok dışı' : `Gün ${anahtar}`}</div>
       <div class="gun-ad">${gunler ? kacis(gunler.baslik) : 'Diğer kayıtlar'}</div>
-      ${gunler ? `<div class="gun-bilgi">${kacis(sefer.tarihUzun(new Date(gunler.tarih).getTime()))}${gunler.km ? ` · ${gunler.km} km` : ''}</div>` : ''}
+      ${gunler ? `<div class="gun-bilgi">${kacis(gerok.tarihUzun(new Date(gunler.tarih).getTime()))}${gunler.km ? ` · ${gunler.km} km` : ''}</div>` : ''}
     </div>`;
 
     for (const k of kayitlar) html += kayitSatiri(k);
@@ -180,7 +180,7 @@ function kayitSatiri(k) {
   }
 
   return `<div class="kayit-satir ${k.tur}">
-    <div class="kayit-saat">${sefer.saat(k.t)}</div>
+    <div class="kayit-saat">${gerok.saat(k.t)}</div>
     <div class="kayit-govde">
       <div class="kayit-tur">${kacis(tur)}</div>
       ${govde}
@@ -381,7 +381,7 @@ function izRozetTikla() {
 
 // Sınır geçişini kendiliğinden zaman çizgisine yazar.
 async function ulkeKontrol(nokta) {
-  const u = sefer.ulkeBul(nokta.lat, nokta.lon);
+  const u = gerok.ulkeBul(nokta.lat, nokta.lon);
   if (!u) return;
   if (durum.sonUlke && durum.sonUlke !== u.kod) {
     await kayit.sinirEkle(u.kod, u.ad, nokta.t, nokta.lat, nokta.lon);
@@ -399,13 +399,13 @@ async function ulkeKontrol(nokta) {
 
 function duraklariCiz() {
   const kap = $('#duraklarListe');
-  const s = sefer.aktifSefer();
-  if (!s) { kap.innerHTML = bosDurum('📌', 'Sefer paketi yüklenmedi.'); return; }
+  const s = gerok.aktifGerok();
+  if (!s) { kap.innerHTML = bosDurum('📌', 'Gerok paketi yüklenmedi.'); return; }
 
   const konum = iz.sonBilinenKonum();
-  const bugun = sefer.bugununGunu();
+  const bugun = gerok.bugununGunu();
 
-  const liste = sefer.duraklar().slice().sort((a, b) => {
+  const liste = gerok.duraklar().slice().sort((a, b) => {
     if (bugun) {
       const ab = a.gun === bugun.no ? 0 : 1;
       const bb = b.gun === bugun.no ? 0 : 1;
@@ -445,7 +445,7 @@ function duraklariCiz() {
 const YAKLASMA_METRE = 2000;
 
 function yaklasmaKontrol(lat, lon) {
-  for (const { durak, uzaklik } of sefer.yakinDuraklar(lat, lon, YAKLASMA_METRE)) {
+  for (const { durak, uzaklik } of gerok.yakinDuraklar(lat, lon, YAKLASMA_METRE)) {
     if (durum.uyarilmisDuraklar.has(durak.id)) continue;
     durum.uyarilmisDuraklar.add(durak.id);
     veri.ayarYaz('uyarilmisDuraklar', Array.from(durum.uyarilmisDuraklar));
@@ -517,10 +517,10 @@ document.addEventListener('visibilitychange', async () => {
   }
 });
 
-// ------------------------------------------------------------- Sefer paneli -
+// ------------------------------------------------------------- Gerok paneli -
 
 async function paneliCiz() {
-  const s = sefer.aktifSefer();
+  const s = gerok.aktifGerok();
   const depo = await veri.depolamaDurumu();
   const sahip = kayit.sahipAl();
   const km = iz.izUzunlugu(durum.izNoktalari);
@@ -532,16 +532,16 @@ async function paneliCiz() {
     mektup: durum.kayitlar.some(k => k.tur === 'mektup')
   };
 
-  $('#seferPanel').innerHTML = `
+  $('#gerokPanel').innerHTML = `
     <div class="panel">
-      <div class="panel-baslik">Bu sefer</div>
+      <div class="panel-baslik">Bu gerok</div>
       ${s ? `
-        <div class="panel-satir"><span class="etiket">Sefer</span><span class="deger">${kacis(s.ad)}</span></div>
+        <div class="panel-satir"><span class="etiket">Gerok</span><span class="deger">${kacis(s.ad)}</span></div>
         <div class="panel-satir"><span class="etiket">Kayıt</span><span class="deger">${durum.kayitlar.length}</span></div>
         <div class="panel-satir"><span class="etiket">Sesli</span><span class="deger">${sesler}</span></div>
         <div class="panel-satir"><span class="etiket">Görsel</span><span class="deger">${fotolar}</span></div>
         <div class="panel-satir"><span class="etiket">İz</span><span class="deger">${km.toFixed(1)} km · ${durum.izNoktalari.length} nokta</span></div>
-      ` : '<div class="panel-not">Sefer paketi yüklenmedi.</div>'}
+      ` : '<div class="panel-not">Gerok paketi yüklenmedi.</div>'}
       <button class="eylem-dugme birincil" id="btnGunSonu">Gün Sonu</button>
     </div>
 
@@ -576,7 +576,7 @@ async function paneliCiz() {
     </div>
 
     <div class="panel">
-      <div class="panel-baslik">Sefer başı ve sonu</div>
+      <div class="panel-baslik">Gerok başı ve sonu</div>
       <div class="panel-not">Anıları bir döneme oturtan çerçeve. Başlangıcı yola
       çıkmadan, bitişi ve mektubu son gece kaydet.</div>
       <button class="eylem-dugme" id="btnBaslangic">Başlangıç kaydı${ozelVarMi.baslangic ? ' ✓' : ''}</button>
@@ -585,10 +585,10 @@ async function paneliCiz() {
     </div>
 
     <div class="panel">
-      <div class="panel-baslik">Sefer paketi</div>
+      <div class="panel-baslik">Gerok paketi</div>
       <div class="panel-not">Rota, duraklar ve hatırlatıcılar bu dosyadan geliyor.
       Uygulamanın koduna gömülü değil.</div>
-      <button class="eylem-dugme" id="btnPaket">Sefer paketi yükle</button>
+      <button class="eylem-dugme" id="btnPaket">Gerok paketi yükle</button>
     </div>
   `;
 
@@ -731,7 +731,7 @@ $('#dosyaSecici').addEventListener('change', async (e) => {
   e.target.value = '';
   if (!dosya) return;
   try {
-    const s = await sefer.paketYukle(await dosya.text());
+    const s = await gerok.paketYukle(await dosya.text());
     kayitBildir(`"${s.ad}" yüklendi · ${s.gunler.length} gün, ${s.duraklar.length} durak`, 'iyi');
     await tazele();
   } catch (hata) {
@@ -747,7 +747,7 @@ function gunSonuHatirlatmasiKur() {
     if (simdi.getHours() !== 21 || simdi.getMinutes() > 12) return;
     const bugun = simdi.toISOString().slice(0, 10);
     if (await veri.ayarOku('gunSonuHatirlatildi') === bugun) return;
-    if (!sefer.bugununGunu()) return;
+    if (!gerok.bugununGunu()) return;
     await veri.ayarYaz('gunSonuHatirlatildi', bugun);
     bildirimGoster('Gün Sonu', 'Bugünden aklında ne kaldı? 90 saniye.');
     titret([100, 80, 100]);
@@ -764,7 +764,7 @@ async function bildirimGoster(baslik, govde) {
   if (Notification.permission !== 'granted') return;
   try {
     const kayit = await navigator.serviceWorker?.ready;
-    if (kayit) kayit.showNotification(baslik, { body: govde, icon: 'ikon/ikon-180.png', tag: 'sefer' });
+    if (kayit) kayit.showNotification(baslik, { body: govde, icon: 'ikon/ikon-180.png', tag: 'gerok' });
     else new Notification(baslik, { body: govde });
   } catch { /* bildirim olmasa da uygulama içi uyarı zaten var */ }
 }

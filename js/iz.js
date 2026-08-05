@@ -1,4 +1,4 @@
-// Sefer — iz kaydı.
+// Gerok — iz kaydı.
 //
 // Uygulama açıkken 30 saniyede bir konum noktası biriktirir. Bu iz iki işe yarıyor:
 //   1. Haritada gezinin rotasını çizmek,
@@ -150,7 +150,7 @@ export function suAnkiKonum(zamanAsimi = 10_000) {
 
 export function sonBilinenKonum() { return sonNokta; }
 
-// İzin toplam uzunluğu (km) — Gün Sonu özetinde ve Sefer Kapağı'nda kullanılıyor.
+// İzin toplam uzunluğu (km) — Gün Sonu özetinde ve Gerok Kapağı'nda kullanılıyor.
 export function izUzunlugu(noktalar) {
   let toplam = 0;
   for (let i = 1; i < noktalar.length; i++) {

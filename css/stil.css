@@ -1,4 +1,4 @@
-/* Sefer — arayüz.
+/* Gerok — arayüz.
    Karanlık tema: yolda, gece otobüste, güneş altında okunabilir olsun diye.
    Dokunma hedefleri büyük: araç sallanırken kullanılacak. */
 
@@ -237,7 +237,7 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
 }
 .kucuk-dugme.secili { background: #2c3a22; border-color: #46592f; color: var(--yesil); }
 
-/* ---------- Sefer paneli ---------- */
+/* ---------- Gerok paneli ---------- */
 .panel-alan { padding: 16px 16px calc(30px + var(--alt)); display: flex; flex-direction: column; gap: 14px; }
 .panel {
   background: var(--kat); border: 1px solid var(--cizgi);

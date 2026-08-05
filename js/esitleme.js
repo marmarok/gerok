@@ -1,11 +1,11 @@
-// Sefer — eşitleme ve yedek.
+// Gerok — eşitleme ve yedek.
 //
 // İnternet yok, sunucu yok, hesap yok. Akşam otelde iki telefon arasında AirDrop.
 // Paket: JSON metni + içine gömülü ses/önizleme dosyaları (base64).
 // Fotoğraf ve videoların ORİJİNALLERİ pakete girmiyor — onlar galeride duruyor.
 
 import * as veri from './veri.js';
-import { aktifSefer } from './sefer.js';
+import { aktifGerok } from './gerok.js';
 
 const PAKET_SURUM = 1;
 
@@ -52,7 +52,7 @@ export async function paketUret({ sadeceGun = null } = {}) {
   return {
     paketSurum: PAKET_SURUM,
     uretim: Date.now(),
-    seferId: aktifSefer()?.id || null,
+    gerokId: aktifGerok()?.id || null,
     cihaz: await veri.ayarOku('cihazKimligi'),
     kisi: await veri.ayarOku('kullaniciAdi'),
     kayitlar,
@@ -70,7 +70,7 @@ export async function paketUret({ sadeceGun = null } = {}) {
 // alınırsa hiçbir şey iki kez yazılmıyor ve hiçbir şey silinmiyor.
 
 export async function paketBirlestir(paket) {
-  if (!paket?.paketSurum) throw new Error('Bu dosya bir Sefer paketi değil.');
+  if (!paket?.paketSurum) throw new Error('Bu dosya bir Gerok paketi değil.');
 
   const varOlanlar = new Set((await veri.kayitlariGetir()).map(k => k.id));
   let yeniKayit = 0, yeniIz = 0, yeniMedya = 0;
@@ -113,12 +113,12 @@ export async function paketGonder(bildir, sadeceGun = null) {
     const paket = await paketUret({ sadeceGun });
     const metin = JSON.stringify(paket);
     const blob = new Blob([metin], { type: 'application/json' });
-    const ad = `sefer-${paket.kisi || 'ben'}-${tarihEtiketi()}.sefer`;
+    const ad = `gerok-${paket.kisi || 'ben'}-${tarihEtiketi()}.gerok`;
     const dosya = new File([blob], ad, { type: 'application/json' });
 
     // iOS'ta paylaş sayfası açılır; oradan AirDrop seçiliyor.
     if (navigator.canShare?.({ files: [dosya] })) {
-      await navigator.share({ files: [dosya], title: 'Sefer paketi' });
+      await navigator.share({ files: [dosya], title: 'Gerok paketi' });
       bildir?.('Gönderildi. Karşı taraf "Gelen paketi al" desin.', 'iyi');
       return;
     }
@@ -138,7 +138,7 @@ export async function paketGonder(bildir, sadeceGun = null) {
 export function paketAl(bildir, tazele) {
   const secici = document.createElement('input');
   secici.type = 'file';
-  secici.accept = '.sefer,.json,application/json';
+  secici.accept = '.gerok,.json,application/json';
 
   secici.addEventListener('change', async () => {
     const dosya = secici.files[0];
@@ -172,11 +172,11 @@ export async function yedekAl(bildir) {
     const paket = await paketUret();
     paket.yedek = true;
     const blob = new Blob([JSON.stringify(paket)], { type: 'application/json' });
-    const ad = `sefer-yedek-${tarihEtiketi()}.sefer`;
+    const ad = `gerok-yedek-${tarihEtiketi()}.gerok`;
     const dosya = new File([blob], ad, { type: 'application/json' });
 
     if (navigator.canShare?.({ files: [dosya] })) {
-      await navigator.share({ files: [dosya], title: 'Sefer yedeği' });
+      await navigator.share({ files: [dosya], title: 'Gerok yedeği' });
       bildir?.('Yedek kaydedildi. "Dosyalar\'a Kaydet" seçtiysen iCloud\'a da gider.', 'iyi');
     } else {
       const url = URL.createObjectURL(blob);
