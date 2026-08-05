@@ -158,15 +158,18 @@ function stilUret() {
       { id: 'su', type: 'fill', source: 'temel', 'source-layer': 'water',
         paint: { 'fill-color': '#16283a' } },
       { id: 'yapilar', type: 'fill', source: 'temel', 'source-layer': 'buildings',
-        minzoom: 13, paint: { 'fill-color': '#2a2622', 'fill-opacity': 0.75 } },
+        minzoom: 13, paint: { 'fill-color': '#312b25', 'fill-opacity': 0.8 } },
+      // Ağustos'ta Balkan güneşinde araç camından bakılacak: yollar sönük olamaz.
       { id: 'yollar-kucuk', type: 'line', source: 'temel', 'source-layer': 'roads',
         filter: ['!=', ['get', 'kind'], 'highway'], minzoom: 11,
-        paint: { 'line-color': '#332e28', 'line-width': ['interpolate', ['linear'], ['zoom'], 11, 0.5, 16, 3] } },
+        paint: { 'line-color': '#635648',
+                 'line-width': ['interpolate', ['linear'], ['zoom'], 11, 0.7, 16, 3.5] } },
       { id: 'yollar-ana', type: 'line', source: 'temel', 'source-layer': 'roads',
         filter: ['==', ['get', 'kind'], 'highway'],
-        paint: { 'line-color': '#4a4038', 'line-width': ['interpolate', ['linear'], ['zoom'], 6, 0.6, 16, 5] } },
+        paint: { 'line-color': '#9a8468',
+                 'line-width': ['interpolate', ['linear'], ['zoom'], 6, 1.1, 16, 6] } },
       { id: 'sinirlar', type: 'line', source: 'temel', 'source-layer': 'boundaries',
-        paint: { 'line-color': '#5a4a3a', 'line-width': 1, 'line-dasharray': [3, 2] } }
+        paint: { 'line-color': '#8a7259', 'line-width': 1.4, 'line-dasharray': [3, 2] } }
     ]
   };
 }
