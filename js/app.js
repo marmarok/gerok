@@ -521,19 +521,28 @@ async function fotograflariAl(dosyalar, tur = null) {
     çekilme saati ve konum yazılıyor.</div>
   `, false);
 
-  await kayit.fotoAl(dosyalar, (yapilan, toplam) => {
-    const e = $('#fotoIlerleme');
-    if (e) e.textContent = `${yapilan} / ${toplam}`;
-  }, tur);
+  // Ne olursa olsun örtü kapanmalı: burada takılırsa uygulama kilitli görünüyor.
+  try {
+    await kayit.fotoAl(dosyalar, (yapilan, toplam) => {
+      const e = $('#fotoIlerleme');
+      if (e) e.textContent = `${yapilan} / ${toplam}`;
+    }, tur);
+  } catch (hata) {
+    ortuKapat();
+    kayitBildir(`Fotoğraflar alınamadı: ${hata.message}`, 'kotu');
+    return;
+  }
 
   ortuKapat();
   await tazele();
 
+  const atlanan = kayit.sonBasarisizlar();
   const izsiz = durum.kayitlar.filter(k => k.tur === 'foto' && !k.lat).length;
   kayitBildir(
-    izsiz ? `Eklendi. ${izsiz} fotoğrafın yeri bulunamadı — iz o saatte kapalıymış.`
-          : 'Fotoğraflar eklendi ve haritaya yerleşti.',
-    'iyi'
+    atlanan.length ? `${atlanan.length} dosya alınamadı, geri kalanı eklendi.`
+      : izsiz ? `Eklendi. ${izsiz} fotoğrafın yeri bulunamadı — iz o saatte kapalıymış.`
+              : 'Fotoğraflar eklendi ve haritaya yerleşti.',
+    atlanan.length ? 'kotu' : 'iyi'
   );
 }
 

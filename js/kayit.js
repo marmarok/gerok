@@ -185,6 +185,26 @@ export async function sinirEkle(ulkeKodu, ulkeAdi, zaman, lat, lon) {
 const ONIZLEME_EN = 1280;
 const ONIZLEME_KALITE = 0.72;
 
+// Küçültülmüş kareyi blob'a çevirir. OffscreenCanvas her yerde yok (ve olduğu
+// yerde de convertToBlob eksik olabiliyor); desteklenmiyorsa sıradan <canvas>
+// kullanılıyor. Burada patlamak tüm fotoğraf aktarımını kilitliyordu.
+async function tuvaleCiz(gorsel, en, boy) {
+  if (typeof OffscreenCanvas === 'function') {
+    try {
+      const t = new OffscreenCanvas(en, boy);
+      t.getContext('2d').drawImage(gorsel, 0, 0, en, boy);
+      if (typeof t.convertToBlob === 'function') {
+        return await t.convertToBlob({ type: 'image/jpeg', quality: ONIZLEME_KALITE });
+      }
+    } catch { /* aşağıdaki sıradan tuvale düşülüyor */ }
+  }
+
+  const t = document.createElement('canvas');
+  t.width = en; t.height = boy;
+  t.getContext('2d').drawImage(gorsel, 0, 0, en, boy);
+  return new Promise(tamam => t.toBlob(tamam, 'image/jpeg', ONIZLEME_KALITE));
+}
+
 async function onizlemeUret(dosya) {
   if (dosya.type.startsWith('video/')) return videoKaresi(dosya);
 
@@ -195,14 +215,12 @@ async function onizlemeUret(dosya) {
   const en = Math.round(gorsel.width * oran);
   const boy = Math.round(gorsel.height * oran);
 
-  const tuval = new OffscreenCanvas(en, boy);
-  tuval.getContext('2d').drawImage(gorsel, 0, 0, en, boy);
-  gorsel.close();
-
-  return {
-    blob: await tuval.convertToBlob({ type: 'image/jpeg', quality: ONIZLEME_KALITE }),
-    en, boy
-  };
+  try {
+    const blob = await tuvaleCiz(gorsel, en, boy);
+    return blob ? { blob, en, boy } : null;
+  } finally {
+    gorsel.close();
+  }
 }
 
 function videoKaresi(dosya) {
@@ -333,15 +351,18 @@ function tiffCoz(veri, tiff) {
 }
 
 // Seçilen fotoğraf/videoları içe alır. ilerleme(yapilan, toplam) ile haber verir.
+let basarisiz = [];
+
 export async function fotoAl(dosyalar, ilerleme = null, ekTur = null) {
   const iz = await izGetir();
   const eklenenler = [];
   const liste = Array.from(dosyalar);
+  basarisiz = [];
 
   for (let i = 0; i < liste.length; i++) {
     const dosya = liste[i];
     ilerleme?.(i, liste.length);
-
+    try {
     const exif = await exifOku(dosya);
     // Sıralama: EXIF çekim saati > dosyanın kendi tarihi.
     const t = exif.t || dosya.lastModified || Date.now();
@@ -373,8 +394,16 @@ export async function fotoAl(dosyalar, ilerleme = null, ekTur = null) {
     });
     await kayitEkle(kayit);
     eklenenler.push(kayit);
+    } catch (hata) {
+      // Tek bir bozuk dosya bütün aktarımı öldürmesin — atla, geri kalanı al.
+      console.warn('fotoğraf alınamadı:', dosya.name, hata);
+      basarisiz.push(dosya.name || 'adsız dosya');
+    }
   }
 
   ilerleme?.(liste.length, liste.length);
   return eklenenler;
 }
+
+// Son aktarımda atlanan dosyalar — arayüz bunu kullanıcıya söylüyor.
+export function sonBasarisizlar() { return basarisiz.slice(); }
