@@ -21,8 +21,9 @@ async function kayitKur(tur, ekler = {}) {
   }
 
   // GPS yoksa (ya da fotoğrafta silinmişse) izden saate göre bul.
+  // Yalnızca bu turun izinden: başka bir gezinin noktasına eşleşmesin.
   if (lat == null) {
-    const iz = await izGetir();
+    const iz = await izGetir(aktifGerok()?.id ?? null);
     const bulunan = izdenKonum(iz, t);
     if (bulunan) { lat = bulunan.lat; lon = bulunan.lon; konumKaynagi = 'iz'; }
   }
@@ -354,7 +355,7 @@ function tiffCoz(veri, tiff) {
 let basarisiz = [];
 
 export async function fotoAl(dosyalar, ilerleme = null, ekTur = null) {
-  const iz = await izGetir();
+  const iz = await izGetir(aktifGerok()?.id ?? null);
   const eklenenler = [];
   const liste = Array.from(dosyalar);
   basarisiz = [];

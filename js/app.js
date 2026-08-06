@@ -40,7 +40,10 @@ async function baslat() {
   }
   const ad = await veri.ayarOku('kullaniciAdi', null);
   iz.cihazAyarla(cihaz);
+  iz.gerokAyarla(gerok.aktifGerok()?.id ?? null);
   kayit.sahipAyarla({ id: cihaz, ad });
+
+  await turAyrimiGocu();
 
   durum.uyarilmisDuraklar = new Set(await veri.ayarOku('uyarilmisDuraklar', []));
   durum.sonUlke = await veri.ayarOku('sonUlke', null);
@@ -95,9 +98,32 @@ async function depolamaSagligi() {
   } catch { /* sorgulanamıyorsa sessiz geç, uygulama yine çalışır */ }
 }
 
+// Turlar ayrılmadan önce yazılmış kayıtlar hangi tura ait olduğunu bilmiyor.
+// Süzgeç devreye girince görünmez olurlardı; açılışta bir kez o günün aktif
+// turuna yazılıyorlar. Bir kez çalışıp bayrağını bırakıyor.
+async function turAyrimiGocu() {
+  if (await veri.ayarOku('turAyrimiYapildi', false)) return;
+  const turId = gerok.aktifGerok()?.id ?? null;
+
+  if (turId) {
+    const eksikKayitlar = (await veri.tumKayitlar()).filter(k => k.gerokId == null);
+    for (const k of eksikKayitlar) await veri.kayitEkle({ ...k, gerokId: turId });
+
+    const eksikIz = (await veri.izGetir())
+      .filter(n => n.gerokId == null)
+      .map(n => ({ ...n, gerokId: turId }));
+    if (eksikIz.length) await veri.izEkleToplu(eksikIz);
+
+    await gerok.ozelDuraklaraTurYaz(turId);
+  }
+  await veri.ayarYaz('turAyrimiYapildi', true);
+}
+
 async function tazele() {
-  durum.kayitlar = await veri.kayitlariGetir();
-  durum.izNoktalari = await veri.izGetir();
+  const turId = gerok.aktifGerok()?.id ?? null;
+  durum.turId = turId;
+  durum.kayitlar = await veri.kayitlariGetir(turId);
+  durum.izNoktalari = await veri.izGetir(turId);
   durum.durakDurumlari = await veri.durakDurumlari();
   ustBariYaz();
   if (durum.ekran === 'zaman') zamanCizgisiCiz();
@@ -212,10 +238,15 @@ function zamanCizgisiCiz() {
     const gunler = s.gunler.find(g => g.no === anahtar);
     const kayitlar = gruplar.get(anahtar).slice().reverse();
 
+    // Elle açılan turlarda günün başlığı yok — o zaman tarih başlık oluyor.
+    const gunTarihi = gunler ? gerok.tarihUzun(new Date(gunler.tarih).getTime()) : '';
+    const gunAdi = gunler ? (gunler.baslik || gunTarihi) : 'Diğer kayıtlar';
+    const gunAlt = gunler && gunler.baslik ? gunTarihi : '';
+
     html += `<div class="gun-basligi">
       <div class="gun-no">${anahtar === 'disi' ? 'Gerok dışı' : `Gün ${anahtar}`}</div>
-      <div class="gun-ad">${gunler ? kacis(gunler.baslik) : 'Diğer kayıtlar'}</div>
-      ${gunler ? `<div class="gun-bilgi">${kacis(gerok.tarihUzun(new Date(gunler.tarih).getTime()))}${gunler.km ? ` · ${gunler.km} km` : ''}</div>` : ''}
+      <div class="gun-ad">${kacis(gunAdi)}</div>
+      ${gunler && (gunAlt || gunler.km) ? `<div class="gun-bilgi">${kacis(gunAlt)}${gunler.km ? `${gunAlt ? ' · ' : ''}${gunler.km} km` : ''}</div>` : ''}
     </div>`;
 
     for (const k of kayitlar) html += kayitSatiri(k);
@@ -1276,9 +1307,19 @@ async function paneliCiz() {
     </div>
 
     <div class="panel">
+      <div class="panel-baslik">Turlar</div>
+      <div class="panel-not">Her tur ayrı bir defter. Bir tur bitince arşivle,
+      yenisini başlat — eskisinin kayıtları yerinde durur, karışmaz.</div>
+      <div class="panel-satir"><span class="etiket">Şu anki tur</span>
+        <span class="deger">${s ? kacis(s.ad) : 'yok'}</span></div>
+      <button class="eylem-dugme" id="btnTurlar">Turları yönet</button>
+      <button class="eylem-dugme" id="btnYeniTur">Yeni tur başlat</button>
+    </div>
+
+    <div class="panel">
       <div class="panel-baslik">Gerok paketi</div>
-      <div class="panel-not">Rota, duraklar ve hatırlatıcılar bu dosyadan geliyor.
-      Uygulamanın koduna gömülü değil.</div>
+      <div class="panel-not">Hazır bir rota dosyası (rota, duraklar, hatırlatıcılar)
+      varsa buradan yüklenir. Zorunlu değil — tur elle de başlatılabiliyor.</div>
       <button class="eylem-dugme" id="btnPaket">Gerok paketi yükle</button>
     </div>
   `;
@@ -1296,6 +1337,8 @@ async function paneliCiz() {
   $('#btnBitis').addEventListener('click', () => bitisKaydiAc(tazele));
   $('#btnMektup').addEventListener('click', () => mektupAc(tazele));
   $('#btnPaket').addEventListener('click', () => $('#dosyaSecici').click());
+  $('#btnTurlar').addEventListener('click', turlariYonet);
+  $('#btnYeniTur').addEventListener('click', () => yeniTurSor());
   $('#btnHarita').addEventListener('click', haritaIndirmeSor);
   $('#btnKalici')?.addEventListener('click', async () => {
     const s = await veri.kaliciDepolamaIste();
@@ -1549,6 +1592,197 @@ function harcamaDokumuAc() {
   $('#harcamaKapat').addEventListener('click', ortuKapat);
 }
 
+// ------------------------------------------------------------------ turlar --
+//
+// Bir gezi bitince arşivlenir, yenisi başlar. Kayıtlar silinmiyor: her kayıt
+// kendi `gerokId`sini taşıyor, ekranlar yalnızca o anki turunkini gösteriyor.
+// Arşivdeki bir tura geri dönmek tek dokunuş.
+
+async function turOzetleri() {
+  const hepsi = await gerok.turlar();
+  const idler = hepsi.map(t => t.id);
+  const ozetler = [];
+  for (const t of hepsi) {
+    const kayitlar = await veri.kayitlariGetir(t.id);
+    ozetler.push({ tur: t, kayitSayisi: kayitlar.length });
+  }
+  const oksuz = await veri.oksuzKayitlar(idler);
+  return { ozetler, oksuz };
+}
+
+function turTarihi(t) {
+  const bas = new Date(t.baslangic).getTime();
+  const bit = new Date(t.bitis).getTime();
+  if (!Number.isFinite(bas)) return '';
+  const g = Math.max(1, Math.round((bit - bas) / 86400_000));
+  return `${new Date(bas).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })} · ${g} gün`;
+}
+
+async function turlariYonet() {
+  ortuAc('<div class="ortu-baslik">Turlar</div><div class="ortu-alt">yükleniyor…</div>');
+  const { ozetler, oksuz } = await turOzetleri();
+  const aktifId = gerok.aktifGerok()?.id ?? null;
+
+  const kart = ({ tur, kayitSayisi }) => `
+    <div class="tur-kart ${tur.id === aktifId ? 'aktif' : ''} ${tur.arsiv ? 'arsiv' : ''}">
+      <div class="tur-ust">
+        <div class="tur-ad">${kacis(tur.ad)}</div>
+        <div class="tur-rozet">${tur.id === aktifId ? 'şu anki' : tur.arsiv ? 'arşiv' : ''}</div>
+      </div>
+      <div class="tur-alt">${kacis(turTarihi(tur))} · ${kayitSayisi} kayıt${tur.kendiKurulmus ? '' : ' · paketten'}</div>
+      <div class="durak-dugmeler">
+        ${tur.id === aktifId
+          ? `<button class="kucuk-dugme" data-arsivle="${tur.id}">Arşivle</button>`
+          : `<button class="kucuk-dugme secili" data-gec="${tur.id}">Bu tura geç</button>
+             <button class="kucuk-dugme sil" data-tursil="${tur.id}">Sil</button>`}
+      </div>
+    </div>`;
+
+  ortuAc(`
+    <div class="ortu-baslik">Turlar</div>
+    <div class="ortu-alt">Şu anki turun kayıtları ekranlarda görünür. Arşivdekiler
+    telefonda durur, karışmaz; istediğin an geri dönebilirsin.</div>
+    ${ozetler.map(kart).join('')}
+    ${oksuz.length ? `
+      <div class="panel-not" style="margin-top:14px">
+        <b>${oksuz.length} kayıt hiçbir tura bağlı değil.</b> Eski bir turdan kalmış
+        olabilir. Şu anki tura taşıyabilirsin.</div>
+      <button class="eylem-dugme" id="oksuzTasi">${oksuz.length} kaydı bu tura taşı</button>` : ''}
+    <button class="eylem-dugme birincil" id="turYeni">Yeni tur başlat</button>
+    <button class="eylem-dugme" id="turKapat">Kapat</button>
+  `);
+
+  $('#turKapat').addEventListener('click', ortuKapat);
+  $('#turYeni').addEventListener('click', () => yeniTurSor());
+
+  $('#oksuzTasi')?.addEventListener('click', async () => {
+    if (!aktifId) { kayitBildir('Önce bir tur başlat.', 'kotu'); return; }
+    ortuKapat();
+    const n = await veri.kayitlariTuraTasi(oksuz, aktifId);
+    kayitBildir(`${n} kayıt bu tura taşındı.`, 'iyi');
+    await tazele();
+  });
+
+  $$('[data-gec]').forEach(d => d.addEventListener('click', async () => {
+    ortuKapat();
+    await gerok.turSec(d.dataset.gec);
+    await turDegisti();
+  }));
+
+  $$('[data-arsivle]').forEach(d => d.addEventListener('click', () => turArsivleSor(d.dataset.arsivle)));
+  $$('[data-tursil]').forEach(d => d.addEventListener('click', () => turSilSor(d.dataset.tursil)));
+}
+
+// Tur değişince her şey yeniden kuruluyor: iz artık yeni tura yazılmalı,
+// harita eski turun rotasını göstermeye devam etmemeli.
+async function turDegisti() {
+  const yeni = gerok.aktifGerok();
+  iz.gerokAyarla(yeni?.id ?? null);
+  gosterilenSayi = SAYFA_ADIMI;
+  durum.uyarilmisDuraklar = new Set();
+  await veri.ayarYaz('uyarilmisDuraklar', []);
+  await tazele();
+  if (durum.ekran === 'harita') haritaGuncelle(durum.kayitlar, durum.izNoktalari);
+  kayitBildir(yeni ? `"${yeni.ad}" turundasın.` : 'Aktif tur yok.', 'iyi');
+}
+
+function turArsivleSor(id) {
+  ortuAc(`
+    <div class="ortu-baslik">Tur arşivlensin mi?</div>
+    <div class="ortu-alt">Kayıtların, sesli notların, fotoğrafların ve izin
+    <b>silinmez</b> — telefonda durur. Sadece ekranlardan çekilir, yeni turla
+    karışmaz. İstediğin an geri dönebilirsin.</div>
+    <div class="panel-not">Yine de önce yedek almak en doğrusu: yedek dosyası
+    telefondan bağımsız durur.</div>
+    <button class="eylem-dugme" id="arsivYedek">Önce yedek al</button>
+    <button class="eylem-dugme birincil" id="arsivOnay">Arşivle</button>
+    <button class="eylem-dugme" id="arsivVaz">Vazgeç</button>
+  `);
+  $('#arsivVaz').addEventListener('click', ortuKapat);
+  $('#arsivYedek').addEventListener('click', () => yedekAl(kayitBildir));
+  $('#arsivOnay').addEventListener('click', async () => {
+    ortuKapat();
+    await gerok.turArsivle(id, true);
+    await turDegisti();
+  });
+}
+
+function turSilSor(id) {
+  ortuAc(`
+    <div class="ortu-baslik">Bu tur tamamen silinsin mi?</div>
+    <div class="ortu-alt">Turun <b>bütün kayıtları, sesli notları, fotoğraf
+    önizlemeleri ve izi</b> telefondan gider. <b>Geri alınamaz.</b><br><br>
+    Yalnızca yer açmak istiyorsan <b>arşivle</b> yeter — o hiçbir şeyi silmiyor.</div>
+    <button class="eylem-dugme" id="silYedek">Önce yedek al</button>
+    <button class="eylem-dugme" id="silOnayla">Anladım, sil</button>
+    <button class="eylem-dugme birincil" id="silVazgec2">Vazgeç</button>
+  `);
+  $('#silVazgec2').addEventListener('click', ortuKapat);
+  $('#silYedek').addEventListener('click', () => yedekAl(kayitBildir));
+  $('#silOnayla').addEventListener('click', async () => {
+    ortuKapat();
+    const s = await gerok.turSil(id);
+    kayitBildir(`Tur silindi · ${s.silinenKayit} kayıt, ${s.silinenIz} iz noktası.`, 'kotu');
+    await turDegisti();
+  });
+}
+
+function yeniTurSor() {
+  const bugun = new Date();
+  const tarihYaz = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  const aktifVar = !!gerok.aktifGerok();
+
+  ortuAc(`
+    <div class="ortu-baslik">Yeni tur</div>
+    <div class="ortu-alt">Boş bir defter açılır. Duraklarını haritadan kendin
+    koyarsın; hazır bir rota dosyan varsa onu da yükleyebilirsin.</div>
+
+    <div class="girdi-etiket">Turun adı</div>
+    <input class="girdi" id="turAd" placeholder="Karadeniz turu, Ege 2027…">
+
+    <div class="girdi-etiket">Ne zaman başlıyor?</div>
+    <input class="girdi" id="turBas" type="date" value="${tarihYaz(bugun)}">
+
+    <div class="girdi-etiket">Kaç gün sürecek?</div>
+    <div class="secenekler" id="turGun">
+      ${[3, 5, 7, 10, 14, 21, 30].map(g =>
+        `<button class="kucuk-dugme ${g === 7 ? 'secili' : ''}" data-gun="${g}">${g} gün</button>`).join('')}
+    </div>
+    <div class="panel-not">Gün sayısını sonra değiştiremezsin ama sorun değil —
+    süre bitse de kayıt almaya devam edebilirsin, "Gerok dışı" olarak yazılır.</div>
+
+    ${aktifVar ? `<div class="panel-not"><b>"${kacis(gerok.aktifGerok().ad)}"</b> arşive
+      kaldırılacak. Kayıtları silinmiyor, istediğin an geri dönersin.</div>` : ''}
+
+    <button class="eylem-dugme birincil" id="turKur">Turu başlat</button>
+    <button class="eylem-dugme" id="turVaz">Vazgeç</button>
+  `);
+
+  setTimeout(() => $('#turAd').focus(), 120);
+  $$('#turGun [data-gun]').forEach(b => b.addEventListener('click', () => {
+    $$('#turGun [data-gun]').forEach(x => x.classList.remove('secili'));
+    b.classList.add('secili');
+  }));
+  $('#turVaz').addEventListener('click', ortuKapat);
+
+  $('#turKur').addEventListener('click', async () => {
+    const ad = $('#turAd').value.trim();
+    if (!ad) { $('#turAd').focus(); return; }
+    const tarih = $('#turBas').value;
+    const gunSayisi = +($('#turGun .secili')?.dataset.gun || 7);
+    ortuKapat();
+
+    // Saat 00:00 değil, o günün sabahı: gün penceresi gece yarısında
+    // dönmesin — geceyarısından sonraki kayıt hâlâ o güne yazılsın.
+    const bas = tarih ? new Date(`${tarih}T06:00:00`).getTime() : Date.now();
+
+    const eski = gerok.aktifGerok();
+    if (eski) await gerok.turArsivle(eski.id, true);
+    await gerok.turBaslat({ ad, baslangic: bas, gunSayisi });
+    await turDegisti();
+  });
+}
+
 async function haritaIndirmeSor() {
   const { haritaIndir } = await import('./harita.js');
   ortuAc(`
@@ -1587,8 +1821,11 @@ $('#dosyaSecici').addEventListener('change', async (e) => {
   if (!dosya) return;
   try {
     const s = await gerok.paketYukle(await dosya.text());
+    iz.gerokAyarla(s.id);
+    gosterilenSayi = SAYFA_ADIMI;
     kayitBildir(`"${s.ad}" yüklendi · ${s.gunler.length} gün, ${s.duraklar.length} durak`, 'iyi');
     await tazele();
+    if (durum.ekran === 'harita') haritaGuncelle(durum.kayitlar, durum.izNoktalari);
   } catch (hata) {
     kayitBildir(hata.message, 'kotu');
   }

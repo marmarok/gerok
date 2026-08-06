@@ -20,8 +20,12 @@ let sonYazma = 0;
 let tasarrufModu = false;
 let dinleyiciler = [];
 let cihazKimligi = null;
+// Hangi tura yazıldığı. gerok.js'i buradan çağırmıyoruz: o zaten iz.js'ten
+// mesafe hesabını alıyor, iki modül birbirini çağırırsa döngü olur.
+let gerokKimligi = null;
 
 export function cihazAyarla(kimlik) { cihazKimligi = kimlik; }
+export function gerokAyarla(kimlik) { gerokKimligi = kimlik ?? null; }
 
 export function dinle(fn) {
   dinleyiciler.push(fn);
@@ -87,7 +91,8 @@ function noktaGeldi(konum) {
     t: simdi,
     lat, lon,
     dogruluk: Math.round(dogruluk),
-    sahip: cihazKimligi
+    sahip: cihazKimligi,
+    gerokId: gerokKimligi
   };
 
   sonNokta = nokta;

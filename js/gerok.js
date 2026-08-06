@@ -2,7 +2,8 @@
 // Paket uygulamanın içine gömülü DEĞİL; ayrı bir dosya olarak yükleniyor.
 // Böylece rota, otel adı, koordinat gibi hiçbir bilgi yayınlanan koda girmiyor.
 
-import { gerokYaz, gerokOku, geroklar, ayarYaz, ayarOku, yeniKimlik } from './veri.js';
+import { gerokYaz, gerokOku, geroklar, gerokSil, turunKayitlariniSil, izSil,
+         ayarYaz, ayarOku, yeniKimlik } from './veri.js';
 import { mesafe } from './iz.js';
 
 let aktif = null;
@@ -18,18 +19,122 @@ let siraDuzeni = {};
 export function aktifGerok() { return aktif; }
 
 export async function baslat() {
+  // Baştan sıfırlanıyor: silinen ya da arşive kaldırılan bir tur bellekte
+  // asılı kalmasın. (Silme sınamasında tam bunu yakaladım — kayıtlı kimlik
+  // yokken eski tur `aktif` olarak duruyordu.)
+  aktif = null;
   const id = await ayarOku('aktifGerokId');
   if (id) aktif = await gerokOku(id);
   if (!aktif) {
-    const hepsi = await geroklar();
+    // Arşivlenmemişlerden en yenisi seçiliyor: arşiv, "bu bitti" demek.
+    const hepsi = (await geroklar()).filter(g => !g.arsiv);
     if (hepsi.length) {
-      aktif = hepsi[0];
+      aktif = hepsi.sort((a, b) => (b.baslangicAni || 0) - (a.baslangicAni || 0))[0];
       await ayarYaz('aktifGerokId', aktif.id);
     }
   }
+  if (aktif?.arsiv) aktif = null;          // arşivdeki tur aktif olamaz
   ozel = await ayarOku('ozelDuraklar', []);
   siraDuzeni = await ayarOku('durakSirasi', {});
   return aktif;
+}
+
+// ---- Turlar ---------------------------------------------------------------
+//
+// Bir tur biterse arşivlenir: kayıtları, izi ve durakları yerinde durur ama
+// ekranlara karışmaz. Yeni tur boş bir defterle başlar. Her kayıt hangi tura
+// ait olduğunu kendi içinde taşıyor (`gerokId`), ayıran şey o.
+
+export async function turlar() {
+  const hepsi = await geroklar();
+  return hepsi.sort((a, b) => {
+    if (!!a.arsiv !== !!b.arsiv) return a.arsiv ? 1 : -1;   // arşiv en sona
+    return (b.baslangicAni || 0) - (a.baslangicAni || 0);
+  });
+}
+
+export async function turSec(id) {
+  const g = await gerokOku(id);
+  if (!g) return false;
+  if (g.arsiv) { g.arsiv = false; await gerokYaz(g); }
+  aktif = g;
+  await ayarYaz('aktifGerokId', id);
+  return true;
+}
+
+export async function turArsivle(id, arsiv = true) {
+  const g = await gerokOku(id);
+  if (!g) return false;
+  g.arsiv = arsiv;
+  g.arsivlenme = arsiv ? Date.now() : null;
+  await gerokYaz(g);
+
+  if (arsiv && aktif?.id === id) {
+    aktif = null;
+    await ayarYaz('aktifGerokId', null);
+    await baslat();                         // arşivlenmemiş bir tur varsa ona geç
+  }
+  return true;
+}
+
+// Günler tarihten üretiliyor: paketi olmayan biri de gününe göre gruplanmış
+// bir zaman çizgisi görsün. Gün, turun başladığı SAATTE dönüyor — takvim
+// gecesinde değil. Gece yarısından sonra yapılan kayıt hâlâ o güne yazılıyor.
+function gunlerUret(baslangicAni, gunSayisi) {
+  const bir = 24 * 3600_000;
+  return Array.from({ length: gunSayisi }, (_, i) => ({
+    no: i + 1,
+    baslik: '',
+    tarih: new Date(baslangicAni + i * bir).toISOString(),
+    pencere: [
+      new Date(baslangicAni + i * bir).toISOString(),
+      new Date(baslangicAni + (i + 1) * bir - 1).toISOString()
+    ]
+  }));
+}
+
+export async function turBaslat({ ad, baslangic = Date.now(), gunSayisi = 7 }) {
+  const bas = new Date(baslangic).getTime();
+  const gun = Math.max(1, Math.min(120, Math.round(gunSayisi)));
+
+  const tur = {
+    id: yeniKimlik('g'),
+    ad: String(ad || '').trim() || 'Yeni tur',
+    baslangic: new Date(bas).toISOString(),
+    bitis: new Date(bas + gun * 24 * 3600_000 - 1).toISOString(),
+    baslangicAni: bas,
+    gunler: gunlerUret(bas, gun),
+    duraklar: [],
+    sinirGecisleri: [],
+    kendiKurulmus: true,                    // paketten değil, elle açıldı
+    yuklenme: Date.now()
+  };
+
+  await gerokYaz(tur);
+  await ayarYaz('aktifGerokId', tur.id);
+  aktif = tur;
+  return tur;
+}
+
+// Turu ve ona ait HER ŞEYİ siler. Geri dönüşü yok — arayüz önce yedek
+// almayı öneriyor.
+export async function turSil(id) {
+  const silinenKayit = await turunKayitlariniSil(id);
+  const silinenIz = await izSil(id);
+  ozel = ozel.filter(d => (d.gerokId ?? null) !== id);
+  await ayarYaz('ozelDuraklar', ozel);
+  await gerokSil(id);
+  if (aktif?.id === id) { aktif = null; await ayarYaz('aktifGerokId', null); await baslat(); }
+  return { silinenKayit, silinenIz };
+}
+
+// Turlar ayrılmadan önce yazılmış kayıtlar hangi tura ait olduğunu bilmiyor.
+// Açılışta bir kez o günün aktif turuna yazılıyorlar (bkz. app.js göçü).
+export async function ozelDuraklaraTurYaz(gerokId) {
+  let degisen = 0;
+  for (const d of ozel) if (d.gerokId == null) { d.gerokId = gerokId; degisen++; }
+  if (degisen) await ayarYaz('ozelDuraklar', ozel);
+  return degisen;
 }
 
 export async function paketYukle(metin) {
@@ -49,6 +154,8 @@ export async function paketYukle(metin) {
     gunler: paket.gunler,
     duraklar: paket.duraklar || [],
     sinirGecisleri: paket.sinirGecisleri || [],
+    baslangicAni: new Date(paket.gerok.baslangic || Date.now()).getTime(),
+    arsiv: false,
     yuklenme: Date.now()
   };
 
@@ -110,8 +217,11 @@ function sirala(a, b) {
 }
 
 export function duraklar(gerok = aktif) {
+  const turId = gerok?.id ?? null;
   const paket = (gerok?.duraklar || []).map((d, i) => ({ ...d, kaynak: 'paket', sira: i }));
-  const kendi = ozel.filter(d => !d.silindi).map(d => ({ ...d, kaynak: 'kendi' }));
+  const kendi = ozel
+    .filter(d => !d.silindi && (d.gerokId ?? null) === turId)
+    .map(d => ({ ...d, kaynak: 'kendi' }));
   const hepsi = [...paket, ...kendi];
   for (const d of hepsi) if (siraDuzeni[d.id] != null) d.sira = siraDuzeni[d.id];
   return hepsi.sort(sirala);
@@ -129,6 +239,7 @@ export function durakBul(id, gerok = aktif) {
 export async function durakEkle({ ad, lat, lon, gun = null, unutma = [] }) {
   const durak = {
     id: yeniKimlik('d'),
+    gerokId: aktif?.id ?? null,
     ad: String(ad || '').trim() || 'Adsız durak',
     lat, lon,
     gun: gun ?? bugununGunu()?.no ?? null,

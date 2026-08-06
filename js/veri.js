@@ -89,10 +89,30 @@ export async function kayitGetir(id) {
   return sarmala(islem(['kayitlar']).objectStore('kayitlar').get(id));
 }
 
-export async function kayitlariGetir() {
+// gerokId verilirse yalnızca o tura ait kayıtlar döner. Hiç verilmezse hepsi.
+// Bir turu arşivleyip yenisine geçince eski turun kayıtları duruyor ama
+// ekranlara karışmıyor — ayıran şey bu süzgeç.
+export async function kayitlariGetir(gerokId = undefined) {
   await ac();
   const hepsi = await sarmala(islem(['kayitlar']).objectStore('kayitlar').getAll());
-  return hepsi.filter(k => !k.silindi).sort((a, b) => a.t - b.t);
+  const duranlar = hepsi.filter(k => !k.silindi);
+  const secilen = gerokId === undefined
+    ? duranlar
+    : duranlar.filter(k => (k.gerokId ?? null) === gerokId);
+  return secilen.sort((a, b) => a.t - b.t);
+}
+
+// Hiçbir tura bağlanmamış ya da artık var olmayan bir turu gösteren kayıtlar.
+// Bunlar hiçbir ekranda görünmez; panelde sayısı yazılıp taşınabiliyorlar —
+// veri sessizce kaybolmuş gibi durmasın diye.
+export async function oksuzKayitlar(gecerliIdler) {
+  const hepsi = await kayitlariGetir();
+  return hepsi.filter(k => !gecerliIdler.includes(k.gerokId ?? null));
+}
+
+export async function kayitlariTuraTasi(kayitlar, gerokId) {
+  for (const k of kayitlar) await kayitEkle({ ...k, gerokId });
+  return kayitlar.length;
 }
 
 // Silinmişler dahil. Eşitleme buna bakıyor: silinen bir kayıt karşı taraftan
@@ -141,10 +161,25 @@ export async function izEkleToplu(noktalar) {
   });
 }
 
-export async function izGetir() {
+export async function izGetir(gerokId = undefined) {
   await ac();
   const hepsi = await sarmala(islem(['iz']).objectStore('iz').getAll());
-  return hepsi.sort((a, b) => a.t - b.t);
+  const secilen = gerokId === undefined
+    ? hepsi
+    : hepsi.filter(n => (n.gerokId ?? null) === gerokId);
+  return secilen.sort((a, b) => a.t - b.t);
+}
+
+// Bir turun bütün izini siler — tur silinirken kullanılıyor.
+export async function izSil(gerokId) {
+  await ac();
+  const hepsi = await sarmala(islem(['iz']).objectStore('iz').getAll());
+  const gidecekler = hepsi.filter(n => (n.gerokId ?? null) === gerokId);
+  const t = islem(['iz'], 'readwrite');
+  const s = t.objectStore('iz');
+  for (const n of gidecekler) s.delete(n.id);
+  await new Promise((tamam, hata) => { t.oncomplete = tamam; t.onerror = () => hata(t.error); });
+  return gidecekler.length;
 }
 
 // Verilen ana en yakın iz noktasını bulur.
@@ -223,6 +258,26 @@ export async function gerokOku(id) {
 export async function geroklar() {
   await ac();
   return sarmala(islem(['gerok']).objectStore('gerok').getAll());
+}
+
+export async function gerokSil(id) {
+  await ac();
+  const t = islem(['gerok'], 'readwrite');
+  await sarmala(t.objectStore('gerok').delete(id));
+}
+
+// Bir turun bütün kayıtlarını, ses/görsel dosyalarıyla birlikte yok eder.
+// Mezar taşı BIRAKMIYOR: tur tamamen gidiyor, eşitlemede geri gelecek bir
+// karşılığı da kalmıyor.
+export async function turunKayitlariniSil(gerokId) {
+  await ac();
+  const hepsi = await sarmala(islem(['kayitlar']).objectStore('kayitlar').getAll());
+  const gidecekler = hepsi.filter(k => (k.gerokId ?? null) === gerokId);
+  for (const k of gidecekler) {
+    if (k.medyaId) await medyaSil(k.medyaId).catch(() => {});
+    await kayitSil(k.id);
+  }
+  return gidecekler.length;
 }
 
 // ---- Medya deposu ---------------------------------------------------------

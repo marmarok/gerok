@@ -70,8 +70,9 @@ async function ciz(durum) {
 // ---- 1. Günün özeti -------------------------------------------------------
 
 async function ozetAdimi(durum) {
-  const kayitlar = await veri.kayitlariGetir();
-  const izNoktalari = await veri.izGetir();
+  const turId = gerok.aktifGerok()?.id ?? null;
+  const kayitlar = await veri.kayitlariGetir(turId);
+  const izNoktalari = await veri.izGetir(turId);
 
   const bugunkuler = gun ? kayitlar.filter(k => k.gun === gun.no) : [];
   const pencere = gun ? gun.pencere.map(s => new Date(s).getTime()) : [0, 0];

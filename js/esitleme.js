@@ -37,11 +37,20 @@ function base64Coz(metin, tur) {
 // Paketin içeriğini toplar — MEDYA HARİÇ. Medya ayrı akıtılıyor (bkz. paketBlobu):
 // sekizinci günde tüm ses kayıtlarının base64'ü tek bir dev metin olunca
 // telefonun belleği yetmiyordu.
-async function govdeTopla({ sadeceGun = null } = {}) {
-  const hepsi = await veri.kayitlariGetir();
+// `tumTurlar` yalnızca YEDEKTE açık: yedek telefonun tamamını kurtarmalı,
+// arşivdeki turları da. Akşam gönderilen paket ise yalnızca o anki turu
+// taşıyor — arkadaşının defterine başka gezilerin kayıtları düşmesin.
+async function govdeTopla({ sadeceGun = null, tumTurlar = false } = {}) {
+  const turId = aktifGerok()?.id ?? null;
+  const suzgec = tumTurlar ? undefined : turId;
+
+  const hepsi = await veri.kayitlariGetir(suzgec);
   const kayitlar = sadeceGun ? hepsi.filter(k => k.gun === sadeceGun) : hepsi;
-  const izNoktalari = await veri.izGetir();
+  const izNoktalari = await veri.izGetir(suzgec);
   const durakDurumlari = await veri.durakDurumlari();
+  const turTanimlari = tumTurlar
+    ? await veri.geroklar()
+    : (aktifGerok() ? [aktifGerok()] : []);
 
   // Silme kararı da paketle gidiyor: bir kaydı silen kişi ötekinde de silmiş
   // olsun, yoksa akşam eşitlemesinde sildiği şey geri geliyor.
@@ -53,6 +62,10 @@ async function govdeTopla({ sadeceGun = null } = {}) {
     paketSurum: PAKET_SURUM,
     uretim: Date.now(),
     gerokId: aktifGerok()?.id || null,
+    // Turun kendi tanımı da gidiyor: karşı tarafta o tur hiç yoksa
+    // kurulabilsin. Başka bir turdaki arkadaşına gönderdiğinde o, senin
+    // turunu olduğu gibi alıyor — günler, duraklar, hepsi.
+    gerokTanimlari: turTanimlari,
     cihaz: await veri.ayarOku('cihazKimligi'),
     kisi: await veri.ayarOku('kullaniciAdi'),
     kayitlar,
@@ -64,7 +77,9 @@ async function govdeTopla({ sadeceGun = null } = {}) {
     // Haritaya kendi koyduğumuz duraklar da geçsin: biri bir yer bulup
     // durak yaptıysa ötekinin rotasında da görünsün. Silinenler de gidiyor
     // (silindi:true), yoksa karşı tarafta geri dirilirdi.
-    ozelDuraklar: ozelDurakListesi(),
+    ozelDuraklar: tumTurlar
+      ? ozelDurakListesi()
+      : ozelDurakListesi().filter(d => (d.gerokId ?? null) === turId),
     durakSirasi: siraDuzeniAl()
   };
 }
@@ -80,8 +95,8 @@ async function govdeTopla({ sadeceGun = null } = {}) {
  *
  * `ilerleme(yapilan, toplam)` ile kaç medya işlendiğini haber verir.
  */
-export async function paketBlobu({ sadeceGun = null, ilerleme = null } = {}) {
-  const govde = await govdeTopla({ sadeceGun });
+export async function paketBlobu({ sadeceGun = null, ilerleme = null, tumTurlar = false } = {}) {
+  const govde = await govdeTopla({ sadeceGun, tumTurlar });
   const govdeMetni = JSON.stringify(govde);
 
   // Gövdenin son süslü parantezini açıp "medya" alanını elle ekliyoruz.
@@ -120,6 +135,16 @@ export async function paketUret({ sadeceGun = null } = {}) {
 
 export async function paketBirlestir(paket) {
   if (!paket?.paketSurum) throw new Error('Bu dosya bir Gerok paketi değil.');
+
+  // Paket bizde hiç olmayan bir tura aitse turu da kuruyoruz — yoksa gelen
+  // kayıtlar hiçbir ekranda görünmezdi. Aktif tur DEĞİŞTİRİLMİYOR: kimsenin
+  // gönderdiği bir dosya, o an içinde bulunduğun turu değiştiremesin.
+  let yeniTur = null;
+  for (const tanim of paket.gerokTanimlari || []) {
+    if (!tanim?.id || await veri.gerokOku(tanim.id)) continue;
+    await veri.gerokYaz({ ...tanim, arsiv: true, yuklenme: Date.now() });
+    yeniTur = yeniTur || tanim.ad;
+  }
 
   // Silinmişler de sayılıyor: kimliği burada duran bir kayıt yeniden eklenmez.
   const varOlanlar = new Set((await veri.tumKayitlar()).map(k => k.id));
@@ -161,7 +186,7 @@ export async function paketBirlestir(paket) {
 
   const yeniDurak = await ozelDuraklariBirlestir(paket.ozelDuraklar || [], paket.durakSirasi || null);
 
-  return { yeniKayit, yeniIz, yeniMedya, silinen, yeniDurak, kisi: paket.kisi };
+  return { yeniKayit, yeniIz, yeniMedya, silinen, yeniDurak, yeniTur, kisi: paket.kisi };
 }
 
 // ---- Gönderme (AirDrop) ---------------------------------------------------
@@ -210,9 +235,12 @@ export function paketAl(bildir, tazele) {
       const s = await paketBirlestir(paket);
       const silNotu = s.silinen ? ` ${s.silinen} kayıt da silinmiş, burada da silindi.` : '';
       const durakNotu = s.yeniDurak ? ` ${s.yeniDurak} yeni durak rotaya eklendi.` : '';
+      const turNotu = s.yeniTur
+        ? ` Bu paket "${s.yeniTur}" turuna ait — Gerok → Turları yönet'ten o tura geçebilirsin.`
+        : '';
       bildir?.(
-        s.yeniKayit || s.yeniIz || s.yeniDurak
-          ? `${s.kisi || 'Arkadaşın'} eklendi: ${s.yeniKayit} kayıt, ${s.yeniIz} iz noktası.${durakNotu}${silNotu}`
+        s.yeniKayit || s.yeniIz || s.yeniDurak || s.yeniTur
+          ? `${s.kisi || 'Arkadaşın'} eklendi: ${s.yeniKayit} kayıt, ${s.yeniIz} iz noktası.${durakNotu}${silNotu}${turNotu}`
           : `Bu paket zaten alınmış — hiçbir şey yinelenmedi.${silNotu}`,
         'iyi'
       );
@@ -233,6 +261,7 @@ export async function yedekAl(bildir) {
   bildir?.('Yedek hazırlanıyor…');
   try {
     const blob = await paketBlobu({
+      tumTurlar: true,
       ilerleme: (y, t) => { if (t > 3) bildir?.(`Yedek hazırlanıyor… ${y}/${t}`); }
     });
     const ad = `gerok-yedek-${tarihEtiketi()}.gerok.json`;

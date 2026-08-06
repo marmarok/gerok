@@ -212,13 +212,17 @@ async function sina() {
   yaz(eksik ? 'kotu' : 'iyi', `Harita yazı tipleri: ${16 - eksik}/16`,
     eksik ? 'Eksik dosya var — haritada yer adları çıkmaz.' : '');
 
-  // 11) Gerok paketi
+  // 11) Turlar
   try {
-    const { geroklar } = await import('./js/veri.js');
-    const g = await geroklar();
-    yaz(g.length ? 'iyi' : 'orta', `Gerok paketi: ${g.length ? g[0].ad : 'yüklenmedi'}`,
-      g.length ? `${g[0].gunler?.length || 0} gün · ${g[0].duraklar?.length || 0} durak` : 'Gerok sekmesinden yükle.');
-  } catch (h) { yaz('orta', 'Paket sorgulanamadı', h.message); }
+    const gm = await import('./js/gerok.js');
+    await gm.baslat();
+    const hepsi = await gm.turlar();
+    const a = gm.aktifGerok();
+    const arsiv = hepsi.filter(t => t.arsiv).length;
+    yaz(a ? 'iyi' : 'orta', `Şu anki tur: ${a ? a.ad : 'yok'}`,
+      a ? `${a.gunler?.length || 0} gün · ${gm.duraklar().length} durak · toplam ${hepsi.length} tur (${arsiv} arşivde)`
+        : 'Gerok sekmesinden "Yeni tur başlat" ya da paket yükle.');
+  } catch (h) { yaz('orta', 'Turlar sorgulanamadı', h.message); }
 
   // 12) Kendi durağını ekleme.
   // Sınamadan önceki durak listesi bir kenara alınıp sonunda aynen geri
