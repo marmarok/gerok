@@ -5,7 +5,7 @@
 // Fotoğraf ve videoların ORİJİNALLERİ pakete girmiyor — onlar galeride duruyor.
 
 import * as veri from './veri.js';
-import { aktifGerok } from './gerok.js';
+import { aktifGerok, ozelDurakListesi, siraDuzeniAl, ozelDuraklariBirlestir } from './gerok.js';
 
 const PAKET_SURUM = 1;
 
@@ -60,7 +60,12 @@ async function govdeTopla({ sadeceGun = null } = {}) {
     iz: sadeceGun
       ? izNoktalari.filter(n => kayitlar.some(k => Math.abs(k.t - n.t) < 24 * 3600_000))
       : izNoktalari,
-    duraklar: durakDurumlari
+    duraklar: durakDurumlari,
+    // Haritaya kendi koyduğumuz duraklar da geçsin: biri bir yer bulup
+    // durak yaptıysa ötekinin rotasında da görünsün. Silinenler de gidiyor
+    // (silindi:true), yoksa karşı tarafta geri dirilirdi.
+    ozelDuraklar: ozelDurakListesi(),
+    durakSirasi: siraDuzeniAl()
   };
 }
 
@@ -154,7 +159,9 @@ export async function paketBirlestir(paket) {
     }
   }
 
-  return { yeniKayit, yeniIz, yeniMedya, silinen, kisi: paket.kisi };
+  const yeniDurak = await ozelDuraklariBirlestir(paket.ozelDuraklar || [], paket.durakSirasi || null);
+
+  return { yeniKayit, yeniIz, yeniMedya, silinen, yeniDurak, kisi: paket.kisi };
 }
 
 // ---- Gönderme (AirDrop) ---------------------------------------------------
@@ -202,9 +209,10 @@ export function paketAl(bildir, tazele) {
       const paket = JSON.parse(await dosya.text());
       const s = await paketBirlestir(paket);
       const silNotu = s.silinen ? ` ${s.silinen} kayıt da silinmiş, burada da silindi.` : '';
+      const durakNotu = s.yeniDurak ? ` ${s.yeniDurak} yeni durak rotaya eklendi.` : '';
       bildir?.(
-        s.yeniKayit || s.yeniIz
-          ? `${s.kisi || 'Arkadaşın'} eklendi: ${s.yeniKayit} kayıt, ${s.yeniIz} iz noktası.${silNotu}`
+        s.yeniKayit || s.yeniIz || s.yeniDurak
+          ? `${s.kisi || 'Arkadaşın'} eklendi: ${s.yeniKayit} kayıt, ${s.yeniIz} iz noktası.${durakNotu}${silNotu}`
           : `Bu paket zaten alınmış — hiçbir şey yinelenmedi.${silNotu}`,
         'iyi'
       );

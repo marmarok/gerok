@@ -62,7 +62,18 @@
         <button data-kip="uydu" class="kip">Uydu</button>
       </div>
       <div id="haritaKaynak" class="harita-kaynak">© OpenStreetMap</div>
+      <!-- Durak koyma nişangâhı: iğne haritanın tam ortasına konuyor -->
+      <div id="haritaNisan" class="harita-nisan gizli"></div>
+      <div id="haritaEkleBar" class="harita-ekle-bar gizli">
+        <div class="ekle-yazi">Haritayı kaydır — durak ortadaki artının olduğu yere konacak.</div>
+        <div class="ekle-dugmeler">
+          <button id="durakVazgec" class="kucuk-dugme">Vazgeç</button>
+          <button id="durakKoy" class="kucuk-dugme secili">Buraya durak ekle</button>
+        </div>
+      </div>
+
       <div class="harita-dugmeler">
+        <button id="haritaDurak" class="yuvarlak" title="Durak ekle">📌</button>
         <button id="haritaBenim" class="yuvarlak" title="Konumuma git">◎</button>
         <button id="haritaHepsi" class="yuvarlak" title="Tüm rotayı göster">⤢</button>
         <button id="haritaGoogle" class="yuvarlak" title="Google Haritalar'da aç">G</button>

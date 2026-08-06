@@ -2,10 +2,18 @@
 // Paket uygulamanın içine gömülü DEĞİL; ayrı bir dosya olarak yükleniyor.
 // Böylece rota, otel adı, koordinat gibi hiçbir bilgi yayınlanan koda girmiyor.
 
-import { gerokYaz, gerokOku, geroklar, ayarYaz, ayarOku } from './veri.js';
+import { gerokYaz, gerokOku, geroklar, ayarYaz, ayarOku, yeniKimlik } from './veri.js';
 import { mesafe } from './iz.js';
 
 let aktif = null;
+
+// Kullanıcının kendi eklediği duraklar. Gerok paketinden GELMEZ — bu yüzden
+// paket yeniden yüklense de durmaya devam ederler. Başka bir turdaki biri
+// paketi olmadan da uygulamayı kullanabilsin diye var.
+let ozel = [];
+
+// Elle değiştirilmiş rota sırası: durak kimliği → o gün içindeki sıra.
+let siraDuzeni = {};
 
 export function aktifGerok() { return aktif; }
 
@@ -19,6 +27,8 @@ export async function baslat() {
       await ayarYaz('aktifGerokId', aktif.id);
     }
   }
+  ozel = await ayarOku('ozelDuraklar', []);
+  siraDuzeni = await ayarOku('durakSirasi', {});
   return aktif;
 }
 
@@ -80,8 +90,32 @@ export function gerokBittiMi(gerok = aktif) {
 }
 
 // ---- Duraklar -------------------------------------------------------------
+//
+// İki kaynaktan geliyorlar: gerok paketi ("paket") ve kullanıcının haritaya
+// kendi koydukları ("kendi"). Harita rotayı bu sıraya göre çiziyor, o yüzden
+// listenin sırası burada bir kez belirleniyor ve her yerde aynı kalıyor.
+//
+// Sıra: önce gün, sonra `sira`. Paket durağının sırası paketteki yeri;
+// kendi eklediklerimiz 1000'den başlıyor, yani ait olduğu günün sonuna
+// ekleniyorlar. Elle taşındıklarında `siraDuzeni` devreye giriyor.
 
-export function duraklar(gerok = aktif) { return gerok?.duraklar || []; }
+const GUN_SONSUZ = 999;                 // günü olmayan duraklar en sona
+
+function sirala(a, b) {
+  const ag = a.gun ?? GUN_SONSUZ, bg = b.gun ?? GUN_SONSUZ;
+  if (ag !== bg) return ag - bg;
+  const as = a.sira ?? 0, bs = b.sira ?? 0;
+  if (as !== bs) return as - bs;
+  return (a.eklenme || 0) - (b.eklenme || 0);
+}
+
+export function duraklar(gerok = aktif) {
+  const paket = (gerok?.duraklar || []).map((d, i) => ({ ...d, kaynak: 'paket', sira: i }));
+  const kendi = ozel.filter(d => !d.silindi).map(d => ({ ...d, kaynak: 'kendi' }));
+  const hepsi = [...paket, ...kendi];
+  for (const d of hepsi) if (siraDuzeni[d.id] != null) d.sira = siraDuzeni[d.id];
+  return hepsi.sort(sirala);
+}
 
 export function gununDuraklari(gun, gerok = aktif) {
   return duraklar(gerok).filter(d => d.gun === gun);
@@ -89,6 +123,98 @@ export function gununDuraklari(gun, gerok = aktif) {
 
 export function durakBul(id, gerok = aktif) {
   return duraklar(gerok).find(d => d.id === id) || null;
+}
+
+// Haritada seçilen noktaya durak koyar.
+export async function durakEkle({ ad, lat, lon, gun = null, unutma = [] }) {
+  const durak = {
+    id: yeniKimlik('d'),
+    ad: String(ad || '').trim() || 'Adsız durak',
+    lat, lon,
+    gun: gun ?? bugununGunu()?.no ?? null,
+    unutma: unutma.filter(Boolean),
+    sira: 1000 + ozel.length,
+    eklenme: Date.now(),
+    guncelleme: Date.now()
+  };
+  ozel = [...ozel, durak];
+  await ayarYaz('ozelDuraklar', ozel);
+  return durak;
+}
+
+// Yalnızca kendi eklediklerimiz silinebiliyor: paket durağı gezinin programı,
+// silmek yerine "kaçırdık" işaretlenir.
+export async function durakYokEt(id) {
+  const d = ozel.find(x => x.id === id);
+  if (!d) return false;
+  d.silindi = true;
+  d.guncelleme = Date.now();
+  await ayarYaz('ozelDuraklar', ozel);
+  return true;
+}
+
+export async function durakDuzenle(id, { ad, gun, unutma }) {
+  const d = ozel.find(x => x.id === id);
+  if (!d) return false;
+  if (ad != null) d.ad = String(ad).trim() || d.ad;
+  if (gun !== undefined) d.gun = gun;
+  if (unutma) d.unutma = unutma.filter(Boolean);
+  d.guncelleme = Date.now();
+  await ayarYaz('ozelDuraklar', ozel);
+  return true;
+}
+
+// Rota sırasını bir basamak yukarı (-1) ya da aşağı (+1) taşır.
+// Gün sınırı aşılmıyor: rota günlere göre kurulu.
+export async function durakTasi(id, yon) {
+  const hepsi = duraklar();
+  const kendisi = hepsi.find(d => d.id === id);
+  if (!kendisi) return false;
+
+  const gun = kendisi.gun ?? GUN_SONSUZ;
+  const ayniGun = hepsi.filter(d => (d.gun ?? GUN_SONSUZ) === gun);
+  const yerel = ayniGun.findIndex(d => d.id === id);
+  const hedef = yerel + yon;
+  if (hedef < 0 || hedef >= ayniGun.length) return false;
+
+  const [tasinan] = ayniGun.splice(yerel, 1);
+  ayniGun.splice(hedef, 0, tasinan);
+  ayniGun.forEach((d, n) => { siraDuzeni[d.id] = n; });
+
+  await ayarYaz('durakSirasi', { ...siraDuzeni });
+  return true;
+}
+
+// ---- Durakların eşitlenmesi ----------------------------------------------
+// Kendi eklediğimiz duraklar akşam paketiyle karşı tarafa da geçiyor.
+
+export function ozelDurakListesi() { return ozel; }
+export function siraDuzeniAl() { return siraDuzeni; }
+
+export async function ozelDuraklariBirlestir(gelenler = [], gelenSira = null) {
+  const eldeki = new Map(ozel.map(d => [d.id, d]));
+  let yeni = 0;
+
+  for (const gelen of gelenler) {
+    if (!gelen?.id) continue;
+    // Kopyası alınıyor: gelen paketin nesnesini doğrudan tutarsak sonraki
+    // düzenlemelerimiz o paketi de değiştirir.
+    const g = { ...gelen };
+    const b = eldeki.get(g.id);
+    if (!b) { eldeki.set(g.id, g); if (!g.silindi) yeni++; }
+    else if ((g.guncelleme || 0) > (b.guncelleme || 0)) eldeki.set(g.id, g);
+  }
+
+  ozel = Array.from(eldeki.values());
+  await ayarYaz('ozelDuraklar', ozel);
+
+  // Sırada bizim düzenimiz kazanıyor — karşı taraf yalnızca bizde hiç
+  // olmayan durakların sırasını getirebilir.
+  if (gelenSira) {
+    siraDuzeni = { ...gelenSira, ...siraDuzeni };
+    await ayarYaz('durakSirasi', siraDuzeni);
+  }
+  return yeni;
 }
 
 // Verilen konuma yakın duraklar, yakından uzağa.

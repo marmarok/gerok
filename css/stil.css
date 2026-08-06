@@ -30,6 +30,14 @@
   --golge: 0 3px 12px rgba(0,0,0,.5);
   --ust: env(safe-area-inset-top, 0px);
   --alt: env(safe-area-inset-bottom, 0px);
+
+  /* Alt barın yüksekliği tek yerden. Sekme içeriği 55px; altına iPhone'un
+     ev göstergesi için pay bırakılıyor. Payın tamamı (34px) konunca sekme
+     yazılarının altında bir parmak boyu boşluk kalıyordu — göstergenin
+     kendisi alt kenardan 13px yukarıda bittiği için 24px fazlasıyla yetiyor.
+     Bar toplamı böylece 79px: iOS'un kendi sekme çubuğuyla aynı ölçü. */
+  --alt-pay: max(calc(env(safe-area-inset-bottom, 0px) - 10px), 4px);
+  --altbar: calc(55px + var(--alt-pay));
 }
 
 :root[data-tema="acik"] {
@@ -168,13 +176,45 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
 .kayit-sahip { font-size: 11px; color: var(--cok-soluk); margin-top: 4px; }
 .kayit-yer { font-size: 11px; color: var(--cok-soluk); margin-top: 2px; }
 
+/* Ses oynatıcı. Çubuk sürüklenebiliyor: bir konuşmanın ortasını bulmak için
+   baştan dinlemek gerekmesin. Tutamak parmak ölçüsünde — araç sallanırken
+   küçük bir noktayı yakalamak imkânsız. */
 .ses-oynat {
-  display: flex; align-items: center; gap: 10px; margin-top: 7px;
+  display: flex; align-items: center; gap: 9px; margin-top: 7px;
   background: var(--kat); border: 1px solid var(--cizgi);
-  border-radius: 10px; padding: 9px 13px; width: 100%;
+  border-radius: 10px; padding: 7px 12px; width: 100%;
 }
-.ses-oynat .ikon { color: var(--vurgu); font-size: 15px; }
-.ses-oynat .sure { font-size: 12px; color: var(--soluk); font-variant-numeric: tabular-nums; }
+.ses-tus {
+  flex-shrink: 0; width: 34px; height: 34px; border-radius: 50%;
+  background: var(--kat2); border: 1px solid var(--cizgi);
+  color: var(--vurgu); font-size: 14px; line-height: 1;
+  display: flex; align-items: center; justify-content: center;
+}
+.ses-tus:active { background: var(--vurgu); color: var(--vurgu-yazi); }
+.ses-oynat .sure {
+  flex-shrink: 0; font-size: 11.5px; color: var(--soluk);
+  font-variant-numeric: tabular-nums; min-width: 74px; text-align: right;
+}
+
+.ses-cubuk {
+  flex: 1; min-width: 0; height: 30px; margin: 0;
+  -webkit-appearance: none; appearance: none; background: transparent;
+  touch-action: none;              /* sürüklerken sayfa kaymasın */
+}
+.ses-cubuk::-webkit-slider-runnable-track {
+  height: 4px; border-radius: 2px; background: var(--cizgi);
+}
+.ses-cubuk::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 20px; height: 20px; border-radius: 50%; margin-top: -8px;
+  background: var(--vurgu); border: 2px solid var(--kat);
+  box-shadow: var(--golge);
+}
+.ses-cubuk::-moz-range-track { height: 4px; border-radius: 2px; background: var(--cizgi); }
+.ses-cubuk::-moz-range-thumb {
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--vurgu); border: 2px solid var(--kat);
+}
 
 .kayit-foto {
   margin-top: 8px; border-radius: 10px; overflow: hidden;
@@ -198,8 +238,10 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
 /* ---------- Harita ---------- */
 #haritaKap { position: absolute; inset: 0; }
 #harita { position: absolute; inset: 0; background: var(--kat); }
+/* Kip düğmelerinin (Gündüz/Gece/Uydu) altında duruyor — üstlerine binerse
+   ikisi de okunmaz oluyordu. */
 .harita-uyari {
-  position: absolute; left: 16px; right: 16px; top: 16px; z-index: 10;
+  position: absolute; left: 16px; right: 16px; top: 68px; z-index: 10;
   background: var(--kat2); border: 1px solid var(--cizgi);
   border-radius: 12px; padding: 14px 16px; font-size: 13.5px; line-height: 1.5;
   color: var(--soluk);
@@ -222,6 +264,29 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
   font-size: 10px; color: var(--soluk);
   background: var(--perde-koyu); padding: 3px 7px; border-radius: 6px;
 }
+
+/* Durak koyma nişangâhı — haritanın tam ortasında, dokunuşa kapalı:
+   altındaki haritayı kaydırmayı engellememeli. */
+.harita-nisan {
+  position: absolute; left: 50%; top: 50%; z-index: 12;
+  width: 44px; height: 44px; margin: -22px 0 0 -22px;
+  pointer-events: none;
+}
+.harita-nisan::before, .harita-nisan::after {
+  content: ''; position: absolute; background: var(--vurgu);
+  box-shadow: 0 0 0 1px rgba(0,0,0,.45);
+}
+.harita-nisan::before { left: 50%; top: 0; width: 2px; height: 100%; margin-left: -1px; }
+.harita-nisan::after { top: 50%; left: 0; height: 2px; width: 100%; margin-top: -1px; }
+
+.harita-ekle-bar {
+  position: absolute; left: 12px; right: 12px; bottom: 12px; z-index: 13;
+  background: var(--kat); border: 1px solid var(--vurgu-koyu);
+  border-radius: 14px; padding: 12px 14px; box-shadow: var(--golge);
+}
+.harita-ekle-bar .ekle-yazi { font-size: 13px; color: var(--soluk); line-height: 1.45; }
+.harita-ekle-bar .ekle-dugmeler { display: flex; gap: 8px; margin-top: 10px; }
+.yuvarlak.secili { background: var(--vurgu); color: var(--vurgu-yazi); border-color: var(--vurgu); }
 
 .harita-dugmeler { position: absolute; right: 14px; bottom: 22px; z-index: 10; display: flex; flex-direction: column; gap: 10px; }
 .yuvarlak {
@@ -261,7 +326,7 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
 /* Alt bardan hemen yukarıda yüzen bildirim — her ekranda görünür. */
 .bildirim {
   position: fixed; left: 14px; right: 14px; z-index: 90;
-  bottom: calc(var(--alt) + 74px);
+  bottom: calc(var(--altbar) + 10px);
   background: var(--kat2); border: 1px solid var(--cizgi);
   border-radius: 12px; padding: 12px 14px;
   font-size: 13.5px; line-height: 1.45; text-align: center;
@@ -315,9 +380,24 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
 .durak-kart.gidildi { border-color: var(--secili-cizgi); }
 .durak-kart.gidildi .durak-ad::after { content: ' ✓'; color: var(--yesil); }
 .durak-kart.kacirildi { opacity: .5; }
-.durak-ust { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
-.durak-ad { font-size: 16px; font-weight: 600; }
+.durak-ust { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.durak-ad { font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 9px; min-width: 0; }
 .durak-gun { font-size: 11px; color: var(--vurgu); white-space: nowrap; }
+
+/* Haritadaki iğnenin numarası ile aynı: "haritadaki 7 numara" listede de 7. */
+.durak-no {
+  flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%;
+  background: var(--vurgu); color: var(--vurgu-yazi);
+  font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.durak-sira { display: flex; gap: 4px; flex-shrink: 0; }
+.sira-dugme {
+  width: 34px; height: 30px; border-radius: 8px; font-size: 11px;
+  background: var(--kat2); border: 1px solid var(--cizgi); color: var(--soluk);
+}
+.durak-ekle-satir { padding: 14px 16px 2px; display: flex; flex-direction: column; }
+.durak-ekle-satir .eylem-dugme { margin-top: 0; margin-bottom: 9px; }
 .durak-uzaklik { font-size: 12px; color: var(--soluk); margin-top: 4px; }
 .unutma { margin: 11px 0 0; padding: 0; list-style: none; }
 .unutma li {
@@ -331,6 +411,7 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
   background: var(--kat2); border: 1px solid var(--cizgi); color: var(--soluk);
 }
 .kucuk-dugme.secili { background: var(--secili-zemin); border-color: var(--secili-cizgi); color: var(--yesil); }
+.kucuk-dugme.sil { color: var(--kirmizi); }
 
 /* Kategori / tema gibi çoktan-seçmeli düğme öbekleri */
 .secenekler { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 6px; }
@@ -401,20 +482,22 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
 /* ---------- Alt bar ---------- */
 #altBar {
   display: flex; border-top: 1px solid var(--cizgi);
-  background: var(--zemin); padding-bottom: var(--alt); flex-shrink: 0;
+  /* Kendi yüzeyi var: aksi hâlde ev göstergesi payı, sayfanın devamı gibi
+     görünüp boş bir şerit izlenimi veriyor. */
+  background: var(--kat); padding-bottom: var(--alt-pay); flex-shrink: 0;
 }
 .sekme {
-  flex: 1; padding: 9px 2px 7px;
-  display: flex; flex-direction: column; align-items: center; gap: 3px;
-  font-size: 10.5px; color: var(--cok-soluk);
+  flex: 1; padding: 6px 2px 4px;
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  font-size: 10px; color: var(--cok-soluk);
 }
-.sekme span { font-size: 20px; line-height: 1; }
+.sekme span { font-size: 19px; line-height: 1; }
 .sekme.secili { color: var(--vurgu); }
 .sekme.buyuk span {
-  font-size: 24px; width: 38px; height: 38px; border-radius: 50%;
+  font-size: 21px; width: 32px; height: 32px; border-radius: 50%;
   background: var(--vurgu); color: var(--vurgu-yazi);
   display: flex; align-items: center; justify-content: center;
-  margin-bottom: -2px; font-weight: 300;
+  margin-bottom: -1px; font-weight: 300;
 }
 .sekme.buyuk { color: var(--soluk); }
 

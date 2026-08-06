@@ -241,6 +241,17 @@ export async function haritaKur() {
     // tuval eski boyutta kalıp haritanın bir kısmı boş görünüyor.
     new ResizeObserver(() => harita.resize()).observe(kap);
 
+    // Durak iğnesine dokunma. Katman adına bağlanıyor, katman sonradan
+    // eklense de (ve kip değişince yeniden kurulsa da) çalışmaya devam eder.
+    // Dokunma hedefi iğneden biraz geniş: araç sallanırken 12 piksel az.
+    harita.on('click', (olay) => {
+      if (!durakTiklandi || !harita.getLayer('durak-halka')) return;
+      const p = olay.point;
+      const kutu = [[p.x - 14, p.y - 14], [p.x + 14, p.y + 14]];
+      const bulunan = harita.queryRenderedFeatures(kutu, { layers: ['durak-halka'] });
+      if (bulunan.length) durakTiklandi(bulunan[0].properties.id);
+    });
+
     kaynakYazisiTazele();
     rotayiCiz();
     return harita;
@@ -301,26 +312,100 @@ function kaynakYaz(ad, veri, katmanlar) {
   }
 }
 
-// Planlanan duraklar — harita açılır açılmaz görünsün, iz olmasa bile.
+// Planlanan rota — harita açılır açılmaz görünsün, iz olmasa bile.
+//
+// İki çizgi var ve karıştırılmamalı:
+//   · ROTA (kesikli, duraktan durağa) — gitmeyi PLANLADIĞIN yol.
+//   · İZ (düz çizgi) — gerçekten GİTTİĞİN yol.
+// Rota düz hatlarla çiziliyor, yolları takip etmiyor: yol tarifi için
+// internete ya da bir rota motoruna gerek var, ikisi de yolda yok.
+//
+// Duraklar rota sırasına göre numaralanıyor; sıralamayı gerok.js belirliyor.
 function rotayiCiz() {
   const liste = duraklar();
-  if (!liste.length || !harita) return;
+  // Liste boşalsa da çiziliyor: son durağını silen biri onu haritada
+  // görmeye devam ederdi.
+  if (!harita || !harita.style) return;
 
+  const koyu = aktifKip !== 'gunduz';
+  const yaziRengi = koyu ? '#f4efe8' : '#231d17';
+  const haleRengi = koyu ? '#12100e' : '#ffffff';
+
+  // Rota gün gün renkleniyor ama tek parça: her gün bir öncekinin son
+  // durağından devam ediyor, böylece bütün gezi kesintisiz bir çizgi.
+  const gunler = new Map();
+  for (const d of liste) {
+    const g = d.gun ?? 999;
+    if (!gunler.has(g)) gunler.set(g, []);
+    gunler.get(g).push(d);
+  }
+
+  const cizgiler = [];
+  let oncekiUc = null;
+  Array.from(gunler.keys()).sort((a, b) => a - b).forEach((g, i) => {
+    const koord = gunler.get(g).map(d => [d.lon, d.lat]);
+    if (oncekiUc) koord.unshift(oncekiUc);
+    oncekiUc = koord[koord.length - 1];
+    if (koord.length < 2) return;
+    cizgiler.push({
+      type: 'Feature',
+      geometry: { type: 'LineString', coordinates: koord },
+      properties: { renk: GUN_RENKLERI[i % GUN_RENKLERI.length] }
+    });
+  });
+
+  kaynakYaz('rota', { type: 'FeatureCollection', features: cizgiler }, [
+    { id: 'rota-golge', type: 'line', source: 'rota',
+      layout: { 'line-cap': 'round', 'line-join': 'round' },
+      paint: { 'line-color': koyu ? '#000000' : '#3a2c1c', 'line-width': 7, 'line-opacity': 0.22, 'line-blur': 1.5 } },
+    { id: 'rota-cizgi', type: 'line', source: 'rota',
+      layout: { 'line-cap': 'butt', 'line-join': 'round' },
+      paint: {
+        'line-color': ['get', 'renk'], 'line-width': 3.2, 'line-opacity': 0.95,
+        'line-dasharray': [2.2, 1.3]
+      } }
+  ]);
+
+  // Durak iğneleri: numara üstünde, ad altında.
+  const gunSirasi = Array.from(gunler.keys()).sort((a, b) => a - b);
   kaynakYaz('duraklar', {
     type: 'FeatureCollection',
-    features: liste.map(d => ({
+    features: liste.map((d, i) => ({
       type: 'Feature',
       geometry: { type: 'Point', coordinates: [d.lon, d.lat] },
-      properties: { ad: d.ad, gun: d.gun }
+      properties: {
+        id: d.id, ad: d.ad, no: String(i + 1),
+        renk: GUN_RENKLERI[Math.max(0, gunSirasi.indexOf(d.gun ?? 999)) % GUN_RENKLERI.length]
+      }
     }))
   }, [
     { id: 'durak-halka', type: 'circle', source: 'duraklar',
       paint: {
-        'circle-radius': 7, 'circle-color': 'transparent',
-        'circle-stroke-width': 2, 'circle-stroke-color': '#e0a458', 'circle-stroke-opacity': 0.85
-      } }
+        'circle-radius': ['interpolate', ['linear'], ['zoom'], 5, 8, 11, 12],
+        'circle-color': ['get', 'renk'],
+        'circle-stroke-width': 2, 'circle-stroke-color': haleRengi
+      } },
+    { id: 'durak-no', type: 'symbol', source: 'duraklar',
+      layout: {
+        'text-field': ['get', 'no'], 'text-font': ['noto-medium'],
+        'text-size': ['interpolate', ['linear'], ['zoom'], 5, 9, 11, 12],
+        'text-allow-overlap': true, 'text-ignore-placement': true
+      },
+      paint: { 'text-color': '#1a1410' } },
+    { id: 'durak-ad', type: 'symbol', source: 'duraklar',
+      minzoom: 7,
+      layout: {
+        'text-field': ['get', 'ad'], 'text-font': ['noto-medium'], 'text-size': 12.5,
+        'text-offset': [0, 1.2], 'text-anchor': 'top', 'text-max-width': 10,
+        'text-padding': 6, 'text-optional': true
+      },
+      paint: { 'text-color': yaziRengi, 'text-halo-color': haleRengi, 'text-halo-width': 2 } }
   ]);
 }
+
+// Haritadaki bir durağa dokunulunca çağrılacak işlev (app.js kaydediyor).
+let durakTiklandi = null;
+export function durakTiklamasi(fn) { durakTiklandi = fn; }
 
 export function haritaGuncelle(kayitlar, izNoktalari) {
   sonVeri = { kayitlar, iz: izNoktalari };
@@ -400,6 +485,11 @@ export function haritaGuncelle(kayitlar, izNoktalari) {
   ]);
 
   rotayiCiz();
+
+  // Durak iğneleri her şeyin üstünde kalsın — dokunulacak olan onlar.
+  for (const k of ['durak-halka', 'durak-no', 'durak-ad']) {
+    if (harita.getLayer(k)) harita.moveLayer(k);
+  }
 }
 
 function gunTahmin(t, kayitlar) {

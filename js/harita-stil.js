@@ -248,8 +248,12 @@ export const KIPLER = [
 ];
 
 // Harita indirilmeden önce gösterilen boş zemin.
+// Yazı tipi burada da tanımlı: harita paketi olmayan biri de kendi duraklarını
+// koyup adlarını görebilsin — glyphs olmadan MapLibre tek bir harf çizmiyor,
+// iğneler numarasız kalırdı.
 export const BOS_STIL = {
   version: 8,
+  glyphs: YAZI,
   sources: {},
   layers: [{ id: 'zemin', type: 'background', paint: { 'background-color': '#1c1917' } }]
 };

@@ -156,6 +156,26 @@ async function sina() {
   yaz(a2.oldu ? 'iyi' : 'kotu', `Tür yazılarak çalma: ${a2.oldu ? 'çaldı' : 'ÇALMADI'}`,
     `${a2.gecen.toFixed(1)} sn · ${a2.sebep}`);
 
+  // 7b) Sürükleme (ileri-geri alma) gerçekten işliyor mu?
+  // iOS'un parçalı mp4'ünde arama bazen hiç yürümüyor: currentTime yazılıyor
+  // ama ses aynı yerden devam ediyor. Uygulama bunu fark edip dosyayı baştan
+  // çözen yola geçiyor — burada hangi yolun devrede olacağını görüyoruz.
+  try {
+    const urlAra = await depo.url('sinama', ad, turIyi);
+    const a = new Audio();
+    a.src = urlAra;
+    await new Promise((t) => { a.onloadedmetadata = t; a.onerror = t; setTimeout(t, 2500); });
+    const hedef = KAYIT_SN - 1.2;
+    a.currentTime = hedef;
+    await new Promise(r => setTimeout(r, 500));
+    const sapma = Math.abs(a.currentTime - hedef);
+    a.pause();
+    URL.revokeObjectURL(urlAra);
+    yaz(sapma < 1 ? 'iyi' : 'orta',
+      `Sürükleyerek ileri alma: ${sapma < 1 ? 'doğrudan işliyor' : 'çözerek yapılacak'}`,
+      `süre bilgisi ${Number.isFinite(a.duration) ? a.duration.toFixed(1) + ' sn' : 'YOK'} · sapma ${sapma.toFixed(1)} sn`);
+  } catch (h) { yaz('orta', 'Sürükleme sınanamadı', h.message); }
+
   // 8) Yedek yol: dosyayı baştan çöz
   try {
     const tampon = await ac.decodeAudioData(await geri.arrayBuffer());
@@ -199,6 +219,39 @@ async function sina() {
     yaz(g.length ? 'iyi' : 'orta', `Gerok paketi: ${g.length ? g[0].ad : 'yüklenmedi'}`,
       g.length ? `${g[0].gunler?.length || 0} gün · ${g[0].duraklar?.length || 0} durak` : 'Gerok sekmesinden yükle.');
   } catch (h) { yaz('orta', 'Paket sorgulanamadı', h.message); }
+
+  // 12) Kendi durağını ekleme.
+  // Sınamadan önceki durak listesi bir kenara alınıp sonunda aynen geri
+  // yazılıyor: sınamanın bıraktığı "silinmiş durak" notu bile kalmasın.
+  try {
+    const gm = await import('./js/gerok.js');
+    const { ayarOku, ayarYaz } = await import('./js/veri.js');
+    const yedek = await ayarOku('ozelDuraklar', []);
+    await gm.baslat();
+
+    const once = gm.duraklar().length;
+    const yeni = await gm.durakEkle({ ad: 'Sınama durağı', lat: 42.5, lon: 20.5, gun: 1, unutma: ['sınama'] });
+    const eklendi = gm.duraklar().length === once + 1;
+    await gm.durakYokEt(yeni.id);
+    const silindi = gm.duraklar().length === once;
+
+    await ayarYaz('ozelDuraklar', yedek);
+    await gm.baslat();
+    const temiz = gm.duraklar().length === once;
+
+    yaz(eklendi && silindi && temiz ? 'iyi' : 'kotu', 'Kendi durağını ekleme ve silme',
+      `${once} durak · ekleme ${eklendi ? 'tamam' : 'OLMADI'} · silme ${silindi ? 'tamam' : 'OLMADI'} · sınama izi bırakmadı`);
+  } catch (h) { yaz('kotu', 'Durak eklenemedi', h.message); }
+
+  // 13) Ekranın alt payı — ana ekrandan açılınca iPhone burada ev göstergesi
+  // için yer ayırıyor. Uygulamanın alt çubuğu bu paya göre kuruluyor.
+  const olcek = document.createElement('div');
+  olcek.style.cssText = 'position:fixed;left:0;top:0;width:0;height:0;padding-bottom:env(safe-area-inset-bottom);';
+  document.body.appendChild(olcek);
+  const pay = getComputedStyle(olcek).paddingBottom;
+  olcek.remove();
+  yaz('iyi', `Alt güvenli alan: ${pay}`,
+    `${navigator.standalone ? 'ana ekrandan açıldı' : 'Safari sekmesinde — ana ekrandan açınca bu değer artar'} · ekran ${innerWidth}×${innerHeight}`);
 
   bitir();
 }
