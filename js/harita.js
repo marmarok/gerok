@@ -545,12 +545,36 @@ export function konumaGit(nokta) {
 
 export function hepsiniGoster() {
   if (!harita) return;
-  const liste = duraklar();
-  if (!liste.length) return;
-  const enler = liste.map(d => d.lon), boylar = liste.map(d => d.lat);
+
+  // Duraklar VE gerçekten gidilen iz birlikte sığsın: rotadan sapıldıysa
+  // "tümünü göster" sapmayı da göstermeli.
+  const noktalar = duraklar().map(d => [d.lon, d.lat]);
+  for (const n of (sonVeri.iz || [])) {
+    if (typeof n.lon === 'number' && typeof n.lat === 'number') noktalar.push([n.lon, n.lat]);
+  }
+  if (!noktalar.length) return;
+
+  const enler = noktalar.map(n => n[0]), boylar = noktalar.map(n => n[1]);
+
+  // Haritanın üstünde kip düğmeleri ve (harita inmediyse) uyarı kutusu duruyor;
+  // sağda yuvarlak düğmeler var. Eşit boşluk verilirse ilk duraklar bu
+  // kutuların ARKASINDA kalıyordu — gerçek rotayla denendi, 1–4 görünmüyordu.
+  const uyari = document.getElementById('haritaUyari');
+  const uyariAcik = uyari && !uyari.classList.contains('gizli');
+  const kap = harita.getCanvas();
+  const dar = kap.clientWidth < 420;
+
   harita.fitBounds(
     [[Math.min(...enler), Math.min(...boylar)], [Math.max(...enler), Math.max(...boylar)]],
-    { padding: 50, duration: 700 }
+    {
+      padding: {
+        top: uyariAcik ? 190 : 74,
+        bottom: 60,                    // iğne adları iğnenin altına yazılıyor
+        left: 40,
+        right: dar ? 40 : 92           // sağdaki yuvarlak düğme sütunu
+      },
+      duration: 700
+    }
   );
 }
 
