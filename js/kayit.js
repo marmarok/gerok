@@ -148,12 +148,19 @@ export async function kisiEkle(ad, not = '') {
   return k;
 }
 
-export async function fiyatEkle(ne, tutar, paraBirimi) {
+// Harcama. `tur` eskiden beri 'fiyat' — eski kayıtlar bozulmasın diye
+// değiştirilmedi, yalnızca ekranda görünen adı "Harcama" oldu.
+export const HARCAMA_KATEGORILERI = [
+  'Yemek', 'Ulaşım', 'Konaklama', 'Giriş/Müze', 'Alışveriş', 'Diğer'
+];
+
+export async function fiyatEkle(ne, tutar, paraBirimi, kategori = '') {
   if (!ne?.trim()) return null;
   const k = await kayitKur('fiyat', {
     metin: ne.trim(),
     tutar: tutar || '',
-    paraBirimi: (paraBirimi || '').trim()
+    paraBirimi: (paraBirimi || '').trim(),
+    kategori: (kategori || '').trim()
   });
   await kayitEkle(k);
   return k;

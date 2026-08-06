@@ -15,7 +15,7 @@ export const TURLER = {
   foto: 'Fotoğraf',
   video: 'Video',
   kisi: 'Tanıştığımız kişi',
-  fiyat: 'Fiyat',
+  fiyat: 'Harcama',
   gunluk: 'Akşam günlüğü',
   siradan: 'Sıradan kare',
   baslangic: 'Başlangıç kaydı',
@@ -234,7 +234,9 @@ import * as depo from './depo.js';
 export const medyaYaz = (id, blob) => depo.yaz('medya', id, blob);
 export const medyaOku = (id) => depo.oku('medya', id);
 export const medyaSil = (id) => depo.sil('medya', id);
-export const medyaUrl = (id) => depo.url('medya', id);
+// tur: kaydın `bicim` alanı (ör. 'audio/mp4'). Bkz. depo.url — türsüz blob
+// adresinden Safari ses çalmıyor.
+export const medyaUrl = (id, tur = null) => depo.url('medya', id, tur);
 
 // ---- Depolama sağlığı -----------------------------------------------------
 

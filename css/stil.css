@@ -1,8 +1,11 @@
 /* Gerok — arayüz.
-   Karanlık tema: yolda, gece otobüste, güneş altında okunabilir olsun diye.
+   İki tema: koyu (gece, otobüs) ve açık (gündüz, güneş altında araç camı).
+   Seçim <html data-tema="koyu|acik"> ile yapılıyor; "otomatik" seçilirse
+   telefonun kendi ayarı okunup aynı öznitelik yazılıyor (bkz. js/tema.js).
+   Bütün renkler değişken — yeni tema eklemek bu bloğu çoğaltmak demek.
    Dokunma hedefleri büyük: araç sallanırken kullanılacak. */
 
-:root {
+:root, :root[data-tema="koyu"] {
   --zemin: #12100e;
   --kat: #1c1917;
   --kat2: #262220;
@@ -15,8 +18,43 @@
   --su: #5b9dd9;
   --kirmizi: #d9634f;
   --yesil: #7ba05b;
+  --vurgu-yazi: #1a1410;      /* vurgu zemin üstündeki yazı */
+  --secili-zemin: #2c3a22;
+  --secili-cizgi: #46592f;
+  --birincil-zemin: linear-gradient(160deg, #2a2119, var(--kat));
+  --birincil-cizgi: #4a3a22;
+  --vurgu2-zemin: linear-gradient(160deg, #182430, var(--kat));
+  --vurgu2-cizgi: #2c4055;
+  --perde: rgba(8,6,5,.72);
+  --perde-koyu: rgba(10,8,7,.94);
+  --golge: 0 3px 12px rgba(0,0,0,.5);
   --ust: env(safe-area-inset-top, 0px);
   --alt: env(safe-area-inset-bottom, 0px);
+}
+
+:root[data-tema="acik"] {
+  --zemin: #f6f3ec;
+  --kat: #ffffff;
+  --kat2: #ece7dd;
+  --cizgi: #d9d1c4;
+  --yazi: #241f1a;
+  --soluk: #6a6055;
+  --cok-soluk: #948a7d;
+  --vurgu: #a2621a;
+  --vurgu-koyu: #8a5314;
+  --su: #2c6f9e;
+  --kirmizi: #b23a26;
+  --yesil: #4c6b32;
+  --vurgu-yazi: #ffffff;
+  --secili-zemin: #e2ecd6;
+  --secili-cizgi: #a8c088;
+  --birincil-zemin: linear-gradient(160deg, #fdf1de, var(--kat));
+  --birincil-cizgi: #e0c193;
+  --vurgu2-zemin: linear-gradient(160deg, #e4eef7, var(--kat));
+  --vurgu2-cizgi: #b4cde2;
+  --perde: rgba(60,52,42,.42);
+  --perde-koyu: rgba(246,243,236,.96);
+  --golge: 0 3px 12px rgba(80,66,48,.22);
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -73,11 +111,25 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
   width: 7px; height: 7px; border-radius: 50%;
   background: var(--cok-soluk); flex-shrink: 0;
 }
-.rozet.acik { color: var(--yesil); border-color: #3c4a30; }
+.rozet.acik { color: var(--yesil); border-color: var(--secili-cizgi); }
 .rozet.acik .nokta { background: var(--yesil); animation: nabiz 2.4s ease-in-out infinite; }
-.rozet.tasarruf { color: var(--vurgu); border-color: #4a3a22; }
+.rozet.tasarruf { color: var(--vurgu); border-color: var(--birincil-cizgi); }
 .rozet.tasarruf .nokta { background: var(--vurgu); }
 @keyframes nabiz { 0%,100% { opacity: 1 } 50% { opacity: .35 } }
+
+/* Açık temada üst bar yine koyu kalıyor. Sebep iOS: ana ekrana eklenmiş
+   uygulamada durum çubuğu yazısı (saat, pil) BEYAZ ve bu, uygulama açıldıktan
+   sonra değiştirilemiyor. Açık zeminde beyaz saat görünmez olurdu. */
+:root[data-tema="acik"] #ustBar {
+  background: #241f1a; border-bottom-color: #241f1a; color: #f8f4ee;
+}
+:root[data-tema="acik"] #ustBar .ust-alt { color: #c3b7a7; }
+:root[data-tema="acik"] #ustBar .rozet {
+  background: #352e27; border-color: #4b423a; color: #d5c9b9;
+}
+:root[data-tema="acik"] #ustBar .rozet .nokta { background: #8b8075; }
+:root[data-tema="acik"] #ustBar .rozet.acik { color: #a9c98a; border-color: #5c6b46; }
+:root[data-tema="acik"] #ustBar .rozet.acik .nokta { background: #a9c98a; }
 
 /* ---------- Gövde ---------- */
 #govde { flex: 1; overflow: hidden; position: relative; }
@@ -155,18 +207,18 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
   position: absolute; left: 14px; top: 14px; z-index: 10;
   display: flex; gap: 2px; padding: 3px;
   background: var(--kat2); border: 1px solid var(--cizgi);
-  border-radius: 11px; box-shadow: 0 3px 12px rgba(0,0,0,.5);
+  border-radius: 11px; box-shadow: var(--golge);
 }
 .harita-kipler .kip {
   padding: 8px 13px; border-radius: 8px; font-size: 13px; color: var(--soluk);
   background: transparent; border: none;
 }
-.harita-kipler .kip.secili { background: var(--vurgu-koyu); color: #f4ede2; }
+.harita-kipler .kip.secili { background: var(--vurgu-koyu); color: var(--vurgu-yazi); }
 
 .harita-kaynak {
   position: absolute; left: 14px; bottom: 10px; z-index: 10;
-  font-size: 10px; color: rgba(240,235,229,.75);
-  background: rgba(10,8,7,.5); padding: 3px 7px; border-radius: 6px;
+  font-size: 10px; color: var(--soluk);
+  background: var(--perde-koyu); padding: 3px 7px; border-radius: 6px;
 }
 
 .harita-dugmeler { position: absolute; right: 14px; bottom: 22px; z-index: 10; display: flex; flex-direction: column; gap: 10px; }
@@ -174,7 +226,7 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
   width: 46px; height: 46px; border-radius: 50%;
   background: var(--kat2); border: 1px solid var(--cizgi);
   font-size: 19px; display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 3px 12px rgba(0,0,0,.5);
+  box-shadow: var(--golge);
 }
 
 /* ---------- Kayıt ekranı ---------- */
@@ -188,8 +240,8 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
   touch-action: manipulation;
 }
 .buyuk-dugme:active { transform: scale(.975); }
-.buyuk-dugme.birincil { background: linear-gradient(160deg, #2a2119, var(--kat)); border-color: #4a3a22; }
-.buyuk-dugme.vurgu { background: linear-gradient(160deg, #182430, var(--kat)); border-color: #2c4055; }
+.buyuk-dugme.birincil { background: var(--birincil-zemin); border-color: var(--birincil-cizgi); }
+.buyuk-dugme.vurgu { background: var(--vurgu2-zemin); border-color: var(--vurgu2-cizgi); }
 .dugme-ikon { font-size: 30px; }
 .dugme-ad { font-size: 17px; font-weight: 600; }
 .dugme-alt { font-size: 12px; color: var(--soluk); }
@@ -212,7 +264,7 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
 .ses-katman {
   /* Örtüden (70) yüksek: Gün Sonu akışında da aynı kayıt katmanı açılıyor. */
   position: fixed; inset: 0; z-index: 80;
-  background: rgba(10,8,7,.94);
+  background: var(--perde-koyu);
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 26px;
 }
 .ses-halka {
@@ -237,7 +289,7 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
   padding: 17px 18px; border-radius: 15px;
   background: var(--kat); border: 1px solid var(--cizgi); text-align: left;
 }
-.yol-modu.acik { background: linear-gradient(150deg, #2a2119, var(--kat)); border-color: var(--vurgu-koyu); }
+.yol-modu.acik { background: var(--birincil-zemin); border-color: var(--vurgu-koyu); }
 .yol-ad { font-size: 16px; font-weight: 600; }
 .yol-modu.acik .yol-ad { color: var(--vurgu); }
 .yol-alt { font-size: 12px; color: var(--soluk); }
@@ -246,7 +298,7 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
   margin: 10px 16px; padding: 15px 16px;
   background: var(--kat); border: 1px solid var(--cizgi); border-radius: 14px;
 }
-.durak-kart.gidildi { border-color: #3c4a30; }
+.durak-kart.gidildi { border-color: var(--secili-cizgi); }
 .durak-kart.gidildi .durak-ad::after { content: ' ✓'; color: var(--yesil); }
 .durak-kart.kacirildi { opacity: .5; }
 .durak-ust { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
@@ -264,7 +316,26 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
   flex: 1; padding: 9px; border-radius: 9px; font-size: 12.5px;
   background: var(--kat2); border: 1px solid var(--cizgi); color: var(--soluk);
 }
-.kucuk-dugme.secili { background: #2c3a22; border-color: #46592f; color: var(--yesil); }
+.kucuk-dugme.secili { background: var(--secili-zemin); border-color: var(--secili-cizgi); color: var(--yesil); }
+
+/* Kategori / tema gibi çoktan-seçmeli düğme öbekleri */
+.secenekler { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 6px; }
+.secenekler .kucuk-dugme { flex: 0 0 auto; padding: 9px 14px; }
+
+/* ---------- Harcamalar ---------- */
+.harcama-liste { margin-top: 4px; }
+.harcama-satir {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+  padding: 10px 0; border-bottom: 1px solid var(--cizgi);
+}
+.harcama-satir:last-child { border-bottom: none; }
+.harcama-sol { min-width: 0; }
+.harcama-ne { font-size: 14.5px; }
+.harcama-alt { font-size: 11px; color: var(--cok-soluk); margin-top: 3px; }
+.harcama-tutar {
+  font-size: 14.5px; font-weight: 600; color: var(--vurgu);
+  white-space: nowrap; font-variant-numeric: tabular-nums;
+}
 
 /* ---------- Gerok paneli ---------- */
 .panel-alan { padding: 16px 16px calc(30px + var(--alt)); display: flex; flex-direction: column; gap: 14px; }
@@ -273,7 +344,7 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
   border-radius: 15px; padding: 16px;
 }
 .panel-baslik { font-size: 13px; font-weight: 600; color: var(--vurgu); letter-spacing: .04em; text-transform: uppercase; margin-bottom: 10px; }
-.panel-satir { display: flex; justify-content: space-between; gap: 12px; padding: 7px 0; font-size: 14px; border-bottom: 1px solid rgba(56,50,46,.5); }
+.panel-satir { display: flex; justify-content: space-between; gap: 12px; padding: 7px 0; font-size: 14px; border-bottom: 1px solid var(--cizgi); }
 .panel-satir:last-child { border-bottom: none; }
 .panel-satir .etiket { color: var(--soluk); }
 .panel-satir .deger { text-align: right; font-variant-numeric: tabular-nums; }
@@ -283,13 +354,13 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
   width: 100%; padding: 14px; border-radius: 12px; margin-top: 9px;
   background: var(--kat2); border: 1px solid var(--cizgi); font-size: 14.5px; font-weight: 500;
 }
-.eylem-dugme.birincil { background: var(--vurgu); color: #1a1410; border-color: var(--vurgu); font-weight: 600; }
+.eylem-dugme.birincil { background: var(--vurgu); color: var(--vurgu-yazi); border-color: var(--vurgu); font-weight: 600; }
 .eylem-dugme:active { opacity: .8; }
 
 /* ---------- Örtü / diyalog ---------- */
 .ortu {
   position: fixed; inset: 0; z-index: 70;
-  background: rgba(8,6,5,.72);
+  background: var(--perde);
   display: flex; align-items: flex-end; justify-content: center;
   backdrop-filter: blur(3px);
 }
@@ -327,7 +398,7 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
 .sekme.secili { color: var(--vurgu); }
 .sekme.buyuk span {
   font-size: 24px; width: 38px; height: 38px; border-radius: 50%;
-  background: var(--vurgu); color: #1a1410;
+  background: var(--vurgu); color: var(--vurgu-yazi);
   display: flex; align-items: center; justify-content: center;
   margin-bottom: -2px; font-weight: 300;
 }
@@ -345,5 +416,5 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
 .gs-dugmeler .eylem-dugme { margin-top: 0; }
 
 /* ---------- Uyarı katmanı (yaklaşma) ---------- */
-.uyari-kart { border: 1px solid var(--vurgu-koyu); background: linear-gradient(160deg, #2a2119, var(--kat)); }
+.uyari-kart { border: 1px solid var(--vurgu-koyu); background: var(--birincil-zemin); }
 .uyari-baslik { color: var(--vurgu); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; }

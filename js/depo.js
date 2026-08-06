@@ -147,7 +147,18 @@ export async function sil(klasor, ad) {
   await idbIstek(t.objectStore('dosyalar').delete(`${klasor}/${ad}`));
 }
 
-export async function url(klasor, ad) {
+/**
+ * Dosyayı çalınabilir/gösterilebilir bir adrese çevirir.
+ *
+ * `tur` VERİLMEZSE OPFS'ten gelen dosyanın MIME türü boştur — OPFS içerik türü
+ * saklamıyor. Safari türü olmayan bir blob adresinden sesi çözemiyor: oynat
+ * düğmesi çalışıyor gibi görünüyor ama ses çıkmıyor, saniye ilerlemiyor.
+ * (Fotoğraflarda sorun çıkmıyordu, tarayıcı görüntüyü baytlarından tanıyor.)
+ * Bu yüzden ses kaydının kendi `bicim` alanı buraya geçiriliyor.
+ */
+export async function url(klasor, ad, tur = null) {
   const b = await oku(klasor, ad);
-  return b ? URL.createObjectURL(b) : null;
+  if (!b) return null;
+  const dogru = tur && b.type !== tur ? new Blob([b], { type: tur }) : b;
+  return URL.createObjectURL(dogru);
 }

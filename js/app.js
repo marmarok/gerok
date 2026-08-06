@@ -8,6 +8,7 @@ import { haritaKur, haritaGuncelle, haritaBoyutTazele, konumaGit, hepsiniGoster,
          kipDegistir, aktifKipAl, haritaMerkezi } from './harita.js';
 import { gunSonuAc, baslangicKaydiAc, bitisKaydiAc, mektupAc } from './gunsonu.js';
 import { paketGonder, paketAl, yedekAl } from './esitleme.js';
+import { TEMALAR, temaSecimi, temaSec, temaBaslat } from './tema.js';
 
 const $ = (s) => document.querySelector(s);
 const $$ = (s) => Array.from(document.querySelectorAll(s));
@@ -18,6 +19,7 @@ let durum = {
   izNoktalari: [],
   durakDurumlari: {},
   yolModu: false,
+  sonParaBirimi: '',
   uyanikKilit: null,
   sonUlke: null,
   uyarilmisDuraklar: new Set()
@@ -26,6 +28,7 @@ let durum = {
 // ---------------------------------------------------------------- açılış ---
 
 async function baslat() {
+  temaBaslat();
   await veri.ac();
   await gerok.baslat();
 
@@ -41,6 +44,7 @@ async function baslat() {
 
   durum.uyarilmisDuraklar = new Set(await veri.ayarOku('uyarilmisDuraklar', []));
   durum.sonUlke = await veri.ayarOku('sonUlke', null);
+  durum.sonParaBirimi = await veri.ayarOku('sonParaBirimi', '');
 
   sekmeleriKur();
   kayitDugmeleriniKur();
@@ -152,10 +156,10 @@ function zamanCizgisiCiz() {
   kap.innerHTML = html;
 
   kap.querySelectorAll('[data-ses]').forEach(d => {
-    d.addEventListener('click', () => sesCal(d.dataset.ses, d));
+    d.addEventListener('click', () => sesCal(d.dataset.ses, d, d.dataset.bicim));
   });
   kap.querySelectorAll('[data-onizleme]').forEach(async (d) => {
-    const url = await veri.medyaUrl(d.dataset.onizleme);
+    const url = await veri.medyaUrl(d.dataset.onizleme, 'image/jpeg');
     if (url) d.innerHTML = `<img src="${url}" alt="" loading="lazy">`;
   });
   kap.querySelectorAll('[data-sil]').forEach(d => {
@@ -181,7 +185,7 @@ function kayitSatiri(k) {
   if (k.tur === 'kisi' && k.not) govde += `<div class="kayit-yer">${kacis(k.not)}</div>`;
 
   if (k.medyaId && ['ses', 'ortam', 'gunluk', 'baslangic', 'bitis', 'mektup'].includes(k.tur)) {
-    govde += `<button class="ses-oynat" data-ses="${k.medyaId}">
+    govde += `<button class="ses-oynat" data-ses="${k.medyaId}" data-bicim="${kacis(k.bicim || '')}">
       <span class="ikon">▶</span><span class="sure">${sureYaz(k.sure)}</span>
     </button>`;
   }
@@ -250,17 +254,103 @@ async function kaydiSil(id) {
   });
 }
 
+// Ses çalma.
+//
+// İki yol var, çünkü iOS'ta <audio> tek başına güvenilir değil:
+//  a) OPFS'ten okunan dosyanın MIME türü boş kalıyor, Safari türsüz blob
+//     adresinden sesi çözmüyor (bkz. depo.url) — kaydın `bicim` alanı veriliyor.
+//  b) iOS'un MediaRecorder'ı parçalı (fragmented) MP4 üretiyor ve Safari kendi
+//     ürettiği bu dosyayı <audio> ile bazen açamıyor.
+// (a) düzeltilmesine rağmen ses gelmezse (b) devrede demektir: dosya baştan
+// çözülüp Web Audio ile çalınıyor. Yolda düzeltme şansı yok, iki yol da duruyor.
 let calan = null;
-async function sesCal(medyaId, dugme) {
-  if (calan) { calan.pause(); calan = null; }
-  const url = await veri.medyaUrl(medyaId);
-  if (!url) return;
-  const ses = new Audio(url);
-  calan = ses;
+
+function calaniBirak() {
+  if (!calan) return;
+  clearInterval(calan.sayac);
+  try { calan.ses ? calan.ses.pause() : calan.kaynak?.stop(); } catch { /* zaten durmuş */ }
+  calan.ikon.textContent = '▶';
+  if (calan.sure) calan.sure.textContent = calan.ilkYazi;
+  URL.revokeObjectURL(calan.url);
+  calan = null;
+}
+
+function sayaciBasla(gecenSaniye) {
+  calan.sayac = setInterval(() => {
+    if (calan?.sure) calan.sure.textContent = sureYaz(gecenSaniye());
+  }, 200);
+}
+
+async function sesCal(medyaId, dugme, bicim = '') {
+  // Aynı kayda ikinci dokunuş: duraklat ya da devam et.
+  if (calan && calan.medyaId === medyaId) {
+    const duruyor = calan.ses ? calan.ses.paused : calan.ac.state === 'suspended';
+    if (duruyor) {
+      (calan.ses ? calan.ses.play() : calan.ac.resume()).catch?.(() => {});
+      calan.ikon.textContent = '⏸';
+    } else {
+      calan.ses ? calan.ses.pause() : calan.ac.suspend();
+      calan.ikon.textContent = '▶';
+    }
+    return;
+  }
+  calaniBirak();
+
+  const url = await veri.medyaUrl(medyaId, bicim || null);
+  if (!url) { kayitBildir('Ses dosyası bulunamadı.', 'kotu'); return; }
+
   const ikon = dugme.querySelector('.ikon');
+  const sure = dugme.querySelector('.sure');
+  const ortak = { url, dugme, ikon, sure, medyaId, ilkYazi: sure?.textContent || '', sayac: null };
+
+  const ses = new Audio();
+  ses.preload = 'auto';
+  ses.src = url;
+  calan = { ...ortak, ses };
+
+  ses.onended = () => calaniBirak();
+  ses.onerror = () => yedekYolaGec(medyaId, ortak, 'dosya <audio> ile açılamadı');
+
+  try {
+    await ses.play();
+  } catch (hata) {
+    await yedekYolaGec(medyaId, ortak, hata.message);
+    return;
+  }
+
   ikon.textContent = '⏸';
-  ses.onended = () => { ikon.textContent = '▶'; URL.revokeObjectURL(url); calan = null; };
-  ses.play();
+  sayaciBasla(() => calan?.ses?.currentTime || 0);
+}
+
+// <audio> çalışmadığında: dosyayı baştan çöz ve Web Audio ile çal.
+async function yedekYolaGec(medyaId, ortak, neden) {
+  if (calan && calan.medyaId === medyaId) { clearInterval(calan.sayac); calan = null; }
+  console.warn('ses: yedek yola geçiliyor —', neden);
+
+  try {
+    const blob = await veri.medyaOku(medyaId);
+    if (!blob) throw new Error('dosya yok');
+    const ac = new (window.AudioContext || window.webkitAudioContext)();
+    const tampon = await ac.decodeAudioData(await blob.arrayBuffer());
+
+    const kaynak = ac.createBufferSource();
+    kaynak.buffer = tampon;
+    kaynak.connect(ac.destination);
+
+    const baslangic = ac.currentTime;
+    calan = { ...ortak, ac, kaynak };
+    kaynak.onended = () => calaniBirak();
+    kaynak.start();
+
+    ortak.ikon.textContent = '⏸';
+    sayaciBasla(() => Math.min(tampon.duration, (calan?.ac.currentTime || 0) - baslangic));
+  } catch (hata) {
+    URL.revokeObjectURL(ortak.url);
+    ortak.ikon.textContent = '▶';
+    if (ortak.sure) ortak.sure.textContent = ortak.ilkYazi;
+    calan = null;
+    kayitBildir(`Ses çalınamadı: ${hata.message}`, 'kotu');
+  }
 }
 
 // ------------------------------------------------------------ kayıt ekranı --
@@ -651,6 +741,20 @@ async function paneliCiz() {
     </div>
 
     <div class="panel">
+      <div class="panel-baslik">Harcamalar</div>
+      ${harcamalarPaneli()}
+    </div>
+
+    <div class="panel">
+      <div class="panel-baslik">Görünüm</div>
+      <div class="panel-not">Gündüz araç camından, gece otel odasında.
+      Otomatik'te telefonun kendi ayarını izler.</div>
+      <div class="secenekler" id="temaSecenek">
+        ${TEMALAR.map(t => `<button class="kucuk-dugme" data-tema="${t.id}">${t.ad}</button>`).join('')}
+      </div>
+    </div>
+
+    <div class="panel">
       <div class="panel-baslik">Eşitleme</div>
       <div class="panel-not">Akşam otelde: sen gönder, arkadaşın alsın. İnternet gerekmez —
       AirDrop iki telefon arasında doğrudan çalışır.</div>
@@ -696,6 +800,10 @@ async function paneliCiz() {
       <button class="eylem-dugme" id="btnPaket">Gerok paketi yükle</button>
     </div>
   `;
+
+  $('#btnHarcamaListe')?.addEventListener('click', harcamaDokumuAc);
+  $('#btnHarcamaEkle')?.addEventListener('click', fiyatSor);
+  temaSecenekleriniKur();
 
   $('#btnGunSonu').addEventListener('click', () => gunSonuAc(durum, tazele));
   $('#btnGonder').addEventListener('click', () => paketGonder(kayitBildir));
@@ -780,24 +888,183 @@ function kisiSor() {
 }
 
 function fiyatSor() {
+  // Son kullanılan para birimi hatırlanıyor: aynı ülkede her seferinde
+  // yeniden yazmak zorunda kalma.
+  const sonPara = durum.sonParaBirimi || '';
+
   ortuAc(`
-    <div class="ortu-baslik">Fiyat</div>
-    <div class="ortu-alt">"Belgrad'da kahve 120 dinar." On yıl sonra bu tek satır
-    bir sayfa yazıdan iyi anlatacak.</div>
-    <div class="girdi-etiket">Ne aldın?</div>
+    <div class="ortu-baslik">Harcama</div>
+    <div class="ortu-alt">Ne kadar parayı neye verdiğin yazılsın. Hem hesap tutar,
+    hem "Belgrad'da kahve 120 dinardı" on yıl sonra bir sayfa yazıdan iyi anlatır.</div>
+    <div class="girdi-etiket">Ne için?</div>
     <input class="girdi" id="fiyatNe" placeholder="Kahve, bilet, akşam yemeği…">
-    <div class="girdi-etiket">Kaça?</div>
+    <div class="girdi-etiket">Ne kadar?</div>
     <input class="girdi" id="fiyatTutar" placeholder="120" inputmode="decimal">
     <div class="girdi-etiket">Para birimi</div>
-    <input class="girdi" id="fiyatPara" placeholder="dinar, euro, lek, marka…">
+    <input class="girdi" id="fiyatPara" placeholder="dinar, euro, lek, marka…" value="${kacis(sonPara)}">
+    <div class="girdi-etiket">Kategori</div>
+    <div class="secenekler" id="fiyatKategori">
+      ${kayit.HARCAMA_KATEGORILERI.map((k, i) =>
+        `<button class="kucuk-dugme ${i === 0 ? 'secili' : ''}" data-kategori="${kacis(k)}">${kacis(k)}</button>`).join('')}
+    </div>
     <button class="eylem-dugme birincil" id="fiyatKaydet">Kaydet</button>
   `);
   setTimeout(() => $('#fiyatNe').focus(), 120);
+
+  $$('#fiyatKategori [data-kategori]').forEach(d => {
+    d.addEventListener('click', () => {
+      $$('#fiyatKategori [data-kategori]').forEach(x => x.classList.remove('secili'));
+      d.classList.add('secili');
+    });
+  });
+
   $('#fiyatKaydet').addEventListener('click', async () => {
     const ne = $('#fiyatNe').value, tutar = $('#fiyatTutar').value, para = $('#fiyatPara').value;
+    const kategori = $('#fiyatKategori .secili')?.dataset.kategori || '';
     ortuKapat();
-    if (await kayit.fiyatEkle(ne, tutar, para)) { kayitBildir('Kaydedildi.', 'iyi'); await tazele(); }
+    if (await kayit.fiyatEkle(ne, tutar, para, kategori)) {
+      durum.sonParaBirimi = para.trim();
+      await veri.ayarYaz('sonParaBirimi', durum.sonParaBirimi);
+      kayitBildir('Harcama kaydedildi.', 'iyi');
+      await tazele();
+    }
   });
+}
+
+// ------------------------------------------------------------------ tema --
+
+function temaSecenekleriniKur() {
+  const isaretle = () => {
+    const s = temaSecimi();
+    $$('#temaSecenek [data-tema]').forEach(d => d.classList.toggle('secili', d.dataset.tema === s));
+  };
+  $$('#temaSecenek [data-tema]').forEach(d => {
+    d.addEventListener('click', () => {
+      temaSec(d.dataset.tema);
+      isaretle();
+    });
+  });
+  isaretle();
+}
+
+// ------------------------------------------------------------- harcamalar --
+//
+// Kur çevirmesi YOK. Altı ülkede altı para birimi var ve kurlar internet ister;
+// uydurma bir kurla toplam vermektense her para birimi kendi başına toplanıyor.
+
+// "1.450" bin dört yüz elli, "12,5" on iki buçuk. Türkçe yazılışta nokta
+// binlik ayracı — düz parseFloat 1.450'yi 1,45 okuyup toplamı mahvediyor.
+// Kural: virgül varsa ondalık odur, noktalar atılır. Yalnızca nokta varsa ve
+// son öbek tam üç haneliyse binlik ayracıdır; değilse ondalıktır ("12.5").
+export function tutarSayi(metin) {
+  let s = String(metin ?? '').replace(/[^\d.,-]/g, '');
+  if (!s) return 0;
+
+  if (s.includes(',')) {
+    s = s.replace(/\./g, '').replace(',', '.');
+  } else {
+    const obekler = s.split('.');
+    if (obekler.length > 1 && obekler.slice(1).every(o => o.length === 3)) s = obekler.join('');
+  }
+  const n = parseFloat(s);
+  return Number.isFinite(n) ? n : 0;
+}
+
+function harcamalariTopla() {
+  const hepsi = durum.kayitlar.filter(k => k.tur === 'fiyat');
+  const sayi = tutarSayi;
+
+  const paralar = new Map();     // para birimi → toplam
+  const kategoriler = new Map(); // kategori → { para → toplam }
+  const gunler = new Map();      // gün → { para → toplam }
+
+  for (const k of hepsi) {
+    const p = (k.paraBirimi || '—').trim() || '—';
+    const t = sayi(k.tutar);
+    paralar.set(p, (paralar.get(p) || 0) + t);
+
+    const kat = k.kategori || 'Diğer';
+    if (!kategoriler.has(kat)) kategoriler.set(kat, new Map());
+    const kp = kategoriler.get(kat);
+    kp.set(p, (kp.get(p) || 0) + t);
+
+    const g = k.gun ?? 'disi';
+    if (!gunler.has(g)) gunler.set(g, new Map());
+    const gp = gunler.get(g);
+    gp.set(p, (gp.get(p) || 0) + t);
+  }
+  return { hepsi, paralar, kategoriler, gunler };
+}
+
+function tutarYaz(harita) {
+  const satirlar = Array.from(harita.entries())
+    .filter(([, t]) => t > 0)
+    .sort((a, b) => b[1] - a[1])
+    .map(([p, t]) => `${t.toLocaleString('tr-TR', { maximumFractionDigits: 2 })} ${kacis(p)}`);
+  return satirlar.length ? satirlar.join(' · ') : '—';
+}
+
+function harcamalarPaneli() {
+  const { hepsi, paralar } = harcamalariTopla();
+  if (!hepsi.length) {
+    return `<div class="panel-not">Henüz harcama yok. Kayıt sekmesinden
+      <b>Harcama</b> ile ekle — her biri saatiyle zaman çizgisine de düşer.</div>
+      <button class="eylem-dugme" id="btnHarcamaEkle">Harcama ekle</button>`;
+  }
+  return `
+    <div class="panel-satir"><span class="etiket">Toplam</span>
+      <span class="deger">${tutarYaz(paralar)}</span></div>
+    <div class="panel-satir"><span class="etiket">Kayıt</span>
+      <span class="deger">${hepsi.length} harcama</span></div>
+    <button class="eylem-dugme" id="btnHarcamaListe">Dökümü gör</button>
+    <button class="eylem-dugme" id="btnHarcamaEkle">Harcama ekle</button>`;
+}
+
+function harcamaDokumuAc() {
+  const { hepsi, paralar, kategoriler, gunler } = harcamalariTopla();
+  const s = gerok.aktifGerok();
+
+  const gunAdi = (g) => {
+    if (g === 'disi') return 'Gerok dışı';
+    const gun = s?.gunler?.find(x => x.no === g);
+    return gun ? `Gün ${g} · ${gun.baslik}` : `Gün ${g}`;
+  };
+
+  const gunSirali = Array.from(gunler.keys()).sort((a, b) => {
+    if (a === 'disi') return 1;
+    if (b === 'disi') return -1;
+    return a - b;
+  });
+
+  ortuAc(`
+    <div class="ortu-baslik">Harcamalar</div>
+    <div class="ortu-alt">Toplam: <b>${tutarYaz(paralar)}</b><br>
+    Para birimleri ayrı toplanıyor — kur çevirmesi internet ister, uydurulmuyor.</div>
+
+    <div class="girdi-etiket">Kategoriye göre</div>
+    ${Array.from(kategoriler.entries()).map(([kat, p]) =>
+      `<div class="panel-satir"><span class="etiket">${kacis(kat)}</span>
+        <span class="deger">${tutarYaz(p)}</span></div>`).join('')}
+
+    <div class="girdi-etiket" style="margin-top:16px">Güne göre</div>
+    ${gunSirali.map(g =>
+      `<div class="panel-satir"><span class="etiket">${kacis(gunAdi(g))}</span>
+        <span class="deger">${tutarYaz(gunler.get(g))}</span></div>`).join('')}
+
+    <div class="girdi-etiket" style="margin-top:16px">Tek tek (${hepsi.length})</div>
+    <div class="harcama-liste">
+      ${hepsi.slice().reverse().map(k => `
+        <div class="harcama-satir">
+          <div class="harcama-sol">
+            <div class="harcama-ne">${kacis(k.metin)}</div>
+            <div class="harcama-alt">${k.gun ? `Gün ${k.gun} · ` : ''}${kacis(gerok.saat(k.t))}${k.kategori ? ` · ${kacis(k.kategori)}` : ''} · ${kacis(k.sahipAd || '')}</div>
+          </div>
+          <div class="harcama-tutar">${kacis(k.tutar || '—')} ${kacis(k.paraBirimi || '')}</div>
+        </div>`).join('')}
+    </div>
+    <button class="eylem-dugme" id="harcamaKapat">Kapat</button>
+  `);
+  $('#harcamaKapat').addEventListener('click', ortuKapat);
 }
 
 async function haritaIndirmeSor() {

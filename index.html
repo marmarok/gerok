@@ -12,6 +12,16 @@
 <link rel="apple-touch-icon" href="ikon/ikon-180.png">
 <link rel="stylesheet" href="vendor/maplibre-gl.css">
 <link rel="stylesheet" href="css/stil.css">
+<script>
+  // Tema, sayfa boyanmadan uygulanıyor. Modüller yüklenene kadar beklenirse
+  // açılışta bir an ters renk çakıyor. Ayrıntı: js/tema.js
+  try {
+    var s = localStorage.getItem('gerokTema') || 'otomatik';
+    document.documentElement.dataset.tema =
+      (s === 'acik' || s === 'koyu') ? s
+        : (matchMedia('(prefers-color-scheme: light)').matches ? 'acik' : 'koyu');
+  } catch (e) { document.documentElement.dataset.tema = 'koyu'; }
+</script>
 </head>
 <body>
 
@@ -81,7 +91,7 @@
       </div>
       <div class="dugme-satir">
         <button id="btnKisi" class="orta-dugme"><span>👤</span>Tanıştık</button>
-        <button id="btnFiyat" class="orta-dugme"><span>🧾</span>Fiyat</button>
+        <button id="btnFiyat" class="orta-dugme"><span>🧾</span>Harcama</button>
       </div>
       <div class="dugme-satir">
         <button id="btnFoto" class="orta-dugme genis"><span>🖼</span>Fotoğraf ekle</button>
