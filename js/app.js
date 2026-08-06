@@ -407,10 +407,16 @@ function sayaciBasla(gecenSaniye) {
   calan.sayac = setInterval(() => {
     if (!calan) return;
     if (calanKoptuMu()) { calaniBirak(); return; }
+    // Parmak çubuğun üstündeyken sayaç karışmıyor: ne çubuğu geri itiyor
+    // ne de yazıyı. Yazıyı da susturmak gerekiyordu — yoksa sürüklerken
+    // "kaçıncı saniyedeyim" bilgisi 200 ms'de bir çalan sesin saniyesiyle
+    // eziliyor ve çubuk nereye gittiği görünmüyordu (simülatörde yakalandı).
+    if (calan.cubuk?.dataset.tutuluyor === '1') return;
+
     const gecen = gecenSaniye();
     const toplam = calan.toplam || 0;
     if (calan.sure) calan.sure.textContent = `${sureYaz(gecen)} / ${sureYaz(toplam)}`;
-    if (calan.cubuk && toplam > 0 && calan.cubuk.dataset.tutuluyor !== '1') {
+    if (calan.cubuk && toplam > 0) {
       calan.cubuk.value = Math.round(Math.min(1, gecen / toplam) * 1000);
     }
   }, 200);

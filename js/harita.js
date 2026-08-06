@@ -241,16 +241,7 @@ export async function haritaKur() {
     // tuval eski boyutta kalıp haritanın bir kısmı boş görünüyor.
     new ResizeObserver(() => harita.resize()).observe(kap);
 
-    // Durak iğnesine dokunma. Katman adına bağlanıyor, katman sonradan
-    // eklense de (ve kip değişince yeniden kurulsa da) çalışmaya devam eder.
-    // Dokunma hedefi iğneden biraz geniş: araç sallanırken 12 piksel az.
-    harita.on('click', (olay) => {
-      if (!durakTiklandi || !harita.getLayer('durak-halka')) return;
-      const p = olay.point;
-      const kutu = [[p.x - 14, p.y - 14], [p.x + 14, p.y + 14]];
-      const bulunan = harita.queryRenderedFeatures(kutu, { layers: ['durak-halka'] });
-      if (bulunan.length) durakTiklandi(bulunan[0].properties.id);
-    });
+    durakDokunmasiniKur(kap);
 
     kaynakYazisiTazele();
     rotayiCiz();
@@ -406,6 +397,56 @@ function rotayiCiz() {
 // Haritadaki bir durağa dokunulunca çağrılacak işlev (app.js kaydediyor).
 let durakTiklandi = null;
 export function durakTiklamasi(fn) { durakTiklandi = fn; }
+
+// Durak iğnesine dokunma.
+//
+// MapLibre'nin `map.on('click')` olayına bağlanmıyoruz ve kabın DOM
+// `click`ini de tek başına yeterli saymıyoruz: iPhone'da (simülatörde
+// denendi, hiç ateşlenmedi) harita üzerindeki parmak dokunuşu DOM tıklaması
+// üretmiyor — MapLibre dokunma olaylarını kendine alıp varsayılanı
+// engelliyor, iOS de o durumda tıklama sentezlemiyor. Bu yüzden dokunma
+// doğrudan dinleniyor; `click` yalnızca fare için duruyor.
+function durakDokunmasiniKur(kap) {
+  let basim = null;
+  let sonDokunma = 0;
+
+  const sorgula = (ekranX, ekranY) => {
+    if (!durakTiklandi || !harita?.getLayer('durak-halka')) return;
+    const alan = harita.getCanvas().getBoundingClientRect();
+    const x = ekranX - alan.left, y = ekranY - alan.top;
+    if (x < 0 || y < 0 || x > alan.width || y > alan.height) return;
+
+    // Dokunma hedefi iğneden çok geniş: iğne 11 piksel, parmak ucu 40'a
+    // yakın. Araç sallanırken küçük bir daireyi tutturmak imkânsıza yakın.
+    const bulunan = harita.queryRenderedFeatures(
+      [[x - 24, y - 24], [x + 24, y + 24]], { layers: ['durak-halka'] });
+    if (bulunan.length) durakTiklandi(bulunan[0].properties.id);
+  };
+
+  kap.addEventListener('touchstart', (o) => {
+    basim = o.touches.length === 1
+      ? { x: o.touches[0].clientX, y: o.touches[0].clientY, an: Date.now() }
+      : null;
+  }, { passive: true });
+
+  kap.addEventListener('touchend', (o) => {
+    const b = basim; basim = null;
+    if (!b || o.changedTouches.length !== 1) return;
+    const p = o.changedTouches[0];
+    // Kaydırma ve yakınlaştırma dokunuş sayılmıyor; basılı tutma da değil.
+    if (Math.hypot(p.clientX - b.x, p.clientY - b.y) > 14) return;
+    if (Date.now() - b.an > 700) return;
+    sonDokunma = Date.now();
+    sorgula(p.clientX, p.clientY);
+  }, { passive: true });
+
+  // Fare için. Dokunuştan hemen sonra gelen sentetik tıklama iki kez
+  // çalışmasın diye kısa bir pencere bırakılıyor.
+  kap.addEventListener('click', (o) => {
+    if (Date.now() - sonDokunma < 700) return;
+    sorgula(o.clientX, o.clientY);
+  });
+}
 
 export function haritaGuncelle(kayitlar, izNoktalari) {
   sonVeri = { kayitlar, iz: izNoktalari };
