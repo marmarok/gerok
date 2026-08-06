@@ -687,9 +687,29 @@ function yaklasmaUyarisi(durak, uzaklik) {
   $('#uyariTamam').addEventListener('click', ortuKapat);
 }
 
+// Uyarı sesi için ses düzeneği.
+//
+// iOS'ta AudioContext yalnızca bir DOKUNUŞ sırasında açılırsa çalabiliyor;
+// sonradan kendiliğinden çalmak isteyince askıda kalıp sessiz kalıyor.
+// iPhone'da navigator.vibrate de yok. Yani Yol Modu açılırken burayı
+// hazırlamazsak durağa yaklaşma uyarısı sessiz gelir — oysa bütün amacı
+// ekrana bakmadan fark ettirmek.
+let sesDuzenegi = null;
+
+export async function sesDuzenegiHazirla() {
+  try {
+    if (!sesDuzenegi) sesDuzenegi = new (window.AudioContext || window.webkitAudioContext)();
+    if (sesDuzenegi.state === 'suspended') await sesDuzenegi.resume();
+    return sesDuzenegi.state === 'running';
+  } catch {
+    return false;
+  }
+}
+
 function uyariSesi() {
   try {
-    const ac = new (window.AudioContext || window.webkitAudioContext)();
+    const ac = sesDuzenegi || new (window.AudioContext || window.webkitAudioContext)();
+    if (ac.state === 'suspended') ac.resume().catch(() => {});
     [0, 0.18, 0.36].forEach((gecikme, i) => {
       const o = ac.createOscillator(), g = ac.createGain();
       o.frequency.value = [660, 880, 660][i];
@@ -710,13 +730,15 @@ async function yolModuDegistir() {
 
   if (durum.yolModu) {
     iz.basla();
+    // Dokunuş hâlâ sürüyorken ses düzeneğini aç — sonra uyarı sessiz kalmasın.
+    const sesVar = await sesDuzenegiHazirla();
     try {
       durum.uyanikKilit = await navigator.wakeLock?.request('screen');
       durum.uyanikKilit?.addEventListener('release', () => { durum.uyanikKilit = null; });
     } catch { /* Wake Lock yoksa ekran normal davranır */ }
     $('#btnYolModu .yol-alt').textContent =
-      durum.uyanikKilit ? 'Açık — ekran sönmeyecek, duraklara yaklaşınca uyaracak'
-                        : 'Açık — uyarılar çalışıyor (ekran kilidi bu cihazda yok)';
+      (durum.uyanikKilit ? 'Açık — ekran sönmeyecek' : 'Açık') +
+      (sesVar ? ', durağa yaklaşınca sesle uyaracak' : ', uyarı ekranda çıkacak (ses açılamadı)');
     kayitBildir('Yol Modu açık. Telefonu şarjda tut.', 'iyi');
   } else {
     durum.uyanikKilit?.release();
