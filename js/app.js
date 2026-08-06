@@ -992,6 +992,57 @@ function duraklariCiz() {
 
 let nisanAcik = false;
 
+// Hangi sürümü çalıştırdığımız. Servis worker dosyaları "gerok-YYYYAAGG-ssdd"
+// adlı bir önbelleğe koyuyor; o adı okumak "şu an gerçekten hangi dosyalar
+// çalışıyor" sorusunun en dürüst cevabı — sabit bir yazıya güvenmiyoruz.
+async function calisanSurum() {
+  if (!('caches' in window)) return null;
+  const adlar = await caches.keys();
+  return adlar.find(a => a.startsWith('gerok-')) || null;
+}
+
+function surumOku(ad) {
+  const p = /^gerok-(\d{4})(\d{2})(\d{2})-(\d{2})(\d{2})/.exec(ad || '');
+  return p ? `${p[3]}.${p[2]}.${p[1]} ${p[4]}:${p[5]}` : (ad || 'bilinmiyor');
+}
+
+async function surumuYaz() {
+  const yer = $('#surumYazi');
+  if (!yer) return;
+  const ad = await calisanSurum();
+  yer.textContent = ad ? surumOku(ad) : 'çevrimdışı kurulmamış';
+}
+
+// Elle güncelleme yoklaması. Kendiliğinden sayfa yenilemiyoruz (kayıt sırasında
+// olursa kaydı uçurur), onun yerine yenisi indiyse "kapat aç" diyoruz.
+async function surumuAra() {
+  const tus = $('#btnSurum');
+  if (tus) { tus.disabled = true; tus.textContent = 'Bakılıyor…'; }
+  const oncekiler = ('caches' in window) ? await caches.keys() : [];
+
+  try {
+    const kayit = await navigator.serviceWorker?.getRegistration();
+    if (!kayit) throw new Error('çevrimdışı kurulum yok');
+    await kayit.update();
+    // Yeni servis worker kurulup önbelleğini yazana kadar biraz bekliyoruz.
+    await new Promise(r => setTimeout(r, 2500));
+
+    const sonrakiler = await caches.keys();
+    const yeni = sonrakiler.find(a => a.startsWith('gerok-') && !oncekiler.includes(a));
+    if (yeni) {
+      kayitBildir(`Yeni sürüm indi: ${surumOku(yeni)}. Uygulamayı tamamen kapatıp aç.`, 'iyi');
+    } else {
+      kayitBildir('Zaten en son sürümdesin.', 'iyi');
+    }
+  } catch (h) {
+    // Yolda internet yok — bu bir hata değil, uygulama önbellekten çalışıyor.
+    kayitBildir(`Bakılamadı (${h.message}). İnternet varken dene.`, 'kotu');
+  }
+
+  if (tus) { tus.disabled = false; tus.textContent = 'Yeni sürüm var mı?'; }
+  surumuYaz();
+}
+
 function durakKoymaKipi(ac) {
   nisanAcik = !!ac;
   $('#haritaNisan').classList.toggle('gizli', !ac);
@@ -1339,7 +1390,18 @@ async function paneliCiz() {
       varsa buradan yüklenir. Zorunlu değil — tur elle de başlatılabiliyor.</div>
       <button class="eylem-dugme" id="btnPaket">Gerok paketi yükle</button>
     </div>
+
+    <div class="panel">
+      <div class="panel-baslik">Sürüm</div>
+      <div class="panel-not">Telefonundaki uygulamanın tarihi. İki telefonda da
+      aynı olmalı. Yeni sürüm varsa uygulamayı tamamen kapatıp aç.</div>
+      <div class="panel-satir"><span class="etiket">Yüklü sürüm</span>
+        <span class="deger" id="surumYazi">bakılıyor…</span></div>
+      <button class="eylem-dugme" id="btnSurum">Yeni sürüm var mı?</button>
+    </div>
   `;
+
+  surumuYaz();
 
   $('#btnHarcamaListe')?.addEventListener('click', harcamaDokumuAc);
   $('#btnHarcamaEkle')?.addEventListener('click', fiyatSor);
@@ -1357,6 +1419,7 @@ async function paneliCiz() {
   $('#btnTurlar').addEventListener('click', turlariYonet);
   $('#btnYeniTur').addEventListener('click', () => yeniTurSor());
   $('#btnHarita').addEventListener('click', haritaIndirmeSor);
+  $('#btnSurum').addEventListener('click', surumuAra);
   $('#btnKalici')?.addEventListener('click', async () => {
     const s = await veri.kaliciDepolamaIste();
     kayitBildir(s.kalici ? 'Kalıcı depolama açıldı.' : 'iOS şimdilik vermedi — yedek almayı ihmal etme.',
