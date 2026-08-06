@@ -649,7 +649,9 @@ function kayitDugmeleriniKur() {
     durakKoymaKipi($('#haritaNisan').classList.contains('gizli')));
   $('#durakVazgec').addEventListener('click', () => durakKoymaKipi(false));
   $('#durakKoy').addEventListener('click', durakNoktasiOnayla);
-  durakTiklamasi(durakKartiAc);
+  // Nişangâh açıkken iğneye dokunmak durak kartını açmasın: o an amaç yeni
+  // durak koymak, kartın üstüne binmesi kafa karıştırıyor.
+  durakTiklamasi((id) => { if (!nisanAcik) durakKartiAc(id); });
 
   $('#haritaBenim').addEventListener('click', () => konumaGit(iz.sonBilinenKonum()));
   $('#haritaHepsi').addEventListener('click', hepsiniGoster);
@@ -982,7 +984,10 @@ function duraklariCiz() {
 // kaydırılıyor, basılı tutma ikisini birbirine karıştırıyor. Nişangâh
 // tek elle, araç sallanırken de isabetli.
 
+let nisanAcik = false;
+
 function durakKoymaKipi(ac) {
+  nisanAcik = !!ac;
   $('#haritaNisan').classList.toggle('gizli', !ac);
   $('#haritaEkleBar').classList.toggle('gizli', !ac);
   $('#haritaDurak').classList.toggle('secili', ac);
