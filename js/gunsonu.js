@@ -155,9 +155,14 @@ async function siradanAdimi(durum) {
     secici.addEventListener('change', async () => {
       if (!secici.files.length) return;
       $('#siradanDurum').textContent = 'Ekleniyor…';
-      await kayit.fotoAl(secici.files, null, 'siradan');
-      $('#siradanDurum').textContent = 'Eklendi.';
-      navigator.vibrate?.([8, 40, 8]);
+      try {
+        await kayit.fotoAl(secici.files, null, 'siradan');
+        $('#siradanDurum').textContent = 'Eklendi.';
+        navigator.vibrate?.([8, 40, 8]);
+      } catch (hata) {
+        // Akış burada takılı kalmasın; "Devam" hep basılabilir olsun.
+        $('#siradanDurum').textContent = `Eklenemedi: ${hata.message}`;
+      }
     });
     secici.click();
   };
@@ -220,14 +225,20 @@ async function fotografAdimi(durum) {
     secici.multiple = true;
     secici.addEventListener('change', async () => {
       if (!secici.files.length) return;
-      const eklenenler = await kayit.fotoAl(secici.files, (yapilan, toplam) => {
-        $('#fotoDurum').textContent = `${yapilan} / ${toplam}`;
-      });
-      const yersiz = eklenenler.filter(k => k.lat == null).length;
-      $('#fotoDurum').textContent = yersiz
-        ? `${eklenenler.length} eklendi. ${yersiz} tanesinin yeri bulunamadı — o saatlerde iz kapalıymış.`
-        : `${eklenenler.length} eklendi, hepsi haritaya yerleşti.`;
-      navigator.vibrate?.([8, 40, 8]);
+      try {
+        const eklenenler = await kayit.fotoAl(secici.files, (yapilan, toplam) => {
+          $('#fotoDurum').textContent = `${yapilan} / ${toplam}`;
+        });
+        const yersiz = eklenenler.filter(k => k.lat == null).length;
+        const atlanan = kayit.sonBasarisizlar().length;
+        $('#fotoDurum').textContent =
+          `${eklenenler.length} eklendi` +
+          (yersiz ? `. ${yersiz} tanesinin yeri bulunamadı — o saatlerde iz kapalıymış.` : ', hepsi haritaya yerleşti.') +
+          (atlanan ? ` ${atlanan} dosya alınamadı.` : '');
+        navigator.vibrate?.([8, 40, 8]);
+      } catch (hata) {
+        $('#fotoDurum').textContent = `Eklenemedi: ${hata.message}`;
+      }
     });
     secici.click();
   };
