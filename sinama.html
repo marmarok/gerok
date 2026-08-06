@@ -210,8 +210,16 @@ function bitir() {
   document.getElementById('basla').textContent = 'Yeniden sına';
 }
 
-document.getElementById('basla').addEventListener('click', () => {
-  sina().catch(h => yaz('kotu', 'Sınama çöktü', h.message));
+// Çift dokunuşta iki sınama üst üste binip sonucu karıştırmasın.
+let calisiyor = false;
+document.getElementById('basla').addEventListener('click', async () => {
+  if (calisiyor) return;
+  calisiyor = true;
+  document.getElementById('basla').disabled = true;
+  try { await sina(); }
+  catch (h) { yaz('kotu', 'Sınama çöktü', h.message); bitir(); }
+  calisiyor = false;
+  document.getElementById('basla').disabled = false;
 });
 </script>
 </body>
