@@ -1942,8 +1942,20 @@ function bosDurum(ikon, yazi) {
 
 // --------------------------------------------------------------- servis worker -
 
+// Yeni sürüm telefona daha çabuk insin diye güncelleme açılışta ve uygulamaya
+// her dönüşte elle soruluyor; iOS Safari kendi başına aramakta ağır davranıyor.
+// Bilerek SAYFA KENDİLİĞİNDEN YENİLENMİYOR: yolda yeni sürüm çıkmayacak
+// (bilgisayar evde), buna karşılık kendiliğinden yenileme sesli not kaydının
+// tam ortasına denk gelse kaydı uçururdu. Yeni dosyalar bir sonraki açılışta
+// zaten devreye giriyor. Yolda internet yoksa update() sessizce düşer.
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js').catch(e => console.warn('sw kaydı olmadı', e));
+  navigator.serviceWorker.register('sw.js').then((kayit) => {
+    const sor = () => kayit.update().catch(() => {});
+    sor();
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') sor();
+    });
+  }).catch(e => console.warn('sw kaydı olmadı', e));
 }
 
 baslat();
