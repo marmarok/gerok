@@ -11,12 +11,11 @@
 
 const YAZI = 'yazi/{fontstack}/{range}.pbf';
 
-// Tabelada ne yazıyorsa haritada da o yazsın. Ama "Скопје" tek başına bir şey
+// Tabelada ne yazıyorsa haritada da o yazsın. Ama "Москва" tek başına bir şey
 // söylemiyor — Kiril/Yunan yazılı adların ALTINA okunabilir karşılığı düşüyor.
 //
 // İkinci satır yalnızca yazı Latin DEĞİLKEN ekleniyor. Latin adlarda eklenseydi
-// OSM'deki tuhaf çeviriler de gelirdi (Podgorica'nın Türkçesi "Böğürtlen"
-// yazıyor) — okunabilen bir adı bozmanın anlamı yok.
+// OSM'deki tuhaf çeviriler de gelirdi — okunabilen bir adı bozmanın anlamı yok.
 const YER_ADI = [
   'case',
   ['all',

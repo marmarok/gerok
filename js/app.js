@@ -1437,7 +1437,7 @@ function fiyatSor() {
   ortuAc(`
     <div class="ortu-baslik">Harcama</div>
     <div class="ortu-alt">Ne kadar parayı neye verdiğin yazılsın. Hem hesap tutar,
-    hem "Belgrad'da kahve 120 dinardı" on yıl sonra bir sayfa yazıdan iyi anlatır.</div>
+    hem "kahve 120 dinardı" on yıl sonra bir sayfa yazıdan iyi anlatır.</div>
     <div class="girdi-etiket">Ne için?</div>
     <input class="girdi" id="fiyatNe" placeholder="Kahve, bilet, akşam yemeği…">
     <div class="girdi-etiket">Ne kadar?</div>
