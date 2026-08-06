@@ -5,3 +5,8 @@ deneme/
 *.gerok.json
 *.pmtiles
 .DS_Store
+
+# 357 MB harita yayına girmiyor — GitHub Pages dağıtımını zaman aşımına uğratıyordu.
+# Dosyalar depoda "harita-v1" etiketinde duruyor ve raw.githubusercontent
+# üzerinden indiriliyor (bkz. js/harita.js).
+harita/

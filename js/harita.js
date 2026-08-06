@@ -15,13 +15,37 @@ import { stilUret, BOS_STIL, KIPLER } from './harita-stil.js';
 
 export { KIPLER };
 
-// Harita, uygulamayla AYNI adreste, parçalar halinde duruyor.
+// Harita parçalarının adresi.
 //
-// Neden Release değil: GitHub'ın release dosya sunucusu CORS başlığı vermiyor,
-// tarayıcı indirmeyi engelliyor (denendi, "Failed to fetch"). Aynı kökenden
-// sunulunca böyle bir sorun kalmıyor.
-// Neden parçalı: git'in dosya başına 100 MB sınırı var, harita 357 MB.
-export const HARITA_KLASORU = 'harita';
+// Neden burada, uygulamanın yanında değil: 357 MB'lık klasör yayının içinde
+// olunca GitHub Pages dağıtımı 10 dakikalık sınırı aşıp sürekli başarısız oldu
+// (beş üst üste "Timeout reached"). Harita depoda duruyor ama yayına girmiyor;
+// dosyalar raw.githubusercontent üzerinden, DEĞİŞMEZ bir etiketten çekiliyor.
+// raw CORS başlığı veriyor (denendi: access-control-allow-origin: *) —
+// Release dosya sunucusu vermiyordu, o yüzden o yol kapalıydı.
+// Neden parçalı: git'in dosya başına 100 MB sınırı var.
+//
+// Harita yenilenirse: dosyaları depoya koy, `harita-v2` etiketi at, buradaki
+// adresi güncelle. Eski etiket eski sürümü sunmaya devam eder.
+const HARITA_UZAK = 'https://raw.githubusercontent.com/marmarok/gerok/harita-v1/harita';
+const HARITA_YEREL = 'harita';
+
+export let HARITA_KLASORU = HARITA_UZAK;
+
+// Parça listesi hangi adresten geliyorsa parçalar da oradan inecek.
+// Yerel kopya varsa (kendi sunucusunda barındıran biri) o tercih edilir.
+async function haritaAdresiSec() {
+  for (const kok of [HARITA_YEREL, HARITA_UZAK]) {
+    try {
+      const y = await fetch(`${kok}/parcalar.json`, { method: 'GET' });
+      if (y.ok) {
+        HARITA_KLASORU = kok;
+        return { kok, bilgi: await y.json() };
+      }
+    } catch { /* sonrakini dene */ }
+  }
+  throw new Error('Parça listesi hiçbir adresten alınamadı');
+}
 
 const PMTILES_IMZASI = 'PMTiles';
 
@@ -83,9 +107,7 @@ export async function haritaVarMi() {
 export async function haritaIndir(ilerleme) {
   const { ayarYaz } = await import('./veri.js');
 
-  const liste = await fetch(`${HARITA_KLASORU}/parcalar.json`);
-  if (!liste.ok) throw new Error(`Parça listesi alınamadı (${liste.status})`);
-  const bilgi = await liste.json();
+  const { bilgi } = await haritaAdresiSec();
 
   // İndirme yarıda kesilirse tamamlanmış parçalar duruyor — onlar yeniden inmez.
   // 357 MB'ın tek seferde inmesini şart koşmuyoruz: telefon uykuya dalsa,
