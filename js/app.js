@@ -156,7 +156,7 @@ function zamanCizgisiCiz() {
   kap.innerHTML = html;
 
   kap.querySelectorAll('[data-ses]').forEach(d => {
-    d.addEventListener('click', () => sesCal(d.dataset.ses, d, d.dataset.bicim));
+    d.addEventListener('click', () => sesCal(d.dataset.ses, d, d.dataset.bicim, +d.dataset.sure || 0));
   });
   kap.querySelectorAll('[data-onizleme]').forEach(async (d) => {
     const url = await veri.medyaUrl(d.dataset.onizleme, 'image/jpeg');
@@ -185,7 +185,7 @@ function kayitSatiri(k) {
   if (k.tur === 'kisi' && k.not) govde += `<div class="kayit-yer">${kacis(k.not)}</div>`;
 
   if (k.medyaId && ['ses', 'ortam', 'gunluk', 'baslangic', 'bitis', 'mektup'].includes(k.tur)) {
-    govde += `<button class="ses-oynat" data-ses="${k.medyaId}" data-bicim="${kacis(k.bicim || '')}">
+    govde += `<button class="ses-oynat" data-ses="${k.medyaId}" data-bicim="${kacis(k.bicim || '')}" data-sure="${k.sure || 0}">
       <span class="ikon">▶</span><span class="sure">${sureYaz(k.sure)}</span>
     </button>`;
   }
@@ -281,7 +281,7 @@ function sayaciBasla(gecenSaniye) {
   }, 200);
 }
 
-async function sesCal(medyaId, dugme, bicim = '') {
+async function sesCal(medyaId, dugme, bicim = '', kayitliSure = 0) {
   // Aynı kayda ikinci dokunuş: duraklat ya da devam et.
   if (calan && calan.medyaId === medyaId) {
     const duruyor = calan.ses ? calan.ses.paused : calan.ac.state === 'suspended';
@@ -308,7 +308,17 @@ async function sesCal(medyaId, dugme, bicim = '') {
   ses.src = url;
   calan = { ...ortak, ses };
 
-  ses.onended = () => calaniBirak();
+  // iOS'un ürettiği mp4'te süre bilgisi çoğu zaman yanlış: <audio> kaydın
+  // ortasında "bitti" deyip susuyor. Kaydın gerçek süresine göre erken bittiyse
+  // dosyayı baştan çözen yedek yola geçiliyor.
+  ses.onended = () => {
+    const calinan = ses.currentTime || 0;
+    if (kayitliSure > 2 && calinan < kayitliSure - 1.5) {
+      yedekYolaGec(medyaId, ortak, `erken bitti (${calinan.toFixed(1)}/${kayitliSure} sn)`);
+    } else {
+      calaniBirak();
+    }
+  };
   ses.onerror = () => yedekYolaGec(medyaId, ortak, 'dosya <audio> ile açılamadı');
 
   try {
@@ -344,6 +354,7 @@ async function yedekYolaGec(medyaId, ortak, neden) {
 
     ortak.ikon.textContent = '⏸';
     sayaciBasla(() => Math.min(tampon.duration, (calan?.ac.currentTime || 0) - baslangic));
+    kayitBildir(`Ses çözülerek çalınıyor · ${sureYaz(tampon.duration)}`);
   } catch (hata) {
     URL.revokeObjectURL(ortak.url);
     ortak.ikon.textContent = '▶';
@@ -1156,13 +1167,24 @@ export function ortuKapat() {
   $('#ortuIc').innerHTML = '';
 }
 
+// Bildirimler ekranın üstünde yüzen bir şeritte gösteriliyor. Önce yalnızca
+// Kayıt ekranındaki satıra yazılıyordu; başka bir sekmedeyken hata mesajı
+// hiç görünmüyordu — ses çalmayınca sebebi de görünmüyordu.
 export function kayitBildir(mesaj, sinif = '') {
   const e = $('#kayitDurum');
-  if (!e) return;
-  e.textContent = mesaj;
-  e.className = `kayit-durum ${sinif}`;
-  clearTimeout(e._sayac);
-  e._sayac = setTimeout(() => { e.textContent = ''; e.className = 'kayit-durum'; }, 5000);
+  if (e) {
+    e.textContent = mesaj;
+    e.className = `kayit-durum ${sinif}`;
+    clearTimeout(e._sayac);
+    e._sayac = setTimeout(() => { e.textContent = ''; e.className = 'kayit-durum'; }, 5000);
+  }
+
+  const t = $('#bildirim');
+  if (!t) return;
+  t.textContent = mesaj;
+  t.className = `bildirim ${sinif}`;
+  clearTimeout(t._sayac);
+  t._sayac = setTimeout(() => t.classList.add('gizli'), sinif === 'kotu' ? 8000 : 4000);
 }
 
 function titret(desen) { try { navigator.vibrate?.(desen); } catch { /* desteklenmiyor */ } }

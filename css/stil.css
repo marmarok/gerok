@@ -256,6 +256,18 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
 .orta-dugme:active { background: var(--kat2); }
 .orta-dugme.genis { flex-direction: row; gap: 10px; }
 
+/* Alt bardan hemen yukarıda yüzen bildirim — her ekranda görünür. */
+.bildirim {
+  position: fixed; left: 14px; right: 14px; z-index: 90;
+  bottom: calc(var(--alt) + 74px);
+  background: var(--kat2); border: 1px solid var(--cizgi);
+  border-radius: 12px; padding: 12px 14px;
+  font-size: 13.5px; line-height: 1.45; text-align: center;
+  box-shadow: var(--golge);
+}
+.bildirim.iyi { border-color: var(--secili-cizgi); color: var(--yesil); }
+.bildirim.kotu { border-color: var(--kirmizi); color: var(--kirmizi); }
+
 .kayit-durum { text-align: center; font-size: 13px; color: var(--soluk); min-height: 20px; padding-top: 6px; }
 .kayit-durum.iyi { color: var(--yesil); }
 .kayit-durum.kotu { color: var(--kirmizi); }
