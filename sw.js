@@ -4,7 +4,7 @@
 
 // DİKKAT: her yayında bu sürüm değişmeli, yoksa telefonlar eski dosyaları
 // önbellekten sunmaya devam eder. arac/yayinla.sh bunu kendiliğinden günceller.
-const SURUM = 'gerok-20260806-020501';
+const SURUM = 'gerok-20260806-084841';
 
 const DOSYALAR = [
   './',
@@ -18,8 +18,26 @@ const DOSYALAR = [
   './js/gerok.js',
   './js/kayit.js',
   './js/harita.js',
+  './js/harita-stil.js',
   './js/gunsonu.js',
   './js/esitleme.js',
+  // Harita yazı tipleri. Bunlar olmadan haritada tek bir yer adı görünmez.
+  './yazi/noto-regular/0-255.pbf',
+  './yazi/noto-regular/256-511.pbf',
+  './yazi/noto-regular/512-767.pbf',
+  './yazi/noto-regular/768-1023.pbf',
+  './yazi/noto-regular/1024-1279.pbf',
+  './yazi/noto-regular/7680-7935.pbf',
+  './yazi/noto-regular/8192-8447.pbf',
+  './yazi/noto-regular/8448-8703.pbf',
+  './yazi/noto-medium/0-255.pbf',
+  './yazi/noto-medium/256-511.pbf',
+  './yazi/noto-medium/512-767.pbf',
+  './yazi/noto-medium/768-1023.pbf',
+  './yazi/noto-medium/1024-1279.pbf',
+  './yazi/noto-medium/7680-7935.pbf',
+  './yazi/noto-medium/8192-8447.pbf',
+  './yazi/noto-medium/8448-8703.pbf',
   './vendor/maplibre-gl.js',
   './vendor/maplibre-gl.css',
   './vendor/pmtiles.js',

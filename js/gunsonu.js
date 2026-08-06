@@ -11,13 +11,13 @@ import * as iz from './iz.js';
 import * as gerok from './gerok.js';
 import * as kayit from './kayit.js';
 import { paketGonder, yedekAl } from './esitleme.js';
+import { sesKaydiBaslat } from './app.js';
 
 const $ = (s) => document.querySelector(s);
 
 let adim = 0;
 let gun = null;
 let tazeleDisari = null;
-let sesSayaci = null;
 
 const ADIMLAR = ['ozet', 'gunluk', 'siradan', 'ufak', 'fotograf', 'kapanis'];
 
@@ -41,8 +41,6 @@ function ortu(html) {
   $('#ortu').onclick = null;            // akış yanlışlıkla kapanmasın
 }
 function kapat() {
-  clearInterval(sesSayaci);
-  kayit.sesIptal();
   $('#ortu').classList.add('gizli');
   $('#ortuIc').innerHTML = '';
 }
@@ -109,10 +107,10 @@ async function gunlukAdimi(durum) {
   ortu(`
     ${ustBilgi('Bugünden aklında ne kaldı?',
       'Otuz saniye yeter. On yıl sonra en çok bunu dinleyeceksin — fotoğrafları değil.')}
-    <div id="gunlukDurum" class="panel-not">Basılı tut, konuş, bırak.</div>
+    <div id="gunlukDurum" class="panel-not">Dokun ve konuş. Bitince "Durdur ve kaydet".</div>
     <button class="buyuk-dugme birincil" id="gunlukKayit" style="margin-top:14px">
       <span class="dugme-ikon">🎙</span>
-      <span class="dugme-ad" id="gunlukSure">Basılı tut</span>
+      <span class="dugme-ad">Konuşmaya başla</span>
     </button>
     <div class="gs-dugmeler">
       <button class="eylem-dugme" id="gsAtla">Atla</button>
@@ -120,42 +118,16 @@ async function gunlukAdimi(durum) {
     </div>
   `);
 
-  const dugme = $('#gunlukKayit');
-  let calisiyor = false;
-
-  dugme.addEventListener('pointerdown', async (e) => {
-    e.preventDefault();
-    try {
-      if (!await kayit.sesBasla()) return;
-      calisiyor = true;
-      navigator.vibrate?.(12);
-      sesSayaci = setInterval(() => {
-        const s = Math.floor(kayit.sesSuresi());
-        $('#gunlukSure').textContent = `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
-      }, 100);
-    } catch {
-      $('#gunlukDurum').textContent = 'Mikrofon izni yok. Ayarlar → Safari → Mikrofon.';
+  $('#gunlukKayit').addEventListener('click', () => sesKaydiBaslat('gunluk', {
+    ipucu: 'Bugünden aklında ne kaldı? Bitince "Durdur ve kaydet".',
+    bittiginde: (k) => {
+      const e = $('#gunlukDurum');
+      if (!e) return;
+      e.textContent = k
+        ? `Kaydedildi · ${Math.round(k.sure)} saniye. İstersen bir tane daha.`
+        : 'Çok kısaydı.';
     }
-  });
-
-  const bitir = async (e) => {
-    e.preventDefault();
-    if (!calisiyor) return;
-    calisiyor = false;
-    clearInterval(sesSayaci);
-    const k = await kayit.sesBitir('gunluk');
-    $('#gunlukSure').textContent = 'Basılı tut';
-    if (k) {
-      $('#gunlukDurum').textContent = `Kaydedildi · ${Math.round(k.sure)} saniye. İstersen bir tane daha.`;
-      navigator.vibrate?.([8, 40, 8]);
-    } else {
-      $('#gunlukDurum').textContent = 'Çok kısaydı.';
-    }
-  };
-  dugme.addEventListener('pointerup', bitir);
-  dugme.addEventListener('pointercancel', bitir);
-  dugme.addEventListener('pointerleave', bitir);
-  dugme.addEventListener('contextmenu', (e) => e.preventDefault());
+  }));
 
   $('#gsAtla').onclick = () => ilerle(durum);
   $('#gsIleri').onclick = () => ilerle(durum);
@@ -332,7 +304,7 @@ function ozelKayitAc({ tur, baslik, alt, tazele }) {
     <div class="ortu-alt">${alt}</div>
     <button class="buyuk-dugme birincil" id="ozelSes">
       <span class="dugme-ikon">🎙</span>
-      <span class="dugme-ad" id="ozelSure">Basılı tut, konuş</span>
+      <span class="dugme-ad">Konuşmaya başla</span>
     </button>
     <div class="girdi-etiket" style="margin-top:16px">Ya da yaz</div>
     <textarea class="alan" id="ozelYazi" placeholder="…"></textarea>
@@ -343,38 +315,14 @@ function ozelKayitAc({ tur, baslik, alt, tazele }) {
     </div>
   `);
 
-  const dugme = $('#ozelSes');
-  let calisiyor = false;
-
-  dugme.addEventListener('pointerdown', async (e) => {
-    e.preventDefault();
-    try {
-      if (!await kayit.sesBasla()) return;
-      calisiyor = true;
-      navigator.vibrate?.(12);
-      sesSayaci = setInterval(() => {
-        const s = Math.floor(kayit.sesSuresi());
-        $('#ozelSure').textContent = `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
-      }, 100);
-    } catch {
-      $('#ozelDurum').textContent = 'Mikrofon izni yok.';
+  $('#ozelSes').addEventListener('click', () => sesKaydiBaslat(tur, {
+    ipucu: `${baslik} · bitince "Durdur ve kaydet"`,
+    bittiginde: async (k) => {
+      const e = $('#ozelDurum');
+      if (e) e.textContent = k ? `Kaydedildi · ${Math.round(k.sure)} saniye.` : 'Çok kısaydı.';
+      if (k) await tazele?.();
     }
-  });
-
-  const bitir = async (e) => {
-    e.preventDefault();
-    if (!calisiyor) return;
-    calisiyor = false;
-    clearInterval(sesSayaci);
-    const k = await kayit.sesBitir(tur);
-    $('#ozelSure').textContent = 'Basılı tut, konuş';
-    $('#ozelDurum').textContent = k ? `Kaydedildi · ${Math.round(k.sure)} saniye.` : 'Çok kısaydı.';
-    if (k) { navigator.vibrate?.([8, 40, 8]); await tazele?.(); }
-  };
-  dugme.addEventListener('pointerup', bitir);
-  dugme.addEventListener('pointercancel', bitir);
-  dugme.addEventListener('pointerleave', bitir);
-  dugme.addEventListener('contextmenu', (e) => e.preventDefault());
+  }));
 
   $('#ozelKaydet').onclick = async () => {
     const metin = $('#ozelYazi').value.trim();

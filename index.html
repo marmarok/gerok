@@ -46,9 +46,16 @@
     <div id="haritaKap">
       <div id="harita"></div>
       <div id="haritaUyari" class="harita-uyari gizli"></div>
+      <div id="haritaKipler" class="harita-kipler">
+        <button data-kip="gunduz" class="kip secili">Gündüz</button>
+        <button data-kip="gece" class="kip">Gece</button>
+        <button data-kip="uydu" class="kip">Uydu</button>
+      </div>
+      <div id="haritaKaynak" class="harita-kaynak">© OpenStreetMap</div>
       <div class="harita-dugmeler">
         <button id="haritaBenim" class="yuvarlak" title="Konumuma git">◎</button>
         <button id="haritaHepsi" class="yuvarlak" title="Tüm rotayı göster">⤢</button>
+        <button id="haritaGoogle" class="yuvarlak" title="Google Haritalar'da aç">G</button>
       </div>
     </div>
   </section>
@@ -59,7 +66,7 @@
       <button id="btnSes" class="buyuk-dugme birincil">
         <span class="dugme-ikon">🎙</span>
         <span class="dugme-ad">Sesli not</span>
-        <span class="dugme-alt">Basılı tut, konuş, bırak</span>
+        <span class="dugme-alt" id="btnSesAlt">Dokun ve konuş · bitince Durdur'a bas</span>
       </button>
 
       <button id="btnOrtam" class="buyuk-dugme vurgu">
@@ -118,7 +125,11 @@
 <!-- Ses kaydı sırasında ekranı kaplayan geri bildirim -->
 <div id="sesKatman" class="ses-katman gizli">
   <div class="ses-halka"><div id="sesSure">0:00</div></div>
-  <div id="sesIpucu" class="ses-ipucu">Bırakınca kaydedilir</div>
+  <div id="sesIpucu" class="ses-ipucu">Kaydediliyor…</div>
+  <div class="ses-dugmeler">
+    <button id="sesDurdur" class="eylem-dugme birincil">■ Durdur ve kaydet</button>
+    <button id="sesVazgec" class="eylem-dugme">Vazgeç</button>
+  </div>
 </div>
 
 <input type="file" id="fotoSecici" accept="image/*,video/*" multiple hidden>

@@ -49,6 +49,12 @@ export async function paketUret({ sadeceGun = null } = {}) {
     }
   }
 
+  // Silme kararı da paketle gidiyor: bir kaydı silen kişi ötekinde de silmiş
+  // olsun, yoksa akşam eşitlemesinde sildiği şey geri geliyor.
+  const silinenler = (await veri.tumKayitlar())
+    .filter(k => k.silindi)
+    .map(k => ({ id: k.id, silinme: k.silinme || 0 }));
+
   return {
     paketSurum: PAKET_SURUM,
     uretim: Date.now(),
@@ -56,6 +62,7 @@ export async function paketUret({ sadeceGun = null } = {}) {
     cihaz: await veri.ayarOku('cihazKimligi'),
     kisi: await veri.ayarOku('kullaniciAdi'),
     kayitlar,
+    silinenler,
     iz: sadeceGun
       ? izNoktalari.filter(n => kayitlar.some(k => Math.abs(k.t - n.t) < 24 * 3600_000))
       : izNoktalari,
@@ -72,8 +79,16 @@ export async function paketUret({ sadeceGun = null } = {}) {
 export async function paketBirlestir(paket) {
   if (!paket?.paketSurum) throw new Error('Bu dosya bir Gerok paketi değil.');
 
-  const varOlanlar = new Set((await veri.kayitlariGetir()).map(k => k.id));
-  let yeniKayit = 0, yeniIz = 0, yeniMedya = 0;
+  // Silinmişler de sayılıyor: kimliği burada duran bir kayıt yeniden eklenmez.
+  const varOlanlar = new Set((await veri.tumKayitlar()).map(k => k.id));
+  let yeniKayit = 0, yeniIz = 0, yeniMedya = 0, silinen = 0;
+
+  // Önce silmeler: karşı tarafın sildiği kayıt bizde de gitsin.
+  for (const s of paket.silinenler || []) {
+    varOlanlar.add(s.id);
+    if (await veri.kayitYokEt(s.id)) silinen++;
+    else await veri.mezarTasiYaz(s.id, s.silinme);
+  }
 
   for (const [medyaId, m] of Object.entries(paket.medya || {})) {
     if (await veri.medyaOku(medyaId)) continue;
@@ -102,7 +117,7 @@ export async function paketBirlestir(paket) {
     }
   }
 
-  return { yeniKayit, yeniIz, yeniMedya, kisi: paket.kisi };
+  return { yeniKayit, yeniIz, yeniMedya, silinen, kisi: paket.kisi };
 }
 
 // ---- Gönderme (AirDrop) ---------------------------------------------------
@@ -147,10 +162,11 @@ export function paketAl(bildir, tazele) {
     try {
       const paket = JSON.parse(await dosya.text());
       const s = await paketBirlestir(paket);
+      const silNotu = s.silinen ? ` ${s.silinen} kayıt da silinmiş, burada da silindi.` : '';
       bildir?.(
         s.yeniKayit || s.yeniIz
-          ? `${s.kisi || 'Arkadaşın'} eklendi: ${s.yeniKayit} kayıt, ${s.yeniIz} iz noktası.`
-          : 'Bu paket zaten alınmış — hiçbir şey yinelenmedi.',
+          ? `${s.kisi || 'Arkadaşın'} eklendi: ${s.yeniKayit} kayıt, ${s.yeniIz} iz noktası.${silNotu}`
+          : `Bu paket zaten alınmış — hiçbir şey yinelenmedi.${silNotu}`,
         'iyi'
       );
       await tazele?.();

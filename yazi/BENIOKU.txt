@@ -1,0 +1,3 @@
+Bu klasördeki .pbf dosyaları Noto Sans yazı tipinin harita için
+hazırlanmış hâlleri (protomaps/basemaps-assets). Lisans: OFL.txt.
+Haritada yer adlarının görünmesi bunlara bağlı — silinmesin.

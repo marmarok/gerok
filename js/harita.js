@@ -11,6 +11,9 @@
 /* global maplibregl, pmtiles */
 import { aktifGerok, duraklar } from './gerok.js';
 import * as depo from './depo.js';
+import { stilUret, BOS_STIL, KIPLER } from './harita-stil.js';
+
+export { KIPLER };
 
 // Harita, uygulamayla AYNI adreste, parçalar halinde duruyor.
 //
@@ -25,6 +28,10 @@ const PMTILES_IMZASI = 'PMTiles';
 let harita = null;
 let kuruluyor = null;
 let pmt = null;
+let aktifKip = 'gunduz';
+// Kip değişince stil sıfırlanıyor, kendi katmanlarımız (iz, anılar, duraklar)
+// siliniyor. Yeniden çizebilmek için en son ne gösterdiğimizi tutuyoruz.
+let sonVeri = { kayitlar: [], iz: [] };
 
 // ---- Kayıtlı dosyayı pmtiles'a okutan kaynak ------------------------------
 // pmtiles yalnızca "şu konumdan şu kadar bayt ver" diyor; Blob.slice bunu
@@ -145,45 +152,21 @@ export async function haritaIndir(ilerleme) {
 
 // ---- Harita kurulumu ------------------------------------------------------
 
-const BOS_STIL = {
-  version: 8,
-  sources: {},
-  layers: [{ id: 'zemin', type: 'background', paint: { 'background-color': '#1c1917' } }]
-};
-
-// Protomaps verisinden sade, karanlık bir stil. Yazı tipi gömülü olmadığı için
-// etiketler ikonlarla değil, harita üstündeki katmanlarla taşınıyor.
-function stilUret() {
-  return {
-    version: 8,
-    sources: {
-      temel: { type: 'vector', url: 'pmtiles://harita' }
-    },
-    layers: [
-      { id: 'zemin', type: 'background', paint: { 'background-color': '#14120f' } },
-      { id: 'toprak', type: 'fill', source: 'temel', 'source-layer': 'earth',
-        paint: { 'fill-color': '#1e1b17' } },
-      { id: 'arazi', type: 'fill', source: 'temel', 'source-layer': 'landuse',
-        paint: { 'fill-color': '#232019', 'fill-opacity': 0.6 } },
-      { id: 'yesil', type: 'fill', source: 'temel', 'source-layer': 'landcover',
-        paint: { 'fill-color': '#1f2a1c', 'fill-opacity': 0.55 } },
-      { id: 'su', type: 'fill', source: 'temel', 'source-layer': 'water',
-        paint: { 'fill-color': '#16283a' } },
-      { id: 'yapilar', type: 'fill', source: 'temel', 'source-layer': 'buildings',
-        minzoom: 13, paint: { 'fill-color': '#312b25', 'fill-opacity': 0.8 } },
-      // Ağustos'ta Balkan güneşinde araç camından bakılacak: yollar sönük olamaz.
-      { id: 'yollar-kucuk', type: 'line', source: 'temel', 'source-layer': 'roads',
-        filter: ['!=', ['get', 'kind'], 'highway'], minzoom: 11,
-        paint: { 'line-color': '#635648',
-                 'line-width': ['interpolate', ['linear'], ['zoom'], 11, 0.7, 16, 3.5] } },
-      { id: 'yollar-ana', type: 'line', source: 'temel', 'source-layer': 'roads',
-        filter: ['==', ['get', 'kind'], 'highway'],
-        paint: { 'line-color': '#9a8468',
-                 'line-width': ['interpolate', ['linear'], ['zoom'], 6, 1.1, 16, 6] } },
-      { id: 'sinirlar', type: 'line', source: 'temel', 'source-layer': 'boundaries',
-        paint: { 'line-color': '#8a7259', 'line-width': 1.4, 'line-dasharray': [3, 2] } }
-    ]
-  };
+// pmtiles:// isteklerini cihazdaki dosyadan karşılar. Ağ hiç devreye girmiyor.
+function protokolKur() {
+  maplibregl.addProtocol('pmtiles', async (istek) => {
+    const e = istek.url.match(/pmtiles:\/\/[^/]+\/(\d+)\/(\d+)\/(\d+)/);
+    if (!e) {
+      const ust = await pmt.getHeader();
+      return { data: {
+        tiles: ['pmtiles://harita/{z}/{x}/{y}'],
+        minzoom: ust.minZoom, maxzoom: ust.maxZoom,
+        bounds: [ust.minLon, ust.minLat, ust.maxLon, ust.maxLat]
+      } };
+    }
+    const karo = await pmt.getZxy(+e[1], +e[2], +e[3]);
+    return { data: karo ? new Uint8Array(karo.data) : new Uint8Array() };
+  });
 }
 
 export async function haritaKur() {
@@ -191,44 +174,21 @@ export async function haritaKur() {
   if (kuruluyor) return kuruluyor;
 
   kuruluyor = (async () => {
+    const { ayarOku } = await import('./veri.js');
     const kap = document.getElementById('harita');
     const uyari = document.getElementById('haritaUyari');
     const boyut = await haritaVarMi();
 
-    harita = new maplibregl.Map({
-      container: kap,
-      style: BOS_STIL,
-      center: [20.5, 42.6],
-      zoom: 6,
-      attributionControl: false,
-      maxPitch: 0
-    });
-
-    await new Promise(t => harita.on('load', t));
+    aktifKip = await ayarOku('haritaKipi', 'gunduz');
+    let stil = BOS_STIL;
 
     if (boyut) {
       try {
         const dosya = await haritaBlobu();
         if (!dosya) throw new Error('harita parçaları okunamadı');
         pmt = new pmtiles.PMTiles(new BlobKaynak(dosya, 'gerok-harita'));
-
-        // pmtiles:// isteklerini dosyadan karşıla. Ağ hiç devreye girmiyor.
-        maplibregl.addProtocol('pmtiles', async (istek) => {
-          const e = istek.url.match(/pmtiles:\/\/[^/]+\/(\d+)\/(\d+)\/(\d+)/);
-          if (!e) {
-            const ust = await pmt.getHeader();
-            return { data: {
-              tiles: ['pmtiles://harita/{z}/{x}/{y}'],
-              minzoom: ust.minZoom, maxzoom: ust.maxZoom,
-              bounds: [ust.minLon, ust.minLat, ust.maxLon, ust.maxLat]
-            } };
-          }
-          const karo = await pmt.getZxy(+e[1], +e[2], +e[3]);
-          return { data: karo ? new Uint8Array(karo.data) : new Uint8Array() };
-        });
-
-        harita.setStyle(stilUret());
-        await new Promise(t => harita.once('styledata', t));
+        protokolKur();
+        stil = stilUret(aktifKip);
         uyari?.classList.add('gizli');
       } catch (hata) {
         console.warn('harita dosyası açılamadı', hata);
@@ -241,11 +201,64 @@ export async function haritaKur() {
       uyari.classList.remove('gizli');
     }
 
+    // Harita doğrudan son stille kuruluyor. Önce boş stille açıp sonra
+    // setStyle demek MapLibre'de kaynak eklenmeden karo isteği doğuruyor
+    // ("no tile manager with ID") ve harita bomboş kalıyor.
+    harita = new maplibregl.Map({
+      container: kap,
+      style: stil,
+      center: [20.5, 42.6],
+      zoom: 6,
+      attributionControl: false,
+      maxPitch: 0
+    });
+
+    await new Promise(t => harita.on('load', t));
+
+    // Kap ölçüsü sonradan oturursa (sekme açılışı, ekran döndürme, klavye)
+    // tuval eski boyutta kalıp haritanın bir kısmı boş görünüyor.
+    new ResizeObserver(() => harita.resize()).observe(kap);
+
+    kaynakYazisiTazele();
     rotayiCiz();
     return harita;
   })();
 
   return kuruluyor;
+}
+
+export function aktifKipAl() { return aktifKip; }
+
+// Gündüz / Gece / Uydu. Uydu internet ister; diğer ikisi cihazdaki dosyadan.
+export async function kipDegistir(kip) {
+  if (!harita || kip === aktifKip) return;
+  const { ayarYaz } = await import('./veri.js');
+  aktifKip = kip;
+  await ayarYaz('haritaKipi', kip);
+
+  harita.setStyle(pmt ? stilUret(kip) : BOS_STIL);
+  await new Promise(t => harita.once('styledata', t));
+
+  // Stil sıfırlandı: rota, iz ve anı katmanları yeniden kuruluyor.
+  rotayiCiz();
+  haritaGuncelle(sonVeri.kayitlar, sonVeri.iz);
+  kaynakYazisiTazele();
+}
+
+// Harita verisinin kaynağı yazılmak zorunda (OpenStreetMap ve Esri koşulu).
+function kaynakYazisiTazele() {
+  const e = document.getElementById('haritaKaynak');
+  if (!e) return;
+  e.textContent = aktifKip === 'uydu'
+    ? '© Esri, Maxar · © OpenStreetMap'
+    : '© OpenStreetMap';
+}
+
+// Haritanın o an baktığı yer — "Google Haritalar'da aç" bunu kullanıyor.
+export function haritaMerkezi() {
+  if (!harita) return null;
+  const m = harita.getCenter();
+  return { lat: m.lat, lon: m.lng, zoom: Math.round(harita.getZoom()) };
 }
 
 export function haritaBoyutTazele() {
@@ -288,7 +301,10 @@ function rotayiCiz() {
 }
 
 export function haritaGuncelle(kayitlar, izNoktalari) {
-  if (!harita || !harita.isStyleLoaded()) return;
+  sonVeri = { kayitlar, iz: izNoktalari };
+  // isStyleLoaded() karolar inerken false dönüyor; katman eklemek için stilin
+  // yüklenmiş olması yetiyor. Sıkı davranınca kip değişince iğneler kayboluyordu.
+  if (!harita || !harita.style) return;
 
   // İz: gün gün ayrı çizgiler, her gün kendi renginde.
   const gunler = new Map();

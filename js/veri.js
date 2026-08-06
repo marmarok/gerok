@@ -95,6 +95,33 @@ export async function kayitlariGetir() {
   return hepsi.filter(k => !k.silindi).sort((a, b) => a.t - b.t);
 }
 
+// Silinmişler dahil. Eşitleme buna bakıyor: silinen bir kayıt karşı taraftan
+// gelen paketle geri dirilmesin diye kimliğinin burada durması gerekiyor.
+export async function tumKayitlar() {
+  await ac();
+  return sarmala(islem(['kayitlar']).objectStore('kayitlar').getAll());
+}
+
+// Bizde hiç olmayan ama karşı tarafta silinmiş bir kaydın kimliğini işaretler:
+// o kayıt başka bir paketten gelirse bir daha diriltilmesin.
+export async function mezarTasiYaz(id, silinme = Date.now()) {
+  await kayitEkle({ id, silindi: true, silinme, t: 0, tur: 'silindi' });
+}
+
+// Kaydı siler: ses/önizleme dosyası gider, geriye yalnızca "bu silindi" notu
+// kalır. Not kalmasa aynı kayıt akşam eşitlemesinde arkadaşından geri gelirdi.
+export async function kayitYokEt(id) {
+  const k = await kayitGetir(id);
+  if (!k) return null;
+  if (k.medyaId) await medyaSil(k.medyaId).catch(() => {});
+  await kayitEkle({
+    id: k.id, tur: k.tur, t: k.t, gun: k.gun,
+    gerokId: k.gerokId, sahip: k.sahip,
+    silindi: true, silinme: Date.now()
+  });
+  return k;
+}
+
 // ---- İz (GPS nokta dizisi) ------------------------------------------------
 
 export async function izEkle(nokta) {

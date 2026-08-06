@@ -4,7 +4,8 @@ import * as veri from './veri.js';
 import * as iz from './iz.js';
 import * as gerok from './gerok.js';
 import * as kayit from './kayit.js';
-import { haritaKur, haritaGuncelle, haritaBoyutTazele, konumaGit, hepsiniGoster } from './harita.js';
+import { haritaKur, haritaGuncelle, haritaBoyutTazele, konumaGit, hepsiniGoster,
+         kipDegistir, aktifKipAl, haritaMerkezi } from './harita.js';
 import { gunSonuAc, baslangicKaydiAc, bitisKaydiAc, mektupAc } from './gunsonu.js';
 import { paketGonder, paketAl, yedekAl } from './esitleme.js';
 
@@ -91,6 +92,7 @@ function ekranAc(ad) {
   if (ad === 'harita') {
     haritaKur().then(() => {
       haritaBoyutTazele();
+      haritaKipleriniIsaretle();
       haritaGuncelle(durum.kayitlar, durum.izNoktalari);
     });
   }
@@ -156,6 +158,15 @@ function zamanCizgisiCiz() {
     const url = await veri.medyaUrl(d.dataset.onizleme);
     if (url) d.innerHTML = `<img src="${url}" alt="" loading="lazy">`;
   });
+  kap.querySelectorAll('[data-sil]').forEach(d => {
+    d.addEventListener('click', () => kaydiSil(d.dataset.sil));
+  });
+  kap.querySelectorAll('[data-google]').forEach(d => {
+    d.addEventListener('click', () => {
+      const [lat, lon] = d.dataset.google.split(',');
+      googleHaritalarAc({ lat, lon });
+    });
+  });
 }
 
 function kayitSatiri(k) {
@@ -179,14 +190,64 @@ function kayitSatiri(k) {
     if (k.tur === 'video') govde += `<div class="kayit-yer">video · ${sureYaz(k.videoSure)}</div>`;
   }
 
+  const konumlu = k.lat != null && k.lon != null;
+
   return `<div class="kayit-satir ${k.tur}">
     <div class="kayit-saat">${gerok.saat(k.t)}</div>
     <div class="kayit-govde">
       <div class="kayit-tur">${kacis(tur)}</div>
       ${govde}
       <div class="kayit-sahip">${kacis(k.sahipAd || 'bilinmeyen')}${yer ? ` · ${yer}` : ''}</div>
+      <div class="kayit-eylemler">
+        ${konumlu ? `<button class="satir-dugme" data-google="${k.lat},${k.lon}">Google Haritalar</button>` : ''}
+        <button class="satir-dugme sil" data-sil="${k.id}">Sil</button>
+      </div>
     </div>
   </div>`;
+}
+
+// Google Haritalar: yorumlar ve fotoğraflar orada. İNTERNET İSTER — yolda
+// çalışmaz, otelin wifi'sinde çalışır.
+export function googleHaritalarAc({ lat, lon, ad = '', zoom = 15 }) {
+  const adres = ad
+    ? `https://www.google.com/maps/search/${encodeURIComponent(ad)}/@${lat},${lon},${zoom}z`
+    : `https://www.google.com/maps/search/?api=1&query=${lat},${lon}`;
+
+  // Bağlantı window.open ile değil, gerçek bir <a target="_blank"> ile açılıyor:
+  // ana ekrana eklenmiş uygulamada window.open bazen aynı pencerede açıyor ve
+  // geri düğmesi olmadığı için uygulamadan çıkış yolu kalmıyor. Anchor Safari'yi
+  // ayrı uygulama olarak açıyor, Gerok arkada duruyor.
+  const a = document.createElement('a');
+  a.href = adres;
+  a.target = '_blank';
+  a.rel = 'noopener noreferrer';
+  a.style.display = 'none';
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => a.remove(), 0);
+}
+
+async function kaydiSil(id) {
+  const k = durum.kayitlar.find(x => x.id === id);
+  if (!k) return;
+  const tur = veri.TURLER[k.tur] || k.tur;
+
+  ortuAc(`
+    <div class="ortu-baslik">Bu kayıt silinsin mi?</div>
+    <div class="ortu-alt">${kacis(tur)} · ${kacis(gerok.saat(k.t))}${k.metin ? ` · "${kacis(k.metin.slice(0, 60))}"` : ''}<br><br>
+    Geri alınamaz. Ses dosyası da siliniyor. Arkadaşına paket gönderdiğinde
+    onun telefonundan da silinir.</div>
+    <button class="eylem-dugme birincil" id="silOnay">Sil</button>
+    <button class="eylem-dugme" id="silVazgec">Vazgeç</button>
+  `);
+
+  $('#silVazgec').addEventListener('click', ortuKapat);
+  $('#silOnay').addEventListener('click', async () => {
+    ortuKapat();
+    await veri.kayitYokEt(id);
+    kayitBildir('Kayıt silindi.', 'iyi');
+    await tazele();
+  });
 }
 
 let calan = null;
@@ -205,8 +266,13 @@ async function sesCal(medyaId, dugme) {
 // ------------------------------------------------------------ kayıt ekranı --
 
 function kayitDugmeleriniKur() {
-  basiliTutKur($('#btnSes'), 'ses');
-  $('#btnOrtam').addEventListener('click', ortamSesiAl);
+  sesDugmeleriniKur();
+  $('#btnSes').addEventListener('click', () => sesKaydiBaslat('ses'));
+  // Ortam sesi: konuşmadan, 30 saniye, o yerin nasıl duyulduğu.
+  $('#btnOrtam').addEventListener('click', () => sesKaydiBaslat('ortam', {
+    sinir: 30,
+    ipucu: 'Konuşma — sadece burayı dinlet. 30 saniyede kendi biter.'
+  }));
 
   $('#btnYazi').addEventListener('click', () => yaziSor());
   $('#btnIsaret').addEventListener('click', async () => {
@@ -227,92 +293,123 @@ function kayitDugmeleriniKur() {
   $('#btnYolModu').addEventListener('click', yolModuDegistir);
   $('#haritaBenim').addEventListener('click', () => konumaGit(iz.sonBilinenKonum()));
   $('#haritaHepsi').addEventListener('click', hepsiniGoster);
+  $('#haritaGoogle').addEventListener('click', () => {
+    const m = haritaMerkezi();
+    if (m) googleHaritalarAc({ lat: m.lat, lon: m.lon, zoom: m.zoom });
+  });
   $('#izRozet').addEventListener('click', izRozetTikla);
+  haritaKipleriniKur();
 }
 
-// Sesli notta "basılı tut, konuş, bırak" — yolda tek elle kullanılsın diye.
-function basiliTutKur(dugme, tur) {
-  let sayac = null, baslamis = false;
-
-  const basla = async (e) => {
-    e.preventDefault();
-    baslamis = false;
-    try {
-      const oldu = await kayit.sesBasla();
-      if (!oldu) return;
-      baslamis = true;
-      $('#sesKatman').classList.remove('gizli');
-      $('#sesIpucu').textContent = 'Bırakınca kaydedilir';
-      titret(12);
-      sayac = setInterval(() => {
-        $('#sesSure').textContent = sureYaz(kayit.sesSuresi());
-      }, 100);
-    } catch (hata) {
-      kayitBildir('Mikrofon izni yok. Ayarlar → Safari → Mikrofon.', 'kotu');
-    }
-  };
-
-  const bitir = async (e) => {
-    e.preventDefault();
-    if (!baslamis) return;
-    baslamis = false;
-    clearInterval(sayac);
-    $('#sesKatman').classList.add('gizli');
-    $('#sesSure').textContent = '0:00';
-
-    const k = await kayit.sesBitir(tur);
-    if (k) {
-      kayitBildir(`Sesli not kaydedildi · ${sureYaz(k.sure)}`, 'iyi');
-      titret([8, 40, 8]);
-      await tazele();
-    } else {
-      kayitBildir('Çok kısaydı, kaydedilmedi.');
-    }
-  };
-
-  dugme.addEventListener('pointerdown', basla);
-  dugme.addEventListener('pointerup', bitir);
-  dugme.addEventListener('pointercancel', bitir);
-  dugme.addEventListener('pointerleave', bitir);
-  dugme.addEventListener('contextmenu', (e) => e.preventDefault());
+// Gündüz / Gece / Uydu. Uydu internet ister — offline'ken zemin boş kalır,
+// bu yüzden seçilince açıkça söyleniyor.
+function haritaKipleriniKur() {
+  $$('#haritaKipler .kip').forEach(d => {
+    d.addEventListener('click', async () => {
+      await kipDegistir(d.dataset.kip);
+      haritaKipleriniIsaretle();
+      if (d.dataset.kip === 'uydu') {
+        kayitBildir(navigator.onLine
+          ? 'Uydu görüntüsü internetten iniyor.'
+          : 'Uydu için internet gerekiyor — şu an bağlantı yok, görüntü gelmez.',
+          navigator.onLine ? 'iyi' : 'kotu');
+      }
+    });
+  });
 }
 
-// Ortam sesi: konuşmadan, 30 saniye, o yerin nasıl duyulduğu.
-async function ortamSesiAl() {
+function haritaKipleriniIsaretle() {
+  const k = aktifKipAl();
+  $$('#haritaKipler .kip').forEach(d => d.classList.toggle('secili', d.dataset.kip === k));
+}
+
+// Ses kaydı — dokun başlat, dokun durdur.
+//
+// Önce "basılı tut, bırak" vardı ve gerçek telefonda çalışmıyordu: mikrofon
+// izni sorulurken parmak kalkıyor, bırakma olayı izin penceresine gidiyor,
+// kayıt hiç durmuyordu. Görünür bir durdurma düğmesi bu sınıfın bütün
+// hatalarını kapatıyor — kaydı bitiren şey artık parmağın değil, bir düğme.
+let sesOturum = null;
+
+export function sesKaydiVarMi() { return sesOturum !== null; }
+
+function sesKatmaniKapat() {
+  $('#sesKatman').classList.add('gizli');
+  $('#sesSure').textContent = '0:00';
+  sesOturum = null;
+}
+
+// tur: kaydın türü · sinir: saniye (0 = sınırsız) · ipucu: katmanda yazan satır
+export async function sesKaydiBaslat(tur, { sinir = 0, ipucu = 'Konuş — bitince "Durdur ve kaydet"', bittiginde = null } = {}) {
+  if (sesOturum) return;
+  const o = { tur, iptal: false, kapandi: false, sayac: null, bittiginde };
+  sesOturum = o;
+
+  $('#sesKatman').classList.remove('gizli');
+  $('#sesSure').textContent = sinir ? sureYaz(sinir) : '0:00';
+  $('#sesIpucu').textContent = 'Mikrofon açılıyor…';
+  $('#sesDurdur').disabled = true;
+
+  let basladi = false;
   try {
-    const oldu = await kayit.sesBasla();
-    if (!oldu) return;
+    basladi = await kayit.sesBasla();
   } catch {
+    sesKatmaniKapat();
     kayitBildir('Mikrofon izni yok. Ayarlar → Safari → Mikrofon.', 'kotu');
     return;
   }
 
-  $('#sesKatman').classList.remove('gizli');
-  $('#sesIpucu').textContent = 'Konuşma — sadece burayı dinlet · dokununca erken biter';
+  // İzin beklenirken "Vazgeç"e basılmış olabilir — mikrofonu hemen bırak.
+  if (o.iptal || !basladi) {
+    kayit.sesIptal();
+    if (!o.kapandi) sesKatmaniKapat();
+    return;
+  }
+
+  $('#sesIpucu').textContent = ipucu;
+  $('#sesDurdur').disabled = false;
   titret(12);
 
-  let bitti = false;
-  const bitirme = async () => {
-    if (bitti) return;
-    bitti = true;
-    clearInterval(sayac);
-    $('#sesKatman').classList.add('gizli');
-    $('#sesKatman').removeEventListener('click', bitirme);
-    const k = await kayit.sesBitir('ortam');
-    if (k) {
-      kayitBildir(`Ortam sesi kaydedildi · ${sureYaz(k.sure)}`, 'iyi');
-      titret([8, 40, 8]);
-      await tazele();
-    }
-  };
-
-  const sayac = setInterval(() => {
+  o.sayac = setInterval(() => {
     const gecen = kayit.sesSuresi();
-    $('#sesSure').textContent = sureYaz(Math.max(0, 30 - gecen));
-    if (gecen >= 30) bitirme();
+    $('#sesSure').textContent = sureYaz(sinir ? Math.max(0, sinir - gecen) : gecen);
+    if (sinir && gecen >= sinir) sesKaydiBitir();
   }, 100);
+}
 
-  $('#sesKatman').addEventListener('click', bitirme);
+export async function sesKaydiBitir() {
+  const o = sesOturum;
+  if (!o || o.kapandi) return;
+  o.kapandi = true;
+  clearInterval(o.sayac);
+  sesKatmaniKapat();
+
+  const k = await kayit.sesBitir(o.tur);
+  if (k) {
+    kayitBildir(`Kaydedildi · ${sureYaz(k.sure)}`, 'iyi');
+    titret([8, 40, 8]);
+    await tazele();
+  } else {
+    kayitBildir('Çok kısaydı, kaydedilmedi.');
+  }
+  await o.bittiginde?.(k);
+}
+
+function sesKaydiVazgec() {
+  const o = sesOturum;
+  if (!o) return;
+  o.iptal = true;
+  if (o.kapandi) return;
+  o.kapandi = true;
+  clearInterval(o.sayac);
+  kayit.sesIptal();
+  sesKatmaniKapat();
+  kayitBildir('Kayıt silindi.');
+}
+
+function sesDugmeleriniKur() {
+  $('#sesDurdur').addEventListener('click', sesKaydiBitir);
+  $('#sesVazgec').addEventListener('click', sesKaydiVazgec);
 }
 
 async function fotograflariAl(dosyalar, tur = null) {
@@ -427,9 +524,17 @@ function duraklariCiz() {
       <div class="durak-dugmeler">
         <button class="kucuk-dugme ${dur === 'gidildi' ? 'secili' : ''}" data-isaret="gidildi">Gittik</button>
         <button class="kucuk-dugme ${dur === 'kacirildi' ? 'secili' : ''}" data-isaret="kacirildi">Kaçırdık</button>
+        <button class="kucuk-dugme" data-google="${d.id}">Google</button>
       </div>
     </div>`;
   }).join('');
+
+  kap.querySelectorAll('[data-google]').forEach(d => {
+    d.addEventListener('click', () => {
+      const durak = gerok.duraklar().find(x => x.id === d.dataset.google);
+      if (durak) googleHaritalarAc({ lat: durak.lat, lon: durak.lon, ad: durak.ad, zoom: 16 });
+    });
+  });
 
   kap.querySelectorAll('[data-isaret]').forEach(d => {
     d.addEventListener('click', async (e) => {
