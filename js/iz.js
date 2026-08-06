@@ -45,6 +45,9 @@ export function mesafe(lat1, lon1, lat2, lon2) {
   return 2 * R * Math.asin(Math.sqrt(a));
 }
 
+// DİKKAT: iPhone'da devreye GİRMEZ — Safari Battery API'sini hiç vermiyor,
+// dolayısıyla otomatik tasarruf kipi iOS'ta çalışmaz. Pil azalınca kullanıcı
+// sağ üstteki iz rozetine dokunup kaydı durduruyor (kurulum kartında yazılı).
 async function pilDurumunuIzle() {
   if (!navigator.getBattery) return;
   try {

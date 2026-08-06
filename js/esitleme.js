@@ -34,20 +34,14 @@ function base64Coz(metin, tur) {
 
 // ---- Paket üretme ---------------------------------------------------------
 
-export async function paketUret({ sadeceGun = null } = {}) {
+// Paketin içeriğini toplar — MEDYA HARİÇ. Medya ayrı akıtılıyor (bkz. paketBlobu):
+// sekizinci günde tüm ses kayıtlarının base64'ü tek bir dev metin olunca
+// telefonun belleği yetmiyordu.
+async function govdeTopla({ sadeceGun = null } = {}) {
   const hepsi = await veri.kayitlariGetir();
   const kayitlar = sadeceGun ? hepsi.filter(k => k.gun === sadeceGun) : hepsi;
   const izNoktalari = await veri.izGetir();
   const durakDurumlari = await veri.durakDurumlari();
-
-  const medya = {};
-  for (const k of kayitlar) {
-    if (!k.medyaId) continue;
-    const dosya = await veri.medyaOku(k.medyaId);
-    if (dosya) {
-      medya[k.medyaId] = { tur: dosya.type, veri: await base64Yap(dosya) };
-    }
-  }
 
   // Silme kararı da paketle gidiyor: bir kaydı silen kişi ötekinde de silmiş
   // olsun, yoksa akşam eşitlemesinde sildiği şey geri geliyor.
@@ -66,9 +60,52 @@ export async function paketUret({ sadeceGun = null } = {}) {
     iz: sadeceGun
       ? izNoktalari.filter(n => kayitlar.some(k => Math.abs(k.t - n.t) < 24 * 3600_000))
       : izNoktalari,
-    duraklar: durakDurumlari,
-    medya
+    duraklar: durakDurumlari
   };
+}
+
+/**
+ * Paketi Blob olarak üretir.
+ *
+ * NEDEN TEK METİN DEĞİL: bir haftanın sonunda ses kayıtları toplamı 50 MB'ı
+ * bulabiliyor; base64'ü 67 MB, `JSON.stringify` bunun bir kopyasını daha
+ * çıkarıyor ve telefonda 130 MB'lık bir tepe oluşuyordu — yedek sessizce
+ * çökebilirdi. Burada her ses ayrı ayrı base64'e çevrilip parça olarak
+ * Blob'a veriliyor; hiçbir an tüm paket bellekte tek parça durmuyor.
+ *
+ * `ilerleme(yapilan, toplam)` ile kaç medya işlendiğini haber verir.
+ */
+export async function paketBlobu({ sadeceGun = null, ilerleme = null } = {}) {
+  const govde = await govdeTopla({ sadeceGun });
+  const govdeMetni = JSON.stringify(govde);
+
+  // Gövdenin son süslü parantezini açıp "medya" alanını elle ekliyoruz.
+  const parcalar = [govdeMetni.slice(0, -1), ',"medya":{'];
+
+  const medyaliKayitlar = govde.kayitlar.filter(k => k.medyaId);
+  let yapilan = 0, ilkMi = true;
+
+  for (const k of medyaliKayitlar) {
+    ilerleme?.(yapilan, medyaliKayitlar.length);
+    const dosya = await veri.medyaOku(k.medyaId);
+    yapilan++;
+    if (!dosya) continue;
+
+    parcalar.push(`${ilkMi ? '' : ','}${JSON.stringify(k.medyaId)}:{"tur":${JSON.stringify(dosya.type || k.bicim || '')},"veri":"`);
+    parcalar.push(await base64Yap(dosya));
+    parcalar.push('"}');
+    ilkMi = false;
+  }
+
+  parcalar.push('}}');
+  ilerleme?.(medyaliKayitlar.length, medyaliKayitlar.length);
+  return new Blob(parcalar, { type: 'application/json' });
+}
+
+// Eski çağrılar için: tüm paketi bellekte nesne olarak verir.
+// Yalnızca sınamada ve küçük paketlerde kullanılmalı.
+export async function paketUret({ sadeceGun = null } = {}) {
+  return JSON.parse(await (await paketBlobu({ sadeceGun })).text());
 }
 
 // ---- Paket alma (birleştirme) ---------------------------------------------
@@ -125,10 +162,12 @@ export async function paketBirlestir(paket) {
 export async function paketGonder(bildir, sadeceGun = null) {
   bildir?.('Paket hazırlanıyor…');
   try {
-    const paket = await paketUret({ sadeceGun });
-    const metin = JSON.stringify(paket);
-    const blob = new Blob([metin], { type: 'application/json' });
-    const ad = `gerok-${paket.kisi || 'ben'}-${tarihEtiketi()}.gerok.json`;
+    const kisi = await veri.ayarOku('kullaniciAdi');
+    const blob = await paketBlobu({
+      sadeceGun,
+      ilerleme: (y, t) => { if (t > 3) bildir?.(`Paket hazırlanıyor… ${y}/${t}`); }
+    });
+    const ad = `gerok-${kisi || 'ben'}-${tarihEtiketi()}.gerok.json`;
     const dosya = new File([blob], ad, { type: 'application/json' });
 
     // iOS'ta paylaş sayfası açılır; oradan AirDrop seçiliyor.
@@ -185,9 +224,9 @@ export function paketAl(bildir, tazele) {
 export async function yedekAl(bildir) {
   bildir?.('Yedek hazırlanıyor…');
   try {
-    const paket = await paketUret();
-    paket.yedek = true;
-    const blob = new Blob([JSON.stringify(paket)], { type: 'application/json' });
+    const blob = await paketBlobu({
+      ilerleme: (y, t) => { if (t > 3) bildir?.(`Yedek hazırlanıyor… ${y}/${t}`); }
+    });
     const ad = `gerok-yedek-${tarihEtiketi()}.gerok.json`;
     const dosya = new File([blob], ad, { type: 'application/json' });
 

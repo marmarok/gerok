@@ -189,6 +189,8 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
 }
 .satir-dugme.sil { color: var(--kirmizi); }
 
+.daha-eski { padding: 18px 16px 30px; }
+
 .bos-durum { padding: 60px 32px; text-align: center; color: var(--cok-soluk); }
 .bos-durum .bos-ikon { font-size: 40px; opacity: .35; margin-bottom: 14px; }
 .bos-durum .bos-yazi { font-size: 14px; line-height: 1.6; }

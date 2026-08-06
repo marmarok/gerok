@@ -46,6 +46,8 @@ async function baslat() {
   durum.sonUlke = await veri.ayarOku('sonUlke', null);
   durum.sonParaBirimi = await veri.ayarOku('sonParaBirimi', '');
 
+  await depolamaSagligi();
+
   sekmeleriKur();
   kayitDugmeleriniKur();
   izDinle();
@@ -63,6 +65,34 @@ async function baslat() {
 
   iz.basla();
   gunSonuHatirlatmasiKur();
+}
+
+// Depolama sağlığı — açılışta bir kez.
+//
+// İki gerçek tehlike var ve ikisi de sessiz: (1) kalıcı depolama istenmezse
+// iOS yer daraldığında uygulamanın verisini SİLEBİLİR — bir haftalık ses
+// kaydı yok olur; (2) telefon dolarsa yeni kayıtlar yazılamaz. İkisini de
+// açılışta bir kez kontrol edip kullanıcıya söylüyoruz.
+const AZ_YER_ESIGI = 300 * 1024 * 1024;      // 300 MB
+
+async function depolamaSagligi() {
+  try {
+    const s = await veri.kaliciDepolamaIste();
+    durum.kaliciDepolama = !!s.kalici;
+
+    const d = await veri.depolamaDurumu();
+    durum.depolama = d;
+
+    if (!durum.kaliciDepolama) {
+      kayitBildir('Dikkat: kalıcı depolama açılmadı. Uygulamayı ANA EKRANDAKİ ' +
+        'simgeden aç — Safari sekmesinden açarsan iOS verileri silebilir.', 'kotu');
+      return;
+    }
+    if (d && d.kota && (d.kota - d.kullanilan) < AZ_YER_ESIGI) {
+      kayitBildir(`Telefonda yer azalıyor: ${boyutYaz(d.kota - d.kullanilan)} kaldı. ` +
+        'Yedek al ve galeriden yer aç.', 'kotu');
+    }
+  } catch { /* sorgulanamıyorsa sessiz geç, uygulama yine çalışır */ }
 }
 
 async function tazele() {
@@ -113,6 +143,35 @@ function ustBariYaz() {
 
 // ------------------------------------------------------------ zaman çizgisi -
 
+// Zaman çizgisi bir haftada bini aşkın kayda çıkıyor. Hepsini birden çizmek
+// hem yavaş hem de her fotoğraf için bir blob adresi açtığı için bellek yiyor.
+// Bu yüzden en yeniden başlayarak sınırlı sayıda kayıt çiziliyor ve açılan
+// adresler bir sonraki çizimde geri veriliyor.
+const SAYFA_ADIMI = 120;
+let gosterilenSayi = SAYFA_ADIMI;
+
+// Önizleme adresleri kayıt başına BİR KEZ üretilip saklanıyor.
+//
+// Önce her çizimde yeniden üretiliyordu ve hiç geri verilmiyordu: liste her
+// tazelendiğinde bellek büyüyordu. Çizim başında geri vermeyi denedim, o da
+// hâlâ yüklenmekte olan görselleri iptal etti (görseller boş çıktı). Doğrusu
+// bu: adres bir kez açılır, tekrar tekrar kullanılır. Büyüme çizim sayısıyla
+// değil, farklı fotoğraf sayısıyla sınırlı — sayfalama da onu sınırlıyor.
+const onizlemeAdresleri = new Map();
+
+async function onizlemeAdresi(medyaId) {
+  if (onizlemeAdresleri.has(medyaId)) return onizlemeAdresleri.get(medyaId);
+  const url = await veri.medyaUrl(medyaId, 'image/jpeg');
+  if (url) onizlemeAdresleri.set(medyaId, url);
+  return url;
+}
+
+// Kayıt silinince adresi de bırak.
+function onizlemeAdresiniBirak(medyaId) {
+  const u = onizlemeAdresleri.get(medyaId);
+  if (u) { URL.revokeObjectURL(u); onizlemeAdresleri.delete(medyaId); }
+}
+
 function zamanCizgisiCiz() {
   const kap = $('#zamanListe');
   const s = gerok.aktifGerok();
@@ -127,8 +186,13 @@ function zamanCizgisiCiz() {
     return;
   }
 
+  // En yeniler önce: sınırı aşan eskiler "daha eskisini göster" ile gelir.
+  const tumu = durum.kayitlar;
+  const gosterilecek = tumu.slice(Math.max(0, tumu.length - gosterilenSayi));
+  const gizliSayi = tumu.length - gosterilecek.length;
+
   const gruplar = new Map();
-  for (const k of durum.kayitlar) {
+  for (const k of gosterilecek) {
     const anahtar = k.gun ?? 'disi';
     if (!gruplar.has(anahtar)) gruplar.set(anahtar, []);
     gruplar.get(anahtar).push(k);
@@ -153,13 +217,24 @@ function zamanCizgisiCiz() {
 
     for (const k of kayitlar) html += kayitSatiri(k);
   }
+
+  if (gizliSayi > 0) {
+    html += `<div class="daha-eski">
+      <button class="eylem-dugme" id="dahaEski">Daha eskisini göster (${gizliSayi})</button>
+    </div>`;
+  }
   kap.innerHTML = html;
+
+  $('#dahaEski')?.addEventListener('click', () => {
+    gosterilenSayi += SAYFA_ADIMI;
+    zamanCizgisiCiz();
+  });
 
   kap.querySelectorAll('[data-ses]').forEach(d => {
     d.addEventListener('click', () => sesCal(d.dataset.ses, d, d.dataset.bicim, +d.dataset.sure || 0));
   });
   kap.querySelectorAll('[data-onizleme]').forEach(async (d) => {
-    const url = await veri.medyaUrl(d.dataset.onizleme, 'image/jpeg');
+    const url = await onizlemeAdresi(d.dataset.onizleme);
     if (url) d.innerHTML = `<img src="${url}" alt="" loading="lazy">`;
   });
   kap.querySelectorAll('[data-sil]').forEach(d => {
@@ -248,6 +323,7 @@ async function kaydiSil(id) {
   $('#silVazgec').addEventListener('click', ortuKapat);
   $('#silOnay').addEventListener('click', async () => {
     ortuKapat();
+    if (k.medyaId) onizlemeAdresiniBirak(k.medyaId);
     await veri.kayitYokEt(id);
     kayitBildir('Kayıt silindi.', 'iyi');
     await tazele();
@@ -485,7 +561,17 @@ export async function sesKaydiBitir() {
   clearInterval(o.sayac);
   sesKatmaniKapat();
 
-  const k = await kayit.sesBitir(o.tur);
+  // Telefon dolduysa dosya yazılamaz. Sessiz kalırsa kullanıcı kaydettiğini
+  // sanır ve ses kaybolur — bu yüzden hata açıkça söyleniyor.
+  let k = null;
+  try {
+    k = await kayit.sesBitir(o.tur);
+  } catch (hata) {
+    kayitBildir(`KAYIT EDİLEMEDİ: ${hata.message}. Telefonda yer kalmamış olabilir.`, 'kotu');
+    await o.bittiginde?.(null);
+    return;
+  }
+
   if (k) {
     kayitBildir(`Kaydedildi · ${sureYaz(k.sure)}`, 'iyi');
     titret([8, 40, 8]);
