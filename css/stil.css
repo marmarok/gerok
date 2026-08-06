@@ -241,6 +241,12 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
 /* ---------- Harita ---------- */
 #haritaKap { position: absolute; inset: 0; }
 #harita { position: absolute; inset: 0; background: var(--kat); }
+/* Zaman çizgisinin başındaki bilgi şeridi — tur yokken kayıtların üstünde. */
+.uyari-satir {
+  margin: 0 0 14px; padding: 12px 14px;
+  background: var(--kat2); border: 1px solid var(--cizgi);
+  border-radius: 12px; font-size: 13.5px; line-height: 1.5; color: var(--soluk);
+}
 /* Kip düğmelerinin (Gündüz/Gece/Uydu) altında duruyor — üstlerine binerse
    ikisi de okunmaz oluyordu. */
 .harita-uyari {

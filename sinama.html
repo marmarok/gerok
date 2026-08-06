@@ -88,7 +88,8 @@ function calmayiDene(url, beklenenSn) {
 
     a.onended = () => kapat({ oldu: a.currentTime >= beklenenSn - 1.2, gecen: a.currentTime, sebep: 'bitti' });
     a.onerror = () => kapat({ oldu: false, gecen: 0, sebep: 'hata kodu ' + (a.error?.code ?? '?') });
-    a.play().catch(h => kapat({ oldu: false, gecen: 0, sebep: 'play reddedildi: ' + h.name }));
+    a.play().catch(h => kapat({ oldu: false, gecen: 0, izinYok: h.name === 'NotAllowedError',
+                                sebep: 'play reddedildi: ' + h.name }));
     setTimeout(() => kapat({ oldu: false, gecen: a.currentTime, sebep: 'zaman aşımı' }), (beklenenSn + 4) * 1000);
   });
 }
@@ -105,8 +106,11 @@ async function sina() {
 
   // 2) Kalıcı depolama
   const kalici = navigator.storage?.persisted ? await navigator.storage.persisted() : false;
+  // iPhone'da bu neredeyse hep "hayır" çıkıyor — ana ekrandan açılan uygulamada
+  // da öyle (iOS 26.3'te denendi). Ne yapılacağını yazıyoruz: asıl güvence yedek.
   yaz(kalici ? 'iyi' : 'orta', `Kalıcı depolama: ${kalici ? 'evet' : 'hayır'}`,
-    kalici ? '' : 'Yer daralırsa iOS verileri silebilir. Uygulamayı ana ekrandan aç.');
+    kalici ? '' : 'iPhone bunu genelde vermiyor — ana ekrandan açsan da. Telaş etme: '
+                + 'her akşam Gün Sonu\'nda yedek al, asıl güvence o.');
 
   // 3) Ses kaydı
   if (!window.MediaRecorder) { yaz('kotu', 'MediaRecorder yok', 'Bu tarayıcı ses kaydedemez.'); return bitir(); }
@@ -153,8 +157,15 @@ async function sina() {
   const urlTurlu = await depo.url('sinama', ad, turIyi);
   const a2 = await calmayiDene(urlTurlu, KAYIT_SN);
   URL.revokeObjectURL(urlTurlu);
-  yaz(a2.oldu ? 'iyi' : 'kotu', `Tür yazılarak çalma: ${a2.oldu ? 'çaldı' : 'ÇALMADI'}`,
-    `${a2.gecen.toFixed(1)} sn · ${a2.sebep}`);
+  // NotAllowedError bir arıza değil: sınama uzun sürdüğü için iOS'un "kullanıcı
+  // az önce dokundu" penceresi kapanmış oluyor. Uygulamada ▶'ye basmak dokunuşun
+  // kendisi olduğu için orada çıkmaz. Kırmızı yazıp boşuna korkutmayalım.
+  yaz(a2.oldu ? 'iyi' : (a2.izinYok ? 'orta' : 'kotu'),
+    `Tür yazılarak çalma: ${a2.oldu ? 'çaldı' : (a2.izinYok ? 'iOS izin penceresi kapandı' : 'ÇALMADI')}`,
+    a2.izinYok
+      ? 'Sınama uzun sürdü, iOS sesi kendiliğinden başlatmaya izin vermedi. '
+        + 'Uygulamada ▶ düğmesine basmak dokunuş sayıldığı için orada olmuyor.'
+      : `${a2.gecen.toFixed(1)} sn · ${a2.sebep}`);
 
   // 7b) Sürükleme (ileri-geri alma) gerçekten işliyor mu?
   // iOS'un parçalı mp4'ünde arama bazen hiç yürümüyor: currentTime yazılıyor

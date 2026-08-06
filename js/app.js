@@ -205,7 +205,10 @@ function zamanCizgisiCiz() {
   const kap = $('#zamanListe');
   const s = gerok.aktifGerok();
 
-  if (!s) {
+  // Tur yokken de kayıtlar gösterilmeli. Eskiden burada koşulsuz "paketi yükle"
+  // yazıyordu; paketten önce bırakılan sesli not silinmiş gibi görünüyordu
+  // (iPhone'da denerken çıktı). Kayıt duruyor, sadece görünmüyordu.
+  if (!s && !durum.kayitlar.length) {
     kap.innerHTML = bosDurum('🧭', 'Henüz bir gerok yüklenmedi.<br>Gerok sekmesinden paketi yükle.');
     return;
   }
@@ -233,9 +236,12 @@ function zamanCizgisiCiz() {
     return b - a;                       // en yeni gün üstte
   });
 
-  let html = '';
+  // Paket yüklenmeden bırakılan kayıtlar kaybolmuş sanılmasın.
+  let html = s ? '' : `<div class="uyari-satir">Henüz bir gerok yüklenmedi —
+    aşağıdaki kayıtlar duruyor. Paketi yükleyince ya da yeni tur başlatınca
+    Gerok → Turlar'dan tek düğmeyle o tura taşınırlar.</div>`;
   for (const anahtar of sirali) {
-    const gunler = s.gunler.find(g => g.no === anahtar);
+    const gunler = s?.gunler?.find(g => g.no === anahtar);
     const kayitlar = gruplar.get(anahtar).slice().reverse();
 
     // Elle açılan turlarda günün başlığı yok — o zaman tarih başlık oluyor.
