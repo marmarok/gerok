@@ -1179,6 +1179,7 @@ function durakKartiAc(id) {
     </div>
     <button class="eylem-dugme" id="kartGoogle">Google Haritalar'da aç</button>
     ${d.kaynak === 'kendi' ? '<button class="eylem-dugme" id="kartDuzenle">Düzenle</button>' : ''}
+    ${d.kaynak === 'kendi' ? '<button class="eylem-dugme sil" id="kartSil">Sil</button>' : ''}
     <button class="eylem-dugme" id="kartKapat">Kapat</button>
   `);
 
@@ -1186,6 +1187,10 @@ function durakKartiAc(id) {
   $('#kartGoogle').addEventListener('click', () =>
     googleHaritalarAc({ lat: d.lat, lon: d.lon, ad: d.ad, zoom: 16 }));
   $('#kartDuzenle')?.addEventListener('click', () => durakSor({ mevcut: d }));
+  // Yanlış yere durak koymak en kolay hata; iğneye dokunup silebilmeli.
+  // Önce yalnızca Duraklar listesinde vardı — 25 durağın arasında onu bulmak
+  // yolda kaydırmakla vakit alıyordu (telefonda denendi).
+  $('#kartSil')?.addEventListener('click', () => durakSilSor(id));
 
   for (const [dugme, deger] of [['#kartGidildi', 'gidildi'], ['#kartKacirildi', 'kacirildi']]) {
     $(dugme).addEventListener('click', async () => {

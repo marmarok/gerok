@@ -421,6 +421,7 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
 }
 .kucuk-dugme.secili { background: var(--secili-zemin); border-color: var(--secili-cizgi); color: var(--yesil); }
 .kucuk-dugme.sil { color: var(--kirmizi); }
+.eylem-dugme.sil { color: var(--kirmizi); }
 
 /* Kategori / tema gibi çoktan-seçmeli düğme öbekleri */
 .secenekler { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 6px; }
