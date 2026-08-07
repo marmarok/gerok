@@ -1404,6 +1404,14 @@ async function paneliCiz() {
         <span class="deger" id="surumYazi">bakılıyor…</span></div>
       <button class="eylem-dugme" id="btnSurum">Yeni sürüm var mı?</button>
     </div>
+
+    <div class="panel">
+      <div class="panel-baslik">Yardım ve kontrol</div>
+      <div class="panel-not">İkisi de telefonun içinden çalışır, internet
+      gerekmez. Bir şeyden şüphelenirsen önce "Telefonu sına" de.</div>
+      <button class="eylem-dugme" id="btnSinama">Telefonu sına</button>
+      <button class="eylem-dugme" id="btnKurulum">Nasıl kullanılır</button>
+    </div>
   `;
 
   surumuYaz();
@@ -1425,6 +1433,11 @@ async function paneliCiz() {
   $('#btnYeniTur').addEventListener('click', () => yeniTurSor());
   $('#btnHarita').addEventListener('click', haritaIndirmeSor);
   $('#btnSurum').addEventListener('click', surumuAra);
+  // Sınama ve kurulum kartı ana ekrandan kurulu uygulamada adres çubuğu
+  // olmadığı için başka türlü açılamıyordu — teknik olmayan biri oraya
+  // hiç ulaşamazdı. İkisi de çevrimdışı önbellekte, yolda da açılır.
+  $('#btnSinama').addEventListener('click', () => window.open('./sinama.html', '_blank'));
+  $('#btnKurulum').addEventListener('click', () => window.open('./kurulum.html', '_blank'));
   $('#btnKalici')?.addEventListener('click', async () => {
     const s = await veri.kaliciDepolamaIste();
     kayitBildir(s.kalici ? 'Kalıcı depolama açıldı.' : 'iOS şimdilik vermedi — yedek almayı ihmal etme.',
