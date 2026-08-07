@@ -9,6 +9,19 @@ import { aktifGerok, ozelDurakListesi, siraDuzeniAl, ozelDuraklariBirlestir } fr
 
 const PAKET_SURUM = 1;
 
+// Paketi üreten uygulamanın sürümü. Servis worker'ın önbellek adından
+// okunuyor — "şu an gerçekten hangi dosyalar çalışıyor"un en dürüst cevabı.
+// İki işe yarıyor: dönüşte arşivi kurarken dosyanın hangi sürümden çıktığı
+// belli oluyor, ve iki telefonun aynı sürümde olup olmadığı paketten
+// anlaşılıyor — karşı telefonu elde tutmaya gerek kalmadan.
+async function uygulamaSurumu() {
+  try {
+    if (!('caches' in window)) return null;
+    const adlar = await caches.keys();
+    return adlar.find(a => a.startsWith('gerok-')) || null;
+  } catch { return null; }
+}
+
 function tarihEtiketi() {
   const d = new Date();
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
@@ -60,6 +73,7 @@ async function govdeTopla({ sadeceGun = null, tumTurlar = false } = {}) {
 
   return {
     paketSurum: PAKET_SURUM,
+    uygulamaSurum: await uygulamaSurumu(),
     uretim: Date.now(),
     gerokId: aktifGerok()?.id || null,
     // Turun kendi tanımı da gidiyor: karşı tarafta o tur hiç yoksa
