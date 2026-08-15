@@ -538,9 +538,9 @@ function gunTahmin(t, kayitlar) {
   return y?.gun ?? 0;
 }
 
-export function konumaGit(nokta) {
+export function konumaGit(nokta, zoom = 14) {
   if (!harita || !nokta) return;
-  harita.easeTo({ center: [nokta.lon, nokta.lat], zoom: 14, duration: 700 });
+  harita.easeTo({ center: [nokta.lon, nokta.lat], zoom, duration: 700 });
 }
 
 export function hepsiniGoster() {

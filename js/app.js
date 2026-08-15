@@ -9,6 +9,7 @@ import { haritaKur, haritaGuncelle, haritaBoyutTazele, konumaGit, hepsiniGoster,
 import { gunSonuAc, baslangicKaydiAc, bitisKaydiAc, mektupAc } from './gunsonu.js';
 import { paketGonder, paketAl, yedekAl } from './esitleme.js';
 import { TEMALAR, temaSecimi, temaSec, temaBaslat } from './tema.js';
+import * as yerAra from './yer-ara.js';
 
 const $ = (s) => document.querySelector(s);
 const $$ = (s) => Array.from(document.querySelectorAll(s));
@@ -659,6 +660,7 @@ function kayitDugmeleriniKur() {
 
   $('#haritaBenim').addEventListener('click', () => konumaGit(iz.sonBilinenKonum()));
   $('#haritaHepsi').addEventListener('click', hepsiniGoster);
+  yerAramaKur();
   $('#haritaGoogle').addEventListener('click', () => {
     const m = haritaMerkezi();
     if (m) googleHaritalarAc({ lat: m.lat, lon: m.lon, zoom: m.zoom });
@@ -699,9 +701,32 @@ let sesOturum = null;
 
 export function sesKaydiVarMi() { return sesOturum !== null; }
 
+// Kayıt sürerken ekranın kendiliğinden sönmesini engelleyen kilit.
+//
+// Asıl önlem bu: iOS ekran sönünce sayfayı donduruyor ve kayıt kesiliyordu.
+// Wake Lock, kullanıcı güç düğmesine basmadıkça ekranı açık tutuyor.
+// (Güç düğmesine basılırsa kilit işe yaramaz — o durumda kayit.js'teki
+// parça parça kaydetme devreye giriyor.)
+let sesKilidi = null;
+
+async function sesKilidiAl() {
+  try {
+    sesKilidi = await navigator.wakeLock?.request('screen') || null;
+    sesKilidi?.addEventListener('release', () => { sesKilidi = null; });
+  } catch { /* Wake Lock yoksa ekran normal davranır */ }
+  return !!sesKilidi;
+}
+
+function sesKilidiBirak() {
+  // Yol Modu kendi kilidini tutuyorsa ona dokunma.
+  try { sesKilidi?.release(); } catch { /* zaten bırakılmış */ }
+  sesKilidi = null;
+}
+
 function sesKatmaniKapat() {
   $('#sesKatman').classList.add('gizli');
   $('#sesSure').textContent = '0:00';
+  sesKilidiBirak();
   sesOturum = null;
 }
 
@@ -732,7 +757,11 @@ export async function sesKaydiBaslat(tur, { sinir = 0, ipucu = 'Konuş — bitin
     return;
   }
 
-  $('#sesIpucu').textContent = ipucu;
+  // Ekranın kendiliğinden sönmesini engelle: sönerse iOS kaydı kesiyor.
+  const kilitli = await sesKilidiAl();
+  $('#sesIpucu').textContent = kilitli
+    ? ipucu
+    : `${ipucu}\nEkranı kapatma — kayıt kesilir.`;
   $('#sesDurdur').disabled = false;
   titret(12);
 
@@ -756,7 +785,17 @@ export async function sesKaydiBitir() {
   try {
     k = await kayit.sesBitir(o.tur);
   } catch (hata) {
-    kayitBildir(`KAYIT EDİLEMEDİ: ${hata.message}. Telefonda yer kalmamış olabilir.`, 'kotu');
+    // İki ayrı sebep var ve ikisine yapılacak şey farklı — ayırt et.
+    // Üç ayrı sebep var ve yapılacak şey her birinde farklı — ayırt et.
+    kayitBildir(
+      hata.sesKesildi
+        ? 'KAYIT EDİLEMEDİ: ekran kapalıyken iOS kaydı kesmiş. Kayıt sırasında '
+          + 'ekranı açık tut ya da Yol Modu\'nu aç — o ekranı söndürmüyor.'
+      : hata.yazilamadi
+        ? `KAYIT EDİLEMEDİ: ${hata.message}. Telefonda yer kalmamış olabilir — `
+          + 'Gerok sekmesinden yer durumuna bak, yedek al ve eski kayıtları temizle.'
+        : `KAYIT EDİLEMEDİ: ${hata.message}. Telefonda yer kalmamış olabilir.`,
+      'kotu');
     await o.bittiginde?.(null);
     return;
   }
@@ -1196,6 +1235,104 @@ function durakKoymaKipi(ac) {
   $('#haritaNisan').classList.toggle('gizli', !ac);
   $('#haritaEkleBar').classList.toggle('gizli', !ac);
   $('#haritaDurak').classList.toggle('secili', ac);
+}
+
+// ---- Haritada yer arama ----------------------------------------------------
+//
+// Durak koymak için haritayı elle kaydırıp doğru noktayı bulmak zordu —
+// özellikle araç sallanırken. Artık "Struga" yazıp oraya gidiliyor.
+// Arama ÇEVRİMDIŞI çalışıyor: bölgenin yer adları uygulamada gömülü.
+// İnternet gerektiren geniş arama ayrı bir düğmede ve ancak basılırsa çalışır.
+
+let aramaZaman = null;
+
+function yerAramaKur() {
+  const kap = $('#haritaAramaKap');
+  const girdi = $('#haritaArama');
+
+  const ac = (acik) => {
+    kap.classList.toggle('gizli', !acik);
+    $('#haritaAra').classList.toggle('secili', acik);
+    if (acik) setTimeout(() => girdi.focus(), 100);
+    else { girdi.value = ''; $('#aramaSonuc').innerHTML = ''; }
+  };
+
+  $('#haritaAra').addEventListener('click', () => ac(kap.classList.contains('gizli')));
+  $('#aramaKapat').addEventListener('click', () => ac(false));
+
+  girdi.addEventListener('input', () => {
+    clearTimeout(aramaZaman);
+    aramaZaman = setTimeout(() => aramaYap(girdi.value), 180);
+  });
+  girdi.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      $('#aramaSonuc .arama-satiri')?.click();   // ilk sonuca git
+    }
+  });
+}
+
+async function aramaYap(sorgu) {
+  const yer = $('#aramaSonuc');
+  if (!sorgu || sorgu.trim().length < 2) { yer.innerHTML = ''; return; }
+
+  const merkez = haritaMerkezi();
+  const sonuc = await yerAra.ara(sorgu, { merkez });
+
+  if (!sonuc.length) {
+    yer.innerHTML = `<div class="arama-bos">Yakında böyle bir yer yok.
+      <button class="kucuk-dugme" id="aramaInternet">İnternette ara</button></div>`;
+  } else {
+    yer.innerHTML = sonuc.map((s, i) => `
+      <button class="arama-satiri" data-i="${i}">
+        <span>${kacis(s.ad)}</span>
+        <span class="yer-alt">${kacis(s.alt)}</span>
+      </button>`).join('')
+      + `<div class="arama-bos">Aradığın burada yoksa
+         <button class="kucuk-dugme" id="aramaInternet">internette ara</button>
+         (wifi gerekir).</div>`;
+  }
+
+  $$('#aramaSonuc .arama-satiri').forEach(d => {
+    d.addEventListener('click', () => yereGit(sonuc[+d.dataset.i]));
+  });
+  $('#aramaInternet')?.addEventListener('click', () => internetAramasi(sorgu));
+}
+
+async function internetAramasi(sorgu) {
+  const yer = $('#aramaSonuc');
+  yer.innerHTML = '<div class="arama-bos">İnternette aranıyor…</div>';
+  try {
+    const sonuc = await yerAra.internetteAra(sorgu);
+    if (!sonuc.length) {
+      yer.innerHTML = '<div class="arama-bos">Bulunamadı.</div>';
+      return;
+    }
+    yer.innerHTML = sonuc.map((s, i) => `
+      <button class="arama-satiri" data-i="${i}">
+        <span>${kacis(s.ad)}</span>
+        <span class="yer-alt">${kacis(s.alt)}</span>
+      </button>`).join('');
+    $$('#aramaSonuc .arama-satiri').forEach(d => {
+      d.addEventListener('click', () => yereGit(sonuc[+d.dataset.i]));
+    });
+  } catch (h) {
+    yer.innerHTML = `<div class="arama-bos">İnternete ulaşılamadı (${kacis(h.message)}).
+      Wifi varken dene — gömülü listede arama internet olmadan da çalışıyor.</div>`;
+  }
+}
+
+// Seçilen yere git ve nişangâhı aç: amaç zaten oraya durak koymak.
+function yereGit(s) {
+  if (!s) return;
+  $('#haritaAramaKap').classList.add('gizli');
+  $('#haritaAra').classList.remove('secili');
+  $('#haritaArama').value = '';
+  $('#aramaSonuc').innerHTML = '';
+
+  konumaGit({ lat: s.lat, lon: s.lon }, 13);
+  durakKoymaKipi(true);
+  kayitBildir(`${s.ad} — haritayı ince ayarla, sonra "Buraya durak ekle".`, 'iyi');
 }
 
 function haritadanDurakEkle() {

@@ -72,7 +72,20 @@
         </div>
       </div>
 
+      <!-- Yer arama: durak koymak için haritayı elle bulmak zordu.
+           Çevrimdışı çalışır — bölgenin yer adları uygulamada gömülü. -->
+      <div id="haritaAramaKap" class="harita-arama gizli">
+        <div class="arama-satir">
+          <input id="haritaArama" class="arama-girdi" type="search"
+                 placeholder="Yer ara — Struga, Kotor, Prizren…"
+                 autocomplete="off" spellcheck="false" enterkeyhint="search">
+          <button id="aramaKapat" class="kucuk-dugme">Kapat</button>
+        </div>
+        <div id="aramaSonuc" class="arama-sonuc"></div>
+      </div>
+
       <div class="harita-dugmeler">
+        <button id="haritaAra" class="yuvarlak" title="Yer ara">🔍</button>
         <button id="haritaDurak" class="yuvarlak" title="Durak ekle">📌</button>
         <button id="haritaBenim" class="yuvarlak" title="Konumuma git">◎</button>
         <button id="haritaHepsi" class="yuvarlak" title="Tüm rotayı göster">⤢</button>

@@ -280,6 +280,32 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
 }
 .harita-kipler .kip.secili { background: var(--vurgu-koyu); color: var(--vurgu-yazi); }
 
+/* Yer arama — haritanın üstünde, kip düğmelerinin altında.
+   Sonuç listesi kutunun içinde kayıyor: uzun liste haritayı tamamen
+   kaplarsa nereye gittiğini göremiyorsun. */
+.harita-arama {
+  position: absolute; left: 12px; right: 12px; top: 14px; z-index: 14;
+  background: var(--kat); border: 1px solid var(--cizgi);
+  border-radius: 12px; box-shadow: var(--golge); overflow: hidden;
+}
+.harita-arama .arama-satir { display: flex; gap: 8px; padding: 8px; align-items: center; }
+.arama-girdi {
+  flex: 1; min-width: 0; font: 16px/1 inherit;      /* 16px: iOS küçükte sayfayı yakınlaştırıyor */
+  padding: 11px 12px; border-radius: 9px;
+  border: 1px solid var(--cizgi); background: var(--kat2); color: var(--yazi);
+}
+.arama-sonuc { max-height: 46vh; overflow-y: auto; }
+.arama-sonuc:not(:empty) { border-top: 1px solid var(--cizgi); }
+.arama-satiri {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 10px;
+  width: 100%; text-align: left; padding: 12px 14px; background: transparent;
+  border: none; border-bottom: 1px solid var(--cizgi); color: var(--yazi);
+  font: inherit; font-size: 15px;
+}
+.arama-satiri:last-child { border-bottom: none; }
+.arama-satiri .yer-alt { font-size: 12px; color: var(--soluk); white-space: nowrap; }
+.arama-bos { padding: 14px; font-size: 13.5px; color: var(--soluk); }
+
 .harita-kaynak {
   position: absolute; left: 14px; bottom: 10px; z-index: 10;
   font-size: 10px; color: var(--soluk);

@@ -61,6 +61,25 @@ function enIyiSesBicimi() {
   return '';
 }
 
+// Kayıt sırasında ekran kapanınca ses KAYBOLUYORDU (Balkanlar, gerçek kullanım).
+//
+// Sebep: `kaydedici.start()` zaman dilimsiz çağrılıyordu. O hâlde MediaRecorder
+// bütün sesi kendi iç tamponunda tutuyor ve ancak `stop()` denince tek parça
+// hâlinde veriyor. iOS ekran kapanınca sayfayı donduruyor, gerekirse arka
+// plandaki sekmeyi tamamen boşaltıyor — tampon o an gidiyor. Ekran açılınca
+// sayaç kaldığı yerden devam ettiği için kayıt sürüyormuş gibi görünüyor, ama
+// "Durdur ve kaydet" denince elde hiçbir şey olmuyor ve kayıt zaman çizgisine
+// düşmüyor.
+//
+// Çözüm üç katmanlı:
+//   1. `start(3000)` — ses her 3 saniyede bir parça olarak dışarı alınıyor,
+//      böylece en fazla son 3 saniye riskte kalıyor.
+//   2. Ekran kapanmak üzereyken `requestData()` ile o ana kadarki ses zorla
+//      alınıyor — o 3 saniyelik pencere de kapanıyor.
+//   3. `stop()` sonrası bekleyişte zaman aşımı var (aşağıda): iOS `onstop`
+//      olayını hiç göndermezse elde ne varsa onunla kaydediliyor.
+const PARCA_MS = 3000;
+
 export async function sesBasla() {
   if (kaydedici) return false;
   const akis = await navigator.mediaDevices.getUserMedia({
@@ -73,8 +92,26 @@ export async function sesBasla() {
   baslangicAni = Date.now();
 
   kaydedici.ondataavailable = (e) => { if (e.data.size) parcalar.push(e.data); };
-  kaydedici.start();
+  kaydedici.start(PARCA_MS);
+  gorunurlukDinle();
   return true;
+}
+
+// Ekran kapanmadan hemen önce elde olanı kurtarır.
+let gorunurlukKurulu = false;
+function gorunurlukDinle() {
+  if (gorunurlukKurulu) return;
+  gorunurlukKurulu = true;
+  const kurtar = () => {
+    if (!kaydedici || kaydedici.state !== 'recording') return;
+    // requestData, o ana kadarki sesi ondataavailable ile hemen verir.
+    try { kaydedici.requestData(); } catch { /* desteklenmiyorsa parça yine gelir */ }
+  };
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') kurtar();
+  });
+  // iOS sayfayı boşaltmadan önce bunu gönderiyor — son şans.
+  window.addEventListener('pagehide', kurtar);
 }
 
 export function sesSuresi() {
@@ -90,9 +127,22 @@ export async function sesBitir(tur = 'ses', ekler = {}) {
   const bicim = kaydedici.mimeType || 'audio/mp4';
   const sure = (Date.now() - baslangicAni) / 1000;
 
+  // `onstop` beklenirken zaman aşımı: iOS sayfayı arada dondurduysa bu olay
+  // hiç gelmeyebiliyor ve eskiden burada sonsuza kadar bekleniyordu — kayıt
+  // ne kaydediliyor ne de hata veriyordu, sessizce kayboluyordu.
+  // Artık 4 saniye sonra elde ne varsa onunla devam ediliyor: eksik bir kayıt,
+  // hiç olmayan kayıttan iyidir.
+  const kayd = kaydedici;
   const blob = await new Promise((tamam) => {
-    kaydedici.onstop = () => tamam(new Blob(parcalar, { type: bicim }));
-    kaydedici.stop();
+    let bitti = false;
+    const ver = () => {
+      if (bitti) return;
+      bitti = true;
+      tamam(new Blob(parcalar, { type: bicim }));
+    };
+    kayd.onstop = ver;
+    setTimeout(ver, 4000);
+    try { kayd.stop(); } catch { ver(); }   // zaten durmuşsa hemen ver
   });
 
   kaydedici.stream.getTracks().forEach(iz => iz.stop());
@@ -102,8 +152,35 @@ export async function sesBitir(tur = 'ses', ekler = {}) {
   // Yarım saniyenin altı kazayla basılmış demektir, kaydetme.
   if (sure < 0.5) return null;
 
+  // Süre uzun görünüyor ama elde ses yoksa, iOS kaydı arka planda öldürmüş
+  // demektir. Sessizce "kaydedildi" demek en kötüsü olurdu — kullanıcı
+  // kaydettiğini sanıp devam eder ve konuşulanlar kaybolur.
+  if (!blob.size) {
+    const h = new Error('Ekran kapalıyken kayıt kesilmiş, ses elde edilemedi');
+    h.sesKesildi = true;
+    throw h;
+  }
+
+  // Dosyaya yazma da zaman aşımına bağlı.
+  //
+  // NEDEN: burada takılırsa `sesBitir` hiç dönmüyor — kullanıcı "Durdur ve
+  // kaydet"e basıyor, katman kapanıyor, ama kayıt zaman çizgisine hiç
+  // düşmüyor ve hiçbir hata da çıkmıyor. Sınamada tam bu görüldü: akış
+  // yazma adımında sessizce asılı kaldı. Telefonda yer bittiğinde ya da
+  // depolama katmanı takıldığında aynısı olur. Artık 15 saniye sonra
+  // vazgeçip AÇIKÇA söylüyoruz; sessiz kayıp en kötü sonuç.
   const medyaId = yeniKimlik('m');
-  await medyaYaz(medyaId, blob);
+  try {
+    await Promise.race([
+      medyaYaz(medyaId, blob),
+      new Promise((_, hata) =>
+        setTimeout(() => hata(new Error('depolama yanıt vermedi')), 15000))
+    ]);
+  } catch (h) {
+    const y = new Error(`Ses dosyaya yazılamadı (${h.message})`);
+    y.yazilamadi = true;
+    throw y;
+  }
 
   const kayit = await kayitKur(tur, {
     t: baslangicAni,
