@@ -291,7 +291,13 @@ export function haritaBoyutTazele() {
 
 // ---- Katmanlar ------------------------------------------------------------
 
-const GUN_RENKLERI = ['#e0a458', '#d9634f', '#7ba05b', '#5b9dd9', '#b48ec4', '#d4a24c', '#6ec0b0', '#c47e5a'];
+// Gün renkleri. Eskiden her biri ayrı ayrı seçilmişti; kırmızı ile mavi yan
+// yana gelince biri ötekinin önüne fırlıyordu. Bu sekizi aynı doygunluk ve
+// aynı açıklıkta — sekiz günün rotası üst üste bindiğinde harita karışmıyor.
+// css/stil.css'teki --g1…--g8 ile aynı değerler; ikisi birlikte değişmeli
+// (harita katmanı CSS değişkeni okuyamıyor, değerler burada yazılı olmalı).
+const GUN_RENKLERI = ['#d29346', '#a38e55', '#6a8552', '#4a7a78',
+                      '#527e96', '#6b5c75', '#9c5a60', '#c25b49'];
 
 function kaynakYaz(ad, veri, katmanlar) {
   if (!harita) return;

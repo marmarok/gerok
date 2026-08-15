@@ -6,15 +6,37 @@
 <meta name="theme-color" content="#12100e">
 <title>Gerok — kurulum</title>
 <style>
+  @font-face { font-family:'Gerok Sans'; font-style:normal; font-weight:400 700;
+    font-display:swap; src:url('yazitipi/dmsans-latin.woff2') format('woff2');
+    unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,
+      U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+  @font-face { font-family:'Gerok Sans'; font-style:normal; font-weight:400 700;
+    font-display:swap; src:url('yazitipi/dmsans-latin-ext.woff2') format('woff2');
+    unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,
+      U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,
+      U+2113,U+2C60-2C7F,U+A720-A7FF; }
+  @font-face { font-family:'Gerok Serif'; font-style:normal; font-weight:400 600;
+    font-display:swap; src:url('yazitipi/lora-latin.woff2') format('woff2');
+    unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,
+      U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+  @font-face { font-family:'Gerok Serif'; font-style:normal; font-weight:400 600;
+    font-display:swap; src:url('yazitipi/lora-latin-ext.woff2') format('woff2');
+    unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,
+      U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,
+      U+2113,U+2C60-2C7F,U+A720-A7FF; }
   :root {
-    --zemin:#12100e; --kat:#1c1917; --kat2:#262220; --cizgi:#38322e;
-    --yazi:#f0ebe5; --soluk:#a09488; --cok-soluk:#6b625a;
-    --vurgu:#e0a458; --kirmizi:#d9634f; --yesil:#7ba05b;
+    /* Palet uygulamanınkiyle aynı (css/stil.css). Bu sayfa ayrı bir dosya
+       olduğu için renkler burada da yazılı; ikisi birlikte değişmeli. */
+    --zemin:#12100e; --kat:#1a1714; --kat2:#26211d; --cizgi:#2d2824;
+    --yazi:#ebe5df; --soluk:#8f857b; --cok-soluk:#7d7368;
+    --vurgu:#d29346; --kirmizi:#c25b49; --yesil:#6a8552;
   }
   * { box-sizing:border-box; }
   body {
     margin:0; background:var(--zemin); color:var(--yazi);
-    font-family:-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+    /* Uygulamayla aynı yazı tipleri. Buradan yüklenmiyorlar; uygulama zaten
+       önbelleğe aldığı için tarayıcı dosyayı hazır buluyor. */
+    font-family:'Gerok Sans',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
     line-height:1.6; padding:0 0 60px;
   }
   .kap { max-width:620px; margin:0 auto; padding:0 20px; }
@@ -66,6 +88,8 @@
   .son { border-top:1px solid var(--cizgi); margin-top:46px; padding-top:26px;
          color:var(--cok-soluk); font-size:13.5px; }
   a { color:var(--vurgu); }
+  /* Başlıklar serif: uygulamadaki defter diliyle aynı ses. */
+  .ad, .belirti, .baslik { font-family:'Gerok Serif',Georgia,serif; }
 </style>
 </head>
 <body>

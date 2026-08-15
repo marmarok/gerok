@@ -5,29 +5,78 @@
    Bütün renkler değişken — yeni tema eklemek bu bloğu çoğaltmak demek.
    Dokunma hedefleri büyük: araç sallanırken kullanılacak. */
 
+/* ---------- Yazı tipleri ----------
+   Uygulamanın içinde duruyorlar; Google Fonts'a bağlanmıyoruz. Sebep basit:
+   yolda internet yok. Ayrıntı ve lisans: yazitipi/OKU.md
+
+   İkili düzen: LORA (serif) hikâyenin dili — gerok adı, gün başlıkları,
+   kayıtların kendi metni. DM SANS arayüzün dili — düğme, etiket, rakam,
+   saat, mesafe. Anı ile araç ayrı seslerle konuşsun diye.
+
+   `font-display: swap`: yazı tipi bir an geç gelirse metin görünmez
+   beklemesin — yolda boş ekran görmek en kötüsü. */
+@font-face {
+  font-family: 'Gerok Sans'; font-style: normal; font-weight: 400 700;
+  font-display: swap; src: url('../yazitipi/dmsans-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  /* Türkçe'nin ğ, ş, İ harfleri burada. Bu blok olmadan "İşkodra" yazısı
+     sistem yazı tipine düşüyor ve satır ortasında yazı tipi değişiyor. */
+  font-family: 'Gerok Sans'; font-style: normal; font-weight: 400 700;
+  font-display: swap; src: url('../yazitipi/dmsans-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Gerok Serif'; font-style: normal; font-weight: 400 600;
+  font-display: swap; src: url('../yazitipi/lora-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Gerok Serif'; font-style: normal; font-weight: 400 600;
+  font-display: swap; src: url('../yazitipi/lora-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
 :root, :root[data-tema="koyu"] {
+  /* Palet Claude Design'daki GEROK tasarımından. Eskisine göre daha derin bir
+     gece: kartlar zeminden daha az ayrışıyor, çizgiler inceldi, turuncu bir
+     tık ısındı. Amaç karanlık bir otobüste ekrana bakmak. */
   --zemin: #12100e;
-  --kat: #1c1917;
-  --kat2: #262220;
-  --cizgi: #38322e;
-  --yazi: #f0ebe5;
-  --soluk: #a09488;
-  --cok-soluk: #6b625a;
-  --vurgu: #e0a458;
-  --vurgu-koyu: #b8823c;
-  --su: #5b9dd9;
-  --kirmizi: #d9634f;
-  --yesil: #7ba05b;
+  --kat: #1a1714;
+  --kat2: #26211d;
+  --cizgi: #2d2824;
+  --yazi: #ebe5df;
+  --soluk: #8f857b;
+  --cok-soluk: #7d7368;
+  --vurgu: #d29346;
+  --vurgu-koyu: #a8722f;
+  --su: #527e96;
+  --kirmizi: #c25b49;
+  --yesil: #6a8552;
   --vurgu-yazi: #1a1410;      /* vurgu zemin üstündeki yazı */
-  --secili-zemin: #2c3a22;
-  --secili-cizgi: #46592f;
+  --secili-zemin: #232c1c;
+  --secili-cizgi: #3d4d2f;
   --birincil-zemin: linear-gradient(160deg, #2a2119, var(--kat));
   --birincil-cizgi: #4a3a22;
-  --vurgu2-zemin: linear-gradient(160deg, #182430, var(--kat));
+  --vurgu2-zemin: linear-gradient(160deg, #1e2a2e, var(--kat));
   --vurgu2-cizgi: #2c4055;
   --perde: rgba(8,6,5,.72);
   --perde-koyu: rgba(10,8,7,.94);
   --golge: 0 3px 12px rgba(0,0,0,.5);
+  /* Gün renkleri: zaman çizgisinin noktaları ve haritadaki rota bunlarla
+     renkleniyor. Hepsi aynı doygunlukta ve aynı açıklıkta — yan yana
+     geldiklerinde biri öne fırlamıyor, ama sekizi de birbirinden ayrılıyor. */
+  --g1: #d29346; --g2: #a38e55; --g3: #6a8552; --g4: #4a7a78;
+  --g5: #527e96; --g6: #6b5c75; --g7: #9c5a60; --g8: #c25b49;
   --ust: env(safe-area-inset-top, 0px);
   --alt: env(safe-area-inset-bottom, 0px);
 
@@ -44,17 +93,20 @@
 }
 
 :root[data-tema="acik"] {
-  --zemin: #f6f3ec;
-  --kat: #ffffff;
-  --kat2: #ece7dd;
-  --cizgi: #d9d1c4;
+  /* Gündüz: kâğıt. Zemin kirli beyaz değil, hafif kremli — güneş altında
+     araç camından bakarken saf beyaz gözü yakıyor. Vurgu koyulaştırıldı:
+     gece kipindeki #d29346 açık zeminde okunmuyordu. */
+  --zemin: #f4f0e6;
+  --kat: #fcfbfa;
+  --kat2: #ede7d8;
+  --cizgi: #d8d0c3;
   --yazi: #241f1a;
-  --soluk: #6a6055;
-  --cok-soluk: #948a7d;
-  --vurgu: #a2621a;
-  --vurgu-koyu: #8a5314;
-  --su: #2c6f9e;
-  --kirmizi: #b23a26;
+  --soluk: #7d7368;
+  --cok-soluk: #9a9084;
+  --vurgu: #96551b;
+  --vurgu-koyu: #7d4614;
+  --su: #35617a;
+  --kirmizi: #a8412f;
   --yesil: #4c6b32;
   --vurgu-yazi: #ffffff;
   --secili-zemin: #e2ecd6;
@@ -64,8 +116,12 @@
   --vurgu2-zemin: linear-gradient(160deg, #e4eef7, var(--kat));
   --vurgu2-cizgi: #b4cde2;
   --perde: rgba(60,52,42,.42);
-  --perde-koyu: rgba(246,243,236,.96);
-  --golge: 0 3px 12px rgba(80,66,48,.22);
+  --perde-koyu: rgba(244,240,230,.96);
+  --golge: 0 3px 12px rgba(80,66,48,.18);
+  /* Gündüz gün renkleri: gece paletinin koyulaştırılmış hâli. Aynı sıra,
+     aynı sekiz gün — sadece açık zeminde okunacak kadar koyu. */
+  --g1: #a86a24; --g2: #7d6a34; --g3: #4c6337; --g4: #2f5a58;
+  --g5: #365a70; --g6: #4d4055; --g7: #7a3c42; --g8: #a3402c;
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -74,7 +130,9 @@ html, body {
   margin: 0; padding: 0; height: 100%;
   background: var(--zemin);
   color: var(--yazi);
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+  /* Arayüzün sesi DM Sans. Yazı tipi bir sebeple gelmezse sistem yazı
+     tipine düşüyor — uygulama yine çalışıyor, sadece daha az kendisi oluyor. */
+  font-family: 'Gerok Sans', -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
   overscroll-behavior: none;
 }
 
@@ -86,6 +144,24 @@ body {
 
 button { font-family: inherit; color: inherit; border: none; background: none; cursor: pointer; }
 .gizli { display: none !important; }
+
+/* ---------- Anının dili: serif ----------
+   Lora yalnızca defterin kendisine ait yerlerde: gerok adı, gün başlığı,
+   durak adı, kaydın kendi metni, pencere başlıkları. Düğmeler, etiketler,
+   saatler ve rakamlar DM Sans'ta kalıyor — araç ile anı ayrı seslerle
+   konuşsun. Hepsini serif yapmak defteri süslü ama okunmaz kılıyordu;
+   hiçbirini yapmamak da sıradan bir uygulamaya benzetiyordu. */
+#ustBaslik, .gun-ad, .durak-ad, .tur-ad, .dugme-ad, .ortu-baslik,
+.kayit-metin, .metin, .acilis-ad, .yol-ad {
+  font-family: 'Gerok Serif', Georgia, 'Times New Roman', serif;
+}
+/* Serifte 600 fazla kalın duruyor, gövde metninde 400 daha rahat okunuyor. */
+.kayit-metin, .metin { font-weight: 400; }
+#ustBaslik, .gun-ad, .durak-ad, .tur-ad, .dugme-ad, .ortu-baslik, .yol-ad { font-weight: 600; }
+
+/* Rakamlar her yerde eşit genişlikte: saat sayacı, süre, mesafe ve tutar
+   değişirken satır oynamasın. */
+.kayit-saat, .durak-uzaklik, .harcama-tutar, #sesSure, .puan-yazi { font-variant-numeric: tabular-nums; }
 
 /* ---------- Açılış ---------- */
 .acilis {
@@ -174,10 +250,12 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
   border-left: 2px solid var(--cizgi); margin-left: 22px;
   position: relative;
 }
+/* Nokta kartın üst hizasında ve zemin renginde bir halkası var: çizgi
+   noktanın içinden geçiyormuş gibi görünmesin. */
 .kayit-satir::before {
-  content: ''; position: absolute; left: -5px; top: 18px;
-  width: 8px; height: 8px; border-radius: 50%;
-  background: var(--cizgi); border: 2px solid var(--zemin);
+  content: ''; position: absolute; left: -6px; top: 20px;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--cizgi); box-shadow: 0 0 0 3px var(--zemin);
 }
 /* Yeni eklenen fotoğraf çekildiği saate düşüyor — yani listede yukarıda bir
    yere. Oraya kaydırıp kısa süre vurguluyoruz ki "eklendi mi?" diye
@@ -191,15 +269,37 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
   100%    { background: transparent; }
 }
 
-.kayit-satir.ses::before, .kayit-satir.gunluk::before { background: var(--vurgu); }
+.kayit-satir.ses::before, .kayit-satir.gunluk::before,
+.kayit-satir.baslangic::before, .kayit-satir.bitis::before { background: var(--vurgu); }
 .kayit-satir.ortam::before { background: var(--su); }
 .kayit-satir.sinir::before { background: var(--yesil); }
+.kayit-satir.mektup::before { background: var(--g6); }
+.kayit-satir.fiyat::before { background: var(--g2); }
+.kayit-satir.kisi::before { background: var(--g7); }
 
-.kayit-saat { font-size: 12px; color: var(--cok-soluk); min-width: 40px; padding-top: 2px; font-variant-numeric: tabular-nums; }
-.kayit-govde { flex: 1; min-width: 0; }
-.kayit-tur { font-size: 11px; color: var(--soluk); letter-spacing: .04em; }
-.kayit-metin { font-size: 15px; line-height: 1.45; margin-top: 3px; word-wrap: break-word; }
-.kayit-sahip { font-size: 11px; color: var(--cok-soluk); margin-top: 4px; }
+.kayit-saat { font-size: 12.5px; color: var(--soluk); min-width: 40px; padding-top: 14px; font-variant-numeric: tabular-nums; }
+
+/* Her kayıt bir kart.
+   Önce düz satırlardı; 14 kayıtlık bir gün tek bir metin bloğuna dönüşüyor,
+   nerede biri bitip öteki başlıyor anlaşılmıyordu. Kart, kaydı bir şeyin
+   içine koyuyor — defterin sayfasına yapıştırılmış bir pusula gibi. */
+.kayit-govde {
+  flex: 1; min-width: 0;
+  background: var(--kat); border: 1px solid var(--cizgi);
+  border-radius: 16px; padding: 12px 14px;
+}
+/* Tür adı artık bir başlık üstü etiketi: küçük, aralıklı, vurgu renginde.
+   Kaydın kendi metniyle yarışmıyor ama ne olduğunu bir bakışta söylüyor. */
+.kayit-tur {
+  font-size: 10px; color: var(--vurgu); font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase;
+}
+.kayit-metin { font-size: 16px; line-height: 1.35; margin-top: 5px; word-wrap: break-word; }
+/* Sahip ve konum kartın alt şeridinde, ince bir çizginin altında. */
+.kayit-sahip {
+  font-size: 11px; color: var(--cok-soluk); margin-top: 10px;
+  padding-top: 9px; border-top: 1px solid var(--cizgi);
+}
 .kayit-yer { font-size: 11px; color: var(--cok-soluk); margin-top: 2px; }
 
 /* Ses oynatıcı. Çubuk sürüklenebiliyor: bir konuşmanın ortasını bulmak için
@@ -248,10 +348,12 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
 }
 .kayit-foto img { width: 100%; display: block; }
 
-.kayit-eylemler { display: flex; gap: 8px; margin-top: 10px; }
+.kayit-eylemler { display: flex; gap: 8px; margin-top: 9px; }
+/* Hap biçimli, zeminsiz: kartın içindeki asıl şey kaydın kendisi, bu ikisi
+   ihtiyaç olunca bakılan şeyler. */
 .satir-dugme {
-  padding: 6px 11px; border-radius: 8px; font-size: 11.5px;
-  background: var(--kat2); border: 1px solid var(--cizgi); color: var(--soluk);
+  padding: 5px 11px; border-radius: 999px; font-size: 11.5px;
+  background: transparent; border: 1px solid var(--cizgi); color: var(--soluk);
 }
 .satir-dugme.sil { color: var(--kirmizi); }
 
@@ -505,7 +607,9 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
 .yildiz {
   width: 34px; height: 34px; padding: 0;
   background: none; border: none; line-height: 1;
-  font-size: 21px; color: var(--cizgi);
+  /* Boş yıldız çizgi renginde kalınca gece kipinde neredeyse görünmüyordu —
+     dokunulabilir bir şey olduğu anlaşılmalı. */
+  font-size: 21px; color: color-mix(in srgb, var(--soluk) 45%, transparent);
 }
 .yildiz.dolu { color: var(--vurgu); }
 .puan-yazi { margin-left: 8px; font-size: 11.5px; color: var(--cok-soluk); }

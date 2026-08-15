@@ -4,7 +4,7 @@
 
 // DİKKAT: her yayında bu sürüm değişmeli, yoksa telefonlar eski dosyaları
 // önbellekten sunmaya devam eder. arac/yayinla.sh bunu kendiliğinden günceller.
-const SURUM = 'gerok-20260815-183023';
+const SURUM = 'gerok-20260815-184033';
 
 const DOSYALAR = [
   './',
@@ -14,6 +14,12 @@ const DOSYALAR = [
   './kurulum.html',
   './tamir.html',
   './css/stil.css',
+  // Arayüz yazı tipleri. Google Fonts'a bağlanmıyoruz — yolda internet yok.
+  // Bunlar olmadan uygulama çalışır ama sistem yazı tipine düşer.
+  './yazitipi/dmsans-latin.woff2',
+  './yazitipi/dmsans-latin-ext.woff2',
+  './yazitipi/lora-latin.woff2',
+  './yazitipi/lora-latin-ext.woff2',
   './js/app.js',
   './js/veri.js',
   './js/depo.js',
