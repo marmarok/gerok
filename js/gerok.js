@@ -24,6 +24,19 @@ let siraDuzeni = {};
 // karşı telefona da geçiyor ve gerekirse geri alınabiliyor.
 let gunDuzeni = {};
 
+// Duraklara elle yazılan notlar: durak kimliği → not dizisi.
+//
+// Pakette zaten "unutma" listesi var ama o Mac'te hazırlanıyor ve yolda
+// değişmiyor. Asıl işe yarayan bilgi orada çıkıyor: "tarçınlı tatlıyı şu
+// köşedeki dükkândan al", "müzenin arka kapısı açık". Her not kendi
+// kimliğiyle duruyor ki akşam eşitlemesinde iki telefonun notları
+// birbirini ezmeden birleşsin.
+let durakNotlari = {};
+
+// Durak puanları: durak kimliği → { puan: 1..5, t: yazılma anı }
+// Puan tek sayı; çakışmada en son yazılan kazanıyor.
+let durakPuanlari = {};
+
 export function aktifGerok() { return aktif; }
 
 export async function baslat() {
@@ -45,6 +58,8 @@ export async function baslat() {
   ozel = await ayarOku('ozelDuraklar', []);
   siraDuzeni = await ayarOku('durakSirasi', {});
   gunDuzeni = await ayarOku('durakGunleri', {});
+  durakNotlari = await ayarOku('durakNotlari', {});
+  durakPuanlari = await ayarOku('durakPuanlari', {});
   return aktif;
 }
 
@@ -237,6 +252,9 @@ export function duraklar(gerok = aktif) {
   for (const d of hepsi) {
     if (gunDuzeni[d.id] != null) { d.gun = gunDuzeni[d.id]; d.gunTasindi = true; }
     if (siraDuzeni[d.id] != null) d.sira = siraDuzeni[d.id];
+    d.notlar = (durakNotlari[d.id] || []).filter(n => !n.silindi)
+      .sort((a, b) => (a.t || 0) - (b.t || 0));
+    d.puan = durakPuanlari[d.id]?.puan ?? null;
   }
   return hepsi.sort(sirala);
 }
@@ -339,6 +357,88 @@ export async function durakGunuDegistir(id, gun) {
 export function ozelDurakListesi() { return ozel; }
 export function siraDuzeniAl() { return siraDuzeni; }
 export function gunDuzeniAl() { return gunDuzeni; }
+export function durakNotlariAl() { return durakNotlari; }
+export function durakPuanlariAl() { return durakPuanlari; }
+
+// ---- Durak notları ---------------------------------------------------------
+
+export async function durakNotEkle(id, metin, sahipAd = '') {
+  const m = String(metin || '').trim();
+  if (!id || !m) return null;
+  const not = {
+    id: yeniKimlik('n'),
+    metin: m,
+    t: Date.now(),
+    sahipAd: sahipAd || '',
+    silindi: false
+  };
+  durakNotlari = { ...durakNotlari, [id]: [...(durakNotlari[id] || []), not] };
+  await ayarYaz('durakNotlari', durakNotlari);
+  return not;
+}
+
+// Silme, satırı listeden çıkarmak yerine işaretleme. Yoksa akşam
+// eşitlemesinde karşı telefon o notu "yeni" sanıp geri getirirdi.
+export async function durakNotSil(durakId, notId) {
+  const liste = durakNotlari[durakId];
+  if (!liste) return false;
+  const n = liste.find(x => x.id === notId);
+  if (!n) return false;
+  n.silindi = true;
+  n.guncelleme = Date.now();
+  await ayarYaz('durakNotlari', durakNotlari);
+  return true;
+}
+
+export async function durakNotlariBirlestir(gelen = null) {
+  if (!gelen || typeof gelen !== 'object') return 0;
+  let yeni = 0;
+  for (const [durakId, liste] of Object.entries(gelen)) {
+    if (!Array.isArray(liste)) continue;
+    const eldeki = new Map((durakNotlari[durakId] || []).map(n => [n.id, n]));
+    for (const g of liste) {
+      if (!g?.id) continue;
+      const b = eldeki.get(g.id);
+      if (!b) { eldeki.set(g.id, { ...g }); if (!g.silindi) yeni++; }
+      // Silme her zaman kazanıyor: karşı taraf sildiyse geri gelmesin.
+      else if (g.silindi && !b.silindi) eldeki.set(g.id, { ...g });
+    }
+    durakNotlari[durakId] = Array.from(eldeki.values());
+  }
+  await ayarYaz('durakNotlari', durakNotlari);
+  return yeni;
+}
+
+// ---- Durak puanı -----------------------------------------------------------
+
+export async function durakPuanla(id, puan) {
+  if (!id) return false;
+  // Aynı yıldıza tekrar basmak puanı kaldırıyor — yanlış basınca geri dönüş
+  // olsun; puan silmek için ayrı bir düğme koymak kalabalık yapardı.
+  if (puan == null || durakPuanlari[id]?.puan === puan) {
+    durakPuanlari = { ...durakPuanlari };
+    delete durakPuanlari[id];
+  } else {
+    durakPuanlari = { ...durakPuanlari, [id]: { puan, t: Date.now() } };
+  }
+  await ayarYaz('durakPuanlari', durakPuanlari);
+  return true;
+}
+
+export async function durakPuanlariBirlestir(gelen = null) {
+  if (!gelen || typeof gelen !== 'object') return 0;
+  let yeni = 0;
+  for (const [id, g] of Object.entries(gelen)) {
+    if (!g || typeof g.puan !== 'number') continue;
+    const b = durakPuanlari[id];
+    // En son yazılan kazanıyor. İkiniz aynı yere ayrı puan verdiyseniz
+    // son dokunuş geçerli — bu bir oylama değil, ortak defter.
+    if (!b) { durakPuanlari[id] = { ...g }; yeni++; }
+    else if ((g.t || 0) > (b.t || 0)) durakPuanlari[id] = { ...g };
+  }
+  await ayarYaz('durakPuanlari', durakPuanlari);
+  return yeni;
+}
 
 // Akşam eşitlemesinde gelen gün değişikliklerini alır. Kendi değişikliğimiz
 // önde: yolda ikimiz de aynı durağa dokunduysak kendi telefonundaki karar

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#12100e">
+<title>Gerok — tamir kılavuzu</title>
+<style>
+  :root {
+    --zemin:#12100e; --kat:#1c1917; --kat2:#262220; --cizgi:#38322e;
+    --yazi:#f0ebe5; --soluk:#a09488; --cok-soluk:#6b625a;
+    --vurgu:#e0a458; --kirmizi:#d9634f; --yesil:#7ba05b;
+  }
+  * { box-sizing:border-box; }
+  body {
+    margin:0; background:var(--zemin); color:var(--yazi);
+    font-family:-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+    line-height:1.6; padding:0 0 70px;
+    -webkit-text-size-adjust:100%;
+  }
+  .kap { max-width:640px; margin:0 auto; padding:0 20px; }
+  header { padding:44px 0 22px; text-align:center; }
+  .ad { font-size:32px; font-weight:300; letter-spacing:.3em; color:var(--vurgu);
+        text-transform:uppercase; padding-left:.3em; }
+  .alt { color:var(--soluk); margin-top:10px; font-size:15px; }
+
+  .altin {
+    background:linear-gradient(160deg,#2a2119,var(--kat));
+    border:1px solid #4a3a22; border-radius:14px; padding:16px 18px; margin:20px 0 8px;
+  }
+  .altin b { color:var(--vurgu); }
+
+  h2 {
+    font-size:13px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--cok-soluk); font-weight:600;
+    margin:36px 0 12px; padding-bottom:9px; border-bottom:1px solid var(--cizgi);
+  }
+
+  /* Her sorun bir kart. Belirti kalın, çözüm adım adım. Yolda telefondan
+     okunuyor: uzun paragraf değil, numaralı kısa satır. */
+  .sorun {
+    background:var(--kat); border:1px solid var(--cizgi);
+    border-radius:13px; padding:15px 17px; margin:11px 0;
+  }
+  .belirti { font-size:16px; font-weight:600; margin-bottom:4px; }
+  .neden { color:var(--cok-soluk); font-size:13px; margin-bottom:11px; }
+  .sorun ol { margin:0; padding-left:20px; }
+  .sorun ol li { font-size:14.5px; color:var(--soluk); padding:4px 0; }
+  .sorun ol li b, .neden b { color:var(--yazi); font-weight:600; }
+  .sorun p { font-size:14.5px; color:var(--soluk); margin:8px 0 0; }
+
+  .yol {
+    display:inline-block; background:var(--kat2); border:1px solid var(--cizgi);
+    border-radius:7px; padding:1px 8px; font-size:13px; color:var(--vurgu);
+    white-space:nowrap;
+  }
+  .iyi { color:var(--yesil); }
+  .kotu { color:var(--kirmizi); }
+
+  .dikkat {
+    border-color:#5a2f28; background:linear-gradient(160deg,#2a1a17,var(--kat));
+  }
+  .dikkat .belirti { color:var(--kirmizi); }
+
+  footer {
+    margin-top:44px; padding-top:22px; border-top:1px solid var(--cizgi);
+    color:var(--cok-soluk); font-size:13.5px; text-align:center;
+  }
+</style>
+</head>
+<body>
+<div class="kap">
+
+<header>
+  <div class="ad">Gerok</div>
+  <div class="alt">Tamir kılavuzu — bir şey ters gittiğinde</div>
+</header>
+
+<div class="altin">
+  <b>Altın kural:</b> hiçbir şeyi silmeden önce <span class="yol">Gerok → Yedek al</span>.
+  Yedek Dosyalar'a iniyor, birkaç saniye sürüyor ve elindeki her şeyi kurtarıyor.
+  Aşağıdaki çözümlerin çoğu veriye dokunmuyor; ama sıra en alttaki
+  "son çare"ye gelirse yedek olmadan geri dönüş yok.
+</div>
+
+<div class="altin">
+  <b>İkinci kural:</b> önce <span class="yol">Gerok → Telefonu sına</span> de.
+  O sayfa mikrofonu, depolamayı, konumu ve haritayı tek tek dener ve hangisinin
+  bozuk olduğunu yazar. Aşağıda ne arayacağını bilmek için önce oraya bak.
+</div>
+
+<h2>En sık olan üç şey</h2>
+
+<div class="sorun">
+  <div class="belirti">Yeni özellikler görünmüyor</div>
+  <div class="neden">Telefon eski dosyaları kendi belleğinden sunuyor.</div>
+  <ol>
+    <li>Uygulamayı <b>tamamen kapat</b> — aşağıdan yukarı kaydırıp kartı yukarı at.
+      Sadece ana ekrana dönmek yetmiyor.</li>
+    <li>Aç. Bir şey değişmemiş gibi görünebilir — bu normal, arka planda indiriyor.</li>
+    <li><b>Yine tamamen kapat, yine aç.</b> İkinci açılışta yeni sürüm devreye giriyor.</li>
+    <li>Kontrol: <span class="yol">Gerok → Yüklü sürüm</span> tarihi bugüne yakın olmalı.
+      "Yeni sürüm var mı?" düğmesi de doğrudan söyler.</li>
+  </ol>
+  <p>iOS'ta iki kapat-aç gerekiyor; bir tanesiyle olmuyor. Sebebi bizde değil,
+  iPhone'un uygulamayı yenileme sırasında.</p>
+</div>
+
+<div class="sorun">
+  <div class="belirti">Ses kaydı zaman çizgisine düşmedi</div>
+  <div class="neden">Neredeyse her zaman: kayıt sırasında ekran kapandı.</div>
+  <ol>
+    <li>Kayıt sırasında <b>ekranı kapatma</b>. Uygulama kayıt boyunca ekranı
+      açık tutuyor, ama güç düğmesine basılırsa iPhone kaydı kesiyor.</li>
+    <li>Ara vermen gerekiyorsa durdurma — <span class="yol">⏸ Duraklat</span> de.
+      Sonra "Devam et" dediğinde aynı kaydın içinden sürer.</li>
+    <li>Uzun kayıt yapacaksan <span class="yol">Duraklar → Yol Modu</span>'nu aç:
+      ekranı hiç söndürmüyor.</li>
+    <li>Yine olduysa uygulama sana açıkça <span class="kotu">"KAYIT EDİLEMEDİ"</span>
+      der. Bu yazıyı gördüysen ses gerçekten yok; sessizce kaybolmuyor.</li>
+  </ol>
+</div>
+
+<div class="sorun">
+  <div class="belirti">Fotoğraflar zaman çizgisinde yok</div>
+  <div class="neden">Fotoğraf kendiliğinden gelmiyor — sen ekliyorsun.</div>
+  <ol>
+    <li><span class="yol">Kayıt → Fotoğraf ekle</span> de, galeriden seç.
+      Uygulama fotoğraf çekmiyor; galeriden alıyor.</li>
+    <li>Fotoğraf, <b>çekildiği saate</b> yerleşir — eklediğin saate değil.
+      Yani listenin en altında değil, o günün içinde arada durur.
+      Eklendikten sonra uygulama seni oraya götürüp kartı yakıyor.</li>
+    <li>Çok fotoğraf eklediysen bir süre "alınıyor" yazar. Bitmesini bekle,
+      ekranı kapatma.</li>
+    <li>Bazıları alınamadıysa uygulama hangileri olduğunu adıyla söyler.</li>
+  </ol>
+</div>
+
+<h2>Ses</h2>
+
+<div class="sorun">
+  <div class="belirti">Kayıt başlamıyor, "Mikrofon izni yok" diyor</div>
+  <ol>
+    <li>iPhone <span class="yol">Ayarlar → Safari → Mikrofon</span> → <b>Sor</b> ya da <b>İzin ver</b>.</li>
+    <li>Uygulamayı tamamen kapat, aç, tekrar dene. İzni bir kez verince bir daha sormaz.</li>
+  </ol>
+</div>
+
+<div class="sorun">
+  <div class="belirti">Kaydı açıyorum, ses çıkmıyor</div>
+  <ol>
+    <li>Telefonun yan tarafındaki <b>sessiz düğmesi</b> — turuncu görünüyorsa kapalıdır.</li>
+    <li>Ses seviyesini yükselt; kulaklık takılıysa çıkar.</li>
+    <li>Kartın altında süre <span class="yol">0:00 / 0:00</span> yazıyorsa o kayıt
+      gerçekten boş — yukarıdaki "ekran kapandı" sorunu yaşanmış demektir.</li>
+  </ol>
+</div>
+
+<div class="sorun">
+  <div class="belirti">Hangi kaydın ne olduğunu bilmiyorum</div>
+  <ol>
+    <li>Her kayıttan sonra çıkan <b>"Bu kayıt ne hakkında?"</b> penceresine tek satır yaz.
+      Atlarsan kart "Sesli not" diye kalır ve açmadan anlaşılmaz.</li>
+    <li>82 tane aynı görünen kart oluşmasının sebebi buydu; tek satır bunu bitiriyor.</li>
+  </ol>
+</div>
+
+<h2>Uyarılar</h2>
+
+<div class="sorun">
+  <div class="belirti">Durağa yaklaştım, sesli uyarı gelmedi</div>
+  <div class="neden">Uyarı yalnızca uygulama <b>açıkken</b> çalışır. iPhone,
+  kapalı bir web uygulamasının konum takip etmesine izin vermiyor.</div>
+  <ol>
+    <li>Araçta <span class="yol">Duraklar → Yol Modu</span>'nu aç ve telefonu şarjda tut.
+      Ekran açık kalır, iz kaydedilir, durağa 2 km kala uyarır.</li>
+    <li>Sessiz düğmesi açıksa uyarı sesi de duyulmaz.</li>
+    <li>iPhone'da <b>titreşim yok</b> — Safari titreşimi hiç desteklemiyor.
+      Uyarı sesle ve ekrandaki yazıyla gelir, titreşimle değil.</li>
+    <li>Her durak <b>bir kez</b> uyarır. Aynı durağa ikinci kez yaklaşırsan
+      tekrar uyarmaz — bu bilerek böyle.</li>
+  </ol>
+</div>
+
+<h2>Harita ve iz</h2>
+
+<div class="sorun">
+  <div class="belirti">Harita boş, gri ya da yazısız</div>
+  <ol>
+    <li><span class="yol">Gerok → Offline harita</span> satırına bak.
+      "indirilmedi" yazıyorsa harita paketi bu telefonda yok.</li>
+    <li>İndirme <b>ev wifi'sinde</b> yapılmalı — paket birkaç yüz megabayt,
+      yolda mobil veriyle indirmeye kalkma.</li>
+    <li>İndirme yarıda kaldıysa aynı düğmeye tekrar bas, kaldığı yerden gitmez
+      ama baştan alır ve düzelir.</li>
+  </ol>
+</div>
+
+<div class="sorun">
+  <div class="belirti">İz çizgisi kopuk, kat edilen km yanlış</div>
+  <div class="neden">İz yalnızca uygulama açıkken nokta biriktirir. Telefon cepteyken
+  ya da uygulama kapalıyken o aralık boş kalır — çizgi de kopuk görünür.</div>
+  <ol>
+    <li>Araçtayken <b>Yol Modu</b> açık kalsın; kopukluğun asıl çaresi bu.</li>
+    <li>Üst köşedeki <span class="yol">iz rozeti</span>'ne bak: "kapalı" yazıyorsa
+      dokunup aç.</li>
+    <li>Şarj %20'nin altına inince iz aralığı kendiliğinden seyreliyor
+      (30 saniyede bir yerine 2 dakikada bir). Bu bir arıza değil, batarya
+      korunuyor — çizgi biraz köşeli çıkar.</li>
+    <li>Gezi bitince kopuklukları gerçek yol rotasıyla doldurup km'yi
+      yeniden hesaplayan bir araç var; ham iz bozuk kalsa bile arşivdeki
+      rota kesintisiz oluyor.</li>
+  </ol>
+</div>
+
+<div class="sorun">
+  <div class="belirti">Kayıtlarda "konumsuz" yazıyor</div>
+  <ol>
+    <li>Konum izni: <span class="yol">Ayarlar → Safari → Konum</span> → <b>Sor</b>.</li>
+    <li>İçerideysen ya da tünelde GPS tutmaz; birkaç dakika sonra tekrar dene.</li>
+    <li>Konum bulunamazsa kayıt yine de kaydedilir, sadece haritaya oturmaz.
+      İz açıkken yapılan kayıtlar sonradan saate göre ize eşleşir.</li>
+  </ol>
+</div>
+
+<h2>Eşitleme ve yedek</h2>
+
+<div class="sorun">
+  <div class="belirti">AirDrop paketi karşı telefona gitmiyor</div>
+  <ol>
+    <li>İki telefonda da <b>Bluetooth ve Wi-Fi açık</b> olmalı — internet gerekmiyor,
+      ama bu ikisi kapalıysa AirDrop çalışmaz.</li>
+    <li>Karşı telefonda AirDrop <b>"Herkes"</b> ya da "Yalnızca Kişiler" olmalı,
+      "Alma Kapalı" değil.</li>
+    <li>Gelen dosya <b>Dosyalar</b>'a iner. Sonra o telefonda
+      <span class="yol">Gerok → Gelen paketi al</span> deyip dosyayı seç.</li>
+    <li>Aynı paketi iki kez almak zarar vermez — hiçbir şey yinelenmez.</li>
+  </ol>
+</div>
+
+<div class="sorun">
+  <div class="belirti">"Bu paket zaten alınmış" diyor ama kayıtlar yok</div>
+  <ol>
+    <li>Muhtemelen kayıtlar <b>başka bir tura</b> ait.
+      <span class="yol">Gerok → Turları yönet</span>'ten doğru tura geç.</li>
+    <li>Her tur ayrı bir defter; bir turun kayıtları öbüründe görünmez.
+      Kaybolmuş değil, öbür defterde.</li>
+  </ol>
+</div>
+
+<h2>Depolama</h2>
+
+<div class="sorun">
+  <div class="belirti">"Ses dosyaya yazılamadı" ya da kayıt donuyor</div>
+  <div class="neden">Telefonda yer kalmamış olabilir.</div>
+  <ol>
+    <li><span class="yol">Gerok → Kullanılan</span> satırına bak.</li>
+    <li>iPhone <span class="yol">Ayarlar → Genel → iPhone Depolama</span>'dan
+      genel duruma bak.</li>
+    <li>Önce <b>yedek al</b>, sonra yer aç. Sırayı ters yapma.</li>
+  </ol>
+</div>
+
+<div class="sorun">
+  <div class="belirti">"Kalıcı depolama: hayır" yazıyor</div>
+  <ol>
+    <li>Bu, iPhone'un uygulamaya kalıcı yer sözü vermediği anlamına gelir.
+      iOS bunu genelde vermiyor — normal.</li>
+    <li>Tehlike şu: telefonun yeri çok azalırsa iOS bu verileri silebilir.</li>
+    <li>Çare tek: <b>her akşam yedek al</b>. Yedek Dosyalar'da, uygulamadan bağımsız durur.</li>
+  </ol>
+</div>
+
+<h2>Yanlışlıkla silmek</h2>
+
+<div class="sorun">
+  <div class="belirti">Bir kaydı yanlışlıkla sildim</div>
+  <ol>
+    <li>Silme geri alınamıyor ve eşitlemeyle karşı telefonda da silinir.</li>
+    <li>Ama karşı telefon paketi <b>henüz almadıysa</b> o kayıt onda hâlâ durur:
+      o telefondan sana paket göndersin.</li>
+    <li>Dünkü yedeğin varsa oradan da dönülür.</li>
+  </ol>
+</div>
+
+<div class="sorun">
+  <div class="belirti">Bir durağı yanlışlıkla sildim</div>
+  <ol>
+    <li>Yalnızca <b>kendi eklediğin</b> duraklar silinebiliyor; paketten gelen
+      duraklar silinmez, en fazla "Kaçırdık" işaretlenir.</li>
+    <li>Sildiğin durağı haritadan yeniden koyabilirsin —
+      o durakta yaptığın kayıtlar zaten silinmedi, yerinde duruyor.</li>
+  </ol>
+</div>
+
+<h2 class="kotu">Son çare</h2>
+
+<div class="sorun dikkat">
+  <div class="belirti">Hiçbiri işe yaramadı</div>
+  <ol>
+    <li><b>Önce yedek al.</b> <span class="yol">Gerok → Yedek al</span>.
+      Dosyalar'a indiğini gözünle gör.</li>
+    <li>Yedeği bir de karşı telefona AirDrop'la — tek kopya bırakma.</li>
+    <li>Uygulamayı ana ekrandan sil.</li>
+    <li>Safari'den adresi aç, yeniden ana ekrana ekle.</li>
+    <li>Adını gir, sonra <span class="yol">Gerok → Gelen paketi al</span> ile
+      yedeği geri yükle.</li>
+    <li>Harita paketini yeniden indir (ev wifi'sinde).</li>
+  </ol>
+  <p class="kotu"><b>Yedeksiz silme.</b> Uygulama silinince telefondaki kayıtlar da gider.</p>
+</div>
+
+<footer>
+  Bu sayfa telefonun içinde duruyor — internet olmadan da açılır.<br>
+  <span class="yol">Gerok → Tamir kılavuzu</span>
+</footer>
+
+</div>
+</body>
+</html>

@@ -48,6 +48,16 @@ let kaydedici = null;
 let parcalar = [];
 let baslangicAni = 0;
 
+// Duraklatma muhasebesi.
+//
+// Rehber anlatırken araya girip sonra kaldığı yerden devam etmek gerekiyor
+// (gezide oldu). MediaRecorder'ın kendi `pause()`/`resume()`'u sesi TEK
+// dosyada birleştiriyor — durdurup yeni kayıt açmaya gerek yok, ara da
+// dosyaya girmiyor. Bizim tutmamız gereken tek şey ne kadar durakladığımız:
+// yoksa süre sayacı ve ortam sesinin geri sayımı ara boyunca da işler.
+let duraklamaAni = 0;      // 0 = duraklamış değiliz
+let duraklananMs = 0;      // toplam duraklı geçen süre
+
 function enIyiSesBicimi() {
   const adaylar = [
     'audio/mp4',              // iOS Safari bunu veriyor
@@ -93,7 +103,41 @@ export async function sesBasla() {
 
   kaydedici.ondataavailable = (e) => { if (e.data.size) parcalar.push(e.data); };
   kaydedici.start(PARCA_MS);
+  duraklamaAni = 0;
+  duraklananMs = 0;
   gorunurlukDinle();
+  return true;
+}
+
+// ---- Duraklat / devam et ---------------------------------------------------
+
+// Tarayıcı duraklatmayı destekliyor mu? Safari destekliyor ama emin olmadan
+// düğmeyi göstermek, basınca hiçbir şey olmayan bir düğme demek olurdu.
+export function sesDuraklatilabilirMi() {
+  return typeof MediaRecorder !== 'undefined'
+    && typeof MediaRecorder.prototype.pause === 'function'
+    && typeof MediaRecorder.prototype.resume === 'function';
+}
+
+export function sesDuraklandiMi() { return duraklamaAni > 0; }
+
+export function sesDuraklat() {
+  if (!kaydedici || kaydedici.state !== 'recording') return false;
+  try {
+    // Duraklatmadan önce elde olanı al: iOS bu sırada sayfayı dondurursa
+    // (ki duraklatıp cebe koymak tam o durum) son parça kaybolmasın.
+    kaydedici.requestData();
+    kaydedici.pause();
+  } catch { return false; }
+  duraklamaAni = Date.now();
+  return true;
+}
+
+export function sesDevam() {
+  if (!kaydedici || kaydedici.state !== 'paused') return false;
+  try { kaydedici.resume(); } catch { return false; }
+  if (duraklamaAni) duraklananMs += Date.now() - duraklamaAni;
+  duraklamaAni = 0;
   return true;
 }
 
@@ -114,8 +158,12 @@ function gorunurlukDinle() {
   window.addEventListener('pagehide', kurtar);
 }
 
+// Kaydedilen sesin süresi — duraklı geçen zaman sayılmıyor. Sayaçta 3 dakika
+// yazıp dosya 40 saniye çıksaydı, hangi kaydın nerede olduğu anlaşılmazdı.
 export function sesSuresi() {
-  return kaydedici ? (Date.now() - baslangicAni) / 1000 : 0;
+  if (!kaydedici) return 0;
+  const suanDurakli = duraklamaAni ? Date.now() - duraklamaAni : 0;
+  return (Date.now() - baslangicAni - duraklananMs - suanDurakli) / 1000;
 }
 
 export function sesKaydediyorMu() { return kaydedici !== null; }
@@ -125,7 +173,7 @@ export async function sesBitir(tur = 'ses', ekler = {}) {
   if (!kaydedici) return null;
 
   const bicim = kaydedici.mimeType || 'audio/mp4';
-  const sure = (Date.now() - baslangicAni) / 1000;
+  const sure = sesSuresi();     // duraklı geçen süre düşülmüş hâli
 
   // `onstop` beklenirken zaman aşımı: iOS sayfayı arada dondurduysa bu olay
   // hiç gelmeyebiliyor ve eskiden burada sonsuza kadar bekleniyordu — kayıt
@@ -148,6 +196,8 @@ export async function sesBitir(tur = 'ses', ekler = {}) {
   kaydedici.stream.getTracks().forEach(iz => iz.stop());
   kaydedici = null;
   parcalar = [];
+  duraklamaAni = 0;
+  duraklananMs = 0;
 
   // Yarım saniyenin altı kazayla basılmış demektir, kaydetme.
   if (sure < 0.5) return null;
@@ -202,6 +252,8 @@ export function sesIptal() {
   } catch { /* zaten durmuş olabilir */ }
   kaydedici = null;
   parcalar = [];
+  duraklamaAni = 0;
+  duraklananMs = 0;
 }
 
 // ---- Yazı, işaret, kişi, fiyat -------------------------------------------

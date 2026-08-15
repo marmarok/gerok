@@ -139,15 +139,81 @@ function sekmeleriKur() {
   $$('#altBar .sekme').forEach(d => {
     d.addEventListener('click', () => ekranAc(d.dataset.ekran));
   });
+  kaydirmaKur();
 }
 
-function ekranAc(ad) {
+// Ekranların alt bardaki sırası. Kaydırma bu sırayı izliyor — parmak sola
+// giderse sağdaki ekran gelir, tıpkı sayfa çevirir gibi.
+const EKRAN_SIRASI = ['zaman', 'harita', 'kayit', 'duraklar', 'gerok'];
+
+/**
+ * Sağa-sola kaydırarak ekran değiştirme.
+ *
+ * Alt bar duruyor; bu onun yerine değil, yanına. Üç şeye dikkat edildi:
+ *
+ * 1. HARİTA. Haritada parmak zaten haritayı kaydırıyor. Orada sıradan
+ *    kaydırma çalışsaydı harita her sürüklendiğinde ekran değişirdi. Bu
+ *    yüzden haritanın üstünde YALNIZCA kenardan başlayan kaydırma sayılıyor
+ *    — iOS'un kendi geri hareketiyle aynı mantık.
+ * 2. DİKEY KAYDIRMA. Zaman çizgisi uzun; aşağı kaydırırken parmak biraz
+ *    yana da kayıyor. Yatay hareket dikeyin iki katından fazla değilse
+ *    kaydırma sayılmıyor.
+ * 3. AÇIK KATMANLAR. Ses kaydı ya da bir soru penceresi açıkken ekran
+ *    değişmemeli — arkada sekme değiştirmek kaydı görünmez hâle getirirdi.
+ */
+const KAYDIRMA_ESIK = 64;      // en az bu kadar yatay yol
+const KENAR_PIKSEL = 56;       // ekran kenarından başlayan hareket
+
+function kaydirmaKur() {
+  const govde = $('#govde');
+  let bx = 0, by = 0, bt = 0, kenardan = false, gecerli = false;
+
+  govde.addEventListener('touchstart', (e) => {
+    if (e.touches.length !== 1) { gecerli = false; return; }
+    const d = e.touches[0];
+    bx = d.clientX; by = d.clientY; bt = Date.now();
+    kenardan = bx <= KENAR_PIKSEL || bx >= innerWidth - KENAR_PIKSEL;
+    // Haritada yalnızca kenardan; diğer ekranlarda her yerden.
+    gecerli = durum.ekran === 'harita' ? kenardan : true;
+  }, { passive: true });
+
+  govde.addEventListener('touchend', (e) => {
+    if (!gecerli) return;
+    gecerli = false;
+
+    // Üstte bir katman varsa el sürme.
+    if (sesKaydiVarMi()) return;
+    if (!$('#ortu').classList.contains('gizli')) return;
+    if (!$('#haritaAramaKap').classList.contains('gizli')) return;
+    if (!$('#haritaEkleBar').classList.contains('gizli')) return;
+
+    const d = e.changedTouches[0];
+    const dx = d.clientX - bx, dy = d.clientY - by;
+    if (Date.now() - bt > 700) return;              // yavaş sürükleme değil
+    if (Math.abs(dx) < KAYDIRMA_ESIK) return;
+    if (Math.abs(dx) < Math.abs(dy) * 2) return;    // aslında aşağı kaydırıyor
+
+    const yer = EKRAN_SIRASI.indexOf(durum.ekran);
+    if (yer < 0) return;
+    const hedef = EKRAN_SIRASI[yer + (dx < 0 ? 1 : -1)];
+    if (!hedef) return;
+    ekranAc(hedef, dx < 0 ? 'sol' : 'sag');
+  }, { passive: true });
+}
+
+function ekranAc(ad, yon = null) {
   // Haritadan çıkarken durak koyma kipi de kapansın — dönünce nişangâh
   // ekranda kalmış olurdu.
   if (durum.ekran === 'harita' && ad !== 'harita') durakKoymaKipi(false);
   durum.ekran = ad;
-  $$('.ekran').forEach(e => e.classList.remove('acik'));
-  $(`#ekran-${ad}`)?.classList.add('acik');
+  $$('.ekran').forEach(e => e.classList.remove('acik', 'gelir-sol', 'gelir-sag'));
+  const ekran = $(`#ekran-${ad}`);
+  ekran?.classList.add('acik');
+  // Kaydırarak gelindiyse yönü belli olsun: nereden geldiğini görmek,
+  // hangi sekmede olduğunu anlamayı kolaylaştırıyor.
+  if (yon && ekran) {
+    ekran.classList.add(yon === 'sol' ? 'gelir-sol' : 'gelir-sag');
+  }
   $$('#altBar .sekme').forEach(d => d.classList.toggle('secili', d.dataset.ekran === ad));
 
   if (ad === 'zaman') zamanCizgisiCiz();
@@ -725,21 +791,68 @@ function sesKilidiBirak() {
 
 function sesKatmaniKapat() {
   $('#sesKatman').classList.add('gizli');
+  $('#sesKatman').classList.remove('durakli');
   $('#sesSure').textContent = '0:00';
   sesKilidiBirak();
   sesOturum = null;
 }
 
+/**
+ * Kaydı duraklatır ya da kaldığı yerden devam ettirir.
+ *
+ * Neden gerekli: rehber anlatırken araya biri girdi, telefon çaldı, otobüs
+ * durdu — kaydı bitirip yenisini açmak o konuşmayı ikiye bölüyordu. Aynı
+ * dosyada devam etmek, on yıl sonra dinlerken tek bir anlatı bırakıyor.
+ */
+function sesDuraklatDegistir() {
+  const o = sesOturum;
+  if (!o || o.kapandi) return;
+  const dugme = $('#sesDuraklat');
+
+  if (kayit.sesDuraklandiMi()) {
+    if (!kayit.sesDevam()) { kayitBildir('Devam ettirilemedi.', 'kotu'); return; }
+    $('#sesKatman').classList.remove('durakli');
+    dugme.textContent = '⏸ Duraklat';
+    dugme.classList.remove('birincil');
+    // Kayıt sürerken asıl eylem yine "Durdur ve kaydet".
+    $('#sesDurdur').classList.add('birincil');
+    $('#sesIpucu').textContent = o.ipucu;
+    titret(12);
+  } else {
+    if (!kayit.sesDuraklat()) { kayitBildir('Duraklatılamadı.', 'kotu'); return; }
+    $('#sesKatman').classList.add('durakli');
+    dugme.textContent = '▶ Devam et';
+    dugme.classList.add('birincil');
+    // Duraklıyken asıl eylem "Devam et". İki düğme birden vurgulu olunca
+    // hangisine basılacağı bir anda anlaşılmıyordu (ekran görüntüsünde
+    // ikisi de kahverengi çıktı) — tek vurgulu düğme kalsın.
+    $('#sesDurdur').classList.remove('birincil');
+    $('#sesIpucu').textContent = 'Duraklatıldı — "Devam et" deyince aynı kaydın '
+      + 'içinden sürer. Ara kayda girmez.';
+    titret([8, 40, 8]);
+  }
+}
+
 // tur: kaydın türü · sinir: saniye (0 = sınırsız) · ipucu: katmanda yazan satır
-export async function sesKaydiBaslat(tur, { sinir = 0, ipucu = 'Konuş — bitince "Durdur ve kaydet"', bittiginde = null, baslikSor = true } = {}) {
+export async function sesKaydiBaslat(tur, { sinir = 0, ipucu = 'Konuş — bitince "Durdur ve kaydet"', bittiginde = null, baslikSor = true, ekler = null } = {}) {
   if (sesOturum) return;
-  const o = { tur, iptal: false, kapandi: false, sayac: null, bittiginde, baslikSor };
+  const o = { tur, iptal: false, kapandi: false, sayac: null, bittiginde, baslikSor, ekler, ipucu };
   sesOturum = o;
 
   $('#sesKatman').classList.remove('gizli');
+  $('#sesKatman').classList.remove('durakli');
   $('#sesSure').textContent = sinir ? sureYaz(sinir) : '0:00';
   $('#sesIpucu').textContent = 'Mikrofon açılıyor…';
   $('#sesDurdur').disabled = true;
+  $('#sesDurdur').classList.add('birincil');
+
+  // Duraklatma her tarayıcıda yok; olmayan yerde düğmeyi hiç gösterme —
+  // basınca hiçbir şey olmayan bir düğme, bozuk bir düğmedir.
+  const durDugme = $('#sesDuraklat');
+  durDugme.textContent = '⏸ Duraklat';
+  durDugme.classList.remove('birincil');
+  durDugme.disabled = true;
+  durDugme.classList.toggle('gizli', !kayit.sesDuraklatilabilirMi());
 
   let basladi = false;
   try {
@@ -759,10 +872,10 @@ export async function sesKaydiBaslat(tur, { sinir = 0, ipucu = 'Konuş — bitin
 
   // Ekranın kendiliğinden sönmesini engelle: sönerse iOS kaydı kesiyor.
   const kilitli = await sesKilidiAl();
-  $('#sesIpucu').textContent = kilitli
-    ? ipucu
-    : `${ipucu}\nEkranı kapatma — kayıt kesilir.`;
+  o.ipucu = kilitli ? ipucu : `${ipucu}\nEkranı kapatma — kayıt kesilir.`;
+  $('#sesIpucu').textContent = o.ipucu;
   $('#sesDurdur').disabled = false;
+  $('#sesDuraklat').disabled = false;
   titret(12);
 
   o.sayac = setInterval(() => {
@@ -783,7 +896,7 @@ export async function sesKaydiBitir() {
   // sanır ve ses kaybolur — bu yüzden hata açıkça söyleniyor.
   let k = null;
   try {
-    k = await kayit.sesBitir(o.tur);
+    k = await kayit.sesBitir(o.tur, o.ekler || {});
   } catch (hata) {
     // İki ayrı sebep var ve ikisine yapılacak şey farklı — ayırt et.
     // Üç ayrı sebep var ve yapılacak şey her birinde farklı — ayırt et.
@@ -898,6 +1011,7 @@ function sesKaydiVazgec() {
 function sesDugmeleriniKur() {
   $('#sesDurdur').addEventListener('click', sesKaydiBitir);
   $('#sesVazgec').addEventListener('click', sesKaydiVazgec);
+  $('#sesDuraklat').addEventListener('click', sesDuraklatDegistir);
 }
 
 async function fotograflariAl(dosyalar, tur = null) {
@@ -1032,6 +1146,98 @@ async function ulkeKontrol(nokta) {
 // Duraklar listesi HARİTADAKİ ROTA SIRASINDA diziliyor ve aynı numaraları
 // taşıyor: haritada 7 numaralı iğne, listede 7 numaralı kart. İkisi ayrı
 // sıralanırsa "haritadaki hangisiydi" sorusu doğuyor.
+/**
+ * Durağa elle yazılmış notlar.
+ *
+ * Paketten gelen "unutma" listesinden ayrı gösteriliyor: biri Mac'te önceden
+ * hazırlanmış program, öteki yolda öğrenilen şey ("tatlıyı köşedeki dükkândan
+ * al"). İkisini aynı listede toplamak hangisinin nereden geldiğini siliyordu.
+ */
+function kendiNotlari(d) {
+  if (!d.notlar?.length) return '';
+  return `<ul class="unutma kendi">${d.notlar.map(n => `
+    <li>
+      <div class="not-govde">
+        <span class="not-metin">${kacis(n.metin)}</span>
+        ${n.sahipAd ? `<span class="not-kim">${kacis(n.sahipAd)}</span>` : ''}
+      </div>
+      <button class="not-sil" data-not-sil="${n.id}" data-not-durak="${d.id}"
+              title="Notu sil" aria-label="Notu sil">✕</button>
+    </li>`).join('')}</ul>`;
+}
+
+/**
+ * Beş yıldız — yatay.
+ *
+ * Yatay seçildi: kart zaten yukarıdan aşağı okunuyor, dikey bir yıldız
+ * sütunu kartı iki katına çıkarırdı ve 26 duraklık listede kaydırmayı
+ * uzatırdı. Yatay beş yıldız tek satır, başparmakla ulaşılır.
+ */
+function yildizSatiri(d) {
+  return `<div class="puan" data-puan-durak="${d.id}">
+    ${[1, 2, 3, 4, 5].map(n => `
+      <button class="yildiz ${(d.puan || 0) >= n ? 'dolu' : ''}" data-puan="${n}"
+              aria-label="${n} yıldız">★</button>`).join('')}
+    <span class="puan-yazi">${d.puan ? `${d.puan}/5` : 'puanın'}</span>
+  </div>`;
+}
+
+/** Durağa yeni not yazma penceresi. */
+function durakNotuSor(id, sonra = null) {
+  const d = gerok.durakBul(id);
+  if (!d) return;
+  ortuAc(`
+    <div class="ortu-baslik">${kacis(d.ad)}</div>
+    <div class="ortu-alt">Buraya gelince ne yapmalı? Kendi notun — akşam
+    eşitlemesinde arkadaşının telefonuna da geçer.</div>
+    <textarea class="alan" id="durakNot"
+      placeholder="Örn. Tarçınlı tatlıyı saat kulesinin yanındaki dükkândan al."></textarea>
+    <button class="eylem-dugme birincil" id="durakNotKaydet">Kaydet</button>
+    <button class="eylem-dugme" id="durakNotVaz">Vazgeç</button>
+  `);
+  setTimeout(() => $('#durakNot')?.focus(), 120);
+  $('#durakNotVaz').addEventListener('click', () => { ortuKapat(); sonra?.(); });
+  $('#durakNotKaydet').addEventListener('click', async () => {
+    const m = $('#durakNot').value.trim();
+    ortuKapat();
+    if (m) {
+      await gerok.durakNotEkle(id, m, kayit.sahipAl().ad || '');
+      kayitBildir('Not eklendi.', 'iyi');
+      await tazele();
+    }
+    sonra?.();
+  });
+}
+
+/**
+ * Kart içindeki not silme, yıldız ve "not yaz" düğmelerini bağlar.
+ *
+ * `sonra`: haritadaki durak kartında kullanılıyor. Orada `tazele()` kartı
+ * yeniden çizmiyor — yıldıza basınca ekranda hiçbir şey değişmiyormuş gibi
+ * görünüyordu. Bu geri çağrı kartı yeniden açıyor.
+ */
+function durakNotVePuanKur(kap, sonra = null) {
+  kap.querySelectorAll('[data-not-ekle]').forEach(b => {
+    b.addEventListener('click', () => durakNotuSor(b.dataset.notEkle, sonra));
+  });
+  kap.querySelectorAll('[data-not-sil]').forEach(b => {
+    b.addEventListener('click', async () => {
+      await gerok.durakNotSil(b.dataset.notDurak, b.dataset.notSil);
+      await tazele();
+      sonra?.();
+    });
+  });
+  kap.querySelectorAll('.puan [data-puan]').forEach(b => {
+    b.addEventListener('click', async () => {
+      const id = b.closest('[data-puan-durak]').dataset.puanDurak;
+      await gerok.durakPuanla(id, Number(b.dataset.puan));
+      titret(8);
+      await tazele();
+      sonra?.();
+    });
+  });
+}
+
 function duraklariCiz() {
   const kap = $('#duraklarListe');
   const liste = gerok.duraklar();
@@ -1082,15 +1288,18 @@ function duraklariCiz() {
       ${uzaklik != null ? `<div class="durak-uzaklik">${uzaklikYaz(uzaklik)} uzakta${kendi ? ' · kendi durağın' : ''}${d.gunTasindi ? ' · başka güne taşındı' : ''}</div>`
                         : (kendi || d.gunTasindi) ? `<div class="durak-uzaklik">${kendi ? 'kendi durağın' : ''}${kendi && d.gunTasindi ? ' · ' : ''}${d.gunTasindi ? 'başka güne taşındı' : ''}</div>` : ''}
       ${d.unutma?.length ? `<ul class="unutma">${d.unutma.map(u => `<li>${kacis(u)}</li>`).join('')}</ul>` : ''}
+      ${kendiNotlari(d)}
+      ${yildizSatiri(d)}
       <div class="durak-dugmeler">
         <button class="kucuk-dugme ${dur === 'gidildi' ? 'secili' : ''}" data-isaret="gidildi">Gittik</button>
         <button class="kucuk-dugme ${dur === 'kacirildi' ? 'secili' : ''}" data-isaret="kacirildi">Kaçırdık</button>
         <button class="kucuk-dugme" data-durak-google="${d.id}">Google</button>
       </div>
-      ${kendi ? `<div class="durak-dugmeler">
-        <button class="kucuk-dugme" data-duzenle="${d.id}">Düzenle</button>
-        <button class="kucuk-dugme sil" data-durak-sil="${d.id}">Sil</button>
-      </div>` : ''}
+      <div class="durak-dugmeler">
+        <button class="kucuk-dugme" data-not-ekle="${d.id}">＋ Not yaz</button>
+        ${kendi ? `<button class="kucuk-dugme" data-duzenle="${d.id}">Düzenle</button>
+        <button class="kucuk-dugme sil" data-durak-sil="${d.id}">Sil</button>` : ''}
+      </div>
     </div>`;
   });
 
@@ -1134,6 +1343,7 @@ function duraklariCiz() {
   kap.querySelectorAll('[data-durak-sil]').forEach(d => {
     d.addEventListener('click', () => durakSilSor(d.dataset.durakSil));
   });
+  durakNotVePuanKur(kap);
 }
 
 /**
@@ -1458,15 +1668,22 @@ function durakKartiAc(id) {
     <div class="ortu-baslik"><span class="durak-no">${sira}</span>${kacis(d.ad)}</div>
     <div class="ortu-alt">${d.gun == null ? 'Günsüz' : `Gün ${d.gun}`}${uzaklik != null ? ` · ${uzaklikYaz(uzaklik)} uzakta` : ''}${d.kaynak === 'kendi' ? ' · kendi durağın' : ''}</div>
     ${d.unutma?.length ? `<ul class="unutma">${d.unutma.map(u => `<li>${kacis(u)}</li>`).join('')}</ul>` : ''}
+    ${kendiNotlari(d)}
+    ${yildizSatiri(d)}
     <div class="durak-dugmeler">
       <button class="kucuk-dugme ${dur === 'gidildi' ? 'secili' : ''}" id="kartGidildi">Gittik</button>
       <button class="kucuk-dugme ${dur === 'kacirildi' ? 'secili' : ''}" id="kartKacirildi">Kaçırdık</button>
     </div>
+    <button class="eylem-dugme" data-not-ekle="${d.id}">＋ Not yaz</button>
     <button class="eylem-dugme" id="kartGoogle">Google Haritalar'da aç</button>
     ${d.kaynak === 'kendi' ? '<button class="eylem-dugme" id="kartDuzenle">Düzenle</button>' : ''}
     ${d.kaynak === 'kendi' ? '<button class="eylem-dugme sil" id="kartSil">Sil</button>' : ''}
     <button class="eylem-dugme" id="kartKapat">Kapat</button>
   `);
+
+  // Not ve puan haritadaki kartta da çalışsın: durak listesine gidip aynı
+  // durağı 26'nın arasından bulmak yolda vakit alıyor.
+  durakNotVePuanKur($('#ortuIc'), () => durakKartiAc(id));
 
   $('#kartKapat').addEventListener('click', ortuKapat);
   $('#kartGoogle').addEventListener('click', () =>
@@ -1665,6 +1882,11 @@ async function paneliCiz() {
     bitis: durum.kayitlar.some(k => k.tur === 'bitis'),
     mektup: durum.kayitlar.some(k => k.tur === 'mektup')
   };
+  // Yazılmış mektupların yılları. Birden fazla olabilir — bir mektup on yıl
+  // sonrasına, bir başkası gelecek yıla yazılabiliyor.
+  const mektupYillari = [...new Set(durum.kayitlar
+    .filter(k => k.tur === 'mektup' && k.hedefYil)
+    .map(k => k.hedefYil))].sort();
 
   $('#gerokPanel').innerHTML = `
     <div class="panel">
@@ -1729,7 +1951,9 @@ async function paneliCiz() {
       çıkmadan, bitişi ve mektubu son gece kaydet.</div>
       <button class="eylem-dugme" id="btnBaslangic">Başlangıç kaydı${ozelVarMi.baslangic ? ' ✓' : ''}</button>
       <button class="eylem-dugme" id="btnBitis">Bitiş kaydı${ozelVarMi.bitis ? ' ✓' : ''}</button>
-      <button class="eylem-dugme" id="btnMektup">2036'ya mektup${ozelVarMi.mektup ? ' ✓' : ''}</button>
+      <button class="eylem-dugme" id="btnMektup">Mühürlü mektup yaz${ozelVarMi.mektup ? ' ✓' : ''}
+        ${mektupYillari.length ? `<span class="yol-alt">yazılmış: ${mektupYillari.join(', ')}</span>` : ''}
+      </button>
     </div>
 
     <div class="panel">
@@ -1760,10 +1984,11 @@ async function paneliCiz() {
 
     <div class="panel">
       <div class="panel-baslik">Yardım ve kontrol</div>
-      <div class="panel-not">İkisi de telefonun içinden çalışır, internet
-      gerekmez. Bir şeyden şüphelenirsen önce "Telefonu sına" de.</div>
+      <div class="panel-not">Üçü de telefonun içinden çalışır, internet gerekmez.
+      Bir şey ters giderse önce "Telefonu sına", sonra "Bir şey ters giderse".</div>
       <button class="eylem-dugme" id="btnSinama">Telefonu sına</button>
       <button class="eylem-dugme" id="btnKurulum">Nasıl kullanılır</button>
+      <button class="eylem-dugme" id="btnTamir">Bir şey ters giderse (tamir kılavuzu)</button>
     </div>
   `;
 
@@ -1791,6 +2016,7 @@ async function paneliCiz() {
   // hiç ulaşamazdı. İkisi de çevrimdışı önbellekte, yolda da açılır.
   $('#btnSinama').addEventListener('click', () => window.open('./sinama.html', '_blank'));
   $('#btnKurulum').addEventListener('click', () => window.open('./kurulum.html', '_blank'));
+  $('#btnTamir').addEventListener('click', () => window.open('./tamir.html', '_blank'));
   $('#btnKalici')?.addEventListener('click', async () => {
     const s = await veri.kaliciDepolamaIste();
     kayitBildir(s.kalici ? 'Kalıcı depolama açıldı.' : 'iOS şimdilik vermedi — yedek almayı ihmal etme.',

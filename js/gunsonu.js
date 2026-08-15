@@ -299,18 +299,84 @@ export function bitisKaydiAc(tazele) {
   });
 }
 
+/**
+ * Mühürlü mektup.
+ *
+ * Önce yıl sabitti (2036). Artık soruluyor: bir mektup on yıl sonrasına,
+ * bir başkası çocuğun 18 yaşına, bir başkası önümüzdeki yılın aynı gününe
+ * yazılabilsin. Yıl kaydın içine yazılıyor; arşiv de o yılı gösteriyor.
+ */
+/**
+ * Yıla yönelme eki: 2036'ya, 2044'e, 2031'e, 2027'ye…
+ *
+ * Sabit bir "'ya" koymak "2044'ya mektup" gibi yanlış bir başlık üretiyordu.
+ * Ek, yılın SÖYLENİŞİNDEKİ son kelimeye göre değişiyor: kırk dört → dörde,
+ * otuz altı → altıya. O yüzden son rakama (sıfırsa onlar basamağına) bakılıyor.
+ */
+export function yilaEk(yil) {
+  const s = String(yil);
+  const son = +s.slice(-1);
+  if (son !== 0) {
+    // bire, ikiye, üçe, dörde, beşe, altıya, yediye, sekize, dokuza
+    return ['', "'e", "'ye", "'e", "'e", "'e", "'ya", "'ye", "'e", "'a"][son];
+  }
+  const onlar = +s.slice(-2, -1);
+  // ona, yirmiye, otuza, kırka, elliye, altmışa, yetmişe, seksene, doksana
+  if (onlar !== 0) return ["", "'a", "'ye", "'a", "'a", "'ye", "'a", "'e", "'e", "'a"][onlar];
+  return "'e";   // 2000 → "iki bin" → bine
+}
+
 export function mektupAc(tazele) {
-  ozelKayitAc({
-    tur: 'mektup',
-    baslik: '2036\'ya mektup',
-    alt: 'On yıl sonraki kendine. Arşivde ayrı bir MÜHÜRLÜ klasöründe duracak, ' +
-         'görüntüleyici içeriğini göstermeyecek. Şifrelenmiyor — on yıl sonra ' +
-         'kaybolacak tek şey parola olurdu. Kilit değil, söz.',
-    tazele
+  const buYil = new Date().getFullYear();
+  const secenekler = [
+    { yil: buYil + 1,  alt: 'gelecek yıl — bu gezi hâlâ tazeyken' },
+    { yil: buYil + 5,  alt: 'beş yıl sonra' },
+    { yil: buYil + 10, alt: 'on yıl sonra' },
+    { yil: buYil + 20, alt: 'yirmi yıl sonra' }
+  ];
+
+  ortu(`
+    <div class="ortu-baslik">Mühürlü mektup</div>
+    <div class="ortu-alt">Hangi yıla yazıyorsun? Arşivde bu yıl yazacak ve
+    görüntüleyici o güne kadar içeriğini göstermeyecek.</div>
+    ${secenekler.map(s => `
+      <button class="eylem-dugme ${s.yil === buYil + 10 ? 'birincil' : ''}" data-yil="${s.yil}">
+        ${s.yil}<span class="yol-alt">${s.alt}</span>
+      </button>`).join('')}
+    <div class="girdi-etiket" style="margin-top:14px">Ya da yılı kendin yaz</div>
+    <input class="girdi" id="mektupYil" type="number" inputmode="numeric"
+           min="${buYil}" max="2200" placeholder="örn. ${buYil + 30}">
+    <button class="eylem-dugme" id="mektupYilTamam">Bu yıla yaz</button>
+  `);
+
+  const basla = (yil) => {
+    ozelKayitAc({
+      tur: 'mektup',
+      baslik: `${yil}${yilaEk(yil)} mektup`,
+      alt: `${yil} yılındaki kendine. Arşivde ayrı bir MÜHÜRLÜ klasöründe duracak, ` +
+           'görüntüleyici içeriğini göstermeyecek. Şifrelenmiyor — o kadar yıl ' +
+           'sonra kaybolacak tek şey parola olurdu. Kilit değil, söz.',
+      ekler: { hedefYil: yil },
+      tazele
+    });
+  };
+
+  document.querySelectorAll('#ortuIc [data-yil]').forEach(b => {
+    b.addEventListener('click', () => basla(Number(b.dataset.yil)));
+  });
+  $('#mektupYilTamam').addEventListener('click', () => {
+    const y = Number($('#mektupYil').value);
+    // Geçmişe mühürlü mektup olmaz; yanlış yazımı sessizce kabul etmek,
+    // on yıl sonra "1926'ya mektup" diye bir kayıt bırakırdı.
+    if (!Number.isFinite(y) || y <= buYil || y > 2200) {
+      $('#mektupYil').focus();
+      return;
+    }
+    basla(y);
   });
 }
 
-function ozelKayitAc({ tur, baslik, alt, tazele }) {
+function ozelKayitAc({ tur, baslik, alt, tazele, ekler = null }) {
   ortu(`
     <div class="ortu-baslik">${baslik}</div>
     <div class="ortu-alt">${alt}</div>
@@ -329,6 +395,7 @@ function ozelKayitAc({ tur, baslik, alt, tazele }) {
 
   $('#ozelSes').addEventListener('click', () => sesKaydiBaslat(tur, {
     ipucu: `${baslik} · bitince "Durdur ve kaydet"`,
+    ekler,
     bittiginde: async (k) => {
       const e = $('#ozelDurum');
       if (e) e.textContent = k ? `Kaydedildi · ${Math.round(k.sure)} saniye.` : 'Çok kısaydı.';
@@ -343,6 +410,7 @@ function ozelKayitAc({ tur, baslik, alt, tazele }) {
       const temel = await kayit.yaziEkle(metin);
       if (temel) {
         temel.tur = tur;
+        Object.assign(temel, ekler || {});
         await kayitEkle(temel);
       }
       $('#ozelDurum').textContent = 'Yazı kaydedildi.';

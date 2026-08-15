@@ -6,7 +6,8 @@
 
 import * as veri from './veri.js';
 import { aktifGerok, ozelDurakListesi, siraDuzeniAl, ozelDuraklariBirlestir,
-         gunDuzeniAl, gunDuzeniBirlestir } from './gerok.js';
+         gunDuzeniAl, gunDuzeniBirlestir, durakNotlariAl, durakNotlariBirlestir,
+         durakPuanlariAl, durakPuanlariBirlestir } from './gerok.js';
 
 const PAKET_SURUM = 1;
 
@@ -98,7 +99,12 @@ async function govdeTopla({ sadeceGun = null, tumTurlar = false } = {}) {
     durakSirasi: siraDuzeniAl(),
     // Rehber programı değiştirdiğinde durak başka güne taşınıyor; bu karar da
     // karşı telefona geçmeli, yoksa iki kişide iki ayrı program oluyor.
-    durakGunleri: gunDuzeniAl()
+    durakGunleri: gunDuzeniAl(),
+    // Elle yazılan durak notları ve puanlar. "Tatlıyı şu dükkândan al" gibi
+    // bir notu tek telefonda bırakmak, ertesi gün oraya diğerinin gitmesi
+    // hâlinde işe yaramaz hâle getiriyor.
+    durakNotlari: durakNotlariAl(),
+    durakPuanlari: durakPuanlariAl()
   };
 }
 
@@ -204,8 +210,11 @@ export async function paketBirlestir(paket) {
 
   const yeniDurak = await ozelDuraklariBirlestir(paket.ozelDuraklar || [], paket.durakSirasi || null);
   const yeniGun = await gunDuzeniBirlestir(paket.durakGunleri || null);
+  const yeniNot = await durakNotlariBirlestir(paket.durakNotlari || null);
+  await durakPuanlariBirlestir(paket.durakPuanlari || null);
 
-  return { yeniKayit, yeniIz, yeniMedya, silinen, yeniDurak, yeniGun, yeniTur, kisi: paket.kisi };
+  return { yeniKayit, yeniIz, yeniMedya, silinen, yeniDurak, yeniGun, yeniNot,
+           yeniTur, kisi: paket.kisi };
 }
 
 // ---- Gönderme (AirDrop) ---------------------------------------------------
@@ -254,12 +263,13 @@ export function paketAl(bildir, tazele) {
       const s = await paketBirlestir(paket);
       const silNotu = s.silinen ? ` ${s.silinen} kayıt da silinmiş, burada da silindi.` : '';
       const durakNotu = s.yeniDurak ? ` ${s.yeniDurak} yeni durak rotaya eklendi.` : '';
+      const notNotu = s.yeniNot ? ` ${s.yeniNot} durak notu geldi.` : '';
       const turNotu = s.yeniTur
         ? ` Bu paket "${s.yeniTur}" turuna ait — Gerok → Turları yönet'ten o tura geçebilirsin.`
         : '';
       bildir?.(
-        s.yeniKayit || s.yeniIz || s.yeniDurak || s.yeniTur
-          ? `${s.kisi || 'Arkadaşın'} eklendi: ${s.yeniKayit} kayıt, ${s.yeniIz} iz noktası.${durakNotu}${silNotu}${turNotu}`
+        s.yeniKayit || s.yeniIz || s.yeniDurak || s.yeniNot || s.yeniTur
+          ? `${s.kisi || 'Arkadaşın'} eklendi: ${s.yeniKayit} kayıt, ${s.yeniIz} iz noktası.${durakNotu}${notNotu}${silNotu}${turNotu}`
           : `Bu paket zaten alınmış — hiçbir şey yinelenmedi.${silNotu}`,
         'iyi'
       );
