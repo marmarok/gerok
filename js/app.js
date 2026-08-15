@@ -290,34 +290,67 @@ function zamanCizgisiCiz() {
   const gosterilecek = tumu.slice(Math.max(0, tumu.length - gosterilenSayi));
   const gizliSayi = tumu.length - gosterilecek.length;
 
+  // Turun günlerine düşmeyen kayıtlar KENDİ TARİHLERİNE göre gruplanıyor.
+  //
+  // Eskiden hepsi tek bir "Gerok dışı" torbasına giriyor ve o torba listenin
+  // EN DİBİNE konuyordu. Sonuç: tur bittikten sonra yapılan bir sesli not,
+  // sekiz günlük gezinin altına düşüyordu. Gerçek kullanımda "kayıt hiçbir
+  // yere düşmüyor" diye bildirildi; oysa kayıt duruyordu, sadece kimsenin
+  // bakmadığı yerdeydi.
+  // Artık gruplar takvim sırasına göre diziliyor: bugün yapılan kayıt en üstte.
+  const gunAnahtari = (t) => {
+    const d = new Date(t);
+    return `t:${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  };
+
   const gruplar = new Map();
   for (const k of gosterilecek) {
-    const anahtar = k.gun ?? 'disi';
+    const anahtar = k.gun ?? gunAnahtari(k.t);
     if (!gruplar.has(anahtar)) gruplar.set(anahtar, []);
     gruplar.get(anahtar).push(k);
   }
 
-  const sirali = Array.from(gruplar.keys()).sort((a, b) => {
-    if (a === 'disi') return 1;
-    if (b === 'disi') return -1;
-    return b - a;                       // en yeni gün üstte
-  });
+  // Sıralama artık gün numarasına değil ZAMANA göre: her grup en yeni kaydının
+  // anına göre yerleşiyor. Böylece turdan önce, tur sırasında ve turdan sonra
+  // yapılan kayıtlar tek bir doğru zincirde diziliyor.
+  const grupAni = new Map();
+  for (const [anahtar, liste] of gruplar) {
+    grupAni.set(anahtar, Math.max(...liste.map(k => k.t || 0)));
+  }
+  const sirali = Array.from(gruplar.keys())
+    .sort((a, b) => grupAni.get(b) - grupAni.get(a));
 
   // Paket yüklenmeden bırakılan kayıtlar kaybolmuş sanılmasın.
   let html = s ? '' : `<div class="uyari-satir">Henüz bir gerok yüklenmedi —
     aşağıdaki kayıtlar duruyor. Paketi yükleyince ya da yeni tur başlatınca
     Gerok → Turlar'dan tek düğmeyle o tura taşınırlar.</div>`;
+  const turBasi = s ? new Date(s.baslangic).getTime() : 0;
+  const turSonu = s ? new Date(s.bitis).getTime() : 0;
+
   for (const anahtar of sirali) {
     const gunler = s?.gunler?.find(g => g.no === anahtar);
     const kayitlar = gruplar.get(anahtar).slice().reverse();
+    const grupZamani = grupAni.get(anahtar);
 
-    // Elle açılan turlarda günün başlığı yok — o zaman tarih başlık oluyor.
-    const gunTarihi = gunler ? gerok.tarihUzun(new Date(gunler.tarih).getTime()) : '';
-    const gunAdi = gunler ? (gunler.baslik || gunTarihi) : 'Diğer kayıtlar';
-    const gunAlt = gunler && gunler.baslik ? gunTarihi : '';
+    let rozet, gunAdi, gunAlt = '';
+    if (gunler) {
+      // Turun kendi günü: paketteki başlık.
+      const gunTarihi = gerok.tarihUzun(new Date(gunler.tarih).getTime());
+      rozet = `Gün ${anahtar}`;
+      gunAdi = gunler.baslik || gunTarihi;
+      gunAlt = gunler.baslik ? gunTarihi : '';
+    } else {
+      // Turun dışında kalan gün. Rozet ne olduğunu söylüyor: "Gerok dışı"
+      // hiçbir şey anlatmıyordu, kaydın kaybolduğu izlenimini veriyordu.
+      gunAdi = gerok.tarihUzun(grupZamani);
+      rozet = !s ? 'Tur yok'
+        : grupZamani > turSonu ? 'Tur bittikten sonra'
+        : grupZamani < turBasi ? 'Tur başlamadan önce'
+        : 'Turun günlerinin dışında';
+    }
 
     html += `<div class="gun-basligi">
-      <div class="gun-no">${anahtar === 'disi' ? 'Gerok dışı' : `Gün ${anahtar}`}</div>
+      <div class="gun-no">${kacis(rozet)}</div>
       <div class="gun-ad">${kacis(gunAdi)}</div>
       ${gunler && (gunAlt || gunler.km) ? `<div class="gun-bilgi">${kacis(gunAlt)}${gunler.km ? `${gunAlt ? ' · ' : ''}${gunler.km} km` : ''}</div>` : ''}
     </div>`;
@@ -914,7 +947,13 @@ export async function sesKaydiBitir() {
   }
 
   if (k) {
-    kayitBildir(`Kaydedildi · ${sureYaz(k.sure)}`, 'iyi');
+    // Nereye düştüğünü söyle. "Kaydedildi" demek yetmiyordu: tur bittikten
+    // sonra yapılan kayıt turun günlerine girmediği için farklı bir başlığın
+    // altına düşüyor ve aranıyordu.
+    const nere = k.gun != null
+      ? `Gün ${k.gun}`
+      : `zaman çizgisinin başında · ${gerok.tarihUzun(k.t)}`;
+    kayitBildir(`Kaydedildi · ${sureYaz(k.sure)} → ${nere}`, 'iyi');
     titret([8, 40, 8]);
     await tazele();
     // Kaydın ne olduğunu şimdi sor. Gezide çıkan sorun: zaman çizgisinde
