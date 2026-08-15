@@ -194,12 +194,36 @@ export async function paketYukle(metin) {
 // 2. gün saat 00:55'te uçaktan inerek başlıyor — takvim günü mantığı bunu bölerdi.
 
 export function gunBul(zaman, gerok = aktif) {
-  if (!gerok?.gunler) return null;
+  if (!Array.isArray(gerok?.gunler)) return null;
   for (const g of gerok.gunler) {
-    const [bas, bit] = g.pencere.map(s => new Date(s).getTime());
-    if (zaman >= bas && zaman <= bit) return g;
+    const [bas, bit] = gunPenceresi(g);
+    if (bas != null && zaman >= bas && zaman <= bit) return g;
   }
   return null;
+}
+
+/**
+ * Bir günün başlangıç–bitiş anı.
+ *
+ * Eskiden doğrudan `g.pencere.map(...)` yazıyordu. Bir günde bu alan eksik
+ * olursa (elle düzenlenmiş ya da eski bir paket) açılışta `tazele()` çöküyor
+ * ve uygulama BOŞ EKRAN veriyordu — hata mesajı bile yok. Yolda olabilecek
+ * en kötü çökme bu: kayıtlar duruyor ama kullanıcı hiçbir şey göremiyor.
+ *
+ * Artık pencere yoksa günün `tarih` alanından o günün tamamı üretiliyor;
+ * o da yoksa gün sessizce atlanıyor. Uygulama eksik bir paketle de açılıyor.
+ */
+export function gunPenceresi(g) {
+  if (Array.isArray(g?.pencere) && g.pencere.length === 2) {
+    const bas = new Date(g.pencere[0]).getTime();
+    const bit = new Date(g.pencere[1]).getTime();
+    if (Number.isFinite(bas) && Number.isFinite(bit)) return [bas, bit];
+  }
+  if (g?.tarih) {
+    const gun = new Date(`${g.tarih}T00:00:00`).getTime();
+    if (Number.isFinite(gun)) return [gun, gun + 24 * 60 * 60 * 1000 - 1];
+  }
+  return [null, null];
 }
 
 export function gunNo(zaman, gerok = aktif) {

@@ -85,10 +85,10 @@
       </div>
 
       <div class="harita-dugmeler">
-        <button id="haritaAra" class="yuvarlak" title="Yer ara">🔍</button>
-        <button id="haritaDurak" class="yuvarlak" title="Durak ekle">📌</button>
-        <button id="haritaBenim" class="yuvarlak" title="Konumuma git">◎</button>
-        <button id="haritaHepsi" class="yuvarlak" title="Tüm rotayı göster">⤢</button>
+        <button id="haritaAra" class="yuvarlak" title="Yer ara" data-ikon="buyutec" data-ikon-boy="21"></button>
+        <button id="haritaDurak" class="yuvarlak" title="Durak ekle" data-ikon="raptiye" data-ikon-boy="21"></button>
+        <button id="haritaBenim" class="yuvarlak" title="Konumuma git" data-ikon="nisan" data-ikon-boy="21"></button>
+        <button id="haritaHepsi" class="yuvarlak" title="Tüm rotayı göster" data-ikon="genislet" data-ikon-boy="20"></button>
         <button id="haritaGoogle" class="yuvarlak" title="Google Haritalar'da aç">G</button>
       </div>
     </div>
@@ -98,13 +98,13 @@
   <section id="ekran-kayit" class="ekran">
     <div class="kayit-alan">
       <button id="btnSes" class="buyuk-dugme birincil">
-        <span class="dugme-ikon">🎙</span>
+        <span class="dugme-ikon" data-ikon="mikrofon" data-ikon-boy="28"></span>
         <span class="dugme-ad">Sesli not</span>
         <span class="dugme-alt" id="btnSesAlt">Dokun ve konuş · bitince Durdur'a bas</span>
       </button>
 
       <button id="btnOrtam" class="buyuk-dugme vurgu">
-        <span class="dugme-ikon">🌊</span>
+        <span class="dugme-ikon" data-ikon="dalga" data-ikon-boy="28"></span>
         <span class="dugme-ad">Ortam sesi</span>
         <!-- Süre artık sabit değil, basınca soruluyor. "30 saniye" yazısı
              kalsaydı seçim penceresi sürpriz olurdu. -->
@@ -112,15 +112,15 @@
       </button>
 
       <div class="dugme-satir">
-        <button id="btnYazi" class="orta-dugme"><span>✎</span>Yazı</button>
-        <button id="btnIsaret" class="orta-dugme"><span>📍</span>Buradayım</button>
+        <button id="btnYazi" class="orta-dugme"><span data-ikon="kalem" data-ikon-boy="22"></span>Yazı</button>
+        <button id="btnIsaret" class="orta-dugme"><span data-ikon="nisan" data-ikon-boy="22"></span>Buradayım</button>
       </div>
       <div class="dugme-satir">
-        <button id="btnKisi" class="orta-dugme"><span>👤</span>Tanıştık</button>
-        <button id="btnFiyat" class="orta-dugme"><span>🧾</span>Harcama</button>
+        <button id="btnKisi" class="orta-dugme"><span data-ikon="kisi" data-ikon-boy="22"></span>Tanıştık</button>
+        <button id="btnFiyat" class="orta-dugme"><span data-ikon="fis" data-ikon-boy="22"></span>Harcama</button>
       </div>
       <div class="dugme-satir">
-        <button id="btnFoto" class="orta-dugme genis"><span>🖼</span>Fotoğraf ekle</button>
+        <button id="btnFoto" class="orta-dugme genis"><span data-ikon="gorsel" data-ikon-boy="22"></span>Fotoğraf ekle</button>
       </div>
 
       <div id="kayitDurum" class="kayit-durum"></div>
@@ -146,11 +146,11 @@
 </main>
 
 <nav id="altBar">
-  <button data-ekran="zaman"    class="sekme secili"><span>🕘</span>Zaman</button>
-  <button data-ekran="harita"   class="sekme"><span>🗺</span>Harita</button>
-  <button data-ekran="kayit"    class="sekme buyuk"><span>＋</span>Kayıt</button>
-  <button data-ekran="duraklar" class="sekme"><span>📌</span>Duraklar</button>
-  <button data-ekran="gerok"    class="sekme"><span>⚙</span>Gerok</button>
+  <button data-ekran="zaman"    class="sekme secili"><span data-ikon="saat" data-ikon-boy="21"></span>Zaman</button>
+  <button data-ekran="harita"   class="sekme"><span data-ikon="harita" data-ikon-boy="21"></span>Harita</button>
+  <button data-ekran="kayit"    class="sekme buyuk"><span data-ikon="arti" data-ikon-boy="20"></span>Kayıt</button>
+  <button data-ekran="duraklar" class="sekme"><span data-ikon="raptiye" data-ikon-boy="21"></span>Duraklar</button>
+  <button data-ekran="gerok"    class="sekme"><span data-ikon="ayarlar" data-ikon-boy="21"></span>Gerok</button>
 </nav>
 
 <!-- Hangi sekmede olursan ol görünen bildirim şeridi -->

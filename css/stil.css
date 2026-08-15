@@ -360,7 +360,10 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
 .daha-eski { padding: 18px 16px 30px; }
 
 .bos-durum { padding: 60px 32px; text-align: center; color: var(--cok-soluk); }
-.bos-durum .bos-ikon { font-size: 40px; opacity: .35; margin-bottom: 14px; }
+/* Boş ekranın çizimi: soluk ama görünür. Eskiden emoji vardı ve %35
+   saydamlıkta bile kendi renkleriyle parlıyordu. */
+.bos-durum .bos-ikon { color: var(--cok-soluk); opacity: .8; margin-bottom: 14px;
+  display: flex; justify-content: center; }
 .bos-durum .bos-yazi { font-size: 14px; line-height: 1.6; }
 
 /* ---------- Harita ---------- */
@@ -454,6 +457,7 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
   background: var(--kat2); border: 1px solid var(--cizgi);
   font-size: 19px; display: flex; align-items: center; justify-content: center;
   box-shadow: var(--golge);
+  color: var(--yazi);
 }
 
 /* ---------- Kayıt ekranı ---------- */
@@ -469,7 +473,11 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
 .buyuk-dugme:active { transform: scale(.975); }
 .buyuk-dugme.birincil { background: var(--birincil-zemin); border-color: var(--birincil-cizgi); }
 .buyuk-dugme.vurgu { background: var(--vurgu2-zemin); border-color: var(--vurgu2-cizgi); }
-.dugme-ikon { font-size: 30px; }
+/* İkon kutuları: SVG'nin ortalanması için. Emoji satır içi bir harfti,
+   SVG blok bir kutu — hizalama artık burada yapılıyor. */
+.dugme-ikon { display: flex; justify-content: center; color: var(--vurgu); }
+.buyuk-dugme.vurgu .dugme-ikon { color: var(--su); }
+.ikon { display: block; }
 .dugme-ad { font-size: 17px; font-weight: 600; }
 .dugme-alt { font-size: 12px; color: var(--soluk); }
 
@@ -479,7 +487,7 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
   padding: 18px 10px; border-radius: 14px;
   background: var(--kat); border: 1px solid var(--cizgi); font-size: 13.5px;
 }
-.orta-dugme span { font-size: 21px; }
+.orta-dugme > span { display: flex; color: var(--soluk); }
 .orta-dugme:active { background: var(--kat2); }
 .orta-dugme.genis { flex-direction: row; gap: 10px; }
 
@@ -714,13 +722,13 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
   display: flex; flex-direction: column; align-items: center; gap: 1px;
   font-size: 9.5px; color: var(--cok-soluk);
 }
-.sekme span { font-size: 18px; line-height: 1; }
+.sekme > span { display: flex; align-items: center; justify-content: center; height: 22px; }
 .sekme.secili { color: var(--vurgu); }
-.sekme.buyuk span {
-  font-size: 20px; width: 30px; height: 30px; border-radius: 50%;
+.sekme.buyuk > span {
+  width: 30px; height: 30px; border-radius: 50%;
   background: var(--vurgu); color: var(--vurgu-yazi);
   display: flex; align-items: center; justify-content: center;
-  margin-bottom: -1px; font-weight: 300;
+  margin-bottom: -1px;
 }
 .sekme.buyuk { color: var(--soluk); }
 

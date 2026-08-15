@@ -10,6 +10,7 @@ import { gunSonuAc, baslangicKaydiAc, bitisKaydiAc, mektupAc } from './gunsonu.j
 import { paketGonder, paketAl, yedekAl } from './esitleme.js';
 import { TEMALAR, temaSecimi, temaSec, temaBaslat } from './tema.js';
 import * as yerAra from './yer-ara.js';
+import { ikon, ikonlariYerlestir } from './ikon.js';
 
 const $ = (s) => document.querySelector(s);
 const $$ = (s) => Array.from(document.querySelectorAll(s));
@@ -52,6 +53,7 @@ async function baslat() {
 
   await depolamaSagligi();
 
+  ikonlariYerlestir();
   sekmeleriKur();
   kayitDugmeleriniKur();
   izDinle();
@@ -276,11 +278,11 @@ function zamanCizgisiCiz() {
   // yazıyordu; paketten önce bırakılan sesli not silinmiş gibi görünüyordu
   // (iPhone'da denerken çıktı). Kayıt duruyor, sadece görünmüyordu.
   if (!s && !durum.kayitlar.length) {
-    kap.innerHTML = bosDurum('🧭', 'Henüz bir gerok yüklenmedi.<br>Gerok sekmesinden paketi yükle.');
+    kap.innerHTML = bosDurum('harita', 'Henüz bir gerok yüklenmedi.<br>Gerok sekmesinden paketi yükle.');
     return;
   }
   if (!durum.kayitlar.length) {
-    kap.innerHTML = bosDurum('🕘',
+    kap.innerHTML = bosDurum('zamanBos',
       'Zaman çizgisi boş.<br>Kayıt sekmesinden ilk sesli notunu bırak,<br>ya da bir fotoğraf ekle.');
     return;
   }
@@ -1284,8 +1286,8 @@ function duraklariCiz() {
   const s = gerok.aktifGerok();
 
   if (!liste.length) {
-    kap.innerHTML = bosDurum('📌',
-      'Henüz durak yok.<br>Haritada 📌 düğmesine basıp kendi duraklarını koyabilirsin —' +
+    kap.innerHTML = bosDurum('yolBos',
+      'Henüz durak yok.<br>Haritadaki iğne düğmesine basıp kendi duraklarını koyabilirsin —' +
       '<br>gerok paketi olmadan da çalışır.') +
       `<div class="daha-eski"><button class="eylem-dugme birincil" id="durakEkleBos">Haritadan durak ekle</button></div>`;
     $('#durakEkleBos').addEventListener('click', haritadanDurakEkle);
@@ -1296,8 +1298,8 @@ function duraklariCiz() {
 
   // Gün gün başlıklar — rota da zaten gün gün renkleniyor.
   let html = `<div class="durak-ekle-satir">
-    <button class="eylem-dugme" id="durakEkleHarita">📌 Haritadan durak ekle</button>
-    <button class="eylem-dugme" id="durakEkleBurada">◎ Şu an buradayım, durak yap</button>
+    <button class="eylem-dugme" id="durakEkleHarita">Haritadan durak ekle</button>
+    <button class="eylem-dugme" id="durakEkleBurada">Şu an buradayım, durak yap</button>
   </div>`;
 
   let sonGun = Symbol('yok');
@@ -2635,8 +2637,11 @@ export function uzaklikYaz(metre) {
   return metre < 1000 ? `${Math.round(metre)} m` : `${(metre / 1000).toFixed(1)} km`;
 }
 
-function bosDurum(ikon, yazi) {
-  return `<div class="bos-durum"><div class="bos-ikon">${ikon}</div><div class="bos-yazi">${yazi}</div></div>`;
+// `ikonAdi` js/ikon.js'teki çizimlerden biri. Boş ekranlar uygulamanın en
+// sessiz anları; oradaki çizim de sessiz olsun diye tek renk, ince çizgi.
+function bosDurum(ikonAdi, yazi) {
+  return `<div class="bos-durum"><div class="bos-ikon">${ikon(ikonAdi, 46)}</div>`
+       + `<div class="bos-yazi">${yazi}</div></div>`;
 }
 
 // --------------------------------------------------------------- servis worker -

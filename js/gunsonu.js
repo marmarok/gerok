@@ -12,6 +12,7 @@ import * as gerok from './gerok.js';
 import * as kayit from './kayit.js';
 import { paketGonder, yedekAl } from './esitleme.js';
 import { sesKaydiBaslat } from './app.js';
+import { ikon } from './ikon.js';
 
 const $ = (s) => document.querySelector(s);
 
@@ -31,7 +32,11 @@ export async function gunSonuAc(durum, tazele) {
 function sonGun() {
   const s = gerok.aktifGerok();
   if (!s?.gunler?.length) return null;
-  const gecmis = s.gunler.filter(g => new Date(g.pencere[0]).getTime() <= Date.now());
+  // Pencere eksik bir günde çökmesin; gerok.js aynı savunmayı yapıyor.
+  const gecmis = s.gunler.filter(g => {
+    const [bas] = gerok.gunPenceresi(g);
+    return bas != null && bas <= Date.now();
+  });
   return gecmis[gecmis.length - 1] || s.gunler[0];
 }
 
@@ -75,8 +80,9 @@ async function ozetAdimi(durum) {
   const izNoktalari = await veri.izGetir(turId);
 
   const bugunkuler = gun ? kayitlar.filter(k => k.gun === gun.no) : [];
-  const pencere = gun ? gun.pencere.map(s => new Date(s).getTime()) : [0, 0];
-  const bugunkuIz = izNoktalari.filter(n => n.t >= pencere[0] && n.t <= pencere[1]);
+  const pencere = gun ? gerok.gunPenceresi(gun) : [0, 0];
+  const bugunkuIz = pencere[0] == null ? []
+    : izNoktalari.filter(n => n.t >= pencere[0] && n.t <= pencere[1]);
 
   const km = iz.izUzunlugu(bugunkuIz);
   const sesler = bugunkuler.filter(k => ['ses', 'ortam', 'gunluk'].includes(k.tur)).length;
@@ -110,7 +116,7 @@ async function gunlukAdimi(durum) {
       'Otuz saniye yeter. On yıl sonra en çok bunu dinleyeceksin — fotoğrafları değil.')}
     <div id="gunlukDurum" class="panel-not">Dokun ve konuş. Bitince "Durdur ve kaydet".</div>
     <button class="buyuk-dugme birincil" id="gunlukKayit" style="margin-top:14px">
-      <span class="dugme-ikon">🎙</span>
+      <span class="dugme-ikon">${ikon('mikrofon', 28)}</span>
       <span class="dugme-ad">Konuşmaya başla</span>
     </button>
     <div class="gs-dugmeler">
@@ -381,7 +387,7 @@ function ozelKayitAc({ tur, baslik, alt, tazele, ekler = null }) {
     <div class="ortu-baslik">${baslik}</div>
     <div class="ortu-alt">${alt}</div>
     <button class="buyuk-dugme birincil" id="ozelSes">
-      <span class="dugme-ikon">🎙</span>
+      <span class="dugme-ikon">${ikon('mikrofon', 28)}</span>
       <span class="dugme-ad">Konuşmaya başla</span>
     </button>
     <div class="girdi-etiket" style="margin-top:16px">Ya da yaz</div>
