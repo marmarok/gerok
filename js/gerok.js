@@ -16,6 +16,14 @@ let ozel = [];
 // Elle değiştirilmiş rota sırası: durak kimliği → o gün içindeki sıra.
 let siraDuzeni = {};
 
+// Elle değiştirilmiş gün: durak kimliği → gün numarası.
+//
+// Rehber programı yolda değiştiriyor — Balkanlar'da bazı duraklara bir gün
+// erken gidildi. Paketin kendi `gun` alanına dokunmuyoruz; üstüne bu katman
+// uygulanıyor. Böylece paket bozulmuyor, değişiklik akşam eşitlemesiyle
+// karşı telefona da geçiyor ve gerekirse geri alınabiliyor.
+let gunDuzeni = {};
+
 export function aktifGerok() { return aktif; }
 
 export async function baslat() {
@@ -36,6 +44,7 @@ export async function baslat() {
   if (aktif?.arsiv) aktif = null;          // arşivdeki tur aktif olamaz
   ozel = await ayarOku('ozelDuraklar', []);
   siraDuzeni = await ayarOku('durakSirasi', {});
+  gunDuzeni = await ayarOku('durakGunleri', {});
   return aktif;
 }
 
@@ -223,7 +232,12 @@ export function duraklar(gerok = aktif) {
     .filter(d => !d.silindi && (d.gerokId ?? null) === turId)
     .map(d => ({ ...d, kaynak: 'kendi' }));
   const hepsi = [...paket, ...kendi];
-  for (const d of hepsi) if (siraDuzeni[d.id] != null) d.sira = siraDuzeni[d.id];
+  // Gün değişikliği paketin kendisine yazılmıyor, üstüne katman olarak
+  // uygulanıyor — sıra düzeninde olduğu gibi.
+  for (const d of hepsi) {
+    if (gunDuzeni[d.id] != null) { d.gun = gunDuzeni[d.id]; d.gunTasindi = true; }
+    if (siraDuzeni[d.id] != null) d.sira = siraDuzeni[d.id];
+  }
   return hepsi.sort(sirala);
 }
 
@@ -299,8 +313,44 @@ export async function durakTasi(id, yon) {
 // ---- Durakların eşitlenmesi ----------------------------------------------
 // Kendi eklediğimiz duraklar akşam paketiyle karşı tarafa da geçiyor.
 
+/**
+ * Durağı başka bir güne taşır. Paket durakları için de çalışır.
+ * `gun = null` verilirse paketteki asıl gününe döner.
+ */
+export async function durakGunuDegistir(id, gun) {
+  const d = duraklar().find(x => x.id === id);
+  if (!d) return false;
+
+  if (gun == null) delete gunDuzeni[id];
+  else gunDuzeni[id] = gun;
+
+  // Yeni günün sonuna koy: hangi sırada gezileceğini kullanıcı yukarı/aşağı
+  // ile ayarlar, ama araya rastgele girmesin.
+  if (gun != null) {
+    const oGun = duraklar().filter(x => (x.gun ?? 999) === gun && x.id !== id);
+    siraDuzeni[id] = oGun.length ? Math.max(...oGun.map(x => x.sira ?? 0)) + 1 : 0;
+    await ayarYaz('durakSirasi', { ...siraDuzeni });
+  }
+
+  await ayarYaz('durakGunleri', { ...gunDuzeni });
+  return true;
+}
+
 export function ozelDurakListesi() { return ozel; }
 export function siraDuzeniAl() { return siraDuzeni; }
+export function gunDuzeniAl() { return gunDuzeni; }
+
+// Akşam eşitlemesinde gelen gün değişikliklerini alır. Kendi değişikliğimiz
+// önde: yolda ikimiz de aynı durağa dokunduysak kendi telefonundaki karar
+// sessizce ezilmesin.
+export async function gunDuzeniBirlestir(gelen = null) {
+  if (!gelen || typeof gelen !== 'object') return 0;
+  const oncesi = Object.keys(gunDuzeni).length;
+  gunDuzeni = { ...gelen, ...gunDuzeni };
+  const yeni = Object.keys(gunDuzeni).length - oncesi;
+  if (yeni) await ayarYaz('durakGunleri', { ...gunDuzeni });
+  return yeni;
+}
 
 export async function ozelDuraklariBirlestir(gelenler = [], gelenSira = null) {
   const eldeki = new Map(ozel.map(d => [d.id, d]));

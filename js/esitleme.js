@@ -5,7 +5,8 @@
 // Fotoğraf ve videoların ORİJİNALLERİ pakete girmiyor — onlar galeride duruyor.
 
 import * as veri from './veri.js';
-import { aktifGerok, ozelDurakListesi, siraDuzeniAl, ozelDuraklariBirlestir } from './gerok.js';
+import { aktifGerok, ozelDurakListesi, siraDuzeniAl, ozelDuraklariBirlestir,
+         gunDuzeniAl, gunDuzeniBirlestir } from './gerok.js';
 
 const PAKET_SURUM = 1;
 
@@ -94,7 +95,10 @@ async function govdeTopla({ sadeceGun = null, tumTurlar = false } = {}) {
     ozelDuraklar: tumTurlar
       ? ozelDurakListesi()
       : ozelDurakListesi().filter(d => (d.gerokId ?? null) === turId),
-    durakSirasi: siraDuzeniAl()
+    durakSirasi: siraDuzeniAl(),
+    // Rehber programı değiştirdiğinde durak başka güne taşınıyor; bu karar da
+    // karşı telefona geçmeli, yoksa iki kişide iki ayrı program oluyor.
+    durakGunleri: gunDuzeniAl()
   };
 }
 
@@ -199,8 +203,9 @@ export async function paketBirlestir(paket) {
   }
 
   const yeniDurak = await ozelDuraklariBirlestir(paket.ozelDuraklar || [], paket.durakSirasi || null);
+  const yeniGun = await gunDuzeniBirlestir(paket.durakGunleri || null);
 
-  return { yeniKayit, yeniIz, yeniMedya, silinen, yeniDurak, yeniTur, kisi: paket.kisi };
+  return { yeniKayit, yeniIz, yeniMedya, silinen, yeniDurak, yeniGun, yeniTur, kisi: paket.kisi };
 }
 
 // ---- Gönderme (AirDrop) ---------------------------------------------------

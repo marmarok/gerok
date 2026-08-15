@@ -316,7 +316,7 @@ function kayitSatiri(k) {
 
   const konumlu = k.lat != null && k.lon != null;
 
-  return `<div class="kayit-satir ${k.tur}">
+  return `<div class="kayit-satir ${k.tur}" data-kayit="${k.id}">
     <div class="kayit-saat">${gerok.saat(k.t)}</div>
     <div class="kayit-govde">
       <div class="kayit-tur">${kacis(tur)}</div>
@@ -626,11 +626,9 @@ async function sesAtla(hedefSaniye) {
 function kayitDugmeleriniKur() {
   sesDugmeleriniKur();
   $('#btnSes').addEventListener('click', () => sesKaydiBaslat('ses'));
-  // Ortam sesi: konuşmadan, 30 saniye, o yerin nasıl duyulduğu.
-  $('#btnOrtam').addEventListener('click', () => sesKaydiBaslat('ortam', {
-    sinir: 30,
-    ipucu: 'Konuşma — sadece burayı dinlet. 30 saniyede kendi biter.'
-  }));
+  // Ortam sesi: konuşmadan, o yerin nasıl duyulduğu. Süre artık seçiliyor —
+  // 30 saniye çarşı için yetiyordu ama ezan, yağmur, dalga için kısa kalıyordu.
+  $('#btnOrtam').addEventListener('click', ortamSuresiSor);
 
   $('#btnYazi').addEventListener('click', () => yaziSor());
   $('#btnIsaret').addEventListener('click', async () => {
@@ -708,9 +706,9 @@ function sesKatmaniKapat() {
 }
 
 // tur: kaydın türü · sinir: saniye (0 = sınırsız) · ipucu: katmanda yazan satır
-export async function sesKaydiBaslat(tur, { sinir = 0, ipucu = 'Konuş — bitince "Durdur ve kaydet"', bittiginde = null } = {}) {
+export async function sesKaydiBaslat(tur, { sinir = 0, ipucu = 'Konuş — bitince "Durdur ve kaydet"', bittiginde = null, baslikSor = true } = {}) {
   if (sesOturum) return;
-  const o = { tur, iptal: false, kapandi: false, sayac: null, bittiginde };
+  const o = { tur, iptal: false, kapandi: false, sayac: null, bittiginde, baslikSor };
   sesOturum = o;
 
   $('#sesKatman').classList.remove('gizli');
@@ -767,10 +765,83 @@ export async function sesKaydiBitir() {
     kayitBildir(`Kaydedildi · ${sureYaz(k.sure)}`, 'iyi');
     titret([8, 40, 8]);
     await tazele();
+    // Kaydın ne olduğunu şimdi sor. Gezide çıkan sorun: zaman çizgisinde
+    // 82 tane aynı görünen ses kartı vardı, hangisinin ne olduğunu anlamak
+    // için tek tek açmak gerekiyordu. Tek satır başlık bunu bitiriyor.
+    if (o.baslikSor !== false) await sesBasligiSor(k);
   } else {
     kayitBildir('Çok kısaydı, kaydedilmedi.');
   }
   await o.bittiginde?.(k);
+}
+
+// Ortam sesi süreleri. Son seçilen hatırlanıyor: aynı gezide genelde aynı
+// süre kullanılıyor, her seferinde seçtirmek gereksiz dokunuş olurdu.
+const ORTAM_SURELERI = [
+  { sn: 15,  ad: '15 saniye', alt: 'kısa bir an' },
+  { sn: 30,  ad: '30 saniye', alt: 'çarşı, sokak' },
+  { sn: 60,  ad: '1 dakika',  alt: 'ezan, müzik' },
+  { sn: 120, ad: '2 dakika',  alt: 'yağmur, dalga, tren' },
+  { sn: 0,   ad: 'Elle durdur', alt: 'ne kadar sürerse' }
+];
+
+async function ortamSuresiSor() {
+  const son = await veri.ayarOku('ortamSuresi', 30);
+  ortuAc(`
+    <div class="ortu-baslik">Ortam sesi</div>
+    <div class="ortu-alt">Konuşma — sadece burayı dinlet. Ne kadar kaydedelim?</div>
+    ${ORTAM_SURELERI.map(s => `
+      <button class="eylem-dugme ${s.sn === son ? 'birincil' : ''}" data-sn="${s.sn}">
+        ${s.ad}<span class="yol-alt">${s.alt}</span>
+      </button>`).join('')}
+  `);
+  $$('#ortuIc [data-sn]').forEach(d => {
+    d.addEventListener('click', async () => {
+      const sn = Number(d.dataset.sn);
+      ortuKapat();
+      await veri.ayarYaz('ortamSuresi', sn);
+      sesKaydiBaslat('ortam', {
+        sinir: sn,
+        ipucu: sn
+          ? `Konuşma — sadece burayı dinlet. ${sureYaz(sn)} sonra kendi biter.`
+          : 'Konuşma — sadece burayı dinlet. Bitince "Durdur ve kaydet".'
+      });
+    });
+  });
+}
+
+/**
+ * Kayıttan hemen sonra tek satır başlık ister. Atlanabilir — yolda acelesi
+ * olan biri "Atla"ya basıp devam edebilsin; zorunlu olsaydı kayıt almaktan
+ * vazgeçilirdi.
+ */
+function sesBasligiSor(k) {
+  return new Promise((bitti) => {
+    ortuAc(`
+      <div class="ortu-baslik">Bu kayıt ne hakkında?</div>
+      <div class="ortu-alt">Tek satır yeter. Sonra açmadan ne olduğunu bilirsin.</div>
+      <input class="girdi" id="sesBaslik" placeholder="Ohrid'de rehberin anlattığı…"
+             autocomplete="off" enterkeyhint="done">
+      <button class="eylem-dugme birincil" id="sesBaslikKaydet">Kaydet</button>
+      <button class="eylem-dugme" id="sesBaslikAtla">Atla</button>
+    `);
+    setTimeout(() => $('#sesBaslik')?.focus(), 120);
+
+    const kapat = async (yaz) => {
+      const m = yaz ? $('#sesBaslik').value.trim() : '';
+      ortuKapat();
+      if (m) {
+        await veri.kayitEkle({ ...k, metin: m });
+        await tazele();
+      }
+      bitti();
+    };
+    $('#sesBaslikKaydet').addEventListener('click', () => kapat(true));
+    $('#sesBaslikAtla').addEventListener('click', () => kapat(false));
+    $('#sesBaslik').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') kapat(true);
+    });
+  });
 }
 
 function sesKaydiVazgec() {
@@ -799,11 +870,12 @@ async function fotograflariAl(dosyalar, tur = null) {
   `, false);
 
   // Ne olursa olsun örtü kapanmalı: burada takılırsa uygulama kilitli görünüyor.
+  let eklenen = [];
   try {
-    await kayit.fotoAl(dosyalar, (yapilan, toplam) => {
+    eklenen = await kayit.fotoAl(dosyalar, (yapilan, toplam) => {
       const e = $('#fotoIlerleme');
       if (e) e.textContent = `${yapilan} / ${toplam}`;
-    }, tur);
+    }, tur) || [];
   } catch (hata) {
     ortuKapat();
     kayitBildir(`Fotoğraflar alınamadı: ${hata.message}`, 'kotu');
@@ -815,12 +887,49 @@ async function fotograflariAl(dosyalar, tur = null) {
 
   const atlanan = kayit.sonBasarisizlar();
   const izsiz = durum.kayitlar.filter(k => k.tur === 'foto' && !k.lat).length;
+
+  // NEREYE GİTTİĞİNİ SÖYLE.
+  //
+  // Gezide "fotoğraflar 10 dakika sonra düşüyor" diye görünen şey aslında
+  // buydu: fotoğraf EKLENDİĞİ ana değil ÇEKİLDİĞİ ana yerleşiyor (doğrusu da
+  // bu). Akşam 20:47'de eklenen, öğleden sonra 18:57'de çekilmiş bir fotoğraf
+  // zaman çizgisinde iki saat YUKARIDA beliriyor — aşağıya bakan kişi
+  // "gelmedi" sanıyor. Gerçek kayıtlarda fark 12 dakika ile 22 saat arasında
+  // değişiyordu. Çözüm saati değiştirmek değil, nereye düştüğünü söylemek.
+  const eklenenler = (eklenen || []).filter(k => k?.t).sort((a, b) => a.t - b.t);
+  let nereye = '';
+  if (eklenenler.length) {
+    const ilk = eklenenler[0], son = eklenenler[eklenenler.length - 1];
+    const ayniGun = new Date(ilk.t).toDateString() === new Date(son.t).toDateString();
+    nereye = eklenenler.length === 1 || (ayniGun && ilk.t === son.t)
+      ? ` ${gerok.tarihUzun(ilk.t)} ${gerok.saat(ilk.t)} hizasına yerleşti.`
+      : ` ${gerok.tarihUzun(ilk.t)} ${gerok.saat(ilk.t)}` +
+        `${ayniGun ? '' : ' – ' + gerok.tarihUzun(son.t)}` +
+        `${ayniGun ? '–' + gerok.saat(son.t) : ' ' + gerok.saat(son.t)} arasına yerleşti.`;
+  }
+
   kayitBildir(
     atlanan.length ? `${atlanan.length} dosya alınamadı, geri kalanı eklendi.`
-      : izsiz ? `Eklendi. ${izsiz} fotoğrafın yeri bulunamadı — iz o saatte kapalıymış.`
-              : 'Fotoğraflar eklendi ve haritaya yerleşti.',
+      : (`${eklenenler.length} görsel eklendi.${nereye}` +
+         (izsiz ? ` ${izsiz} tanesinin yeri bulunamadı — iz o saatte kapalıymış.` : '')),
     atlanan.length ? 'kotu' : 'iyi'
   );
+
+  // Çekildikleri ana git: eklediğini gözüyle görsün, aramak zorunda kalmasın.
+  if (eklenenler.length) fotografaGit(eklenenler[0].id);
+}
+
+// Eklenen ilk fotoğrafın zaman çizgisindeki yerine kaydırır ve kısa süre
+// vurgular. "Nereye gitti?" sorusunu okumakla değil göstererek cevaplıyoruz.
+function fotografaGit(id) {
+  setTimeout(() => {
+    if (durum.ekran !== 'zaman') return;
+    const e = document.querySelector(`[data-kayit="${id}"]`);
+    if (!e) return;
+    e.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    e.classList.add('yeni-eklendi');
+    setTimeout(() => e.classList.remove('yeni-eklendi'), 2600);
+  }, 260);
 }
 
 // ------------------------------------------------------------- iz göstergesi -
@@ -928,10 +1037,11 @@ function duraklariCiz() {
         <div class="durak-sira">
           <button class="sira-dugme" data-tasi="-1" title="Yukarı">▲</button>
           <button class="sira-dugme" data-tasi="1" title="Aşağı">▼</button>
+          <button class="sira-dugme" data-gun-tasi="${d.id}" title="Başka güne taşı">⇄</button>
         </div>
       </div>
-      ${uzaklik != null ? `<div class="durak-uzaklik">${uzaklikYaz(uzaklik)} uzakta${kendi ? ' · kendi durağın' : ''}</div>`
-                        : kendi ? '<div class="durak-uzaklik">kendi durağın</div>' : ''}
+      ${uzaklik != null ? `<div class="durak-uzaklik">${uzaklikYaz(uzaklik)} uzakta${kendi ? ' · kendi durağın' : ''}${d.gunTasindi ? ' · başka güne taşındı' : ''}</div>`
+                        : (kendi || d.gunTasindi) ? `<div class="durak-uzaklik">${kendi ? 'kendi durağın' : ''}${kendi && d.gunTasindi ? ' · ' : ''}${d.gunTasindi ? 'başka güne taşındı' : ''}</div>` : ''}
       ${d.unutma?.length ? `<ul class="unutma">${d.unutma.map(u => `<li>${kacis(u)}</li>`).join('')}</ul>` : ''}
       <div class="durak-dugmeler">
         <button class="kucuk-dugme ${dur === 'gidildi' ? 'secili' : ''}" data-isaret="gidildi">Gittik</button>
@@ -975,11 +1085,49 @@ function duraklariCiz() {
     });
   });
 
+  kap.querySelectorAll('[data-gun-tasi]').forEach(d => {
+    d.addEventListener('click', () => durakGunuSor(d.dataset.gunTasi));
+  });
+
   kap.querySelectorAll('[data-duzenle]').forEach(d => {
     d.addEventListener('click', () => durakSor({ mevcut: gerok.durakBul(d.dataset.duzenle) }));
   });
   kap.querySelectorAll('[data-durak-sil]').forEach(d => {
     d.addEventListener('click', () => durakSilSor(d.dataset.durakSil));
+  });
+}
+
+/**
+ * Durağı başka bir güne taşır.
+ *
+ * Balkanlar'da gerçekten oldu: rehber bazı duraklara bir gün erken götürdü,
+ * durak yanlış günde asılı kaldı. Paket durakları için de çalışıyor —
+ * paketin kendisi değişmiyor, üstüne bir katman yazılıyor.
+ */
+function durakGunuSor(id) {
+  const d = gerok.durakBul(id);
+  if (!d) return;
+  const gunler = gerok.aktifGerok()?.gunler || [];
+
+  ortuAc(`
+    <div class="ortu-baslik">${kacis(d.ad)}</div>
+    <div class="ortu-alt">Şu an ${d.gun ? `Gün ${d.gun}` : 'günsüz'}. Hangi güne taşıyalım?</div>
+    ${gunler.map(g => `
+      <button class="eylem-dugme ${g.no === d.gun ? 'birincil' : ''}" data-gun="${g.no}">
+        Gün ${g.no}<span class="yol-alt">${kacis(g.baslik || '')}</span>
+      </button>`).join('')}
+    ${d.gunTasindi ? '<button class="eylem-dugme" data-gun="">Paketteki gününe geri al</button>' : ''}
+  `);
+
+  $$('#ortuIc [data-gun]').forEach(b => {
+    b.addEventListener('click', async () => {
+      const g = b.dataset.gun === '' ? null : Number(b.dataset.gun);
+      ortuKapat();
+      if (g === d.gun) return;
+      await gerok.durakGunuDegistir(id, g);
+      kayitBildir(g ? `${d.ad} → Gün ${g}` : `${d.ad} paketteki gününe döndü.`, 'iyi');
+      await tazele();
+    });
   });
 }
 
@@ -1231,40 +1379,105 @@ function yaklasmaUyarisi(durak, uzaklik) {
   $('#uyariTamam').addEventListener('click', ortuKapat);
 }
 
-// Uyarı sesi için ses düzeneği.
+// Uyarı sesi.
 //
-// iOS'ta AudioContext yalnızca bir DOKUNUŞ sırasında açılırsa çalabiliyor;
-// sonradan kendiliğinden çalmak isteyince askıda kalıp sessiz kalıyor.
-// iPhone'da navigator.vibrate de yok. Yani Yol Modu açılırken burayı
-// hazırlamazsak durağa yaklaşma uyarısı sessiz gelir — oysa bütün amacı
-// ekrana bakmadan fark ettirmek.
-let sesDuzenegi = null;
+// GEZİDE ÇALIŞMADI. Sebebi iki ayrı iOS kısıtı (7–14 Ağustos, gerçek kullanım):
+//
+//   1. iPhone'da `navigator.vibrate` HİÇ YOK. Safari bu API'yi vermiyor;
+//      kod çağırıyor, iOS sessizce yok sayıyor. Titreşim hiç çalışmadı.
+//   2. AudioContext, ekran sönüp uygulama arkaya alınınca ASKIYA ALINIYOR.
+//      Yol Modu açılırken bir dokunuşla hazırlamak yetmiyor: telefon cebe
+//      girince düzenek donuyor, uyarı anındaki `resume()` ise dokunuş
+//      olmadığı için çalışmıyor. Uyarı zaman çizgisine düşüyor ama sessiz —
+//      oysa bütün amacı ekrana bakmadan fark ettirmek.
+//
+// ÇÖZÜM: AudioContext yerine gerçek bir <audio> ögesi. iOS, bir dokunuşla
+// başlatılmış MEDYA OYNATIMINI ekran sönse de sürdürüyor (müzik dinlerken
+// ekranı kilitlemek gibi). Yol Modu açılırken duyulmayacak kadar kısık bir ses
+// döngüye alınıyor; bu, ses oturumunu ayakta tutuyor. Uyarı geldiğinde aynı
+// oturum üzerinden yüksek sesli ton çalıyor — telefon cepteyken bile duyuluyor.
+//
+// Sessiz döngü pili yakmıyor: saniyede birkaç bayt çözülüyor.
 
+let sesTutucu = null;      // sessiz döngü — ses oturumunu canlı tutar
+let uyariCalar = null;     // asıl uyarı sesi
+
+// Küçük WAV üreticisi. Hazır dosya eklemiyoruz: çevrimdışı önbelleğe bir dosya
+// daha koymak, o dosya inmediğinde uyarıyı büsbütün susturma riski demek.
+function wavVer(saniye, tonlar = [], ses = 0.9) {
+  const hz = 22050, n = Math.floor(hz * saniye);
+  const tampon = new ArrayBuffer(44 + n * 2);
+  const g = new DataView(tampon);
+  const yaz = (o, s) => { for (let i = 0; i < s.length; i++) g.setUint8(o + i, s.charCodeAt(i)); };
+  yaz(0, 'RIFF'); g.setUint32(4, 36 + n * 2, true); yaz(8, 'WAVEfmt ');
+  g.setUint32(16, 16, true); g.setUint16(20, 1, true); g.setUint16(22, 1, true);
+  g.setUint32(24, hz, true); g.setUint32(28, hz * 2, true);
+  g.setUint16(32, 2, true); g.setUint16(34, 16, true);
+  yaz(36, 'data'); g.setUint32(40, n * 2, true);
+
+  for (let i = 0; i < n; i++) {
+    const t = i / hz;
+    let v = 0;
+    for (const { hzTon, bas, sure } of tonlar) {
+      if (t < bas || t > bas + sure) continue;
+      const yerel = t - bas;
+      // Kenarları yumuşat: sert başlangıç iPhone hoparlöründe "tık" yapıyor.
+      const zarf = Math.min(1, yerel / 0.01, (sure - yerel) / 0.03);
+      v += Math.sin(2 * Math.PI * hzTon * yerel) * zarf;
+    }
+    g.setInt16(44 + i * 2, Math.max(-1, Math.min(1, v * ses)) * 32767, true);
+  }
+  let ikili = '';
+  const bayt = new Uint8Array(tampon);
+  for (let i = 0; i < bayt.length; i++) ikili += String.fromCharCode(bayt[i]);
+  return 'data:audio/wav;base64,' + btoa(ikili);
+}
+
+/**
+ * Yol Modu açılırken, DOKUNUŞ SIRASINDA çağrılmalı.
+ * Ses oturumunu açar ve açık tutar. `true` dönerse uyarı ekran kapalıyken de
+ * duyulur.
+ */
 export async function sesDuzenegiHazirla() {
   try {
-    if (!sesDuzenegi) sesDuzenegi = new (window.AudioContext || window.webkitAudioContext)();
-    if (sesDuzenegi.state === 'suspended') await sesDuzenegi.resume();
-    return sesDuzenegi.state === 'running';
+    if (!sesTutucu) {
+      sesTutucu = new Audio(wavVer(2, [{ hzTon: 40, bas: 0, sure: 2 }], 0.0006));
+      sesTutucu.loop = true;
+      sesTutucu.setAttribute('playsinline', '');
+      // Ses seviyesi 0 OLMAMALI: iOS tamamen sessiz oynatımı "boş oturum"
+      // sayıp askıya alıyor. Duyulmayacak kadar kısık ama sıfır değil.
+      sesTutucu.volume = 0.02;
+    }
+    if (!uyariCalar) {
+      uyariCalar = new Audio(wavVer(1.1, [
+        { hzTon: 880, bas: 0.00, sure: 0.16 },
+        { hzTon: 660, bas: 0.22, sure: 0.16 },
+        { hzTon: 880, bas: 0.44, sure: 0.16 },
+        { hzTon: 660, bas: 0.66, sure: 0.30 }
+      ]));
+      uyariCalar.setAttribute('playsinline', '');
+      uyariCalar.volume = 1;
+    }
+    await sesTutucu.play();
+    return !sesTutucu.paused;
   } catch {
     return false;
   }
 }
 
+export function sesDuzenegiKapat() {
+  try { sesTutucu?.pause(); } catch { /* zaten durmuş */ }
+}
+
 function uyariSesi() {
   try {
-    const ac = sesDuzenegi || new (window.AudioContext || window.webkitAudioContext)();
-    if (ac.state === 'suspended') ac.resume().catch(() => {});
-    [0, 0.18, 0.36].forEach((gecikme, i) => {
-      const o = ac.createOscillator(), g = ac.createGain();
-      o.frequency.value = [660, 880, 660][i];
-      o.connect(g); g.connect(ac.destination);
-      g.gain.setValueAtTime(0.0001, ac.currentTime + gecikme);
-      g.gain.exponentialRampToValueAtTime(0.28, ac.currentTime + gecikme + 0.02);
-      g.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime + gecikme + 0.15);
-      o.start(ac.currentTime + gecikme);
-      o.stop(ac.currentTime + gecikme + 0.16);
-    });
-  } catch { /* ses açılamazsa titreşim zaten var */ }
+    if (!uyariCalar) return;
+    uyariCalar.currentTime = 0;
+    uyariCalar.play().catch(() => {});
+    // Sessiz döngü bir şekilde kesildiyse geri başlat: bir sonraki durakta
+    // oturum yine ayakta olsun.
+    if (sesTutucu?.paused) sesTutucu.play().catch(() => {});
+  } catch { /* ses açılamazsa uyarı ekranda yine çıkıyor */ }
 }
 
 // Yol Modu: ekranı açık tutar, iz sıklaşır, yaklaşma uyarıları devrede.
@@ -1283,10 +1496,13 @@ async function yolModuDegistir() {
     $('#btnYolModu .yol-alt').textContent =
       (durum.uyanikKilit ? 'Açık — ekran sönmeyecek' : 'Açık') +
       (sesVar ? ', durağa yaklaşınca sesle uyaracak' : ', uyarı ekranda çıkacak (ses açılamadı)');
-    kayitBildir('Yol Modu açık. Telefonu şarjda tut.', 'iyi');
+    kayitBildir(sesVar
+      ? 'Yol Modu açık. Telefonu şarjda tut. Sesi açık bırak — uyarı sesle gelecek.'
+      : 'Yol Modu açık ama ses açılamadı: uyarı yalnızca ekranda çıkar.', sesVar ? 'iyi' : 'orta');
   } else {
     durum.uyanikKilit?.release();
     durum.uyanikKilit = null;
+    sesDuzenegiKapat();
     $('#btnYolModu .yol-alt').textContent = 'Ekran açık kalır, durağa yaklaşınca uyarır';
   }
 }

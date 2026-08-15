@@ -168,6 +168,18 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
   width: 8px; height: 8px; border-radius: 50%;
   background: var(--cizgi); border: 2px solid var(--zemin);
 }
+/* Yeni eklenen fotoğraf çekildiği saate düşüyor — yani listede yukarıda bir
+   yere. Oraya kaydırıp kısa süre vurguluyoruz ki "eklendi mi?" diye
+   aranmasın. Gezide en çok kafa karıştıran şey buydu. */
+.kayit-satir.yeni-eklendi {
+  animation: yeniEklendi 2.6s ease-out;
+  border-radius: 10px;
+}
+@keyframes yeniEklendi {
+  0%, 55% { background: color-mix(in srgb, var(--vurgu) 22%, transparent); }
+  100%    { background: transparent; }
+}
+
 .kayit-satir.ses::before, .kayit-satir.gunluk::before { background: var(--vurgu); }
 .kayit-satir.ortam::before { background: var(--su); }
 .kayit-satir.sinir::before { background: var(--yesil); }
