@@ -6,9 +6,10 @@ import * as gerok from './gerok.js';
 import * as kayit from './kayit.js';
 import { haritaKur, haritaGuncelle, haritaBoyutTazele, konumaGit, hepsiniGoster,
          kipDegistir, aktifKipAl, haritaMerkezi, durakTiklamasi } from './harita.js';
-import { gunSonuAc, baslangicKaydiAc, bitisKaydiAc, mektupAc } from './gunsonu.js';
-import { paketGonder, paketAl, yedekAl } from './esitleme.js';
+import { gunSonuAc, geziSonuAc, baslangicKaydiAc, bitisKaydiAc, mektupAc } from './gunsonu.js';
+import { paketGonder, paketAl, yedekAl, sonYedekZamani, yedekSina } from './esitleme.js';
 import { TEMALAR, temaSecimi, temaSec, temaBaslat } from './tema.js';
+import { SEMA_SECENEKLERI, semaSecimi, semaSec, semaUygula, cozulmusSema } from './sema.js';
 import * as yerAra from './yer-ara.js';
 import { ikon, ikonlariYerlestir } from './ikon.js';
 
@@ -21,6 +22,9 @@ let durum = {
   izNoktalari: [],
   durakDurumlari: {},
   yolModu: false,
+  arama: '',
+  suzgec: 'hepsi',
+  acikSatir: null,          // uzun basılan kaydın kimliği
   sonParaBirimi: '',
   uyanikKilit: null,
   sonUlke: null,
@@ -29,10 +33,29 @@ let durum = {
 
 // ---------------------------------------------------------------- açılış ---
 
+// Şema, temanın üstüne biniyor: tema zeminin (kâğıt mı gece mi), şema
+// vurgunun rengini söylüyor. Tema her değiştiğinde şema yeniden yazılmalı —
+// her şemanın gece ve gündüz için ayrı vurgusu var.
+function geziGunuNo() {
+  const s = gerok.aktifGerok();
+  if (!s?.baslangic) return 0;
+  const gun = Math.floor((Date.now() - new Date(s.baslangic).getTime()) / 86400000);
+  return Number.isFinite(gun) ? Math.max(0, gun) : 0;
+}
+
+function semayiTazele(secim = semaSecimi()) {
+  return semaUygula(secim, geziGunuNo());
+}
+
 async function baslat() {
   temaBaslat();
   await veri.ac();
   await gerok.baslat();
+  semayiTazele();
+  // Telefon kendi kendine gece kipine geçerse (otomatik tema) vurgu da o
+  // temanın karşılığına dönsün.
+  matchMedia('(prefers-color-scheme: dark)')
+    .addEventListener('change', () => setTimeout(() => semayiTazele(), 0));
 
   // Cihaz kimliği: iki telefonun kayıtlarını birbirinden ayıran şey.
   let cihaz = await veri.ayarOku('cihazKimligi');
@@ -56,6 +79,8 @@ async function baslat() {
   ikonlariYerlestir();
   sekmeleriKur();
   kayitDugmeleriniKur();
+  aramaVeSuzgecKur();
+  calmaSeridiniKur();
   izDinle();
 
   await tazele();
@@ -221,6 +246,7 @@ function ekranAc(ad, yon = null) {
   if (ad === 'zaman') zamanCizgisiCiz();
   if (ad === 'duraklar') duraklariCiz();
   if (ad === 'gerok') paneliCiz();
+  if (ad === 'kayit') kayitUyarilariniCiz();
   if (ad === 'harita') {
     haritaKur().then(() => {
       haritaBoyutTazele();
@@ -270,6 +296,27 @@ function onizlemeAdresiniBirak(medyaId) {
   if (u) { URL.revokeObjectURL(u); onizlemeAdresleri.delete(medyaId); }
 }
 
+// Zaman çizgisi süzgeçleri. `hepsi` dışındakiler tür ailelerine bakıyor;
+// `baskasi` ise sahibine — iki telefonun kayıtları birleşince "arkadaşım ne
+// kaydetmiş" sorusu en çok sorulan şey oluyor.
+const SUZGECLER = {
+  hepsi: () => true,
+  ses: (k) => ['ses', 'ortam', 'gunluk', 'baslangic', 'bitis', 'mektup'].includes(k.tur),
+  gorsel: (k) => ['foto', 'video', 'siradan'].includes(k.tur),
+  baskasi: (k) => k.sahip && k.sahip !== kayit.sahipAl().id
+};
+const SUZGEC_ADI = {
+  hepsi: 'hepsi', ses: 'yalnızca sesler',
+  gorsel: 'fotoğraf ve video', baskasi: 'arkadaşının kayıtları'
+};
+
+// Bir kaydın aranan metni: gördüğün her şey aranabilir olmalı.
+function aranabilirMetin(k) {
+  return [k.metin, k.not, k.baslik, k.ad, k.tutar, k.paraBirimi,
+          k.kategori, k.sahipAd, veri.TURLER[k.tur] || k.tur]
+    .filter(Boolean).join(' ').toLocaleLowerCase('tr');
+}
+
 function zamanCizgisiCiz() {
   const kap = $('#zamanListe');
   const s = gerok.aktifGerok();
@@ -287,8 +334,22 @@ function zamanCizgisiCiz() {
     return;
   }
 
+  // Arama ve süzgeç önce uygulanıyor: sayfalama süzülmüş liste üzerinden
+  // işlesin, yoksa "son 120 kayıt içinde ara" gibi tuhaf bir şey olurdu.
+  const sorgu = (durum.arama || '').trim().toLocaleLowerCase('tr');
+  const suzgec = SUZGECLER[durum.suzgec] || SUZGECLER.hepsi;
+  const tumu = durum.kayitlar.filter(k =>
+    suzgec(k) && (!sorgu || aranabilirMetin(k).includes(sorgu)));
+
+  if (!tumu.length) {
+    kap.innerHTML = `<div class="bos-durum">
+      <div class="bos-yazi">Bu süzgeçle kayıt yok.<br>
+      <span style="color:var(--vurgu)">${kacis(sorgu ? `“${sorgu}”` : SUZGEC_ADI[durum.suzgec])}</span></div>
+    </div>`;
+    return;
+  }
+
   // En yeniler önce: sınırı aşan eskiler "daha eskisini göster" ile gelir.
-  const tumu = durum.kayitlar;
   const gosterilecek = tumu.slice(Math.max(0, tumu.length - gosterilenSayi));
   const gizliSayi = tumu.length - gosterilecek.length;
 
@@ -385,17 +446,121 @@ function zamanCizgisiCiz() {
   kap.querySelectorAll('[data-sil]').forEach(d => {
     d.addEventListener('click', () => kaydiSil(d.dataset.sil));
   });
+  kap.querySelectorAll('[data-baslik]').forEach(d => {
+    d.addEventListener('click', () => kayitBasligiSor(d.dataset.baslik));
+  });
+  kap.querySelectorAll('[data-tasi]').forEach(d => {
+    d.addEventListener('click', () => kaydiTasiSor(d.dataset.tasi));
+  });
   kap.querySelectorAll('[data-google]').forEach(d => {
     d.addEventListener('click', () => {
       const [lat, lon] = d.dataset.google.split(',');
       googleHaritalarAc({ lat, lon });
     });
   });
+
+  uzunBasmayiKur(kap);
 }
+
+// Uzun basma: satırın eylemleri açılıyor.
+//
+// Eşik 420 ms. Daha kısası listede kaydırırken kazara açıyordu; daha uzunu
+// "basılı tuttum, bir şey olmadı" hissi veriyor. Parmak 10 pikselden fazla
+// kayarsa iptal — kaydırmakla basılı tutmak karışmasın.
+const BASMA_SURESI = 420;
+const BASMA_KAYMA = 10;
+
+function uzunBasmayiKur(kap) {
+  kap.querySelectorAll('.kayit-satir').forEach(satir => {
+    let zaman = null, bas = null;
+
+    const iptal = () => { clearTimeout(zaman); zaman = null; };
+
+    const baslat = (ev) => {
+      // Kartın içindeki düğmeye (çalma, silme) basılıyorsa karışma.
+      if (ev.target.closest('button, input, a')) return;
+      const n = ev.touches?.[0] || ev;
+      bas = { x: n.clientX, y: n.clientY };
+      zaman = setTimeout(() => {
+        durum.acikSatir = durum.acikSatir === satir.dataset.kayit ? null : satir.dataset.kayit;
+        titret(12);
+        zamanCizgisiCiz();
+      }, BASMA_SURESI);
+    };
+
+    const kaydi = (ev) => {
+      if (!zaman || !bas) return;
+      const n = ev.touches?.[0] || ev;
+      if (Math.abs(n.clientX - bas.x) > BASMA_KAYMA ||
+          Math.abs(n.clientY - bas.y) > BASMA_KAYMA) iptal();
+    };
+
+    satir.addEventListener('touchstart', baslat, { passive: true });
+    satir.addEventListener('touchmove', kaydi, { passive: true });
+    satir.addEventListener('touchend', iptal);
+    satir.addEventListener('touchcancel', iptal);
+    // Fare: masaüstünde sınamak için. Telefonda bu yol hiç çalışmıyor.
+    satir.addEventListener('mousedown', baslat);
+    satir.addEventListener('mousemove', kaydi);
+    satir.addEventListener('mouseup', iptal);
+    satir.addEventListener('mouseleave', iptal);
+  });
+}
+
+// Arama kutusu ve süzgeçler.
+function aramaVeSuzgecKur() {
+  const girdi = $('#araGirdi');
+  let bekle = null;
+  girdi.addEventListener('input', () => {
+    clearTimeout(bekle);
+    // 180 ms bekleme: her harfte yüzlerce kaydı yeniden çizmek yazmayı
+    // takılıyor gibi hissettiriyordu.
+    bekle = setTimeout(() => {
+      durum.arama = girdi.value;
+      gosterilenSayi = SAYFA_ADIMI;
+      zamanCizgisiCiz();
+    }, 180);
+  });
+
+  $$('#suzgecler .suzgec').forEach(d => {
+    d.addEventListener('click', () => {
+      // Aynı süzgece ikinci dokunuş kapatıyor: "hepsi"ye dönmek için ayrıca
+      // düğme aramak gerekmesin.
+      durum.suzgec = durum.suzgec === d.dataset.suzgec ? 'hepsi' : d.dataset.suzgec;
+      $$('#suzgecler .suzgec').forEach(x =>
+        x.classList.toggle('secili', x.dataset.suzgec === durum.suzgec));
+      gosterilenSayi = SAYFA_ADIMI;
+      zamanCizgisiCiz();
+    });
+  });
+
+  // Aşağı kaydırınca şerit çekiliyor, yukarı çıkınca geri geliyor. Küçük
+  // ekranda arama kutusu sürekli yer kaplamasın.
+  const ekran = $('#ekran-zaman');
+  let sonY = 0;
+  ekran.addEventListener('scroll', () => {
+    const y = ekran.scrollTop;
+    if (y > sonY + 6 && y > 40) $('#zamanAra').classList.add('cekildi');
+    else if (y < sonY - 6 || y < 12) $('#zamanAra').classList.remove('cekildi');
+    sonY = y;
+  }, { passive: true });
+}
+
+// Konumun NEREDEN geldiği yazılıyor. On yıl sonra haritadaki iğneye bakıp
+// "burası gerçekten orası mıydı" diye sorulduğunda cevabı olan tek şey bu:
+// uydu ölçümü ile izden tahmin arasındaki fark birkaç yüz metre olabiliyor.
+const KONUM_KAYNAGI = {
+  gps: 'konum: uydudan',
+  iz: 'konum: iz kaydından',
+  exif: 'konum: fotoğrafın içinden',
+  elle: 'konum: elle işaretlendi'
+};
 
 function kayitSatiri(k) {
   const tur = veri.TURLER[k.tur] || k.tur;
-  const yer = k.konumKaynagi === 'iz' ? 'izden' : k.konumKaynagi === 'exif' ? 'fotoğraftan' : k.konumKaynagi === 'gps' ? '' : 'konumsuz';
+  const yer = (k.lat != null && k.lon != null)
+    ? (KONUM_KAYNAGI[k.konumKaynagi] || 'konum: uydudan')
+    : 'konum: bulunamadı';
 
   let govde = '';
   if (k.metin) govde += `<div class="kayit-metin">${kacis(k.metin)}</div>`;
@@ -417,17 +582,25 @@ function kayitSatiri(k) {
   }
 
   const konumlu = k.lat != null && k.lon != null;
+  const acik = durum.acikSatir === k.id;
+  // Ses ve başlıksız kayıtlara sonradan bir satır eklenebiliyor.
+  const basliklanabilir = ['ses', 'ortam', 'gunluk', 'baslangic', 'bitis', 'mektup'].includes(k.tur);
 
-  return `<div class="kayit-satir ${k.tur}" data-kayit="${k.id}">
+  // Eylemler artık her satırda değil, UZUN BASINCA açılıyor. Her kartın
+  // altında duran "Sil" düğmesi listeyi düğme tarlasına çeviriyordu ve
+  // araç sallanırken yanlışlıkla basılabiliyordu.
+  return `<div class="kayit-satir ${k.tur}${acik ? ' acik' : ''}" data-kayit="${k.id}">
     <div class="kayit-saat">${gerok.saat(k.t)}</div>
     <div class="kayit-govde">
       <div class="kayit-tur">${kacis(tur)}</div>
       ${govde}
-      <div class="kayit-sahip">${kacis(k.sahipAd || 'bilinmeyen')}${yer ? ` · ${yer}` : ''}</div>
-      <div class="kayit-eylemler">
-        ${konumlu ? `<button class="satir-dugme" data-google="${k.lat},${k.lon}">Google Haritalar</button>` : ''}
+      <div class="kayit-sahip">${kacis(k.sahipAd || 'bilinmeyen')} · ${yer}</div>
+      ${acik ? `<div class="kayit-eylemler">
+        ${basliklanabilir ? `<button class="satir-dugme" data-baslik="${k.id}">Başlık yaz</button>` : ''}
+        <button class="satir-dugme" data-tasi="${k.id}">Saat / gün</button>
+        ${konumlu ? `<button class="satir-dugme" data-google="${k.lat},${k.lon}">Haritalar</button>` : ''}
         <button class="satir-dugme sil" data-sil="${k.id}">Sil</button>
-      </div>
+      </div>` : ''}
     </div>
   </div>`;
 }
@@ -461,8 +634,9 @@ async function kaydiSil(id) {
   ortuAc(`
     <div class="ortu-baslik">Bu kayıt silinsin mi?</div>
     <div class="ortu-alt">${kacis(tur)} · ${kacis(gerok.saat(k.t))}${k.metin ? ` · "${kacis(k.metin.slice(0, 60))}"` : ''}<br><br>
-    Geri alınamaz. Ses dosyası da siliniyor. Arkadaşına paket gönderdiğinde
-    onun telefonundan da silinir.</div>
+    Beş saniye "Geri al" düğmesi duracak. O geçtikten sonra dönüşü yok:
+    ses dosyası da siliniyor ve arkadaşına paket gönderdiğinde onun
+    telefonundan da silinir.</div>
     <button class="eylem-dugme birincil" id="silOnay">Sil</button>
     <button class="eylem-dugme" id="silVazgec">Vazgeç</button>
   `);
@@ -470,9 +644,101 @@ async function kaydiSil(id) {
   $('#silVazgec').addEventListener('click', ortuKapat);
   $('#silOnay').addEventListener('click', async () => {
     ortuKapat();
-    if (k.medyaId) onizlemeAdresiniBirak(k.medyaId);
-    await veri.kayitYokEt(id);
-    kayitBildir('Kayıt silindi.', 'iyi');
+    durum.acikSatir = null;
+
+    // Silme beş saniye BEKLETİLİYOR. Bu süre boyunca kayıt listeden kalkıyor
+    // ama diskte duruyor: "Geri al"a basılırsa hiçbir şey olmamış gibi geri
+    // geliyor. Sildikten sonra pişman olmak, silememekten daha sık oluyor.
+    const eskiKayitlar = durum.kayitlar;
+    durum.kayitlar = durum.kayitlar.filter(x => x.id !== id);
+    zamanCizgisiCiz();
+
+    let iptal = false;
+    geriAlinabilirBildir('Kayıt silindi.', () => {
+      iptal = true;
+      durum.kayitlar = eskiKayitlar;
+      zamanCizgisiCiz();
+      kayitBildir('Geri alındı.', 'iyi');
+    });
+
+    setTimeout(async () => {
+      if (iptal) return;
+      if (k.medyaId) onizlemeAdresiniBirak(k.medyaId);
+      await veri.kayitYokEt(id);
+      await tazele();
+    }, GERI_AL_SURESI);
+  });
+}
+
+// Var olan bir kaydın başlığını (metnini) yaz ya da düzelt.
+function kayitBasligiSor(id) {
+  const k = durum.kayitlar.find(x => x.id === id);
+  if (!k) return;
+  durum.acikSatir = null;
+
+  ortuAc(`
+    <div class="ortu-baslik">Bu kayıt ne hakkında?</div>
+    <div class="ortu-alt">Tek satır yeter — sonradan açmadan ne olduğunu anlamak için.</div>
+    <input class="girdi" id="kBaslik" value="${kacis(k.metin || '')}"
+           placeholder="ör. Ohrid gölünde akşam" autocomplete="off" enterkeyhint="done">
+    <button class="eylem-dugme birincil" id="kBaslikKaydet">Kaydet</button>
+    <button class="eylem-dugme" id="kBaslikVazgec">Vazgeç</button>
+  `);
+  setTimeout(() => $('#kBaslik')?.focus(), 120);
+
+  const kaydet = async () => {
+    const m = $('#kBaslik').value.trim();
+    ortuKapat();
+    await veri.kayitEkle({ ...k, metin: m });
+    kayitBildir(m ? 'Başlık yazıldı.' : 'Başlık silindi.', 'iyi');
+    await tazele();
+  };
+  $('#kBaslikKaydet').addEventListener('click', kaydet);
+  $('#kBaslikVazgec').addEventListener('click', ortuKapat);
+  $('#kBaslik').addEventListener('keydown', (e) => { if (e.key === 'Enter') kaydet(); });
+}
+
+/**
+ * Kaydı başka bir saate ya da güne taşı.
+ *
+ * Gerçek ihtiyaç: telefonun saati yanlışken yapılan kayıt, ya da gece yarısını
+ * geçtikten sonra "hâlâ dünün akşamı" olan bir not — ikisi de yanlış güne
+ * düşüyor. Kaydın kendisi değişmiyor, sadece defterdeki yeri.
+ */
+function kaydiTasiSor(id) {
+  const k = durum.kayitlar.find(x => x.id === id);
+  if (!k) return;
+  durum.acikSatir = null;
+
+  const s = gerok.aktifGerok();
+  const d = new Date(k.t);
+  const saatMetni = `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+  const tarihMetni = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+
+  ortuAc(`
+    <div class="ortu-baslik">Saat ve gün</div>
+    <div class="ortu-alt">Yanlış güne düşen kaydı buradan taşı. Kaydın kendisi
+    değişmez — yalnızca zaman çizgisindeki yeri.</div>
+    <div class="girdi-etiket">Tarih</div>
+    <input class="girdi" id="tasiTarih" type="date" value="${tarihMetni}">
+    <div class="girdi-etiket">Saat</div>
+    <input class="girdi" id="tasiSaat" type="time" value="${saatMetni}">
+    ${s?.gunler?.length ? `<div class="panel-not">Yeni saat turun bir gününe düşerse
+      kayıt kendiliğinden o güne yerleşir.</div>` : ''}
+    <button class="eylem-dugme birincil" id="tasiKaydet">Taşı</button>
+    <button class="eylem-dugme" id="tasiVazgec">Vazgeç</button>
+  `);
+
+  $('#tasiVazgec').addEventListener('click', ortuKapat);
+  $('#tasiKaydet').addEventListener('click', async () => {
+    const tarih = $('#tasiTarih').value;
+    const saat = $('#tasiSaat').value;
+    const yeni = new Date(`${tarih}T${saat || '00:00'}:00`).getTime();
+    if (!Number.isFinite(yeni)) { kayitBildir('Tarih anlaşılmadı.', 'kotu'); return; }
+    ortuKapat();
+    // Gün numarası yeniden hesaplanıyor: turun gün pencerelerine göre.
+    await veri.kayitEkle({ ...k, t: yeni, gun: gerok.gunNo(yeni) });
+    kayitBildir(`Taşındı · ${gerok.tarihUzun(yeni)} ${gerok.saat(yeni)}`, 'iyi');
     await tazele();
   });
 }
@@ -503,6 +769,7 @@ function calaniBirak() {
   if (calan.cubuk) calan.cubuk.value = 0;
   URL.revokeObjectURL(calan.url);
   calan = null;
+  $('#calmaSerit')?.classList.add('gizli');
 }
 
 // Zaman çizgisi yeniden çizilince çalan kaydın düğmesi DOM'dan düşüyor:
@@ -527,6 +794,7 @@ function sayaciBasla(gecenSaniye) {
     if (calan.cubuk && toplam > 0) {
       calan.cubuk.value = Math.round(Math.min(1, gecen / toplam) * 1000);
     }
+    calmaSeridiYaz(gecen, toplam);
   }, 200);
 }
 
@@ -792,6 +1060,75 @@ function haritaKipleriniIsaretle() {
   $$('#haritaKipler .kip').forEach(d => d.classList.toggle('secili', d.dataset.kip === k));
 }
 
+// ---- Kayıt ekranındaki uyarı şeritleri ------------------------------------
+//
+// İki sessiz arıza var ve ikisi de kayda basana kadar görünmüyor: mikrofon
+// izni verilmemiş olabilir, ya da telefonda yer kalmamış olabilir. İkincisi
+// daha kötü — kayıt başlıyor ve ORTASINDA ölüyor. Uyarı, kayda basmadan önce
+// görünsün diye ekranın en üstünde duruyor.
+
+function kayitUyarilariniCiz() {
+  const kap = $('#kayitUyari');
+  if (!kap) return;
+
+  const d = durum.depolama;
+  const bosYer = d?.kota ? d.kota - d.kullanilan : null;
+  const azYer = bosYer != null && bosYer < AZ_YER_ESIGI;
+
+  let html = '';
+
+  if (durum.mikrofonRed) {
+    html += `<div class="kayit-uyari izin">
+      <div class="uyari-ad">Mikrofon izni yok</div>
+      <div class="uyari-alt">Ses kaydı yapılamıyor. Yazı, fotoğraf, işaret ve
+      harcama çalışmaya devam ediyor.</div>
+      <button class="eylem-dugme birincil" id="uyariIzin">İzni nasıl veririm?</button>
+    </div>`;
+  }
+
+  if (azYer) {
+    html += `<div class="kayit-uyari depo">
+      <div class="uyari-ad">Yer azalıyor</div>
+      <div class="uyari-alt">${boyutYaz(bosYer)} boş yer kaldı. Uzun kayıt ve yedek
+      için önce yer aç — kaydın ortasında dolarsa o kayıt yarım kalır.</div>
+      <button class="eylem-dugme" id="uyariDepo">Nasıl yer açarım?</button>
+    </div>`;
+  }
+
+  kap.innerHTML = html;
+
+  // Yalnızca okunacak bir açıklama penceresi: aç, tek düğmeyle kapat.
+  const bilgiOrtu = (ic) => {
+    ortuAc(ic);
+    $('#uyariKapat')?.addEventListener('click', ortuKapat);
+  };
+
+  $('#uyariIzin')?.addEventListener('click', () => bilgiOrtu(`
+    <div class="ortu-baslik">Mikrofon izni</div>
+    <div class="ortu-alt">
+      Ana ekrandaki simgeden açtıysan:<br>
+      <b>Ayarlar → Gerok → Mikrofon → İzin ver</b><br><br>
+      Safari sekmesinden açtıysan:<br>
+      <b>Ayarlar → Safari → Mikrofon → İzin ver</b><br><br>
+      İzni verdikten sonra uygulamayı tamamen kapat (kartı yukarı kaydır) ve
+      yeniden aç. İzin, uygulama açıkken değişmiyor.
+    </div>
+    <button class="eylem-dugme birincil" id="uyariKapat">Anladım</button>
+  `));
+
+  $('#uyariDepo')?.addEventListener('click', () => bilgiOrtu(`
+    <div class="ortu-baslik">Yer açmak</div>
+    <div class="ortu-alt">
+      Sırayla:<br><br>
+      1 · Önce <b>yedek al</b> (Gerok → eşitleme). Silmeden önce her zaman yedek.<br>
+      2 · Harita paketini sil (Gerok → bu telefon). Sonra yeniden indirilebilir.<br>
+      3 · Videolar uygulamada değil <b>galeride</b> duruyor. Yeri onlar kaplıyorsa
+      Fotoğraflar uygulamasından temizle.
+    </div>
+    <button class="eylem-dugme birincil" id="uyariKapat">Anladım</button>
+  `));
+}
+
 // Ses kaydı — dokun başlat, dokun durdur.
 //
 // Önce "basılı tut, bırak" vardı ve gerçek telefonda çalışmıyordu: mikrofon
@@ -892,9 +1229,19 @@ export async function sesKaydiBaslat(tur, { sinir = 0, ipucu = 'Konuş — bitin
   let basladi = false;
   try {
     basladi = await kayit.sesBasla();
-  } catch {
+    // Bir kez izin verildiyse uyarı şeridi kalksın.
+    durum.mikrofonRed = false;
+  } catch (hata) {
+    sesOturum = null;
     sesKatmaniKapat();
-    kayitBildir('Mikrofon izni yok. Ayarlar → Safari → Mikrofon.', 'kotu');
+    // İzin reddi ile mikrofonun başka bir sebeple açılamaması aynı şey değil;
+    // ikisine aynı cevabı vermek insanı Ayarlar'da boşuna dolaştırıyor.
+    const izinYok = hata?.name === 'NotAllowedError' || hata?.name === 'SecurityError';
+    durum.mikrofonRed = izinYok;
+    kayitUyarilariniCiz();
+    kayitBildir(izinYok
+      ? 'Mikrofon izni yok. Ayarlar → Gerok → Mikrofon → İzin ver.'
+      : `Mikrofon açılamadı: ${hata?.message || 'bilinmeyen sebep'}`, 'kotu');
     return;
   }
 
@@ -1911,13 +2258,39 @@ document.addEventListener('visibilitychange', async () => {
 
 // ------------------------------------------------------------- Gerok paneli -
 
+// Hangi panelin açık olduğu. Aynı anda bir tanesi — ayarlar ekranı on bir
+// kartlık bir duvar olduğunda aranan şey bulunamıyordu.
+let acikPanel = null;
+
+// Panel kabuğu. Başlık bir düğme: dokununca açılıp kapanıyor, ok dönüyor.
+// `uyari` doğruysa başlığın yanına bir yıldız düşüyor — panel kapalıyken bile
+// içeride bekleyen bir şey olduğu görünsün diye.
+function panelKur({ ad, uyari = false, ic, not = '' }) {
+  const acik = acikPanel === ad;
+  return `<div class="panel${acik ? ' acik' : ''}">
+    <button class="panel-baslik katlanir" data-panel="${kacis(ad)}">
+      <span>${kacis(ad)}</span>${uyari ? '<span class="panel-yildiz">*</span>' : ''}
+      <span class="panel-ok">▼</span>
+    </button>
+    <div class="panel-ic"${acik ? '' : ' hidden'}>
+      ${ic}
+      ${not ? `<div class="panel-not">${not}</div>` : ''}
+    </div>
+  </div>`;
+}
+
 async function paneliCiz() {
   const s = gerok.aktifGerok();
   const depo = await veri.depolamaDurumu();
   const sahip = kayit.sahipAl();
   const km = iz.izUzunlugu(durum.izNoktalari);
-  const sesler = durum.kayitlar.filter(k => ['ses', 'ortam', 'gunluk'].includes(k.tur)).length;
-  const fotolar = durum.kayitlar.filter(k => ['foto', 'video', 'siradan'].includes(k.tur)).length;
+
+  const sayi = (turler) => durum.kayitlar.filter(k => turler.includes(k.tur)).length;
+  const yaziSayi = sayi(['yazi', 'isaret', 'sinir']);
+  const sesSayi = sayi(['ses', 'ortam', 'gunluk', 'baslangic', 'bitis', 'mektup']);
+  const gorselSayi = sayi(['foto', 'video', 'siradan']);
+  const kisiSayi = sayi(['kisi']);
+
   const ozelVarMi = {
     baslangic: durum.kayitlar.some(k => k.tur === 'baslangic'),
     bitis: durum.kayitlar.some(k => k.tur === 'bitis'),
@@ -1929,123 +2302,154 @@ async function paneliCiz() {
     .filter(k => k.tur === 'mektup' && k.hedefYil)
     .map(k => k.hedefYil))].sort();
 
+  const { hepsi: harcamalar, paralar } = harcamalariTopla();
+
+  // Bugün sesli günlük bırakılmış mı? Bırakılmamışsa ve akşam olmuşsa
+  // Gün Sonu düğmesi nabız gibi atıyor — hatırlatan tek şey bu.
+  const bugun = new Date(); bugun.setHours(0, 0, 0, 0);
+  const bugunGunluk = durum.kayitlar.some(k =>
+    k.tur === 'gunluk' && k.t >= bugun.getTime());
+  const gunSonuGerek = new Date().getHours() >= 19 && !bugunGunluk;
+
+  const yedek = await sonYedekZamani();
+  const yedekEski = !yedek || (Date.now() - yedek) > 24 * 60 * 60 * 1000;
+  const azYer = depo?.kota && (depo.kota - depo.kullanilan) < AZ_YER_ESIGI;
+
+  const yedekYazi = yedek
+    ? gerok.tarihUzun(yedek) + ' ' + gerok.saat(yedek)
+    : 'hiç alınmadı';
+
   $('#gerokPanel').innerHTML = `
     <div class="panel">
-      <div class="panel-baslik">Bu gerok</div>
+      <div class="panel-baslik">bu gezi</div>
       ${s ? `
         <div class="panel-satir"><span class="etiket">Gerok</span><span class="deger">${kacis(s.ad)}</span></div>
-        <div class="panel-satir"><span class="etiket">Kayıt</span><span class="deger">${durum.kayitlar.length}</span></div>
-        <div class="panel-satir"><span class="etiket">Sesli</span><span class="deger">${sesler}</span></div>
-        <div class="panel-satir"><span class="etiket">Görsel</span><span class="deger">${fotolar}</span></div>
-        <div class="panel-satir"><span class="etiket">İz</span><span class="deger">${km.toFixed(1)} km · ${durum.izNoktalari.length} nokta</span></div>
+        <div class="panel-satir"><span class="etiket">Kayıt</span>
+          <span class="deger sayi-izgara">
+            <span title="yazı, işaret, sınır">${yaziSayi}</span>
+            <span title="ses kayıtları">${sesSayi}</span>
+            <span title="fotoğraf ve video">${gorselSayi}</span>
+            <span title="tanıştığınız kişiler">${kisiSayi}</span>
+          </span></div>
+        <div class="panel-satir"><span class="etiket">Yol</span>
+          <span class="deger">${km.toFixed(1)} km · ${durum.izNoktalari.length} nokta</span></div>
+        <div class="panel-satir harcama-ust"><span class="etiket">Harcama</span>
+          <span class="deger">
+            <span>${harcamalar.length ? tutarYaz(paralar) : '—'}</span>
+            <button class="satir-dugme" id="btnHarcamaListe">Döküm</button>
+          </span></div>
+        <div class="panel-not kucuk">Para birimleri ayrı toplanıyor — kur çevirmesi
+        internet ister, uydurulmuyor.</div>
       ` : '<div class="panel-not">Gerok paketi yüklenmedi.</div>'}
-      <button class="eylem-dugme birincil" id="btnGunSonu">Gün Sonu</button>
+      <button class="eylem-dugme birincil${gunSonuGerek ? ' nabiz' : ''}" id="btnGunSonu">Gün Sonu'nu başlat</button>
+      ${gunSonuGerek ? '<div class="panel-uyari-yazi">Bugün henüz sesli günlük yok</div>' : ''}
     </div>
 
-    <div class="panel">
-      <div class="panel-baslik">Harcamalar</div>
-      ${harcamalarPaneli()}
-    </div>
+    ${panelKur({
+      ad: 'eşitleme',
+      uyari: yedekEski,
+      ic: `
+        <div class="panel-satir"><span class="etiket">Son yedek</span>
+          <span class="deger">${kacis(yedekYazi)}</span></div>
+        <button class="eylem-dugme" id="btnGonder">Günümü gönder (AirDrop)</button>
+        <button class="eylem-dugme" id="btnAl">Gelen paketi al</button>
+        <button class="eylem-dugme" id="btnYedek">Yedek al (Dosyalar'a)</button>
+        <button class="eylem-dugme" id="btnYedekSina">Yedeği sına</button>`,
+      not: 'İki telefon arası dosya alışverişi ve yedek. Sunucu yok, hesap yok — ' +
+           'AirDrop iki telefon arasında doğrudan çalışır, internet gerekmez.'
+    })}
 
-    <div class="panel">
-      <div class="panel-baslik">Görünüm</div>
-      <div class="panel-not">Gündüz araç camından, gece otel odasında.
-      Otomatik'te telefonun kendi ayarını izler.</div>
-      <div class="secenekler" id="temaSecenek">
-        ${TEMALAR.map(t => `<button class="kucuk-dugme" data-tema="${t.id}">${t.ad}</button>`).join('')}
-      </div>
-    </div>
+    ${panelKur({
+      ad: 'bu telefon',
+      uyari: azYer,
+      ic: `
+        <div class="girdi-etiket">Aydınlık</div>
+        <div class="secenekler" id="temaSecenek">
+          ${TEMALAR.map(t => `<button class="kucuk-dugme" data-tema="${t.id}">${t.ad}</button>`).join('')}
+        </div>
 
-    <div class="panel">
-      <div class="panel-baslik">Eşitleme</div>
-      <div class="panel-not">Akşam otelde: sen gönder, arkadaşın alsın. İnternet gerekmez —
-      AirDrop iki telefon arasında doğrudan çalışır.</div>
-      <button class="eylem-dugme" id="btnGonder">Günümü gönder (AirDrop)</button>
-      <button class="eylem-dugme" id="btnAl">Gelen paketi al</button>
-      <button class="eylem-dugme" id="btnYedek">Yedek al (Dosyalar'a)</button>
-    </div>
+        <div class="girdi-etiket">Renk</div>
+        <div class="secenekler" id="semaSecenek">
+          ${SEMA_SECENEKLERI.map(o => `<button class="kucuk-dugme" data-sema="${kacis(o.id)}">${kacis(o.ad)}</button>`).join('')}
+        </div>
+        <div class="panel-not kucuk">Kâğıdın rengi değişmiyor; değişen tek şey
+        üzerine basılabilecek şeylerin rengi. Bugünkü renk:
+        <b>${kacis(cozulmusSema(semaSecimi(), geziGunuNo()))}</b>.</div>
 
-    <div class="panel">
-      <div class="panel-baslik">Kim</div>
-      <div class="panel-satir"><span class="etiket">Bu telefon</span><span class="deger">${kacis(sahip.ad || '—')}</span></div>
-      <div class="panel-not">Her kaydın kime ait olduğu yazılır. On yıl sonra
-      "bunu kim söylemişti" sorusunun cevabı bu.</div>
-      <button class="eylem-dugme" id="btnAd">Adımı değiştir</button>
-    </div>
+        <div class="panel-satir"><span class="etiket">Bu telefon</span>
+          <span class="deger">${kacis(sahip.ad || '—')}</span></div>
+        <button class="eylem-dugme" id="btnAd">Adımı değiştir</button>
 
-    <div class="panel">
-      <div class="panel-baslik">Harita ve depolama</div>
-      <div class="panel-satir"><span class="etiket">Offline harita</span>
-        <span class="deger" id="haritaDurum">bakılıyor…</span></div>
-      ${depo ? `
-        <div class="panel-satir"><span class="etiket">Kullanılan</span><span class="deger">${boyutYaz(depo.kullanilan)}</span></div>
-        <div class="panel-satir"><span class="etiket">Kalıcı depolama</span>
-          <span class="deger">${depo.kalici ? 'evet' : 'hayır'}</span></div>
-      ` : ''}
-      <button class="eylem-dugme" id="btnHarita">Harita paketini indir</button>
-      ${!depo?.kalici ? '<button class="eylem-dugme" id="btnKalici">Kalıcı depolama iste</button>' : ''}
-    </div>
+        <div class="panel-satir" style="margin-top:14px"><span class="etiket">İndirilmiş harita</span>
+          <span class="deger" id="haritaDurum">bakılıyor…</span></div>
+        ${depo ? `
+          <div class="panel-satir"><span class="etiket">Telefonda kullanılan</span>
+            <span class="deger">${boyutYaz(depo.kullanilan)}</span></div>
+          <div class="panel-satir"><span class="etiket">Boş yer</span>
+            <span class="deger">${depo.kota ? boyutYaz(depo.kota - depo.kullanilan) : '—'}${azYer ? ' · az' : ''}</span></div>
+          <div class="panel-satir"><span class="etiket">Veri kalıcı korunuyor</span>
+            <span class="deger">${depo.kalici ? 'evet' : 'hayır'}</span></div>
+        ` : ''}
+        <button class="eylem-dugme" id="btnHarita">Harita paketini indir</button>
+        ${!depo?.kalici ? '<button class="eylem-dugme" id="btnKalici">Kalıcı depolama iste</button>' : ''}`,
+      not: 'Görünüm, ad, indirilmiş harita ve yer.'
+    })}
 
-    <div class="panel">
-      <div class="panel-baslik">Gerok başı ve sonu</div>
-      <div class="panel-not">Anıları bir döneme oturtan çerçeve. Başlangıcı yola
-      çıkmadan, bitişi ve mektubu son gece kaydet.</div>
-      <button class="eylem-dugme" id="btnBaslangic">Başlangıç kaydı${ozelVarMi.baslangic ? ' ✓' : ''}</button>
-      <button class="eylem-dugme" id="btnBitis">Bitiş kaydı${ozelVarMi.bitis ? ' ✓' : ''}</button>
-      <button class="eylem-dugme" id="btnMektup">Mühürlü mektup yaz${ozelVarMi.mektup ? ' ✓' : ''}
-        ${mektupYillari.length ? `<span class="yol-alt">yazılmış: ${mektupYillari.join(', ')}</span>` : ''}
-      </button>
-    </div>
+    ${panelKur({
+      ad: 'gezi',
+      ic: `
+        <button class="eylem-dugme" id="btnBaslangic">Başlangıç kaydı${ozelVarMi.baslangic ? ' ✓' : ''}</button>
+        <button class="eylem-dugme" id="btnGeziSonu">Gezi Sonu'nu başlat${ozelVarMi.bitis ? ' ✓' : ''}</button>
+        <button class="eylem-dugme" id="btnMektup">Mühürlü mektup yaz${ozelVarMi.mektup ? ' ✓' : ''}
+          ${mektupYillari.length ? `<span class="yol-alt">yazılmış: ${mektupYillari.join(', ')}</span>` : ''}
+        </button>
 
-    <div class="panel">
-      <div class="panel-baslik">Turlar</div>
-      <div class="panel-not">Her tur ayrı bir defter. Bir tur bitince arşivle,
-      yenisini başlat — eskisinin kayıtları yerinde durur, karışmaz.</div>
-      <div class="panel-satir"><span class="etiket">Şu anki tur</span>
-        <span class="deger">${s ? kacis(s.ad) : 'yok'}</span></div>
-      <button class="eylem-dugme" id="btnTurlar">Turları yönet</button>
-      <button class="eylem-dugme" id="btnYeniTur">Yeni tur başlat</button>
-    </div>
+        <div class="panel-satir" style="margin-top:14px"><span class="etiket">Şu anki gezi</span>
+          <span class="deger">${s ? kacis(s.ad) : 'yok'}</span></div>
+        <button class="eylem-dugme" id="btnTurlar">Bütün geziler</button>
+        <button class="eylem-dugme" id="btnYeniTur">Yeni gezi başlat</button>
+        <button class="eylem-dugme" id="btnPaket">Gezi paketi yükle</button>`,
+      not: 'Gezinin başı ve sonu, bütün geziler, program dosyası. ' +
+           'Paket zorunlu değil — gezi elle de başlatılabiliyor.'
+    })}
 
-    <div class="panel">
-      <div class="panel-baslik">Gerok paketi</div>
-      <div class="panel-not">Hazır bir rota dosyası (rota, duraklar, hatırlatıcılar)
-      varsa buradan yüklenir. Zorunlu değil — tur elle de başlatılabiliyor.</div>
-      <button class="eylem-dugme" id="btnPaket">Gerok paketi yükle</button>
-    </div>
-
-    <div class="panel">
-      <div class="panel-baslik">Sürüm</div>
-      <div class="panel-not">Telefonundaki uygulamanın tarihi. İki telefonda da
-      aynı olmalı. Yeni sürüm varsa uygulamayı tamamen kapatıp aç.</div>
-      <div class="panel-satir"><span class="etiket">Yüklü sürüm</span>
-        <span class="deger" id="surumYazi">bakılıyor…</span></div>
-      <button class="eylem-dugme" id="btnSurum">Yeni sürüm var mı?</button>
-    </div>
-
-    <div class="panel">
-      <div class="panel-baslik">Yardım ve kontrol</div>
-      <div class="panel-not">Üçü de telefonun içinden çalışır, internet gerekmez.
-      Bir şey ters giderse önce "Telefonu sına", sonra "Bir şey ters giderse".</div>
-      <button class="eylem-dugme" id="btnSinama">Telefonu sına</button>
-      <button class="eylem-dugme" id="btnKurulum">Nasıl kullanılır</button>
-      <button class="eylem-dugme" id="btnTamir">Bir şey ters giderse (tamir kılavuzu)</button>
-    </div>
+    ${panelKur({
+      ad: 'sürüm ve yardım',
+      ic: `
+        <div class="panel-satir"><span class="etiket">Telefondaki sürüm</span>
+          <span class="deger" id="surumYazi">bakılıyor…</span></div>
+        <button class="eylem-dugme" id="btnSurum">Yeni sürüm var mı?</button>
+        <button class="eylem-dugme" id="btnSinama">Telefonu sına</button>
+        <button class="eylem-dugme" id="btnKurulum">Nasıl kullanılır</button>
+        <button class="eylem-dugme" id="btnTamir">Bir şey ters giderse</button>`,
+      not: 'Sürüm bilgisi, sınama ve tamir kılavuzu. Üçü de telefonun içinden ' +
+           'çalışır; yalnızca sürüm sorgusu internet ister.'
+    })}
   `;
+
+  // Panel başlıkları: dokununca aç/kapa, aynı anda bir tanesi açık.
+  $$('#gerokPanel [data-panel]').forEach(d => {
+    d.addEventListener('click', () => {
+      acikPanel = acikPanel === d.dataset.panel ? null : d.dataset.panel;
+      paneliCiz();
+    });
+  });
 
   surumuYaz();
 
   $('#btnHarcamaListe')?.addEventListener('click', harcamaDokumuAc);
   $('#btnHarcamaEkle')?.addEventListener('click', fiyatSor);
   temaSecenekleriniKur();
+  semaSecenekleriniKur();
 
   $('#btnGunSonu').addEventListener('click', () => gunSonuAc(durum, tazele));
   $('#btnGonder').addEventListener('click', () => paketGonder(kayitBildir));
   $('#btnAl').addEventListener('click', () => paketAl(kayitBildir, tazele));
   $('#btnYedek').addEventListener('click', () => yedekAl(kayitBildir));
+  $('#btnYedekSina').addEventListener('click', yedegiSina);
   $('#btnAd').addEventListener('click', adSor);
   $('#btnBaslangic').addEventListener('click', () => baslangicKaydiAc(tazele));
-  $('#btnBitis').addEventListener('click', () => bitisKaydiAc(tazele));
+  $('#btnGeziSonu').addEventListener('click', () => geziSonuAc(durum, tazele));
   $('#btnMektup').addEventListener('click', () => mektupAc(tazele));
   $('#btnPaket').addEventListener('click', () => $('#dosyaSecici').click());
   $('#btnTurlar').addEventListener('click', turlariYonet);
@@ -2184,10 +2588,51 @@ function temaSecenekleriniKur() {
   $$('#temaSecenek [data-tema]').forEach(d => {
     d.addEventListener('click', () => {
       temaSec(d.dataset.tema);
+      // Tema değişti: vurgu rengi de o temanın karşılığına dönmeli.
+      semayiTazele();
       isaretle();
+      paneliCiz();
     });
   });
   isaretle();
+}
+
+function semaSecenekleriniKur() {
+  const isaretle = () => {
+    const s = semaSecimi();
+    $$('#semaSecenek [data-sema]').forEach(d => d.classList.toggle('secili', d.dataset.sema === s));
+  };
+  $$('#semaSecenek [data-sema]').forEach(d => {
+    d.addEventListener('click', () => {
+      semaSec(d.dataset.sema, geziGunuNo());
+      isaretle();
+      paneliCiz();
+    });
+  });
+  isaretle();
+}
+
+// ------------------------------------------------------------ yedeği sına --
+//
+// Yedek almanın sessiz tehlikesi: dosya oluşuyor, boyutu makul görünüyor,
+// ama içi bozuk. Bu ancak geri yüklemeye çalıştığın gün — yani her şeyin
+// kaybolduğu gün — anlaşılıyor. Bu düğme o günü öne çekiyor.
+async function yedegiSina() {
+  kayitBildir('Yedek sınanıyor…');
+  try {
+    const r = await yedekSina((y, t) => {
+      if (t > 3) kayitBildir(`Yedek sınanıyor… ${y}/${t}`);
+    });
+    if (r.saglam) {
+      kayitBildir(`Yedek okunabilir ✓ · ${boyutYaz(r.boyut)} · ` +
+        `${r.kayitSayi} kayıt, ${r.medyaSayi} ses/görsel, ${r.izSayi} iz noktası.`, 'iyi');
+    } else {
+      kayitBildir(`Dikkat: ${r.eksik} kaydın ses/görsel dosyası yedeğe girmedi. ` +
+        'Yer açıp tekrar dene; olmuyorsa tamir kılavuzuna bak.', 'kotu');
+    }
+  } catch (hata) {
+    kayitBildir(`Yedek sınanamadı: ${hata.message}`, 'kotu');
+  }
 }
 
 // ------------------------------------------------------------- harcamalar --
@@ -2611,6 +3056,70 @@ export function kayitBildir(mesaj, sinif = '') {
   t.className = `bildirim ${sinif}`;
   clearTimeout(t._sayac);
   t._sayac = setTimeout(() => t.classList.add('gizli'), sinif === 'kotu' ? 8000 : 4000);
+}
+
+// Geri alınabilir bildirim: mesajın yanında beş saniye duran bir "Geri al".
+//
+// Silme bu yüzden anında değil. İki kural: silmek gürültülü olsun, veri
+// sessizce kaybolmasın. Beş saniye, "eyvah" demeye yetiyor.
+export const GERI_AL_SURESI = 5000;
+
+export function geriAlinabilirBildir(mesaj, geriAl) {
+  const t = $('#bildirim');
+  if (!t) { geriAl?.(); return; }
+
+  t.innerHTML = `<span class="bildirim-yazi"></span>
+    <button class="bildirim-geri">Geri al</button>`;
+  t.querySelector('.bildirim-yazi').textContent = mesaj;
+  t.className = 'bildirim geri-alinabilir';
+  clearTimeout(t._sayac);
+
+  const kapat = () => {
+    t.classList.add('gizli');
+    t.innerHTML = '';
+    t.className = 'bildirim gizli';
+  };
+  t.querySelector('.bildirim-geri').addEventListener('click', () => {
+    clearTimeout(t._sayac);
+    kapat();
+    geriAl?.();
+  });
+  t._sayac = setTimeout(kapat, GERI_AL_SURESI - 200);
+}
+
+// ---- Çalma şeridi ---------------------------------------------------------
+//
+// Bir sesi dinlerken başka sekmeye geçince ses devam ediyor ama durdurmanın
+// yolu kalmıyordu — kaydın kartı görünmüyor. Şerit her ekranda duruyor.
+
+function calmaSeridiYaz(gecen, toplam) {
+  const serit = $('#calmaSerit');
+  if (!serit) return;
+  if (!calan) { serit.classList.add('gizli'); return; }
+
+  serit.classList.remove('gizli');
+  const k = durum.kayitlar.find(x => x.medyaId === calan.medyaId);
+  const ad = k
+    ? `${veri.TURLER[k.tur] || k.tur} · ${gerok.saat(k.t)}${k.metin ? ` · ${k.metin.slice(0, 40)}` : ''}`
+    : 'ses kaydı';
+  $('#calmaAd').textContent = ad;
+  $('#calmaSure').textContent = sureYaz(gecen);
+  $('#calmaDolgu').style.width =
+    (toplam > 0 ? Math.min(100, (gecen / toplam) * 100) : 0).toFixed(1) + '%';
+}
+
+function calmaSeridiniKur() {
+  $('#calmaDurdur').addEventListener('click', () => {
+    calaniBirak();
+    calmaSeridiYaz(0, 0);
+  });
+  $('#calmaGit').addEventListener('click', () => {
+    ekranAc('zaman');
+    // Çalan kaydın kartına kaydır: hangi kaydı dinlediğini görsün.
+    const k = durum.kayitlar.find(x => x.medyaId === calan?.medyaId);
+    const satir = k && $(`[data-kayit="${k.id}"]`);
+    satir?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
 }
 
 function titret(desen) { try { navigator.vibrate?.(desen); } catch { /* desteklenmiyor */ } }

@@ -305,6 +305,218 @@ export function bitisKaydiAc(tazele) {
   });
 }
 
+// ---- Gezi Sonu ------------------------------------------------------------
+//
+// Gün Sonu her akşamın ritüeli; Gezi Sonu geziyi kapatan tek seferlik akış.
+// Beş adım: özet → bitiş kaydı → gidilmeyen duraklar → mühürlü mektup → kapat.
+//
+// Adımların hiçbiri zorunlu değil: her birinde "Atla" var. Zorunlu tek şey
+// sonda: gezi arşive geçmeden önce yedek istiyoruz. Kapatmak yeni kayıt
+// eklenmesini durduruyor — geri alınabilir ama sessizce olmamalı.
+
+const GEZI_ADIMLARI = ['ozet', 'kayit', 'kacan', 'mektup', 'kapat'];
+let geziAdim = 0;
+let geziDurum = null;
+
+export async function geziSonuAc(durum, tazele) {
+  tazeleDisari = tazele;
+  geziDurum = durum;
+  geziAdim = 0;
+  await geziCiz();
+}
+
+function geziUst(baslik, alt) {
+  return `<div class="gs-sayac">Gezi Sonu · ${geziAdim + 1}/${GEZI_ADIMLARI.length}</div>
+    <div class="gs-noktalar">${GEZI_ADIMLARI.map((_, i) =>
+      `<span class="gs-nokta${i <= geziAdim ? ' dolu' : ''}"></span>`).join('')}</div>
+    <div class="ortu-baslik">${baslik}</div>
+    ${alt ? `<div class="ortu-alt">${alt}</div>` : ''}`;
+}
+
+// Alt şerit her adımda aynı: geri, atla/devam. Son adımda "Geziyi kapat".
+function geziAlt(ileriYazi = 'Devam') {
+  return `<div class="gs-dugmeler">
+    ${geziAdim > 0 ? '<button class="eylem-dugme" id="gzGeri">Geri</button>' : ''}
+    <button class="eylem-dugme birincil" id="gzIleri">${ileriYazi}</button>
+  </div>`;
+}
+
+function geziAltiKur(ileriIslev = null) {
+  $('#gzGeri') && ($('#gzGeri').onclick = () => { geziAdim = Math.max(0, geziAdim - 1); geziCiz(); });
+  $('#gzIleri').onclick = ileriIslev || (() => {
+    geziAdim++;
+    if (geziAdim >= GEZI_ADIMLARI.length) { kapat(); tazeleDisari?.(); return; }
+    geziCiz();
+  });
+}
+
+async function geziCiz() {
+  const ad = GEZI_ADIMLARI[geziAdim];
+  if (ad === 'ozet') return geziOzet();
+  if (ad === 'kayit') return geziKayit();
+  if (ad === 'kacan') return geziKacan();
+  if (ad === 'mektup') return geziMektup();
+  if (ad === 'kapat') return geziKapat();
+}
+
+async function geziOzet() {
+  const s = gerok.aktifGerok();
+  const turId = s?.id ?? null;
+  const kayitlar = await veri.kayitlariGetir(turId);
+  const izNoktalari = await veri.izGetir(turId);
+
+  const km = iz.izUzunlugu(izNoktalari);
+  const sesler = kayitlar.filter(k => ['ses', 'ortam', 'gunluk', 'baslangic', 'bitis', 'mektup'].includes(k.tur)).length;
+  const kisiler = kayitlar.filter(k => k.tur === 'kisi').length;
+  const gunSayisi = s?.gunler?.length || 0;
+
+  ortu(`
+    ${geziUst('Gezinin özeti', s ? kacisYerel(s.ad) : 'Sayılarla.')}
+    <div class="gs-ozet">
+      <div class="gs-kutu"><div class="gs-sayi">${gunSayisi || '—'}</div><div class="gs-etiket">gün</div></div>
+      <div class="gs-kutu"><div class="gs-sayi">${km.toFixed(0)}</div><div class="gs-etiket">km</div></div>
+      <div class="gs-kutu"><div class="gs-sayi">${kayitlar.length}</div><div class="gs-etiket">kayıt · ${sesler} ses</div></div>
+      <div class="gs-kutu"><div class="gs-sayi">${kisiler}</div><div class="gs-etiket">tanıştığın kişi</div></div>
+    </div>
+    ${geziAlt()}
+  `);
+  geziAltiKur();
+}
+
+async function geziKayit() {
+  const turId = gerok.aktifGerok()?.id ?? null;
+  const varMi = (await veri.kayitlariGetir(turId)).some(k => k.tur === 'bitis');
+
+  ortu(`
+    ${geziUst('Bitiş kaydı',
+      'Son sesli not. Hâlâ oradayken, dönüş yolunu beklerken: ne oldu, ne değişti, ' +
+      'ne beklemiyordun?')}
+    ${varMi ? '<div class="panel-not">Bitiş kaydı zaten alınmış. İstersen bir tane daha bırakabilirsin.</div>' : ''}
+    <button class="buyuk-dugme birincil" id="gzKayit" style="margin-top:14px">
+      <span class="dugme-ikon">${ikon('mikrofon', 28)}</span>
+      <span class="dugme-ad">Bitiş kaydını al</span>
+    </button>
+    <div id="gzKayitDurum" class="panel-not"></div>
+    ${geziAlt('Atla')}
+  `);
+
+  $('#gzKayit').onclick = () => sesKaydiBaslat('bitis', {
+    ipucu: 'Bitiş kaydı · bitince "Durdur ve kaydet"',
+    bittiginde: async (k) => {
+      const e = $('#gzKayitDurum');
+      if (e) e.textContent = k ? `Kaydedildi · ${Math.round(k.sure)} saniye.` : 'Çok kısaydı.';
+      if (k) { await tazeleDisari?.(); $('#gzIleri').textContent = 'Devam'; }
+    }
+  });
+  geziAltiKur();
+}
+
+// Gidilmeyen duraklar bir sonraki gezinin başlangıcı. "Kaçırdık" işaretlisi ve
+// hiç dokunulmamışı birlikte listeleniyor — ikisi de gidilmemiş demek.
+async function geziKacan() {
+  const durumlar = await veri.durakDurumlari();
+  const tumDuraklar = gerok.duraklar();
+  const kacanlar = tumDuraklar.filter(d => durumlar[d.id]?.durum !== 'gidildi');
+  // "Hepsine gidilmiş" ile "hiç durak yok" aynı şey değil; ikisine aynı
+  // cümleyi yazmak yanlış bir şey söylemek olurdu.
+  const bosMesaj = tumDuraklar.length
+    ? 'Bütün duraklara gidilmiş. Nadir olur.'
+    : 'Bu gezide durak listesi yok — kaçırılan bir şey de yok.';
+
+  ortu(`
+    ${geziUst('Gidilmeyen duraklar',
+      'Kaçırdıklarını bir yere yazalım — sonraki gezinin başlangıcı bu liste olur.')}
+    ${kacanlar.length ? `
+      <div class="gs-liste">
+        ${kacanlar.map(d => `<div class="gs-liste-satir">
+          <div class="gs-liste-ad">${kacisYerel(d.ad)}</div>
+          <div class="gs-liste-alt">${d.gun == null ? 'günsüz' : `${d.gun}. gün`}</div>
+        </div>`).join('')}
+      </div>
+      <button class="eylem-dugme" id="gzKacanYaz">“Bir sonraki gezi” listesine yaz</button>
+    ` : `<div class="panel-not">${bosMesaj}</div>`}
+    <div id="gzKacanDurum" class="panel-not"></div>
+    ${geziAlt(kacanlar.length ? 'Atla' : 'Devam')}
+  `);
+
+  $('#gzKacanYaz') && ($('#gzKacanYaz').onclick = async () => {
+    // Not bir kayıt olarak yazılıyor: zaman çizgisinde durur, yedeğe girer,
+    // arşive geçer. Ayrı bir "listeler" kavramı icat etmeye gerek yok.
+    const metin = 'Bir sonraki gezi — gidilmeyen duraklar:\n' +
+      kacanlar.map(d => `· ${d.ad}`).join('\n');
+    const temel = await kayit.yaziEkle(metin);
+    if (temel) await veri.kayitEkle(temel);
+    $('#gzKacanDurum').textContent = `${kacanlar.length} durak zaman çizgisine yazıldı.`;
+    $('#gzIleri').textContent = 'Devam';
+    await tazeleDisari?.();
+  });
+  geziAltiKur();
+}
+
+async function geziMektup() {
+  const turId = gerok.aktifGerok()?.id ?? null;
+  const mektuplar = (await veri.kayitlariGetir(turId)).filter(k => k.tur === 'mektup');
+
+  ortu(`
+    ${geziUst('Mühürlü mektup',
+      'Kendine yaz, yıllar sonra açılsın. Şifre yok — o kadar yıl sonra kaybolacak ' +
+      'tek şey parola olurdu. Kilit değil, söz.')}
+    ${mektuplar.length
+      ? `<div class="panel-not">Yazılmış: ${mektuplar.map(m => m.hedefYil || '?').join(', ')}</div>`
+      : ''}
+    <button class="eylem-dugme birincil" id="gzMektup">Mektubu yaz</button>
+    ${geziAlt('Atla')}
+  `);
+
+  // Mektup akışı örtüyü kendi devralıyor; kapanınca Gezi Sonu'na dönüyoruz.
+  $('#gzMektup').onclick = () => mektupAc(async () => {
+    await tazeleDisari?.();
+  });
+  geziAltiKur();
+}
+
+async function geziKapat() {
+  const s = gerok.aktifGerok();
+  const sonYedek = await veri.ayarOku('sonYedek', null);
+  const gecen = sonYedek ? Math.round((Date.now() - sonYedek) / 3600_000) : null;
+
+  ortu(`
+    ${geziUst('Geziyi kapat',
+      'Önce son yedeği al, sonra arşive geçir. Kayıtlar telefonda kalır, ' +
+      'hiçbir yere gönderilmez.')}
+    ${sonYedek
+      ? `<div class="panel-not">Son yedek ${gecen < 1 ? 'az önce' : `${gecen} saat önce`} alındı.</div>`
+      : '<div class="panel-not">Henüz hiç yedek alınmadı. Kapatmadan önce al.</div>'}
+    <button class="eylem-dugme birincil" id="gzYedek">Son yedeği al</button>
+    <button class="eylem-dugme" id="gzGonder">Bütün geziyi arkadaşıma gönder</button>
+    <div id="gzKapatDurum" class="panel-not"></div>
+    <div class="panel-not">Kapatınca gezi arşive geçer: yeni kayıt eklenmez,
+    her şey okunur kalır. Gerok → gezi → Bütün geziler'den geri açılabilir.</div>
+    <div class="gs-dugmeler">
+      <button class="eylem-dugme" id="gzGeri">Geri</button>
+      <button class="eylem-dugme birincil" id="gzKapatOnay">Geziyi kapat</button>
+    </div>
+  `);
+
+  const bildir = (m) => { const e = $('#gzKapatDurum'); if (e) e.textContent = m; };
+  $('#gzYedek').onclick = () => yedekAl(bildir);
+  $('#gzGonder').onclick = () => paketGonder(bildir, null);
+  $('#gzGeri').onclick = () => { geziAdim--; geziCiz(); };
+  $('#gzKapatOnay').onclick = async () => {
+    if (!s) { kapat(); await tazeleDisari?.(); return; }
+    await gerok.turArsivle(s.id, true);
+    kapat();
+    await tazeleDisari?.();
+  };
+}
+
+// Örtü içinde metin basarken kullanılan küçük kaçış. app.js'teki `kacis` dışa
+// açık ama buraya almak döngüsel bir bağımlılık kurardı; kopyası daha ucuz.
+function kacisYerel(s) {
+  return String(s ?? '').replace(/[&<>"']/g,
+    c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+}
+
 /**
  * Mühürlü mektup.
  *

@@ -316,3 +316,40 @@ export async function yedekAl(bildir) {
 export async function sonYedekZamani() {
   return veri.ayarOku('sonYedek', null);
 }
+
+/**
+ * Yedeği sınar: paketi üretir, GERİ OKUR ve ne çıktığını sayar.
+ *
+ * Yedek almanın sessiz tehlikesi şu: dosya oluşuyor, boyutu da makul
+ * görünüyor, ama içi bozuk. Bunu ancak geri yüklemeye çalışırken —
+ * yani her şeyin kaybolduğu gün — fark ediyorsun.
+ *
+ * Bu işlev tam olarak o günü öne çekiyor: yedeği üretiyor, JSON'u geri
+ * çözüyor, kaç kayıt ve kaç ses dosyası okunabildiğini sayıyor. Hiçbir şey
+ * yazmıyor, hiçbir şeyi değiştirmiyor — sadece okuyup rapor veriyor.
+ */
+export async function yedekSina(ilerleme = null) {
+  const blob = await paketBlobu({ tumTurlar: true, ilerleme });
+  const metin = await blob.text();
+
+  let paket;
+  try { paket = JSON.parse(metin); }
+  catch { throw new Error('Yedek okunamadı — dosya bozuk çıktı.'); }
+
+  if (!paket?.paketSurum) throw new Error('Yedek okunamadı — paket damgası yok.');
+
+  const kayitSayi = (paket.kayitlar || []).length;
+  const medyaAnahtarlari = Object.keys(paket.medya || {});
+  // Ses/görsel taşıması gereken ama paketten çıkmayan kayıtlar: asıl tehlike bu.
+  const eksik = (paket.kayitlar || [])
+    .filter(k => k.medyaId && !(k.medyaId in (paket.medya || {}))).length;
+
+  return {
+    boyut: blob.size,
+    kayitSayi,
+    medyaSayi: medyaAnahtarlari.length,
+    izSayi: (paket.iz || []).length,
+    eksik,
+    saglam: eksik === 0
+  };
+}

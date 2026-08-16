@@ -48,6 +48,26 @@
 
   <!-- ---------- ZAMAN ÇİZGİSİ ---------- -->
   <section id="ekran-zaman" class="ekran">
+    <!-- Arama ve süzgeç: bir haftanın sonunda liste yüzlerce satır oluyor,
+         "Ohrid'de ne demiştik" diye bakmanın yolu kalmıyordu.
+         Aşağı kaydırırken gizleniyor, yukarı çıkarken geri geliyor. -->
+    <div id="zamanAra" class="zaman-ara">
+      <div class="ara-kutu">
+        <span class="ara-ikon" data-ikon="buyutec" data-ikon-boy="15"></span>
+        <input id="araGirdi" class="ara-girdi" type="search" placeholder="kayıtlarda ara"
+               autocomplete="off" spellcheck="false" enterkeyhint="search">
+      </div>
+      <div class="suzgecler" id="suzgecler">
+        <button class="suzgec secili" data-suzgec="hepsi" title="hepsi"
+                data-ikon="saat" data-ikon-boy="17"></button>
+        <button class="suzgec" data-suzgec="ses" title="yalnızca sesler"
+                data-ikon="dalga" data-ikon-boy="17"></button>
+        <button class="suzgec" data-suzgec="gorsel" title="fotoğraf ve video"
+                data-ikon="gorsel" data-ikon-boy="17"></button>
+        <button class="suzgec" data-suzgec="baskasi" title="arkadaşının kayıtları"
+                data-ikon="kisi" data-ikon-boy="17"></button>
+      </div>
+    </div>
     <div id="zamanListe" class="liste"></div>
   </section>
 
@@ -97,6 +117,10 @@
   <!-- ---------- KAYIT ---------- -->
   <section id="ekran-kayit" class="ekran">
     <div class="kayit-alan">
+      <!-- Sessizce çalışmayan bir kayıt ekranı en kötüsü: uyarı burada,
+           düğmelerin üstünde duruyor (bkz. kayitUyarilariniCiz). -->
+      <div id="kayitUyari"></div>
+
       <button id="btnSes" class="buyuk-dugme birincil">
         <span class="dugme-ikon" data-ikon="mikrofon" data-ikon-boy="28"></span>
         <span class="dugme-ad">Sesli not</span>
@@ -152,6 +176,17 @@
   <button data-ekran="duraklar" class="sekme"><span data-ikon="raptiye" data-ikon-boy="21"></span>Duraklar</button>
   <button data-ekran="gerok"    class="sekme"><span data-ikon="ayarlar" data-ikon-boy="21"></span>Gerok</button>
 </nav>
+
+<!-- Çalma şeridi: bir sesi dinlerken başka sekmeye geçince ses devam ediyor ama
+     durdurmanın yolu kalmıyordu. Bu şerit her ekranda görünüyor. -->
+<div id="calmaSerit" class="calma-serit gizli">
+  <button id="calmaDurdur" class="calma-tus" title="Durdur">❙❙</button>
+  <button id="calmaGit" class="calma-orta">
+    <span id="calmaAd" class="calma-ad"></span>
+    <span class="calma-cubuk"><span id="calmaDolgu"></span></span>
+  </button>
+  <span id="calmaSure" class="calma-sure">0:00</span>
+</div>
 
 <!-- Hangi sekmede olursan ol görünen bildirim şeridi -->
 <div id="bildirim" class="bildirim gizli"></div>

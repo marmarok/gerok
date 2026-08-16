@@ -80,6 +80,10 @@
   --ust: env(safe-area-inset-top, 0px);
   --alt: env(safe-area-inset-bottom, 0px);
 
+  /* Üst şeridin zemini. Şema (js/sema.js) bunu değiştiriyor; buradaki değer
+     yalnızca şema yüklenene kadar geçerli olan başlangıç rengi. */
+  --ust-zemin: #241f1a;
+
   /* Alt barın yüksekliği tek yerden. Sekme içeriği 48px; altına iPhone'un
      ev göstergesi için ince bir pay bırakılıyor.
      Payın tamamını (34px) koymak iOS'un önerisi ama sekme yazılarının altında
@@ -179,14 +183,20 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
 .acilis-not { margin-top: 14px; color: var(--cok-soluk); font-size: 14px; }
 
 /* ---------- Üst bar ---------- */
+/* Şerit iki temada da koyu: şemanın kendi koyu tonunda. Bu bir tercih değil,
+   iOS'un dayattığı bir şey — ana ekrana eklenmiş uygulamada durum çubuğu
+   yazısı (saat, pil) BEYAZ ve uygulama açıldıktan sonra değiştirilemiyor.
+   Açık temada şerit de açık olsaydı saat görünmezdi. */
 #ustBar {
   padding: calc(var(--ust) + 10px) 16px 10px;
   display: flex; align-items: flex-end; justify-content: space-between;
-  gap: 12px; border-bottom: 1px solid var(--cizgi);
-  background: var(--zemin); flex-shrink: 0;
+  gap: 12px;
+  background: var(--ust-zemin); border-bottom: 1px solid var(--ust-zemin);
+  color: #f8f4ee; flex-shrink: 0;
+  transition: background .3s;
 }
 #ustBaslik { font-size: 19px; font-weight: 600; letter-spacing: -.01em; }
-.ust-alt { font-size: 12.5px; color: var(--soluk); margin-top: 3px; }
+.ust-alt { font-size: 12.5px; color: #c3b7a7; margin-top: 3px; }
 
 .rozet {
   display: flex; align-items: center; gap: 6px;
@@ -204,19 +214,15 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
 .rozet.tasarruf .nokta { background: var(--vurgu); }
 @keyframes nabiz { 0%,100% { opacity: 1 } 50% { opacity: .35 } }
 
-/* Açık temada üst bar yine koyu kalıyor. Sebep iOS: ana ekrana eklenmiş
-   uygulamada durum çubuğu yazısı (saat, pil) BEYAZ ve bu, uygulama açıldıktan
-   sonra değiştirilemiyor. Açık zeminde beyaz saat görünmez olurdu. */
-:root[data-tema="acik"] #ustBar {
-  background: #241f1a; border-bottom-color: #241f1a; color: #f8f4ee;
-}
-:root[data-tema="acik"] #ustBar .ust-alt { color: #c3b7a7; }
-:root[data-tema="acik"] #ustBar .rozet {
-  background: #352e27; border-color: #4b423a; color: #d5c9b9;
-}
-:root[data-tema="acik"] #ustBar .rozet .nokta { background: #8b8075; }
-:root[data-tema="acik"] #ustBar .rozet.acik { color: #a9c98a; border-color: #5c6b46; }
-:root[data-tema="acik"] #ustBar .rozet.acik .nokta { background: #a9c98a; }
+/* Rozet koyu şeridin üstünde duruyor — iki temada da aynı renklerle.
+   Tema değişkenlerini kullansaydı gündüz kipinde açık bir rozet koyu şeridin
+   içinde yanıp sönerdi. */
+#ustBar .rozet { background: #352e27; border-color: #4b423a; color: #d5c9b9; }
+#ustBar .rozet .nokta { background: #8b8075; }
+#ustBar .rozet.acik { color: #a9c98a; border-color: #5c6b46; }
+#ustBar .rozet.acik .nokta { background: #a9c98a; }
+#ustBar .rozet.tasarruf { color: #e0b271; border-color: #6b5433; }
+#ustBar .rozet.tasarruf .nokta { background: #e0b271; }
 
 /* ---------- Gövde ---------- */
 #govde { flex: 1; overflow: hidden; position: relative; }
@@ -234,6 +240,43 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
   .ekran.gelir-sol, .ekran.gelir-sag { animation: none; }
 }
 .liste { padding: 8px 0 24px; }
+
+/* ---------- Zaman çizgisi: arama ve süzgeç ----------
+   Bir haftanın sonunda liste yüzlerce satır oluyor. Aşağı kaydırırken şerit
+   çekiliyor (küçük ekranda sürekli yer kaplamasın), yukarı çıkarken dönüyor. */
+.zaman-ara {
+  position: sticky; top: 0; z-index: 6;
+  display: flex; align-items: center; gap: 7px;
+  padding: 10px 12px 8px;
+  background: linear-gradient(var(--zemin) 78%, transparent);
+  max-height: 60px; opacity: 1; transform: translateY(0);
+  overflow: hidden;
+  transition: max-height .26s cubic-bezier(.3,.9,.3,1), opacity .18s,
+              transform .26s cubic-bezier(.3,.9,.3,1), padding .26s;
+}
+.zaman-ara.cekildi {
+  max-height: 0; opacity: 0; transform: translateY(-12px);
+  padding-top: 0; padding-bottom: 0;
+}
+.ara-kutu {
+  flex: 1; min-width: 0; display: flex; align-items: center; gap: 7px;
+  padding: 7px 12px; border-radius: 11px;
+  background: var(--kat); border: 1px solid var(--cizgi);
+}
+.ara-ikon { display: flex; color: var(--cok-soluk); flex-shrink: 0; }
+.ara-girdi {
+  flex: 1; min-width: 0; border: none; outline: none; background: transparent;
+  /* 16px: iOS bundan küçük girdilerde sayfayı yakınlaştırıyor. */
+  font: 400 16px/1 inherit; color: var(--yazi);
+}
+.ara-girdi::-webkit-search-cancel-button { filter: grayscale(1) opacity(.6); }
+.suzgecler { display: flex; gap: 5px; flex-shrink: 0; }
+.suzgec {
+  width: 34px; height: 34px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--kat); border: 1px solid var(--cizgi); color: var(--soluk);
+}
+.suzgec.secili { background: var(--secili-zemin); border-color: var(--vurgu); color: var(--vurgu); }
 
 /* ---------- Zaman çizgisi ---------- */
 .gun-basligi {
@@ -348,7 +391,9 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
 }
 .kayit-foto img { width: 100%; display: block; }
 
-.kayit-eylemler { display: flex; gap: 8px; margin-top: 9px; }
+/* Uzun basılan satır: kart hafifçe vurgulanıyor, eylemleri altında açılıyor. */
+.kayit-satir.acik .kayit-govde { border-color: var(--vurgu-koyu); }
+.kayit-eylemler { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 9px; }
 /* Hap biçimli, zeminsiz: kartın içindeki asıl şey kaydın kendisi, bu ikisi
    ihtiyaç olunca bakılan şeyler. */
 .satir-dugme {
@@ -463,6 +508,20 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
 /* ---------- Kayıt ekranı ---------- */
 .kayit-alan { padding: 18px 16px calc(28px + var(--alt)); display: flex; flex-direction: column; gap: 12px; }
 
+/* Uyarı şeritleri: kayda basmadan ÖNCE görünsün diye düğmelerin üstünde.
+   İzin uyarısı vurgu renginde (yapılacak bir şey var), depo uyarısı kırmızı
+   (kaydın ortasında veri kaybı riski). */
+#kayitUyari:empty { display: none; }
+#kayitUyari { display: flex; flex-direction: column; gap: 12px; }
+.kayit-uyari { border-radius: 14px; padding: 14px 15px; }
+.kayit-uyari.izin { background: var(--birincil-zemin); border: 1px solid var(--birincil-cizgi); }
+.kayit-uyari.depo { background: var(--kat2); border: 1px solid var(--cizgi); }
+.kayit-uyari .uyari-ad { font-size: 14px; font-weight: 600; }
+.kayit-uyari.izin .uyari-ad { color: var(--vurgu); }
+.kayit-uyari.depo .uyari-ad { color: var(--kirmizi); }
+.kayit-uyari .uyari-alt { font-size: 12.5px; color: var(--soluk); line-height: 1.55; margin-top: 6px; }
+.kayit-uyari .eylem-dugme { margin-top: 11px; padding: 12px; }
+
 .buyuk-dugme {
   display: flex; flex-direction: column; align-items: center; gap: 5px;
   padding: 26px 18px; border-radius: 18px;
@@ -502,6 +561,49 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
 }
 .bildirim.iyi { border-color: var(--secili-cizgi); color: var(--yesil); }
 .bildirim.kotu { border-color: var(--kirmizi); color: var(--kirmizi); }
+/* Geri alınabilir bildirim: yazı solda, düğme sağda. */
+.bildirim.geri-alinabilir {
+  display: flex; align-items: center; gap: 10px; text-align: left;
+  border-color: var(--vurgu-koyu);
+}
+.bildirim-yazi { flex: 1; min-width: 0; }
+.bildirim-geri {
+  flex-shrink: 0; padding: 8px 13px; border-radius: 9px;
+  background: var(--vurgu); color: var(--vurgu-yazi);
+  font-size: 12.5px; font-weight: 600;
+}
+
+/* ---------- Çalma şeridi ----------
+   Bir sesi dinlerken başka sekmeye geçince ses devam ediyor ama durdurmanın
+   yolu kalmıyordu. Bu şerit alt barın hemen üstünde, her ekranda duruyor. */
+.calma-serit {
+  position: fixed; left: 0; right: 0; z-index: 85;
+  bottom: var(--altbar);
+  display: flex; align-items: center; gap: 11px;
+  padding: 9px 14px 10px;
+  background: var(--kat); border-top: 1px solid var(--cizgi);
+}
+.calma-tus {
+  flex-shrink: 0; width: 32px; height: 32px; border-radius: 50%;
+  background: var(--vurgu); color: var(--vurgu-yazi); font-size: 10px;
+  display: flex; align-items: center; justify-content: center;
+}
+.calma-orta { flex: 1; min-width: 0; text-align: left; padding: 0; }
+.calma-ad {
+  display: block; font-size: 11.5px; color: var(--soluk);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.calma-cubuk {
+  display: block; height: 3px; border-radius: 2px;
+  background: var(--cizgi); margin-top: 5px; overflow: hidden;
+}
+.calma-cubuk > span { display: block; height: 3px; background: var(--vurgu); width: 0; }
+.calma-sure {
+  flex-shrink: 0; font-size: 11px; color: var(--cok-soluk);
+  font-variant-numeric: tabular-nums;
+}
+/* Bildirim şeridi çalma şeridinin üstüne çıksın, üstüne binmesin. */
+body:has(.calma-serit:not(.gizli)) .bildirim { bottom: calc(var(--altbar) + 62px); }
 
 .kayit-durum { text-align: center; font-size: 13px; color: var(--soluk); min-height: 20px; padding-top: 6px; }
 .kayit-durum.iyi { color: var(--yesil); }
@@ -669,7 +771,42 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
   background: var(--kat); border: 1px solid var(--cizgi);
   border-radius: 15px; padding: 16px;
 }
-.panel-baslik { font-size: 13px; font-weight: 600; color: var(--vurgu); letter-spacing: .04em; text-transform: uppercase; margin-bottom: 10px; }
+.panel-baslik {
+  font-size: 13px; font-weight: 600; color: var(--vurgu);
+  letter-spacing: .04em; text-transform: uppercase;
+  margin-bottom: 10px; text-align: center;
+}
+/* Katlanır panel başlığı bir düğme: ayarlar ekranı on bir kartlık bir duvardı,
+   aranan şey görünmüyordu. Artık aynı anda bir panel açık.
+   Ok 180° dönüyor: açık mı kapalı mı, bakmadan anlaşılsın. */
+.panel-baslik.katlanir {
+  width: 100%; display: flex; align-items: center; justify-content: center; gap: 7px;
+  background: transparent; border: none; padding: 0;
+}
+.panel:not(.acik) > .panel-baslik.katlanir { margin-bottom: 0; }
+.panel-ok { font-size: 9px; color: var(--cok-soluk); transition: transform .2s; }
+.panel.acik .panel-ok { transform: rotate(180deg); }
+/* Kapalı panelin içinde bekleyen bir şey varsa (yedek eskimiş, yer azalmış)
+   başlığın yanında bir yıldız duruyor — paneli açmadan görünsün. */
+.panel-yildiz { font-size: 15px; font-weight: 700; color: var(--vurgu); margin-top: -2px; }
+.panel-uyari-yazi { margin-top: 7px; font-size: 12px; color: var(--vurgu); text-align: center; }
+.panel-not.kucuk { font-size: 11.5px; margin-top: 6px; }
+
+/* Dört sayı yan yana, sağa hizalı: yazı · ses · görsel · kişi */
+.sayi-izgara {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  justify-items: end; gap: 10px; flex: 1;
+}
+.harcama-ust .deger { display: flex; align-items: center; gap: 10px; }
+
+/* Gün Sonu düğmesi akşam olup da sesli günlük bırakılmamışsa nabız gibi
+   atıyor. Hatırlatan tek şey bu — bildirim gönderemiyoruz. */
+.eylem-dugme.nabiz { animation: dugmeNabiz 2.4s ease-out infinite; }
+@keyframes dugmeNabiz {
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--vurgu) 42%, transparent) }
+  50% { box-shadow: 0 0 0 7px transparent }
+}
+@media (prefers-reduced-motion: reduce) { .eylem-dugme.nabiz { animation: none } }
 .panel-satir { display: flex; justify-content: space-between; gap: 12px; padding: 7px 0; font-size: 14px; border-bottom: 1px solid var(--cizgi); }
 .panel-satir:last-child { border-bottom: none; }
 .panel-satir .etiket { color: var(--soluk); }
@@ -742,6 +879,20 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
 .gs-etiket { font-size: 11.5px; color: var(--soluk); margin-top: 3px; }
 .gs-dugmeler { display: flex; gap: 10px; margin-top: 18px; }
 .gs-dugmeler .eylem-dugme { margin-top: 0; }
+.gs-dugmeler .eylem-dugme.birincil { flex: 1; }
+
+/* Gezi Sonu'nun adım noktaları: kaç adım var, kaçındayız. */
+.gs-noktalar { display: flex; gap: 4px; margin: 0 0 13px; }
+.gs-nokta { flex: 1; height: 3px; border-radius: 2px; background: var(--cizgi); }
+.gs-nokta.dolu { background: var(--vurgu); }
+
+.gs-liste { display: flex; flex-direction: column; gap: 8px; margin: 4px 0 6px; }
+.gs-liste-satir {
+  padding: 13px 14px; border-radius: 12px;
+  background: var(--kat2); border: 1px solid var(--cizgi);
+}
+.gs-liste-ad { font-size: 14px; }
+.gs-liste-alt { font-size: 11.5px; color: var(--cok-soluk); margin-top: 3px; }
 
 /* ---------- Uyarı katmanı (yaklaşma) ---------- */
 .uyari-kart { border: 1px solid var(--vurgu-koyu); background: var(--birincil-zemin); }
