@@ -605,6 +605,13 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
 /* Bildirim şeridi çalma şeridinin üstüne çıksın, üstüne binmesin. */
 body:has(.calma-serit:not(.gizli)) .bildirim { bottom: calc(var(--altbar) + 62px); }
 
+/* Alttan açılan bir pencere varken bildirim YUKARI taşınıyor. Aşağıda kalınca
+   pencerenin asıl düğmesinin (Kaydet, Sakla) üstüne biniyor ve basılamıyor. */
+body:has(#ortu:not(.gizli)) .bildirim,
+body:has(.ses-katman:not(.gizli)) .bildirim {
+  bottom: auto; top: calc(var(--ust) + 74px);
+}
+
 .kayit-durum { text-align: center; font-size: 13px; color: var(--soluk); min-height: 20px; padding-top: 6px; }
 .kayit-durum.iyi { color: var(--yesil); }
 .kayit-durum.kotu { color: var(--kirmizi); }

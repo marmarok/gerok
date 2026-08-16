@@ -1,7 +1,8 @@
 // Gerok — kayıt türleri.
 // Sesli not, ortam sesi, yazı, işaret, kişi, fiyat, fotoğraf.
 
-import { kayitEkle, medyaYaz, yeniKimlik, izGetir, izdenKonum } from './veri.js';
+import { kayitEkle, medyaYaz, medyaEkle, medyaSil, yeniKimlik, izGetir, izdenKonum,
+         ayarYaz, ayarOku } from './veri.js';
 import { suAnkiKonum } from './iz.js';
 import { gunNo, aktifGerok, yonelmeEki } from './gerok.js';
 
@@ -90,6 +91,77 @@ function enIyiSesBicimi() {
 //      olayını hiç göndermezse elde ne varsa onunla kaydediliyor.
 const PARCA_MS = 3000;
 
+// Yarım kalan kayıt: parçalar bellekte değil, DİSKTE de birikiyor.
+//
+// Yukarıdaki üç katman uygulamanın YAŞADIĞI durumları kurtarıyor. Kurtarmadığı
+// bir durum kalıyordu: iOS uygulamayı arka planda tamamen öldürürse (yer
+// darsa, telefon yeniden başlarsa, kart yukarı kaydırılırsa) bellekteki
+// parçalar da onunla gidiyordu — kayıt hiç var olmamış gibi oluyordu.
+//
+// Artık her parça geldiğinde diske de ekleniyor ve yanına küçük bir günlük
+// yazılıyor. Uygulama bir daha açıldığında o günlük duruyorsa, ses de duruyor
+// demektir: "Yarım bir kayıt bulundu" penceresi çıkıyor.
+const YARIM_MEDYA = 'yarim-kayit';
+const YARIM_GUNLUK = 'yarimKayit';
+let yarimYaziyor = null;      // aynı anda iki yazma olmasın diye sıra
+
+function yarimaEkle(parca) {
+  // Yazmalar sırayla: OPFS'e aynı anda iki ekleme, dosyayı bozar.
+  yarimYaziyor = (yarimYaziyor || Promise.resolve())
+    .then(() => medyaEkle(YARIM_MEDYA, parca))
+    .catch(() => { /* disk doluysa bellekteki parçalar yine duruyor */ });
+  return yarimYaziyor;
+}
+
+async function yarimiTemizle() {
+  try { await yarimYaziyor; } catch { /* zaten hata verdi */ }
+  yarimYaziyor = null;
+  await ayarYaz(YARIM_GUNLUK, null).catch(() => {});
+  await medyaSil(YARIM_MEDYA).catch(() => {});
+}
+
+/** Açılışta bakılıyor: yarım kalmış bir kayıt var mı? */
+export async function yarimKayitVarMi() {
+  const g = await ayarOku(YARIM_GUNLUK, null);
+  if (!g?.baslangic) return null;
+  return g;
+}
+
+/** Yarım kaydı kalıcı bir kayda dönüştürür ve günlüğü temizler. */
+export async function yarimKaydiSakla() {
+  const g = await yarimKayitVarMi();
+  if (!g) return null;
+
+  const { medyaOku } = await import('./veri.js');
+  const blob = await medyaOku(YARIM_MEDYA);
+  if (!blob?.size) { await yarimiTemizle(); return null; }
+
+  const medyaId = yeniKimlik('m');
+  await medyaYaz(medyaId, blob);
+  // Kaydın saati yarım kaydın BAŞLADIĞI an: defterdeki yeri orası olmalı,
+  // kurtarıldığı an değil.
+  const k = await kayitKur(g.tur || 'ses', {
+    t: g.baslangic,
+    medyaId,
+    bicim: g.bicim || 'audio/mp4',
+    sure: Math.max(0, (g.sonParca - g.baslangic) / 1000),
+    yarim: true
+  });
+  await kayitEkle(k);
+  await yarimiTemizle();
+  return k;
+}
+
+export async function yarimKaydiSil() { await yarimiTemizle(); }
+
+/** Yarım kaydı dinlemek için adres — saklamadan önce ne olduğunu duymak için. */
+export async function yarimKayitAdresi() {
+  const g = await yarimKayitVarMi();
+  if (!g) return null;
+  const { medyaUrl } = await import('./veri.js');
+  return medyaUrl(YARIM_MEDYA, g.bicim || null);
+}
+
 export async function sesBasla() {
   if (kaydedici) return false;
   const akis = await navigator.mediaDevices.getUserMedia({
@@ -101,13 +173,32 @@ export async function sesBasla() {
   parcalar = [];
   baslangicAni = Date.now();
 
-  kaydedici.ondataavailable = (e) => { if (e.data.size) parcalar.push(e.data); };
+  // Önceki bir yarım kayıt varsa temizle: iki kayıt aynı dosyaya eklenirse
+  // ortaya iki sesin birbirine karıştığı bozuk bir dosya çıkar.
+  await yarimiTemizle();
+
+  kaydedici.ondataavailable = (e) => {
+    if (!e.data.size) return;
+    parcalar.push(e.data);
+    yarimaEkle(e.data);
+    // Günlük her parçada tazeleniyor: son parçanın saati, kaydın ne kadar
+    // sürdüğünü söyleyen tek şey.
+    ayarYaz(YARIM_GUNLUK, {
+      baslangic: baslangicAni, sonParca: Date.now(),
+      tur: kaydediciTuru, bicim: kaydedici?.mimeType || bicim || 'audio/mp4'
+    }).catch(() => {});
+  };
   kaydedici.start(PARCA_MS);
   duraklamaAni = 0;
   duraklananMs = 0;
   gorunurlukDinle();
   return true;
 }
+
+// Kaydın türü parça yazılırken de lazım (yarım kayıt günlüğüne giriyor), ama
+// `sesBitir` çağrılana kadar bilinmiyordu. Kayıt başlarken haber veriliyor.
+let kaydediciTuru = 'ses';
+export function sesTuruAyarla(tur) { kaydediciTuru = tur || 'ses'; }
 
 // ---- Duraklat / devam et ---------------------------------------------------
 
@@ -199,6 +290,10 @@ export async function sesBitir(tur = 'ses', ekler = {}) {
   duraklamaAni = 0;
   duraklananMs = 0;
 
+  // Kayıt düzgün bittiğine göre yarım kayıt günlüğü de kalkmalı: kalırsa
+  // uygulama bir daha açıldığında aynı ses ikinci kez sorulur.
+  await yarimiTemizle();
+
   // Yarım saniyenin altı kazayla basılmış demektir, kaydetme.
   if (sure < 0.5) return null;
 
@@ -254,6 +349,9 @@ export function sesIptal() {
   parcalar = [];
   duraklamaAni = 0;
   duraklananMs = 0;
+  // "Vazgeç" gerçekten vazgeçmek demek: diskteki yarım dosya da gitsin,
+  // yoksa bir dahaki açılışta "yarım bir kayıt bulundu" diye sorulur.
+  yarimiTemizle();
 }
 
 // ---- Yazı, işaret, kişi, fiyat -------------------------------------------

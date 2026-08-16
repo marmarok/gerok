@@ -88,6 +88,7 @@ async function baslat() {
 
   // Ad girilmemişse önce onu sor — her kaydın sahibi yazılacak.
   if (!ad) adSor();
+  else await yarimKayitSor();
 
   setTimeout(() => {
     $('#yukleniyor').classList.add('cikiyor');
@@ -1060,6 +1061,59 @@ function haritaKipleriniIsaretle() {
   $$('#haritaKipler .kip').forEach(d => d.classList.toggle('secili', d.dataset.kip === k));
 }
 
+// ---- Yarım kalan kayıt ----------------------------------------------------
+//
+// iOS uygulamayı arka planda öldürebiliyor: yer darsa, telefon yeniden
+// başlarsa, kart yukarı kaydırılırsa. O an kayıt sürüyorsa eskiden bellekteki
+// ses onunla birlikte giderdi. Artık her parça diske de yazılıyor
+// (kayit.js) — burada, açılışta, o dosya bulunursa ne yapılacağı soruluyor.
+//
+// Varsayılan SAKLAMAK: yarım bir kayıt, hiç olmayan kayıttan iyidir.
+
+async function yarimKayitSor() {
+  const g = await kayit.yarimKayitVarMi();
+  if (!g) return;
+
+  const sure = Math.max(0, (g.sonParca - g.baslangic) / 1000);
+  const ne = veri.TURLER[g.tur] || 'Sesli not';
+
+  ortuAc(`
+    <div class="gs-sayac">kayıt yarıda kalmış</div>
+    <div class="ortu-baslik">Yarım bir kayıt bulundu</div>
+    <div class="ortu-alt">${kacis(gerok.tarihUzun(g.baslangic))} ${kacis(gerok.saat(g.baslangic))}'de
+    başlayan ses kaydı bitmeden uygulama kapanmış. Kaydedilen kısım duruyor.</div>
+    <div class="gs-liste-satir" style="display:flex;align-items:center;gap:12px">
+      <span class="dugme-ikon" style="flex:none">${ikon('mikrofon', 22)}</span>
+      <span style="flex:1;min-width:0">${kacis(ne)} · ${kacis(sureYaz(sure))}</span>
+      <button class="satir-dugme" id="yarimDinle">Dinle</button>
+    </div>
+    <button class="eylem-dugme birincil" id="yarimSakla">Sakla · ${kacis(gerok.saat(g.baslangic))}'e koy</button>
+    <button class="eylem-dugme sil" id="yarimSil">Sil</button>
+  `, false);
+
+  $('#yarimDinle').addEventListener('click', async () => {
+    const url = await kayit.yarimKayitAdresi();
+    if (!url) { kayitBildir('Yarım dosya okunamadı.', 'kotu'); return; }
+    const ses = new Audio(url);
+    ses.play().catch(() => kayitBildir('Yarım kayıt çalınamadı — yine de saklanabilir.', 'kotu'));
+  });
+
+  $('#yarimSakla').addEventListener('click', async () => {
+    ortuKapat();
+    const k = await kayit.yarimKaydiSakla();
+    await tazele();
+    kayitBildir(k
+      ? `Yarım kayıt ${gerok.saat(k.t)}'e yerleştirildi.`
+      : 'Yarım dosya boş çıktı, kaydedilecek ses yoktu.', k ? 'iyi' : 'kotu');
+  });
+
+  $('#yarimSil').addEventListener('click', async () => {
+    ortuKapat();
+    await kayit.yarimKaydiSil();
+    kayitBildir('Yarım kayıt silindi.');
+  });
+}
+
 // ---- Kayıt ekranındaki uyarı şeritleri ------------------------------------
 //
 // İki sessiz arıza var ve ikisi de kayda basana kadar görünmüyor: mikrofon
@@ -1225,6 +1279,10 @@ export async function sesKaydiBaslat(tur, { sinir = 0, ipucu = 'Konuş — bitin
   durDugme.classList.remove('birincil');
   durDugme.disabled = true;
   durDugme.classList.toggle('gizli', !kayit.sesDuraklatilabilirMi());
+
+  // Türü kayıt başlamadan söylüyoruz: yarım kayıt günlüğüne de bu giriyor,
+  // yoksa kurtarılan bir "mektup" sıradan bir sesli not olarak geri gelirdi.
+  kayit.sesTuruAyarla(tur);
 
   let basladi = false;
   try {
@@ -2497,6 +2555,8 @@ function adSor() {
     kayit.sahipAyarla({ ...kayit.sahipAl(), ad });
     ortuKapat();
     await tazele();
+    // Ad sorulurken örtü doluydu; yarım kayıt penceresi ancak şimdi çıkabilir.
+    await yarimKayitSor();
   };
   $('#adKaydet').addEventListener('click', kaydet);
   girdi.addEventListener('keydown', (e) => { if (e.key === 'Enter') kaydet(); });

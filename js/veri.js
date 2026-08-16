@@ -289,6 +289,7 @@ import * as depo from './depo.js';
 export const medyaYaz = (id, blob) => depo.yaz('medya', id, blob);
 export const medyaOku = (id) => depo.oku('medya', id);
 export const medyaSil = (id) => depo.sil('medya', id);
+export const medyaEkle = (id, blob) => depo.ekle('medya', id, blob);
 // tur: kaydın `bicim` alanı (ör. 'audio/mp4'). Bkz. depo.url — türsüz blob
 // adresinden Safari ses çalmıyor.
 export const medyaUrl = (id, tur = null) => depo.url('medya', id, tur);

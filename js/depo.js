@@ -108,6 +108,34 @@ export async function yaz(klasor, ad, parcalar) {
   return blob.size;
 }
 
+/**
+ * Var olan dosyanın SONUNA ekler; dosya yoksa oluşturur.
+ *
+ * Ses kaydı sürerken her üç saniyede bir parça geliyor. `yaz` ile her seferinde
+ * biriken sesin tamamını baştan yazmak, on dakikalık bir ortam sesinde aynı
+ * on megabaytı iki yüz kez diske basmak demek olurdu. Ekleme, yalnızca yeni
+ * gelen parçayı yazıyor.
+ */
+export async function ekle(klasor, ad, parca) {
+  await yolSec();
+
+  if (secilenYol === 'opfs') {
+    const k = await opfsKlasor(klasor);
+    const tutamac = await k.getFileHandle(ad, { create: true });
+    const eski = (await tutamac.getFile()).size;
+    const yazici = await tutamac.createWritable({ keepExistingData: true });
+    await yazici.seek(eski);
+    await yazici.write(parca);
+    await yazici.close();
+    return eski + parca.size;
+  }
+
+  // IndexedDB yolunda ekleme yok: eskisini okuyup yenisiyle birleştiriyoruz.
+  // Blob birleştirme referans tutar, belleğe kopya çıkarmaz.
+  const eski = await oku(klasor, ad);
+  return yaz(klasor, ad, eski ? [eski, parca] : [parca]);
+}
+
 /** Dosyayı Blob olarak döner (yoksa null). Blob.slice ile parça parça okunabilir. */
 export async function oku(klasor, ad) {
   await yolSec();
