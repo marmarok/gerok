@@ -212,13 +212,29 @@
 
 <!-- Ses kaydı sırasında ekranı kaplayan geri bildirim -->
 <div id="sesKatman" class="ses-katman gizli">
-  <div class="ses-halka"><div id="sesSure">0:00</div></div>
+  <!-- Ne kaydediliyor: sesli not mu, ortam sesi mi, mektup mu. Kayıt bittikten
+       sonra "bu neydi" diye sormak geç oluyor. -->
+  <div id="sesTuru" class="ses-turu"></div>
+  <div class="ses-halka">
+    <!-- Süre sınırlı kayıtlarda (ortam sesi) halkanın çevresi doluyor:
+         kaç saniye kaldığını rakama bakmadan da gösteriyor. -->
+    <span id="sesIlerleme" class="ses-ilerleme gizli"></span>
+    <div id="sesSure">0:00</div>
+  </div>
+  <!-- Canlı dalga: mikrofon gerçekten dinliyor mu sorusunun tek cevabı.
+       Ölçüm değil, "çalışıyor" işareti — duraklatılınca donuyor. -->
+  <div class="ses-dalga" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
   <div id="sesIpucu" class="ses-ipucu">Kaydediliyor…</div>
   <div class="ses-dugmeler">
     <!-- Duraklat: rehber ara verince kayıt da beklesin, sonra AYNI dosyada
          devam etsin. Durdurup yeniden başlamak iki ayrı kayıt üretiyordu. -->
-    <button id="sesDuraklat" class="eylem-dugme">⏸ Duraklat</button>
+    <!-- Asıl iş en üstte: kaydı bitirmek. Duraklat ondan çok daha seyrek
+         kullanılıyor ama üstte dururken yanlışlıkla basılıyordu. -->
     <button id="sesDurdur" class="eylem-dugme birincil">■ Durdur ve kaydet</button>
+    <button id="sesDuraklat" class="eylem-dugme">⏸ Duraklat</button>
     <button id="sesVazgec" class="eylem-dugme">Vazgeç</button>
   </div>
 </div>

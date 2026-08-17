@@ -1425,8 +1425,12 @@ export async function sesKaydiBaslat(tur, { sinir = 0, ipucu = 'Konuş — bitin
 
   $('#sesKatman').classList.remove('gizli');
   $('#sesKatman').classList.remove('durakli');
+  $('#sesTuru').textContent = veri.TURLER[tur] || 'Kayıt';
   $('#sesSure').textContent = sinir ? sureYaz(sinir) : '0:00';
   $('#sesIpucu').textContent = 'Mikrofon açılıyor…';
+  // İlerleme yayı yalnızca süresi belli kayıtlarda anlamlı.
+  $('#sesIlerleme').classList.toggle('gizli', !sinir);
+  $('#sesIlerleme').style.setProperty('--dolu', '0deg');
   $('#sesDurdur').disabled = true;
   $('#sesDurdur').classList.add('birincil');
 
@@ -1479,6 +1483,10 @@ export async function sesKaydiBaslat(tur, { sinir = 0, ipucu = 'Konuş — bitin
   o.sayac = setInterval(() => {
     const gecen = kayit.sesSuresi();
     $('#sesSure').textContent = sureYaz(sinir ? Math.max(0, sinir - gecen) : gecen);
+    if (sinir) {
+      const oran = Math.min(1, gecen / sinir);
+      $('#sesIlerleme').style.setProperty('--dolu', `${(oran * 360).toFixed(1)}deg`);
+    }
     if (sinir && gecen >= sinir) sesKaydiBitir();
   }, 100);
 }

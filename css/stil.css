@@ -663,12 +663,52 @@ body:has(.ses-katman:not(.gizli)) .bildirim {
   background: var(--perde-koyu);
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 26px;
 }
+.ses-turu {
+  font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--vurgu); font-weight: 700;
+}
 .ses-halka {
+  position: relative;
   width: 176px; height: 176px; border-radius: 50%;
   border: 3px solid var(--vurgu);
   display: flex; align-items: center; justify-content: center;
   font-size: 34px; font-variant-numeric: tabular-nums;
   animation: buyu 1.9s ease-in-out infinite;
+}
+/* Halkanın dışında dönen ince yay. Konik gradyan bir daireyi boyuyor, maske
+   ortasını oyup yalnızca kenarı bırakıyor — böylece ayrı bir SVG gerekmiyor. */
+.ses-ilerleme {
+  position: absolute; inset: -9px; border-radius: 50%; opacity: .6;
+  background: conic-gradient(from -90deg,
+    color-mix(in srgb, var(--kirmizi) 55%, transparent) 0deg,
+    color-mix(in srgb, var(--kirmizi) 22%, transparent) var(--dolu, 0deg),
+    rgba(0,0,0,0) 0);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 3px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 3px));
+  transition: background .25s linear;
+}
+.ses-dalga { display: flex; align-items: center; gap: 4px; height: 44px; }
+.ses-dalga span {
+  width: 4px; border-radius: 2px; background: var(--vurgu);
+  animation: sesDalga 1.1s infinite;
+}
+.ses-dalga span:nth-child(1)  { height: 60%; animation-delay: 0s; }
+.ses-dalga span:nth-child(2)  { height: 90%; animation-delay: .09s; }
+.ses-dalga span:nth-child(3)  { height: 40%; animation-delay: .18s; }
+.ses-dalga span:nth-child(4)  { height: 100%; animation-delay: .27s; }
+.ses-dalga span:nth-child(5)  { height: 55%; animation-delay: .36s; }
+.ses-dalga span:nth-child(6)  { height: 80%; animation-delay: .45s; }
+.ses-dalga span:nth-child(7)  { height: 35%; animation-delay: .54s; }
+.ses-dalga span:nth-child(8)  { height: 95%; animation-delay: .63s; }
+.ses-dalga span:nth-child(9)  { height: 50%; animation-delay: .72s; }
+.ses-dalga span:nth-child(10) { height: 70%; animation-delay: .81s; }
+.ses-dalga span:nth-child(11) { height: 45%; animation-delay: .9s; }
+.ses-dalga span:nth-child(12) { height: 85%; animation-delay: .99s; }
+@keyframes sesDalga { 0%,100% { transform: scaleY(.22) } 50% { transform: scaleY(1) } }
+/* Duraklatınca çubuklar da donuyor — kayıt sürüyor sanılmasın. */
+.ses-katman.durakli .ses-dalga span { animation-play-state: paused; background: var(--soluk); }
+@media (prefers-reduced-motion: reduce) {
+  .ses-dalga span { animation: none; }
 }
 @keyframes buyu {
   0%,100% { box-shadow: 0 0 0 0 rgba(224,164,88,.32) }
