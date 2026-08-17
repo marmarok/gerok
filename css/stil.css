@@ -957,7 +957,7 @@ body:has(.ses-katman:not(.gizli)) .bildirim {
   width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
   background: var(--cok-soluk);
 }
-.net-led.acik { background: var(--yesil); box-shadow: 0 0 6px 1px color-mix(in srgb, var(--yesil) 55%, transparent); }
+.net-led.acik { background: var(--yesil); box-shadow: 0 0 6px 1px rgba(12,166,120,.55); }
 .net-yazi { flex: 1; min-width: 90px; font-size: 14px; }
 .net-kipler { display: flex; gap: 6px; flex-shrink: 0; }
 .net-kipler .kucuk-dugme { flex: 0 0 auto; padding: 7px 11px; font-size: 12px; }

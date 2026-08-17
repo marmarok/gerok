@@ -2561,6 +2561,18 @@ document.addEventListener('visibilitychange', async () => {
 // kartlık bir duvar olduğunda aranan şey bulunamıyordu.
 let acikPanel = null;
 
+// Bağlantının beş hâli, tasarımın cümleleriyle. Ayrı bir işlev olmasının
+// sebebi: mobil veride "bağlı" demek yetmiyor — büyük işlerin yapılıp
+// yapılmadığı da bu satırda söyleniyor.
+function baglantiDurumu(ag, kip) {
+  const mobil = kip === 'mobil';
+  if (!ag) return mobil ? 'mobil veri var · izin bekliyor' : 'internet yok';
+  if (!mobil) return 'wi-fi · bağlı';
+  return baglanti.KIPLER[kip]?.buyukIsler
+    ? 'mobil veri · izin verildi'
+    : 'mobil veri · yalnızca küçük işler';
+}
+
 function panelSatiri({ etiket, deger = '', id = '', rozet = '' }) {
   return `<button class="panel-satir dokunulur"${id ? ` id="${id}"` : ''}>
     <span class="etiket">${etiket}</span>
@@ -2682,9 +2694,7 @@ async function paneliCiz() {
       ic: `
         <div class="net-durum">
           <span class="net-led${ag ? ' acik' : ''}"></span>
-          <span class="net-yazi">${ag
-            ? `bağlı · ${kacis(baglanti.KIPLER[kuyruk.kip]?.ad || kuyruk.kip)}`
-            : 'internet yok'}</span>
+          <span class="net-yazi">${kacis(baglantiDurumu(ag, kuyruk.kip))}</span>
           <span class="net-kipler">
             ${Object.entries(baglanti.KIPLER).map(([id, o]) =>
               `<button class="kucuk-dugme${kuyruk.kip === id ? ' secili' : ''}" data-veri-kipi="${id}">${o.ad}</button>`).join('')}
@@ -2781,6 +2791,7 @@ async function paneliCiz() {
         ${panelSatiri({ etiket: 'Bütün geziler', id: 'btnTurlar' })}
         ${panelSatiri({ etiket: 'Yeni gezi başlat', id: 'btnYeniTur' })}
         ${panelSatiri({ etiket: 'Program dosyası yükle', id: 'btnPaket', deger: 'PDF · .gerok' })}
+        ${panelSatiri({ etiket: 'Paketi dışa ver', id: 'btnDisaVer', deger: '.gerok' })}
 
         <div class="cift-izgara">
           <button class="kucuk-dugme" id="btnGeziSonu">Gezi Sonu’nu başlat</button>
@@ -2836,6 +2847,9 @@ async function paneliCiz() {
   // İki giriş de aynı akışı açıyor: satırdaki bilgi ve alttaki düğme.
   $('#btnMektup').addEventListener('click', () => mektupAc(tazele));
   $('#btnMektupYaz')?.addEventListener('click', () => mektupAc(tazele));
+  // Dışa verme ile yedek alma aynı dosyayı üretiyor; iki ayrı yol değil,
+  // aynı yolun iki girişi.
+  $('#btnDisaVer')?.addEventListener('click', () => yedekAl(kayitBildir));
   $('#btnPaket').addEventListener('click', () => $('#dosyaSecici').click());
   $('#btnTurlar').addEventListener('click', turlariYonet);
   $('#btnYeniTur').addEventListener('click', () => yeniTurSor());
@@ -2844,7 +2858,16 @@ async function paneliCiz() {
   // Sınama ve kurulum kartı ana ekrandan kurulu uygulamada adres çubuğu
   // olmadığı için başka türlü açılamıyordu — teknik olmayan biri oraya
   // hiç ulaşamazdı. İkisi de çevrimdışı önbellekte, yolda da açılır.
-  $('#btnSinama').addEventListener('click', () => window.open('./sinama.html', '_blank'));
+  $('#btnSinama').addEventListener('click', async () => {
+    const d = await veri.depolamaDurumu();
+    const mik = !durum.mikrofonRed;
+    const kon = !durum.konumRed;
+    const har = await (await import('./harita.js')).haritaVarMi().catch(() => false);
+    const im = (v) => v ? '✓' : '✗';
+    kayitBildir(`Sınama: mikrofon ${im(mik)} · depo ${im(d?.kota)} · ` +
+      `konum ${im(kon)} · harita ${im(har)}`, (mik && kon && har) ? 'iyi' : '');
+    window.open('./sinama.html', '_blank');
+  });
   $('#btnKurulum').addEventListener('click', () => window.open('./kurulum.html', '_blank'));
   $('#btnTamir').addEventListener('click', () => window.open('./tamir.html', '_blank'));
   $('#btnKalici')?.addEventListener('click', async () => {
