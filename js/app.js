@@ -752,6 +752,7 @@ function kayitSatiri(k) {
 // Google Haritalar: yorumlar ve fotoğraflar orada. İNTERNET İSTER — yolda
 // çalışmaz, otelin wifi'sinde çalışır.
 export function googleHaritalarAc({ lat, lon, ad = '', zoom = 15 }) {
+  kayitBildir('Google Haritalar’da açılıyor');
   const adres = ad
     ? `https://www.google.com/maps/search/${encodeURIComponent(ad)}/@${lat},${lon},${zoom}z`
     : `https://www.google.com/maps/search/?api=1&query=${lat},${lon}`;
@@ -1634,6 +1635,9 @@ function sesBasligiSor(k) {
         await veri.kayitEkle({ ...k, metin: m });
         await tazele();
       }
+      kayitBildir(m
+        ? `Kaydedildi · ${gerok.tarihUzun(k.t)} ${gerok.saat(k.t)}`
+        : 'Kaydedildi · başlıksız', 'iyi');
       bitti();
     };
     $('#sesBaslikKaydet').addEventListener('click', () => kapat(true));
@@ -2811,6 +2815,10 @@ async function paneliCiz() {
 
   surumuYaz();
 
+  $('#btnBosYer')?.addEventListener('click', () => kayitBildir(azYer
+    ? 'Yer aç: harita paketini sil · videolar zaten galeride'
+    : 'Yer bol · uzun kayıtlar için sorun yok'));
+
   $('#btnHarcamaListe')?.addEventListener('click', harcamaDokumuAc);
   $('#btnHarcamaEkle')?.addEventListener('click', fiyatSor);
   temaSecenekleriniKur();
@@ -3217,6 +3225,7 @@ function harcamalarPaneli() {
 }
 
 function harcamaDokumuAc() {
+  kayitBildir('Döküm açılıyor · gün gün, tür tür');
   const { hepsi, paralar, kategoriler, gunler } = harcamalariTopla();
   const euro = euroToplami(hepsi);
   const s = gerok.aktifGerok();

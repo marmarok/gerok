@@ -162,9 +162,8 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
 .kayit-metin, .metin, .acilis-ad, .yol-ad {
   font-family: 'Gerok Serif', Georgia, 'Times New Roman', serif;
 }
-/* Serifte 600 fazla kalın duruyor, gövde metninde 400 daha rahat okunuyor. */
-.kayit-metin, .metin { font-weight: 400; }
-#ustBaslik, .gun-ad, .durak-ad, .tur-ad, .dugme-ad, .ortu-baslik, .yol-ad { font-weight: 600; }
+#ustBaslik, .gun-ad, .durak-ad, .tur-ad, .dugme-ad, .ortu-baslik, .yol-ad,
+.kayit-metin, .metin { font-weight: 600; }
 
 /* Rakamlar her yerde eşit genişlikte: saat sayacı, süre, mesafe ve tutar
    değişirken satır oynamasın. */

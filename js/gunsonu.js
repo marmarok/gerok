@@ -11,7 +11,7 @@ import * as iz from './iz.js';
 import * as gerok from './gerok.js';
 import * as kayit from './kayit.js';
 import { paketGonder, yedekAl } from './esitleme.js';
-import { sesKaydiBaslat } from './app.js';
+import { sesKaydiBaslat, kayitBildir } from './app.js';
 import { ikon } from './ikon.js';
 
 const $ = (s) => document.querySelector(s);
@@ -103,7 +103,7 @@ async function ozetAdimi(durum) {
   const ulkeler = [...new Set(bugunkuler.filter(k => k.tur === 'sinir').map(k => k.ulke))];
 
   ortu(`
-    ${ustBilgi(gun ? `Gün ${gun.no} · ${gun.baslik}` : 'Bugün', gun ? gerok.tarihUzun(new Date(gun.tarih).getTime()) : '')}
+    ${ustBilgi('Günün özeti', 'Bugün ne oldu, sayılarla.')}
     <div class="gs-ozet">
       <div class="gs-kutu"><div class="gs-sayi">${km.toFixed(0)}</div><div class="gs-etiket">km yol</div></div>
       <div class="gs-kutu"><div class="gs-sayi">${gorseller}</div><div class="gs-etiket">fotoğraf</div></div>
@@ -124,8 +124,7 @@ async function ozetAdimi(durum) {
 
 async function gunlukAdimi(durum) {
   ortu(`
-    ${ustBilgi('Bugünden aklında ne kaldı?',
-      'Otuz saniye yeter. On yıl sonra en çok bunu dinleyeceksin — fotoğrafları değil.')}
+    ${ustBilgi('Bugünden aklında ne kaldı?', 'Sesli günlük. Bir dakika yeter.')}
     <div id="gunlukDurum" class="panel-not">Dokun ve konuş. Bitince "Durdur ve kaydet".</div>
     <button class="buyuk-dugme birincil" id="gunlukKayit" style="margin-top:14px">
       <span class="dugme-ikon">${ikon('mikrofon', 28)}</span>
@@ -157,10 +156,7 @@ async function gunlukAdimi(durum) {
 async function fotografAdimi(durum) {
   ortu(`
     ${ustBilgi('Bugünü topla',
-      'Galeriden bugünü seç. Manzara şart değil: odan, kahvaltı masası, ' +
-      'otobüsün içi, benzinlik. Şu an anlamsız gelen kare, on yıl sonra en ' +
-      'çok bakacağın kare olacak. Orijinaller galeride kalıyor — buraya ' +
-      'küçük bir önizleme, çekilme saati ve konum yazılıyor.')}
+      'Galeriden bugünü seç. Manzara şart değil: oda, kahvaltı masası, otobüsün içi.')}
     <button class="eylem-dugme birincil" id="fotoSec">Galeriden seç</button>
     <div id="fotoDurum" class="panel-not"></div>
     <div class="gs-dugmeler">
@@ -205,9 +201,7 @@ async function kapanisAdimi(durum) {
   const gecen = sonYedek ? Math.round((Date.now() - sonYedek) / 3600_000) : null;
 
   ortu(`
-    ${ustBilgi('Son iki adım',
-      'Yedek: uygulama silinse bile veri dursun diye. Gönder: arkadaşınla birleşsin diye. ' +
-      'İkisi de internet istemez.')}
+    ${ustBilgi('Son iki adım', 'Yedek al, sonra günü arkadaşına gönder.')}
     ${sonYedek
       ? `<div class="panel-not">Son yedek ${gecen < 1 ? 'az önce' : `${gecen} saat önce`} alındı.</div>`
       : '<div class="panel-not">Henüz hiç yedek alınmadı.</div>'}
@@ -222,7 +216,11 @@ async function kapanisAdimi(durum) {
   const bildir = (m) => { const e = $('#kDurum'); if (e) e.textContent = m; };
   $('#kYedek').onclick = () => yedekAl(bildir);
   $('#kGonder').onclick = () => paketGonder(bildir, gun?.no ?? null);
-  $('#gsBitir').onclick = async () => { kapat(); await tazeleDisari?.(); };
+  $('#gsBitir').onclick = async () => {
+    kapat();
+    kayitBildir('Gün kapandı', 'iyi');
+    await tazeleDisari?.();
+  };
 }
 
 // ---- Gerok başı ve sonu ---------------------------------------------------
