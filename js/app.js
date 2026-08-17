@@ -937,6 +937,17 @@ function ayrintiPaneli(k, { konumlu, basliklanabilir, gorsel = false, videoSure 
     ['Konum kaynağı', KONUM_KAYNAGI[k.konumKaynagi]?.replace('konum: ', '') ||
       (konumlu ? 'bilinmiyor' : 'bulunamadı')],
     ['Kaydeden', k.sahipAd || 'bilinmeyen']
+  ] : gorsel ? [
+    // Fotoğrafta da bilgi listesi var ve en üstteki satır TARİH — çünkü
+    // galeride aslını bulmanın tek yolu bu. iOS, web uygulamasına fotoğrafın
+    // kitaplıktaki kimliğini vermiyor; "şu kareyi aç" diyebileceğimiz bir
+    // adres yok. Galeri tarihe göre sıralı olduğu için tam gün ve saat,
+    // aslına götüren tek ipucu.
+    ['Çekildiği an', `${gerok.tarihUzun(k.t)} · ${gerok.saat(k.t)}`],
+    ...(k.dosyaAdi ? [['Dosya', k.dosyaAdi]] : []),
+    ['Yer', k.yerAdi || 'adı yok'],
+    ['Koordinat', konumlu ? `${k.lat.toFixed(5)}, ${k.lon.toFixed(5)}` : 'yok'],
+    ['Kaydeden', k.sahipAd || 'bilinmeyen']
   ] : [];
 
   // "orijinali galeride" uygulamanın en önemli sözü: fotoğraf buraya
@@ -957,7 +968,7 @@ function ayrintiPaneli(k, { konumlu, basliklanabilir, gorsel = false, videoSure 
     ${fotoNotu ? `<div class="foto-not">${kacis(fotoNotu)}</div>` : ''}
     <div class="kayit-eylemler">
       ${konumlu ? `<button class="satir-dugme" data-google="${k.lat},${k.lon}">Haritalar'da aç</button>` : ''}
-      ${gorsel ? `<button class="satir-dugme" data-galeri="${k.id}">Galeride göster</button>` : ''}
+      ${gorsel ? `<button class="satir-dugme" data-galeri="${k.id}">Fotoğrafları aç</button>` : ''}
       ${basliklanabilir ? `<button class="satir-dugme vurgulu" data-baslik="${k.id}">${
         k.baslik || k.metin ? 'Adını değiştir' : 'Başlık yaz'}</button>` : ''}
       <button class="satir-dugme sil" data-sil="${k.id}">Sil</button>
@@ -965,12 +976,25 @@ function ayrintiPaneli(k, { konumlu, basliklanabilir, gorsel = false, videoSure 
 }
 
 /**
- * Fotoğrafın aslını galeride açar.
+/**
+ * Fotoğraflar uygulamasını açar.
  *
- * DÜRÜST OLMASI GEREKEN YER: web uygulaması Fotoğraflar'da BELİRLİ bir kareyi
- * açamıyor — böyle bir izin yok. `photos-redirect://` yalnızca Fotoğraflar
- * uygulamasını öne getiriyor. O yüzden düğme aynı anda kaydın çekim saatini
- * de söylüyor: galeri zaten tarihe göre sıralı, aranan kare o saatte duruyor.
+ * DÜRÜST OLMASI GEREKEN YER — düğme "Galeride göster" değil "Fotoğrafları aç".
+ * Bir web uygulaması Fotoğraflar'da BELİRLİ bir kareyi açamıyor:
+ *
+ *   · Dosya seçici bize yalnızca görüntünün baytlarını veriyor. Fotoğrafın
+ *     kitaplıktaki kimliği (PHAsset localIdentifier) hiç gelmiyor.
+ *   · Kimlik olmadan "şunu aç" diyebileceğimiz bir adres yok. `photos://`
+ *     ailesinde tarih ya da dosya adıyla arama yapan bir yol da yok.
+ *   · `photos-redirect://` yapabildiğinin tamamı: uygulamayı öne getirmek.
+ *
+ * 17 Ağustos'ta telefonda denendi ve tam da bu oldu — Fotoğraflar açıldı,
+ * kare açılmadı. Bu bir eksiklik değil, iOS'un kapalı kapısı; ancak native
+ * uygulamada aşılabilir (native taraf kimliği saklayabiliyor).
+ *
+ * Elimizden gelen: uygulamayı açarken kaydın tam gün ve saatini söylemek.
+ * Galeri tarihe göre sıralı olduğu için aranan kareye götüren tek ipucu bu;
+ * aynı bilgi ayrıntı panelinde "Çekildiği an" satırında da yazıyor.
  *
  * Uygulama içindeki önizleme bundan bağımsız: küçültülmüş bir KOPYA olarak
  * Gerok'un kendi deposunda duruyor. Galeriden silinse bile buradaki kayıt
@@ -979,9 +1003,9 @@ function ayrintiPaneli(k, { konumlu, basliklanabilir, gorsel = false, videoSure 
 function galeridenAc(kayitId) {
   const k = durum.kayitlar.find(x => x.id === kayitId);
   if (!k) return;
-  const ne = k.dosyaAdi ? kacis(k.dosyaAdi) : gerok.tarihUzun(k.t);
-  kayitBildir(`Fotoğraflar açılıyor · ${gerok.saat(k.t)} · ${ne}`);
-  // Konum bilgisi taşımayan, yalnızca uygulamayı öne getiren bir adres.
+  kayitBildir(`Fotoğraflar açılıyor · aslı ${gerok.tarihUzun(k.t)} ` +
+    `${gerok.saat(k.t)} hizasında`);
+  // Konum ya da kimlik taşımayan, yalnızca uygulamayı öne getiren bir adres.
   const a = document.createElement('a');
   a.href = 'photos-redirect://';
   a.style.display = 'none';
