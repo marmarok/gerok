@@ -245,6 +245,7 @@ function ekranAc(ad, yon = null) {
   }
   $$('#altBar .sekme').forEach(d => d.classList.toggle('secili', d.dataset.ekran === ad));
 
+  ustGunPenceresi();
   if (ad === 'zaman') zamanCizgisiCiz();
   if (ad === 'duraklar') duraklariCiz();
   if (ad === 'gerok') paneliCiz();
@@ -265,6 +266,50 @@ function ustBariYaz() {
   $('#ustAlt').textContent = g
     ? gerok.gunBasligi(g)
     : (s ? (gerok.gerokBittiMi() ? 'Gerok tamamlandı' : 'Gerok henüz başlamadı') : 'Gerok paketi yüklenmedi');
+  ustGunPenceresi();
+}
+
+// ---- Üst şeritteki kayan gün başlığı ----------------------------------------
+//
+// Gün başlığı listenin içinde yapışkan durduğunda kaydırırken zıplıyor ve
+// arama şeridiyle çakışıyordu. Artık üst şeridin içinde, 34 piksellik bir
+// pencerede duruyor: liste kaydıkça yukarı kayıyor. Hangi gündeysen o yazıyor,
+// yerinden hiç oynamadan.
+let ustGunListesi = [];
+let ustAktifGun = 0;
+
+function ustGunPenceresi() {
+  // Kayan başlık yalnızca zaman çizgisinde var; öteki ekranlarda üst şeritte
+  // gezinin adından başka bir şey yok — tasarımdaki gibi.
+  const zamanda = durum.ekran === 'zaman' && ustGunListesi.length > 0;
+  $('#ustGunPencere').classList.toggle('gizli', !zamanda);
+  $('#ustAlt').classList.toggle('gizli', zamanda);
+}
+
+function ustGunleriYaz(gunler) {
+  ustGunListesi = gunler || [];
+  ustAktifGun = 0;
+  const yigin = $('#ustGunYigin');
+  yigin.innerHTML = ustGunListesi.map(u => `<div class="ust-gun-satir">
+    <div class="ust-gun-ad">${kacis(u.satir)}</div>
+    ${u.bilgi ? `<div class="ust-gun-bilgi">${kacis(u.bilgi)}</div>` : ''}
+  </div>`).join('');
+  yigin.style.transform = 'translateY(0)';
+  ustGunPenceresi();
+}
+
+// Liste kaydırılırken ekranın tepesine en son giren gün işareti hangisiyse
+// üst şeritte o gösteriliyor.
+function ustGunuTazele(liste) {
+  if (!ustGunListesi.length) return;
+  const esik = liste.getBoundingClientRect().top + 26;
+  let aktif = 0;
+  liste.querySelectorAll('[data-gun]').forEach(n => {
+    if (n.getBoundingClientRect().top <= esik) aktif = Number(n.dataset.gun) || 0;
+  });
+  if (aktif === ustAktifGun) return;
+  ustAktifGun = aktif;
+  $('#ustGunYigin').style.transform = `translateY(-${aktif * 34}px)`;
 }
 
 // ------------------------------------------------------------ zaman çizgisi -
@@ -322,6 +367,9 @@ function aranabilirMetin(k) {
 function zamanCizgisiCiz() {
   const kap = $('#zamanListe');
   const s = gerok.aktifGerok();
+  // Aşağıdaki boş durumların hepsinde erken çıkılıyor; kayan gün başlığı
+  // eski günde takılı kalmasın diye şimdiden temizleniyor.
+  ustGunleriYaz([]);
 
   // Tur yokken de kayıtlar gösterilmeli. Eskiden burada koşulsuz "paketi yükle"
   // yazıyordu; paketten önce bırakılan sesli not silinmiş gibi görünüyordu
@@ -392,7 +440,10 @@ function zamanCizgisiCiz() {
   const turBasi = s ? new Date(s.baslangic).getTime() : 0;
   const turSonu = s ? new Date(s.bitis).getTime() : 0;
 
-  for (const anahtar of sirali) {
+  // Üst şeritteki kayan gün başlığı bu listeden kuruluyor.
+  const ustGunler = [];
+
+  for (const [sira, anahtar] of sirali.entries()) {
     const gunler = s?.gunler?.find(g => g.no === anahtar);
     const kayitlar = gruplar.get(anahtar).slice().reverse();
     const grupZamani = grupAni.get(anahtar);
@@ -414,10 +465,18 @@ function zamanCizgisiCiz() {
         : 'Turun günlerinin dışında';
     }
 
-    html += `<div class="gun-basligi">
+    const bilgi = gunler
+      ? `${gunAlt}${gunler.km ? `${gunAlt ? ' · ' : ''}${gunler.km} km` : ''}`
+      : '';
+    ustGunler.push({ satir: `${rozet} · ${gunAdi}`, bilgi });
+
+    // İşaret düğümü: liste kaydırılırken hangi günde olduğumuzu bu söylüyor.
+    html += `<div class="gun-isaret" data-gun="${sira}"></div>`;
+    // İlk günün başlığı gizli — o an üst şeritte zaten yazıyor.
+    html += `<div class="gun-basligi${sira === 0 ? ' gizli-baslik' : ''}">
       <div class="gun-no">${kacis(rozet)}</div>
       <div class="gun-ad">${kacis(gunAdi)}</div>
-      ${gunler && (gunAlt || gunler.km) ? `<div class="gun-bilgi">${kacis(gunAlt)}${gunler.km ? `${gunAlt ? ' · ' : ''}${gunler.km} km` : ''}</div>` : ''}
+      ${bilgi ? `<div class="gun-bilgi">${kacis(bilgi)}</div>` : ''}
     </div>`;
 
     for (const k of kayitlar) html += kayitSatiri(k);
@@ -429,6 +488,7 @@ function zamanCizgisiCiz() {
     </div>`;
   }
   kap.innerHTML = html;
+  ustGunleriYaz(ustGunler);
 
   $('#dahaEski')?.addEventListener('click', () => {
     gosterilenSayi += SAYFA_ADIMI;
@@ -439,11 +499,13 @@ function zamanCizgisiCiz() {
     const kutu = tus.closest('.ses-oynat');
     const sure = +tus.dataset.sure || 0;
     tus.addEventListener('click', () => sesCal(tus.dataset.ses, kutu, tus.dataset.bicim, sure));
-    cubuguKur(kutu.querySelector('.ses-cubuk'), kutu, tus.dataset.ses, tus.dataset.bicim, sure);
+    dalgayiKur(kutu.querySelector('.dalga'), kutu, tus.dataset.ses, tus.dataset.bicim, sure);
   });
   kap.querySelectorAll('[data-onizleme]').forEach(async (d) => {
     const url = await onizlemeAdresi(d.dataset.onizleme);
-    if (url) d.innerHTML = `<img src="${url}" alt="" loading="lazy">`;
+    // Etiketin üstüne yazılmıyor, ALTINA konuyor: innerHTML kullanılsaydı
+    // "orijinali galeride" yazısı silinirdi.
+    if (url) d.insertAdjacentHTML('afterbegin', `<img src="${url}" alt="" loading="lazy">`);
   });
   kap.querySelectorAll('[data-sil]').forEach(d => {
     d.addEventListener('click', () => kaydiSil(d.dataset.sil));
@@ -537,14 +599,16 @@ function aramaVeSuzgecKur() {
   });
 
   // Aşağı kaydırınca şerit çekiliyor, yukarı çıkınca geri geliyor. Küçük
-  // ekranda arama kutusu sürekli yer kaplamasın.
-  const ekran = $('#ekran-zaman');
+  // ekranda arama kutusu sürekli yer kaplamasın. Aynı kaydırmada üst şeritteki
+  // gün başlığı da tazeleniyor.
+  const liste = $('#zamanListe');
   let sonY = 0;
-  ekran.addEventListener('scroll', () => {
-    const y = ekran.scrollTop;
+  liste.addEventListener('scroll', () => {
+    const y = liste.scrollTop;
     if (y > sonY + 6 && y > 40) $('#zamanAra').classList.add('cekildi');
     else if (y < sonY - 6 || y < 12) $('#zamanAra').classList.remove('cekildi');
     sonY = y;
+    ustGunuTazele(liste);
   }, { passive: true });
 }
 
@@ -558,52 +622,108 @@ const KONUM_KAYNAGI = {
   elle: 'konum: elle işaretlendi'
 };
 
+const SESLI_TURLER = ['ses', 'ortam', 'gunluk', 'baslangic', 'bitis', 'mektup'];
+const GORSEL_TURLER = ['foto', 'video', 'siradan'];
+
+// Ses dalgası. GERÇEK dalga biçimi değil — onu çizmek için her kaydın tamamını
+// çözmek gerekir; yüz kayıtta bu dakikalar ve epey pil demek. Bunun yerine
+// kaydın kimliğinden türetilen sabit bir çizgi: aynı kayıt her açılışta aynı
+// çizgiyi veriyor, göz onu o kaydın imzası olarak öğreniyor. Çubuğun işi
+// süreyi ve nerede olduğunu göstermek; ikisi de doğru.
+const DALGA_SAYISI = 74;
+function dalgaCubuklari(id) {
+  let tohum = 0;
+  for (let i = 0; i < id.length; i++) tohum += id.charCodeAt(i);
+  let html = '';
+  for (let i = 0; i < DALGA_SAYISI; i++) {
+    const a = Math.abs(Math.sin((i + 1) * (tohum % 7 + 2) * 0.53));
+    const b = Math.abs(Math.sin((i + 1) * 0.17 + tohum));
+    const c = Math.abs(Math.sin((i + 1) * 2.3));
+    const zarf = 0.45 + 0.55 * Math.abs(Math.sin((i + 1) * 0.08 + tohum * 0.3));
+    const v = Math.min(1, Math.max(0.08, (a * 0.55 + b * 0.3 + c * 0.4 - 0.12) * zarf * 1.5));
+    html += `<span style="height:${Math.round(v * 100)}%"></span>`;
+  }
+  return html;
+}
+
+// Kaydın kendi cümlesi. Harcama ve tanışma kayıtları parçalardan kuruluyor:
+// ayrı ayrı satırlara bölünürse liste form doldurulmuş gibi görünüyor,
+// tek cümle olunca deftere yazılmış gibi.
+function kayitCumlesi(k) {
+  if (k.tur === 'fiyat') {
+    return [k.metin, [k.tutar, k.paraBirimi].filter(Boolean).join(' '), k.kategori]
+      .filter(Boolean).join(' · ');
+  }
+  if (k.tur === 'kisi') return [k.ad, k.not].filter(Boolean).join(' — ');
+  if (k.tur === 'video' && !k.metin) return `Video · ${sureYaz(k.videoSure)}`;
+  return k.metin || k.baslik || '';
+}
+
 function kayitSatiri(k) {
   const tur = veri.TURLER[k.tur] || k.tur;
   const yer = (k.lat != null && k.lon != null)
     ? (KONUM_KAYNAGI[k.konumKaynagi] || 'konum: uydudan')
     : 'konum: bulunamadı';
 
-  let govde = '';
-  if (k.metin) govde += `<div class="kayit-metin">${kacis(k.metin)}</div>`;
-  if (k.tur === 'fiyat' && k.tutar) {
-    govde += `<div class="kayit-metin">${kacis(k.tutar)} ${kacis(k.paraBirimi || '')}</div>`;
-  }
-  if (k.tur === 'kisi' && k.not) govde += `<div class="kayit-yer">${kacis(k.not)}</div>`;
+  const sesli = SESLI_TURLER.includes(k.tur);
+  const gorsel = GORSEL_TURLER.includes(k.tur);
+  const konumlu = k.lat != null && k.lon != null;
+  const acik = durum.acikSatir === k.id;
+  const metin = kayitCumlesi(k);
 
-  if (k.medyaId && ['ses', 'ortam', 'gunluk', 'baslangic', 'bitis', 'mektup'].includes(k.tur)) {
+  // Tür etiketi sesli kayıtlarda ve metni olmayan kayıtlarda yazılıyor.
+  // Ötekilerde solundaki renk çizgisi zaten söylüyor; iki kez söylemek
+  // listeyi etiket tarlasına çeviriyordu.
+  const turGoster = sesli || !metin;
+
+  let govde = '';
+  if (metin) govde += `<div class="kayit-metin">${kacis(metin)}</div>`;
+
+  if (k.medyaId && sesli) {
+    const cubuklar = dalgaCubuklari(k.id);
     govde += `<div class="ses-oynat">
       <button class="ses-tus" data-ses="${k.medyaId}" data-bicim="${kacis(k.bicim || '')}" data-sure="${k.sure || 0}">▶</button>
-      <input class="ses-cubuk" type="range" min="0" max="1000" value="0" step="1" aria-label="Ses konumu">
+      <div class="dalga" role="slider" aria-label="Ses konumu"
+           aria-valuemin="0" aria-valuemax="1000" aria-valuenow="0">
+        <div class="dalga-kat sonuk">${cubuklar}</div>
+        <div class="dalga-kat dolu">${cubuklar}</div>
+      </div>
       <span class="sure">0:00 / ${sureYaz(k.sure)}</span>
     </div>`;
   }
-  if (k.medyaId && ['foto', 'video', 'siradan'].includes(k.tur)) {
-    govde += `<div class="kayit-foto" data-onizleme="${k.medyaId}"></div>`;
-    if (k.tur === 'video') govde += `<div class="kayit-yer">video · ${sureYaz(k.videoSure)}</div>`;
+  if (k.medyaId && gorsel) {
+    // "orijinali galeride" bir süs değil, uygulamanın en önemli sözü:
+    // fotoğraf buraya KOPYALANMIYOR, tam çözünürlüklü hali telefonun kendi
+    // galerisinde duruyor. Uygulama silinse bile fotoğraflar yerinde kalır.
+    const etiket = k.tur === 'video'
+      ? `video · ${sureYaz(k.videoSure)} · orijinali galeride`
+      : 'önizleme · orijinali galeride';
+    govde += `<div class="kayit-foto" data-onizleme="${k.medyaId}">
+      <span class="foto-etiket">${kacis(etiket)}</span>
+    </div>`;
   }
 
-  const konumlu = k.lat != null && k.lon != null;
-  const acik = durum.acikSatir === k.id;
   // Ses ve başlıksız kayıtlara sonradan bir satır eklenebiliyor.
-  const basliklanabilir = ['ses', 'ortam', 'gunluk', 'baslangic', 'bitis', 'mektup'].includes(k.tur);
+  const basliklanabilir = sesli;
 
-  // Eylemler artık her satırda değil, UZUN BASINCA açılıyor. Her kartın
-  // altında duran "Sil" düğmesi listeyi düğme tarlasına çeviriyordu ve
-  // araç sallanırken yanlışlıkla basılabiliyordu.
+  // Eylemler ve konum satırı UZUN BASINCA açılıyor. Her satırın altında duran
+  // "Sil" düğmesi listeyi düğme tarlasına çeviriyordu ve araç sallanırken
+  // yanlışlıkla basılabiliyordu.
   return `<div class="kayit-satir ${k.tur}${acik ? ' acik' : ''}" data-kayit="${k.id}">
-    <div class="kayit-saat">${gerok.saat(k.t)}</div>
-    <div class="kayit-govde">
-      <div class="kayit-tur">${kacis(tur)}</div>
-      ${govde}
-      <div class="kayit-sahip">${kacis(k.sahipAd || 'bilinmeyen')} · ${yer}</div>
-      ${acik ? `<div class="kayit-eylemler">
-        ${basliklanabilir ? `<button class="satir-dugme" data-baslik="${k.id}">Başlık yaz</button>` : ''}
+    <div class="kayit-ust">
+      <span class="kayit-saat">${gerok.saat(k.t)}</span>
+      ${turGoster ? `<span class="kayit-tur">${kacis(tur)}</span>` : ''}
+      <span class="kayit-bosluk"></span>
+      <span class="kayit-sahip">${kacis(k.sahipAd || 'bilinmeyen')}</span>
+    </div>
+    ${govde}
+    ${acik ? `<div class="kayit-yer">${yer}</div>
+      <div class="kayit-eylemler">
+        ${konumlu ? `<button class="satir-dugme" data-google="${k.lat},${k.lon}">Haritalar'da aç</button>` : ''}
+        ${basliklanabilir ? `<button class="satir-dugme vurgulu" data-baslik="${k.id}">Başlık yaz</button>` : ''}
         <button class="satir-dugme" data-tasi="${k.id}">Saat / gün</button>
-        ${konumlu ? `<button class="satir-dugme" data-google="${k.lat},${k.lon}">Haritalar</button>` : ''}
         <button class="satir-dugme sil" data-sil="${k.id}">Sil</button>
       </div>` : ''}
-    </div>
   </div>`;
 }
 
@@ -843,7 +963,7 @@ async function sesCal(medyaId, kap, bicim = '', kayitliSure = 0, baslaOrani = 0)
   const ortak = {
     url, kap, ikon, medyaId, sayac: null,
     sure: kap.querySelector('.sure'),
-    cubuk: kap.querySelector('.ses-cubuk'),
+    cubuk: kap.querySelector('.dalga'),
     kayitliSure, toplam: kayitliSure
   };
 
@@ -935,38 +1055,75 @@ function webAudioKonumu() {
 
 // ---- Sürükleme --------------------------------------------------------------
 
-// Parmak çubuğun üstündeyken sayaç çubuğu geri itmesin diye işaretleniyor.
-function cubuguKur(cubuk, kap, medyaId, bicim, kayitliSure) {
-  const tut = () => { cubuk.dataset.tutuluyor = '1'; };
-  const birak = () => { cubuk.dataset.tutuluyor = '0'; };
+// Dalga çizgisi bir <input type="range"> değil ama çalma kodu için öyle
+// davranıyor: üstüne 0–1000 arası bir `value` özelliği tanımlanıyor, yazılınca
+// dolu kat o orana kırpılıyor. Böylece sayaç ve durdurma kodunun tek satırı
+// bile değişmedi — oynatıcının işleyişi sınanmış haliyle duruyor.
+function dalgayiKur(dalga, kap, medyaId, bicim, kayitliSure) {
+  if (!dalga || dalga.dataset.kurulu === '1') return;
+  dalga.dataset.kurulu = '1';
 
-  cubuk.addEventListener('pointerdown', tut);
-  cubuk.addEventListener('touchstart', tut, { passive: true });
-
-  // Sürüklerken yalnızca yazı güncelleniyor; ses gerçekten parmak kalkınca
-  // atlıyor. Web Audio yolunda her ara adımda yeniden başlatmak sesi
-  // tırmalardı, iki yol da aynı davransın diye tek kural.
-  cubuk.addEventListener('input', () => {
-    tut();
-    const toplam = (calan?.medyaId === medyaId ? calan.toplam : kayitliSure) || kayitliSure;
-    const yazi = kap.querySelector('.sure');
-    if (yazi) yazi.textContent = `${sureYaz(cubuk.value / 1000 * toplam)} / ${sureYaz(toplam)}`;
+  const dolu = dalga.querySelector('.dalga-kat.dolu');
+  let deger = 0;
+  Object.defineProperty(dalga, 'value', {
+    get: () => deger,
+    set: (yeni) => {
+      deger = Math.max(0, Math.min(1000, Number(yeni) || 0));
+      dolu.style.clipPath = `inset(0 ${100 - deger / 10}% 0 0)`;
+      dalga.setAttribute('aria-valuenow', String(Math.round(deger)));
+    }
   });
 
-  cubuk.addEventListener('change', async () => {
-    birak();
-    const oran = cubuk.value / 1000;
+  const oranBul = (ev) => {
+    const r = dalga.getBoundingClientRect();
+    const x = (ev.touches?.[0]?.clientX ?? ev.clientX) - r.left;
+    return Math.max(0, Math.min(1, r.width ? x / r.width : 0));
+  };
 
-    // Çalmıyorsa: sürükleyip bırakmak o saniyeden başlatır.
+  const yaziYaz = (oran) => {
+    const toplam = (calan?.medyaId === medyaId ? calan.toplam : kayitliSure) || kayitliSure;
+    const yazi = kap.querySelector('.sure');
+    if (yazi) yazi.textContent = `${sureYaz(oran * toplam)} / ${sureYaz(toplam)}`;
+  };
+
+  let suruklu = false;
+
+  const bas = (ev) => {
+    suruklu = true;
+    dalga.dataset.tutuluyor = '1';
+    const oran = oranBul(ev);
+    dalga.value = oran * 1000;
+    yaziYaz(oran);
+  };
+
+  // Sürüklerken yalnızca çizgi ve yazı oynuyor; ses gerçekten parmak kalkınca
+  // atlıyor. Web Audio yolunda her ara adımda yeniden başlatmak sesi
+  // tırmalardı, iki yol da aynı davransın diye tek kural.
+  const kaydir = (ev) => {
+    if (!suruklu) return;
+    const oran = oranBul(ev);
+    dalga.value = oran * 1000;
+    yaziYaz(oran);
+  };
+
+  const birak = async (ev) => {
+    if (!suruklu) return;
+    suruklu = false;
+    dalga.dataset.tutuluyor = '0';
+    const oran = (ev && oranBul(ev)) ?? dalga.value / 1000;
+
+    // Çalmıyorsa: dokunmak o saniyeden başlatır.
     if (!calan || calan.medyaId !== medyaId) {
       await sesCal(medyaId, kap, bicim, kayitliSure, oran);
       return;
     }
     await sesAtla(oran * (calan.toplam || kayitliSure));
-  });
+  };
 
-  cubuk.addEventListener('pointerup', birak);
-  cubuk.addEventListener('touchend', birak, { passive: true });
+  dalga.addEventListener('pointerdown', (ev) => { dalga.setPointerCapture?.(ev.pointerId); bas(ev); });
+  dalga.addEventListener('pointermove', kaydir);
+  dalga.addEventListener('pointerup', birak);
+  dalga.addEventListener('pointercancel', () => { suruklu = false; dalga.dataset.tutuluyor = '0'; });
 }
 
 async function sesAtla(hedefSaniye) {

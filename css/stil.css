@@ -83,6 +83,9 @@
   /* Üst şeridin zemini. Şema (js/sema.js) bunu değiştiriyor; buradaki değer
      yalnızca şema yüklenene kadar geçerli olan başlangıç rengi. */
   --ust-zemin: #241f1a;
+  /* js/sema.js şema seçilince ikisini de yeniden yazıyor. Buradaki değerler
+     yalnızca modüller yüklenene kadarki ilk kareyi doğru boyamak için. */
+  --ust-gradyan: linear-gradient(180deg,#241f1a 0%,#241f1a 72%,rgba(36,31,26,.55) 88%,rgba(36,31,26,0) 100%);
 
   /* Alt barın yüksekliği tek yerden. Sekme içeriği 48px; altına iPhone'un
      ev göstergesi için ince bir pay bırakılıyor.
@@ -187,16 +190,36 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
    iOS'un dayattığı bir şey — ana ekrana eklenmiş uygulamada durum çubuğu
    yazısı (saat, pil) BEYAZ ve uygulama açıldıktan sonra değiştirilemiyor.
    Açık temada şerit de açık olsaydı saat görünmezdi. */
+/* Şerit aşağıya doğru eriyor ve listenin ilk 30 pikselinin ÜSTÜNDE duruyor.
+   Böylece kaydırılan liste şeridin altından geçip görünürken siliniyor —
+   kesik bir kenarla bitmiyor. Tasarımın imzası bu. */
 #ustBar {
-  padding: calc(var(--ust) + 10px) 16px 10px;
-  display: flex; align-items: flex-end; justify-content: space-between;
+  padding: calc(var(--ust) + 10px) 16px 12px;
+  display: flex; align-items: flex-start; justify-content: space-between;
   gap: 12px;
-  background: var(--ust-zemin); border-bottom: 1px solid var(--ust-zemin);
+  background: var(--ust-gradyan);
   color: #f8f4ee; flex-shrink: 0;
-  transition: background .3s;
+  position: relative; z-index: 10; margin-bottom: -30px;
 }
-#ustBaslik { font-size: 19px; font-weight: 600; letter-spacing: -.01em; }
+#ustBaslik { font-family: 'Gerok Serif', Georgia, serif; font-size: 19px; font-weight: 600; letter-spacing: -.01em; }
 .ust-alt { font-size: 12.5px; color: #c3b7a7; margin-top: 3px; }
+.ust-sol { min-width: 0; }
+
+/* Günün başlığı üst şeritte duruyor ve liste kaydırıldıkça KAYIYOR.
+   34 piksellik bir pencere; her gün bir satır. Listedeki gün başlığı bu yüzden
+   ilk grupta gizleniyor — aynı şey iki yerde yazmasın. */
+.ust-gun-pencere { height: 34px; overflow: hidden; margin-top: 3px; }
+.ust-gun-yigin { transition: transform .42s cubic-bezier(.22,.9,.24,1); }
+.ust-gun-satir { height: 34px; }
+.ust-gun-ad {
+  font-size: 12.5px; color: #c3b7a7; line-height: 16px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.ust-gun-bilgi {
+  font-size: 10.5px; color: #cbbfae; line-height: 14px; margin-top: 2px;
+  text-shadow: 0 1px 3px rgba(20,16,12,.65);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
 
 .rozet {
   display: flex; align-items: center; gap: 6px;
@@ -241,18 +264,29 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
 }
 .liste { padding: 8px 0 24px; }
 
+/* Zaman çizgisinde arama şeridi SABİT, yalnızca liste kayıyor. Şerit listenin
+   içinde yüzseydi kaydırırken zıplardı. */
+#ekran-zaman { overflow: hidden; }
+#ekran-zaman.acik { display: flex; flex-direction: column; }
+#zamanListe {
+  flex: 1; min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch;
+  /* Alttaki büyük boşluk bilerek: son kayıt da ekranın tepesine çekilebilsin,
+     alt şeridin altında sıkışmasın. */
+  padding: 8px 0 560px;
+}
+
 /* ---------- Zaman çizgisi: arama ve süzgeç ----------
    Bir haftanın sonunda liste yüzlerce satır oluyor. Aşağı kaydırırken şerit
    çekiliyor (küçük ekranda sürekli yer kaplamasın), yukarı çıkarken dönüyor. */
 .zaman-ara {
-  position: sticky; top: 0; z-index: 6;
+  position: relative; z-index: 6;
   display: flex; align-items: center; gap: 7px;
-  padding: 10px 12px 8px;
-  background: linear-gradient(var(--zemin) 78%, transparent);
-  max-height: 60px; opacity: 1; transform: translateY(0);
+  /* Üstteki 34 piksel şeridin eriyen eteğinin altında kalıyor. */
+  padding: 34px 12px 8px;
+  max-height: 84px; opacity: 1; transform: translateY(0);
   overflow: hidden;
-  transition: max-height .26s cubic-bezier(.3,.9,.3,1), opacity .18s,
-              transform .26s cubic-bezier(.3,.9,.3,1), padding .26s;
+  transition: max-height .28s cubic-bezier(.3,.9,.3,1), opacity .2s,
+              transform .28s cubic-bezier(.3,.9,.3,1), padding .28s;
 }
 .zaman-ara.cekildi {
   max-height: 0; opacity: 0; transform: translateY(-12px);
@@ -278,129 +312,135 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
 }
 .suzgec.secili { background: var(--secili-zemin); border-color: var(--vurgu); color: var(--vurgu); }
 
-/* ---------- Zaman çizgisi ---------- */
-.gun-basligi {
-  position: sticky; top: 0; z-index: 5;
-  background: linear-gradient(var(--zemin) 72%, transparent);
-  padding: 16px 16px 10px;
-}
-.gun-no { font-size: 11px; letter-spacing: .14em; color: var(--vurgu); text-transform: uppercase; font-weight: 600; }
+/* ---------- Zaman çizgisi ----------
+   Kartlar kaldırıldı. Her kayıt sayfanın tam genişliğinde bir şerit; solunda
+   türünün rengiyle 3 piksellik bir çizgi, zemininde aynı rengin çok soluk
+   hali. Kart kenarlıkları listeyi kutu tarlasına çeviriyordu; renk çizgisi
+   aynı ayrımı gürültüsüz yapıyor ve "bu ne kaydıydı" sorusunu bir bakışta
+   cevaplıyor. Claude Design'daki GEROK tasarımından birebir. */
+.gun-basligi { padding: 22px 16px 10px; }
+.gun-no { font-size: 11px; letter-spacing: .14em; color: var(--vurgu); text-transform: uppercase; font-weight: 700; }
 .gun-ad { font-size: 17px; font-weight: 600; margin-top: 3px; }
 .gun-bilgi { font-size: 12px; color: var(--cok-soluk); margin-top: 3px; }
+/* İlk günün başlığı gizli: o an üst şeritte zaten yazıyor. */
+.gun-basligi.gizli-baslik { display: none; }
 
 .kayit-satir {
-  display: flex; gap: 12px; padding: 11px 16px;
-  border-left: 2px solid var(--cizgi); margin-left: 22px;
+  --renk: var(--vurgu);
+  padding: 18px 16px 16px;
+  border-left: 3px solid var(--renk);
+  background: color-mix(in srgb, var(--renk) 8%, var(--zemin));
   position: relative;
 }
-/* Nokta kartın üst hizasında ve zemin renginde bir halkası var: çizgi
-   noktanın içinden geçiyormuş gibi görünmesin. */
-.kayit-satir::before {
-  content: ''; position: absolute; left: -6px; top: 20px;
-  width: 10px; height: 10px; border-radius: 50%;
-  background: var(--cizgi); box-shadow: 0 0 0 3px var(--zemin);
-}
+.kayit-satir.acik { background: color-mix(in srgb, var(--renk) 20%, var(--zemin)); }
+
+/* Tür renkleri. Tema değişkeni değil sabit renk: bunlar bir vurgu değil,
+   BİLGİ — sesli not her şemada aynı turuncu kalmalı ki alışkanlık bozulmasın.
+   Zemine karışmaları color-mix ile olduğu için iki temada da okunuyorlar. */
+.kayit-satir.ses        { --renk: #e8590c; }
+.kayit-satir.ortam      { --renk: #1c7ed6; }
+.kayit-satir.gunluk     { --renk: #f03e3e; }
+.kayit-satir.foto       { --renk: #f59f00; }
+.kayit-satir.siradan    { --renk: #f59f00; }
+.kayit-satir.video      { --renk: #f76707; }
+.kayit-satir.fiyat      { --renk: #2f9e44; }
+.kayit-satir.kisi       { --renk: #d6336c; }
+.kayit-satir.sinir      { --renk: #7048e8; }
+.kayit-satir.isaret     { --renk: #0ca678; }
+.kayit-satir.yazi       { --renk: #1098ad; }
+.kayit-satir.baslangic  { --renk: #ae3ec9; }
+.kayit-satir.bitis      { --renk: #ae3ec9; }
+.kayit-satir.mektup     { --renk: #6741d9; }
+
 /* Yeni eklenen fotoğraf çekildiği saate düşüyor — yani listede yukarıda bir
    yere. Oraya kaydırıp kısa süre vurguluyoruz ki "eklendi mi?" diye
    aranmasın. Gezide en çok kafa karıştıran şey buydu. */
-.kayit-satir.yeni-eklendi {
-  animation: yeniEklendi 2.6s ease-out;
-  border-radius: 10px;
-}
+.kayit-satir.yeni-eklendi { animation: yeniEklendi 2.6s ease-out; }
 @keyframes yeniEklendi {
-  0%, 55% { background: color-mix(in srgb, var(--vurgu) 22%, transparent); }
-  100%    { background: transparent; }
+  0%, 55% { background: color-mix(in srgb, var(--renk) 34%, var(--zemin)); }
+  100%    { background: color-mix(in srgb, var(--renk) 8%, var(--zemin)); }
 }
 
-.kayit-satir.ses::before, .kayit-satir.gunluk::before,
-.kayit-satir.baslangic::before, .kayit-satir.bitis::before { background: var(--vurgu); }
-.kayit-satir.ortam::before { background: var(--su); }
-.kayit-satir.sinir::before { background: var(--yesil); }
-.kayit-satir.mektup::before { background: var(--g6); }
-.kayit-satir.fiyat::before { background: var(--g2); }
-.kayit-satir.kisi::before { background: var(--g7); }
-
-.kayit-saat { font-size: 12.5px; color: var(--soluk); min-width: 40px; padding-top: 14px; font-variant-numeric: tabular-nums; }
-
-/* Her kayıt bir kart.
-   Önce düz satırlardı; 14 kayıtlık bir gün tek bir metin bloğuna dönüşüyor,
-   nerede biri bitip öteki başlıyor anlaşılmıyordu. Kart, kaydı bir şeyin
-   içine koyuyor — defterin sayfasına yapıştırılmış bir pusula gibi. */
-.kayit-govde {
-  flex: 1; min-width: 0;
-  background: var(--kat); border: 1px solid var(--cizgi);
-  border-radius: 16px; padding: 12px 14px;
-}
-/* Tür adı artık bir başlık üstü etiketi: küçük, aralıklı, vurgu renginde.
-   Kaydın kendi metniyle yarışmıyor ama ne olduğunu bir bakışta söylüyor. */
+/* Saat, tür ve sahip tek satırda: kaydın künyesi. */
+.kayit-ust { display: flex; align-items: baseline; gap: 9px; }
+.kayit-saat { font-size: 12.5px; font-weight: 600; color: var(--soluk); font-variant-numeric: tabular-nums; }
 .kayit-tur {
   font-size: 10px; color: var(--vurgu); font-weight: 700;
   letter-spacing: .12em; text-transform: uppercase;
 }
-.kayit-metin { font-size: 16px; line-height: 1.35; margin-top: 5px; word-wrap: break-word; }
-/* Sahip ve konum kartın alt şeridinde, ince bir çizginin altında. */
-.kayit-sahip {
-  font-size: 11px; color: var(--cok-soluk); margin-top: 10px;
-  padding-top: 9px; border-top: 1px solid var(--cizgi);
-}
-.kayit-yer { font-size: 11px; color: var(--cok-soluk); margin-top: 2px; }
+.kayit-bosluk { flex: 1; }
+.kayit-sahip { font-size: 11px; color: var(--cok-soluk); }
 
-/* Ses oynatıcı. Çubuk sürüklenebiliyor: bir konuşmanın ortasını bulmak için
-   baştan dinlemek gerekmesin. Tutamak parmak ölçüsünde — araç sallanırken
-   küçük bir noktayı yakalamak imkânsız. */
-.ses-oynat {
-  display: flex; align-items: center; gap: 9px; margin-top: 7px;
-  background: var(--kat); border: 1px solid var(--cizgi);
-  border-radius: 10px; padding: 7px 12px; width: 100%;
+/* Kaydın kendi metni SERİF. Arayüzün dili sans, anının dili serif —
+   iki ses birbirine karışmasın. */
+.kayit-metin {
+  font-family: 'Gerok Serif', Georgia, serif;
+  font-size: 17px; line-height: 1.45; margin-top: 7px; word-wrap: break-word;
 }
+/* Konum yalnızca satır uzun basılınca açılıyor: her satırda durduğunda
+   listenin yarısı "konum: uydudan" yazısına gidiyordu. */
+.kayit-yer {
+  font-size: 11px; color: var(--cok-soluk); margin-top: 9px;
+  display: flex; align-items: center; gap: 5px;
+}
+
+/* Ses oynatıcı: dalga çizgisi. Çalınan kısım tam renkte, kalanı soluk.
+   Dokunulan yerden devam ediyor — konuşmanın ortasını bulmak için baştan
+   dinlemek gerekmesin. */
+.ses-oynat { display: flex; align-items: center; gap: 9px; margin-top: 10px; }
 .ses-tus {
-  flex-shrink: 0; width: 34px; height: 34px; border-radius: 50%;
+  flex: none; width: 30px; height: 30px; border-radius: 50%;
   background: var(--kat2); border: 1px solid var(--cizgi);
-  color: var(--vurgu); font-size: 14px; line-height: 1;
+  color: var(--vurgu); font-size: 11px; line-height: 1;
   display: flex; align-items: center; justify-content: center;
 }
 .ses-tus:active { background: var(--vurgu); color: var(--vurgu-yazi); }
 .ses-oynat .sure {
-  flex-shrink: 0; font-size: 11.5px; color: var(--soluk);
-  font-variant-numeric: tabular-nums; min-width: 74px; text-align: right;
+  flex: none; font-size: 11px; color: var(--cok-soluk);
+  font-variant-numeric: tabular-nums; min-width: 70px; text-align: right;
 }
-
-.ses-cubuk {
-  flex: 1; min-width: 0; height: 30px; margin: 0;
-  -webkit-appearance: none; appearance: none; background: transparent;
+.dalga {
+  position: relative; flex: 1; min-width: 0; height: 22px;
   touch-action: none;              /* sürüklerken sayfa kaymasın */
 }
-.ses-cubuk::-webkit-slider-runnable-track {
-  height: 4px; border-radius: 2px; background: var(--cizgi);
+/* İki kat üst üste: alttaki soluk, üstteki tam renkte ve çalınan orana göre
+   kırpılıyor. Tek katta her çubuğun rengini ayrı ayrı değiştirmek gerekirdi —
+   saniyede beş kez 74 düğüm dokunmak demek. */
+.dalga-kat {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: space-between;
 }
-.ses-cubuk::-webkit-slider-thumb {
-  -webkit-appearance: none; appearance: none;
-  width: 20px; height: 20px; border-radius: 50%; margin-top: -8px;
-  background: var(--vurgu); border: 2px solid var(--kat);
-  box-shadow: var(--golge);
-}
-.ses-cubuk::-moz-range-track { height: 4px; border-radius: 2px; background: var(--cizgi); }
-.ses-cubuk::-moz-range-thumb {
-  width: 18px; height: 18px; border-radius: 50%;
-  background: var(--vurgu); border: 2px solid var(--kat);
-}
+.dalga-kat span { width: 1px; flex: none; min-height: 1px; }
+.dalga-kat.sonuk span { background: color-mix(in srgb, var(--renk) 42%, transparent); }
+.dalga-kat.dolu { clip-path: inset(0 100% 0 0); }
+.dalga-kat.dolu span { background: var(--renk); }
 
+/* Fotoğraf satırın iki yanından taşıyor: anının kendisi bir kart içinde
+   küçültülmüş bir küçük resim değil. */
 .kayit-foto {
-  margin-top: 8px; border-radius: 10px; overflow: hidden;
-  background: var(--kat); max-width: 260px;
+  position: relative;
+  margin: 11px -16px 0 -16px; height: 300px;
+  background: repeating-linear-gradient(135deg, var(--kat2) 0 11px, var(--cizgi) 11px 22px);
+  overflow: hidden;
+  display: flex; align-items: flex-end; padding: 10px;
 }
-.kayit-foto img { width: 100%; display: block; }
+.kayit-foto img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.foto-etiket {
+  position: relative; z-index: 1;
+  font: 400 10px/1 ui-monospace, Menlo, monospace; color: var(--soluk);
+  background: var(--perde-koyu); padding: 4px 7px; border-radius: 6px;
+}
 
-/* Uzun basılan satır: kart hafifçe vurgulanıyor, eylemleri altında açılıyor. */
-.kayit-satir.acik .kayit-govde { border-color: var(--vurgu-koyu); }
-.kayit-eylemler { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 9px; }
-/* Hap biçimli, zeminsiz: kartın içindeki asıl şey kaydın kendisi, bu ikisi
-   ihtiyaç olunca bakılan şeyler. */
+.kayit-eylemler { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 7px; }
 .satir-dugme {
-  padding: 5px 11px; border-radius: 999px; font-size: 11.5px;
-  background: transparent; border: 1px solid var(--cizgi); color: var(--soluk);
+  padding: 7px 12px; border-radius: 999px; font-size: 11.5px;
+  background: var(--kat2); border: 1px solid var(--cizgi); color: var(--soluk);
 }
-.satir-dugme.sil { color: var(--kirmizi); }
+.satir-dugme.vurgulu { color: var(--vurgu); }
+.satir-dugme.sil { background: transparent; color: var(--kirmizi); }
 
 .daha-eski { padding: 18px 16px 30px; }
 
@@ -506,7 +546,7 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
 }
 
 /* ---------- Kayıt ekranı ---------- */
-.kayit-alan { padding: 18px 16px calc(28px + var(--alt)); display: flex; flex-direction: column; gap: 12px; }
+.kayit-alan { padding: 44px 16px calc(28px + var(--alt)); display: flex; flex-direction: column; gap: 12px; }
 
 /* Uyarı şeritleri: kayda basmadan ÖNCE görünsün diye düğmelerin üstünde.
    İzin uyarısı vurgu renginde (yapılacak bir şey var), depo uyarısı kırmızı
@@ -656,7 +696,7 @@ body:has(.ses-katman:not(.gizli)) .bildirim {
 .ses-dugmeler { width: min(340px, 82vw); display: flex; flex-direction: column; gap: 10px; }
 
 /* ---------- Duraklar ---------- */
-.yol-modu-kap { padding: 16px 16px 6px; }
+.yol-modu-kap { padding: 42px 16px 6px; }
 .yol-modu {
   width: 100%; display: flex; flex-direction: column; gap: 4px; align-items: flex-start;
   padding: 17px 18px; border-radius: 15px;
@@ -773,7 +813,7 @@ body:has(.ses-katman:not(.gizli)) .bildirim {
 }
 
 /* ---------- Gerok paneli ---------- */
-.panel-alan { padding: 16px 16px calc(30px + var(--alt)); display: flex; flex-direction: column; gap: 14px; }
+.panel-alan { padding: 42px 16px calc(30px + var(--alt)); display: flex; flex-direction: column; gap: 14px; }
 .panel {
   background: var(--kat); border: 1px solid var(--cizgi);
   border-radius: 15px; padding: 16px;

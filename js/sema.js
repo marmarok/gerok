@@ -99,6 +99,16 @@ export function semaUygula(secim = semaSecimi(), geziGunu = 0) {
   kok.setProperty('--secili-cizgi', v.seciliCizgi);
   kok.setProperty('--ust-zemin', sema.ust);
 
+  // Şeridin altındaki eriyiş. `transparent`e geçmek yetmiyor: Safari araya
+  // saydam SİYAH koyuyor ve açık temada gri bir is çıkıyor. O yüzden aynı
+  // rengin saydamı hesaplanıyor.
+  const r = parseInt(sema.ust.slice(1, 3), 16);
+  const g = parseInt(sema.ust.slice(3, 5), 16);
+  const b = parseInt(sema.ust.slice(5, 7), 16);
+  kok.setProperty('--ust-gradyan',
+    `linear-gradient(180deg,${sema.ust} 0%,${sema.ust} 72%,` +
+    `rgba(${r},${g},${b},.55) 88%,rgba(${r},${g},${b},0) 100%)`);
+
   return ad;
 }
 
