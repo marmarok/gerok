@@ -799,7 +799,7 @@ function kayitBasligiSor(id) {
   durum.acikSatir = null;
 
   ortuAc(`
-    <div class="ortu-baslik">Bu kayıt ne hakkında?</div>
+    <div class="ortu-baslik">Bir satırla ne oldu?</div>
     <div class="ortu-alt">Tek satır yeter — sonradan açmadan ne olduğunu anlamak için.</div>
     <input class="girdi" id="kBaslik" value="${kacis(k.metin || '')}"
            placeholder="ör. Ohrid gölünde akşam" autocomplete="off" enterkeyhint="done">
@@ -1582,7 +1582,7 @@ async function ortamSuresiSor() {
 function sesBasligiSor(k) {
   return new Promise((bitti) => {
     ortuAc(`
-      <div class="ortu-baslik">Bu kayıt ne hakkında?</div>
+      <div class="ortu-baslik">Bir satırla ne oldu?</div>
       <div class="ortu-alt">Tek satır yeter. Sonra açmadan ne olduğunu bilirsin.</div>
       <input class="girdi" id="sesBaslik" placeholder="Ohrid'de rehberin anlattığı…"
              autocomplete="off" enterkeyhint="done">

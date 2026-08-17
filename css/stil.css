@@ -685,6 +685,10 @@ body:has(.ses-katman:not(.gizli)) .bildirim {
   background: var(--perde-koyu);
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 26px;
 }
+/* Vazgeç kırmızıya çalıyor: kaydı SİLEN düğme bu. Öteki ikisiyle aynı
+   görünseydi yorgun bir akşamda yanlış olana basmak an meselesi. */
+.eylem-dugme.tehlike { color: var(--kirmizi); border-color: color-mix(in srgb, var(--kirmizi) 40%, var(--cizgi)); }
+
 .ses-turu {
   font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
   color: var(--vurgu); font-weight: 700;
