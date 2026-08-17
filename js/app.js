@@ -255,6 +255,9 @@ function ekranAc(ad, yon = null) {
   // Haritadan çıkarken durak koyma kipi de kapansın — dönünce nişangâh
   // ekranda kalmış olurdu.
   if (durum.ekran === 'harita' && ad !== 'harita') durakKoymaKipi(false);
+  // Zaman çizgisinde çekilmiş olabilecek alt şerit her ekran değişiminde
+  // geri açılıyor: gizli bir alt bar başka ekranda çıkışsızlık hissi verirdi.
+  $('#altBar')?.classList.remove('cekildi');
   durum.ekran = ad;
   $$('.ekran').forEach(e => e.classList.remove('acik', 'gelir-sol', 'gelir-sag'));
   const ekran = $(`#ekran-${ad}`);
@@ -542,9 +545,6 @@ function zamanCizgisiCiz() {
   kap.querySelectorAll('[data-baslik]').forEach(d => {
     d.addEventListener('click', () => kayitBasligiSor(d.dataset.baslik));
   });
-  kap.querySelectorAll('[data-tasi]').forEach(d => {
-    d.addEventListener('click', () => kaydiTasiSor(d.dataset.tasi));
-  });
   kap.querySelectorAll('[data-google]').forEach(d => {
     d.addEventListener('click', () => {
       const [lat, lon] = d.dataset.google.split(',');
@@ -565,20 +565,35 @@ const BASMA_KAYMA = 10;
 
 function uzunBasmayiKur(kap) {
   kap.querySelectorAll('.kayit-satir').forEach(satir => {
-    let zaman = null, bas = null;
+    let zaman = null, bas = null, sonDokunma = 0;
 
     const iptal = () => { clearTimeout(zaman); zaman = null; };
+
+    const ac = () => {
+      durum.acikSatir = durum.acikSatir === satir.dataset.kayit ? null : satir.dataset.kayit;
+      titret(12);
+      zamanCizgisiCiz();
+    };
 
     const baslat = (ev) => {
       // Kartın içindeki düğmeye (çalma, silme) basılıyorsa karışma.
       if (ev.target.closest('button, input, a')) return;
       const n = ev.touches?.[0] || ev;
+
+      // ÇİFT DOKUNMA da açıyor. Basılı tutmak keşfedilmesi zor bir hareket —
+      // bilen biri için hızlı ama bilmeyen hiç bulamıyor. Çift dokunma
+      // herkesin denediği şey. İkisi birlikte duruyor, biri ötekini bozmuyor.
+      const simdi = Date.now();
+      if (simdi - sonDokunma < 320) {
+        sonDokunma = 0;
+        iptal();
+        ac();
+        return;
+      }
+      sonDokunma = simdi;
+
       bas = { x: n.clientX, y: n.clientY };
-      zaman = setTimeout(() => {
-        durum.acikSatir = durum.acikSatir === satir.dataset.kayit ? null : satir.dataset.kayit;
-        titret(12);
-        zamanCizgisiCiz();
-      }, BASMA_SURESI);
+      zaman = setTimeout(ac, BASMA_SURESI);
     };
 
     const kaydi = (ev) => {
@@ -632,10 +647,22 @@ function aramaVeSuzgecKur() {
   // gün başlığı da tazeleniyor.
   const liste = $('#zamanListe');
   let sonY = 0;
+
+  // Alt şerit yalnızca Zaman ekranında çekiliyor. Başka bir ekrana geçince
+  // geri açılıyor (bkz. ekranAc) — harita ya da duraklar açıkken gizli bir
+  // alt bar, "sekmeler nereye gitti" sorusu doğururdu.
+  const seritler = (gizle) => {
+    $('#zamanAra').classList.toggle('cekildi', gizle);
+    $('#altBar').classList.toggle('cekildi', gizle);
+  };
   liste.addEventListener('scroll', () => {
     const y = liste.scrollTop;
-    if (y > sonY + 6 && y > 40) $('#zamanAra').classList.add('cekildi');
-    else if (y < sonY - 6 || y < 12) $('#zamanAra').classList.remove('cekildi');
+    // Alt şerit de aynı kurala bağlı: okurken iki şerit birden çekilince
+    // küçük ekranda liste için ~140 piksel daha yer açılıyor. Yukarı
+    // dönünce ikisi birlikte geri geliyor — ayrı ayrı davransalar ekran
+    // sallanıyormuş gibi olurdu.
+    if (y > sonY + 6 && y > 40) seritler(true);
+    else if (y < sonY - 6 || y < 12) seritler(false);
     sonY = y;
     ustGunuTazele(liste);
   }, { passive: true });
@@ -743,16 +770,23 @@ function kayitSatiri(k) {
     // "orijinali galeride" bir süs değil, uygulamanın en önemli sözü:
     // fotoğraf buraya KOPYALANMIYOR, tam çözünürlüklü hali telefonun kendi
     // galerisinde duruyor. Uygulama silinse bile fotoğraflar yerinde kalır.
+    //
+    // Etiket yalnızca kart AÇIKKEN görünüyor. Kapalıyken listede yüzlerce
+    // fotoğrafın üstünde aynı gri cümle duruyordu; okunacak bir bilgi değil,
+    // bir kez öğrenilecek bir kural. Kapalı kartta kalan tek şey fotoğrafın
+    // kendisi ve varsa başlığı.
     const etiket = k.tur === 'video'
       ? `video · ${sureYaz(k.videoSure)} · orijinali galeride`
       : 'önizleme · orijinali galeride';
     govde += `<div class="kayit-foto" data-onizleme="${k.medyaId}">
-      <span class="foto-etiket">${kacis(etiket)}</span>
+      ${acik ? `<span class="foto-etiket">${kacis(etiket)}</span>` : ''}
     </div>`;
   }
 
-  // Ses ve başlıksız kayıtlara sonradan bir satır eklenebiliyor.
-  const basliklanabilir = sesli;
+  // Ses ve fotoğraflara sonradan bir satır eklenebiliyor. Fotoğrafa başlık
+  // yazmak on yıl sonra en çok işe yarayan şey: "bu nerenin fotoğrafıydı"
+  // sorusunun cevabı resmin içinde olmuyor.
+  const basliklanabilir = sesli || ['foto', 'video', 'siradan'].includes(k.tur);
 
   // Konum satırı HER ZAMAN görünüyor. Tasarım dosyasında basılı tutunca
   // çıkıyordu ama hem README hem de zaman çizgisi denemeleri (1d) onu satırın
@@ -774,13 +808,47 @@ function kayitSatiri(k) {
     </div>
     ${govde}
     <div class="kayit-yer">${yer}</div>
-    ${acik ? `<div class="kayit-eylemler">
-        ${konumlu ? `<button class="satir-dugme" data-google="${k.lat},${k.lon}">Haritalar'da aç</button>` : ''}
-        ${basliklanabilir ? `<button class="satir-dugme vurgulu" data-baslik="${k.id}">Başlık yaz</button>` : ''}
-        <button class="satir-dugme" data-tasi="${k.id}">Saat / gün</button>
-        <button class="satir-dugme sil" data-sil="${k.id}">Sil</button>
-      </div>` : ''}
+    ${acik ? ayrintiPaneli(k, { konumlu, basliklanabilir }) : ''}
   </div>`;
+}
+
+/**
+ * Kaydın altından açılan ayrıntı paneli — çift dokunma ya da basılı tutma.
+ *
+ * Ses kayıtlarında bir de BİLGİ listesi var: süre, tam tarih, koordinat,
+ * konumun nereden geldiği. Sebebi şu — bir ses kaydında görülecek başka
+ * hiçbir şey yok. Fotoğrafta en azından resmin kendisi duruyor; seste
+ * dalga çizgisinden başka bir şey yok ve "bu kayıt neydi, neredeydi"
+ * sorusunun cevabı hiçbir yerde yazmıyordu.
+ *
+ * "Saat / gün" düğmesi kaldırıldı: kaydın saatini elle değiştirmek, on yıl
+ * sonra güvenilecek tek şeyi — ne zaman olduğunu — kırılgan yapıyordu.
+ * Yanlış güne düşen kayıt zaten iz kaydından düzeliyor.
+ */
+function ayrintiPaneli(k, { konumlu, basliklanabilir }) {
+  const sesli = ['ses', 'ortam', 'gunluk', 'baslangic', 'bitis', 'mektup'].includes(k.tur);
+
+  const bilgiler = sesli ? [
+    ['Süre', k.sure ? sureYaz(k.sure) : '—'],
+    ['Tarih', `${gerok.tarihUzun(k.t)} · ${gerok.saat(k.t)}`],
+    ['Yer', k.yerAdi || 'adı yok'],
+    ['Koordinat', konumlu ? `${k.lat.toFixed(5)}, ${k.lon.toFixed(5)}` : 'yok'],
+    ['Konum kaynağı', KONUM_KAYNAGI[k.konumKaynagi]?.replace('konum: ', '') ||
+      (konumlu ? 'bilinmiyor' : 'bulunamadı')],
+    ['Kaydeden', k.sahipAd || 'bilinmeyen']
+  ] : [];
+
+  return `
+    ${bilgiler.length ? `<div class="kayit-bilgi">
+      ${bilgiler.map(([a, d]) => `<div class="bilgi-satir">
+        <span>${a}</span><b>${kacis(String(d))}</b></div>`).join('')}
+    </div>` : ''}
+    <div class="kayit-eylemler">
+      ${konumlu ? `<button class="satir-dugme" data-google="${k.lat},${k.lon}">Haritalar'da aç</button>` : ''}
+      ${basliklanabilir ? `<button class="satir-dugme vurgulu" data-baslik="${k.id}">${
+        k.baslik || k.metin ? 'Adını değiştir' : 'Başlık yaz'}</button>` : ''}
+      <button class="satir-dugme sil" data-sil="${k.id}">Sil</button>
+    </div>`;
 }
 
 // Google Haritalar: yorumlar ve fotoğraflar orada. İNTERNET İSTER — yolda
@@ -874,51 +942,6 @@ function kayitBasligiSor(id) {
   $('#kBaslikKaydet').addEventListener('click', kaydet);
   $('#kBaslikVazgec').addEventListener('click', ortuKapat);
   $('#kBaslik').addEventListener('keydown', (e) => { if (e.key === 'Enter') kaydet(); });
-}
-
-/**
- * Kaydı başka bir saate ya da güne taşı.
- *
- * Gerçek ihtiyaç: telefonun saati yanlışken yapılan kayıt, ya da gece yarısını
- * geçtikten sonra "hâlâ dünün akşamı" olan bir not — ikisi de yanlış güne
- * düşüyor. Kaydın kendisi değişmiyor, sadece defterdeki yeri.
- */
-function kaydiTasiSor(id) {
-  const k = durum.kayitlar.find(x => x.id === id);
-  if (!k) return;
-  durum.acikSatir = null;
-
-  const s = gerok.aktifGerok();
-  const d = new Date(k.t);
-  const saatMetni = `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
-  const tarihMetni = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-
-  ortuAc(`
-    <div class="ortu-baslik">Saat ve gün</div>
-    <div class="ortu-alt">Yanlış güne düşen kaydı buradan taşı. Kaydın kendisi
-    değişmez — yalnızca zaman çizgisindeki yeri.</div>
-    <div class="girdi-etiket">Tarih</div>
-    <input class="girdi" id="tasiTarih" type="date" value="${tarihMetni}">
-    <div class="girdi-etiket">Saat</div>
-    <input class="girdi" id="tasiSaat" type="time" value="${saatMetni}">
-    ${s?.gunler?.length ? `<div class="panel-not">Yeni saat turun bir gününe düşerse
-      kayıt kendiliğinden o güne yerleşir.</div>` : ''}
-    <button class="eylem-dugme birincil" id="tasiKaydet">Taşı</button>
-    <button class="eylem-dugme" id="tasiVazgec">Vazgeç</button>
-  `, true, 'tasima');
-
-  $('#tasiVazgec').addEventListener('click', ortuKapat);
-  $('#tasiKaydet').addEventListener('click', async () => {
-    const tarih = $('#tasiTarih').value;
-    const saat = $('#tasiSaat').value;
-    const yeni = new Date(`${tarih}T${saat || '00:00'}:00`).getTime();
-    if (!Number.isFinite(yeni)) { kayitBildir('Tarih anlaşılmadı.', 'kotu'); return; }
-    ortuKapat();
-    // Gün numarası yeniden hesaplanıyor: turun gün pencerelerine göre.
-    await veri.kayitEkle({ ...k, t: yeni, gun: gerok.gunNo(yeni) });
-    kayitBildir(`Kayıt taşındı · ${gerok.tarihUzun(yeni)} ${gerok.saat(yeni)}`, 'iyi');
-    await tazele();
-  });
 }
 
 // Ses çalma.
@@ -2647,17 +2670,36 @@ function panelSatiri({ etiket, deger = '', id = '', rozet = '' }) {
 // Panel kabuğu. Başlık bir düğme: dokununca açılıp kapanıyor, ok dönüyor.
 // `uyari` doğruysa başlığın yanına bir yıldız düşüyor — panel kapalıyken bile
 // içeride bekleyen bir şey olduğu görünsün diye.
+// Hangi panellerin açıklaması açık. Panel kapanıp açılınca da hatırlanıyor,
+// ama uygulama kapanınca sıfırlanıyor: bu bir tercih değil, o anki merak.
+const acikBilgiler = new Set();
+
+/**
+ * Panel başlığındaki küçük açıklama artık hep görünmüyor.
+ *
+ * Sebebi: beş panelin altında beşer satır gri yazı vardı ve hiçbiri bir işe
+ * yaramıyordu — bir kez okunduktan sonra sadece yer kaplıyorlardı. Ama
+ * silmek de olmazdı; ilk kez bakan biri "bu panel ne işe yarıyor" diye
+ * sorabilir.
+ *
+ * Çözüm: başlığın sağındaki (i) harfi. Basınca açıklama açılıyor, bir daha
+ * basınca kapanıyor. Açıklaması olmayan panelde harf de yok.
+ */
 function panelKur({ ad, uyari = false, ic, not = '' }) {
   const acik = acikPanel === ad;
+  const bilgiAcik = acikBilgiler.has(ad);
   return `<div class="panel${acik ? ' acik' : ''}">
-    <button class="panel-baslik katlanir" data-panel="${kacis(ad)}">
-      <span>${kacis(ad)}</span>${uyari ? '<span class="panel-yildiz">*</span>' : ''}
-      <span class="panel-ok">▼</span>
-    </button>
-    <div class="panel-ic"${acik ? '' : ' hidden'}>
-      ${ic}
-      ${not ? `<div class="panel-not">${not}</div>` : ''}
+    <div class="panel-ust">
+      <button class="panel-baslik katlanir" data-panel="${kacis(ad)}">
+        <span>${kacis(ad)}</span>${uyari ? '<span class="panel-yildiz">*</span>' : ''}
+        <span class="panel-ok">▼</span>
+      </button>
+      ${not ? `<button class="panel-bilgi${bilgiAcik ? ' acik' : ''}"
+        data-bilgi="${kacis(ad)}" aria-label="${kacis(ad)} nedir?"
+        aria-expanded="${bilgiAcik}">i</button>` : ''}
     </div>
+    ${not && bilgiAcik ? `<div class="panel-not bilgi-not">${not}</div>` : ''}
+    <div class="panel-ic"${acik ? '' : ' hidden'}>${ic}</div>
   </div>`;
 }
 
@@ -2902,6 +2944,14 @@ async function paneliCiz() {
   $$('#gerokPanel [data-panel]').forEach(d => {
     d.addEventListener('click', () => {
       acikPanel = acikPanel === d.dataset.panel ? null : d.dataset.panel;
+      paneliCiz();
+    });
+  });
+
+  $$('#gerokPanel [data-bilgi]').forEach(d => {
+    d.addEventListener('click', () => {
+      const ad = d.dataset.bilgi;
+      acikBilgiler.has(ad) ? acikBilgiler.delete(ad) : acikBilgiler.add(ad);
       paneliCiz();
     });
   });

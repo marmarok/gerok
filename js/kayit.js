@@ -3,8 +3,8 @@
 
 import { kayitEkle, medyaYaz, medyaEkle, medyaSil, yeniKimlik, izGetir, izdenKonum,
          ayarYaz, ayarOku } from './veri.js';
-import { suAnkiKonum } from './iz.js';
-import { gunNo, aktifGerok, yonelmeEki } from './gerok.js';
+import { suAnkiKonum, mesafe } from './iz.js';
+import { gunNo, aktifGerok, yonelmeEki, duraklar } from './gerok.js';
 
 let sahip = { id: null, ad: null };
 export function sahipAyarla(s) { sahip = s; }
@@ -29,7 +29,7 @@ async function kayitKur(tur, ekler = {}) {
     if (bulunan) { lat = bulunan.lat; lon = bulunan.lon; konumKaynagi = 'iz'; }
   }
 
-  return {
+  const k = {
     id: yeniKimlik(tur),
     gerokId: aktifGerok()?.id || null,
     tur, t,
@@ -41,6 +41,38 @@ async function kayitKur(tur, ekler = {}) {
     silindi: false,
     ...ekler
   };
+
+  if (!k.yerAdi) {
+    const y = yakinDurakAdi(k.lat, k.lon);
+    if (y) { k.yerAdi = y; k.yerKaynagi = 'durak'; }
+  }
+  return k;
+}
+
+/**
+ * Kaydın yerine en yakın durağın adı.
+ *
+ * NEDEN İNTERNETTEN DEĞİL: yer adını çevrimiçi servisten almak çalışıyor
+ * ama yolda internet yok — ses kaydı "konum: 41.09, 20.79" diye kalıyor ve
+ * o hâliyle akşam bakınca hangi yer olduğu anlaşılmıyor. Oysa durakların
+ * adları ve koordinatları zaten telefonda: 600 metre yarıçapta bir durak
+ * varsa kaydın nerede alındığı o an belli oluyor.
+ *
+ * 600 metre: bir durağın çevresinde yürüme mesafesi. Daha genişi yanlış
+ * ad yazmaya başlıyor — yan şehrin adını yazmaktansa hiç yazmamak iyi.
+ *
+ * `yerKaynagi: 'durak'` işareti kalıyor: internet gelince gerçek adres
+ * bunun üstüne yazılıyor (bkz. baglanti.js).
+ */
+function yakinDurakAdi(lat, lon) {
+  if (lat == null || lon == null) return '';
+  let enYakin = null, enKisa = Infinity;
+  for (const d of duraklar()) {
+    if (d.lat == null || d.lon == null) continue;
+    const m = mesafe(lat, lon, d.lat, d.lon);
+    if (m < enKisa) { enKisa = m; enYakin = d; }
+  }
+  return enKisa <= 600 ? enYakin.ad : '';
 }
 
 // ---- Ses ------------------------------------------------------------------

@@ -189,7 +189,11 @@ const YER_ADRES = (lat, lon) =>
 export async function yerBekleyenler() {
   const turId = gerok.aktifGerok()?.id ?? null;
   const kayitlar = await veri.kayitlariGetir(turId);
-  return kayitlar.filter(k => k.lat != null && k.lon != null && !k.yerAdi);
+  // `yerKaynagi: 'durak'` olanlar da bekleyen sayılıyor: o ad yakındaki
+  // durağın adı — internetsizken yazılmış bir tahmin. Gerçek adres gelince
+  // üstüne yazılıyor. Elle yazılan adlara (yerKaynagi yok) dokunulmuyor.
+  return kayitlar.filter(k => k.lat != null && k.lon != null &&
+    (!k.yerAdi || k.yerKaynagi === 'durak'));
 }
 
 // Nominatim'in uzun adresinden okunur bir satır çıkarıyor:
@@ -229,7 +233,7 @@ export async function yerAdlariniGetir(ilerleme = null) {
     await bekle(1100);
     if (!ad) { continue; }
     for (const k of liste) {
-      await veri.kayitEkle({ ...k, yerAdi: ad });
+      await veri.kayitEkle({ ...k, yerAdi: ad, yerKaynagi: 'adres' });
       yapilan++; sonAd = ad;
     }
   }
