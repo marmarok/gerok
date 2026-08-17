@@ -706,8 +706,16 @@ function kayitSatiri(k) {
   // Ses ve başlıksız kayıtlara sonradan bir satır eklenebiliyor.
   const basliklanabilir = sesli;
 
-  // Eylemler ve konum satırı UZUN BASINCA açılıyor. Her satırın altında duran
-  // "Sil" düğmesi listeyi düğme tarlasına çeviriyordu ve araç sallanırken
+  // Konum satırı HER ZAMAN görünüyor. Tasarım dosyasında basılı tutunca
+  // çıkıyordu ama hem README hem de zaman çizgisi denemeleri (1d) onu satırın
+  // sabit parçası sayıyor — ve README bunu bir ürün ilkesi olarak yazıyor:
+  // kayıt her zaman konumun NEREDEN geldiğini söylemeli. Uydu ölçümü ile izden
+  // tahmin arasındaki fark birkaç yüz metre; on yıl sonra "burası gerçekten
+  // orası mıydı" sorusunun tek cevabı bu satır. Görmek için kaydı basılı
+  // tutmak gerekmemeli.
+  //
+  // Eylemler ise basılı tutunca açılıyor: her satırın altında duran "Sil"
+  // düğmesi listeyi düğme tarlasına çeviriyordu ve araç sallanırken
   // yanlışlıkla basılabiliyordu.
   return `<div class="kayit-satir ${k.tur}${acik ? ' acik' : ''}" data-kayit="${k.id}">
     <div class="kayit-ust">
@@ -717,8 +725,8 @@ function kayitSatiri(k) {
       <span class="kayit-sahip">${kacis(k.sahipAd || 'bilinmeyen')}</span>
     </div>
     ${govde}
-    ${acik ? `<div class="kayit-yer">${yer}</div>
-      <div class="kayit-eylemler">
+    <div class="kayit-yer">${yer}</div>
+    ${acik ? `<div class="kayit-eylemler">
         ${konumlu ? `<button class="satir-dugme" data-google="${k.lat},${k.lon}">Haritalar'da aç</button>` : ''}
         ${basliklanabilir ? `<button class="satir-dugme vurgulu" data-baslik="${k.id}">Başlık yaz</button>` : ''}
         <button class="satir-dugme" data-tasi="${k.id}">Saat / gün</button>

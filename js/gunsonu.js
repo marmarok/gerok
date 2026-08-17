@@ -20,7 +20,17 @@ let adim = 0;
 let gun = null;
 let tazeleDisari = null;
 
-const ADIMLAR = ['ozet', 'gunluk', 'siradan', 'ufak', 'fotograf', 'kapanis'];
+// Tasarım Gün Sonu'nu DÖRT adım olarak kapatmış: özet → sesli günlük →
+// bugünü topla → yedek ve gönder. Bizde altı adım vardı.
+//
+// "Sıradan kare" ayrı bir adım değil artık; "Bugünü topla"nın içinde, çünkü
+// ikisi de aynı şeyi istiyor: galeriden bugünü seç. İki ayrı ekranda sormak
+// akşam 21:00'de aynı işi iki kez yaptırıyordu.
+//
+// "Kişi ve fiyat" adımı akıştan çıktı. İkisi de Kayıt sekmesinde kendi
+// düğmeleriyle duruyor — gün sonunda bir daha sormak fazladan iki ekrandı.
+// Hiçbir şey silinmedi, yalnızca zorunlu soru kalktı.
+const ADIMLAR = ['ozet', 'gunluk', 'fotograf', 'kapanis'];
 
 export async function gunSonuAc(durum, tazele) {
   tazeleDisari = tazele;
@@ -70,8 +80,6 @@ async function ciz(durum) {
   const ad = ADIMLAR[adim];
   if (ad === 'ozet') return ozetAdimi(durum);
   if (ad === 'gunluk') return gunlukAdimi(durum);
-  if (ad === 'siradan') return siradanAdimi(durum);
-  if (ad === 'ufak') return ufakAdimi(durum);
   if (ad === 'fotograf') return fotografAdimi(durum);
   if (ad === 'kapanis') return kapanisAdimi(durum);
 }
@@ -144,83 +152,15 @@ async function gunlukAdimi(durum) {
   $('#gsIleri').onclick = () => ilerle(durum);
 }
 
-// ---- 3. Sıradan kare ------------------------------------------------------
-
-async function siradanAdimi(durum) {
-  ortu(`
-    ${ustBilgi('Bugünün sıradan karesi',
-      'Manzara değil: odan, kahvaltı masası, otobüsün içi, benzinlik, elindeki para. ' +
-      'Şu an anlamsız gelir. On yıl sonra en çok bakacağın kare bu olacak.')}
-    <button class="eylem-dugme birincil" id="siradanSec">Galeriden seç</button>
-    <div id="siradanDurum" class="panel-not"></div>
-    <div class="gs-dugmeler">
-      <button class="eylem-dugme" id="gsAtla">Bugün yok</button>
-      <button class="eylem-dugme birincil" id="gsIleri">Devam</button>
-    </div>
-  `);
-
-  $('#siradanSec').onclick = () => {
-    const secici = document.createElement('input');
-    secici.type = 'file';
-    secici.accept = 'image/*';
-    secici.addEventListener('change', async () => {
-      if (!secici.files.length) return;
-      $('#siradanDurum').textContent = 'Ekleniyor…';
-      try {
-        await kayit.fotoAl(secici.files, null, 'siradan');
-        $('#siradanDurum').textContent = 'Eklendi.';
-        navigator.vibrate?.([8, 40, 8]);
-      } catch (hata) {
-        // Akış burada takılı kalmasın; "Devam" hep basılabilir olsun.
-        $('#siradanDurum').textContent = `Eklenemedi: ${hata.message}`;
-      }
-    });
-    secici.click();
-  };
-
-  $('#gsAtla').onclick = () => ilerle(durum);
-  $('#gsIleri').onclick = () => ilerle(durum);
-}
-
-// ---- 4. Kişi ve fiyat -----------------------------------------------------
-
-async function ufakAdimi(durum) {
-  ortu(`
-    ${ustBilgi('Bugünden iki ufak şey', 'İkisi de atlanabilir.')}
-    <div class="girdi-etiket">Tanıştığın biri oldu mu?</div>
-    <input class="girdi" id="uKisi" placeholder="Adı">
-    <input class="girdi" id="uKisiNot" placeholder="Nerede, nasıl?" style="margin-top:8px">
-    <div class="girdi-etiket" style="margin-top:16px">Kayda değer bir fiyat?</div>
-    <input class="girdi" id="uFiyatNe" placeholder="Kahve, bilet, yemek…">
-    <div style="display:flex; gap:8px; margin-top:8px">
-      <input class="girdi" id="uFiyatTutar" placeholder="120" inputmode="decimal" style="flex:1">
-      <input class="girdi" id="uFiyatPara" placeholder="dinar" style="flex:1.4">
-    </div>
-    <div class="gs-dugmeler">
-      <button class="eylem-dugme" id="gsAtla">Atla</button>
-      <button class="eylem-dugme birincil" id="gsIleri">Devam</button>
-    </div>
-  `);
-
-  const kaydetVeIlerle = async () => {
-    const ad = $('#uKisi').value;
-    if (ad.trim()) await kayit.kisiEkle(ad, $('#uKisiNot').value);
-    const ne = $('#uFiyatNe').value;
-    if (ne.trim()) await kayit.fiyatEkle(ne, $('#uFiyatTutar').value, $('#uFiyatPara').value);
-    await ilerle(durum);
-  };
-
-  $('#gsAtla').onclick = () => ilerle(durum);
-  $('#gsIleri').onclick = kaydetVeIlerle;
-}
-
-// ---- 5. Bugünü topla ------------------------------------------------------
+// ---- 3. Bugünü topla ------------------------------------------------------
 
 async function fotografAdimi(durum) {
   ortu(`
     ${ustBilgi('Bugünü topla',
-      'Günün fotoğraf ve videolarını seç. Orijinaller galeride kalıyor — ' +
-      'buraya küçük bir önizleme, çekilme saati ve konum yazılıyor.')}
+      'Galeriden bugünü seç. Manzara şart değil: odan, kahvaltı masası, ' +
+      'otobüsün içi, benzinlik. Şu an anlamsız gelen kare, on yıl sonra en ' +
+      'çok bakacağın kare olacak. Orijinaller galeride kalıyor — buraya ' +
+      'küçük bir önizleme, çekilme saati ve konum yazılıyor.')}
     <button class="eylem-dugme birincil" id="fotoSec">Galeriden seç</button>
     <div id="fotoDurum" class="panel-not"></div>
     <div class="gs-dugmeler">
@@ -258,7 +198,7 @@ async function fotografAdimi(durum) {
   $('#gsIleri').onclick = () => ilerle(durum);
 }
 
-// ---- 6. Yedek ve gönder ---------------------------------------------------
+// ---- 4. Yedek ve gönder ---------------------------------------------------
 
 async function kapanisAdimi(durum) {
   const sonYedek = await veri.ayarOku('sonYedek', null);
