@@ -937,18 +937,13 @@ function ayrintiPaneli(k, { konumlu, basliklanabilir, gorsel = false, videoSure 
     ['Konum kaynağı', KONUM_KAYNAGI[k.konumKaynagi]?.replace('konum: ', '') ||
       (konumlu ? 'bilinmiyor' : 'bulunamadı')],
     ['Kaydeden', k.sahipAd || 'bilinmeyen']
-  ] : gorsel ? [
-    // Fotoğrafta da bilgi listesi var ve en üstteki satır TARİH — çünkü
-    // galeride aslını bulmanın tek yolu bu. iOS, web uygulamasına fotoğrafın
-    // kitaplıktaki kimliğini vermiyor; "şu kareyi aç" diyebileceğimiz bir
-    // adres yok. Galeri tarihe göre sıralı olduğu için tam gün ve saat,
-    // aslına götüren tek ipucu.
-    ['Çekildiği an', `${gerok.tarihUzun(k.t)} · ${gerok.saat(k.t)}`],
-    ...(k.dosyaAdi ? [['Dosya', k.dosyaAdi]] : []),
-    ['Yer', k.yerAdi || 'adı yok'],
-    ['Koordinat', konumlu ? `${k.lat.toFixed(5)}, ${k.lon.toFixed(5)}` : 'yok'],
-    ['Kaydeden', k.sahipAd || 'bilinmeyen']
   ] : [];
+
+  // Fotoğrafta bilgi listesi YOK (17 Ağustos'ta denendi, kaldırıldı).
+  // Seste liste gerekiyor çünkü görülecek başka bir şey yok; fotoğrafta
+  // resmin kendisi zaten orada ve altına beş satırlık künye koymak kartı
+  // dosya kayıt fişine çeviriyordu. Çekim saati "Fotoğrafları aç" düğmesine
+  // basınca çıkan uyarıda söyleniyor — gerektiği anda, sürekli değil.
 
   // "orijinali galeride" uygulamanın en önemli sözü: fotoğraf buraya
   // KOPYALANMIYOR, tam çözünürlüklü hâli telefonun kendi galerisinde duruyor.
