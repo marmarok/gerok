@@ -605,6 +605,9 @@ function zamanCizgisiCiz() {
   kap.querySelectorAll('[data-baslik]').forEach(d => {
     d.addEventListener('click', () => kayitBasligiSor(d.dataset.baslik));
   });
+  kap.querySelectorAll('[data-yazi-duzenle]').forEach(d => {
+    d.addEventListener('click', () => yaziDuzenleSor(d.dataset.yaziDuzenle));
+  });
   kap.querySelectorAll('[data-google]').forEach(d => {
     d.addEventListener('click', () => {
       const [lat, lon] = d.dataset.google.split(',');
@@ -964,6 +967,7 @@ function ayrintiPaneli(k, { konumlu, basliklanabilir, gorsel = false, videoSure 
     <div class="kayit-eylemler">
       ${konumlu ? `<button class="satir-dugme" data-google="${k.lat},${k.lon}">Haritalar'da aç</button>` : ''}
       ${gorsel ? `<button class="satir-dugme" data-galeri="${k.id}">Fotoğrafları aç</button>` : ''}
+      ${k.tur === 'yazi' ? `<button class="satir-dugme vurgulu" data-yazi-duzenle="${k.id}">Düzenle</button>` : ''}
       ${basliklanabilir ? `<button class="satir-dugme vurgulu" data-baslik="${k.id}">${
         k.baslik || k.metin ? 'Adını değiştir' : 'Başlık yaz'}</button>` : ''}
       <button class="satir-dugme sil" data-sil="${k.id}">Sil</button>
@@ -1100,6 +1104,52 @@ function kayitBasligiSor(id) {
   $('#kBaslikKaydet').addEventListener('click', kaydet);
   $('#kBaslikVazgec').addEventListener('click', ortuKapat);
   $('#kBaslik').addEventListener('keydown', (e) => { if (e.key === 'Enter') kaydet(); });
+}
+
+/**
+ * Yazılı notu düzeltir.
+ *
+ * Başlık kutusu değil, notu yazdığın kutunun aynısı: çok satırlı alan ve
+ * yerin adı. Yazılı not tek satırlık bir etiket değil, defterin sayfası —
+ * araçta sallanırken yazılan bir cümlede harf hatası olması normal ve
+ * düzeltilemiyor olması sinir bozucuydu.
+ *
+ * Yerin adı elle değiştirilince `yerKaynagi` "elle" oluyor: internet gelince
+ * çalışan adres çözücü (bkz. baglanti.js) yalnızca boş ya da duraktan gelen
+ * adları değiştiriyor, senin yazdığının üstüne yazmıyor.
+ */
+function yaziDuzenleSor(id) {
+  const k = durum.kayitlar.find(x => x.id === id);
+  if (!k) return;
+  durum.acikSatir = null;
+
+  ortuAc(`
+    <div class="ortu-baslik">Notu düzenle</div>
+    <div class="ortu-alt">${gerok.tarihUzun(k.t)} · ${gerok.saat(k.t)} — saat değişmiyor.</div>
+    <div class="girdi-etiket">Not</div>
+    <textarea class="alan" id="yaziDuzAlan" placeholder="Ne oldu?">${kacis(k.metin || '')}</textarea>
+    <div class="girdi-etiket">Yer (isteğe bağlı)</div>
+    <input class="girdi" id="yaziDuzYer" value="${kacis(k.yerAdi || '')}" placeholder="Ohrid, göl kıyısı">
+    <button class="eylem-dugme birincil" id="yaziDuzKaydet">Kaydet</button>
+    <button class="eylem-dugme" id="yaziDuzVazgec">Vazgeç</button>
+  `);
+  setTimeout(() => $('#yaziDuzAlan')?.focus(), 120);
+
+  $('#yaziDuzVazgec').addEventListener('click', ortuKapat);
+  $('#yaziDuzKaydet').addEventListener('click', async () => {
+    const m = $('#yaziDuzAlan').value.trim();
+    const yer = $('#yaziDuzYer').value.trim();
+    if (!m) { kayitBildir('Boş not kaydedilmiyor · silmek için “Sil”'); return; }
+    ortuKapat();
+    const degisti = yer !== (k.yerAdi || '');
+    await veri.kayitEkle({
+      ...k, metin: m,
+      yerAdi: yer,
+      yerKaynagi: degisti ? (yer ? 'elle' : null) : k.yerKaynagi
+    });
+    kayitBildir('Not güncellendi', 'iyi');
+    await tazele();
+  });
 }
 
 // Ses çalma.
