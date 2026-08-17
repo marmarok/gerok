@@ -1033,40 +1033,40 @@ body:has(.ses-katman:not(.gizli)) .bildirim {
 .sec-satir.secili .tik-kutu { background: var(--vurgu); border-color: var(--vurgu); color: var(--vurgu-yazi); }
 
 /* ---------- Renk ayarı ---------- */
-/* Üç düğme yan yana: haftanın günü, kâğıt, düğmeler. İlki seçici açmıyor —
-   tek dokunuşta yedi günün sırasına dönüyor; ötekiler renk çarkını açıyor.
-   Eşit üç sütun: hangisinin daha önemli olduğu iddiası yok. */
-.renk-uclu { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 4px 0 6px; }
+/* Üç renk, üç kelime: 7 günlük · Zemin · Düğmeler.
+   Kutu yok, çerçeve yok, durum yazısı yok. Rengin ayarlandığı yer form gibi
+   değil renk gibi görünmeli; kutuya alınmış üç etiket ayarın kendisini
+   gölgeliyordu. Hangisinin açık olduğunu dairenin çevresindeki halka
+   söylüyor. */
+.renk-uclu {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: 6px; padding: 10px 4px 4px;
+}
 .renk-tas {
-  display: flex; flex-direction: column; align-items: center; gap: 6px;
-  padding: 12px 6px 10px; border-radius: 13px; min-width: 0;
-  background: var(--kat2); border: 1px solid var(--cizgi);
-  transition: border-color .18s, background .18s;
+  flex: 1; min-width: 0; background: none; border: 0; padding: 4px 2px;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
 }
-.renk-tas.secili { background: var(--secili-zemin); border-color: var(--secili-cizgi); }
-.renk-tas:active { background: var(--kat); }
-/* Daire, kare bir renk kutusundan daha çok "renk" gibi okunuyor.
-   İçeriden gelen ince gölge, açık renkli örneğin kâğıtta kaybolmasını
-   engelliyor — beyaz bir kâğıt seçilince kutunun kenarı yine görünüyor. */
+/* Daire kare bir renk kutusundan daha çok "renk" gibi okunuyor. İçerideki
+   ince gölge, açık renkli zeminin kâğıda karışmasını engelliyor: beyaza
+   yakın bir zemin seçilince dairenin kenarı yine görünüyor. */
 .renk-daire {
-  width: 26px; height: 26px; border-radius: 50%; flex: none;
-  border: 1px solid var(--cizgi);
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,.06);
+  width: 40px; height: 40px; border-radius: 50%; flex: none;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.16), inset 0 0 0 2px rgba(255,255,255,.05);
+  transition: box-shadow .2s ease, transform .2s cubic-bezier(.3,.9,.3,1);
 }
-/* Ad alanı iki satırlık sabit yükseklikte: "Haftanın günü" alta kayınca
-   ötekilerin durum yazısı onunla aynı hizada durmuyordu, üç kutu eğri
-   görünüyordu. */
+/* Açık olanın halkası: daireyle arasında zemin renginde bir boşluk var, o
+   yüzden halka değmiyor — sıkıştırılmış bir çerçeve değil, çevresinde duran
+   bir işaret gibi. */
+.renk-tas.secili .renk-daire {
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.16), inset 0 0 0 2px rgba(255,255,255,.05),
+              0 0 0 3px var(--zemin), 0 0 0 4.5px var(--vurgu);
+}
+.renk-tas:active .renk-daire { transform: scale(.93); }
 .renk-tas .renk-ad {
-  font-size: 12.5px; font-weight: 600; color: var(--yazi);
-  line-height: 1.15; text-align: center;
-  min-height: 2.3em; display: flex; align-items: center; justify-content: center;
+  font-size: 12px; letter-spacing: .01em; color: var(--cok-soluk);
+  white-space: nowrap; transition: color .2s;
 }
-/* Durum yazısı taşarsa kesiliyor: elle seçilen renk "#a1495c" gibi uzun
-   olabiliyor ve üç sütunu bozuyordu. */
-.renk-tas .renk-durum {
-  font-size: 10.5px; color: var(--cok-soluk); max-width: 100%;
-  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-}
+.renk-tas.secili .renk-ad { color: var(--yazi); font-weight: 600; }
 /* Satırın sağındaki renk örneği */
 .renk-kutu {
   display: inline-block; width: 14px; height: 14px; border-radius: 4px;

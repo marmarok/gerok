@@ -10,7 +10,7 @@ import { gunSonuAc, geziSonuAc, baslangicKaydiAc, bitisKaydiAc, mektupAc } from 
 import { paketGonder, paketAl, yedekAl, sonYedekZamani, yedekSina,
   bulutaYukle, yedektenGeriYukle } from './esitleme.js';
 import { temaBaslat, kagitSecimi, kagitSec, kagitSil, varsayilanKagit } from './tema.js';
-import { semaSecimi, semaUygula,
+import { semaSecimi, semaUygula, gununRenkleri,
   ozelVurgu, ozelVurguSec, ozelVurguSil } from './sema.js';
 import * as baglanti from './baglanti.js';
 import { sihirbaziAc } from './sihirbaz.js';
@@ -3480,38 +3480,53 @@ function renkSecicisiAc({ baslik, alt, baslangic, ozelMi, uygula, sifirla, sifir
 }
 
 /**
- * Üç renk düğmesi yan yana.
+ * Üç renk düğmesi yan yana: 7 günlük · Zemin · Düğmeler.
  *
- * Alt alta üç satırken her biri "Üzerine basılabilecek şeylerin rengi" gibi
- * uzun bir cümle taşıyordu ve panelin üçte birini yiyorlardı. Yan yana
- * durunca ne oldukları renk örneğinden okunuyor; yazı kısaldı, altına da
- * o anki durumu söyleyen bir satır girdi.
+ * Kutu yok, çerçeve yok, altında durum yazısı yok — üç renk dairesi ve üç
+ * kelime. Renk ayarının kendisi bir görünüş meselesi; ayarın durduğu yer de
+ * form gibi değil, renk gibi görünmeli. Hangisinin açık olduğu dairenin
+ * çevresindeki ince halkadan okunuyor, yazıdan değil.
  *
- * Örnek daireleri gerçek değerleri gösteriyor: kâğıt karesi zeminin rengi,
- * ötekiler vurgunun. Böylece dokunmadan önce ne değişeceği belli.
+ * Daireler gerçek değerleri gösteriyor: zemin dairesi kâğıdın rengi, ötekiler
+ * vurgunun. Dokunmadan önce ne değişeceği belli.
+ *
+ * "7 günlük" VARSAYILAN: dokununca hem zemin hem düğmeler kendi
+ * varsayılanlarına dönüyor — yani tek düğme "her şeyi eski hâline al"
+ * demek. İki ayrı sıfırlama aramak gerekmiyor.
  */
+/**
+ * "7 günlük" dairesinin içi: yedi günün rengi, koni biçiminde yan yana.
+ *
+ * Tek düz renk yanlış söz verirdi — o düğme bir renk seçmiyor, yedi rengin
+ * sırasını açıyor. Halka bunu tek bakışta anlatıyor. Dilimler sert geçişli:
+ * yumuşak geçişte yedi ayrı gün değil bulanık bir gökkuşağı görünüyordu.
+ */
+function gunHalkasi() {
+  const renkler = gununRenkleri();
+  const dilim = 360 / renkler.length;
+  const duraklar = renkler
+    .map((r, i) => `${r} ${(i * dilim).toFixed(1)}deg ${((i + 1) * dilim).toFixed(1)}deg`)
+    .join(',');
+  return `conic-gradient(from -90deg, ${duraklar})`;
+}
+
 function renkUclusu() {
   const kagit = kagitSecimi();
   const ozel = ozelVurgu();
-  const kutular = [
-    { id: 'btnGunRengi', ad: 'Haftanın günü',
-      alt: ozel ? 'kapalı' : 'açık',
-      acik: !ozel,
-      ornek: ozel ? 'var(--cok-soluk)' : 'var(--vurgu)' },
-    { id: 'btnKagitRenk', ad: 'Kâğıt',
-      alt: kagit ? kagit : 'telefonun ayarı',
-      acik: !!kagit,
+  const daireler = [
+    { id: 'btnGunRengi', ad: '7 günlük', acik: !kagit && !ozel,
+      // Yedi günün rengi tek daireye sığmıyor; koni biçiminde yedisi birden.
+      ornek: gunHalkasi() },
+    { id: 'btnKagitRenk', ad: 'Zemin', acik: !!kagit,
       ornek: kagit || 'var(--zemin)' },
-    { id: 'btnVurguRenk', ad: 'Düğmeler',
-      alt: ozel ? ozel : 'bugünün rengi',
-      acik: !!ozel,
+    { id: 'btnVurguRenk', ad: 'Düğmeler', acik: !!ozel,
       ornek: 'var(--vurgu)' }
   ];
   return `<div class="renk-uclu">
-    ${kutular.map(k => `<button class="renk-tas${k.acik ? ' secili' : ''}" id="${k.id}">
+    ${daireler.map(k => `<button class="renk-tas${k.acik ? ' secili' : ''}" id="${k.id}"
+        aria-pressed="${k.acik}">
       <i class="renk-daire" style="background:${k.ornek}"></i>
       <span class="renk-ad">${kacis(k.ad)}</span>
-      <span class="renk-durum">${kacis(k.alt)}</span>
     </button>`).join('')}
   </div>`;
 }
@@ -3520,13 +3535,20 @@ function renkDugmeleriniKur() {
   // Haftanın günü: seçici açmıyor, tek dokunuşla dönüyor. Yedi rengin
   // hangisinin hangi güne düştüğünü göstermenin bir faydası yok — seçilebilir
   // değiller, sıra kendiliğinden dönüyor.
+  // "7 günlük" VARSAYILAN durum: seçici açmıyor, ikisini birden geri alıyor.
+  // Zemini ve düğme rengini ayrı ayrı sıfırlamak iki adımdı ve ikincisi
+  // unutuluyordu; tek dokunuşla her şey eski hâline dönüyor.
   $('#btnGunRengi')?.addEventListener('click', () => {
-    if (!ozelVurgu()) {
-      kayitBildir('Renk zaten haftanın gününe göre dönüyor');
+    const kagitVar = !!kagitSecimi(), vurguVar = !!ozelVurgu();
+    if (!kagitVar && !vurguVar) {
+      kayitBildir('Zaten varsayılan · renk haftanın gününe göre dönüyor');
       return;
     }
-    ozelVurguSil(geziGunuNo());
-    kayitBildir('Renk haftanın gününe döndü', 'iyi');
+    if (kagitVar) kagitSil();
+    if (vurguVar) ozelVurguSil(geziGunuNo());
+    semayiTazele();
+    titret(10);
+    kayitBildir('Varsayılana dönüldü · renk haftanın gününe göre dönüyor', 'iyi');
     paneliCiz();
   });
 

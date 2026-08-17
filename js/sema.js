@@ -70,6 +70,21 @@ const DONGU = ['buz mavisi', 'açık yeşil', 'mürekkep', 'zeytin + tuğla',
 // kâğıdın rengi (js/tema.js) ve vurgu rengi (aşağıda) — son ikisi sınırsız.
 export const SEMA_SECENEKLERI = [{ id: 'gun', ad: 'Haftanın günü' }];
 
+/**
+ * Yedi günün vurgu renkleri, pazartesiden pazara, o anki temaya göre.
+ *
+ * Ayarlardaki "7 günlük" düğmesinin dairesi bunlarla boyanıyor: düğme tek
+ * bir renk seçmiyor, yedi rengin sırasını açıyor — dairenin de bunu
+ * göstermesi gerekiyor.
+ */
+export function gununRenkleri() {
+  const tema = document.documentElement.dataset.tema === 'acik' ? 'acik' : 'koyu';
+  return DONGU.map(ad => {
+    const s = SEMALAR[ad] || SEMALAR['kahve'];
+    return (s[tema] || s.acik).vurgu;
+  });
+}
+
 const ANAHTAR = 'gerokSema';
 const VURGU_ANAHTAR = 'gerokVurgu';
 
