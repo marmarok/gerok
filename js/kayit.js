@@ -404,9 +404,31 @@ export async function isaretEkle(metin = '') {
   return k;
 }
 
-export async function kisiEkle(ad, not = '') {
+/**
+ * Tanıştığımız kişi. Fotoğraf isteğe bağlı.
+ *
+ * Ad ve tek satır not, on yıl sonra "kimdi bu" sorusunun yarısını cevaplıyor;
+ * yüz öteki yarısı. Fotoğraf buraya da KOPYALANMIYOR — küçültülmüş bir
+ * önizlemesi alınıyor (fotoAl ile aynı yol), aslı telefonun galerisinde
+ * kalıyor.
+ */
+export async function kisiEkle(ad, not = '', dosya = null) {
   if (!ad?.trim()) return null;
-  const k = await kayitKur('kisi', { metin: ad.trim(), not: not.trim() });
+
+  let medyaId = null, en = null, boy = null;
+  if (dosya) {
+    const onizleme = await onizlemeUret(dosya).catch(() => null);
+    if (onizleme?.blob) {
+      medyaId = yeniKimlik('m');
+      await medyaYaz(medyaId, onizleme.blob);
+      en = onizleme.en; boy = onizleme.boy;
+    }
+  }
+
+  const k = await kayitKur('kisi', {
+    metin: ad.trim(), not: not.trim(), medyaId, en, boy,
+    dosyaAdi: dosya?.name || null
+  });
   await kayitEkle(k);
   return k;
 }

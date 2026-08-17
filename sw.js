@@ -4,7 +4,7 @@
 
 // DİKKAT: her yayında bu sürüm değişmeli, yoksa telefonlar eski dosyaları
 // önbellekten sunmaya devam eder. arac/yayinla.sh bunu kendiliğinden günceller.
-const SURUM = 'gerok-20260817-224049';
+const SURUM = 'gerok-20260817-225513';
 
 const DOSYALAR = [
   './',
@@ -77,13 +77,53 @@ self.addEventListener('install', (olay) => {
 self.addEventListener('activate', (olay) => {
   olay.waitUntil((async () => {
     const adlar = await caches.keys();
-    await Promise.all(adlar.filter(a => a !== SURUM).map(a => caches.delete(a)));
+    // Paylaşım önbelleği eski sürüm sayılmıyor: paylaşım tam bu sırada
+    // gelmişse dosyalar silinirdi.
+    await Promise.all(adlar
+      .filter(a => a !== SURUM && a !== 'gerok-paylasim')
+      .map(a => caches.delete(a)));
     await self.clients.claim();
   })());
 });
 
+// Başka bir uygulamadan "Paylaş" ile gelen medya buraya POST ediliyor
+// (manifest.webmanifest → share_target). Sunucu yok, o yüzden isteği servis
+// worker karşılıyor: dosyaları geçici bir önbelleğe koyup uygulamayı açıyor,
+// uygulama açılışta oradan alıp zaman çizgisine ekliyor.
+//
+// DİKKAT — iOS/Safari Web Share Target'ı DESTEKLEMİYOR: iPhone'un paylaş
+// menüsünde bu uygulama çıkmıyor. Buradaki yol Android ve masaüstünde
+// çalışıyor, bir de ileride yazılacak native uygulama için hazır duruyor.
+const PAYLASIM_ONBELLEGI = 'gerok-paylasim';
+
 self.addEventListener('fetch', (olay) => {
   const istek = olay.request;
+
+  if (istek.method === 'POST' && new URL(istek.url).pathname.endsWith('/paylas')) {
+    olay.respondWith((async () => {
+      try {
+        const gelen = await istek.formData();
+        const dosyalar = gelen.getAll('medya').filter(d => d && d.size);
+        const onbellek = await caches.open(PAYLASIM_ONBELLEGI);
+        let n = 0;
+        for (const d of dosyalar) {
+          await onbellek.put(new Request(`./paylasim/${n}`), new Response(d, {
+            headers: {
+              'content-type': d.type || 'application/octet-stream',
+              'x-dosya-adi': encodeURIComponent(d.name || `paylasim-${n}`),
+              'x-degisme': String(d.lastModified || Date.now())
+            }
+          }));
+          n++;
+        }
+        return Response.redirect(`./?paylasim=${n}`, 303);
+      } catch {
+        return Response.redirect('./?paylasim=hata', 303);
+      }
+    })());
+    return;
+  }
+
   if (istek.method !== 'GET') return;
 
   const url = new URL(istek.url);

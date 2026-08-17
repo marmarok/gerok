@@ -29,6 +29,7 @@ let durum = {
   arama: '',
   suzgec: 'hepsi',
   acikSatir: null,          // uzun basılan kaydın kimliği
+  acikKisiFotosu: null,     // büyütülmüş tanışma fotoğrafının kaydı
   sonParaBirimi: '',
   uyanikKilit: null,
   sonUlke: null,
@@ -102,6 +103,50 @@ async function baslat() {
   iz.basla();
   gunSonuHatirlatmasiKur();
   agDegisiminiIzle();
+  await paylasilanlariAl();
+}
+
+/**
+ * Başka bir uygulamadan "Paylaş" ile gelen medyayı zaman çizgisine ekler.
+ *
+ * Servis worker paylaşılan dosyaları geçici bir önbelleğe koyup uygulamayı
+ * `?paylasim=N` ile açıyor (bkz. sw.js). Buradan sonrası galeriden fotoğraf
+ * eklemekle aynı yol: çekim saati ve konumu okunuyor, küçültülmüş önizleme
+ * yazılıyor, kayıt çekildiği ana yerleşiyor.
+ *
+ * iPhone'da bu yol HİÇ ÇALIŞMIYOR — Safari paylaş menüsüne web uygulaması
+ * koymuyor. Android, masaüstü ve ileride yazılacak native uygulama için var.
+ */
+async function paylasilanlariAl() {
+  const adres = new URL(location.href);
+  const sayi = adres.searchParams.get('paylasim');
+  if (!sayi) return;
+
+  // Adres çubuğunu temizle: sayfa yenilenince aynı paylaşım ikinci kez
+  // işlenmeye çalışılmasın.
+  adres.searchParams.delete('paylasim');
+  history.replaceState(null, '', adres.pathname + adres.search + adres.hash);
+
+  if (sayi === 'hata' || !('caches' in window)) {
+    kayitBildir('Paylaşılan dosya okunamadı', 'kotu');
+    return;
+  }
+
+  const onbellek = await caches.open('gerok-paylasim');
+  const anahtarlar = await onbellek.keys();
+  const dosyalar = [];
+  for (const a of anahtarlar) {
+    const yanit = await onbellek.match(a);
+    if (!yanit) continue;
+    const blob = await yanit.blob();
+    const ad = decodeURIComponent(yanit.headers.get('x-dosya-adi') || 'paylasim');
+    const degisme = Number(yanit.headers.get('x-degisme')) || Date.now();
+    dosyalar.push(new File([blob], ad, { type: blob.type, lastModified: degisme }));
+  }
+  // Önbellek her hâlükârda boşaltılıyor — yarıda kalsa bile artık dosya kalmasın.
+  await Promise.all(anahtarlar.map(a => onbellek.delete(a)));
+
+  if (dosyalar.length) await fotograflariAl(dosyalar);
 }
 
 /**
@@ -143,7 +188,7 @@ async function depolamaSagligi() {
       return;
     }
     if (d && d.kota && (d.kota - d.kullanilan) < AZ_YER_ESIGI) {
-      kayitBildir(`Telefonda yer azalıyor: ${boyutYaz(d.kota - d.kullanilan)} kaldı. ` +
+      kayitBildir(`Gerok'a ayrılan yer azalıyor: ${boyutYaz(d.kota - d.kullanilan)} kaldı. ` +
         'Yedek al ve galeriden yer aç.', 'kotu');
     }
   } catch { /* sorgulanamıyorsa sessiz geç, uygulama yine çalışır */ }
@@ -540,6 +585,20 @@ function zamanCizgisiCiz() {
     // "orijinali galeride" yazısı silinirdi.
     if (url) d.insertAdjacentHTML('afterbegin', `<img src="${url}" alt="" loading="lazy">`);
   });
+  kap.querySelectorAll('[data-kisi-foto]').forEach(b => {
+    b.addEventListener('click', (e) => {
+      // Satırın kendi çift-dokunma/basılı-tutma dinleyicisine gitmesin:
+      // fotoğrafa dokunmak ayrıntı panelini açmamalı.
+      e.stopPropagation();
+      const id = b.dataset.kisiFoto;
+      durum.acikKisiFotosu = durum.acikKisiFotosu === id ? null : id;
+      titret(8);
+      zamanCizgisiCiz();
+    });
+  });
+  kap.querySelectorAll('[data-galeri]').forEach(b => {
+    b.addEventListener('click', () => galeridenAc(b.dataset.galeri));
+  });
   kap.querySelectorAll('[data-sil]').forEach(d => {
     d.addEventListener('click', () => kaydiSil(d.dataset.sil));
   });
@@ -728,7 +787,11 @@ function kayitCumlesi(k) {
     return [k.metin, [k.tutar, k.paraBirimi].filter(Boolean).join(' '), k.kategori]
       .filter(Boolean).join(' · ');
   }
-  if (k.tur === 'kisi') return [k.ad, k.not].filter(Boolean).join(' — ');
+  // `k.ad` DEĞİL `k.metin`: tanışma kaydında ad `metin` alanına yazılıyor
+  // (bkz. kayit.js → kisiEkle). Burası `k.ad` okuduğu için kişinin ADI zaman
+  // çizgisinde hiç görünmüyordu — yalnızca notu. Kaydın var oluş sebebi
+  // ("on yıl sonra adını hatırlamayacaksın") tam da o addı.
+  if (k.tur === 'kisi') return [k.ad || k.metin, k.not].filter(Boolean).join(' — ');
   if (k.tur === 'video' && !k.metin) return `Video · ${sureYaz(k.videoSure)}`;
   return k.metin || k.baslik || '';
 }
@@ -787,6 +850,17 @@ function kayitSatiri(k) {
       </div>
       <span class="sure">0:00 / ${sureYaz(k.sure)}</span>
     </div>`;
+  }
+  // Tanıştığımız kişinin fotoğrafı MİNİK: not satırından uzun olmasın.
+  // Bu kayıtta asıl şey ad ve not; fotoğraf onları hatırlatan bir işaret.
+  // Tam boy gösterilseydi listede tanışma kayıtları fotoğraf kayıtları gibi
+  // görünürdü. Dokununca büyüyor, bir daha dokununca küçülüyor.
+  if (k.medyaId && k.tur === 'kisi') {
+    const buyuk = durum.acikKisiFotosu === k.id;
+    govde += `<button class="kisi-foto${buyuk ? ' buyuk' : ''}"
+      data-kisi-foto="${k.id}" data-onizleme="${k.medyaId}"
+      aria-label="${buyuk ? 'Fotoğrafı küçült' : 'Fotoğrafı büyüt'}"
+      aria-expanded="${buyuk}"></button>`;
   }
   if (k.medyaId && gorsel) {
     // Fotoğrafın üstünde duran tek yazı KONUM. Sol altta, saydam, küçük —
@@ -883,10 +957,37 @@ function ayrintiPaneli(k, { konumlu, basliklanabilir, gorsel = false, videoSure 
     ${fotoNotu ? `<div class="foto-not">${kacis(fotoNotu)}</div>` : ''}
     <div class="kayit-eylemler">
       ${konumlu ? `<button class="satir-dugme" data-google="${k.lat},${k.lon}">Haritalar'da aç</button>` : ''}
+      ${gorsel ? `<button class="satir-dugme" data-galeri="${k.id}">Galeride göster</button>` : ''}
       ${basliklanabilir ? `<button class="satir-dugme vurgulu" data-baslik="${k.id}">${
         k.baslik || k.metin ? 'Adını değiştir' : 'Başlık yaz'}</button>` : ''}
       <button class="satir-dugme sil" data-sil="${k.id}">Sil</button>
     </div>`;
+}
+
+/**
+ * Fotoğrafın aslını galeride açar.
+ *
+ * DÜRÜST OLMASI GEREKEN YER: web uygulaması Fotoğraflar'da BELİRLİ bir kareyi
+ * açamıyor — böyle bir izin yok. `photos-redirect://` yalnızca Fotoğraflar
+ * uygulamasını öne getiriyor. O yüzden düğme aynı anda kaydın çekim saatini
+ * de söylüyor: galeri zaten tarihe göre sıralı, aranan kare o saatte duruyor.
+ *
+ * Uygulama içindeki önizleme bundan bağımsız: küçültülmüş bir KOPYA olarak
+ * Gerok'un kendi deposunda duruyor. Galeriden silinse bile buradaki kayıt
+ * ve önizleme yerinde kalıyor.
+ */
+function galeridenAc(kayitId) {
+  const k = durum.kayitlar.find(x => x.id === kayitId);
+  if (!k) return;
+  const ne = k.dosyaAdi ? kacis(k.dosyaAdi) : gerok.tarihUzun(k.t);
+  kayitBildir(`Fotoğraflar açılıyor · ${gerok.saat(k.t)} · ${ne}`);
+  // Konum bilgisi taşımayan, yalnızca uygulamayı öne getiren bir adres.
+  const a = document.createElement('a');
+  a.href = 'photos-redirect://';
+  a.style.display = 'none';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
 }
 
 // Google Haritalar: yorumlar ve fotoğraflar orada. İNTERNET İSTER — yolda
@@ -2906,7 +3007,7 @@ async function paneliCiz() {
         ${panelSatiri({ etiket: 'İndirilmiş harita', deger: '<span id="haritaDurum">bakılıyor…</span>' })}
         ${depo ? `
           ${panelSatiri({ etiket: 'Telefonda kullanılan', deger: boyutYaz(depo.kullanilan) })}
-          ${panelSatiri({ etiket: 'Boş yer', id: 'btnBosYer',
+          ${panelSatiri({ etiket: "Gerok'a kalan yer", id: 'btnBosYer',
             deger: (depo.kota ? boyutYaz(depo.kota - depo.kullanilan) : '—') + (azYer ? ' · az' : ''),
             rozet: azYer ? '!' : '' })}
           ${panelSatiri({ etiket: 'Veri kalıcı korunuyor', deger: depo.kalici ? 'evet' : 'hayır' })}
@@ -2915,20 +3016,7 @@ async function paneliCiz() {
         ${!depo?.kalici ? panelSatiri({ etiket: 'Kalıcı depolama iste', id: 'btnKalici' }) : ''}
 
         <div class="girdi-etiket">Renk</div>
-        <button class="panel-satir dokunulur" id="btnGunRengi">
-          <span class="etiket">Haftanın günü</span>
-          <span class="deger">${ozelVurgu()
-            ? 'kapalı'
-            : '<i class="renk-kutu" style="background:var(--vurgu)"></i>açık'}</span>
-        </button>
-        <button class="panel-satir dokunulur" id="btnKagitRenk">
-          <span class="etiket">Kâğıdın rengini değiştir</span>
-          <span class="deger"><i class="renk-kutu" style="background:${kagitSecimi() || 'var(--zemin)'}"></i>${kagitSecimi() ? kacis(kagitSecimi()) : 'telefonun ayarı'}</span>
-        </button>
-        <button class="panel-satir dokunulur" id="btnVurguRenk">
-          <span class="etiket">Üzerine basılabilecek şeylerin rengi</span>
-          <span class="deger"><i class="renk-kutu" style="background:var(--vurgu)"></i>${ozelVurgu() ? kacis(ozelVurgu()) : 'bugünün rengi'}</span>
-        </button>`,
+        ${renkUclusu()}`,
       not: 'Görünüm, ad, indirilmiş harita ve yer.'
     })}
 
@@ -2990,9 +3078,13 @@ async function paneliCiz() {
 
   surumuYaz();
 
+  // Bu satır sık yanlış anlaşılıyor: telefonun boş alanı DEĞİL, tarayıcının
+  // Gerok'a ayırdığı pay. Dokununca aradaki fark söyleniyor.
   $('#btnBosYer')?.addEventListener('click', () => kayitBildir(azYer
-    ? 'Yer aç: harita paketini sil · videolar zaten galeride'
-    : 'Yer bol · uzun kayıtlar için sorun yok'));
+    ? "Gerok'a ayrılan yer azaldı · harita paketini silebilirsin, videolar zaten galeride"
+    : "Telefonun boş alanı değil — tarayıcının Gerok'a ayırdığı pay. " +
+      'Telefon dolarsa iOS bunu küçültür; gerçek boş alan Ayarlar → Genel → ' +
+      'iPhone Saklama Alanı’nda yazıyor.'));
 
   $('#btnHarcamaListe')?.addEventListener('click', harcamaDokumuAc);
   $('#btnHarcamaEkle')?.addEventListener('click', fiyatSor);
@@ -3122,13 +3214,57 @@ function kisiSor() {
     <input class="girdi" id="kisiAd" placeholder="Goran">
     <div class="girdi-etiket">Tek satır not</div>
     <input class="girdi" id="kisiNot" placeholder="Tekne sahibi, sabah 7 tavsiyesi">
+
+    <div class="girdi-etiket">Fotoğraf (isteğe bağlı)</div>
+    <button class="eylem-dugme" id="kisiFotoSec">Fotoğraf seç</button>
+    <div class="kisi-secim" id="kisiSecim" hidden>
+      <img id="kisiOnizleme" alt="">
+      <button class="kucuk-dugme sil" id="kisiFotoKaldir">Kaldır</button>
+    </div>
+    <input type="file" id="kisiFotoGirdi" accept="image/*" hidden>
+
     <button class="eylem-dugme birincil" id="kisiKaydet">Kaydet</button>
   `);
   setTimeout(() => $('#kisiAd').focus(), 120);
+
+  // Seçilen dosya kaydedilene kadar hiçbir yere yazılmıyor; "Vazgeç"le
+  // kapatılırsa depoda iz kalmasın.
+  let secilenDosya = null;
+  let onizlemeAdres = null;
+
+  const onizlemeyiBirak = () => {
+    if (onizlemeAdres) { URL.revokeObjectURL(onizlemeAdres); onizlemeAdres = null; }
+  };
+
+  $('#kisiFotoSec').addEventListener('click', () => $('#kisiFotoGirdi').click());
+  $('#kisiFotoGirdi').addEventListener('change', (e) => {
+    const d = e.target.files?.[0];
+    if (!d) return;
+    secilenDosya = d;
+    onizlemeyiBirak();
+    onizlemeAdres = URL.createObjectURL(d);
+    $('#kisiOnizleme').src = onizlemeAdres;
+    $('#kisiSecim').hidden = false;
+    $('#kisiFotoSec').textContent = 'Başka fotoğraf seç';
+  });
+  $('#kisiFotoKaldir').addEventListener('click', () => {
+    secilenDosya = null;
+    onizlemeyiBirak();
+    $('#kisiSecim').hidden = true;
+    $('#kisiFotoGirdi').value = '';
+    $('#kisiFotoSec').textContent = 'Fotoğraf seç';
+  });
+
   $('#kisiKaydet').addEventListener('click', async () => {
     const ad = $('#kisiAd').value, not = $('#kisiNot').value;
+    const dosya = secilenDosya;
+    onizlemeyiBirak();
     ortuKapat();
-    if (await kayit.kisiEkle(ad, not)) { kayitBildir(kaydedildiMetni(), 'iyi'); await tazele(); }
+    if (dosya) kayitBildir('Fotoğraf küçültülüyor…');
+    if (await kayit.kisiEkle(ad, not, dosya)) {
+      kayitBildir(kaydedildiMetni(), 'iyi');
+      await tazele();
+    }
   });
 }
 
@@ -3317,6 +3453,43 @@ function renkSecicisiAc({ baslik, alt, baslangic, ozelMi, uygula, sifirla, sifir
     if (eski) uygula(eski); else sifirla();
     ortuKapat();
   });
+}
+
+/**
+ * Üç renk düğmesi yan yana.
+ *
+ * Alt alta üç satırken her biri "Üzerine basılabilecek şeylerin rengi" gibi
+ * uzun bir cümle taşıyordu ve panelin üçte birini yiyorlardı. Yan yana
+ * durunca ne oldukları renk örneğinden okunuyor; yazı kısaldı, altına da
+ * o anki durumu söyleyen bir satır girdi.
+ *
+ * Örnek daireleri gerçek değerleri gösteriyor: kâğıt karesi zeminin rengi,
+ * ötekiler vurgunun. Böylece dokunmadan önce ne değişeceği belli.
+ */
+function renkUclusu() {
+  const kagit = kagitSecimi();
+  const ozel = ozelVurgu();
+  const kutular = [
+    { id: 'btnGunRengi', ad: 'Haftanın günü',
+      alt: ozel ? 'kapalı' : 'açık',
+      acik: !ozel,
+      ornek: ozel ? 'var(--cok-soluk)' : 'var(--vurgu)' },
+    { id: 'btnKagitRenk', ad: 'Kâğıt',
+      alt: kagit ? kagit : 'telefonun ayarı',
+      acik: !!kagit,
+      ornek: kagit || 'var(--zemin)' },
+    { id: 'btnVurguRenk', ad: 'Düğmeler',
+      alt: ozel ? ozel : 'bugünün rengi',
+      acik: !!ozel,
+      ornek: 'var(--vurgu)' }
+  ];
+  return `<div class="renk-uclu">
+    ${kutular.map(k => `<button class="renk-tas${k.acik ? ' secili' : ''}" id="${k.id}">
+      <i class="renk-daire" style="background:${k.ornek}"></i>
+      <span class="renk-ad">${kacis(k.ad)}</span>
+      <span class="renk-durum">${kacis(k.alt)}</span>
+    </button>`).join('')}
+  </div>`;
 }
 
 function renkDugmeleriniKur() {

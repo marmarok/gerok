@@ -10,6 +10,19 @@
   "theme_color": "#12100e",
   "lang": "tr",
   "dir": "ltr",
+  "share_target": {
+    "action": "./paylas",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "baslik",
+      "text": "metin",
+      "url": "adres",
+      "files": [
+        { "name": "medya", "accept": ["image/*", "video/*"] }
+      ]
+    }
+  },
   "icons": [
     { "src": "ikon/ikon-180.png", "sizes": "180x180", "type": "image/png" },
     { "src": "ikon/ikon-512.png", "sizes": "512x512", "type": "image/png" },

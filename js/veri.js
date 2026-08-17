@@ -350,6 +350,18 @@ export async function kaliciDepolamaIste() {
   return { destek: true, kalici: verildi };
 }
 
+/**
+ * Depo durumu.
+ *
+ * DİKKAT — `kota` TELEFONUN BOŞ ALANI DEĞİL. `navigator.storage.estimate()`
+ * tarayıcının BU SİTEYE ayırdığı payı söylüyor; iOS bunu diskin doluluğundan
+ * ayrı bir formülle hesaplıyor. 512 GB'lık, 7 GB boşu kalmış bir telefonda
+ * buradan 37 GB dönebiliyor — ikisi ayrı şeyler ve bir web uygulamasının
+ * gerçek disk boşluğunu öğrenmesinin yolu yok.
+ *
+ * Bu yüzden ekranda "Boş yer" değil "Gerok'a kalan yer" yazıyor: 17 Ağustos'ta
+ * telefon 504/512 GB doluyken burası 37.8 GB gösteriyordu ve yanlış anlaşıldı.
+ */
 export async function depolamaDurumu() {
   if (!navigator.storage?.estimate) return null;
   const t = await navigator.storage.estimate();

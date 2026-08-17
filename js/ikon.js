@@ -105,7 +105,7 @@ const CIZIMLER = {
  */
 const EMOJILER = {
   saat: '📖', harita: '🗺️', arti: '＋', raptiye: '📍', ayarlar: '☰',
-  mikrofon: '🎙️', dalga: '🎧', kalem: '✏️', nisan: '🎯', kisi: '🧑',
+  mikrofon: '🎙️', dalga: '🎧', kalem: '✏️', nisan: '🎯', kisi: '🤝',
   fis: '🧾', gorsel: '🖼️', buyutec: '🔍', genislet: '⤢',
   zamanBos: '📖', yolBos: '🗺️'
 };
