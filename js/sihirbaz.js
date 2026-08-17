@@ -79,7 +79,7 @@ function ciz() {
       </div>
       <button class="eylem-dugme" id="shVaz">Vazgeç, hiçbir şey eklemeden çık</button>
     </div>
-  `, false);
+  `, false, 'paket');
 
   // Örtü `kapanabilir: false` açılıyor: yanlışlıkla dışarı dokununca seçilen
   // dosya ve işaretlenen satırlar kaybolmasın. Çıkış yalnızca düğmelerden.

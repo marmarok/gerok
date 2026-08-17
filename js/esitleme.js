@@ -247,7 +247,9 @@ export async function paketGonder(bildir, sadeceGun = null) {
     const a = document.createElement('a');
     a.href = url; a.download = ad; a.click();
     setTimeout(() => URL.revokeObjectURL(url), 3000);
-    bildir?.('Dosya indirildi. Dosyalar üzerinden AirDrop\'la.', 'iyi');
+    // "İndirildi" tek başına eksik: dosyanın ne olduğu ve bundan sonra ne
+    // olacağı söylenmezse, kullanıcı gönderme işinin bittiğini sanıyor.
+    bildir?.('Gün paketi hazır · arkadaşın yakınken AirDrop ile gidecek', 'iyi');
   } catch (hata) {
     if (hata.name === 'AbortError') { bildir?.('Gönderme iptal edildi.'); return; }
     bildir?.(`Gönderilemedi: ${hata.message}`, 'kotu');

@@ -50,8 +50,10 @@ function sonGun() {
   return gecmis[gecmis.length - 1] || s.gunler[0];
 }
 
-function ortu(html) {
+/** `kat`: şartnamenin §3.3 katman ölçeği — bkz. app.js'teki `ortuAc`. */
+function ortu(html, kat = 'gunsonu') {
   $('#ortuIc').innerHTML = html;
+  $('#ortu').dataset.kat = kat;
   $('#ortu').classList.remove('gizli');
   $('#ortu').onclick = null;            // akış yanlışlıkla kapanmasın
 }
@@ -209,7 +211,7 @@ async function kapanisAdimi(durum) {
     <button class="eylem-dugme" id="kGonder">Günümü arkadaşıma gönder</button>
     <div id="kDurum" class="panel-not"></div>
     <div class="gs-dugmeler">
-      <button class="eylem-dugme birincil" id="gsBitir">Bitir</button>
+      <button class="eylem-dugme birincil" id="gsBitir">Günü kapat</button>
     </div>
   `);
 
@@ -321,7 +323,7 @@ async function geziOzet() {
       <div class="gs-kutu"><div class="gs-sayi">${kisiler}</div><div class="gs-etiket">tanıştığın kişi</div></div>
     </div>
     ${geziAlt()}
-  `);
+  `, 'gezisonu');
   geziAltiKur();
 }
 
@@ -340,7 +342,7 @@ async function geziKayit() {
     </button>
     <div id="gzKayitDurum" class="panel-not"></div>
     ${geziAlt('Atla')}
-  `);
+  `, 'gezisonu');
 
   $('#gzKayit').onclick = () => sesKaydiBaslat('bitis', {
     ipucu: 'Bitiş kaydı · bitince "Durdur ve kaydet"',
@@ -379,7 +381,7 @@ async function geziKacan() {
     ` : `<div class="panel-not">${bosMesaj}</div>`}
     <div id="gzKacanDurum" class="panel-not"></div>
     ${geziAlt(kacanlar.length ? 'Atla' : 'Devam')}
-  `);
+  `, 'gezisonu');
 
   $('#gzKacanYaz') && ($('#gzKacanYaz').onclick = async () => {
     // Not bir kayıt olarak yazılıyor: zaman çizgisinde durur, yedeğe girer,
@@ -389,6 +391,7 @@ async function geziKacan() {
     const temel = await kayit.yaziEkle(metin);
     if (temel) await veri.kayitEkle(temel);
     $('#gzKacanDurum').textContent = `${kacanlar.length} durak zaman çizgisine yazıldı.`;
+    kayitBildir('Kaçırdıkların “bir sonraki gezi” listesine yazıldı', 'iyi');
     $('#gzIleri').textContent = 'Devam';
     await tazeleDisari?.();
   });
@@ -408,7 +411,7 @@ async function geziMektup() {
       : ''}
     <button class="eylem-dugme birincil" id="gzMektup">Mektubu yaz</button>
     ${geziAlt('Atla')}
-  `);
+  `, 'gezisonu');
 
   // Mektup akışı örtüyü kendi devralıyor; kapanınca Gezi Sonu'na dönüyoruz.
   $('#gzMektup').onclick = () => mektupAc(async () => {
@@ -438,7 +441,7 @@ async function geziKapat() {
       <button class="eylem-dugme" id="gzGeri">Geri</button>
       <button class="eylem-dugme birincil" id="gzKapatOnay">Geziyi kapat</button>
     </div>
-  `);
+  `, 'gezisonu');
 
   const bildir = (m) => { const e = $('#gzKapatDurum'); if (e) e.textContent = m; };
   $('#gzYedek').onclick = () => yedekAl(bildir);
@@ -448,6 +451,7 @@ async function geziKapat() {
     if (!s) { kapat(); await tazeleDisari?.(); return; }
     await gerok.turArsivle(s.id, true);
     kapat();
+    kayitBildir('Gezi kapandı · arşive geçti', 'iyi');
     await tazeleDisari?.();
   };
 }
@@ -486,28 +490,70 @@ export function yilaEk(yil) {
   return "'e";   // 2000 → "iki bin" → bine
 }
 
-export function mektupAc(tazele) {
+/**
+ * Doğum yılı bir kez soruluyor — yalnızca "50. yaşım" seçeneği için.
+ * Telefonda kalıyor, hiçbir pakete girmiyor: kimseye gönderilen bir bilgi değil.
+ */
+function dogumYiliSor(tazele) {
   const buYil = new Date().getFullYear();
+  ortu(`
+    <div class="ortu-baslik">Kaç yılında doğdun?</div>
+    <div class="ortu-alt">Yalnızca "50. yaşım" seçeneğinin hangi yıla denk
+    geldiğini hesaplamak için. Telefonda kalır, hiçbir pakete girmez.</div>
+    <input class="girdi" id="dogumYil" type="number" inputmode="numeric"
+           min="${buYil - 120}" max="${buYil}" placeholder="örn. ${buYil - 35}">
+    <button class="eylem-dugme birincil" id="dogumTamam">Kaydet</button>
+    <button class="eylem-dugme" id="dogumVaz">Geri</button>
+  `, 'gezisonu');
+  setTimeout(() => $('#dogumYil')?.focus(), 120);
+  $('#dogumVaz').onclick = () => mektupAc(tazele);
+  $('#dogumTamam').onclick = async () => {
+    const y = Number($('#dogumYil').value);
+    if (!Number.isFinite(y) || y < buYil - 120 || y > buYil) { $('#dogumYil').focus(); return; }
+    await veri.ayarYaz('dogumYili', y);
+    await mektupAc(tazele);
+  };
+}
+
+/**
+ * Mühürlü mektup — hangi yıla.
+ *
+ * Dördüncü seçenek bir yıl değil, bir yaş: "50. yaşım". Şartnamenin fikri ve
+ * doğru olan bu — on yıl sonra "2046" bir sayı, "50 yaşıma girdiğim gün" bir
+ * an. Doğum yılı bir kez soruluyor, sonra hep hatırlanıyor.
+ */
+export async function mektupAc(tazele) {
+  const buYil = new Date().getFullYear();
+  const dogum = await veri.ayarOku('dogumYili', null);
+  const ellinci = dogum ? dogum + 50 : null;
+
   const secenekler = [
-    { yil: buYil + 1,  alt: 'gelecek yıl — bu gezi hâlâ tazeyken' },
     { yil: buYil + 5,  alt: 'beş yıl sonra' },
     { yil: buYil + 10, alt: 'on yıl sonra' },
     { yil: buYil + 20, alt: 'yirmi yıl sonra' }
   ];
+  // Elli yaşı geçmişse o seçenek anlamsız; listeye konmuyor.
+  if (!ellinci || ellinci > buYil) {
+    secenekler.push({
+      yil: ellinci, yas: true,
+      alt: ellinci ? `${ellinci} — o yıl 50 yaşına giriyorsun` : 'doğum yılını sorar'
+    });
+  }
 
   ortu(`
     <div class="ortu-baslik">Hangi yıla yazıyorsun?</div>
     <div class="ortu-alt">O yıl gelene kadar mektup arşivde kapalı durur.
     Şifre yok — kilit değil, söz.</div>
     ${secenekler.map(s => `
-      <button class="eylem-dugme ${s.yil === buYil + 10 ? 'birincil' : ''}" data-yil="${s.yil}">
-        ${s.yil}<span class="yol-alt">${s.alt}</span>
+      <button class="eylem-dugme ${s.yil === buYil + 10 ? 'birincil' : ''}"
+              data-yil="${s.yil ?? ''}"${s.yas ? ' data-yas="1"' : ''}>
+        ${s.yas ? '50. yaşım' : s.yil}<span class="yol-alt">${s.alt}</span>
       </button>`).join('')}
     <div class="girdi-etiket" style="margin-top:14px">Ya da bir yıl yaz</div>
     <input class="girdi" id="mektupYil" type="number" inputmode="numeric"
            min="${buYil}" max="2200" placeholder="örn. ${buYil + 30}">
     <button class="eylem-dugme" id="mektupYilTamam">Bu yıla yaz</button>
-  `);
+  `, 'gezisonu');
 
   const basla = (yil) => {
     ozelKayitAc({
@@ -520,7 +566,10 @@ export function mektupAc(tazele) {
   };
 
   document.querySelectorAll('#ortuIc [data-yil]').forEach(b => {
-    b.addEventListener('click', () => basla(Number(b.dataset.yil)));
+    b.addEventListener('click', () => {
+      if (b.dataset.yas && !dogum) { dogumYiliSor(tazele); return; }
+      basla(Number(b.dataset.yil));
+    });
   });
   $('#mektupYilTamam').addEventListener('click', () => {
     const y = Number($('#mektupYil').value);
@@ -551,7 +600,7 @@ function ozelKayitAc({ tur, baslik, alt, tazele, ekler = null }) {
       <button class="eylem-dugme" id="ozelKapat">Kapat</button>
       <button class="eylem-dugme birincil" id="ozelKaydet">${muhur ? 'Mühürle' : 'Yazıyı kaydet'}</button>
     </div>
-  `);
+  `, 'gezisonu');
 
   $('#ozelSes').addEventListener('click', () => sesKaydiBaslat(tur, {
     ipucu: `${baslik} · bitince "Durdur ve kaydet"`,

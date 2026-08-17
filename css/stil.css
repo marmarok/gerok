@@ -274,7 +274,7 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
    Bir haftanın sonunda liste yüzlerce satır oluyor. Aşağı kaydırırken şerit
    çekiliyor (küçük ekranda sürekli yer kaplamasın), yukarı çıkarken dönüyor. */
 .zaman-ara {
-  position: relative; z-index: 6;
+  position: relative; z-index: 11;
   display: flex; align-items: center; gap: 7px;
   /* Üstteki 34 piksel şeridin eriyen eteğinin altında kalıyor. */
   padding: 34px 12px 8px;
@@ -669,7 +669,9 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
    Bir sesi dinlerken başka sekmeye geçince ses devam ediyor ama durdurmanın
    yolu kalmıyordu. Bu şerit alt barın hemen üstünde, her ekranda duruyor. */
 .calma-serit {
-  position: fixed; left: 0; right: 0; z-index: 85;
+  /* 25: sekme şeridinin (20) üstünde ama açılan her sheet'in (75+) altında.
+     Eskiden 85'ti ve bir diyalog açıkken üstüne biniyordu. */
+  position: fixed; left: 0; right: 0; z-index: 25;
   bottom: var(--altbar);
   display: flex; align-items: center; gap: 11px;
   padding: 9px 14px 10px;
@@ -1144,13 +1146,28 @@ body:has(.ses-katman:not(.gizli)) .bildirim {
 .eylem-dugme.birincil { background: var(--vurgu); color: var(--vurgu-yazi); border-color: var(--vurgu); font-weight: 600; }
 .eylem-dugme:active { opacity: .8; }
 
-/* ---------- Örtü / diyalog ---------- */
+/* ---------- Örtü / diyalog ----------
+   Katman sırası şartnamenin §3.3 ölçeğinden. Şartname her pencereye ayrı bir
+   katman veriyor; bizde hepsi TEK bir örtüden açılıyor, o yüzden katman
+   içeriğe göre veriliyor: `ortuAc(html, kapanabilir, kat)`.
+
+   Bunun tek işi görsel değil — hangi pencerenin hangisinin üstüne
+   çıkabileceğini belirliyor. Mobil veri onayı (86) bir sheet'in üstünde
+   açılabilmeli; yarım kayıt kurtarma (88) her şeyin üstünde olmalı, çünkü
+   ona cevap verilmeden başka bir şey yapılması doğru değil. */
 .ortu {
-  position: fixed; inset: 0; z-index: 70;
+  position: fixed; inset: 0; z-index: 75;
   background: var(--perde);
   display: flex; align-items: flex-end; justify-content: center;
   backdrop-filter: blur(3px);
 }
+.ortu[data-kat="gunsonu"]   { z-index: 76; }
+.ortu[data-kat="tasima"]    { z-index: 78; }
+.ortu[data-kat="paket"]     { z-index: 80; }
+.ortu[data-kat="gezisonu"]  { z-index: 82; }
+.ortu[data-kat="geriyukle"] { z-index: 84; }
+.ortu[data-kat="mobil"]     { z-index: 86; }
+.ortu[data-kat="kurtarma"]  { z-index: 88; }
 .ortu-ic {
   width: 100%; max-width: 520px; max-height: 88dvh; overflow-y: auto;
   background: var(--kat); border-radius: 20px 20px 0 0;
@@ -1173,7 +1190,7 @@ body:has(.ses-katman:not(.gizli)) .bildirim {
 
 /* ---------- Alt bar ---------- */
 #altBar {
-  display: flex; border-top: 1px solid var(--cizgi);
+  display: flex; position: relative; z-index: 20; border-top: 1px solid var(--cizgi);
   /* Kendi yüzeyi var: aksi hâlde ev göstergesi payı, sayfanın devamı gibi
      görünüp boş bir şerit izlenimi veriyor. */
   background: var(--kat); padding-bottom: var(--alt-pay); flex-shrink: 0;

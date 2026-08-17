@@ -101,6 +101,24 @@ async function baslat() {
 
   iz.basla();
   gunSonuHatirlatmasiKur();
+  agDegisiminiIzle();
+}
+
+/**
+ * İnternet gidip gelince haber ver.
+ *
+ * Sebebi şu: yolda internet sık sık kesiliyor ve uygulama hiçbir şey
+ * söylemediği için "bozuldu mu" endişesi doğuyor. Oysa Gerok'un tamamı
+ * çevrimdışı çalışıyor — söylenmesi gereken tek şey bu.
+ *
+ * Açılışta bildirim çıkmıyor: uygulama zaten internetsiz açılabilir ve
+ * her açılışta uyarı görmek gürültü olurdu. Yalnızca DEĞİŞİMDE konuşuyor.
+ */
+function agDegisiminiIzle() {
+  addEventListener('offline', () =>
+    kayitBildir('İnternet kesildi · her şey çevrimdışı sürüyor'));
+  addEventListener('online', () =>
+    kayitBildir('İnternet geri geldi', 'iyi'));
 }
 
 // Depolama sağlığı — açılışta bir kez.
@@ -874,7 +892,7 @@ function kaydiTasiSor(id) {
       kayıt kendiliğinden o güne yerleşir.</div>` : ''}
     <button class="eylem-dugme birincil" id="tasiKaydet">Taşı</button>
     <button class="eylem-dugme" id="tasiVazgec">Vazgeç</button>
-  `);
+  `, true, 'tasima');
 
   $('#tasiVazgec').addEventListener('click', ortuKapat);
   $('#tasiKaydet').addEventListener('click', async () => {
@@ -1276,7 +1294,7 @@ async function yarimKayitSor() {
     </div>
     <button class="eylem-dugme birincil" id="yarimSakla">Sakla · ${kacis(gerok.saat(g.baslangic))}'e koy</button>
     <button class="eylem-dugme sil" id="yarimSil">Sil</button>
-  `, false);
+  `, false, 'kurtarma');
 
   $('#yarimDinle').addEventListener('click', async () => {
     const url = await kayit.yarimKayitAdresi();
@@ -1592,6 +1610,13 @@ const ORTAM_SURELERI = [
 ];
 
 async function ortamSuresiSor() {
+  // Ortam sesi kayıtların en ağırı ve en sessiz yer yiyeni: iki dakikalık bir
+  // kayıt ~24 MB. Yer bittiğinde kayıt yarıda kesiliyor ve o an bir daha
+  // gelmiyor — bu yüzden uyarı kaydın ÖNÜNDE, sonrasında değil.
+  const d = await veri.depolamaDurumu();
+  if (d?.kota && (d.kota - d.kullanilan) < AZ_YER_ESIGI) {
+    kayitBildir('Ortam sesi 2 dakikada ~24 MB · önce yer aç', 'kotu');
+  }
   const son = await veri.ayarOku('ortamSuresi', 30);
   ortuAc(`
     <div class="ortu-baslik">Ne kadar sürsün?</div>
@@ -2070,7 +2095,7 @@ function durakGunuSor(id) {
         Gün ${g.no}<span class="yol-alt">${kacis(g.baslik || '')}</span>
       </button>`).join('')}
     ${d.gunTasindi ? '<button class="eylem-dugme" data-gun="">Paketteki gününe geri al</button>' : ''}
-  `);
+  `, true, 'tasima');
 
   $$('#ortuIc [data-gun]').forEach(b => {
     b.addEventListener('click', async () => {
@@ -2261,7 +2286,7 @@ async function buradanDurakEkle() {
   kayitBildir('Konum alınıyor…');
   const k = await iz.suAnkiKonum();
   if (!k) { kayitBildir('Konum alınamadı. Haritadan elle koyabilirsin.', 'kotu'); return; }
-  durakSor({ lat: k.lat, lon: k.lon });
+  durakSor({ lat: k.lat, lon: k.lon, buradan: true });
 }
 
 function durakNoktasiOnayla() {
@@ -2279,7 +2304,7 @@ function gunSecenekleri() {
   return Array.from({ length: 10 }, (_, i) => ({ no: i + 1, ad: `Gün ${i + 1}` }));
 }
 
-function durakSor({ lat, lon, mevcut = null }) {
+function durakSor({ lat, lon, mevcut = null, buradan = false }) {
   const d = mevcut;
   const enlem = d ? d.lat : lat, boylam = d ? d.lon : lon;
   const secilenGun = d ? d.gun : (gerok.bugununGunu()?.no ?? null);
@@ -2330,7 +2355,11 @@ function durakSor({ lat, lon, mevcut = null }) {
       kayitBildir('Durak güncellendi.', 'iyi');
     } else {
       await gerok.durakEkle({ ad, lat: enlem, lon: boylam, gun, unutma });
-      kayitBildir(`Durak eklendi · ${durum.duraklar.length + 1}. sıra`, 'iyi');
+      // Nereden geldiğini söylemek işe yarıyor: "Burayı durak yap"a basınca
+      // konumun gerçekten alındığı ancak bu cümleyle anlaşılıyor.
+      kayitBildir(buradan
+        ? 'Bulunduğun yer durak yapıldı'
+        : `Durak eklendi · ${durum.duraklar.length + 1}. sıra`, 'iyi');
     }
     await tazele();
     if (durum.ekran === 'harita') haritaGuncelle(durum.kayitlar, durum.izNoktalari);
@@ -2705,8 +2734,12 @@ async function paneliCiz() {
             <button class="satir-dugme" id="btnHarcamaListe">Döküm</button>
           </span></div>
         <div class="panel-not kucuk">${harcamaEuro
-          ? `${harcamaEuro.sayi} harcama, her biri kendi günündeki kurla euroya çevrildi.` +
-            (harcamaEuro.eksik ? ` ${harcamaEuro.eksik} tanesi henüz çevrilmedi.` : '') +
+          ? (harcamaEuro.eksik
+              // Kur işi bitmemiş: hangi tarihin kuruyla hesaplandığını söylemek
+              // şart. Yoksa toplam kesin bir sayı gibi duruyor, oysa değil.
+              ? `Son bilinen kurla: ${gerok.tarihUzun(harcamaEuro.sonKurAni || Date.now())}. ` +
+                'İnternete bağlanınca günlük kurlarla yeniden hesaplanır.'
+              : 'Her harcama kendi günündeki kurla hesaplandı.') +
             `<br>Para birimlerine göre: ${tutarYaz(paralar)}`
           : 'Para birimleri ayrı toplanıyor. Tek toplam için Bağlantı → ' +
             '“Harcamaların kurunu düzelt”.'}</div>
@@ -3138,7 +3171,7 @@ function mobilVeriSor() {
     <button class="eylem-dugme onayli" id="mobilKucuk">Yalnızca küçük işler</button>
     <button class="eylem-dugme birincil" id="mobilHepsi">Hepsine izin ver</button>
     <button class="eylem-dugme" id="mobilVazgec">Wi-fi bekle</button>
-  `);
+  `, true, 'mobil');
   $('#mobilKucuk').addEventListener('click', async () => {
     ortuKapat();
     await baglanti.veriKipiYaz('mobil');
@@ -3240,7 +3273,7 @@ function geriYuklemeOnayi({ gelen, mevcut, ad }) {
       girdiğin her şey. Geriye tam olarak yedekteki <b>${gelen}</b> kayıt kalır.
       <b>Geri dönüşü yok.</b></div>
       <button class="eylem-dugme" id="gyVaz">Vazgeç</button>
-    `);
+    `, true, 'geriyukle');
 
     $('#gyBirlestir').addEventListener('click', () => bitir('birlestir'));
     $('#gyVaz').addEventListener('click', () => bitir(null));
@@ -3255,7 +3288,7 @@ function geriYuklemeOnayi({ gelen, mevcut, ad }) {
         <button class="eylem-dugme" id="gyOnceYedek">Önce şimdiki hâli yedekle</button>
         <button class="eylem-dugme sil" id="gyEminim">Evet, sil ve yedeği yükle</button>
         <button class="eylem-dugme birincil" id="gyVaz2">Vazgeç</button>
-      `);
+      `, true, 'geriyukle');
       // Kaybolacak olan şeyin bir kopyası alınmadan silinmesi için hiçbir
       // sebep yok. Bu düğme geri yüklemeyi iptal ETMİYOR — dosya inince
       // pencere olduğu yerde duruyor, karar hâlâ verilmemiş oluyor.
@@ -3361,7 +3394,10 @@ function euroToplami(hepsi) {
   return {
     toplam: cevrilen.reduce((t, k) => t + k.euro, 0),
     sayi: cevrilen.length,
-    eksik: hepsi.length - cevrilen.length
+    eksik: hepsi.length - cevrilen.length,
+    // Çevrilmiş harcamaların en yenisinin tarihi: "son bilinen kur" derken
+    // kastedilen gün bu. Kur işi yarım kaldığında panelde yazıyor.
+    sonKurAni: Math.max(...cevrilen.map(k => k.kurAni || k.t || 0)) || null
   };
 }
 
@@ -3711,15 +3747,22 @@ async function bildirimGoster(baslik, govde) {
 
 // ------------------------------------------------------------- yardımcılar --
 
-export function ortuAc(html, kapanabilir = true) {
+/**
+ * `kat`: şartnamenin §3.3 katman ölçeğindeki yeri. Boş bırakılırsa temel
+ * katman (75) — sheet'ler ve durak kartı orada. Adları css/stil.css'te.
+ */
+export function ortuAc(html, kapanabilir = true, kat = '') {
   $('#ortuIc').innerHTML = html;
-  $('#ortu').classList.remove('gizli');
-  $('#ortu').onclick = kapanabilir
+  const o = $('#ortu');
+  if (kat) o.dataset.kat = kat; else delete o.dataset.kat;
+  o.classList.remove('gizli');
+  o.onclick = kapanabilir
     ? (e) => { if (e.target.id === 'ortu') ortuKapat(); }
     : null;
 }
 export function ortuKapat() {
   $('#ortu').classList.add('gizli');
+  delete $('#ortu').dataset.kat;
   $('#ortuIc').innerHTML = '';
 }
 
