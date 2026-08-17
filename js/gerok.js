@@ -542,6 +542,17 @@ export async function durakNotSil(durakId, notId) {
   return true;
 }
 
+// Silme işareti kaldırılıyor — not hiç silinmemiş gibi geri dönüyor.
+// "Geri al" düğmesi bunu çağırıyor (bkz. app.js).
+export async function durakNotGeriAl(durakId, notId) {
+  const n = durakNotlari[durakId]?.find(x => x.id === notId);
+  if (!n?.silindi) return false;
+  delete n.silindi;
+  n.guncelleme = Date.now();
+  await ayarYaz('durakNotlari', durakNotlari);
+  return true;
+}
+
 export async function durakNotlariBirlestir(gelen = null) {
   if (!gelen || typeof gelen !== 'object') return 0;
   let yeni = 0;

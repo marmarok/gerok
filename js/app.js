@@ -919,35 +919,18 @@ function kayitSatiri(k) {
 /**
  * Kaydın altından açılan ayrıntı paneli — çift dokunma ya da basılı tutma.
  *
- * Ses kayıtlarında bir de BİLGİ listesi var: süre, tam tarih, koordinat,
- * konumun nereden geldiği. Sebebi şu — bir ses kaydında görülecek başka
- * hiçbir şey yok. Fotoğrafta en azından resmin kendisi duruyor; seste
- * dalga çizgisinden başka bir şey yok ve "bu kayıt neydi, neredeydi"
- * sorusunun cevabı hiçbir yerde yazmıyordu.
+ * BİLGİ LİSTESİ YOK. Bir ara ses ve fotoğraf kayıtlarında süre, tarih, yer,
+ * koordinat, konum kaynağı ve kaydeden satırlarını gösteren bir künye vardı;
+ * 17 Ağustos'ta ikisi de kaldırıldı. Aynı bilgiler kartın kendisinde zaten
+ * duruyor — saat üstte, kaydeden sağ üstte, yer altta, süre oynatıcının
+ * yanında. İkinci kez, tablo hâlinde söylemek anıyı dosya kayıt fişine
+ * çeviriyordu.
  *
- * "Saat / gün" düğmesi kaldırıldı: kaydın saatini elle değiştirmek, on yıl
+ * "Saat / gün" düğmesi de kaldırıldı: kaydın saatini elle değiştirmek, on yıl
  * sonra güvenilecek tek şeyi — ne zaman olduğunu — kırılgan yapıyordu.
  * Yanlış güne düşen kayıt zaten iz kaydından düzeliyor.
  */
 function ayrintiPaneli(k, { konumlu, basliklanabilir, gorsel = false, videoSure = null }) {
-  const sesli = ['ses', 'ortam', 'gunluk', 'baslangic', 'bitis', 'mektup'].includes(k.tur);
-
-  const bilgiler = sesli ? [
-    ['Süre', k.sure ? sureYaz(k.sure) : '—'],
-    ['Tarih', `${gerok.tarihUzun(k.t)} · ${gerok.saat(k.t)}`],
-    ['Yer', k.yerAdi || 'adı yok'],
-    ['Koordinat', konumlu ? `${k.lat.toFixed(5)}, ${k.lon.toFixed(5)}` : 'yok'],
-    ['Konum kaynağı', KONUM_KAYNAGI[k.konumKaynagi]?.replace('konum: ', '') ||
-      (konumlu ? 'bilinmiyor' : 'bulunamadı')],
-    ['Kaydeden', k.sahipAd || 'bilinmeyen']
-  ] : [];
-
-  // Fotoğrafta bilgi listesi YOK (17 Ağustos'ta denendi, kaldırıldı).
-  // Seste liste gerekiyor çünkü görülecek başka bir şey yok; fotoğrafta
-  // resmin kendisi zaten orada ve altına beş satırlık künye koymak kartı
-  // dosya kayıt fişine çeviriyordu. Çekim saati "Fotoğrafları aç" düğmesine
-  // basınca çıkan uyarıda söyleniyor — gerektiği anda, sürekli değil.
-
   // "orijinali galeride" uygulamanın en önemli sözü: fotoğraf buraya
   // KOPYALANMIYOR, tam çözünürlüklü hâli telefonun kendi galerisinde duruyor.
   // Uygulama silinse bile fotoğraflar yerinde kalır. Ama bu bir kez öğrenilen
@@ -959,10 +942,6 @@ function ayrintiPaneli(k, { konumlu, basliklanabilir, gorsel = false, videoSure 
       : 'önizleme · orijinali galeride';
 
   return `
-    ${bilgiler.length ? `<div class="kayit-bilgi">
-      ${bilgiler.map(([a, d]) => `<div class="bilgi-satir">
-        <span>${a}</span><b>${kacis(String(d))}</b></div>`).join('')}
-    </div>` : ''}
     ${fotoNotu ? `<div class="foto-not">${kacis(fotoNotu)}</div>` : ''}
     <div class="kayit-eylemler">
       ${konumlu ? `<button class="satir-dugme" data-google="${k.lat},${k.lon}">Haritalar'da aç</button>` : ''}
@@ -1558,8 +1537,17 @@ async function yarimKayitSor() {
 
   $('#yarimSil').addEventListener('click', async () => {
     ortuKapat();
-    await kayit.yarimKaydiSil();
-    kayitBildir('Yarım kayıt silindi');
+    // Silmek beş saniye bekletiliyor: yarım kayıt ekran kapandığı için
+    // kurtarılmış tek kopya, geri getirilecek bir yeri yok.
+    let iptal = false;
+    geriAlinabilirBildir('Yarım kayıt siliniyor', () => {
+      iptal = true;
+    });
+    setTimeout(async () => {
+      if (iptal) return;
+      await kayit.yarimKaydiSil();
+      kayitBildir('Yarım kayıt silindi');
+    }, GERI_AL_SURESI);
   });
 }
 
@@ -2170,8 +2158,13 @@ function durakNotVePuanKur(kap, sonra = null) {
   });
   kap.querySelectorAll('[data-not-sil]').forEach(b => {
     b.addEventListener('click', async () => {
-      await gerok.durakNotSil(b.dataset.notDurak, b.dataset.notSil);
-      kayitBildir('Not silindi');
+      const durakId = b.dataset.notDurak, notId = b.dataset.notSil;
+      await gerok.durakNotSil(durakId, notId);
+      geriAlinabilirBildir('Not silindi', async () => {
+        await gerok.durakNotGeriAl(durakId, notId);
+        await tazele();
+        sonra?.();
+      });
       await tazele();
       sonra?.();
     });
@@ -2620,7 +2613,13 @@ function durakSilSor(id) {
   $('#durakSilOnay').addEventListener('click', async () => {
     ortuKapat();
     await gerok.durakYokEt(id);
-    kayitBildir('Durak silindi.', 'iyi');
+    // Silme katman olarak yazıldığı için geri alması ucuz: beş saniyelik
+    // düğme hemen burada, listenin altındaki "Silinen duraklar" da yerinde.
+    geriAlinabilirBildir('Durak silindi', async () => {
+      await gerok.durakGeriGetir(id);
+      await tazele();
+      if (durum.ekran === 'harita') haritaGuncelle(durum.kayitlar, durum.izNoktalari);
+    });
     await tazele();
     if (durum.ekran === 'harita') haritaGuncelle(durum.kayitlar, durum.izNoktalari);
   });
@@ -3967,7 +3966,9 @@ function turSilSor(id) {
   ortuAc(`
     <div class="ortu-baslik">Bu tur tamamen silinsin mi?</div>
     <div class="ortu-alt">Turun <b>bütün kayıtları, sesli notları, fotoğraf
-    önizlemeleri ve izi</b> telefondan gider. <b>Geri alınamaz.</b><br><br>
+    önizlemeleri ve izi</b> telefondan gider.<br><br>
+    Beş saniye "Geri al" düğmesi duracak; o geçtikten sonra <b>dönüşü
+    yok</b>.<br><br>
     Yalnızca yer açmak istiyorsan <b>arşivle</b> yeter — o hiçbir şeyi silmiyor.</div>
     <button class="eylem-dugme" id="silYedek">Önce yedek al</button>
     <button class="eylem-dugme" id="silOnayla">Anladım, sil</button>
@@ -3977,9 +3978,22 @@ function turSilSor(id) {
   $('#silYedek').addEventListener('click', () => yedekAl(kayitBildir));
   $('#silOnayla').addEventListener('click', async () => {
     ortuKapat();
-    const s = await gerok.turSil(id);
-    kayitBildir(`Tur silindi · ${s.silinenKayit} kayıt, ${s.silinenIz} iz noktası.`, 'kotu');
-    await turDegisti();
+
+    // Tur silme geri ALINAMAZ bir iş: kayıtlar, iz, duraklar ve turun kendisi
+    // diskten gidiyor. O yüzden burada "sil, sonra geri koy" yolu yok —
+    // silme beş saniye BEKLETİLİYOR. Geri al'a basılırsa hiçbir şey olmuyor,
+    // çünkü henüz hiçbir şey yapılmadı.
+    let iptal = false;
+    geriAlinabilirBildir('Tur beş saniye içinde silinecek', () => {
+      iptal = true;
+    });
+
+    setTimeout(async () => {
+      if (iptal) return;
+      const s = await gerok.turSil(id);
+      kayitBildir(`Tur silindi · ${s.silinenKayit} kayıt, ${s.silinenIz} iz noktası.`, 'kotu');
+      await turDegisti();
+    }, GERI_AL_SURESI);
   });
 }
 
@@ -4167,8 +4181,14 @@ export function kayitBildir(mesaj, sinif = '') {
 //
 // Süre 5,2 saniye — okumak VE düğmeye basmak için. Düz bildirimin iki
 // katına yakın, çünkü burada kullanıcıdan bir karar bekleniyor.
-// Geri alınabilen yalnızca iki eylem var: kayıt silme ve gezi kapatma.
-// Hepsine geri alma koymak düğmeyi anlamsızlaştırırdı.
+//
+// 17 Ağustos'tan beri HER SİLME geri alınabiliyor: kayıt, durak, durak notu,
+// yarım ses kaydı, tur. Eskiden yalnızca kayıt silme ve gezi kapatmada vardı;
+// "hangisinde var" diye hatırlamak gerekiyordu ve gezi verisi geri
+// getirilemez. İki yol kullanılıyor:
+//   · Silme yumuşaksa (kayıt, durak, durak notu) silinip geri konabiliyor.
+//   · Silme sertse (tur, yarım kayıt) İŞ BEŞ SANİYE BEKLETİLİYOR — geri al'a
+//     basılırsa hiçbir şey olmuyor, çünkü henüz hiçbir şey yapılmadı.
 export const GERI_AL_SURESI = 5200;
 
 export function geriAlinabilirBildir(mesaj, geriAl) {

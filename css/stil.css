@@ -949,23 +949,9 @@ body:has(.ses-katman:not(.gizli)) .bildirim {
 
 /* Beş yıldız — yatay tek satır. Dokunma alanı 34 px: araç sallanırken
    yanlış yıldıza basmak, puanı hepten yanlış yapıyordu. */
-/* Ses kaydının ayrıntıları — çift dokununca açılıyor.
-   Bir ses kaydında görülecek başka hiçbir şey yok; "bu neydi, neredeydi"
-   sorusunun cevabı burada. */
-.kayit-bilgi {
-  margin-top: 11px; padding: 2px 11px;
-  background: var(--kat2); border: 1px solid var(--cizgi); border-radius: 11px;
-}
-.bilgi-satir {
-  display: flex; justify-content: space-between; gap: 12px;
-  padding: 7px 0; font-size: 12.5px;
-}
-.bilgi-satir + .bilgi-satir { border-top: 1px solid var(--cizgi); }
-.bilgi-satir span { color: var(--cok-soluk); flex-shrink: 0; }
-.bilgi-satir b {
-  color: var(--soluk); font-weight: 500; text-align: right;
-  min-width: 0; overflow-wrap: anywhere;
-}
+/* Kayıt künyesi (.kayit-bilgi / .bilgi-satir) 17 Ağustos'ta kaldırıldı:
+   süre, tarih, yer, kaydeden zaten kartın kendisinde yazıyor, tablo hâlinde
+   ikinci kez söylemek anıyı dosya kayıt fişine çeviriyordu. */
 
 /* Çakışan kaydın öteki sürümü. Soldaki çizgi "bu senin yazdığın değil"
    demek — kendi notlarındaki çizgiyle aynı fikir, ayrı renk. */
