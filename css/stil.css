@@ -440,7 +440,14 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
 
 .daha-eski { padding: 18px 16px 30px; }
 
-.bos-durum { padding: 60px 32px; text-align: center; color: var(--cok-soluk); }
+.bos-durum { padding: 48px 32px; text-align: center; color: var(--cok-soluk); font-size: 13.5px; line-height: 1.6; }
+.bos-durum.ilk { padding: 60px 32px; }
+/* İlk açılışta boş bir halka: ikon değil, "burası henüz boş" işareti.
+   Bir ikon koymak "şunu yap" der; halka yalnızca yerin boş olduğunu söyler. */
+.bos-halka {
+  width: 56px; height: 56px; border-radius: 50%;
+  border: 2px solid var(--cizgi); margin: 0 auto 16px;
+}
 /* Boş ekranın çizimi: soluk ama görünür. Eskiden emoji vardı ve %35
    saydamlıkta bile kendi renkleriyle parlıyordu. */
 .bos-durum .bos-ikon { color: var(--cok-soluk); opacity: .8; margin-bottom: 14px;

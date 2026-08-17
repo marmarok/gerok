@@ -349,12 +349,12 @@ function onizlemeAdresiniBirak(medyaId) {
 const SUZGECLER = {
   hepsi: () => true,
   ses: (k) => ['ses', 'ortam', 'gunluk', 'baslangic', 'bitis', 'mektup'].includes(k.tur),
-  gorsel: (k) => ['foto', 'video', 'siradan'].includes(k.tur),
-  baskasi: (k) => k.sahip && k.sahip !== kayit.sahipAl().id
+  baskasi: (k) => k.sahip && k.sahip !== kayit.sahipAl().id,
+  insanPara: (k) => ['kisi', 'fiyat'].includes(k.tur)
 };
 const SUZGEC_ADI = {
   hepsi: 'hepsi', ses: 'yalnızca sesler',
-  gorsel: 'fotoğraf ve video', baskasi: 'arkadaşının kayıtları'
+  baskasi: 'arkadaşın kayıtları', insanPara: 'tanıştık ve harcama'
 };
 
 // Bir kaydın aranan metni: gördüğün her şey aranabilir olmalı.
@@ -392,10 +392,18 @@ function zamanCizgisiCiz() {
     suzgec(k) && (!sorgu || aranabilirMetin(k).includes(sorgu)));
 
   if (!tumu.length) {
-    kap.innerHTML = `<div class="bos-durum">
-      <div class="bos-yazi">Bu süzgeçle kayıt yok.<br>
-      <span style="color:var(--vurgu)">${kacis(sorgu ? `“${sorgu}”` : SUZGEC_ADI[durum.suzgec])}</span></div>
-    </div>`;
+    const hicYok = !durum.kayitlar.length;
+    kap.innerHTML = hicYok
+      ? `<div class="bos-durum ilk">
+          <div class="bos-halka"></div>
+          <div class="bos-yazi">Bu gerokta henüz kayıt yok.<br>
+          Alt şeritteki <span style="color:var(--vurgu)">Kayıt</span>'a bas,
+          bir sesli not bırak.<br>Yolda tek dokunuş yeter.</div>
+        </div>`
+      : `<div class="bos-durum">
+          <div class="bos-yazi">Bu süzgeçle kayıt yok.<br>
+          <span style="color:var(--vurgu)">${kacis(sorgu ? `“${sorgu}”` : SUZGEC_ADI[durum.suzgec])}</span></div>
+        </div>`;
     return;
   }
 
@@ -1167,7 +1175,9 @@ async function sesAtla(hedefSaniye) {
 
 function kayitDugmeleriniKur() {
   sesDugmeleriniKur();
-  $('#btnSes').addEventListener('click', () => sesKaydiBaslat('ses'));
+  $('#btnSes').addEventListener('click', () => sesKaydiBaslat('ses', {
+    ipucu: 'Konuş. Ekranı kapatma.\nBitince Durdur ve kaydet.'
+  }));
   // Ortam sesi: konuşmadan, o yerin nasıl duyulduğu. Süre artık seçiliyor —
   // 30 saniye çarşı için yetiyordu ama ezan, yağmur, dalga için kısa kalıyordu.
   $('#btnOrtam').addEventListener('click', ortamSuresiSor);
@@ -1307,9 +1317,18 @@ function kayitUyarilariniCiz() {
   if (durum.mikrofonRed) {
     html += `<div class="kayit-uyari izin">
       <div class="uyari-ad">Mikrofon izni yok</div>
-      <div class="uyari-alt">Ses kaydı yapılamıyor. Yazı, fotoğraf, işaret ve
-      harcama çalışmaya devam ediyor.</div>
-      <button class="eylem-dugme birincil" id="uyariIzin">İzni nasıl veririm?</button>
+      <div class="uyari-alt">Ses kaydı yapılamıyor. Yazı, fotoğraf ve harcama
+      çalışmaya devam ediyor.</div>
+      <button class="eylem-dugme birincil" id="uyariIzin">İzin ver</button>
+    </div>`;
+  }
+
+  if (durum.konumRed) {
+    html += `<div class="kayit-uyari izin">
+      <div class="uyari-ad">Konum izni yok</div>
+      <div class="uyari-alt">Kayıtlar tutulur, yerleri boş kalır. Sonradan
+      haritada elle işaretleyebilirsin.</div>
+      <button class="eylem-dugme birincil" id="uyariKonum">İzin ver</button>
     </div>`;
   }
 
@@ -1317,7 +1336,7 @@ function kayitUyarilariniCiz() {
     html += `<div class="kayit-uyari depo">
       <div class="uyari-ad">Yer azalıyor</div>
       <div class="uyari-alt">${boyutYaz(bosYer)} boş yer kaldı. Uzun kayıt ve yedek
-      için önce yer aç — kaydın ortasında dolarsa o kayıt yarım kalır.</div>
+      için harita paketini silebilirsin — sonra yeniden indirilir.</div>
       <button class="eylem-dugme" id="uyariDepo">Nasıl yer açarım?</button>
     </div>`;
   }
@@ -1329,6 +1348,9 @@ function kayitUyarilariniCiz() {
     ortuAc(ic);
     $('#uyariKapat')?.addEventListener('click', ortuKapat);
   };
+
+  $('#uyariKonum')?.addEventListener('click', () =>
+    kayitBildir('Ayarlar → Gerok → Konum → Uygulamayı kullanırken'));
 
   $('#uyariIzin')?.addEventListener('click', () => bilgiOrtu(`
     <div class="ortu-baslik">Mikrofon izni</div>
@@ -1426,8 +1448,7 @@ function sesDuraklatDegistir() {
     // hangisine basılacağı bir anda anlaşılmıyordu (ekran görüntüsünde
     // ikisi de kahverengi çıktı) — tek vurgulu düğme kalsın.
     $('#sesDurdur').classList.remove('birincil');
-    $('#sesIpucu').textContent = 'Duraklatıldı — "Devam et" deyince aynı kaydın '
-      + 'içinden sürer. Ara kayda girmez.';
+    $('#sesIpucu').textContent = 'Devam edince aynı dosyanın içinden sürer.';
     titret([8, 40, 8]);
   }
 }
@@ -1561,14 +1582,14 @@ const ORTAM_SURELERI = [
   { sn: 30,  ad: '30 saniye', alt: 'çarşı, sokak' },
   { sn: 60,  ad: '1 dakika',  alt: 'ezan, müzik' },
   { sn: 120, ad: '2 dakika',  alt: 'yağmur, dalga, tren' },
-  { sn: 0,   ad: 'Elle durdur', alt: 'ne kadar sürerse' }
+  { sn: 0,   ad: 'Elle durduracağım', alt: 'ne kadar sürerse' }
 ];
 
 async function ortamSuresiSor() {
   const son = await veri.ayarOku('ortamSuresi', 30);
   ortuAc(`
-    <div class="ortu-baslik">Ortam sesi</div>
-    <div class="ortu-alt">Konuşma — sadece burayı dinlet. Ne kadar kaydedelim?</div>
+    <div class="ortu-baslik">Ne kadar sürsün?</div>
+    <div class="ortu-alt">Konuşmayacaksın — o yerin nasıl duyulduğunu kaydediyorsun.</div>
     ${ORTAM_SURELERI.map(s => `
       <button class="eylem-dugme ${s.sn === son ? 'birincil' : ''}" data-sn="${s.sn}">
         ${s.ad}<span class="yol-alt">${s.alt}</span>
@@ -1582,8 +1603,8 @@ async function ortamSuresiSor() {
       sesKaydiBaslat('ortam', {
         sinir: sn,
         ipucu: sn
-          ? `Konuşma — sadece burayı dinlet. ${sureYaz(sn)} sonra kendi biter.`
-          : 'Konuşma — sadece burayı dinlet. Bitince "Durdur ve kaydet".'
+          ? 'Telefonu sesin geldiği yöne çevir.\nKonuşma, sadece dinlet.'
+          : 'Telefonu sesin geldiği yöne çevir.\nBitince Durdur ve kaydet.'
       });
     });
   });
@@ -1720,6 +1741,10 @@ function izDinle() {
     if (olay.tur === 'hata') {
       $('#izYazi').textContent = 'izin yok';
       $('#izRozet').classList.remove('acik');
+      if (olay.kod === 1 && !durum.konumRed) {
+        durum.konumRed = true;
+        kayitUyarilariniCiz();
+      }
     }
     if (olay.tur === 'nokta') {
       durum.izNoktalari.push(olay.nokta);
