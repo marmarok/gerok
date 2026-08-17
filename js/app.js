@@ -2572,10 +2572,10 @@ async function paneliCiz() {
         <div class="panel-satir"><span class="etiket">Gerok</span><span class="deger">${kacis(s.ad)}</span></div>
         <div class="panel-satir"><span class="etiket">Kayıt</span>
           <span class="deger sayi-izgara">
-            <span title="yazı, işaret, sınır">${yaziSayi}</span>
-            <span title="ses kayıtları">${sesSayi}</span>
-            <span title="fotoğraf ve video">${gorselSayi}</span>
-            <span title="tanıştığınız kişiler">${kisiSayi}</span>
+            <span title="yazı, işaret, sınır"><i data-ikon="kalem" data-ikon-boy="14"></i>${yaziSayi}</span>
+            <span title="ses kayıtları"><i data-ikon="dalga" data-ikon-boy="14"></i>${sesSayi}</span>
+            <span title="fotoğraf ve video"><i data-ikon="gorsel" data-ikon-boy="14"></i>${gorselSayi}</span>
+            <span title="tanıştığınız kişiler"><i data-ikon="kisi" data-ikon-boy="14"></i>${kisiSayi}</span>
           </span></div>
         <div class="panel-satir"><span class="etiket">Yol</span>
           <span class="deger">${km.toFixed(1)} km · ${durum.izNoktalari.length} nokta</span></div>
@@ -2721,6 +2721,9 @@ async function paneliCiz() {
            'çalışır; yalnızca sürüm sorgusu internet ister.'
     })}
   `;
+
+  // Panel her çizimde baştan kuruluyor; içindeki ikonlar da yeniden dolsun.
+  ikonlariYerlestir($('#gerokPanel'));
 
   // Panel başlıkları: dokununca aç/kapa, aynı anda bir tanesi açık.
   $$('#gerokPanel [data-panel]').forEach(d => {

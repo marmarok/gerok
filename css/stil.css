@@ -928,6 +928,10 @@ body:has(.ses-katman:not(.gizli)) .bildirim {
   display: grid; grid-template-columns: repeat(4, 1fr);
   justify-items: end; gap: 10px; flex: 1;
 }
+/* Sayının başındaki simge: dört çıplak rakam neyin sayısı olduğunu
+   söylemiyordu. Üstüne gelince yazan başlık faredeydi — telefonda fare yok. */
+.sayi-izgara > span { display: flex; align-items: center; gap: 5px; }
+.sayi-izgara i { display: flex; color: var(--cok-soluk); }
 .harcama-ust .deger { display: flex; align-items: center; gap: 10px; }
 
 /* Gün Sonu düğmesi akşam olup da sesli günlük bırakılmamışsa nabız gibi
