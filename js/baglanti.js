@@ -164,9 +164,9 @@ export async function kurlariDuzelt(ilerleme = null) {
 
   await veri.ayarYaz('kurOnbellek', onbellek);
   const mesaj = yapilan
-    ? `${yapilan} harcama euroya çevrildi — her biri kendi günündeki kurla.` +
-      (atlanan ? ` ${atlanan} tanesi çevrilemedi (para birimi tanınmadı).` : '')
-    : 'Hiçbiri çevrilemedi — para birimi kodlarına bak (MKD, EUR, ALL gibi olmalı).';
+    ? `${yapilan} harcamanın kuru düzeldi` +
+      (atlanan ? ` · ${atlanan} tanesi çevrilemedi` : '')
+    : 'Hiçbiri çevrilemedi — para birimi kodlarına bak (MKD, EUR, ALL gibi olmalı)';
   return { yapilan, atlanan, mesaj };
 }
 
@@ -212,7 +212,7 @@ export async function yerAdlariniGetir(ilerleme = null) {
     obekler.get(a).push(k);
   }
 
-  let yapilan = 0, atlanan = 0, i = 0;
+  let yapilan = 0, atlanan = 0, i = 0, sonAd = '';
   for (const [, liste] of obekler) {
     ilerleme?.(++i, obekler.size);
     const ilk = liste[0];
@@ -226,13 +226,17 @@ export async function yerAdlariniGetir(ilerleme = null) {
     if (!ad) { continue; }
     for (const k of liste) {
       await veri.kayitEkle({ ...k, yerAdi: ad });
-      yapilan++;
+      yapilan++; sonAd = ad;
     }
   }
 
-  const mesaj = yapilan
-    ? `${yapilan} kayda yer adı yazıldı${atlanan ? `, ${atlanan} tanesi çözülemedi` : ''}.`
-    : 'Hiçbir yer adı çözülemedi — bağlantı zayıf olabilir, sonra tekrar dene.';
+  // Tek kayıt çözüldüyse adın kendisini söylüyor: "Struga, kanal ağzı".
+  // Kullanıcının görmek istediği sayı değil, yerin adı.
+  const mesaj = yapilan === 1 && sonAd
+    ? sonAd
+    : yapilan
+      ? `${yapilan} kayda yer adı yazıldı${atlanan ? ` · ${atlanan} tanesi çözülemedi` : ''}`
+      : 'Hiçbir yer adı çözülemedi — bağlantı zayıf olabilir, sonra tekrar dene';
   return { yapilan, atlanan, mesaj };
 }
 
@@ -516,8 +520,7 @@ export async function durakBilgileriniGetir(ilerleme = null) {
   }
 
   const mesaj = yapilan
-    ? `${yapilan} durağa bilgi geldi${bossuz ? `, ${bossuz} durak için kayıt yok` : ''}. ` +
-      'Bilginin başındaki ad, haritada eşleşen yerin adı — tutmuyorsa o satırı yok say.'
+    ? `${yapilan} durak güncellendi${bossuz ? ` · ${bossuz} durak için kayıt yok` : ''}`
     : 'Bu duraklar için OpenStreetMap\'te açılış/ücret bilgisi yok. Uydurmuyoruz.';
   return { yapilan, bossuz, mesaj };
 }
@@ -537,16 +540,16 @@ export async function haritaBekliyorMu() {
 export const ISLER = [
   {
     k: 'kur',
-    ad: 'Harcamaların kurunu düzelt',
-    not: 'Her harcama kendi günündeki kurla euroya çevrilir',
+    ad: 'Kurları düzelt',
+    notYaz: (n) => `${n} harcama · her biri kendi günündeki kurla`,
     buyuk: false,
     bekleyen: async () => (await kurBekleyenler()).length,
     calistir: kurlariDuzelt
   },
   {
     k: 'yer',
-    ad: 'Kayıtlara yer adı ver',
-    not: 'Koordinatı olan ama adı olmayan kayıtlar',
+    ad: 'Konumsuz kayıtlara yer adı ver',
+    notYaz: (n) => `${n} kayıt · koordinat var, ad yok`,
     buyuk: false,
     bekleyen: async () => (await yerBekleyenler()).length,
     calistir: yerAdlariniGetir
@@ -554,15 +557,18 @@ export const ISLER = [
   {
     k: 'durak',
     ad: 'Duraklara açılış ve ücret bilgisi',
-    not: 'OpenStreetMap\'te ne yazıyorsa',
+    notYaz: (n) => `${n} durak · saat, ücret, kapalı gün`,
     buyuk: false,
     bekleyen: async () => durakBekleyenler().length,
     calistir: durakBilgileriniGetir
   },
   {
     k: 'harita',
-    ad: 'Rotanın haritasını indir',
-    not: 'Yüzlerce megabayt — wi-fi bekler',
+    ad: 'Rotanın önündeki haritayı indir',
+    notYaz: () => 'Rotanın kalanı · wi-fi bekler',
+    // Mobil veride reddedilirken boyutu söyleyebilmek için: "Bu iş" demek
+    // yerine kaç megabayt olduğunu söylüyor.
+    boyutYazi: 'Harita paketi',
     buyuk: true,
     bekleyen: async () => (await haritaBekliyorMu()) ? 1 : 0,
     calistir: null            // arayüz kendi indirme akışını açıyor
@@ -580,6 +586,8 @@ export async function kuyrukDurumu() {
     try { sayi = await i.bekleyen(); } catch { sayi = 0; }
     satirlar.push({
       ...i, sayi,
+      // Not metni sayıyı içeriyor; sayı değişince not da değişiyor.
+      not: i.notYaz ? i.notYaz(sayi) : i.not,
       // Mobil veride büyük iş yapılmıyor: sürpriz fatura gezinin en
       // gereksiz sürprizi olurdu.
       engelli: i.buyuk && !buyukIsler

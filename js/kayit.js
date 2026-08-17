@@ -356,9 +356,12 @@ export function sesIptal() {
 
 // ---- Yazı, işaret, kişi, fiyat -------------------------------------------
 
-export async function yaziEkle(metin) {
+// `yer`: kullanıcının elle yazdığı yer adı. Uydu tutmadığında (kapalı alan,
+// tünel, uçak) kaydın nerede olduğunu söyleyen tek şey bu satır oluyor.
+export async function yaziEkle(metin, yer = '') {
   if (!metin?.trim()) return null;
   const k = await kayitKur('yazi', { metin: metin.trim() });
+  if (yer.trim()) k.yerAdi = yer.trim();
   await kayitEkle(k);
   return k;
 }
@@ -379,7 +382,7 @@ export async function kisiEkle(ad, not = '') {
 // Harcama. `tur` eskiden beri 'fiyat' — eski kayıtlar bozulmasın diye
 // değiştirilmedi, yalnızca ekranda görünen adı "Harcama" oldu.
 export const HARCAMA_KATEGORILERI = [
-  'Yemek', 'Ulaşım', 'Konaklama', 'Giriş/Müze', 'Alışveriş', 'Diğer'
+  'yemek', 'ulaşım', 'konaklama', 'giriş/müze', 'alışveriş', 'diğer'
 ];
 
 export async function fiyatEkle(ne, tutar, paraBirimi, kategori = '') {

@@ -223,29 +223,25 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
 
 .rozet {
   display: flex; align-items: center; gap: 6px;
-  background: var(--kat); border: 1px solid var(--cizgi);
+  background: #352e27; border: 1px solid #4b423a;
   border-radius: 999px; padding: 6px 11px 6px 9px;
-  font-size: 12px; color: var(--soluk);
+  font-size: 12px; color: #8b8075; text-transform: lowercase;
 }
 .rozet .nokta {
   width: 7px; height: 7px; border-radius: 50%;
-  background: var(--cok-soluk); flex-shrink: 0;
+  background: currentColor; flex-shrink: 0;
 }
-.rozet.acik { color: var(--yesil); border-color: var(--secili-cizgi); }
-.rozet.acik .nokta { background: var(--yesil); animation: nabiz 2.4s ease-in-out infinite; }
-.rozet.tasarruf { color: var(--vurgu); border-color: var(--birincil-cizgi); }
-.rozet.tasarruf .nokta { background: var(--vurgu); }
-@keyframes nabiz { 0%,100% { opacity: 1 } 50% { opacity: .35 } }
+.rozet.acik { color: #7ede6a; border-color: #5c6b46; }
+.rozet.acik .nokta { animation: gk-nabiz 2.4s ease-in-out infinite; }
+/* Tasarruf kipinde nabız YOK: pil zaten kısıtlı, göz de "bir şey değişti"
+   desin. Kehribar rengi uyarı değil, "yavaşladım" demek. */
+.rozet.tasarruf { color: #e0b271; border-color: #6b5433; }
+@keyframes gk-nabiz {
+  0%,100% { box-shadow: 0 0 0 0 rgba(232,89,12,.42) }
+  50% { box-shadow: 0 0 0 7px rgba(232,89,12,0) }
+}
 
-/* Rozet koyu şeridin üstünde duruyor — iki temada da aynı renklerle.
-   Tema değişkenlerini kullansaydı gündüz kipinde açık bir rozet koyu şeridin
-   içinde yanıp sönerdi. */
-#ustBar .rozet { background: #352e27; border-color: #4b423a; color: #d5c9b9; }
-#ustBar .rozet .nokta { background: #8b8075; }
-#ustBar .rozet.acik { color: #a9c98a; border-color: #5c6b46; }
-#ustBar .rozet.acik .nokta { background: #a9c98a; }
-#ustBar .rozet.tasarruf { color: #e0b271; border-color: #6b5433; }
-#ustBar .rozet.tasarruf .nokta { background: #e0b271; }
+
 
 /* ---------- Gövde ---------- */
 #govde { flex: 1; overflow: hidden; position: relative; }
@@ -621,18 +617,22 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
   font-size: 13.5px; line-height: 1.45; text-align: center;
   box-shadow: var(--golge);
 }
-.bildirim.iyi { border-color: var(--secili-cizgi); color: var(--yesil); }
+/* Onay YEŞİL. Tasarımın kuralı: bildirim bir eylemin gerçekten olduğunu
+   söyler, o yüzden varsayılan hâli olumludur. Kırmızı yalnızca gerçek
+   hataya ayrıldı — prototipte hata hâli yok, gerçek uygulamada var
+   ("ses çalınamadı" gibi) ve yeşil görünmesi yanlış olurdu. */
+.bildirim { border-color: var(--secili-cizgi); color: var(--yesil); }
 .bildirim.kotu { border-color: var(--kirmizi); color: var(--kirmizi); }
-/* Geri alınabilir bildirim: yazı solda, düğme sağda. */
+/* Geri alınabilir bildirim: yazı solda, düğme sağda — düğme her seferinde
+   aynı yerde olsun ki parmak aramasın. */
 .bildirim.geri-alinabilir {
   display: flex; align-items: center; gap: 10px; text-align: left;
-  border-color: var(--vurgu-koyu);
 }
 .bildirim-yazi { flex: 1; min-width: 0; }
 .bildirim-geri {
-  flex-shrink: 0; padding: 8px 13px; border-radius: 9px;
+  flex-shrink: 0; padding: 7px 12px; border-radius: 9px;
   background: var(--vurgu); color: var(--vurgu-yazi);
-  font-size: 12.5px; font-weight: 600;
+  font-size: 12px; font-weight: 600;
 }
 
 /* ---------- Çalma şeridi ----------
@@ -699,7 +699,7 @@ body:has(.ses-katman:not(.gizli)) .bildirim {
   border: 3px solid var(--vurgu);
   display: flex; align-items: center; justify-content: center;
   font-size: 34px; font-variant-numeric: tabular-nums;
-  animation: buyu 1.9s ease-in-out infinite;
+  animation: gk-buyu 1.9s ease-in-out infinite;
 }
 /* Halkanın dışında dönen ince yay. Konik gradyan bir daireyi boyuyor, maske
    ortasını oyup yalnızca kenarı bırakıyor — böylece ayrı bir SVG gerekmiyor. */
@@ -716,7 +716,7 @@ body:has(.ses-katman:not(.gizli)) .bildirim {
 .ses-dalga { display: flex; align-items: center; gap: 4px; height: 44px; }
 .ses-dalga span {
   width: 4px; border-radius: 2px; background: var(--vurgu);
-  animation: sesDalga 1.1s infinite;
+  animation: gk-dalga 1.1s infinite;
 }
 .ses-dalga span:nth-child(1)  { height: 60%; animation-delay: 0s; }
 .ses-dalga span:nth-child(2)  { height: 90%; animation-delay: .09s; }
@@ -730,13 +730,13 @@ body:has(.ses-katman:not(.gizli)) .bildirim {
 .ses-dalga span:nth-child(10) { height: 70%; animation-delay: .81s; }
 .ses-dalga span:nth-child(11) { height: 45%; animation-delay: .9s; }
 .ses-dalga span:nth-child(12) { height: 85%; animation-delay: .99s; }
-@keyframes sesDalga { 0%,100% { transform: scaleY(.22) } 50% { transform: scaleY(1) } }
+@keyframes gk-dalga { 0%,100% { transform: scaleY(.22) } 50% { transform: scaleY(1) } }
 /* Duraklatınca çubuklar da donuyor — kayıt sürüyor sanılmasın. */
 .ses-katman.durakli .ses-dalga span { animation-play-state: paused; background: var(--soluk); }
 @media (prefers-reduced-motion: reduce) {
   .ses-dalga span { animation: none; }
 }
-@keyframes buyu {
+@keyframes gk-buyu {
   0%,100% { box-shadow: 0 0 0 0 rgba(224,164,88,.32) }
   50% { box-shadow: 0 0 0 26px rgba(224,164,88,0) }
 }
@@ -1002,11 +1002,7 @@ body:has(.ses-katman:not(.gizli)) .bildirim {
 
 /* Gün Sonu düğmesi akşam olup da sesli günlük bırakılmamışsa nabız gibi
    atıyor. Hatırlatan tek şey bu — bildirim gönderemiyoruz. */
-.eylem-dugme.nabiz { animation: dugmeNabiz 2.4s ease-out infinite; }
-@keyframes dugmeNabiz {
-  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--vurgu) 42%, transparent) }
-  50% { box-shadow: 0 0 0 7px transparent }
-}
+.eylem-dugme.nabiz { animation: gk-nabiz 2.4s ease-out infinite; }
 @media (prefers-reduced-motion: reduce) { .eylem-dugme.nabiz { animation: none } }
 .panel-satir { display: flex; justify-content: space-between; gap: 12px; padding: 7px 0; font-size: 14px; border-bottom: 1px solid var(--cizgi); }
 .panel-satir:last-child { border-bottom: none; }
@@ -1033,9 +1029,9 @@ body:has(.ses-katman:not(.gizli)) .bildirim {
   background: var(--kat); border-radius: 20px 20px 0 0;
   border-top: 1px solid var(--cizgi);
   padding: 22px 20px calc(24px + var(--alt));
-  animation: yuksel .24s cubic-bezier(.2,.9,.3,1);
+  animation: gk-yuksel .24s cubic-bezier(.2,.9,.3,1);
 }
-@keyframes yuksel { from { transform: translateY(100%) } to { transform: translateY(0) } }
+@keyframes gk-yuksel { from { transform: translateY(100%) } to { transform: translateY(0) } }
 .ortu-baslik { font-size: 19px; font-weight: 600; margin-bottom: 6px; }
 .ortu-alt { font-size: 13.5px; color: var(--soluk); line-height: 1.55; margin-bottom: 16px; }
 
@@ -1098,3 +1094,11 @@ body:has(.ses-katman:not(.gizli)) .bildirim {
 /* ---------- Uyarı katmanı (yaklaşma) ---------- */
 .uyari-kart { border: 1px solid var(--vurgu-koyu); background: var(--birincil-zemin); }
 .uyari-baslik { color: var(--vurgu); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; }
+
+
+/* Tutar ve para birimi yan yana: tasarımda tek bir alan başlığının altında
+   iki kutu duruyor ("480" + "MKD"). Ayrı satırlara bölününce form uzuyor ve
+   iki bilgi birbirinden kopuk görünüyordu. */
+.girdi-cift { display: flex; gap: 8px; }
+.girdi-cift .girdi { flex: 1; min-width: 0; }
+.girdi-cift .girdi:last-child { flex: 0 0 34%; }
