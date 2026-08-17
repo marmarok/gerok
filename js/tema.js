@@ -5,10 +5,13 @@
 // yazmak. Seçim localStorage'da tutuluyor — gezi verisi değil, cihaz tercihi;
 // ayrıca açılışta beklemeden okunabiliyor (index.html'deki küçük betik).
 
+// Sıra ve adlar tasarımdan: önce iki gerçek seçenek, sonra "karar verme"
+// seçeneği. "Açık/Koyu" yerine "Gündüz/Gece" — kâğıdın rengini değil, günün
+// hangi saatinde bakıldığını anlatıyor.
 export const TEMALAR = [
-  { id: 'otomatik', ad: 'Otomatik' },
-  { id: 'acik', ad: 'Açık' },
-  { id: 'koyu', ad: 'Koyu' }
+  { id: 'acik', ad: 'Gündüz' },
+  { id: 'koyu', ad: 'Gece' },
+  { id: 'otomatik', ad: 'Otomatik' }
 ];
 
 const ANAHTAR = 'gerokTema';

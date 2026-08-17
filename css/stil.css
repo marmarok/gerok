@@ -1109,3 +1109,31 @@ body:has(.ses-katman:not(.gizli)) .bildirim {
 .girdi-cift { display: flex; gap: 8px; }
 .girdi-cift .girdi { flex: 1; min-width: 0; }
 .girdi-cift .girdi:last-child { flex: 0 0 34%; }
+
+/* ---------- Panel satırı ----------
+   Etiket solda, o anki değer sağda, satırın tamamı dokunulabilir.
+   Panel bir düğme duvarı değil, bir durum listesi: bakmak için basmak
+   gerekmiyor. Gerekçe: js/app.js → panelSatiri */
+.panel-satir.dokunulur {
+  width: 100%; text-align: left; background: none; border: 0;
+  border-bottom: 1px solid var(--cizgi);
+  padding: 9px 0; font-size: 14px; font-family: inherit;
+  align-items: center;
+}
+.panel-satir.dokunulur:active .etiket { color: var(--vurgu); }
+.panel-satir .deger { display: flex; align-items: center; gap: 7px; justify-content: flex-end; }
+/* Rozet: bekleyen ya da dikkat isteyen satırın sağında. */
+.satir-rozet {
+  min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px;
+  background: var(--vurgu); color: var(--vurgu-yazi);
+  font-size: 11px; font-weight: 600; line-height: 18px; text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+/* Görünüm seçicisi satırlardan sonra, ortalanmış. */
+.tema-secici {
+  display: flex; flex-wrap: wrap; justify-content: center;
+  gap: 8px; margin: 10px 0 2px;
+}
+/* İki düğme yan yana: panelin altındaki eylemler. */
+.cift-izgara { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+.cift-izgara .kucuk-dugme { padding: 11px 8px; border-radius: 11px; font-size: 13.5px; line-height: 1.2; }

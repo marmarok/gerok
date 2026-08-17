@@ -2557,6 +2557,13 @@ document.addEventListener('visibilitychange', async () => {
 // kartlık bir duvar olduğunda aranan şey bulunamıyordu.
 let acikPanel = null;
 
+function panelSatiri({ etiket, deger = '', id = '', rozet = '' }) {
+  return `<button class="panel-satir dokunulur"${id ? ` id="${id}"` : ''}>
+    <span class="etiket">${etiket}</span>
+    <span class="deger">${deger}${rozet ? `<span class="satir-rozet">${kacis(String(rozet))}</span>` : ''}</span>
+  </button>`;
+}
+
 // Panel kabuğu. Başlık bir düğme: dokununca açılıp kapanıyor, ok dönüyor.
 // `uyari` doğruysa başlığın yanına bir yıldız düşüyor — panel kapalıyken bile
 // içeride bekleyen bir şey olduğu görünsün diye.
@@ -2614,6 +2621,22 @@ async function paneliCiz() {
   const yedekYazi = yedek
     ? gerok.tarihUzun(yedek) + ' ' + gerok.saat(yedek)
     : 'hiç alınmadı';
+
+  const sinama = await veri.ayarOku('sonSinama', null);
+  const sinamaYazi = sinama
+    ? `${gerok.tarihUzun(sinama.an)} ${gerok.saat(sinama.an)} · ` +
+      (sinama.saglam ? 'okunabilir ✓' : 'eksik var')
+    : 'sınanmadı';
+
+  // Arkadaşın adı ayrı bir ayar değil: gelen kayıtların sahibinden okunuyor.
+  // Paket alınmadan önce adı bilmenin yolu da yok zaten.
+  const arkadasAdi = durum.kayitlar.find(k =>
+    k.sahip && k.sahip !== sahip.id && k.sahipAd)?.sahipAd || '';
+  // Adı bilinmiyorsa "arkadaşına" diyor; "…'e" eki ancak gerçek bir ad varsa
+  // eklenebiliyor. ("Günü arkadaşına'e gönder" olmasın.)
+  const gonderEtiketi = arkadasAdi
+    ? `Günü ${kacis(arkadasAdi)}'e gönder`
+    : 'Günü arkadaşına gönder';
 
   // Bağlantı kuyruğu: internet bulununca tamamlanacak işler.
   const ag = await baglanti.agVarMi();
@@ -2698,81 +2721,80 @@ async function paneliCiz() {
       ad: 'eşitleme',
       uyari: yedekEski,
       ic: `
-        <div class="panel-satir"><span class="etiket">Son yedek</span>
-          <span class="deger">${kacis(yedekYazi)}</span></div>
-        <button class="eylem-dugme" id="btnGonder">Günümü gönder (AirDrop)</button>
-        <button class="eylem-dugme" id="btnAl">Gelen paketi al</button>
-        <button class="eylem-dugme" id="btnYedek">Yedek al (Dosyalar'a)</button>
-        <button class="eylem-dugme" id="btnYedekSina">Yedeği sına</button>`,
-      not: 'İki telefon arası dosya alışverişi ve yedek. Sunucu yok, hesap yok — ' +
-           'AirDrop iki telefon arasında doğrudan çalışır, internet gerekmez.'
+        ${panelSatiri({ etiket: gonderEtiketi,
+          deger: ag ? 'AirDrop · uzaktan' : 'AirDrop · yan yana', id: 'btnGonder' })}
+        ${panelSatiri({ etiket: 'Gelen paketi al', id: 'btnAl' })}
+        ${panelSatiri({ etiket: 'Yedek al', deger: kacis(yedekYazi), id: 'btnYedek' })}
+        ${panelSatiri({ etiket: 'Yedeği sına', deger: kacis(sinamaYazi), id: 'btnYedekSina' })}`,
+      not: ag
+        ? 'Bağlıyken gün paketi uzaktan da gidebilir — yine dosya olarak, hesapsız.'
+        : 'Sunucu yok, hesap yok. Şu an iki telefon yan yana olmalı; internet ' +
+          'varsa uzaktan da gönderilebilir.'
     })}
 
     ${panelKur({
       ad: 'bu telefon',
       uyari: azYer,
       ic: `
-        <div class="girdi-etiket">Aydınlık</div>
-        <div class="secenekler" id="temaSecenek">
+        ${panelSatiri({ etiket: 'Bu telefon', deger: kacis(sahip.ad || '—') })}
+        ${panelSatiri({ etiket: 'Adı değiştir', id: 'btnAd' })}
+        ${panelSatiri({ etiket: 'İndirilmiş harita', deger: '<span id="haritaDurum">bakılıyor…</span>' })}
+        ${depo ? `
+          ${panelSatiri({ etiket: 'Telefonda kullanılan', deger: boyutYaz(depo.kullanilan) })}
+          ${panelSatiri({ etiket: 'Boş yer', id: 'btnBosYer',
+            deger: (depo.kota ? boyutYaz(depo.kota - depo.kullanilan) : '—') + (azYer ? ' · az' : ''),
+            rozet: azYer ? '!' : '' })}
+          ${panelSatiri({ etiket: 'Veri kalıcı korunuyor', deger: depo.kalici ? 'evet' : 'hayır' })}
+        ` : ''}
+        ${panelSatiri({ etiket: 'Harita paketi indir', id: 'btnHarita' })}
+        ${!depo?.kalici ? panelSatiri({ etiket: 'Kalıcı depolama iste', id: 'btnKalici' }) : ''}
+
+        <div class="tema-secici" id="temaSecenek">
           ${TEMALAR.map(t => `<button class="kucuk-dugme" data-tema="${t.id}">${t.ad}</button>`).join('')}
         </div>
-
         <div class="girdi-etiket">Renk</div>
         <div class="secenekler" id="semaSecenek">
           ${SEMA_SECENEKLERI.map(o => `<button class="kucuk-dugme" data-sema="${kacis(o.id)}">${kacis(o.ad)}</button>`).join('')}
         </div>
         <div class="panel-not kucuk">Kâğıdın rengi değişmiyor; değişen tek şey
         üzerine basılabilecek şeylerin rengi. Bugünkü renk:
-        <b>${kacis(cozulmusSema(semaSecimi(), geziGunuNo()))}</b>.</div>
-
-        <div class="panel-satir"><span class="etiket">Bu telefon</span>
-          <span class="deger">${kacis(sahip.ad || '—')}</span></div>
-        <button class="eylem-dugme" id="btnAd">Adımı değiştir</button>
-
-        <div class="panel-satir" style="margin-top:14px"><span class="etiket">İndirilmiş harita</span>
-          <span class="deger" id="haritaDurum">bakılıyor…</span></div>
-        ${depo ? `
-          <div class="panel-satir"><span class="etiket">Telefonda kullanılan</span>
-            <span class="deger">${boyutYaz(depo.kullanilan)}</span></div>
-          <div class="panel-satir"><span class="etiket">Boş yer</span>
-            <span class="deger">${depo.kota ? boyutYaz(depo.kota - depo.kullanilan) : '—'}${azYer ? ' · az' : ''}</span></div>
-          <div class="panel-satir"><span class="etiket">Veri kalıcı korunuyor</span>
-            <span class="deger">${depo.kalici ? 'evet' : 'hayır'}</span></div>
-        ` : ''}
-        <button class="eylem-dugme" id="btnHarita">Harita paketini indir</button>
-        ${!depo?.kalici ? '<button class="eylem-dugme" id="btnKalici">Kalıcı depolama iste</button>' : ''}`,
+        <b>${kacis(cozulmusSema(semaSecimi(), geziGunuNo()))}</b>.</div>`,
       not: 'Görünüm, ad, indirilmiş harita ve yer.'
     })}
 
     ${panelKur({
       ad: 'gezi',
       ic: `
-        <button class="eylem-dugme" id="btnBaslangic">Başlangıç kaydı${ozelVarMi.baslangic ? ' ✓' : ''}</button>
-        <button class="eylem-dugme" id="btnGeziSonu">Gezi Sonu'nu başlat${ozelVarMi.bitis ? ' ✓' : ''}</button>
-        <button class="eylem-dugme" id="btnMektup">Mühürlü mektup yaz${ozelVarMi.mektup ? ' ✓' : ''}
-          ${mektupYillari.length ? `<span class="yol-alt">yazılmış: ${mektupYillari.join(', ')}</span>` : ''}
-        </button>
+        ${panelSatiri({ etiket: 'Başlangıç kaydı', id: 'btnBaslangic',
+          deger: ozelVarMi.baslangic ? 'alındı' : 'boş' })}
+        ${panelSatiri({ etiket: 'Bitiş kaydı',
+          deger: ozelVarMi.bitis ? 'alındı' : 'boş' })}
+        ${panelSatiri({ etiket: 'Mühürlü mektup', id: 'btnMektup',
+          deger: mektupYillari.length
+            ? `${mektupYillari.length} mektup · ${kacis(mektupYillari.join(', '))}`
+            : 'yok' })}
+        ${panelSatiri({ etiket: 'Şu anki gezi', deger: s ? kacis(s.ad) : 'yok' })}
+        ${panelSatiri({ etiket: 'Bütün geziler', id: 'btnTurlar' })}
+        ${panelSatiri({ etiket: 'Yeni gezi başlat', id: 'btnYeniTur' })}
+        ${panelSatiri({ etiket: 'Program dosyası yükle', id: 'btnPaket', deger: 'PDF · .gerok' })}
 
-        <div class="panel-satir" style="margin-top:14px"><span class="etiket">Şu anki gezi</span>
-          <span class="deger">${s ? kacis(s.ad) : 'yok'}</span></div>
-        <button class="eylem-dugme" id="btnTurlar">Bütün geziler</button>
-        <button class="eylem-dugme" id="btnYeniTur">Yeni gezi başlat</button>
-        <button class="eylem-dugme" id="btnPaket">Gezi paketi yükle</button>`,
-      not: 'Gezinin başı ve sonu, bütün geziler, program dosyası. ' +
-           'Paket zorunlu değil — gezi elle de başlatılabiliyor.'
+        <div class="cift-izgara">
+          <button class="kucuk-dugme" id="btnGeziSonu">Gezi Sonu’nu başlat</button>
+          <button class="kucuk-dugme" id="btnMektupYaz">Mühürlü mektup yaz</button>
+        </div>`,
+      not: 'Gezinin başı ve sonu, bütün geziler, program dosyası.'
     })}
 
     ${panelKur({
       ad: 'sürüm ve yardım',
       ic: `
-        <div class="panel-satir"><span class="etiket">Telefondaki sürüm</span>
-          <span class="deger" id="surumYazi">bakılıyor…</span></div>
-        <button class="eylem-dugme" id="btnSurum">Yeni sürüm var mı?</button>
-        <button class="eylem-dugme" id="btnSinama">Telefonu sına</button>
-        <button class="eylem-dugme" id="btnKurulum">Nasıl kullanılır</button>
-        <button class="eylem-dugme" id="btnTamir">Bir şey ters giderse</button>`,
-      not: 'Sürüm bilgisi, sınama ve tamir kılavuzu. Üçü de telefonun içinden ' +
-           'çalışır; yalnızca sürüm sorgusu internet ister.'
+        ${panelSatiri({ etiket: 'Telefondaki sürüm', id: 'btnSurum',
+          deger: '<span id="surumYazi">bakılıyor…</span>' })}
+        ${panelSatiri({ etiket: 'Telefonu sına', id: 'btnSinama' })}
+        ${panelSatiri({ etiket: 'Nasıl kullanılır', id: 'btnKurulum' })}
+        ${panelSatiri({ etiket: 'Bir şey ters giderse', id: 'btnTamir',
+          deger: 'tamir kılavuzu' })}`,
+      not: 'Sürüm bilgisi, sınama ve tamir kılavuzu.'
     })}
   `;
 
@@ -2803,7 +2825,9 @@ async function paneliCiz() {
   $('#btnAd').addEventListener('click', adSor);
   $('#btnBaslangic').addEventListener('click', () => baslangicKaydiAc(tazele));
   $('#btnGeziSonu').addEventListener('click', () => geziSonuAc(durum, tazele));
+  // İki giriş de aynı akışı açıyor: satırdaki bilgi ve alttaki düğme.
   $('#btnMektup').addEventListener('click', () => mektupAc(tazele));
+  $('#btnMektupYaz')?.addEventListener('click', () => mektupAc(tazele));
   $('#btnPaket').addEventListener('click', () => $('#dosyaSecici').click());
   $('#btnTurlar').addEventListener('click', turlariYonet);
   $('#btnYeniTur').addEventListener('click', () => yeniTurSor());
@@ -3088,9 +3112,12 @@ async function yedegiSina() {
       if (t > 3) kayitBildir(`Yedek sınanıyor… ${y}/${t}`);
     });
     if (r.saglam) {
+      await veri.ayarYaz('sonSinama', { an: Date.now(), saglam: true });
       kayitBildir(`Yedek sınandı ✓ · ${boyutYaz(r.boyut)} · ` +
         `${r.kayitSayi} kayıt okunabiliyor`, 'iyi');
+      paneliCiz();
     } else {
+      await veri.ayarYaz('sonSinama', { an: Date.now(), saglam: false });
       kayitBildir(`Dikkat: ${r.eksik} kaydın ses/görsel dosyası yedeğe girmedi. ` +
         'Yer açıp tekrar dene; olmuyorsa tamir kılavuzuna bak.', 'kotu');
     }
