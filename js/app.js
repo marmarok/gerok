@@ -1497,7 +1497,7 @@ export async function sesKaydiBaslat(tur, { sinir = 0, ipucu = 'Konuş — bitin
     durum.mikrofonRed = izinYok;
     kayitUyarilariniCiz();
     kayitBildir(izinYok
-      ? 'Mikrofon izni yok. Ayarlar → Gerok → Mikrofon → İzin ver.'
+      ? 'Mikrofon izni yok · Ayarlar → Gerok → Mikrofon'
       : `Mikrofon açılamadı: ${hata?.message || 'bilinmeyen sebep'}`, 'kotu');
     return;
   }
@@ -1564,6 +1564,8 @@ export async function sesKaydiBitir() {
       ? `Gün ${k.gun}`
       : `zaman çizgisinin başında · ${gerok.tarihUzun(k.t)}`;
     kayitBildir(`Kaydedildi · ${sureYaz(k.sure)} → ${nere}`, 'iyi');
+    const d = $('#kayitDurum');
+    if (d) d.textContent = 'Kaydedildi · zaman çizgisine düştü';
     titret([8, 40, 8]);
     await tazele();
     // Kaydın ne olduğunu şimdi sor. Gezide çıkan sorun: zaman çizgisinde
@@ -1916,7 +1918,7 @@ function duraklariCiz() {
 
   // Gün gün başlıklar — rota da zaten gün gün renkleniyor.
   let html = `<div class="durak-ekle-satir">
-    <button class="eylem-dugme" id="durakEkleHarita">Haritadan durak ekle</button>
+    <button class="eylem-dugme" id="durakEkleHarita">Haritadan durak koy</button>
     <button class="eylem-dugme" id="durakEkleBurada">Burayı durak yap</button>
   </div>`;
 

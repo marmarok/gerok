@@ -275,7 +275,7 @@ function kaynakYazisiTazele() {
   if (!e) return;
   e.textContent = aktifKip === 'uydu'
     ? '© Esri, Maxar · © OpenStreetMap'
-    : '© OpenStreetMap';
+    : '© OpenStreetMap · çevrimdışı pmtiles';
 }
 
 // Haritanın o an baktığı yer — "Google Haritalar'da aç" bunu kullanıyor.

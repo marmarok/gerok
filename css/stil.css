@@ -488,9 +488,12 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
   -webkit-mask-image: radial-gradient(ellipse 72% 58% at 50% 50%, #000 30%, rgba(0,0,0,.6) 68%, rgba(0,0,0,0) 100%);
   mask-image: radial-gradient(ellipse 72% 58% at 50% 50%, #000 30%, rgba(0,0,0,.6) 68%, rgba(0,0,0,0) 100%);
 }
+/* Metin rengi sabit: altındaki parlak lekeler iki temada da açık, tema
+   tokenı kullanılınca gece kipinde okunmuyordu. */
 .harita-kipler .kip {
   padding: 6px 15px; border: 0; background: transparent;
-  font-size: 13px; font-weight: 400; color: #241f1a; opacity: .62;
+  font-size: 13px; font-weight: 500; color: #2b241c; opacity: .6;
+  text-shadow: 0 1px 2px rgba(255,255,255,.6);
 }
 .harita-kipler .kip.secili { font-weight: 700; opacity: 1; }
 
@@ -568,6 +571,18 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
 #haritaBenim  { --leke: rgba(120,235,205,.72); }
 #haritaHepsi  { --leke: rgba(206,196,255,.72); }
 .yuvarlak.secili { --leke: rgba(255,168,60,.92); }
+
+/* Google düğmesi: harf Google'ın dört rengiyle boyalı. Düz bir "G" hangi
+   uygulamaya gidileceğini söylemiyordu. */
+#haritaGoogle {
+  font-weight: 700; font-size: 20px;
+  background-image: radial-gradient(circle at 50% 50%, var(--leke) 0%, rgba(252,250,246,0) 72%),
+    linear-gradient(135deg,#4285f4 0%,#4285f4 28%,#ea4335 34%,#ea4335 52%,
+      #fbbc05 58%,#fbbc05 76%,#34a853 82%,#34a853 100%);
+  background-clip: padding-box, text;
+  -webkit-background-clip: padding-box, text;
+  color: transparent;
+}
 
 /* ---------- Kayıt ekranı ---------- */
 .kayit-alan { padding: 44px 16px calc(28px + var(--alt)); display: flex; flex-direction: column; gap: 12px; }
