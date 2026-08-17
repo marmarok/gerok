@@ -10,7 +10,7 @@ import { gunSonuAc, geziSonuAc, baslangicKaydiAc, bitisKaydiAc, mektupAc } from 
 import { paketGonder, paketAl, yedekAl, sonYedekZamani, yedekSina,
   bulutaYukle, yedektenGeriYukle } from './esitleme.js';
 import { temaBaslat, kagitSecimi, kagitSec, kagitSil, varsayilanKagit } from './tema.js';
-import { GUNLERIN_RENKLERI, semaSecimi, semaUygula, semaVurgusu,
+import { semaSecimi, semaUygula,
   ozelVurgu, ozelVurguSec, ozelVurguSil } from './sema.js';
 import * as baglanti from './baglanti.js';
 import { sihirbaziAc } from './sihirbaz.js';
@@ -2881,14 +2881,12 @@ async function paneliCiz() {
         ${!depo?.kalici ? panelSatiri({ etiket: 'Kalıcı depolama iste', id: 'btnKalici' }) : ''}
 
         <div class="girdi-etiket">Renk</div>
-        <div class="renk-satir" id="renkGunler">
-          <div class="renk-ad">Haftanın 7 günü</div>
-          <div class="renk-ornekler">
-            ${GUNLERIN_RENKLERI.map(g => `<span class="renk-gun" title="${kacis(g.ad)}">
-              <i style="background:${semaVurgusu(g.sema)}"></i>${kacis(g.ad)}</span>`).join('')}
-          </div>
-          <div class="renk-not">Sabit — değişmiyor. Her günün kendi rengi var.</div>
-        </div>
+        <button class="panel-satir dokunulur" id="btnGunRengi">
+          <span class="etiket">Haftanın günü</span>
+          <span class="deger">${ozelVurgu()
+            ? 'kapalı'
+            : '<i class="renk-kutu" style="background:var(--vurgu)"></i>açık'}</span>
+        </button>
         <button class="panel-satir dokunulur" id="btnKagitRenk">
           <span class="etiket">Kâğıdın rengini değiştir</span>
           <span class="deger"><i class="renk-kutu" style="background:${kagitSecimi() || 'var(--zemin)'}"></i>${kagitSecimi() ? kacis(kagitSecimi()) : 'telefonun ayarı'}</span>
@@ -3288,6 +3286,19 @@ function renkSecicisiAc({ baslik, alt, baslangic, ozelMi, uygula, sifirla, sifir
 }
 
 function renkDugmeleriniKur() {
+  // Haftanın günü: seçici açmıyor, tek dokunuşla dönüyor. Yedi rengin
+  // hangisinin hangi güne düştüğünü göstermenin bir faydası yok — seçilebilir
+  // değiller, sıra kendiliğinden dönüyor.
+  $('#btnGunRengi')?.addEventListener('click', () => {
+    if (!ozelVurgu()) {
+      kayitBildir('Renk zaten haftanın gününe göre dönüyor');
+      return;
+    }
+    ozelVurguSil(geziGunuNo());
+    kayitBildir('Renk haftanın gününe döndü', 'iyi');
+    paneliCiz();
+  });
+
   $('#btnKagitRenk')?.addEventListener('click', () => renkSecicisiAc({
     baslik: 'Kâğıdın rengi',
     alt: 'Zeminin rengi. Açık bir renk seçersen gündüz kipi, koyu bir renk ' +

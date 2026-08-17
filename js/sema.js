@@ -70,10 +70,6 @@ const DONGU = ['buz mavisi', 'açık yeşil', 'mürekkep', 'zeytin + tuğla',
 // kâğıdın rengi (js/tema.js) ve vurgu rengi (aşağıda) — son ikisi sınırsız.
 export const SEMA_SECENEKLERI = [{ id: 'gun', ad: 'Haftanın günü' }];
 
-/** Haftanın yedi gününün adı ve rengi — panelde yan yana gösteriliyor. */
-export const GUNLERIN_RENKLERI = ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz']
-  .map((ad, i) => ({ ad, sema: DONGU[i] }));
-
 const ANAHTAR = 'gerokSema';
 const VURGU_ANAHTAR = 'gerokVurgu';
 
@@ -161,13 +157,6 @@ export function semaUygula(secim = semaSecimi(), geziGunu = 0) {
     `rgba(${r},${g},${b},.55) 88%,rgba(${r},${g},${b},0) 100%)`);
 
   return ad;
-}
-
-/** Bir şemanın o anki temadaki vurgu rengi — yedi günün örnekleri için. */
-export function semaVurgusu(ad) {
-  const s = SEMALAR[ad] || SEMALAR['kahve'];
-  const tema = document.documentElement.dataset.tema === 'acik' ? 'acik' : 'koyu';
-  return (s[tema] || s.acik).vurgu;
 }
 
 export function semaSec(secim, geziGunu = 0) {

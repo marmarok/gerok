@@ -99,8 +99,8 @@ const CIZIMLER = {
 /**
  * Emoji karşılıkları.
  *
- * Yukarıdaki üç itiraz hâlâ doğru — ama 17 Ağustos'ta defterin sahibi "emojiye dön"
- * dedi ve şartname (SPEC §2.4) da sekmelerde emoji istiyor. SVG çizimler
+ * Yukarıdaki üç itiraz hâlâ doğru — ama 17 Ağustos'ta defterin sahibi
+ * "emojiye dön" dedi ve şartname (SPEC §2.4) da sekmelerde emoji istiyor. SVG çizimler
  * silinmedi: `EMOJI` değişkenini false yapmak eski sete geri döndürüyor.
  */
 const EMOJILER = {
