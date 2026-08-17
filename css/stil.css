@@ -588,7 +588,7 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
 }
 .orta-dugme > span { display: flex; color: var(--soluk); }
 .orta-dugme:active { background: var(--kat2); }
-.orta-dugme.genis { flex-direction: row; gap: 10px; }
+.orta-dugme.genis { flex-direction: row; justify-content: center; gap: 10px; }
 
 /* Alt bardan hemen yukarıda yüzen bildirim — her ekranda görünür. */
 .bildirim {
@@ -698,14 +698,36 @@ body:has(.ses-katman:not(.gizli)) .bildirim {
 /* ---------- Duraklar ---------- */
 .yol-modu-kap { padding: 42px 16px 6px; }
 .yol-modu {
-  width: 100%; display: flex; flex-direction: column; gap: 4px; align-items: flex-start;
+  width: 100%; display: flex; align-items: center; gap: 14px;
   padding: 17px 18px; border-radius: 15px;
   background: var(--kat); border: 1px solid var(--cizgi); text-align: left;
 }
+.yol-sol { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
 .yol-modu.acik { background: var(--birincil-zemin); border-color: var(--vurgu-koyu); }
 .yol-ad { font-size: 16px; font-weight: 600; }
 .yol-modu.acik .yol-ad { color: var(--vurgu); }
 .yol-alt { font-size: 12px; color: var(--soluk); }
+
+/* Anahtar */
+.yol-sag { flex: none; display: flex; flex-direction: column; align-items: center; gap: 5px; }
+.yol-ray {
+  width: 50px; height: 28px; border-radius: 14px; position: relative; display: block;
+  background: var(--kat2); border: 1px solid var(--cizgi);
+  transition: background .2s, border-color .2s;
+}
+.yol-topuz {
+  position: absolute; top: 2px; left: 2px;
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--cok-soluk); box-shadow: var(--golge);
+  transition: left .2s, background .2s;
+}
+.yol-modu.acik .yol-ray { background: var(--secili-zemin); border-color: var(--vurgu-koyu); }
+.yol-modu.acik .yol-topuz { left: 26px; background: var(--vurgu); }
+.yol-durum {
+  font-size: 9.5px; font-weight: 700; letter-spacing: .09em;
+  text-transform: uppercase; color: var(--cok-soluk);
+}
+.yol-modu.acik .yol-durum { color: var(--vurgu); }
 
 .durak-kart {
   margin: 10px 16px; padding: 15px 16px;
@@ -730,15 +752,28 @@ body:has(.ses-katman:not(.gizli)) .bildirim {
   width: 34px; height: 30px; border-radius: 8px; font-size: 11px;
   background: var(--kat2); border: 1px solid var(--cizgi); color: var(--soluk);
 }
-.durak-ekle-satir { padding: 14px 16px 2px; display: flex; flex-direction: column; }
-.durak-ekle-satir .eylem-dugme { margin-top: 0; margin-bottom: 9px; }
+.durak-ekle-satir { padding: 14px 16px 2px; display: flex; gap: 9px; }
+.durak-ekle-satir .eylem-dugme { flex: 1; margin: 0; font-size: 13px; line-height: 1.3; padding: 13px 10px; }
 .durak-uzaklik { font-size: 12px; color: var(--soluk); margin-top: 4px; }
 .unutma { margin: 11px 0 0; padding: 0; list-style: none; }
-.unutma li {
-  font-size: 13.5px; line-height: 1.5; color: var(--soluk);
-  padding: 5px 0 5px 18px; position: relative;
+.unutma li { position: relative; }
+
+/* Unutma maddesi bir kutucuk: dokununca işaretleniyor, üstü çiziliyor.
+   İşaret iki telefon arasında da eşitleniyor — biri "bileti aldım" derse
+   ötekinde de öyle görünüyor. */
+.unutma-tik {
+  display: flex; align-items: flex-start; gap: 9px;
+  width: 100%; text-align: left; padding: 5px 0; background: none; border: 0;
 }
-.unutma li::before { content: '·'; position: absolute; left: 6px; color: var(--vurgu); font-weight: 700; }
+.tik-kutu {
+  flex: none; margin-top: 2px; width: 16px; height: 16px; border-radius: 5px;
+  border: 1.5px solid var(--cizgi); background: transparent;
+  color: var(--vurgu-yazi); font-size: 10px; font-weight: 700; line-height: 1;
+  display: flex; align-items: center; justify-content: center;
+}
+.unutma-tik.tikli .tik-kutu { background: var(--vurgu); border-color: var(--vurgu); }
+.tik-yazi { font-size: 13.5px; line-height: 1.5; color: var(--soluk); }
+.unutma-tik.tikli .tik-yazi { text-decoration: line-through; color: var(--cok-soluk); }
 /* Kendi yazdığın notlar paketten gelenden ayrı dursun: soldaki çizgi
    "bunu sen yazdın" demek. Aynı listede toplansaydı hangisinin program,
    hangisinin yolda öğrenilen şey olduğu kaybolurdu. */

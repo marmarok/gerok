@@ -216,11 +216,20 @@ export function izdenKonum(iz, zaman, enFazlaFarkMs = 15 * 60 * 1000) {
 
 // ---- Duraklar (gittik / kaçırdık durumu) ----------------------------------
 
-export async function durakDurumuYaz(id, durum) {
+// Bir durağın üstüne yazılan her şey TEK nesnede duruyor: gittik/kaçırdık
+// işareti ve unutma listesinin işaretlenmiş maddeleri. Ayrı kayıtlara
+// bölünseydi eşitlemede biri ötekini silerdi — iki telefon birleşirken
+// karşılaştırılan şey kaydın tamamı, en yenisi kazanıyor.
+async function durakYamala(id, yama) {
   await ac();
+  const eski = await sarmala(islem(['duraklar']).objectStore('duraklar').get(id));
   const t = islem(['duraklar'], 'readwrite');
-  await sarmala(t.objectStore('duraklar').put({ id, durum, guncelleme: Date.now() }));
+  await sarmala(t.objectStore('duraklar')
+    .put({ ...(eski || {}), ...yama, id, guncelleme: Date.now() }));
 }
+
+export const durakDurumuYaz = (id, durum) => durakYamala(id, { durum });
+export const durakTikleriYaz = (id, tikler) => durakYamala(id, { tikler });
 
 export async function durakDurumlari() {
   await ac();

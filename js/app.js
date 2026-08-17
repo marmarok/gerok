@@ -1862,7 +1862,7 @@ function duraklariCiz() {
   // Gün gün başlıklar — rota da zaten gün gün renkleniyor.
   let html = `<div class="durak-ekle-satir">
     <button class="eylem-dugme" id="durakEkleHarita">Haritadan durak ekle</button>
-    <button class="eylem-dugme" id="durakEkleBurada">Şu an buradayım, durak yap</button>
+    <button class="eylem-dugme" id="durakEkleBurada">Burayı durak yap</button>
   </div>`;
 
   let sonGun = Symbol('yok');
@@ -1877,6 +1877,7 @@ function duraklariCiz() {
     }
 
     const dur = durum.durakDurumlari[d.id]?.durum;
+    const tikler = durum.durakDurumlari[d.id]?.tikler || [];
     const uzaklik = konum ? iz.mesafe(konum.lat, konum.lon, d.lat, d.lon) : null;
     const kendi = d.kaynak === 'kendi';
 
@@ -1893,7 +1894,16 @@ function duraklariCiz() {
                         : (kendi || d.gunTasindi) ? `<div class="durak-uzaklik">${kendi ? 'kendi durağın' : ''}${kendi && d.gunTasindi ? ' · ' : ''}${d.gunTasindi ? 'başka güne taşındı' : ''}</div>` : ''}
       ${d.osmBilgi && d.osmBilgi !== '\u2014'
         ? `<div class="durak-osm" title="OpenStreetMap'ten geldi">${kacis(d.osmBilgi)}</div>` : ''}
-      ${d.unutma?.length ? `<ul class="unutma">${d.unutma.map(u => `<li>${kacis(u)}</li>`).join('')}</ul>` : ''}
+      ${d.unutma?.length ? `<ul class="unutma">${d.unutma.map((u, ui) => {
+        // Unutma listesi artık işaretlenebiliyor. Bir listenin tek işi
+        // "hangisini yaptım" sorusunu cevaplamak; okunup geçilen bir liste
+        // ikinci kez okununca baştan başlatıyordu.
+        const tik = tikler.includes(ui);
+        return `<li><button class="unutma-tik${tik ? ' tikli' : ''}"
+          data-tik="${d.id}" data-tik-no="${ui}">
+          <span class="tik-kutu">${tik ? '✓' : ''}</span>
+          <span class="tik-yazi">${kacis(u)}</span></button></li>`;
+      }).join('')}</ul>` : ''}
       ${kendiNotlari(d)}
       ${yildizSatiri(d)}
       <div class="durak-dugmeler">
@@ -1941,6 +1951,18 @@ function duraklariCiz() {
 
   kap.querySelectorAll('[data-gun-tasi]').forEach(d => {
     d.addEventListener('click', () => durakGunuSor(d.dataset.gunTasi));
+  });
+
+  kap.querySelectorAll('[data-tik]').forEach(b => {
+    b.addEventListener('click', async () => {
+      const id = b.dataset.tik;
+      const no = +b.dataset.tikNo;
+      const su = durum.durakDurumlari[id]?.tikler || [];
+      await veri.durakTikleriYaz(id, su.includes(no) ? su.filter(x => x !== no) : [...su, no]);
+      durum.durakDurumlari = await veri.durakDurumlari();
+      titret(8);
+      duraklariCiz();
+    });
   });
 
   kap.querySelectorAll('[data-duzenle]').forEach(d => {
@@ -2444,6 +2466,7 @@ function uyariSesi() {
 async function yolModuDegistir() {
   durum.yolModu = !durum.yolModu;
   $('#btnYolModu').classList.toggle('acik', durum.yolModu);
+  $('#btnYolModu .yol-durum').textContent = durum.yolModu ? 'açık' : 'kapalı';
 
   if (durum.yolModu) {
     iz.basla();

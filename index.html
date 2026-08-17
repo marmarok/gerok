@@ -159,9 +159,18 @@
   <!-- ---------- DURAKLAR ---------- -->
   <section id="ekran-duraklar" class="ekran">
     <div class="yol-modu-kap">
+      <!-- Anahtar bilerek gerçek bir anahtar gibi: açık mı kapalı mı olduğu
+           yazıya bakmadan, uzaktan da anlaşılsın. Yol Modu pil yiyen tek
+           şey — açık unutulduğunda fark edilmesi gerekiyor. -->
       <button id="btnYolModu" class="yol-modu">
-        <span class="yol-ad">Yol Modu</span>
-        <span class="yol-alt">Ekran açık kalır, durağa yaklaşınca uyarır</span>
+        <span class="yol-sol">
+          <span class="yol-ad">Yol Modu</span>
+          <span class="yol-alt">Ekran açık kalır, durağa yaklaşınca uyarır</span>
+        </span>
+        <span class="yol-sag">
+          <span class="yol-ray"><span class="yol-topuz"></span></span>
+          <span class="yol-durum">kapalı</span>
+        </span>
       </button>
     </div>
     <div id="duraklarListe" class="liste"></div>
