@@ -463,29 +463,40 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
 /* Kip düğmelerinin (Gündüz/Gece/Uydu) altında duruyor — üstlerine binerse
    ikisi de okunmaz oluyordu. */
 .harita-uyari {
-  position: absolute; left: 16px; right: 16px; top: 68px; z-index: 10;
+  position: absolute; left: 16px; right: 16px; top: 92px; z-index: 10;
   background: var(--kat2); border: 1px solid var(--cizgi);
   border-radius: 12px; padding: 14px 16px; font-size: 13.5px; line-height: 1.5;
   color: var(--soluk);
 }
 /* Gündüz / Gece / Uydu geçişi — haritanın üstünde, tek dokunuş uzakta. */
+/* Kip seçici ve yuvarlak düğmeler haritanın ÜSTÜNDE duruyor. Katı bir kutu
+   haritayı kesiyordu; tasarımdaki hâli bulanık bir camın arkasında eriyen
+   ışık lekeleri — kenarları yok, haritanın içinde yüzüyorlar.
+   Yazı rengi bilerek sabit koyu: lekeler her iki temada da AÇIK renk, üstüne
+   temanın yazı rengi gelseydi gece kipinde beyaz üstüne beyaz olurdu. */
 .harita-kipler {
-  position: absolute; left: 14px; top: 14px; z-index: 10;
-  display: flex; gap: 2px; padding: 3px;
-  background: var(--kat2); border: 1px solid var(--cizgi);
-  border-radius: 11px; box-shadow: var(--golge);
+  /* 38 piksel: üst şerit haritanın ilk 30 pikselinin üstüne biniyor. */
+  position: absolute; left: 14px; top: 38px; z-index: 10;
+  display: flex; padding: 6px 2px; border-radius: 12px;
+  -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px);
+  background:
+    radial-gradient(ellipse 20% 140% at 17% 50%, rgba(252,250,246,.92) 0%, rgba(252,250,246,.5) 55%, rgba(252,250,246,0) 100%),
+    radial-gradient(ellipse 20% 140% at 50% 50%, rgba(252,250,246,.92) 0%, rgba(252,250,246,.5) 55%, rgba(252,250,246,0) 100%),
+    radial-gradient(ellipse 20% 140% at 83% 50%, rgba(252,250,246,.92) 0%, rgba(252,250,246,.5) 55%, rgba(252,250,246,0) 100%);
+  -webkit-mask-image: radial-gradient(ellipse 72% 58% at 50% 50%, #000 30%, rgba(0,0,0,.6) 68%, rgba(0,0,0,0) 100%);
+  mask-image: radial-gradient(ellipse 72% 58% at 50% 50%, #000 30%, rgba(0,0,0,.6) 68%, rgba(0,0,0,0) 100%);
 }
 .harita-kipler .kip {
-  padding: 8px 13px; border-radius: 8px; font-size: 13px; color: var(--soluk);
-  background: transparent; border: none;
+  padding: 6px 15px; border: 0; background: transparent;
+  font-size: 13px; font-weight: 400; color: #241f1a; opacity: .62;
 }
-.harita-kipler .kip.secili { background: var(--vurgu-koyu); color: var(--vurgu-yazi); }
+.harita-kipler .kip.secili { font-weight: 700; opacity: 1; }
 
 /* Yer arama — haritanın üstünde, kip düğmelerinin altında.
    Sonuç listesi kutunun içinde kayıyor: uzun liste haritayı tamamen
    kaplarsa nereye gittiğini göremiyorsun. */
 .harita-arama {
-  position: absolute; left: 12px; right: 12px; top: 14px; z-index: 14;
+  position: absolute; left: 12px; right: 12px; top: 60px; z-index: 14;
   background: var(--kat); border: 1px solid var(--cizgi);
   border-radius: 12px; box-shadow: var(--golge); overflow: hidden;
 }
@@ -534,16 +545,27 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
 }
 .harita-ekle-bar .ekle-yazi { font-size: 13px; color: var(--soluk); line-height: 1.45; }
 .harita-ekle-bar .ekle-dugmeler { display: flex; gap: 8px; margin-top: 10px; }
-.yuvarlak.secili { background: var(--vurgu); color: var(--vurgu-yazi); border-color: var(--vurgu); }
-
 .harita-dugmeler { position: absolute; right: 14px; bottom: 22px; z-index: 10; display: flex; flex-direction: column; gap: 10px; }
+/* Her düğme kendi renginde bir ışık lekesi: ara mavi, durak vurgu renginde,
+   konumum yeşil, Google beyaz. Renk hangi düğme olduğunu simgeden önce
+   söylüyor — araç sallanırken göz simgeyi okumaya yetişmiyor. */
 .yuvarlak {
-  width: 46px; height: 46px; border-radius: 50%;
-  background: var(--kat2); border: 1px solid var(--cizgi);
-  font-size: 19px; display: flex; align-items: center; justify-content: center;
+  --leke: rgba(252,250,246,.82);
+  width: 46px; height: 46px; border: 0;
+  display: flex; align-items: center; justify-content: center;
+  color: #241f1a;
+  background: radial-gradient(circle at 50% 50%, var(--leke) 0%, rgba(252,250,246,0) 72%);
+  -webkit-backdrop-filter: blur(7px); backdrop-filter: blur(7px);
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 38%, rgba(0,0,0,.45) 66%, rgba(0,0,0,0) 100%);
+  mask-image: radial-gradient(circle at 50% 50%, #000 38%, rgba(0,0,0,.45) 66%, rgba(0,0,0,0) 100%);
   box-shadow: var(--golge);
-  color: var(--yazi);
+  font-size: 19px;
 }
+#haritaAra    { --leke: rgba(120,190,255,.72); }
+#haritaDurak  { --leke: rgba(255,196,120,.72); }
+#haritaBenim  { --leke: rgba(120,235,205,.72); }
+#haritaHepsi  { --leke: rgba(206,196,255,.72); }
+.yuvarlak.secili { --leke: rgba(255,168,60,.92); }
 
 /* ---------- Kayıt ekranı ---------- */
 .kayit-alan { padding: 44px 16px calc(28px + var(--alt)); display: flex; flex-direction: column; gap: 12px; }

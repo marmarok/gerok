@@ -57,7 +57,11 @@ async function ilerle(durum) {
 }
 
 function ustBilgi(baslik, alt) {
+  // Noktalar Gezi Sonu'nda vardı, Gün Sonu'nda yoktu — oysa altı adımlı olan
+  // bu. "Daha kaç adım var" sorusunun cevabı akşam en çok burada gerekiyor.
   return `<div class="gs-sayac">Gün Sonu · ${adim + 1}/${ADIMLAR.length}</div>
+    <div class="gs-noktalar">${ADIMLAR.map((_, i) =>
+      `<span class="gs-nokta${i <= adim ? ' dolu' : ''}"></span>`).join('')}</div>
     <div class="ortu-baslik">${baslik}</div>
     ${alt ? `<div class="ortu-alt">${alt}</div>` : ''}`;
 }
