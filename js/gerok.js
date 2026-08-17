@@ -24,6 +24,16 @@ let siraDuzeni = {};
 // karşı telefona da geçiyor ve gerekirse geri alınabiliyor.
 let gunDuzeni = {};
 
+// Paket duraklarının üstüne yazılan düzeltmeler: durak kimliği →
+// `{ ad, unutma, gizli }`.
+//
+// Paket duraklarının adı ve unutma listesi Mac'te hazırlanıyor; yolda yanlış
+// çıkabiliyor ("müze" diye yazılan yer aslında kilise) ya da hiç gidilmeyecek
+// olduğu anlaşılıyor. Gün ve sıra düzeninde olduğu gibi paketin kendisine
+// dokunulmuyor — üstüne bu katman uygulanıyor, geri alınabiliyor ve akşam
+// eşitlemesiyle karşı telefona da geçiyor.
+let durakDuzeni = {};
+
 // Duraklara elle yazılan notlar: durak kimliği → not dizisi.
 //
 // Pakette zaten "unutma" listesi var ama o Mac'te hazırlanıyor ve yolda
@@ -64,6 +74,7 @@ export async function baslat() {
   ozel = await ayarOku('ozelDuraklar', []);
   siraDuzeni = await ayarOku('durakSirasi', {});
   gunDuzeni = await ayarOku('durakGunleri', {});
+  durakDuzeni = await ayarOku('durakDuzenleri', {});
   durakNotlari = await ayarOku('durakNotlari', {});
   durakPuanlari = await ayarOku('durakPuanlari', {});
   durakBilgileri = await ayarOku('durakBilgileri', {});
@@ -277,10 +288,14 @@ export function duraklar(gerok = aktif) {
   const kendi = ozel
     .filter(d => !d.silindi && (d.gerokId ?? null) === turId)
     .map(d => ({ ...d, kaynak: 'kendi' }));
-  const hepsi = [...paket, ...kendi];
+  // Silinmiş paket durakları listeye hiç girmiyor.
+  const hepsi = [...paket, ...kendi].filter(d => !durakDuzeni[d.id]?.gizli);
   // Gün değişikliği paketin kendisine yazılmıyor, üstüne katman olarak
   // uygulanıyor — sıra düzeninde olduğu gibi.
   for (const d of hepsi) {
+    const dz = durakDuzeni[d.id];
+    if (dz?.ad) { d.ad = dz.ad; d.duzeltildi = true; }
+    if (dz?.unutma) { d.unutma = dz.unutma; d.duzeltildi = true; }
     if (gunDuzeni[d.id] != null) { d.gun = gunDuzeni[d.id]; d.gunTasindi = true; }
     if (siraDuzeni[d.id] != null) d.sira = siraDuzeni[d.id];
     d.notlar = (durakNotlari[d.id] || []).filter(n => !n.silindi)
@@ -317,30 +332,62 @@ export async function durakEkle({ ad, lat, lon, gun = null, unutma = [] }) {
   return durak;
 }
 
-// Yalnızca kendi eklediklerimiz silinebiliyor: paket durağı gezinin programı,
-// silmek yerine "kaçırdık" işaretlenir.
+// Her durak silinebiliyor — paket durağı da. Kendi eklediklerimiz `ozel`
+// listesinde işaretleniyor, paket durakları için üstüne "gizli" katmanı
+// yazılıyor. Paketin kendisi bozulmuyor: paket yeniden yüklenirse durak
+// yerinde duruyor, yalnızca bu telefondaki katman onu saklıyor.
 export async function durakYokEt(id) {
   const d = ozel.find(x => x.id === id);
-  if (!d) return false;
-  d.silindi = true;
-  d.guncelleme = Date.now();
-  await ayarYaz('ozelDuraklar', ozel);
+  if (d) {
+    d.silindi = true;
+    d.guncelleme = Date.now();
+    await ayarYaz('ozelDuraklar', ozel);
+    return true;
+  }
+  durakDuzeni[id] = { ...(durakDuzeni[id] || {}), gizli: true, guncelleme: Date.now() };
+  await ayarYaz('durakDuzenleri', { ...durakDuzeni });
   return true;
 }
 
 export async function durakDuzenle(id, { ad, gun, unutma }) {
   const d = ozel.find(x => x.id === id);
-  if (!d) return false;
-  if (ad != null) d.ad = String(ad).trim() || d.ad;
-  if (gun !== undefined) d.gun = gun;
-  if (unutma) d.unutma = unutma.filter(Boolean);
-  d.guncelleme = Date.now();
-  await ayarYaz('ozelDuraklar', ozel);
+  if (d) {
+    if (ad != null) d.ad = String(ad).trim() || d.ad;
+    if (gun !== undefined) d.gun = gun;
+    if (unutma) d.unutma = unutma.filter(Boolean);
+    d.guncelleme = Date.now();
+    await ayarYaz('ozelDuraklar', ozel);
+    return true;
+  }
+
+  // Paket durağı: gün zaten kendi katmanında (gunDuzeni), ad ve unutma
+  // listesi buraya yazılıyor.
+  if (!duraklar().some(x => x.id === id)) return false;
+  const dz = { ...(durakDuzeni[id] || {}) };
+  if (ad != null && String(ad).trim()) dz.ad = String(ad).trim();
+  if (unutma) dz.unutma = unutma.filter(Boolean);
+  dz.guncelleme = Date.now();
+  durakDuzeni[id] = dz;
+  await ayarYaz('durakDuzenleri', { ...durakDuzeni });
+  if (gun !== undefined) await durakGunuDegistir(id, gun);
   return true;
 }
 
-// Rota sırasını bir basamak yukarı (-1) ya da aşağı (+1) taşır.
-// Gün sınırı aşılmıyor: rota günlere göre kurulu.
+/**
+ * Rota sırasını bir basamak yukarı (-1) ya da aşağı (+1) taşır.
+ *
+ * Gün sınırı ARTIK ENGEL DEĞİL (17 Ağustos). Günün ilk durağında yukarı
+ * basılınca durak bir önceki günün SONUNA, son durağında aşağı basılınca bir
+ * sonraki günün BAŞINA geçiyor — listede tek adım ilerlemiş gibi. Eskiden ok
+ * orada ölüyordu ve durağı başka güne taşımak için ayrı bir düğme gerekiyordu.
+ *
+ * Dönüş: `false` (taşınamadı) ya da `{ yeniGun }` — gün değiştiyse yeni gün
+ * numarası, değişmediyse null. Çağıran gün değişimini kullanıcıya söylüyor:
+ * sessizce olsa programın bozulduğu fark edilmezdi.
+ *
+ * Günsüz duraklar bu zincirin dışında: onların "bir önceki günü" yok, kendi
+ * içlerinde sıralanıyorlar.
+ */
 export async function durakTasi(id, yon) {
   const hepsi = duraklar();
   const kendisi = hepsi.find(d => d.id === id);
@@ -350,14 +397,33 @@ export async function durakTasi(id, yon) {
   const ayniGun = hepsi.filter(d => (d.gun ?? GUN_SONSUZ) === gun);
   const yerel = ayniGun.findIndex(d => d.id === id);
   const hedef = yerel + yon;
-  if (hedef < 0 || hedef >= ayniGun.length) return false;
 
-  const [tasinan] = ayniGun.splice(yerel, 1);
-  ayniGun.splice(hedef, 0, tasinan);
-  ayniGun.forEach((d, n) => { siraDuzeni[d.id] = n; });
+  if (hedef >= 0 && hedef < ayniGun.length) {
+    const [tasinan] = ayniGun.splice(yerel, 1);
+    ayniGun.splice(hedef, 0, tasinan);
+    ayniGun.forEach((d, n) => { siraDuzeni[d.id] = n; });
+    await ayarYaz('durakSirasi', { ...siraDuzeni });
+    return { yeniGun: null };
+  }
 
-  await ayarYaz('durakSirasi', { ...siraDuzeni });
-  return true;
+  // Günün ucuna gelindi: komşu güne geç.
+  if (gun === GUN_SONSUZ) return false;
+  const gunler = [...new Set(hepsi.map(d => d.gun).filter(g => g != null))]
+    .sort((a, b) => a - b);
+  const komsu = gunler[gunler.indexOf(gun) + yon];
+  if (komsu == null) return false;
+
+  await durakGunuDegistir(id, komsu);
+
+  // durakGunuDegistir yeni günün SONUNA koyuyor; yukarı taşındığında istenen
+  // bu. Aşağı taşındığındaysa başa geçmeli, yoksa günü atlamış gibi olur.
+  if (yon > 0) {
+    const yeniGunun = duraklar().filter(d => d.gun === komsu && d.id !== id);
+    siraDuzeni[id] = 0;
+    yeniGunun.forEach((d, n) => { siraDuzeni[d.id] = n + 1; });
+    await ayarYaz('durakSirasi', { ...siraDuzeni });
+  }
+  return { yeniGun: komsu };
 }
 
 // ---- Durakların eşitlenmesi ----------------------------------------------
@@ -389,6 +455,36 @@ export async function durakGunuDegistir(id, gun) {
 export function ozelDurakListesi() { return ozel; }
 export function siraDuzeniAl() { return siraDuzeni; }
 export function gunDuzeniAl() { return gunDuzeni; }
+export function durakDuzeniAl() { return durakDuzeni; }
+
+/**
+ * Silinmiş duraklar — hem paketten gizlenenler hem kendi sildiklerimiz.
+ *
+ * Silme geri alınabilir olmalı: 26 duraklık listede yanlış karta basmak kolay
+ * ve gezi programı yeniden yazılamaz. Duraklar listesinin altında "geri
+ * getir" satırı bunu gösteriyor.
+ */
+export function silinmisDuraklar(gerok = aktif) {
+  const turId = gerok?.id ?? null;
+  const paket = (gerok?.duraklar || []).filter(d => durakDuzeni[d.id]?.gizli);
+  const kendi = ozel.filter(d => d.silindi && (d.gerokId ?? null) === turId);
+  return [...paket, ...kendi];
+}
+
+export async function durakGeriGetir(id) {
+  const d = ozel.find(x => x.id === id);
+  if (d?.silindi) {
+    delete d.silindi;
+    d.guncelleme = Date.now();
+    await ayarYaz('ozelDuraklar', ozel);
+    return true;
+  }
+  if (!durakDuzeni[id]?.gizli) return false;
+  delete durakDuzeni[id].gizli;
+  durakDuzeni[id].guncelleme = Date.now();
+  await ayarYaz('durakDuzenleri', { ...durakDuzeni });
+  return true;
+}
 export function durakNotlariAl() { return durakNotlari; }
 export function durakPuanlariAl() { return durakPuanlari; }
 export function durakBilgileriAl() { return durakBilgileri; }
@@ -505,6 +601,18 @@ export async function gunDuzeniBirlestir(gelen = null) {
   gunDuzeni = { ...gelen, ...gunDuzeni };
   const yeni = Object.keys(gunDuzeni).length - oncesi;
   if (yeni) await ayarYaz('durakGunleri', { ...gunDuzeni });
+  return yeni;
+}
+
+// Durak düzeltmeleri (ad, unutma listesi, silme) — aynı kural: bendeki karar
+// önde. Karşı taraf bir durağı silmişse ve ben silmemişsem silinmiş sayılıyor;
+// tersi de doğru. Silme geri alınabilir bir katman, kayıp değil.
+export async function durakDuzeniBirlestir(gelen = null) {
+  if (!gelen || typeof gelen !== 'object') return 0;
+  const oncesi = Object.keys(durakDuzeni).length;
+  durakDuzeni = { ...gelen, ...durakDuzeni };
+  const yeni = Object.keys(durakDuzeni).length - oncesi;
+  if (yeni) await ayarYaz('durakDuzenleri', { ...durakDuzeni });
   return yeni;
 }
 

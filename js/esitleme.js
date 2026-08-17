@@ -6,7 +6,8 @@
 
 import * as veri from './veri.js';
 import { aktifGerok, ozelDurakListesi, siraDuzeniAl, ozelDuraklariBirlestir,
-         gunDuzeniAl, gunDuzeniBirlestir, durakNotlariAl, durakNotlariBirlestir,
+         gunDuzeniAl, gunDuzeniBirlestir, durakDuzeniAl, durakDuzeniBirlestir,
+         durakNotlariAl, durakNotlariBirlestir,
          durakPuanlariAl, durakPuanlariBirlestir,
          durakBilgileriAl, durakBilgileriBirlestir } from './gerok.js';
 
@@ -101,6 +102,9 @@ async function govdeTopla({ sadeceGun = null, tumTurlar = false } = {}) {
     // Rehber programı değiştirdiğinde durak başka güne taşınıyor; bu karar da
     // karşı telefona geçmeli, yoksa iki kişide iki ayrı program oluyor.
     durakGunleri: gunDuzeniAl(),
+    // Durağın adı düzeltildiyse ya da durak silindiyse o da geçsin: iki
+    // telefonda iki ayrı rota kalmasın.
+    durakDuzenleri: durakDuzeniAl(),
     // Elle yazılan durak notları ve puanlar. "Tatlıyı şu dükkândan al" gibi
     // bir notu tek telefonda bırakmak, ertesi gün oraya diğerinin gitmesi
     // hâlinde işe yaramaz hâle getiriyor.
@@ -249,6 +253,7 @@ export async function paketBirlestir(paket) {
 
   const yeniDurak = await ozelDuraklariBirlestir(paket.ozelDuraklar || [], paket.durakSirasi || null);
   const yeniGun = await gunDuzeniBirlestir(paket.durakGunleri || null);
+  await durakDuzeniBirlestir(paket.durakDuzenleri || null);
   const yeniNot = await durakNotlariBirlestir(paket.durakNotlari || null);
   await durakPuanlariBirlestir(paket.durakPuanlari || null);
   await durakBilgileriBirlestir(paket.durakBilgileri || null);

@@ -367,6 +367,15 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
 }
 .kayit-bosluk { flex: 1; }
 .kayit-sahip { font-size: 11px; color: var(--cok-soluk); }
+/* Görsel kayıtta saatin devamı: "FOTOĞRAF" yazısının yerini başlık aldı.
+   Serif — bu kaydın kendi metni, arayüzün yazısı değil. Taşarsa kesiliyor:
+   sahip adı satırın sağ ucunda kalmalı. */
+.kayit-ust-baslik {
+  flex: 0 1 auto; min-width: 0;
+  font-family: 'Gerok Serif', Georgia, serif; font-size: 14.5px;
+  color: var(--yazi);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
 
 /* Kaydın kendi metni SERİF. Arayüzün dili sans, anının dili serif —
    iki ses birbirine karışmasın. */
@@ -425,10 +434,25 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
   position: absolute; inset: 0;
   width: 100%; height: 100%; object-fit: cover; display: block;
 }
-.foto-etiket {
-  position: relative; z-index: 1;
-  font: 400 10px/1 ui-monospace, Menlo, monospace; color: var(--soluk);
-  background: var(--perde-koyu); padding: 4px 7px; border-radius: 6px;
+/* Konum fotoğrafın SOL ALTINDA, resmin üstünde duruyor. Saydam ve küçük:
+   okunması gerekiyor ama fotoğrafı örtmemesi de gerekiyor. Zemin siyahın
+   saydamı — iki temada da beyaz yazı okunuyor, çünkü altındaki fotoğraf
+   temaya göre değişmiyor. */
+.foto-yer {
+  position: relative; z-index: 1; max-width: 85%;
+  font-size: 10.5px; line-height: 1.3; color: rgba(255,255,255,.9);
+  background: rgba(0,0,0,.34); backdrop-filter: blur(4px);
+  padding: 3px 7px; border-radius: 6px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+/* Fotoğrafla biten kapalı kart: altında sıfır boşluk, bir sonraki kayıt
+   fotoğrafın bittiği yerde başlıyor. */
+.kayit-satir.foto-sonu { padding-bottom: 0; }
+
+/* "önizleme · orijinali galeride" — düğmelerin yanında, açılan panelde. */
+.foto-not {
+  margin-top: 9px;
+  font: 400 10px/1.4 ui-monospace, Menlo, monospace; color: var(--cok-soluk);
 }
 
 .kayit-eylemler { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 7px; }
@@ -833,7 +857,10 @@ body:has(.ses-katman:not(.gizli)) .bildirim {
 }
 .durak-kart.gidildi { border-color: var(--secili-cizgi); }
 .durak-kart.gidildi .durak-ad::after { content: ' ✓'; color: var(--yesil); }
-.durak-kart.kacirildi { opacity: .5; }
+/* "Kaçırdık" kartı eskiden yarı saydam oluyordu. Gidildi/gidilmedi tek
+   düğmeye inince bu yanıltıcı hâle geldi: hiç dokunulmamış durak parlak,
+   bir kez açılıp kapatılmış aynı durak sönük görünüyordu. Kırmızı düğme
+   zaten söylüyor. */
 .durak-ust { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
 .durak-ad { font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 9px; min-width: 0; }
 .durak-gun { font-size: 11px; color: var(--vurgu); white-space: nowrap; }
@@ -1030,6 +1057,40 @@ body:has(.ses-katman:not(.gizli)) .bildirim {
 }
 .kucuk-dugme.sil { color: var(--kirmizi); }
 .eylem-dugme.sil { color: var(--kirmizi); }
+
+/* Gittik / Gitmedik — tek düğme, iki hâl.
+   Renk yazıyı okumadan da anlaşılsın diye zemine de veriliyor: araç
+   sallanırken 26 kartlık listede gözle taranan şey renk, yazı değil.
+   Gitmedik olumsuz (kırmızı), Gittik olumlu (yeşil). */
+.kucuk-dugme.gidis-dugme { font-weight: 600; }
+.kucuk-dugme.gidis-dugme.gidilmedi {
+  color: var(--kirmizi);
+  background: color-mix(in srgb, var(--kirmizi) 11%, var(--zemin));
+  border-color: color-mix(in srgb, var(--kirmizi) 38%, var(--zemin));
+}
+.kucuk-dugme.gidis-dugme.gidildi {
+  color: var(--yesil);
+  background: color-mix(in srgb, var(--yesil) 13%, var(--zemin));
+  border-color: color-mix(in srgb, var(--yesil) 40%, var(--zemin));
+}
+
+/* Silinen duraklar — listenin en altında, sönük. Görünür olması gerekiyor
+   (silme geri alınabilsin) ama listeye karışmaması da gerekiyor. */
+.silinmis-alan { margin: 18px 12px 0; padding-top: 12px; border-top: 1px solid var(--cizgi); }
+.silinmis-baslik { font-size: 12px; color: var(--cok-soluk); margin-bottom: 4px; }
+.silinmis-satir {
+  display: flex; width: 100%; justify-content: space-between; align-items: center;
+  gap: 10px; padding: 9px 0; font-size: 13.5px; color: var(--soluk);
+  background: none; border: 0; border-bottom: 1px solid var(--cizgi); text-align: left;
+}
+.geri-getir { flex: 0 0 auto; font-size: 12px; color: var(--vurgu); }
+
+/* "+ not yaz" — düğme satırı dolu olduğu için notların altına indi.
+   Bilerek sönük: kartın asıl işi durağı göstermek, not yazmak ikincil. */
+.not-ekle-satir {
+  display: block; margin-top: 6px; padding: 3px 0;
+  font-size: 12px; color: var(--cok-soluk); background: none; border: 0;
+}
 
 /* Kategori / tema gibi çoktan-seçmeli düğme öbekleri */
 .secenekler { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 6px; }

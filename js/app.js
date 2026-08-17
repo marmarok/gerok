@@ -255,8 +255,9 @@ function ekranAc(ad, yon = null) {
   // Haritadan çıkarken durak koyma kipi de kapansın — dönünce nişangâh
   // ekranda kalmış olurdu.
   if (durum.ekran === 'harita' && ad !== 'harita') durakKoymaKipi(false);
-  // Zaman çizgisinde çekilmiş olabilecek alt şerit her ekran değişiminde
-  // geri açılıyor: gizli bir alt bar başka ekranda çıkışsızlık hissi verirdi.
+  // Zaman, Duraklar ya da Gerok'ta çekilmiş olabilecek alt şerit her ekran
+  // değişiminde geri açılıyor: gizli bir alt bar, yeni gelinen ekranda
+  // çıkışsızlık hissi verirdi.
   $('#altBar')?.classList.remove('cekildi');
   durum.ekran = ad;
   $$('.ekran').forEach(e => e.classList.remove('acik', 'gelir-sol', 'gelir-sag'));
@@ -646,25 +647,42 @@ function aramaVeSuzgecKur() {
   // ekranda arama kutusu sürekli yer kaplamasın. Aynı kaydırmada üst şeritteki
   // gün başlığı da tazeleniyor.
   const liste = $('#zamanListe');
-  let sonY = 0;
+  seridiKur(liste, '#zamanAra', () => ustGunuTazele(liste));
 
-  // Alt şerit yalnızca Zaman ekranında çekiliyor. Başka bir ekrana geçince
-  // geri açılıyor (bkz. ekranAc) — harita ya da duraklar açıkken gizli bir
-  // alt bar, "sekmeler nereye gitti" sorusu doğururdu.
+  // Aynı davranış uzun listesi olan öteki iki ekranda da: duraklarda 26 kart,
+  // Gerok'ta açılmış paneller ekranı doldurunca alt bar da yer kaplıyordu.
+  // Harita bunun dışında — orada kaydırılacak liste yok, harita kayıyor.
+  seridiKur($('#ekran-duraklar'));
+  seridiKur($('#ekran-gerok'));
+}
+
+/**
+ * Bir kaydırma alanına "aşağı inince şeritler çekilsin" davranışını takar.
+ *
+ * Alt bar her ekranda çekiliyor ama ekran değişince geri açılıyor (bkz.
+ * ekranAc): gizli bir alt bar başka bir ekranda açılırsa "sekmeler nereye
+ * gitti" sorusu doğar.
+ *
+ * @param kaydirici kaydırılan öğe
+ * @param ustSerit  varsa üstte birlikte çekilecek şerit
+ * @param herAdimda her kaydırmada çağrılacak ek iş
+ */
+function seridiKur(kaydirici, ustSerit = null, herAdimda = null) {
+  if (!kaydirici) return;
+  let sonY = 0;
   const seritler = (gizle) => {
-    $('#zamanAra').classList.toggle('cekildi', gizle);
+    if (ustSerit) $(ustSerit)?.classList.toggle('cekildi', gizle);
     $('#altBar').classList.toggle('cekildi', gizle);
   };
-  liste.addEventListener('scroll', () => {
-    const y = liste.scrollTop;
-    // Alt şerit de aynı kurala bağlı: okurken iki şerit birden çekilince
-    // küçük ekranda liste için ~140 piksel daha yer açılıyor. Yukarı
-    // dönünce ikisi birlikte geri geliyor — ayrı ayrı davransalar ekran
-    // sallanıyormuş gibi olurdu.
+  kaydirici.addEventListener('scroll', () => {
+    const y = kaydirici.scrollTop;
+    // Şeritler birlikte gidip birlikte geliyor: okurken küçük ekranda ~140
+    // piksel yer açılıyor. Ayrı ayrı davransalar ekran sallanıyormuş gibi
+    // olurdu. 6 piksellik eşik, parmağın titremesini yön sanmasın diye.
     if (y > sonY + 6 && y > 40) seritler(true);
     else if (y < sonY - 6 || y < 12) seritler(false);
     sonY = y;
-    ustGunuTazele(liste);
+    herAdimda?.();
   }, { passive: true });
 }
 
@@ -736,10 +754,14 @@ function kayitSatiri(k) {
   // Tür etiketi sesli kayıtlarda ve metni olmayan kayıtlarda yazılıyor.
   // Ötekilerde solundaki renk çizgisi zaten söylüyor; iki kez söylemek
   // listeyi etiket tarlasına çeviriyordu.
-  const turGoster = sesli || !metin;
+  //
+  // Görsel kayıtlar bunun dışında: saatin yanındaki o hiza BAŞLIĞA ayrıldı.
+  // "FOTOĞRAF" yazısı hiçbir şey söylemiyordu — altında zaten fotoğraf
+  // duruyor. Başlık ise fotoğrafın içinde olmayan tek bilgi.
+  const turGoster = (sesli || !metin) && !gorsel;
 
   let govde = '';
-  if (metin) govde += `<div class="kayit-metin">${kacis(metin)}</div>`;
+  if (metin && !gorsel) govde += `<div class="kayit-metin">${kacis(metin)}</div>`;
 
   // Çakışma: aynı kaydı ikiniz de değiştirmişsiniz. Ekranda duran senin
   // sürümün (bkz. esitleme.js'teki kural), karşı sürüm burada, altında.
@@ -767,19 +789,16 @@ function kayitSatiri(k) {
     </div>`;
   }
   if (k.medyaId && gorsel) {
-    // "orijinali galeride" bir süs değil, uygulamanın en önemli sözü:
-    // fotoğraf buraya KOPYALANMIYOR, tam çözünürlüklü hali telefonun kendi
-    // galerisinde duruyor. Uygulama silinse bile fotoğraflar yerinde kalır.
+    // Fotoğrafın üstünde duran tek yazı KONUM. Sol altta, saydam, küçük —
+    // resmi örtmüyor. Eskiden fotoğrafın altında ayrı bir satırdı ve iki
+    // fotoğrafın arasına 30 piksellik bir yazı şeridi giriyordu; liste
+    // fotoğraf albümü değil form gibi görünüyordu.
     //
-    // Etiket yalnızca kart AÇIKKEN görünüyor. Kapalıyken listede yüzlerce
-    // fotoğrafın üstünde aynı gri cümle duruyordu; okunacak bir bilgi değil,
-    // bir kez öğrenilecek bir kural. Kapalı kartta kalan tek şey fotoğrafın
-    // kendisi ve varsa başlığı.
-    const etiket = k.tur === 'video'
-      ? `video · ${sureYaz(k.videoSure)} · orijinali galeride`
-      : 'önizleme · orijinali galeride';
+    // "orijinali galeride" cümlesi buradan alınıp ayrıntı paneline taşındı
+    // (bkz. ayrintiPaneli): okunacak bir bilgi değil, bir kez öğrenilecek
+    // bir kural.
     govde += `<div class="kayit-foto" data-onizleme="${k.medyaId}">
-      ${acik ? `<span class="foto-etiket">${kacis(etiket)}</span>` : ''}
+      <span class="foto-yer">${yer}</span>
     </div>`;
   }
 
@@ -799,16 +818,24 @@ function kayitSatiri(k) {
   // Eylemler ise basılı tutunca açılıyor: her satırın altında duran "Sil"
   // düğmesi listeyi düğme tarlasına çeviriyordu ve araç sallanırken
   // yanlışlıkla basılabiliyordu.
-  return `<div class="kayit-satir ${k.tur}${acik ? ' acik' : ''}" data-kayit="${k.id}">
+  // Fotoğrafla biten kapalı kartın altında boşluk yok: fotoğrafın bittiği
+  // yerde bir sonraki kayıt başlıyor. Kart açılınca ayrıntı paneli geldiği
+  // için boşluk geri konuyor.
+  const fotoylaBitiyor = gorsel && k.medyaId && !acik;
+
+  return `<div class="kayit-satir ${k.tur}${acik ? ' acik' : ''}${
+      fotoylaBitiyor ? ' foto-sonu' : ''}" data-kayit="${k.id}">
     <div class="kayit-ust">
       <span class="kayit-saat">${gerok.saat(k.t)}</span>
       ${turGoster ? `<span class="kayit-tur">${kacis(tur)}</span>` : ''}
+      ${gorsel && metin ? `<span class="kayit-ust-baslik">${kacis(metin)}</span>` : ''}
       <span class="kayit-bosluk"></span>
       <span class="kayit-sahip">${kacis(k.sahipAd || 'bilinmeyen')}</span>
     </div>
     ${govde}
-    <div class="kayit-yer">${yer}</div>
-    ${acik ? ayrintiPaneli(k, { konumlu, basliklanabilir }) : ''}
+    ${gorsel && k.medyaId ? '' : `<div class="kayit-yer">${yer}</div>`}
+    ${acik ? ayrintiPaneli(k, { konumlu, basliklanabilir, gorsel: gorsel && k.medyaId,
+      videoSure: k.tur === 'video' ? k.videoSure : null }) : ''}
   </div>`;
 }
 
@@ -825,7 +852,7 @@ function kayitSatiri(k) {
  * sonra güvenilecek tek şeyi — ne zaman olduğunu — kırılgan yapıyordu.
  * Yanlış güne düşen kayıt zaten iz kaydından düzeliyor.
  */
-function ayrintiPaneli(k, { konumlu, basliklanabilir }) {
+function ayrintiPaneli(k, { konumlu, basliklanabilir, gorsel = false, videoSure = null }) {
   const sesli = ['ses', 'ortam', 'gunluk', 'baslangic', 'bitis', 'mektup'].includes(k.tur);
 
   const bilgiler = sesli ? [
@@ -838,11 +865,22 @@ function ayrintiPaneli(k, { konumlu, basliklanabilir }) {
     ['Kaydeden', k.sahipAd || 'bilinmeyen']
   ] : [];
 
+  // "orijinali galeride" uygulamanın en önemli sözü: fotoğraf buraya
+  // KOPYALANMIYOR, tam çözünürlüklü hâli telefonun kendi galerisinde duruyor.
+  // Uygulama silinse bile fotoğraflar yerinde kalır. Ama bu bir kez öğrenilen
+  // bir kural — yüzlerce fotoğrafın üstünde tekrar tekrar okunacak bir şey
+  // değil. O yüzden düğmelerin yanına, açılan panele indi.
+  const fotoNotu = !gorsel ? ''
+    : videoSure != null
+      ? `video · ${sureYaz(videoSure)} · önizleme, orijinali galeride`
+      : 'önizleme · orijinali galeride';
+
   return `
     ${bilgiler.length ? `<div class="kayit-bilgi">
       ${bilgiler.map(([a, d]) => `<div class="bilgi-satir">
         <span>${a}</span><b>${kacis(String(d))}</b></div>`).join('')}
     </div>` : ''}
+    ${fotoNotu ? `<div class="foto-not">${kacis(fotoNotu)}</div>` : ''}
     <div class="kayit-eylemler">
       ${konumlu ? `<button class="satir-dugme" data-google="${k.lat},${k.lon}">Haritalar'da aç</button>` : ''}
       ${basliklanabilir ? `<button class="satir-dugme vurgulu" data-baslik="${k.id}">${
@@ -1877,8 +1915,13 @@ async function ulkeKontrol(nokta) {
  * hazırlanmış program, öteki yolda öğrenilen şey ("tatlıyı köşedeki dükkândan
  * al"). İkisini aynı listede toplamak hangisinin nereden geldiğini siliyordu.
  */
-function kendiNotlari(d) {
-  if (!d.notlar?.length) return '';
+// `notEkle` yalnızca duraklar listesinde açık. Alttaki dört düğme (Gitmedik,
+// Düzenle, Sil, G) dolu olduğu için "Not yaz" oraya sığmıyordu; notların
+// zaten durduğu yere, listenin sonuna küçük bir satır olarak kondu.
+function kendiNotlari(d, notEkle = false) {
+  const ekle = notEkle
+    ? `<button class="not-ekle-satir" data-not-ekle="${d.id}">+ not yaz</button>` : '';
+  if (!d.notlar?.length) return ekle;
   return `<ul class="unutma kendi">${d.notlar.map(n => `
     <li>
       <div class="not-govde">
@@ -1887,7 +1930,7 @@ function kendiNotlari(d) {
       </div>
       <button class="not-sil" data-not-sil="${n.id}" data-not-durak="${d.id}"
               title="Notu sil" aria-label="Notu sil">✕</button>
-    </li>`).join('')}</ul>`;
+    </li>`).join('')}</ul>${ekle}`;
 }
 
 /**
@@ -2019,7 +2062,6 @@ function duraklariCiz() {
         <div class="durak-sira">
           <button class="sira-dugme" data-tasi="-1" title="Yukarı">↑</button>
           <button class="sira-dugme" data-tasi="1" title="Aşağı">↓</button>
-          <button class="sira-dugme" data-gun-tasi="${d.id}" title="Başka güne taşı">⇄</button>
         </div>
       </div>
       ${uzaklik != null ? `<div class="durak-uzaklik">${uzaklikYaz(uzaklik)} uzakta${kendi ? ' · kendi durağın' : ''}${d.gunTasindi ? ' · başka güne taşındı' : ''}</div>`
@@ -2038,23 +2080,31 @@ function duraklariCiz() {
               <span class="tik-kutu">${tik ? '✓' : ''}</span>
               <span class="tik-yazi">${kacis(u)}</span></button></li>`;
           }).join('')}</ul>` : ''}
-          ${kendiNotlari(d)}
+          ${kendiNotlari(d, true)}
         </div>
         ${yildizSutunu(d)}
       </div>
       <div class="durak-dugmeler">
-        <button class="kucuk-dugme ${dur === 'gidildi' ? 'secili' : ''}" data-isaret="gidildi">Gittik</button>
-        <button class="kucuk-dugme ${dur === 'kacirildi' ? 'secili' : ''}" data-isaret="kacirildi">Kaçırdık</button>
-        <button class="kucuk-dugme" data-not-ekle="${d.id}">Not yaz</button>
+        <button class="kucuk-dugme gidis-dugme ${dur === 'gidildi' ? 'gidildi' : 'gidilmedi'}"
+                data-gidis="${d.id}">${dur === 'gidildi' ? 'Gittik' : 'Gitmedik'}</button>
+        <button class="kucuk-dugme" data-duzenle="${d.id}">Düzenle</button>
+        <button class="kucuk-dugme sil" data-durak-sil="${d.id}">Sil</button>
         <button class="kucuk-dugme g-dugme" data-durak-google="${d.id}"
                 title="Google Haritalar'da aç" aria-label="Google Haritalar'da aç">G</button>
       </div>
-      ${kendi ? `<div class="durak-dugmeler">
-        <button class="kucuk-dugme" data-duzenle="${d.id}">Düzenle</button>
-        <button class="kucuk-dugme sil" data-durak-sil="${d.id}">Sil</button>
-      </div>` : ''}
     </div>`;
   });
+
+  // Silinen duraklar geri getirilebiliyor. Gezi programı yeniden yazılamaz;
+  // 26 kartlık listede yanlış düğmeye basmak ise kolay.
+  const silinmis = gerok.silinmisDuraklar();
+  if (silinmis.length) {
+    html += `<div class="silinmis-alan">
+      <div class="silinmis-baslik">Silinen duraklar (${silinmis.length})</div>
+      ${silinmis.map(d => `<button class="silinmis-satir" data-durak-geri="${d.id}">
+        <span>${kacis(d.ad)}</span><span class="geri-getir">geri getir</span></button>`).join('')}
+    </div>`;
+  }
 
   kap.innerHTML = html;
 
@@ -2068,12 +2118,17 @@ function duraklariCiz() {
     });
   });
 
-  kap.querySelectorAll('[data-isaret]').forEach(d => {
-    d.addEventListener('click', async (e) => {
-      const id = e.target.closest('[data-durak]').dataset.durak;
-      const yeni = e.target.dataset.isaret;
-      const suanki = durum.durakDurumlari[id]?.durum;
-      await veri.durakDurumuYaz(id, suanki === yeni ? null : yeni);
+  // Tek düğmelik gidildi/gidilmedi. Eskiden "Gittik" ve "Kaçırdık" ayrı iki
+  // düğmeydi ve üçüncü bir hâl daha vardı (hiçbiri seçilmemiş) — üç hâl bir
+  // soruya çok geliyordu. Artık iki hâl var: gidildi ya da gidilmedi.
+  // "kacirildi" verisi korunuyor, gezi sonundaki "kaçırdıkların" listesi
+  // ona bakıyor.
+  kap.querySelectorAll('[data-gidis]').forEach(b => {
+    b.addEventListener('click', async () => {
+      const id = b.dataset.gidis;
+      const gidildi = durum.durakDurumlari[id]?.durum === 'gidildi';
+      await veri.durakDurumuYaz(id, gidildi ? 'kacirildi' : 'gidildi');
+      titret(10);
       await tazele();
     });
   });
@@ -2081,13 +2136,18 @@ function duraklariCiz() {
   kap.querySelectorAll('[data-tasi]').forEach(d => {
     d.addEventListener('click', async (e) => {
       const id = e.target.closest('[data-durak]').dataset.durak;
-      if (await gerok.durakTasi(id, +d.dataset.tasi)) await tazele();
-      else kayitBildir('Aynı günün içinde daha ileri gitmiyor.');
+      const sonuc = await gerok.durakTasi(id, +d.dataset.tasi);
+      if (!sonuc) { kayitBildir('Listenin ucu — daha ileri gitmiyor.'); return; }
+      await tazele();
+      // Gün değişimi sessiz geçmemeli: durak listede tek satır kaydı ama
+      // aslında programın başka bir gününe geçti.
+      if (sonuc.yeniGun != null) {
+        const d2 = gerok.durakBul(id);
+        // Ek yerine ok: "Gün 2'ye" ile "Gün 3'e" ayrı ekler istiyor,
+        // sayıdan doğru eki üretmek bu bildirim için gereğinden karmaşık.
+        kayitBildir(`${d2?.ad || 'Durak'} → Gün ${sonuc.yeniGun}`, 'iyi');
+      }
     });
-  });
-
-  kap.querySelectorAll('[data-gun-tasi]').forEach(d => {
-    d.addEventListener('click', () => durakGunuSor(d.dataset.gunTasi));
   });
 
   kap.querySelectorAll('[data-tik]').forEach(b => {
@@ -2108,41 +2168,14 @@ function duraklariCiz() {
   kap.querySelectorAll('[data-durak-sil]').forEach(d => {
     d.addEventListener('click', () => durakSilSor(d.dataset.durakSil));
   });
-  durakNotVePuanKur(kap);
-}
-
-/**
- * Durağı başka bir güne taşır.
- *
- * Balkanlar'da gerçekten oldu: rehber bazı duraklara bir gün erken götürdü,
- * durak yanlış günde asılı kaldı. Paket durakları için de çalışıyor —
- * paketin kendisi değişmiyor, üstüne bir katman yazılıyor.
- */
-function durakGunuSor(id) {
-  const d = gerok.durakBul(id);
-  if (!d) return;
-  const gunler = gerok.aktifGerok()?.gunler || [];
-
-  ortuAc(`
-    <div class="ortu-baslik">${kacis(d.ad)}</div>
-    <div class="ortu-alt">Şu an ${d.gun ? `Gün ${d.gun}` : 'günsüz'}. Hangi güne taşıyalım?</div>
-    ${gunler.map(g => `
-      <button class="eylem-dugme ${g.no === d.gun ? 'birincil' : ''}" data-gun="${g.no}">
-        Gün ${g.no}<span class="yol-alt">${kacis(g.baslik || '')}</span>
-      </button>`).join('')}
-    ${d.gunTasindi ? '<button class="eylem-dugme" data-gun="">Paketteki gününe geri al</button>' : ''}
-  `, true, 'tasima');
-
-  $$('#ortuIc [data-gun]').forEach(b => {
+  kap.querySelectorAll('[data-durak-geri]').forEach(b => {
     b.addEventListener('click', async () => {
-      const g = b.dataset.gun === '' ? null : Number(b.dataset.gun);
-      ortuKapat();
-      if (g === d.gun) return;
-      await gerok.durakGunuDegistir(id, g);
-      kayitBildir(g ? `${d.ad} → Gün ${g}` : `${d.ad} paketteki gününe döndü.`, 'iyi');
+      await gerok.durakGeriGetir(b.dataset.durakGeri);
+      kayitBildir('Durak geri geldi', 'iyi');
       await tazele();
     });
   });
+  durakNotVePuanKur(kap);
 }
 
 // ---- Kendi durağını koyma --------------------------------------------------
@@ -2408,7 +2441,8 @@ function durakSilSor(id) {
   ortuAc(`
     <div class="ortu-baslik">"${kacis(d.ad)}" silinsin mi?</div>
     <div class="ortu-alt">Rotadan çıkar. Bu durakta yaptığın kayıtlar (ses, fotoğraf, not)
-    silinmez — onlar yerinde kalır.</div>
+    silinmez — onlar yerinde kalır. Listenin en altındaki “Silinen duraklar”dan
+    geri getirebilirsin.</div>
     <button class="eylem-dugme birincil" id="durakSilOnay">Sil</button>
     <button class="eylem-dugme" id="durakSilVaz">Vazgeç</button>
   `);
