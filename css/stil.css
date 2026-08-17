@@ -1136,3 +1136,11 @@ body:has(.ses-katman:not(.gizli)) .bildirim {
 /* İki düğme yan yana: panelin altındaki eylemler. */
 .cift-izgara { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
 .cift-izgara .kucuk-dugme { padding: 11px 8px; border-radius: 11px; font-size: 13.5px; line-height: 1.2; }
+
+/* Onaylı düğme: yıkıcı olmayan, güvenli seçenek. Mobil veri penceresinde
+   "yalnızca küçük işler" bu — yeşil çerçeve "bunu seçersen sürpriz olmaz"
+   diyor, vurgu rengindeki düğme ise asıl izni veren. */
+.eylem-dugme.onayli {
+  background: var(--secili-zemin); border-color: var(--secili-cizgi);
+  color: var(--yesil); font-weight: 600;
+}

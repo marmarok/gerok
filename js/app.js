@@ -2565,7 +2565,7 @@ let acikPanel = null;
 // sebebi: mobil veride "bağlı" demek yetmiyor — büyük işlerin yapılıp
 // yapılmadığı da bu satırda söyleniyor.
 function baglantiDurumu(ag, kip) {
-  const mobil = kip === 'mobil';
+  const mobil = kip === 'mobil' || kip === 'mobilTam';
   if (!ag) return mobil ? 'mobil veri var · izin bekliyor' : 'internet yok';
   if (!mobil) return 'wi-fi · bağlı';
   return baglanti.KIPLER[kip]?.buyukIsler
@@ -2696,8 +2696,8 @@ async function paneliCiz() {
           <span class="net-led${ag ? ' acik' : ''}"></span>
           <span class="net-yazi">${kacis(baglantiDurumu(ag, kuyruk.kip))}</span>
           <span class="net-kipler">
-            ${Object.entries(baglanti.KIPLER).map(([id, o]) =>
-              `<button class="kucuk-dugme${kuyruk.kip === id ? ' secili' : ''}" data-veri-kipi="${id}">${o.ad}</button>`).join('')}
+            ${[['wifi', 'wi-fi'], ['mobil', 'mobil veri']].map(([id, ad]) =>
+              `<button class="kucuk-dugme${(kuyruk.kip === id || (id === 'mobil' && kuyruk.kip === 'mobilTam')) ? ' secili' : ''}" data-veri-kipi="${id}">${ad}</button>`).join('')}
           </span>
         </div>
 
@@ -3011,11 +3011,12 @@ function baglantiPaneliniKur(ag, kuyruk) {
   $$('#gerokPanel [data-veri-kipi]').forEach(d => {
     d.addEventListener('click', async () => {
       const kip = d.dataset.veriKipi;
-      if (kip === 'mobil' && kuyruk.kip !== 'mobil') { mobilVeriSor(); return; }
+      // Mobil veriye geçmek HER ZAMAN onay penceresinden geçiyor: izin
+      // "bu bağlantı boyunca" geçerli, kalıcı bir ayar değil.
+      const mobildeyiz = kuyruk.kip === 'mobil' || kuyruk.kip === 'mobilTam';
+      if (kip === 'mobil' && !mobildeyiz) { mobilVeriSor(); return; }
       await baglanti.veriKipiYaz(kip);
-      kayitBildir(kip === 'wifi'
-        ? 'Wi-fi kipi: büyük indirmeler de yapılabilir.'
-        : 'Mobil veri kipi: yalnızca küçük işler.', 'iyi');
+      kayitBildir(kip === 'wifi' ? 'Wi-fi bulundu' : 'Yalnızca küçük işler · harita ve yedek wi-fi bekliyor', 'iyi');
       paneliCiz();
     });
   });
@@ -3075,23 +3076,30 @@ async function isCalistir(anahtar, ag, kuyruk, { sessiz = false } = {}) {
 // istenir, çünkü sürpriz fatura gezinin en gereksiz sürprizi olur.
 function mobilVeriSor() {
   ortuAc(`
-    <div class="gs-sayac">mobil veri</div>
+    <div class="gs-sayac">wi-fi yok · mobil veri var</div>
     <div class="ortu-baslik">Mobil veri kullanılsın mı?</div>
-    <div class="ortu-alt">Gerok kendi başına veri harcamaz — hiçbir kayıt buluta
-    gitmiyor. İzin verirsen yalnızca bekleyen şu işler için kullanır.</div>
+    <div class="ortu-alt">Gerok kendi başına veri harcamaz. İzin verirsen
+    yalnızca bekleyen şu işler için kullanır.</div>
     <div class="gs-liste">
       <div class="gs-liste-satir"><div class="gs-liste-ad">Kurlar, yer adları, durak bilgisi</div>
         <div class="gs-liste-alt">birkaç yüz kilobayt</div></div>
-      <div class="gs-liste-satir"><div class="gs-liste-ad">Harita paketi</div>
-        <div class="gs-liste-alt">yüzlerce megabayt — mobil veride indirilmez</div></div>
+      <div class="gs-liste-satir"><div class="gs-liste-ad">Rotanın önündeki harita</div>
+        <div class="gs-liste-alt">yüzlerce megabayt — yalnızca "hepsine izin ver" derse</div></div>
     </div>
-    <button class="eylem-dugme birincil" id="mobilKucuk">Yalnızca küçük işler</button>
+    <button class="eylem-dugme onayli" id="mobilKucuk">Yalnızca küçük işler</button>
+    <button class="eylem-dugme birincil" id="mobilHepsi">Hepsine izin ver</button>
     <button class="eylem-dugme" id="mobilVazgec">Wi-fi bekle</button>
   `);
   $('#mobilKucuk').addEventListener('click', async () => {
     ortuKapat();
     await baglanti.veriKipiYaz('mobil');
     kayitBildir('Yalnızca küçük işler · harita ve yedek wi-fi bekliyor', 'iyi');
+    paneliCiz();
+  });
+  $('#mobilHepsi').addEventListener('click', async () => {
+    ortuKapat();
+    await baglanti.veriKipiYaz('mobilTam');
+    kayitBildir('Mobil veriye izin verildi · bu bağlantı boyunca', 'iyi');
     paneliCiz();
   });
   $('#mobilVazgec').addEventListener('click', ortuKapat);

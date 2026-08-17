@@ -496,14 +496,14 @@ export function mektupAc(tazele) {
   ];
 
   ortu(`
-    <div class="ortu-baslik">Mühürlü mektup</div>
-    <div class="ortu-alt">Hangi yıla yazıyorsun? Arşivde bu yıl yazacak ve
-    görüntüleyici o güne kadar içeriğini göstermeyecek.</div>
+    <div class="ortu-baslik">Hangi yıla yazıyorsun?</div>
+    <div class="ortu-alt">O yıl gelene kadar mektup arşivde kapalı durur.
+    Şifre yok — kilit değil, söz.</div>
     ${secenekler.map(s => `
       <button class="eylem-dugme ${s.yil === buYil + 10 ? 'birincil' : ''}" data-yil="${s.yil}">
         ${s.yil}<span class="yol-alt">${s.alt}</span>
       </button>`).join('')}
-    <div class="girdi-etiket" style="margin-top:14px">Ya da yılı kendin yaz</div>
+    <div class="girdi-etiket" style="margin-top:14px">Ya da bir yıl yaz</div>
     <input class="girdi" id="mektupYil" type="number" inputmode="numeric"
            min="${buYil}" max="2200" placeholder="örn. ${buYil + 30}">
     <button class="eylem-dugme" id="mektupYilTamam">Bu yıla yaz</button>
@@ -513,9 +513,7 @@ export function mektupAc(tazele) {
     ozelKayitAc({
       tur: 'mektup',
       baslik: `${yil}${yilaEk(yil)} mektup`,
-      alt: `${yil} yılındaki kendine. Arşivde ayrı bir MÜHÜRLÜ klasöründe duracak, ` +
-           'görüntüleyici içeriğini göstermeyecek. Şifrelenmiyor — o kadar yıl ' +
-           'sonra kaybolacak tek şey parola olurdu. Kilit değil, söz.',
+      alt: 'Konuşarak ya da yazarak. İkisi de olur.',
       ekler: { hedefYil: yil },
       tazele
     });
@@ -537,6 +535,7 @@ export function mektupAc(tazele) {
 }
 
 function ozelKayitAc({ tur, baslik, alt, tazele, ekler = null }) {
+  const muhur = tur === 'mektup';
   ortu(`
     <div class="ortu-baslik">${baslik}</div>
     <div class="ortu-alt">${alt}</div>
@@ -545,11 +544,12 @@ function ozelKayitAc({ tur, baslik, alt, tazele, ekler = null }) {
       <span class="dugme-ad">Konuşmaya başla</span>
     </button>
     <div class="girdi-etiket" style="margin-top:16px">Ya da yaz</div>
-    <textarea class="alan" id="ozelYazi" placeholder="…"></textarea>
+    <textarea class="alan" id="ozelYazi"
+      placeholder="${muhur ? 'O gün bunu okuyan kişiye…' : '…'}"></textarea>
     <div id="ozelDurum" class="panel-not"></div>
     <div class="gs-dugmeler">
       <button class="eylem-dugme" id="ozelKapat">Kapat</button>
-      <button class="eylem-dugme birincil" id="ozelKaydet">Yazıyı kaydet</button>
+      <button class="eylem-dugme birincil" id="ozelKaydet">${muhur ? 'Mühürle' : 'Yazıyı kaydet'}</button>
     </div>
   `);
 
@@ -573,8 +573,9 @@ function ozelKayitAc({ tur, baslik, alt, tazele, ekler = null }) {
         Object.assign(temel, ekler || {});
         await kayitEkle(temel);
       }
-      $('#ozelDurum').textContent = 'Yazı kaydedildi.';
+      $('#ozelDurum').textContent = muhur ? 'Mühürlendi.' : 'Yazı kaydedildi.';
       $('#ozelYazi').value = '';
+      if (muhur) kayitBildir(`Mühürlendi · ${ekler?.hedefYil ?? ''} yılına`, 'iyi');
       await tazele?.();
     }
   };

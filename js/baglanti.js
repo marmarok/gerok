@@ -54,9 +54,13 @@ export async function agVarMi(zorla = false) {
 // birkaç yüz kilobayt) yapılıyor; yüzlerce megabaytlık harita paketi wi-fi
 // bekliyor. Sürpriz fatura, gezinin en gereksiz sürprizi olurdu.
 
+// Üç kip: wi-fi'de her şey, mobil veride kullanıcının verdiği izne göre.
+// "mobilTam" ayrı bir kip çünkü izin BU BAĞLANTI BOYUNCA geçerli — kalıcı
+// bir ayar değil, o anki karar.
 export const KIPLER = {
   wifi: { ad: 'wi-fi', buyukIsler: true },
-  mobil: { ad: 'mobil veri', buyukIsler: false }
+  mobil: { ad: 'mobil veri', buyukIsler: false },
+  mobilTam: { ad: 'mobil veri', buyukIsler: true }
 };
 
 export async function veriKipi() { return veri.ayarOku('veriKipi', 'wifi'); }
