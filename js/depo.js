@@ -17,28 +17,59 @@ async function opfsYazabiliyorMu() {
     if (!navigator.storage?.getDirectory) return false;
     const kok = await navigator.storage.getDirectory();
     const deneme = await kok.getDirectoryHandle('.deneme', { create: true });
-    const dosya = await deneme.getFileHandle('yaz.tmp', { create: true });
+    // Deneme dosyasının adı HER SEFERİNDE BAŞKA. Sabit bir ad ("yaz.tmp")
+    // kullanılıyordu ve aynı anda çalışan iki deneme birbirinin dosyasını
+    // siliyordu (bkz. yolSec'teki not).
+    const ad = `yaz-${Date.now()}-${Math.random().toString(36).slice(2)}.tmp`;
+    const dosya = await deneme.getFileHandle(ad, { create: true });
     if (typeof dosya.createWritable !== 'function') return false;
 
     const yazici = await dosya.createWritable();
     await yazici.write(new Blob(['gerok']));
     await yazici.close();
 
-    const geri = await (await deneme.getFileHandle('yaz.tmp')).getFile();
+    const geri = await (await deneme.getFileHandle(ad)).getFile();
     const dogru = geri.size === 5;
 
-    await deneme.removeEntry('yaz.tmp');
-    await kok.removeEntry('.deneme', { recursive: true });
+    // Yalnızca kendi dosyamızı siliyoruz; klasörü silmek başkasınınkini de
+    // götürüyordu.
+    await deneme.removeEntry(ad).catch(() => {});
     return dogru;
   } catch {
     return false;
   }
 }
 
+/**
+ * Hangi depo yolunu kullanacağımızı bir kez belirler: OPFS ya da IndexedDB.
+ *
+ * BURADA CİDDİ BİR HATA VARDI (17 Ağustos'ta bulundu ve düzeltildi).
+ *
+ * Eskiden yalnızca SONUÇ saklanıyordu, çalışan deneme değil. Uygulama açılınca
+ * ekrandaki her fotoğraf aynı anda `oku()` çağırıyor; hepsi `secilenYol`u boş
+ * görüp denemeyi AYNI ANDA başlatıyordu. Deneme de sabit adlı bir dosyayı
+ * yazıp okuyup siliyordu — biri ötekinin dosyasını silince o deneme hata
+ * verip "OPFS çalışmıyor" diyor ve yolu IndexedDB'ye çeviriyordu.
+ *
+ * Sonuç: dosyalar OPFS'te dururken uygulama IndexedDB'ye bakıyordu. Ekranda
+ * "Ses dosyası bulunamadı" çıkıyor, fotoğraflar çizgili boş kutu olarak
+ * kalıyordu. Veri kaybolmuyordu — yanlış çekmeceye bakılıyordu. Sınamada
+ * yirmi açılışın onunda oluyordu.
+ *
+ * İki şey değişti: deneme dosyasının adı artık benzersiz, ve burada sonuç
+ * değil ÇALIŞAN SÖZ saklanıyor — deneme ömür boyu bir kez çalışıyor.
+ */
+let yolSozu = null;
+
 export async function yolSec() {
   if (secilenYol) return secilenYol;
-  secilenYol = await opfsYazabiliyorMu() ? 'opfs' : 'idb';
-  return secilenYol;
+  if (!yolSozu) {
+    yolSozu = (async () => {
+      secilenYol = await opfsYazabiliyorMu() ? 'opfs' : 'idb';
+      return secilenYol;
+    })();
+  }
+  return yolSozu;
 }
 
 export function kullanilanYol() { return secilenYol; }
@@ -136,22 +167,54 @@ export async function ekle(klasor, ad, parca) {
   return yaz(klasor, ad, eski ? [eski, parca] : [parca]);
 }
 
-/** Dosyayı Blob olarak döner (yoksa null). Blob.slice ile parça parça okunabilir. */
+async function opfstenOku(klasor, ad) {
+  try {
+    const k = await opfsKlasor(klasor);
+    return await (await k.getFileHandle(ad)).getFile();
+  } catch {
+    return null;
+  }
+}
+
+async function idbdenOku(klasor, ad) {
+  try {
+    const d = await idbAc();
+    const kayit = await idbIstek(
+      d.transaction(['dosyalar']).objectStore('dosyalar').get(`${klasor}/${ad}`));
+    return kayit?.blob || null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Dosyayı Blob olarak döner (yoksa null). Blob.slice ile parça parça okunabilir.
+ *
+ * ÖTEKİ YOLA DA BAKILIYOR. Yol seçimindeki yarış hatası düzeltilene kadar
+ * (bkz. yolSec) uygulama bazı açılışlarda yanlış depoya düşüyordu; o
+ * açılışlarda YAZILAN ses ve fotoğraflar öteki depoda kaldı. Seçilen yolda
+ * bulunamayan dosya ikinci depoda aranıyor — böylece o kayıtlar kaybolmuş
+ * gibi görünmüyor. Yeni yazılanlar zaten tek yola gidiyor; bu arama yalnızca
+ * eski kayıtlar için ve yalnızca dosya bulunamadığında çalışıyor.
+ */
 export async function oku(klasor, ad) {
   await yolSec();
 
-  if (secilenYol === 'opfs') {
-    try {
-      const k = await opfsKlasor(klasor);
-      return await (await k.getFileHandle(ad)).getFile();
-    } catch {
-      return null;
-    }
-  }
+  const once = secilenYol === 'opfs'
+    ? await opfsftenOkuGuvenli(klasor, ad)
+    : await idbdenOku(klasor, ad);
+  if (once) return once;
 
-  const d = await idbAc();
-  const kayit = await idbIstek(d.transaction(['dosyalar']).objectStore('dosyalar').get(`${klasor}/${ad}`));
-  return kayit?.blob || null;
+  const sonra = secilenYol === 'opfs'
+    ? await idbdenOku(klasor, ad)
+    : await opfsftenOkuGuvenli(klasor, ad);
+  return sonra || null;
+}
+
+// OPFS hiç desteklenmiyorsa (eski Safari) burada patlamasın.
+async function opfsftenOkuGuvenli(klasor, ad) {
+  if (!navigator.storage?.getDirectory) return null;
+  return opfstenOku(klasor, ad);
 }
 
 export async function boyut(klasor, ad) {
