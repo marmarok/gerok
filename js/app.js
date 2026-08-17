@@ -10,6 +10,7 @@ import { gunSonuAc, geziSonuAc, baslangicKaydiAc, bitisKaydiAc, mektupAc } from 
 import { paketGonder, paketAl, yedekAl, sonYedekZamani, yedekSina } from './esitleme.js';
 import { TEMALAR, temaSecimi, temaSec, temaBaslat } from './tema.js';
 import { SEMA_SECENEKLERI, semaSecimi, semaSec, semaUygula, cozulmusSema } from './sema.js';
+import * as baglanti from './baglanti.js';
 import * as yerAra from './yer-ara.js';
 import { ikon, ikonlariYerlestir } from './ikon.js';
 
@@ -1733,6 +1734,8 @@ function duraklariCiz() {
       </div>
       ${uzaklik != null ? `<div class="durak-uzaklik">${uzaklikYaz(uzaklik)} uzakta${kendi ? ' · kendi durağın' : ''}${d.gunTasindi ? ' · başka güne taşındı' : ''}</div>`
                         : (kendi || d.gunTasindi) ? `<div class="durak-uzaklik">${kendi ? 'kendi durağın' : ''}${kendi && d.gunTasindi ? ' · ' : ''}${d.gunTasindi ? 'başka güne taşındı' : ''}</div>` : ''}
+      ${d.osmBilgi && d.osmBilgi !== '\u2014'
+        ? `<div class="durak-osm" title="OpenStreetMap'ten geldi">${kacis(d.osmBilgi)}</div>` : ''}
       ${d.unutma?.length ? `<ul class="unutma">${d.unutma.map(u => `<li>${kacis(u)}</li>`).join('')}</ul>` : ''}
       ${kendiNotlari(d)}
       ${yildizSatiri(d)}
@@ -2361,6 +2364,7 @@ async function paneliCiz() {
     .map(k => k.hedefYil))].sort();
 
   const { hepsi: harcamalar, paralar } = harcamalariTopla();
+  const harcamaEuro = euroToplami(harcamalar);
 
   // Bugün sesli günlük bırakılmış mı? Bırakılmamışsa ve akşam olmuşsa
   // Gün Sonu düğmesi nabız gibi atıyor — hatırlatan tek şey bu.
@@ -2376,6 +2380,10 @@ async function paneliCiz() {
   const yedekYazi = yedek
     ? gerok.tarihUzun(yedek) + ' ' + gerok.saat(yedek)
     : 'hiç alınmadı';
+
+  // Bağlantı kuyruğu: internet bulununca tamamlanacak işler.
+  const ag = await baglanti.agVarMi();
+  const kuyruk = await baglanti.kuyrukDurumu();
 
   $('#gerokPanel').innerHTML = `
     <div class="panel">
@@ -2393,15 +2401,64 @@ async function paneliCiz() {
           <span class="deger">${km.toFixed(1)} km · ${durum.izNoktalari.length} nokta</span></div>
         <div class="panel-satir harcama-ust"><span class="etiket">Harcama</span>
           <span class="deger">
-            <span>${harcamalar.length ? tutarYaz(paralar) : '—'}</span>
+            <span>${harcamaEuro ? euroYaz(harcamaEuro) : (harcamalar.length ? tutarYaz(paralar) : '—')}</span>
             <button class="satir-dugme" id="btnHarcamaListe">Döküm</button>
           </span></div>
-        <div class="panel-not kucuk">Para birimleri ayrı toplanıyor — kur çevirmesi
-        internet ister, uydurulmuyor.</div>
+        <div class="panel-not kucuk">${harcamaEuro
+          ? `${harcamaEuro.sayi} harcama, her biri kendi günündeki kurla euroya çevrildi.` +
+            (harcamaEuro.eksik ? ` ${harcamaEuro.eksik} tanesi henüz çevrilmedi.` : '') +
+            `<br>Para birimlerine göre: ${tutarYaz(paralar)}`
+          : 'Para birimleri ayrı toplanıyor. Tek toplam için Bağlantı → ' +
+            '“Harcamaların kurunu düzelt”.'}</div>
       ` : '<div class="panel-not">Gerok paketi yüklenmedi.</div>'}
       <button class="eylem-dugme birincil${gunSonuGerek ? ' nabiz' : ''}" id="btnGunSonu">Gün Sonu'nu başlat</button>
       ${gunSonuGerek ? '<div class="panel-uyari-yazi">Bugün henüz sesli günlük yok</div>' : ''}
     </div>
+
+    ${panelKur({
+      ad: 'bağlantı',
+      uyari: kuyruk.bekleyenToplam > 0,
+      ic: `
+        <div class="net-durum">
+          <span class="net-led${ag ? ' acik' : ''}"></span>
+          <span class="net-yazi">${ag
+            ? `bağlı · ${kacis(baglanti.KIPLER[kuyruk.kip]?.ad || kuyruk.kip)}`
+            : 'internet yok'}</span>
+          <span class="net-kipler">
+            ${Object.entries(baglanti.KIPLER).map(([id, o]) =>
+              `<button class="kucuk-dugme${kuyruk.kip === id ? ' secili' : ''}" data-veri-kipi="${id}">${o.ad}</button>`).join('')}
+          </span>
+        </div>
+
+        ${kuyruk.bekleyenToplam
+          ? `<div class="net-oneri${ag ? ' acik' : ''}">${ag
+              ? `${kuyruk.bekleyenToplam} şey bekliyor — şimdi hallolabilir.`
+              : `${kuyruk.bekleyenToplam} şey internet bekliyor. Otelde wi-fi bulunca tek dokunuşla hallolur; o zamana kadar her şey çevrimdışı çalışmaya devam eder.`}</div>`
+          : '<div class="net-oneri">Bekleyen bir şey yok.</div>'}
+
+        <div class="is-liste">
+          ${kuyruk.satirlar.map(i => `
+            <button class="is-satir${i.sayi ? '' : ' bitti'}" data-is="${i.k}">
+              <span class="is-sol">
+                <span class="is-ad">${kacis(i.ad)}</span>
+                <span class="is-not">${kacis(i.not)}${i.sayi ? ` · ${i.sayi} tane` : ''}</span>
+              </span>
+              <span class="is-durum${i.engelli ? ' engelli' : (i.sayi ? (ag ? ' hazir' : '') : ' bitti')}">
+                ${!i.sayi ? 'bitti' : i.engelli ? 'wi-fi bekler' : ag ? 'hallet' : 'bekliyor'}
+              </span>
+            </button>`).join('')}
+        </div>
+
+        <button class="eylem-dugme${ag && kuyruk.bekleyenToplam ? ' birincil' : ''}" id="btnHepsiniHallet"
+          ${kuyruk.bekleyenToplam ? '' : 'disabled'}>
+          ${ag ? 'Hepsini şimdi hallet' : 'İnternet bulununca hallolacak'}
+        </button>
+        <div id="netIlerleme" class="panel-not"></div>`,
+      not: 'Gerok internetsiz tam çalışır. Bağlantı yalnızca yukarıdaki işleri ' +
+           'düzeltmek için kullanılır. Dışarı giden tek şey: para birimi kodları, ' +
+           'kayıtların ve durakların koordinatları. Metin, ses, fotoğraf, isim — ' +
+           'hiçbiri gitmiyor, hiçbir kaydın buluta yüklenmiyor.'
+    })}
 
     ${panelKur({
       ad: 'eşitleme',
@@ -2499,6 +2556,7 @@ async function paneliCiz() {
   $('#btnHarcamaEkle')?.addEventListener('click', fiyatSor);
   temaSecenekleriniKur();
   semaSecenekleriniKur();
+  baglantiPaneliniKur(ag, kuyruk);
 
   $('#btnGunSonu').addEventListener('click', () => gunSonuAc(durum, tazele));
   $('#btnGonder').addEventListener('click', () => paketGonder(kayitBildir));
@@ -2638,6 +2696,102 @@ function fiyatSor() {
   });
 }
 
+// ------------------------------------------------------------- bağlantı --
+//
+// Kural: hiçbir iş kendiliğinden çalışmıyor. İnternet bulununca uygulama
+// sessizce bir şeyler indirmeye başlamıyor — ne yapılacağı yazıyor, dokunan
+// sen oluyorsun. "Buluta gitmiyor" sözünün karşılığı bu.
+
+function baglantiPaneliniKur(ag, kuyruk) {
+  // Wi-fi / mobil veri seçimi. iPhone bunu uygulamaya söylemiyor, o yüzden
+  // tahmin etmiyoruz — sen söylüyorsun, uygulama hatırlıyor.
+  $$('#gerokPanel [data-veri-kipi]').forEach(d => {
+    d.addEventListener('click', async () => {
+      const kip = d.dataset.veriKipi;
+      if (kip === 'mobil' && kuyruk.kip !== 'mobil') { mobilVeriSor(); return; }
+      await baglanti.veriKipiYaz(kip);
+      kayitBildir(kip === 'wifi'
+        ? 'Wi-fi kipi: büyük indirmeler de yapılabilir.'
+        : 'Mobil veri kipi: yalnızca küçük işler.', 'iyi');
+      paneliCiz();
+    });
+  });
+
+  $$('#gerokPanel [data-is]').forEach(d => {
+    d.addEventListener('click', () => isCalistir(d.dataset.is, ag, kuyruk));
+  });
+
+  $('#btnHepsiniHallet')?.addEventListener('click', async () => {
+    if (!ag) {
+      kayitBildir('İnternet yok — bağlanınca bu düğme çalışacak.', 'kotu');
+      return;
+    }
+    for (const i of kuyruk.satirlar) {
+      if (!i.sayi || i.engelli) continue;
+      await isCalistir(i.k, ag, kuyruk, { sessiz: true });
+    }
+    kayitBildir('Bekleyen işler bitti.', 'iyi');
+    paneliCiz();
+  });
+}
+
+async function isCalistir(anahtar, ag, kuyruk, { sessiz = false } = {}) {
+  const is = kuyruk.satirlar.find(x => x.k === anahtar);
+  if (!is) return;
+
+  if (!is.sayi) { if (!sessiz) kayitBildir(`${is.ad} · bekleyen bir şey yok.`); return; }
+  if (!ag) {
+    if (!sessiz) kayitBildir('İnternet yok · bağlanınca hallolur.', 'kotu');
+    return;
+  }
+  if (is.engelli) {
+    if (!sessiz) kayitBildir('Bu iş yüzlerce megabayt — mobil veride indirilmiyor, wi-fi bekliyor.', 'kotu');
+    return;
+  }
+
+  // Harita kendi akışını açıyor: indirme uzun sürüyor ve kendi ilerleme
+  // çubuğu var, kuyruğun içine sıkıştırmak doğru olmazdı.
+  if (anahtar === 'harita') { haritaIndirmeSor(); return; }
+
+  const yaz = (m) => { const e = $('#netIlerleme'); if (e) e.textContent = m; kayitBildir(m); };
+  yaz(`${is.ad}…`);
+
+  try {
+    const sonuc = await is.calistir((y, t) => yaz(`${is.ad}… ${y}/${t}`));
+    kayitBildir(sonuc.mesaj, sonuc.yapilan ? 'iyi' : '');
+    await tazele();
+    if (!sessiz) paneliCiz();
+  } catch (hata) {
+    kayitBildir(`${is.ad} olmadı: ${hata.message}`, 'kotu');
+  }
+}
+
+// Mobil veri onayı. Tasarımın kararı: büyük indirmeler için ayrıca izin
+// istenir, çünkü sürpriz fatura gezinin en gereksiz sürprizi olur.
+function mobilVeriSor() {
+  ortuAc(`
+    <div class="gs-sayac">mobil veri</div>
+    <div class="ortu-baslik">Mobil veri kullanılsın mı?</div>
+    <div class="ortu-alt">Gerok kendi başına veri harcamaz — hiçbir kayıt buluta
+    gitmiyor. İzin verirsen yalnızca bekleyen şu işler için kullanır.</div>
+    <div class="gs-liste">
+      <div class="gs-liste-satir"><div class="gs-liste-ad">Kurlar, yer adları, durak bilgisi</div>
+        <div class="gs-liste-alt">birkaç yüz kilobayt</div></div>
+      <div class="gs-liste-satir"><div class="gs-liste-ad">Harita paketi</div>
+        <div class="gs-liste-alt">yüzlerce megabayt — mobil veride indirilmez</div></div>
+    </div>
+    <button class="eylem-dugme birincil" id="mobilKucuk">Yalnızca küçük işler</button>
+    <button class="eylem-dugme" id="mobilVazgec">Wi-fi bekle</button>
+  `);
+  $('#mobilKucuk').addEventListener('click', async () => {
+    ortuKapat();
+    await baglanti.veriKipiYaz('mobil');
+    kayitBildir('Mobil veri: yalnızca küçük işler. Harita wi-fi bekliyor.', 'iyi');
+    paneliCiz();
+  });
+  $('#mobilVazgec').addEventListener('click', ortuKapat);
+}
+
 // ------------------------------------------------------------------ tema --
 
 function temaSecenekleriniKur() {
@@ -2752,6 +2906,23 @@ function tutarYaz(harita) {
   return satirlar.length ? satirlar.join(' · ') : '—';
 }
 
+// Kuru yazilmis harcamalarin euro toplami. Kur internetten geldiginde
+// (bkz. js/baglanti.js) her kaydin icine `euro` alani yaziliyor; burada
+// yalnizca toplaniyor. Hicbiri cevrilmemisse null donuyor.
+function euroToplami(hepsi) {
+  const cevrilen = hepsi.filter(k => typeof k.euro === 'number' && Number.isFinite(k.euro));
+  if (!cevrilen.length) return null;
+  return {
+    toplam: cevrilen.reduce((t, k) => t + k.euro, 0),
+    sayi: cevrilen.length,
+    eksik: hepsi.length - cevrilen.length
+  };
+}
+
+function euroYaz(e) {
+  return e.toplam.toLocaleString('tr-TR', { maximumFractionDigits: 0 }) + ' \u20ac';
+}
+
 function harcamalarPaneli() {
   const { hepsi, paralar } = harcamalariTopla();
   if (!hepsi.length) {
@@ -2770,6 +2941,7 @@ function harcamalarPaneli() {
 
 function harcamaDokumuAc() {
   const { hepsi, paralar, kategoriler, gunler } = harcamalariTopla();
+  const euro = euroToplami(hepsi);
   const s = gerok.aktifGerok();
 
   const gunAdi = (g) => {
@@ -2786,8 +2958,11 @@ function harcamaDokumuAc() {
 
   ortuAc(`
     <div class="ortu-baslik">Harcamalar</div>
-    <div class="ortu-alt">Toplam: <b>${tutarYaz(paralar)}</b><br>
-    Para birimleri ayrı toplanıyor — kur çevirmesi internet ister, uydurulmuyor.</div>
+    <div class="ortu-alt">${euro
+      ? `Toplam: <b>${euroYaz(euro)}</b> · ${tutarYaz(paralar)}<br>
+         Her harcama kendi günündeki gerçek kurla çevrildi${euro.eksik ? `, ${euro.eksik} tanesi hariç` : ''}.`
+      : `Toplam: <b>${tutarYaz(paralar)}</b><br>
+         Para birimleri ayrı toplanıyor — tek toplam için Bağlantı → “Harcamaların kurunu düzelt”.`}</div>
 
     <div class="girdi-etiket">Kategoriye göre</div>
     ${Array.from(kategoriler.entries()).map(([kat, p]) =>
@@ -2807,7 +2982,10 @@ function harcamaDokumuAc() {
             <div class="harcama-ne">${kacis(k.metin)}</div>
             <div class="harcama-alt">${k.gun ? `Gün ${k.gun} · ` : ''}${kacis(gerok.saat(k.t))}${k.kategori ? ` · ${kacis(k.kategori)}` : ''} · ${kacis(k.sahipAd || '')}</div>
           </div>
-          <div class="harcama-tutar">${kacis(k.tutar || '—')} ${kacis(k.paraBirimi || '')}</div>
+          <div class="harcama-tutar">${kacis(k.tutar || '—')} ${kacis(k.paraBirimi || '')}${
+            typeof k.euro === 'number'
+              ? `<span class="harcama-euro">${k.euro.toLocaleString('tr-TR', { maximumFractionDigits: 2 })} \u20ac</span>`
+              : ''}</div>
         </div>`).join('')}
     </div>
     <button class="eylem-dugme" id="harcamaKapat">Kapat</button>

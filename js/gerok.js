@@ -37,6 +37,12 @@ let durakNotlari = {};
 // Puan tek sayı; çakışmada en son yazılan kazanıyor.
 let durakPuanlari = {};
 
+// Duraklara internetten gelen bilgi: durak kimliği → { satir, t }
+// "manastır · 08:00-18:00 · ücretli · +389…" gibi tek satır. Kaynağı
+// OpenStreetMap (bkz. js/baglanti.js). Elle yazılan notlardan AYRI duruyor:
+// biri senin yolda öğrendiğin şey, öteki haritanın söylediği şey.
+let durakBilgileri = {};
+
 export function aktifGerok() { return aktif; }
 
 export async function baslat() {
@@ -60,6 +66,7 @@ export async function baslat() {
   gunDuzeni = await ayarOku('durakGunleri', {});
   durakNotlari = await ayarOku('durakNotlari', {});
   durakPuanlari = await ayarOku('durakPuanlari', {});
+  durakBilgileri = await ayarOku('durakBilgileri', {});
   return aktif;
 }
 
@@ -279,6 +286,7 @@ export function duraklar(gerok = aktif) {
     d.notlar = (durakNotlari[d.id] || []).filter(n => !n.silindi)
       .sort((a, b) => (a.t || 0) - (b.t || 0));
     d.puan = durakPuanlari[d.id]?.puan ?? null;
+    d.osmBilgi = durakBilgileri[d.id]?.satir || null;
   }
   return hepsi.sort(sirala);
 }
@@ -383,6 +391,30 @@ export function siraDuzeniAl() { return siraDuzeni; }
 export function gunDuzeniAl() { return gunDuzeni; }
 export function durakNotlariAl() { return durakNotlari; }
 export function durakPuanlariAl() { return durakPuanlari; }
+export function durakBilgileriAl() { return durakBilgileri; }
+
+/**
+ * Duraga internetten gelen bilgiyi yazar.
+ *
+ * Bos satir da yaziliyor ('-'): bilgi bulunamayan bir durak her baglantida
+ * yeniden sorulup kuyrugu tikamasin. Kullaniciya gosterilirken bos sayiliyor.
+ */
+export async function durakBilgiYaz(id, satir) {
+  durakBilgileri = { ...durakBilgileri, [id]: { satir: String(satir || ''), t: Date.now() } };
+  await ayarYaz('durakBilgileri', durakBilgileri);
+}
+
+/** Iki telefon birlestiginde: en son yazilan kazaniyor. */
+export async function durakBilgileriBirlestir(gelen = null) {
+  if (!gelen || typeof gelen !== 'object') return;
+  for (const [id, b] of Object.entries(gelen)) {
+    if (!b?.satir) continue;
+    const eldeki = durakBilgileri[id];
+    if (!eldeki || (b.t || 0) > (eldeki.t || 0)) durakBilgileri[id] = b;
+  }
+  durakBilgileri = { ...durakBilgileri };
+  await ayarYaz('durakBilgileri', durakBilgileri);
+}
 
 // ---- Durak notları ---------------------------------------------------------
 

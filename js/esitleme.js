@@ -7,7 +7,8 @@
 import * as veri from './veri.js';
 import { aktifGerok, ozelDurakListesi, siraDuzeniAl, ozelDuraklariBirlestir,
          gunDuzeniAl, gunDuzeniBirlestir, durakNotlariAl, durakNotlariBirlestir,
-         durakPuanlariAl, durakPuanlariBirlestir } from './gerok.js';
+         durakPuanlariAl, durakPuanlariBirlestir,
+         durakBilgileriAl, durakBilgileriBirlestir } from './gerok.js';
 
 const PAKET_SURUM = 1;
 
@@ -104,7 +105,10 @@ async function govdeTopla({ sadeceGun = null, tumTurlar = false } = {}) {
     // bir notu tek telefonda bırakmak, ertesi gün oraya diğerinin gitmesi
     // hâlinde işe yaramaz hâle getiriyor.
     durakNotlari: durakNotlariAl(),
-    durakPuanlari: durakPuanlariAl()
+    durakPuanlari: durakPuanlariAl(),
+    // Internetten gelen durak bilgisi: bir telefon wi-fi bulup cektiyse
+    // otekinin ayni isi tekrar yapmasina gerek kalmasin.
+    durakBilgileri: durakBilgileriAl()
   };
 }
 
@@ -212,6 +216,7 @@ export async function paketBirlestir(paket) {
   const yeniGun = await gunDuzeniBirlestir(paket.durakGunleri || null);
   const yeniNot = await durakNotlariBirlestir(paket.durakNotlari || null);
   await durakPuanlariBirlestir(paket.durakPuanlari || null);
+  await durakBilgileriBirlestir(paket.durakBilgileri || null);
 
   return { yeniKayit, yeniIz, yeniMedya, silinen, yeniDurak, yeniGun, yeniNot,
            yeniTur, kisi: paket.kisi };
