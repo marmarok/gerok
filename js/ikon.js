@@ -96,7 +96,29 @@ const CIZIMLER = {
  * yoksa boş ekranlardaki 44 piksellik ikon kalem yerine fırçayla çizilmiş
  * gibi duruyordu.
  */
+/**
+ * Emoji karşılıkları.
+ *
+ * Yukarıdaki üç itiraz hâlâ doğru — ama 17 Ağustos'ta defterin sahibi "emojiye dön"
+ * dedi ve şartname (SPEC §2.4) da sekmelerde emoji istiyor. SVG çizimler
+ * silinmedi: `EMOJI` değişkenini false yapmak eski sete geri döndürüyor.
+ */
+const EMOJILER = {
+  saat: '📖', harita: '🗺️', arti: '＋', raptiye: '📍', ayarlar: '☰',
+  mikrofon: '🎙️', dalga: '🎧', kalem: '✏️', nisan: '🎯', kisi: '🧑',
+  fis: '🧾', gorsel: '🖼️', buyutec: '🔍', genislet: '⤢',
+  zamanBos: '📖', yolBos: '🗺️'
+};
+const EMOJI = true;
+
 export function ikon(ad, boy = 24) {
+  if (EMOJI) {
+    const e = EMOJILER[ad];
+    if (!e) return '';
+    // Kutu SVG ile aynı boyda kalsın: emoji satır yüksekliğiyle taşıyordu.
+    return `<span class="ikon emoji" aria-hidden="true"
+      style="font-size:${(boy * 0.84).toFixed(1)}px;width:${boy}px;height:${boy}px">${e}</span>`;
+  }
   const d = CIZIMLER[ad];
   if (!d) return '';
   const kalinlik = boy > 30 ? (1.6 * 24 / boy) * 1.35 : 1.6;

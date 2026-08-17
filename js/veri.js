@@ -289,6 +289,41 @@ export async function turunKayitlariniSil(gerokId) {
   return gidecekler.length;
 }
 
+/**
+ * Verilen kimlik kümesinin DIŞINDA kalan kayıtları ve iz noktalarını siler.
+ *
+ * TEK KULLANIM YERİ: "yedekten geri yükle → değiştir".
+ *
+ * NEDEN "HEPSİNİ SİL" DEĞİL: ilk yazdığım hâli önce her şeyi siliyor, sonra
+ * yedeği yüklüyordu. Tarayıcıda sınarken yedek dosyası doğrulamadan geçmedi
+ * ve sıra silmeden sonra koptu: her şey gitti, yerine hiçbir şey gelmedi.
+ * Gezi verisinin yedeği yok — bu, olabilecek en kötü sonuç.
+ *
+ * Doğru sıra: ÖNCE yedek birleştirilir (birleştirme hiçbir şeyi silmez),
+ * ancak o başarılı olduktan SONRA fazlası temizlenir. Böylece hiçbir anda
+ * veri boş kalmıyor; birleştirme hata verirse tek bir kayıt bile silinmiyor.
+ *
+ * Geziler ve duraklar bilerek dokunulmuyor: onlar programdan geliyor,
+ * kullanıcının yazdığı şey değil ve silinmeleri kimseye bir şey kazandırmaz.
+ */
+export async function disindakileriSil(kalacakKayitlar, kalacakIz) {
+  await ac();
+  const kayitlar = await sarmala(islem(['kayitlar']).objectStore('kayitlar').getAll());
+  let silinen = 0;
+  for (const k of kayitlar) {
+    if (kalacakKayitlar.has(k.id)) continue;
+    if (k.medyaId) await medyaSil(k.medyaId).catch(() => {});
+    await kayitSil(k.id);
+    silinen++;
+  }
+  if (kalacakIz) {
+    const iz = await sarmala(islem(['iz']).objectStore('iz').getAll());
+    const d = islem(['iz'], 'readwrite').objectStore('iz');
+    for (const n of iz) if (!kalacakIz.has(n.id)) d.delete(n.id);
+  }
+  return silinen;
+}
+
 // ---- Medya deposu ---------------------------------------------------------
 // Ses kayıtları ve fotoğraf önizlemeleri. Hangi depolama yolunun kullanıldığına
 // depo.js karar veriyor (OPFS ya da IndexedDB) — bkz. oradaki açıklama.

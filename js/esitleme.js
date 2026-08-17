@@ -323,6 +323,106 @@ export async function sonYedekZamani() {
 }
 
 /**
+ * iCloud / Google Drive'a tek dokunuşla yükleme.
+ *
+ * DÜRÜST OLUNACAK YER: bir web uygulaması ARKA PLANDA buluta kopyalayamaz.
+ * iOS bunu yalnızca kendi uygulamalarına veriyor. "Otomatik yedek" diye bir
+ * anahtar koyup sessizce hiçbir şey yapmamak, kullanıcıya yedeği olduğunu
+ * sandırmak olurdu — ve bunun öğrenileceği gün, her şeyin kaybolduğu gün.
+ *
+ * Yapılabilenin tamamı bu: tek dokunuş, paylaş sayfası açılır, "Dosyalar'a
+ * Kaydet" (iCloud Drive) ya da Drive seçilir. Dosya adı tarihli, hep aynı
+ * biçimde — aynı klasöre birikiyorlar, üst üste yazmıyorlar.
+ */
+export async function bulutaYukle(bildir) {
+  bildir?.('Bulut yedeği hazırlanıyor…');
+  try {
+    const blob = await paketBlobu({
+      tumTurlar: true,
+      ilerleme: (y, t) => { if (t > 3) bildir?.(`Bulut yedeği hazırlanıyor… ${y}/${t}`); }
+    });
+    const ad = `gerok-yedek-${tarihEtiketi()}.gerok.json`;
+    const dosya = new File([blob], ad, { type: 'application/json' });
+
+    if (navigator.canShare?.({ files: [dosya] })) {
+      await navigator.share({ files: [dosya], title: 'Gerok yedeği' });
+      bildir?.('Yüklendi · “Dosyalar’a Kaydet” ya da Drive seçtiysen bulutta', 'iyi');
+    } else {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = ad; a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 3000);
+      bildir?.('Dosya indirildi · buluta elle koyman gerekiyor', 'iyi');
+    }
+    const an = Date.now();
+    await veri.ayarYaz('sonBulut', an);
+    await veri.ayarYaz('sonYedek', an);
+  } catch (hata) {
+    if (hata.name === 'AbortError') { bildir?.('Yükleme iptal edildi.'); return; }
+    bildir?.(`Yüklenemedi: ${hata.message}`, 'kotu');
+  }
+}
+
+/**
+ * Yedekten geri yükleme — iki kip.
+ *
+ * BİRLEŞTİR: yedekteki kayıtlar eklenir, telefondaki hiçbir şey silinmez.
+ * DEĞİŞTİR: telefondaki her şey silinir, yerine yedek konur. Yedeğin
+ * alınmasından sonra girilen kayıtlar kaybolur.
+ *
+ * "Değiştir" geri dönülemez ve gezi verisinin yerine konulacak bir şey yok.
+ * Bu yüzden üç kapılı: kip seçilir → dosya seçilir → dosyanın İÇİ okunup
+ * "şu kadar kayıt gelecek, şu kadarı silinecek" diye sayıyla onaylatılır.
+ *
+ * SIRA ÖNEMLİ — ilk yazdığım hâli yanlıştı ve tarayıcıda sınarken yakalandı.
+ * Önce siliyor, sonra yedeği yüklüyordu; yedek doğrulamadan geçmeyince her
+ * şey gitti, yerine hiçbir şey gelmedi. Doğrusu: ÖNCE birleştir (birleştirme
+ * hiçbir şeyi silmez), birleştirme başarılı olduktan SONRA fazlasını sil.
+ * Böylece bozuk bir dosya seçildiğinde tek bir kayıt bile kaybolmuyor.
+ */
+export function yedektenGeriYukle(bildir, tazele, onayla) {
+  const secici = document.createElement('input');
+  secici.type = 'file';
+  secici.accept = '.json,application/json';
+
+  secici.addEventListener('change', async () => {
+    const dosya = secici.files[0];
+    if (!dosya) return;
+    bildir?.('Yedek okunuyor…');
+    try {
+      const paket = JSON.parse(await dosya.text());
+      // Doğrulama ONAYDAN ÖNCE: kullanıcıya "2 kaydın silinecek" diye
+      // sorup sonra "bu dosya okunamadı" demek olmaz.
+      if (!paket?.paketSurum) throw new Error('Bu dosya bir Gerok yedeği değil.');
+      const gelen = (paket.kayitlar || []).length;
+      if (!gelen && !(paket.duraklar || []).length) {
+        bildir?.('Bu dosyada kayıt yok — hiçbir şey değiştirilmedi.', 'kotu');
+        return;
+      }
+      const mevcut = (await veri.tumKayitlar()).length;
+      const onay = await onayla({ gelen, mevcut, ad: dosya.name });
+      if (!onay) { bildir?.('Vazgeçildi — hiçbir şey değişmedi.'); return; }
+
+      const s = await paketBirlestir(paket);
+
+      if (onay === 'degistir') {
+        const kalacak = new Set((paket.kayitlar || []).map(k => k.id));
+        const kalacakIz = new Set((paket.iz || []).map(n => n.id));
+        const silinen = await veri.disindakileriSil(kalacak, kalacakIz);
+        bildir?.(`Geri yüklendi · ${kalacak.size} kayıt · ${silinen} fazla kayıt silindi`, 'iyi');
+      } else {
+        bildir?.(`Birleştirildi · ${s.yeniKayit} yeni kayıt eklendi`, 'iyi');
+      }
+      await tazele?.();
+    } catch (hata) {
+      bildir?.(`Geri yüklenemedi: ${hata.message}`, 'kotu');
+    }
+  });
+
+  secici.click();
+}
+
+/**
  * Yedeği sınar: paketi üretir, GERİ OKUR ve ne çıktığını sayar.
  *
  * Yedek almanın sessiz tehlikesi şu: dosya oluşuyor, boyutu da makul

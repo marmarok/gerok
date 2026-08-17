@@ -10,6 +10,8 @@
 //
 // Değerler Claude Design'daki GEROK tasarımının SEMALAR tablosundan birebir.
 
+import { karistir, karsit } from './renk.js';
+
 export const SEMALAR = {
   'kahve': {
     ust: '#241f1a',
@@ -57,14 +59,62 @@ export const SEMALAR = {
 const DONGU = ['buz mavisi', 'açık yeşil', 'mürekkep', 'zeytin + tuğla',
   'gül kurusu', 'bakır + buz', 'orman + safran'];
 
-// Seçenek listesi: iki otomatik kip + sekiz sabit şema.
-export const SEMA_SECENEKLERI = [
-  { id: 'gun', ad: 'Haftanın günü' },
-  { id: 'gezi', ad: 'Gezinin günü' },
-  ...Object.keys(SEMALAR).map(ad => ({ id: ad, ad }))
-];
+// Seçenek listesi artık tek: haftanın günü.
+//
+// Sekiz adlı şema ve "gezinin günü" 17 Ağustos'ta kaldırıldı. Sekiz sabit
+// isim, sınırsız renk seçebilen bir renk seçicisinin yanında anlamsız
+// kalıyordu; "gezinin günü" ile "haftanın günü" ise aynı yedi rengi başka
+// sırayla dönderiyordu ve aradaki farkı kimse fark etmiyordu.
+//
+// Geriye üç şey kaldı: haftanın yedi günü (sabit, değiştirilemez),
+// kâğıdın rengi (js/tema.js) ve vurgu rengi (aşağıda) — son ikisi sınırsız.
+export const SEMA_SECENEKLERI = [{ id: 'gun', ad: 'Haftanın günü' }];
+
+/** Haftanın yedi gününün adı ve rengi — panelde yan yana gösteriliyor. */
+export const GUNLERIN_RENKLERI = ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz']
+  .map((ad, i) => ({ ad, sema: DONGU[i] }));
 
 const ANAHTAR = 'gerokSema';
+const VURGU_ANAHTAR = 'gerokVurgu';
+
+/** Elle seçilmiş vurgu rengi (hex) — boşsa haftanın günü geçerli. */
+export function ozelVurgu() {
+  try { return localStorage.getItem(VURGU_ANAHTAR) || ''; }
+  catch { return ''; }
+}
+
+export function ozelVurguSec(hex, geziGunu = 0) {
+  try { localStorage.setItem(VURGU_ANAHTAR, hex); } catch { /* yine de uygulanır */ }
+  return semaUygula(semaSecimi(), geziGunu);
+}
+
+export function ozelVurguSil(geziGunu = 0) {
+  try { localStorage.removeItem(VURGU_ANAHTAR); } catch { /* yoksay */ }
+  return semaUygula(semaSecimi(), geziGunu);
+}
+
+/**
+ * Tek bir renkten bütün vurgu ailesini üretir.
+ *
+ * Sabit şemalarda bu sekiz değer elle ayarlanmıştı; sınırsız renkte elle
+ * ayarlama yok. En kritiği `vurguYazi` — vurgunun üstünde duran yazının
+ * rengi. Parlak sarı bir vurgunun üstüne beyaz yazılınca düğme okunmuyor,
+ * o yüzden rengin parlaklığına bakılıp siyah ya da beyaz seçiliyor.
+ */
+function ozelSema(hex, tema) {
+  const ust = karistir(hex, tema === 'koyu' ? '#0d0b09' : '#141210', 0.80);
+  return {
+    ust,
+    vurgu: hex,
+    vurguKoyu: karistir(hex, '#000000', 0.24),
+    vurguYazi: karsit(hex),
+    su: hex,
+    birincilZemin: `linear-gradient(160deg,color-mix(in srgb,${hex} 13%,var(--zemin)),var(--zemin))`,
+    birincilCizgi: `color-mix(in srgb,${hex} 42%,var(--zemin))`,
+    seciliZemin: `color-mix(in srgb,${hex} 12%,var(--zemin))`,
+    seciliCizgi: `color-mix(in srgb,${hex} 38%,var(--zemin))`
+  };
+}
 
 export function semaSecimi() {
   try { return localStorage.getItem(ANAHTAR) || 'gun'; }
@@ -83,10 +133,11 @@ export function cozulmusSema(secim = semaSecimi(), geziGunu = 0) {
 // Şemayı belgeye yazıyor. Tema (koyu/acik) <html data-tema> içinden okunuyor —
 // tema değiştiğinde bu yeniden çağrılmalı, yoksa vurgu eski temanın kalır.
 export function semaUygula(secim = semaSecimi(), geziGunu = 0) {
-  const ad = cozulmusSema(secim, geziGunu);
-  const sema = SEMALAR[ad] || SEMALAR['kahve'];
   const tema = document.documentElement.dataset.tema === 'acik' ? 'acik' : 'koyu';
-  const v = sema[tema] || sema.acik;
+  const ozel = ozelVurgu();
+  const ad = ozel ? ozel : cozulmusSema(secim, geziGunu);
+  const sema = ozel ? ozelSema(ozel, tema) : (SEMALAR[ad] || SEMALAR['kahve']);
+  const v = ozel ? sema : (sema[tema] || sema.acik);
 
   const kok = document.documentElement.style;
   kok.setProperty('--vurgu', v.vurgu);
@@ -110,6 +161,13 @@ export function semaUygula(secim = semaSecimi(), geziGunu = 0) {
     `rgba(${r},${g},${b},.55) 88%,rgba(${r},${g},${b},0) 100%)`);
 
   return ad;
+}
+
+/** Bir şemanın o anki temadaki vurgu rengi — yedi günün örnekleri için. */
+export function semaVurgusu(ad) {
+  const s = SEMALAR[ad] || SEMALAR['kahve'];
+  const tema = document.documentElement.dataset.tema === 'acik' ? 'acik' : 'koyu';
+  return (s[tema] || s.acik).vurgu;
 }
 
 export function semaSec(secim, geziGunu = 0) {

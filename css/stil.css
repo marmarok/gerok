@@ -323,7 +323,9 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
 .kayit-satir {
   --renk: var(--vurgu);
   padding: 18px 16px 16px;
-  border-left: 3px solid var(--renk);
+  /* 6px: 3 pikselde gün rengi kayıt satırının kenarında zar zor okunuyordu.
+     Şeridin işi rengi göstermek — inceyken renk değil çizgi görünüyor. */
+  border-left: 6px solid var(--renk);
   background: color-mix(in srgb, var(--renk) 8%, var(--zemin));
   position: relative;
 }
@@ -616,6 +618,13 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
 .dugme-ikon { display: flex; justify-content: center; color: var(--vurgu); }
 .buyuk-dugme.vurgu .dugme-ikon { color: var(--su); }
 .ikon { display: block; }
+/* Emoji ikonlar kendi renklerini taşıyor; `currentColor` onlara işlemiyor.
+   Yapılabilecek tek şey kutuyu SVG'yle aynı ölçüde tutmak. */
+.ikon.emoji {
+  display: inline-flex; align-items: center; justify-content: center;
+  line-height: 1; font-style: normal;
+  font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
+}
 .dugme-ad { font-size: 17px; font-weight: 600; }
 .dugme-alt { font-size: 12px; color: var(--soluk); }
 
@@ -882,7 +891,95 @@ body:has(.ses-katman:not(.gizli)) .bildirim {
 
 /* Beş yıldız — yatay tek satır. Dokunma alanı 34 px: araç sallanırken
    yanlış yıldıza basmak, puanı hepten yanlış yapıyordu. */
+/* ---------- İçe alma sihirbazı ---------- */
+.sihirbaz-sayac {
+  font-size: 12px; color: var(--cok-soluk); letter-spacing: .04em;
+  font-variant-numeric: tabular-nums; margin-bottom: 4px;
+}
+/* Sönük ama tıklanabilir: basılınca neden ilerlemediğini söylüyor. */
+.eylem-dugme.sonuk { opacity: .45; }
+.sihirbaz-alt { display: flex; gap: 8px; margin-top: 14px; }
+.sihirbaz-alt .eylem-dugme { flex: 1; margin: 0; }
+.sihirbaz-alt-satir { display: flex; gap: 8px; margin-top: 10px; }
+
+.sihirbaz-ozet {
+  border: 1px solid var(--cizgi); border-radius: 12px;
+  padding: 4px 12px; margin: 12px 0; background: var(--kat);
+}
+.sihirbaz-satir {
+  display: flex; justify-content: space-between; gap: 12px;
+  padding: 9px 0; font-size: 13.5px;
+}
+.sihirbaz-satir + .sihirbaz-satir { border-top: 1px solid var(--cizgi); }
+.sihirbaz-satir span { color: var(--soluk); }
+.sihirbaz-satir b { color: var(--yazi); text-align: right; }
+.sihirbaz-hata { color: var(--kirmizi); font-size: 13px; margin-top: 10px; }
+
+.sihirbaz-gun { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.sihirbaz-gunno { flex: 0 0 54px; font-size: 12px; color: var(--cok-soluk); }
+.alan.tek { flex: 1; min-height: 0; height: 42px; margin: 0; }
+
+/* Uzun listeler pencereyi taşırmasın: kendi içinde kaysın. */
+.sihirbaz-satirlar, .sihirbaz-secim {
+  max-height: 46vh; overflow-y: auto; margin: 12px 0;
+  border: 1px solid var(--cizgi); border-radius: 12px;
+}
+
+.isaret-satir, .sec-satir {
+  display: flex; align-items: flex-start; gap: 10px; width: 100%;
+  padding: 11px 12px; background: none; border: none; text-align: left;
+  color: var(--yazi); font-size: 13.5px; line-height: 1.45;
+}
+.isaret-satir + .isaret-satir, .sec-satir + .sec-satir { border-top: 1px solid var(--cizgi); }
+.isaret-etiket {
+  flex: 0 0 46px; font-size: 10px; letter-spacing: .06em;
+  color: var(--cok-soluk); padding-top: 3px;
+}
+.isaret-satir.gun { background: color-mix(in srgb, var(--vurgu) 12%, transparent); }
+.isaret-satir.gun .isaret-etiket, .isaret-satir.durak .isaret-etiket { color: var(--vurgu); }
+.isaret-satir.durak { background: color-mix(in srgb, var(--vurgu) 6%, transparent); }
+.isaret-satir.not .isaret-yazi { color: var(--soluk); }
+.isaret-yazi, .sec-yazi { flex: 1; min-width: 0; }
+.sec-yazi i { display: block; font-style: normal; font-size: 11.5px; color: var(--cok-soluk); margin-top: 2px; }
+.sec-satir .tik-kutu { margin-top: 1px; }
+.sec-satir.secili .tik-kutu { background: var(--vurgu); border-color: var(--vurgu); color: var(--vurgu-yazi); }
+
+/* ---------- Renk ayarı ---------- */
+/* Haftanın yedi günü: sabit, dokunulamaz. Bir düğme gibi görünmemeli —
+   basılamayacak bir şeyin düğme gibi durması yanlış söz vermek olur. */
+.renk-satir { padding: 12px 0 10px; border-bottom: 1px solid var(--cizgi); }
+.renk-ad { font-size: 14px; font-weight: 600; color: var(--yazi); }
+.renk-ornekler { display: flex; gap: 6px; margin: 9px 0 7px; }
+.renk-gun {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px;
+  font-size: 10px; color: var(--cok-soluk);
+}
+.renk-gun i { width: 100%; height: 16px; border-radius: 5px; display: block; }
+.renk-not { font-size: 12px; color: var(--cok-soluk); }
+/* Satırın sağındaki renk örneği */
+.renk-kutu {
+  display: inline-block; width: 14px; height: 14px; border-radius: 4px;
+  border: 1px solid var(--cizgi); margin-right: 6px; vertical-align: -2px;
+}
+/* Telefonun kendi renk çarkı. Yükseklik 54: iOS'ta varsayılan yükseklik
+   26 piksel çıkıyor ve parmakla basılacak bir hedef olmuyordu. */
+.renk-secici {
+  width: 100%; height: 54px; padding: 4px; margin: 6px 0 12px;
+  border: 1px solid var(--cizgi); border-radius: 12px; background: var(--kat2);
+}
+
+/* Kart gövdesi: solda unutma listesi, sağda yıldız sütunu. */
+.durak-govde { display: flex; align-items: flex-start; gap: 10px; }
+.durak-liste { flex: 1; min-width: 0; }
+
 .puan { display: flex; align-items: center; gap: 2px; margin-top: 11px; }
+/* Dikey sütun: yıldızlar üst üste, altında puan yazısı. */
+.puan.dikey {
+  flex-direction: column; gap: 0; margin-top: 8px;
+  flex: 0 0 auto; align-items: center;
+}
+.puan.dikey .yildiz { width: 30px; height: 26px; }
+.puan.dikey .puan-yazi { margin: 2px 0 0; }
 .yildiz {
   width: 34px; height: 34px; padding: 0;
   background: none; border: none; line-height: 1;
@@ -899,6 +996,15 @@ body:has(.ses-katman:not(.gizli)) .bildirim {
   background: var(--kat2); border: 1px solid var(--cizgi); color: var(--soluk);
 }
 .kucuk-dugme.secili { background: var(--secili-zemin); border-color: var(--secili-cizgi); color: var(--yesil); }
+/* Google düğmesi: dört düğmelik satırda "Google Haritalar'da aç" yazısı üç
+   düğmeyi eziyordu. Harfin kendisi Google'ın dört rengiyle boyanıyor —
+   üstteki #haritaGoogle ile aynı yöntem. */
+.kucuk-dugme.g-dugme {
+  flex: 0 0 46px; font-weight: 700; font-size: 17px; padding: 7px 0;
+  background-image: linear-gradient(135deg,#4285f4 0%,#4285f4 28%,#ea4335 34%,
+    #ea4335 52%,#fbbc05 58%,#fbbc05 76%,#34a853 82%,#34a853 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
 .kucuk-dugme.sil { color: var(--kirmizi); }
 .eylem-dugme.sil { color: var(--kirmizi); }
 

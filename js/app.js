@@ -7,10 +7,13 @@ import * as kayit from './kayit.js';
 import { haritaKur, haritaGuncelle, haritaBoyutTazele, konumaGit, hepsiniGoster,
          kipDegistir, aktifKipAl, haritaMerkezi, durakTiklamasi } from './harita.js';
 import { gunSonuAc, geziSonuAc, baslangicKaydiAc, bitisKaydiAc, mektupAc } from './gunsonu.js';
-import { paketGonder, paketAl, yedekAl, sonYedekZamani, yedekSina } from './esitleme.js';
-import { TEMALAR, temaSecimi, temaSec, temaBaslat } from './tema.js';
-import { SEMA_SECENEKLERI, semaSecimi, semaSec, semaUygula, cozulmusSema } from './sema.js';
+import { paketGonder, paketAl, yedekAl, sonYedekZamani, yedekSina,
+  bulutaYukle, yedektenGeriYukle } from './esitleme.js';
+import { temaBaslat, kagitSecimi, kagitSec, kagitSil, varsayilanKagit } from './tema.js';
+import { GUNLERIN_RENKLERI, semaSecimi, semaUygula, semaVurgusu,
+  ozelVurgu, ozelVurguSec, ozelVurguSil } from './sema.js';
 import * as baglanti from './baglanti.js';
+import { sihirbaziAc } from './sihirbaz.js';
 import * as yerAra from './yer-ara.js';
 import { ikon, ikonlariYerlestir } from './ikon.js';
 
@@ -1827,12 +1830,23 @@ function kendiNotlari(d) {
 }
 
 /**
- * Beş yıldız — yatay.
+ * Beş yıldız — dikey sütun, kartın sağ kenarında.
  *
- * Yatay seçildi: kart zaten yukarıdan aşağı okunuyor, dikey bir yıldız
- * sütunu kartı iki katına çıkarırdı ve 26 duraklık listede kaydırmayı
- * uzatırdı. Yatay beş yıldız tek satır, başparmakla ulaşılır.
+ * Yatayken kartın altına bir satır daha ekliyordu; 26 duraklık listede her
+ * kart o kadar uzuyordu. Dikey sütun, unutma listesinin yanındaki boş alanda
+ * duruyor — kart hiç uzamıyor. En üstteki yıldız 5, en alttaki 1: aşağıdan
+ * yukarı dolan bir çubuk gibi.
  */
+function yildizSutunu(d) {
+  return `<div class="puan dikey" data-puan-durak="${d.id}">
+    ${[5, 4, 3, 2, 1].map(n => `
+      <button class="yildiz ${(d.puan || 0) >= n ? 'dolu' : ''}" data-puan="${n}"
+              aria-label="${n} yıldız">★</button>`).join('')}
+    <span class="puan-yazi">${d.puan ? `${d.puan}/5` : '—'}</span>
+  </div>`;
+}
+
+/** Aynı yıldızların yatay hâli — harita üstündeki dar durak kartında. */
 function yildizSatiri(d) {
   return `<div class="puan" data-puan-durak="${d.id}">
     ${[1, 2, 3, 4, 5].map(n => `
@@ -1942,8 +1956,8 @@ function duraklariCiz() {
       <div class="durak-ust">
         <div class="durak-ad"><span class="durak-no">${i + 1}</span>${kacis(d.ad)}</div>
         <div class="durak-sira">
-          <button class="sira-dugme" data-tasi="-1" title="Yukarı">▲</button>
-          <button class="sira-dugme" data-tasi="1" title="Aşağı">▼</button>
+          <button class="sira-dugme" data-tasi="-1" title="Yukarı">↑</button>
+          <button class="sira-dugme" data-tasi="1" title="Aşağı">↓</button>
           <button class="sira-dugme" data-gun-tasi="${d.id}" title="Başka güne taşı">⇄</button>
         </div>
       </div>
@@ -1951,28 +1965,33 @@ function duraklariCiz() {
                         : (kendi || d.gunTasindi) ? `<div class="durak-uzaklik">${kendi ? 'kendi durağın' : ''}${kendi && d.gunTasindi ? ' · ' : ''}${d.gunTasindi ? 'başka güne taşındı' : ''}</div>` : ''}
       ${d.osmBilgi && d.osmBilgi !== '\u2014'
         ? `<div class="durak-osm" title="OpenStreetMap'ten geldi">${kacis(d.osmBilgi)}</div>` : ''}
-      ${d.unutma?.length ? `<ul class="unutma">${d.unutma.map((u, ui) => {
-        // Unutma listesi artık işaretlenebiliyor. Bir listenin tek işi
-        // "hangisini yaptım" sorusunu cevaplamak; okunup geçilen bir liste
-        // ikinci kez okununca baştan başlatıyordu.
-        const tik = tikler.includes(ui);
-        return `<li><button class="unutma-tik${tik ? ' tikli' : ''}"
-          data-tik="${d.id}" data-tik-no="${ui}">
-          <span class="tik-kutu">${tik ? '✓' : ''}</span>
-          <span class="tik-yazi">${kacis(u)}</span></button></li>`;
-      }).join('')}</ul>` : ''}
-      ${kendiNotlari(d)}
-      ${yildizSatiri(d)}
+      <div class="durak-govde">
+        <div class="durak-liste">
+          ${d.unutma?.length ? `<ul class="unutma">${d.unutma.map((u, ui) => {
+            // Unutma listesi artık işaretlenebiliyor. Bir listenin tek işi
+            // "hangisini yaptım" sorusunu cevaplamak; okunup geçilen bir liste
+            // ikinci kez okununca baştan başlatıyordu.
+            const tik = tikler.includes(ui);
+            return `<li><button class="unutma-tik${tik ? ' tikli' : ''}"
+              data-tik="${d.id}" data-tik-no="${ui}">
+              <span class="tik-kutu">${tik ? '✓' : ''}</span>
+              <span class="tik-yazi">${kacis(u)}</span></button></li>`;
+          }).join('')}</ul>` : ''}
+          ${kendiNotlari(d)}
+        </div>
+        ${yildizSutunu(d)}
+      </div>
       <div class="durak-dugmeler">
         <button class="kucuk-dugme ${dur === 'gidildi' ? 'secili' : ''}" data-isaret="gidildi">Gittik</button>
         <button class="kucuk-dugme ${dur === 'kacirildi' ? 'secili' : ''}" data-isaret="kacirildi">Kaçırdık</button>
-        <button class="kucuk-dugme" data-durak-google="${d.id}">Google</button>
+        <button class="kucuk-dugme" data-not-ekle="${d.id}">Not yaz</button>
+        <button class="kucuk-dugme g-dugme" data-durak-google="${d.id}"
+                title="Google Haritalar'da aç" aria-label="Google Haritalar'da aç">G</button>
       </div>
-      <div class="durak-dugmeler">
-        <button class="kucuk-dugme" data-not-ekle="${d.id}">＋ Not yaz</button>
-        ${kendi ? `<button class="kucuk-dugme" data-duzenle="${d.id}">Düzenle</button>
-        <button class="kucuk-dugme sil" data-durak-sil="${d.id}">Sil</button>` : ''}
-      </div>
+      ${kendi ? `<div class="durak-dugmeler">
+        <button class="kucuk-dugme" data-duzenle="${d.id}">Düzenle</button>
+        <button class="kucuk-dugme sil" data-durak-sil="${d.id}">Sil</button>
+      </div>` : ''}
     </div>`;
   });
 
@@ -2358,9 +2377,10 @@ function durakKartiAc(id) {
     <div class="durak-dugmeler">
       <button class="kucuk-dugme ${dur === 'gidildi' ? 'secili' : ''}" id="kartGidildi">Gittik</button>
       <button class="kucuk-dugme ${dur === 'kacirildi' ? 'secili' : ''}" id="kartKacirildi">Kaçırdık</button>
+      <button class="kucuk-dugme" data-not-ekle="${d.id}">Not yaz</button>
+      <button class="kucuk-dugme g-dugme" id="kartGoogle"
+              title="Google Haritalar'da aç" aria-label="Google Haritalar'da aç">G</button>
     </div>
-    <button class="eylem-dugme" data-not-ekle="${d.id}">＋ Not yaz</button>
-    <button class="eylem-dugme" id="kartGoogle">Google Haritalar'da aç</button>
     ${d.kaynak === 'kendi' ? '<button class="eylem-dugme" id="kartDuzenle">Düzenle</button>' : ''}
     ${d.kaynak === 'kendi' ? '<button class="eylem-dugme sil" id="kartSil">Sil</button>' : ''}
     <button class="eylem-dugme" id="kartKapat">Kapat</button>
@@ -2640,6 +2660,11 @@ async function paneliCiz() {
     ? gerok.tarihUzun(yedek) + ' ' + gerok.saat(yedek)
     : 'hiç alınmadı';
 
+  const bulut = await veri.ayarOku('sonBulut', null);
+  const bulutYazi = bulut
+    ? gerok.tarihUzun(bulut) + ' ' + gerok.saat(bulut)
+    : 'hiç yüklenmedi';
+
   const sinama = await veri.ayarOku('sonSinama', null);
   const sinamaYazi = sinama
     ? `${gerok.tarihUzun(sinama.an)} ${gerok.saat(sinama.an)} · ` +
@@ -2741,7 +2766,9 @@ async function paneliCiz() {
           deger: ag ? 'AirDrop · uzaktan' : 'AirDrop · yan yana', id: 'btnGonder' })}
         ${panelSatiri({ etiket: 'Gelen paketi al', id: 'btnAl' })}
         ${panelSatiri({ etiket: 'Yedek al', deger: kacis(yedekYazi), id: 'btnYedek' })}
-        ${panelSatiri({ etiket: 'Yedeği sına', deger: kacis(sinamaYazi), id: 'btnYedekSina' })}`,
+        ${panelSatiri({ etiket: 'iCloud ve Drive’ı güncelle', deger: kacis(bulutYazi), id: 'btnBulut' })}
+        ${panelSatiri({ etiket: 'Yedeği sına', deger: kacis(sinamaYazi), id: 'btnYedekSina' })}
+        ${panelSatiri({ etiket: 'Yedeği geri yükle', deger: 'birleştir · değiştir', id: 'btnGeriYukle' })}`,
       not: ag
         ? 'Bağlıyken gün paketi uzaktan da gidebilir — yine dosya olarak, hesapsız.'
         : 'Sunucu yok, hesap yok. Şu an iki telefon yan yana olmalı; internet ' +
@@ -2765,16 +2792,23 @@ async function paneliCiz() {
         ${panelSatiri({ etiket: 'Harita paketi indir', id: 'btnHarita' })}
         ${!depo?.kalici ? panelSatiri({ etiket: 'Kalıcı depolama iste', id: 'btnKalici' }) : ''}
 
-        <div class="tema-secici" id="temaSecenek">
-          ${TEMALAR.map(t => `<button class="kucuk-dugme" data-tema="${t.id}">${t.ad}</button>`).join('')}
-        </div>
         <div class="girdi-etiket">Renk</div>
-        <div class="secenekler" id="semaSecenek">
-          ${SEMA_SECENEKLERI.map(o => `<button class="kucuk-dugme" data-sema="${kacis(o.id)}">${kacis(o.ad)}</button>`).join('')}
+        <div class="renk-satir" id="renkGunler">
+          <div class="renk-ad">Haftanın 7 günü</div>
+          <div class="renk-ornekler">
+            ${GUNLERIN_RENKLERI.map(g => `<span class="renk-gun" title="${kacis(g.ad)}">
+              <i style="background:${semaVurgusu(g.sema)}"></i>${kacis(g.ad)}</span>`).join('')}
+          </div>
+          <div class="renk-not">Sabit — değişmiyor. Her günün kendi rengi var.</div>
         </div>
-        <div class="panel-not kucuk">Kâğıdın rengi değişmiyor; değişen tek şey
-        üzerine basılabilecek şeylerin rengi. Bugünkü renk:
-        <b>${kacis(cozulmusSema(semaSecimi(), geziGunuNo()))}</b>.</div>`,
+        <button class="panel-satir dokunulur" id="btnKagitRenk">
+          <span class="etiket">Kâğıdın rengini değiştir</span>
+          <span class="deger"><i class="renk-kutu" style="background:${kagitSecimi() || 'var(--zemin)'}"></i>${kagitSecimi() ? kacis(kagitSecimi()) : 'telefonun ayarı'}</span>
+        </button>
+        <button class="panel-satir dokunulur" id="btnVurguRenk">
+          <span class="etiket">Üzerine basılabilecek şeylerin rengi</span>
+          <span class="deger"><i class="renk-kutu" style="background:var(--vurgu)"></i>${ozelVurgu() ? kacis(ozelVurgu()) : 'bugünün rengi'}</span>
+        </button>`,
       not: 'Görünüm, ad, indirilmiş harita ve yer.'
     })}
 
@@ -2834,15 +2868,20 @@ async function paneliCiz() {
 
   $('#btnHarcamaListe')?.addEventListener('click', harcamaDokumuAc);
   $('#btnHarcamaEkle')?.addEventListener('click', fiyatSor);
-  temaSecenekleriniKur();
-  semaSecenekleriniKur();
+  renkDugmeleriniKur();
   baglantiPaneliniKur(ag, kuyruk);
 
   $('#btnGunSonu').addEventListener('click', () => gunSonuAc(durum, tazele));
   $('#btnGonder').addEventListener('click', () => paketGonder(kayitBildir));
   $('#btnAl').addEventListener('click', () => paketAl(kayitBildir, tazele));
   $('#btnYedek').addEventListener('click', () => yedekAl(kayitBildir));
+  $('#btnBulut').addEventListener('click', async () => {
+    await bulutaYukle(kayitBildir);
+    paneliCiz();
+  });
   $('#btnYedekSina').addEventListener('click', yedegiSina);
+  $('#btnGeriYukle').addEventListener('click', () =>
+    yedektenGeriYukle(kayitBildir, tazele, geriYuklemeOnayi));
   $('#btnAd').addEventListener('click', adSor);
   $('#btnBaslangic').addEventListener('click', () => baslangicKaydiAc(tazele));
   $('#btnGeziSonu').addEventListener('click', () => geziSonuAc(durum, tazele));
@@ -2852,7 +2891,15 @@ async function paneliCiz() {
   // Dışa verme ile yedek alma aynı dosyayı üretiyor; iki ayrı yol değil,
   // aynı yolun iki girişi.
   $('#btnDisaVer')?.addEventListener('click', () => yedekAl(kayitBildir));
-  $('#btnPaket').addEventListener('click', () => $('#dosyaSecici').click());
+  $('#btnPaket').addEventListener('click', () => sihirbaziAc({
+    ortuAc, ortuKapat, bildir: kayitBildir,
+    tazele: async () => {
+      iz.gerokAyarla(gerok.aktifGerok()?.id);
+      gosterilenSayi = SAYFA_ADIMI;
+      await tazele();
+      if (durum.ekran === 'harita') haritaGuncelle(durum.kayitlar, durum.izNoktalari);
+    }
+  }));
   $('#btnTurlar').addEventListener('click', turlariYonet);
   $('#btnYeniTur').addEventListener('click', () => yeniTurSor());
   $('#btnHarita').addEventListener('click', haritaIndirmeSor);
@@ -3107,38 +3154,119 @@ function mobilVeriSor() {
   $('#mobilVazgec').addEventListener('click', ortuKapat);
 }
 
-// ------------------------------------------------------------------ tema --
+// ----------------------------------------------------------------- renk --
+//
+// İki renk seçicisi. Telefonun kendi renk çarkı açılıyor (`input type=color`)
+// — sekiz hazır isim yerine sınırsız renk. Renk seçilirken canlı uygulanıyor
+// ki çarkı kapatmadan sonucu görülebilsin; "Vazgeç"e basılırsa eski rengine
+// dönüyor.
 
-function temaSecenekleriniKur() {
-  const isaretle = () => {
-    const s = temaSecimi();
-    $$('#temaSecenek [data-tema]').forEach(d => d.classList.toggle('secili', d.dataset.tema === s));
-  };
-  $$('#temaSecenek [data-tema]').forEach(d => {
-    d.addEventListener('click', () => {
-      temaSec(d.dataset.tema);
-      // Tema değişti: vurgu rengi de o temanın karşılığına dönmeli.
-      semayiTazele();
-      isaretle();
-      paneliCiz();
-    });
+function renkSecicisiAc({ baslik, alt, baslangic, ozelMi, uygula, sifirla, sifirlaYazi }) {
+  ortuAc(`
+    <div class="ortu-baslik">${baslik}</div>
+    <div class="ortu-alt">${alt}</div>
+    <input type="color" class="renk-secici" id="renkGirdi" value="${baslangic}">
+    <button class="eylem-dugme birincil" id="renkTamam">Tamam</button>
+    ${ozelMi ? `<button class="eylem-dugme" id="renkSifirla">${sifirlaYazi}</button>` : ''}
+    <button class="eylem-dugme" id="renkVazgec">Vazgeç</button>
+  `);
+  const eski = ozelMi ? baslangic : null;
+  const girdi = $('#renkGirdi');
+  girdi.addEventListener('input', () => uygula(girdi.value));
+  $('#renkTamam').addEventListener('click', () => {
+    uygula(girdi.value);
+    ortuKapat();
+    kayitBildir('Renk değişti', 'iyi');
+    paneliCiz();
   });
-  isaretle();
+  $('#renkSifirla')?.addEventListener('click', () => {
+    sifirla();
+    ortuKapat();
+    kayitBildir('Renk eski hâline döndü', 'iyi');
+    paneliCiz();
+  });
+  $('#renkVazgec').addEventListener('click', () => {
+    if (eski) uygula(eski); else sifirla();
+    ortuKapat();
+  });
 }
 
-function semaSecenekleriniKur() {
-  const isaretle = () => {
-    const s = semaSecimi();
-    $$('#semaSecenek [data-sema]').forEach(d => d.classList.toggle('secili', d.dataset.sema === s));
-  };
-  $$('#semaSecenek [data-sema]').forEach(d => {
-    d.addEventListener('click', () => {
-      semaSec(d.dataset.sema, geziGunuNo());
-      isaretle();
-      paneliCiz();
+function renkDugmeleriniKur() {
+  $('#btnKagitRenk')?.addEventListener('click', () => renkSecicisiAc({
+    baslik: 'Kâğıdın rengi',
+    alt: 'Zeminin rengi. Açık bir renk seçersen gündüz kipi, koyu bir renk ' +
+      'seçersen gece kipi kendiliğinden açılır — yazılar ve çizgiler bu ' +
+      'renkten türetilir.',
+    baslangic: varsayilanKagit(),
+    ozelMi: !!kagitSecimi(),
+    uygula: (h) => { kagitSec(h); semayiTazele(); },
+    sifirla: () => { kagitSil(); semayiTazele(); },
+    sifirlaYazi: 'Telefonun ayarına dön'
+  }));
+
+  $('#btnVurguRenk')?.addEventListener('click', () => renkSecicisiAc({
+    baslik: 'Üzerine basılabilecek şeylerin rengi',
+    alt: 'Düğmeler, seçili sekme, bağlantılar. Kâğıdın rengi değişmez. ' +
+      'Bunu boş bırakırsan renk haftanın gününe göre kendiliğinden döner.',
+    baslangic: ozelVurgu() ||
+      getComputedStyle(document.documentElement).getPropertyValue('--vurgu').trim() || '#d29346',
+    ozelMi: !!ozelVurgu(),
+    uygula: (h) => ozelVurguSec(h, geziGunuNo()),
+    sifirla: () => ozelVurguSil(geziGunuNo()),
+    sifirlaYazi: 'Haftanın gününe dön'
+  }));
+}
+
+// ------------------------------------------------------- geri yükleme --
+//
+// Dosya okundu, sayılar elde: kaç kayıt gelecek, kaç kayıt duruyor. Karar
+// burada veriliyor — sayılar ekranda dururken. "Değiştir" kırmızı, çünkü
+// gezi verisinin yerine konacak bir şey yok.
+function geriYuklemeOnayi({ gelen, mevcut, ad }) {
+  return new Promise((cevap) => {
+    let verildi = false;
+    const bitir = (d) => { if (!verildi) { verildi = true; ortuKapat(); cevap(d); } };
+
+    ortuAc(`
+      <div class="ortu-baslik">Yedek okundu</div>
+      <div class="ortu-alt">${kacis(ad)}<br>
+        Dosyada <b>${gelen}</b> kayıt var. Telefonda şu an <b>${mevcut}</b> kayıt duruyor.</div>
+      <button class="eylem-dugme birincil" id="gyBirlestir">Birleştir</button>
+      <div class="panel-not kucuk">Yedektekiler eklenir. Telefondaki hiçbir şey
+      silinmez — aynı kayıt iki kez eklenmez.</div>
+      <button class="eylem-dugme sil" id="gyDegistir">Değiştir</button>
+      <div class="panel-not kucuk">Geri yükleme birleştirme değil, değiştirme.
+      Telefonda yedekte olmayan ne varsa silinir — yani yedek alındıktan sonra
+      girdiğin her şey. Geriye tam olarak yedekteki <b>${gelen}</b> kayıt kalır.
+      <b>Geri dönüşü yok.</b></div>
+      <button class="eylem-dugme" id="gyVaz">Vazgeç</button>
+    `);
+
+    $('#gyBirlestir').addEventListener('click', () => bitir('birlestir'));
+    $('#gyVaz').addEventListener('click', () => bitir(null));
+    $('#gyDegistir').addEventListener('click', () => {
+      // İkinci kapı. Silinecek sayı burada bir kez daha yazıyor: ilk ekranda
+      // "Değiştir"e alışkanlıkla basmak mümkün, bunda değil.
+      ortuAc(`
+        <div class="ortu-baslik">${Math.max(0, mevcut - gelen)} kayıt silinecek</div>
+        <div class="ortu-alt">Yedekte olmayan kayıtlar — sesleriyle birlikte —
+          silinecek. Geriye yedekteki ${gelen} kayıt kalacak. Bu işlem geri
+          alınamaz. Emin misin?</div>
+        <button class="eylem-dugme" id="gyOnceYedek">Önce şimdiki hâli yedekle</button>
+        <button class="eylem-dugme sil" id="gyEminim">Evet, sil ve yedeği yükle</button>
+        <button class="eylem-dugme birincil" id="gyVaz2">Vazgeç</button>
+      `);
+      // Kaybolacak olan şeyin bir kopyası alınmadan silinmesi için hiçbir
+      // sebep yok. Bu düğme geri yüklemeyi iptal ETMİYOR — dosya inince
+      // pencere olduğu yerde duruyor, karar hâlâ verilmemiş oluyor.
+      $('#gyOnceYedek').addEventListener('click', async () => {
+        await yedekAl(kayitBildir);
+        kayitBildir('Şimdiki hâl yedeklendi · sonra geri yükleyebilirsin', 'iyi');
+      });
+      $('#gyEminim').addEventListener('click', () => bitir('degistir'));
+      $('#gyVaz2').addEventListener('click', () => bitir(null));
     });
   });
-  isaretle();
 }
 
 // ------------------------------------------------------------ yedeği sına --
