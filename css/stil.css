@@ -893,6 +893,18 @@ body:has(.ses-katman:not(.gizli)) .bildirim {
 
 /* Beş yıldız — yatay tek satır. Dokunma alanı 34 px: araç sallanırken
    yanlış yıldıza basmak, puanı hepten yanlış yapıyordu. */
+/* Çakışan kaydın öteki sürümü. Soldaki çizgi "bu senin yazdığın değil"
+   demek — kendi notlarındaki çizgiyle aynı fikir, ayrı renk. */
+.diger-surum {
+  margin-top: 9px; padding-left: 10px;
+  border-left: 2px solid var(--cok-soluk);
+}
+.diger-etiket {
+  font-size: 10.5px; letter-spacing: .06em; text-transform: lowercase;
+  color: var(--cok-soluk); margin-bottom: 2px;
+}
+.diger-metin { font-size: 13.5px; line-height: 1.5; color: var(--soluk); }
+
 /* ---------- İçe alma sihirbazı ---------- */
 .sihirbaz-sayac {
   font-size: 12px; color: var(--cok-soluk); letter-spacing: .04em;

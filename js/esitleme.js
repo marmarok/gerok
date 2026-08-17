@@ -161,6 +161,19 @@ export async function paketUret({ sadeceGun = null } = {}) {
 // Birleştirme kayıpsız: her kaydın benzersiz kimliği var, aynı paket iki kez
 // alınırsa hiçbir şey iki kez yazılmıyor ve hiçbir şey silinmiyor.
 
+/**
+ * Bir kaydın "içeriği" — çakışma var mı diye bakarken karşılaştırılan şey.
+ *
+ * Kaydın kendisi tümüyle karşılaştırılmıyor: `yuklenme` gibi alanlar her
+ * telefonda farklı ve bunları saymak, hiçbir şey değişmemişken çakışma
+ * uydururdu. Karşılaştırılan yalnızca insanın girdiği alanlar.
+ */
+function imza(k) {
+  return JSON.stringify([k.metin, k.baslik, k.kategori, k.tutar, k.paraBirimi,
+    k.puan, k.gun, k.t, k.lat, k.lon, k.yerAdi, k.silinmis]);
+}
+const farkliMi = (a, b) => imza(a) !== imza(b);
+
 export async function paketBirlestir(paket) {
   if (!paket?.paketSurum) throw new Error('Bu dosya bir Gerok paketi değil.');
 
@@ -175,8 +188,9 @@ export async function paketBirlestir(paket) {
   }
 
   // Silinmişler de sayılıyor: kimliği burada duran bir kayıt yeniden eklenmez.
-  const varOlanlar = new Set((await veri.tumKayitlar()).map(k => k.id));
-  let yeniKayit = 0, yeniIz = 0, yeniMedya = 0, silinen = 0;
+  const bendekiler = new Map((await veri.tumKayitlar()).map(k => [k.id, k]));
+  const varOlanlar = new Set(bendekiler.keys());
+  let yeniKayit = 0, yeniIz = 0, yeniMedya = 0, silinen = 0, cakisan = 0;
 
   // Önce silmeler: karşı tarafın sildiği kayıt bizde de gitsin.
   for (const s of paket.silinenler || []) {
@@ -192,7 +206,28 @@ export async function paketBirlestir(paket) {
   }
 
   for (const k of paket.kayitlar || []) {
-    if (varOlanlar.has(k.id)) continue;
+    if (varOlanlar.has(k.id)) {
+      // ÇAKIŞMA: aynı kayıt iki telefonda ayrı ayrı değiştirilmiş.
+      //
+      // Kural — defterin sahibinin kararı (17 Ağustos): BENDEKİ SÜRÜM ESAS. Ekranda
+      // duran, yedeğe giren, arşive geçen hep senin sürümün.
+      //
+      // Ama karşı sürüm SİLİNMİYOR. Eskiden sessizce düşüyordu; artık kaydın
+      // içine iliştiriliyor. İki sebebi var: (1) on yıl sonra arşive bakan
+      // biri "o gün ikisi ne yazmış" diye sorabilir, (2) sessizce veri
+      // düşürmek, düştüğünü kimsenin bilmemesi demek.
+      const benim = bendekiler.get(k.id);
+      if (benim && farkliMi(benim, k)) {
+        const oncekiler = benim.digerSurumler || [];
+        // Aynı paket iki kez alınırsa aynı sürüm iki kez iliştirilmesin.
+        if (!oncekiler.some(o => imza(o) === imza(k))) {
+          benim.digerSurumler = [...oncekiler, { ...k, kimden: paket.sahip?.ad || '' }];
+          await veri.kayitEkle(benim);
+          cakisan++;
+        }
+      }
+      continue;
+    }
     await veri.kayitEkle(k);
     yeniKayit++;
   }
@@ -219,7 +254,7 @@ export async function paketBirlestir(paket) {
   await durakBilgileriBirlestir(paket.durakBilgileri || null);
 
   return { yeniKayit, yeniIz, yeniMedya, silinen, yeniDurak, yeniGun, yeniNot,
-           yeniTur, kisi: paket.kisi };
+           yeniTur, cakisan, kisi: paket.kisi };
 }
 
 // ---- Gönderme (AirDrop) ---------------------------------------------------
@@ -269,14 +304,17 @@ export function paketAl(bildir, tazele) {
       const paket = JSON.parse(await dosya.text());
       const s = await paketBirlestir(paket);
       const silNotu = s.silinen ? ` ${s.silinen} kayıt da silinmiş, burada da silindi.` : '';
+      const cakismaNotu = s.cakisan
+        ? ` ${s.cakisan} kayıtta iki sürüm vardı — seninki tutuldu, diğeri kaydın içinde duruyor.`
+        : '';
       const durakNotu = s.yeniDurak ? ` ${s.yeniDurak} yeni durak rotaya eklendi.` : '';
       const notNotu = s.yeniNot ? ` ${s.yeniNot} durak notu geldi.` : '';
       const turNotu = s.yeniTur
         ? ` Bu paket "${s.yeniTur}" turuna ait — Gerok → Turları yönet'ten o tura geçebilirsin.`
         : '';
       bildir?.(
-        s.yeniKayit || s.yeniIz || s.yeniDurak || s.yeniNot || s.yeniTur
-          ? `${s.kisi || 'Arkadaşın'} eklendi: ${s.yeniKayit} kayıt, ${s.yeniIz} iz noktası.${durakNotu}${notNotu}${silNotu}${turNotu}`
+        s.yeniKayit || s.yeniIz || s.yeniDurak || s.yeniNot || s.yeniTur || s.cakisan
+          ? `${s.kisi || 'Arkadaşın'} eklendi: ${s.yeniKayit} kayıt, ${s.yeniIz} iz noktası.${durakNotu}${notNotu}${silNotu}${cakismaNotu}${turNotu}`
           : `Bu paket zaten alınmış — hiçbir şey yinelenmedi.${silNotu}`,
         'iyi'
       );

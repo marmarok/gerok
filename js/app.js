@@ -714,6 +714,19 @@ function kayitSatiri(k) {
   let govde = '';
   if (metin) govde += `<div class="kayit-metin">${kacis(metin)}</div>`;
 
+  // Çakışma: aynı kaydı ikiniz de değiştirmişsiniz. Ekranda duran senin
+  // sürümün (bkz. esitleme.js'teki kural), karşı sürüm burada, altında.
+  // Gizlemek yerine göstermek şart: on yıl sonra "o gün ikimiz ne yazmıştık"
+  // sorusunun cevabı bu satır.
+  for (const d of k.digerSurumler || []) {
+    const dm = d.metin || d.baslik || '';
+    if (!dm) continue;
+    govde += `<div class="diger-surum">
+      <div class="diger-etiket">${kacis(d.kimden || 'arkadaşının')} sürümü</div>
+      <div class="diger-metin">${kacis(dm)}</div>
+    </div>`;
+  }
+
   if (k.medyaId && sesli) {
     const cubuklar = dalgaCubuklari(k.id);
     govde += `<div class="ses-oynat">
