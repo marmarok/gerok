@@ -579,11 +579,23 @@ function zamanCizgisiCiz() {
     tus.addEventListener('click', () => sesCal(tus.dataset.ses, kutu, tus.dataset.bicim, sure));
     dalgayiKur(kutu.querySelector('.dalga'), kutu, tus.dataset.ses, tus.dataset.bicim, sure);
   });
-  kap.querySelectorAll('[data-onizleme]').forEach(async (d) => {
-    const url = await onizlemeAdresi(d.dataset.onizleme);
-    // Etiketin üstüne yazılmıyor, ALTINA konuyor: innerHTML kullanılsaydı
-    // "orijinali galeride" yazısı silinirdi.
+  // Resim ALTINA konuyor, innerHTML ile değil: üstüne yazılsaydı fotoğrafın
+  // içindeki konum etiketi silinirdi.
+  //
+  // ADRES BELLEKTEYSE BEKLETİLMİYOR. Liste her dokunuşta baştan çiziliyor
+  // (innerHTML) ve bütün <img>ler siliniyor; eskiden hepsi `await` ile geri
+  // konuyordu. Adres zaten elde olsa bile `await` bir sonraki kareye
+  // atlıyordu, yani arada bir kare fotoğrafsız çiziliyordu — ekranda göz
+  // kırpması gibi görünen şey buydu. Bellekteki adres artık aynı karede,
+  // sayfa boyanmadan önce yerine konuyor.
+  const resmiKoy = (d, url) => {
     if (url) d.insertAdjacentHTML('afterbegin', `<img src="${url}" alt="" loading="lazy">`);
+  };
+  kap.querySelectorAll('[data-onizleme]').forEach((d) => {
+    const hazir = onizlemeAdresleri.get(d.dataset.onizleme);
+    if (hazir) { resmiKoy(d, hazir); return; }
+    // İlk açılışta dosya diskten okunuyor; o ancak bekleyerek olur.
+    onizlemeAdresi(d.dataset.onizleme).then((url) => resmiKoy(d, url));
   });
   kap.querySelectorAll('[data-kisi-foto]').forEach(b => {
     b.addEventListener('click', (e) => {
