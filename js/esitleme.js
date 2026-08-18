@@ -221,6 +221,16 @@ export async function paketBirlestir(paket) {
       // biri "o gün ikisi ne yazmış" diye sorabilir, (2) sessizce veri
       // düşürmek, düştüğünü kimsenin bilmemesi demek.
       const benim = bendekiler.get(k.id);
+
+      // İŞARET ÇAKIŞMAZ. "Bendeki esas" kuralı burada geçerli değil: işaret
+      // bir görüş değil, bir oy. İkinizden biri kaydı önemli bulduysa önemli
+      // sayılıyor — karşı tarafın işareti bende yoksa buraya da geçiyor.
+      // Kaldırmak yine tek dokunuş, o yüzden yanlış bir şey eklemiyor.
+      if (benim && k.isaretli && !benim.isaretli) {
+        benim.isaretli = true;
+        await veri.kayitEkle(benim);
+      }
+
       if (benim && farkliMi(benim, k)) {
         const oncekiler = benim.digerSurumler || [];
         // Aynı paket iki kez alınırsa aynı sürüm iki kez iliştirilmesin.

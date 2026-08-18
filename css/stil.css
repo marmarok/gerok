@@ -367,6 +367,50 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
 }
 .kayit-bosluk { flex: 1; }
 .kayit-sahip { font-size: 11px; color: var(--cok-soluk); }
+/* İşaretli kayıt — çift dokunmanın kalıcı izi.
+   Sahip adının solunda: sağ üst köşede zaten ad duruyor, yıldız oraya konsa
+   onu örterdi. Bu yer her kayıt türünde aynı, fotoğrafı örtmüyor, soldaki
+   gün rengi şeridiyle çakışmıyor.
+   Renk şemadan değil sabit: işaret bir vurgu değil BİLGİ — kâğıdın rengi
+   değişse de aynı sarı kalmalı ki alışkanlık bozulmasın. */
+.isaret-yildiz {
+  flex: none; font-size: 13px; line-height: 1; color: #e8b04b;
+  animation: yildizOtur .34s cubic-bezier(.2,1,.3,1);
+}
+[data-tema="acik"] .isaret-yildiz { color: #c98a1e; }
+
+/* Instagram'daki kalp gibi: kaydın ortasında büyüyüp sönen büyük yıldız.
+   0,62 sn — "oldu" demeye yetecek kadar kısa, gözden kaçmayacak kadar uzun.
+   Dokunmayı engellememesi için pointer-events yok. */
+.yildiz-kap {
+  position: absolute; inset: 0; overflow: hidden; pointer-events: none;
+}
+.yildiz-pat {
+  position: absolute; left: 0; right: 0; top: 50%;
+  margin-top: -58px; text-align: center;
+  font-size: 116px; line-height: 1; color: #f5c542;
+  pointer-events: none; opacity: 0;
+  text-shadow: 0 6px 26px rgba(0,0,0,.35);
+  animation: yildizPat .62s cubic-bezier(.22,1,.3,1) forwards;
+}
+@keyframes yildizPat {
+  0%   { transform: scale(.35) rotate(-14deg); opacity: 0 }
+  22%  { transform: scale(1.18) rotate(4deg);  opacity: .92 }
+  46%  { transform: scale(.98);                opacity: .85 }
+  100% { transform: scale(1.5);                opacity: 0 }
+}
+@keyframes yildizOtur {
+  0%   { transform: scale(2.1); opacity: 0 }
+  60%  { transform: scale(.92); opacity: 1 }
+  100% { transform: scale(1);   opacity: 1 }
+}
+/* Hareketi azalt açıksa yıldız yine görünüyor, yalnızca oynamıyor. */
+@media (prefers-reduced-motion: reduce) {
+  .isaret-yildiz { animation: none }
+  .yildiz-pat { animation: yildizSabit .5s linear forwards }
+  @keyframes yildizSabit { 0%,70% { opacity:.85 } 100% { opacity:0 } }
+}
+
 /* Görsel kayıtta saatin devamı: "FOTOĞRAF" yazısının yerini başlık aldı.
    Serif — bu kaydın kendi metni, arayüzün yazısı değil. Taşarsa kesiliyor:
    sahip adı satırın sağ ucunda kalmalı. */

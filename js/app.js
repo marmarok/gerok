@@ -692,19 +692,91 @@ function ayrintiyiUygula(oncekiId, yeniId) {
   ayrintiDugmeleriniBagla(acilan);
 }
 
-// Uzun basma: satırın eylemleri açılıyor.
+// Zaman çizgisinde iki hareket var:
 //
-// Eşik 420 ms. Daha kısası listede kaydırırken kazara açıyordu; daha uzunu
-// "basılı tuttum, bir şey olmadı" hissi veriyor. Parmak 10 pikselden fazla
-// kayarsa iptal — kaydırmakla basılı tutmak karışmasın.
-const BASMA_SURESI = 420;
+//   · TEK DOKUNUŞ  → kaydın eylemleri açılır/kapanır.
+//   · ÇİFT DOKUNUŞ → kayıt işaretlenir (bkz. isaretiDegistir).
+//
+// Uzun basma kalktı: tek dokunuş zaten aynı paneli anında açıyor, 420 ms
+// beklemenin bir karşılığı kalmadı.
+//
+// Parmak 10 pikselden fazla kayarsa dokunuş sayılmıyor — listeyi kaydırmak
+// panel açmamalı. 320 ms, iki dokunuşu bir hareket saymak için: daha kısası
+// gerçek çift dokunmayı kaçırıyor, daha uzunu arka arkaya iki ayrı kayda
+// bakmayı işaretlemeye çeviriyor.
+const CIFT_DOKUNMA = 320;
 const BASMA_KAYMA = 10;
+
+/**
+ * Kaydı işaretler ya da işareti kaldırır — çift dokunmanın karşılığı.
+ *
+ * NEDEN VAR: gezinin üçüncü günü hangi kaydın önemli olduğunu bilirsin ama
+ * hiçbir yere yazmazsın; dönüşte dört yüz kayda bakınca artık bilmezsin.
+ * Aradaki fark tek bir hareket. O yüzden hızlı olması şart — panel açıp
+ * düğme aramak değil, ekrana iki kere vurmak.
+ *
+ * Liste yeniden ÇİZİLMİYOR: hem fotoğraflar yerinde kalsın (bkz.
+ * ayrintiyiUygula) hem de patlayan yıldız yarıda kesilmesin.
+ */
+async function isaretiDegistir(satir) {
+  const id = satir.dataset.kayit;
+  const k = durum.kayitlar.find(x => x.id === id);
+  if (!k) return;
+
+  const acildi = !k.isaretli;
+  k.isaretli = acildi || undefined;      // false yerine alanı hiç tutma
+  titret(acildi ? 14 : 8);
+
+  // Önce ekran, sonra disk: dokunuşun karşılığı beklemeden görünsün.
+  yildiziCiz(satir, acildi);
+  if (acildi) yildiziPatlat(satir);
+
+  try {
+    await veri.kayitEkle({ ...k, isaretli: acildi ? true : undefined });
+  } catch {
+    kayitBildir('İşaret kaydedilemedi', 'kotu');
+  }
+}
+
+// Künyedeki minik yıldız: sahip adının solunda. Sağ üst köşede zaten ad
+// duruyor; yıldız oraya konsa adı örterdi. Bu yer her kayıt türünde aynı,
+// fotoğrafı örtmüyor ve soldaki gün rengi şeridiyle çakışmıyor.
+function yildiziCiz(satir, isaretli) {
+  const ust = satir.querySelector('.kayit-ust');
+  if (!ust) return;
+  const varOlan = ust.querySelector('.isaret-yildiz');
+  if (!isaretli) { varOlan?.remove(); return; }
+  if (varOlan) return;
+  const sahip = ust.querySelector('.kayit-sahip');
+  const y = document.createElement('span');
+  y.className = 'isaret-yildiz';
+  y.setAttribute('aria-label', 'işaretli');
+  y.textContent = '★';
+  ust.insertBefore(y, sahip || null);
+}
+
+// Instagram'daki kalp gibi: kaydın ortasında büyüyüp sönen büyük yıldız.
+// Kendi kendini siliyor — kalıcı iz künyedeki minik yıldız.
+function yildiziPatlat(satir) {
+  // Kendi kırpma kutusu: kısa bir kayıtta 116 piksellik yıldız komşu kayda
+  // taşıyordu. Satırın kendisine overflow konamıyor — fotoğraf iki yandan
+  // bilerek taşıyor, o kırpılırdı.
+  const kap = document.createElement('span');
+  kap.className = 'yildiz-kap';
+  kap.setAttribute('aria-hidden', 'true');
+  const p = document.createElement('span');
+  p.className = 'yildiz-pat';
+  p.textContent = '★';
+  kap.appendChild(p);
+  satir.appendChild(kap);
+  p.addEventListener('animationend', () => kap.remove(), { once: true });
+  // Animasyon hiç başlamazsa (hareketi azalt ayarı) yine de temizlensin.
+  setTimeout(() => kap.remove(), 1200);
+}
 
 function uzunBasmayiKur(kap) {
   kap.querySelectorAll('.kayit-satir').forEach(satir => {
-    let zaman = null, bas = null, sonDokunma = 0;
-
-    const iptal = () => { clearTimeout(zaman); zaman = null; };
+    let bas = null, kaydirdi = false, sonDokunma = 0, sonTemas = 0;
 
     const ac = () => {
       const onceki = durum.acikSatir;
@@ -716,43 +788,59 @@ function uzunBasmayiKur(kap) {
       ayrintiyiUygula(onceki, durum.acikSatir);
     };
 
-    const baslat = (ev) => {
-      // Kartın içindeki düğmeye (çalma, silme) basılıyorsa karışma.
-      if (ev.target.closest('button, input, a')) return;
-      const n = ev.touches?.[0] || ev;
-
-      // ÇİFT DOKUNMA da açıyor. Basılı tutmak keşfedilmesi zor bir hareket —
-      // bilen biri için hızlı ama bilmeyen hiç bulamıyor. Çift dokunma
-      // herkesin denediği şey. İkisi birlikte duruyor, biri ötekini bozmuyor.
+    // Bir dokunuş tamamlandı. Tek mi çift mi olduğuna burada karar veriliyor.
+    const dokunusBitti = () => {
       const simdi = Date.now();
-      if (simdi - sonDokunma < 320) {
+      if (simdi - sonDokunma < CIFT_DOKUNMA) {
+        // İKİNCİ dokunuş: işaretle. Birinci dokunuşun açtığı panel olduğu
+        // gibi kalıyor — geri kapatmak, ekranın açılıp hemen kapanmasına ve
+        // listenin zıplamasına yol açıyordu.
         sonDokunma = 0;
-        iptal();
-        ac();
+        isaretiDegistir(satir);
         return;
       }
       sonDokunma = simdi;
+      ac();
+    };
 
-      bas = { x: n.clientX, y: n.clientY };
-      zaman = setTimeout(ac, BASMA_SURESI);
+    const basla = (ev) => {
+      if (ev.target.closest('button, input, a')) { bas = null; return; }
+      const n = ev.touches?.[0] || ev;
+      bas = { x: n.clientX, y: n.clientY, t: Date.now() };
+      kaydirdi = false;
     };
 
     const kaydi = (ev) => {
-      if (!zaman || !bas) return;
+      if (!bas) return;
       const n = ev.touches?.[0] || ev;
       if (Math.abs(n.clientX - bas.x) > BASMA_KAYMA ||
-          Math.abs(n.clientY - bas.y) > BASMA_KAYMA) iptal();
+          Math.abs(n.clientY - bas.y) > BASMA_KAYMA) kaydirdi = true;
     };
 
-    satir.addEventListener('touchstart', baslat, { passive: true });
+    // Parmak kaydıysa dokunuş sayılmıyor: listeyi kaydırmak panel açmamalı.
+    const bitti = () => {
+      const b = bas; bas = null;
+      if (!b || kaydirdi) return;
+      if (Date.now() - b.t > 700) return;      // uzun basma: dokunuş değil
+      dokunusBitti();
+    };
+
+    satir.addEventListener('touchstart', (e) => { sonTemas = Date.now(); basla(e); }, { passive: true });
     satir.addEventListener('touchmove', kaydi, { passive: true });
-    satir.addEventListener('touchend', iptal);
-    satir.addEventListener('touchcancel', iptal);
-    // Fare: masaüstünde sınamak için. Telefonda bu yol hiç çalışmıyor.
-    satir.addEventListener('mousedown', baslat);
-    satir.addEventListener('mousemove', kaydi);
-    satir.addEventListener('mouseup', iptal);
-    satir.addEventListener('mouseleave', iptal);
+    satir.addEventListener('touchend', () => { sonTemas = Date.now(); bitti(); });
+    satir.addEventListener('touchcancel', () => { bas = null; });
+
+    // FARE OLAYLARI YOK SAYILIYOR — iOS her gerçek dokunuştan sonra uyum için
+    // sahte bir fare tıklaması da gönderiyor. Eskiden ikisi de dinlendiği için
+    // TEK dokunuş çift sayılıyordu; panelin tek dokunuşta açılması bu kazadan
+    // geliyordu. Çift dokunma artık yıldız bastığı için o kaza kabul edilemez:
+    // her tek dokunuş kaydı işaretlerdi. Fare yolu yalnızca gerçek fare için,
+    // yani masaüstünde sınarken çalışıyor.
+    const fareOlur = () => Date.now() - sonTemas > 700;
+    satir.addEventListener('mousedown', (e) => { if (fareOlur()) basla(e); });
+    satir.addEventListener('mousemove', (e) => { if (fareOlur()) kaydi(e); });
+    satir.addEventListener('mouseup', () => { if (fareOlur()) bitti(); });
+    satir.addEventListener('mouseleave', () => { bas = null; });
   });
 }
 
@@ -985,6 +1073,7 @@ function kayitSatiri(k) {
       ${turGoster ? `<span class="kayit-tur">${kacis(tur)}</span>` : ''}
       ${gorsel && metin ? `<span class="kayit-ust-baslik">${kacis(metin)}</span>` : ''}
       <span class="kayit-bosluk"></span>
+      ${k.isaretli ? '<span class="isaret-yildiz" aria-label="işaretli">★</span>' : ''}
       <span class="kayit-sahip">${kacis(k.sahipAd || 'bilinmeyen')}</span>
     </div>
     ${govde}
