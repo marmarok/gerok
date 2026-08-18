@@ -603,31 +603,93 @@ function zamanCizgisiCiz() {
       // fotoğrafa dokunmak ayrıntı panelini açmamalı.
       e.stopPropagation();
       const id = b.dataset.kisiFoto;
-      durum.acikKisiFotosu = durum.acikKisiFotosu === id ? null : id;
+      const buyuk = durum.acikKisiFotosu !== id;
+      durum.acikKisiFotosu = buyuk ? id : null;
       titret(8);
-      zamanCizgisiCiz();
+      // Burada da liste yeniden çizilmiyor: aynı <img> yerinde kalıp
+      // yalnızca boyu değişiyor, böylece büyürken kırpışmıyor.
+      b.classList.toggle('buyuk', buyuk);
+      b.setAttribute('aria-expanded', String(buyuk));
+      b.setAttribute('aria-label', buyuk ? 'Fotoğrafı küçült' : 'Fotoğrafı büyüt');
     });
   });
-  kap.querySelectorAll('[data-galeri]').forEach(b => {
+  ayrintiDugmeleriniBagla(kap);
+  uzunBasmayiKur(kap);
+}
+
+/**
+ * Açılan paneldeki düğmeleri bağlar.
+ *
+ * Ayrı bir işlev, çünkü iki yerden çağrılıyor: liste baştan çizilirken ve
+ * tek bir satırın paneli açılırken (bkz. ayrintiyiUygula).
+ */
+function ayrintiDugmeleriniBagla(kok) {
+  kok.querySelectorAll('[data-galeri]').forEach(b => {
     b.addEventListener('click', () => galeridenAc(b.dataset.galeri));
   });
-  kap.querySelectorAll('[data-sil]').forEach(d => {
+  kok.querySelectorAll('[data-sil]').forEach(d => {
     d.addEventListener('click', () => kaydiSil(d.dataset.sil));
   });
-  kap.querySelectorAll('[data-baslik]').forEach(d => {
+  kok.querySelectorAll('[data-baslik]').forEach(d => {
     d.addEventListener('click', () => kayitBasligiSor(d.dataset.baslik));
   });
-  kap.querySelectorAll('[data-yazi-duzenle]').forEach(d => {
+  kok.querySelectorAll('[data-yazi-duzenle]').forEach(d => {
     d.addEventListener('click', () => yaziDuzenleSor(d.dataset.yaziDuzenle));
   });
-  kap.querySelectorAll('[data-google]').forEach(d => {
+  kok.querySelectorAll('[data-google]').forEach(d => {
     d.addEventListener('click', () => {
       const [lat, lon] = d.dataset.google.split(',');
       googleHaritalarAc({ lat, lon });
     });
   });
+}
 
-  uzunBasmayiKur(kap);
+/**
+ * Ayrıntı panelini açar/kapatır — LİSTEYİ YENİDEN ÇİZMEDEN.
+ *
+ * Eskiden dokununca `zamanCizgisiCiz()` çağrılıyordu; o da listenin tamamını
+ * `innerHTML` ile siliyordu. Bütün fotoğraflar DOM'dan çıkıp geri giriyordu ve
+ * ekranda göz kırpması gibi bir boşluk oluyordu. Adresi bellekten aynı karede
+ * koymak Chromium'da yetti, telefondaki Safari'de yetmedi: yeni bir <img>
+ * elemanı her hâlükârda yeniden yükleniyor.
+ *
+ * Çözüm semptomu değil kökü kesiyor — fotoğraflara HİÇ DOKUNULMUYOR. Yalnızca
+ * açılan satıra bir düğüm ekleniyor, kapanandan çıkarılıyor.
+ */
+function ayrintiyiUygula(oncekiId, yeniId) {
+  const kap = $('#zamanListe');
+  if (!kap) return;
+
+  const satirBul = (id) => id ? kap.querySelector(`.kayit-satir[data-kayit="${id}"]`) : null;
+  const fotoylaBitiyorMu = (id) => {
+    const k = durum.kayitlar.find(x => x.id === id);
+    return !!(k && k.medyaId && GORSEL_TURLER.includes(k.tur));
+  };
+
+  const kapanan = satirBul(oncekiId);
+  if (kapanan) {
+    kapanan.classList.remove('acik');
+    kapanan.querySelector('.ayrinti')?.remove();
+    // Fotoğrafla biten kart kapanınca alttaki boşluk yine sıfırlanıyor.
+    if (fotoylaBitiyorMu(oncekiId)) kapanan.classList.add('foto-sonu');
+  }
+
+  const acilan = satirBul(yeniId);
+  if (!acilan) return;
+  const k = durum.kayitlar.find(x => x.id === yeniId);
+  if (!k) return;
+
+  const sesli = SESLI_TURLER.includes(k.tur);
+  const gorsel = GORSEL_TURLER.includes(k.tur);
+  acilan.classList.add('acik');
+  acilan.classList.remove('foto-sonu');
+  acilan.insertAdjacentHTML('beforeend', ayrintiPaneli(k, {
+    konumlu: k.lat != null && k.lon != null,
+    basliklanabilir: sesli || ['foto', 'video', 'siradan'].includes(k.tur),
+    gorsel: gorsel && !!k.medyaId,
+    videoSure: k.tur === 'video' ? k.videoSure : null
+  }));
+  ayrintiDugmeleriniBagla(acilan);
 }
 
 // Uzun basma: satırın eylemleri açılıyor.
@@ -645,9 +707,13 @@ function uzunBasmayiKur(kap) {
     const iptal = () => { clearTimeout(zaman); zaman = null; };
 
     const ac = () => {
-      durum.acikSatir = durum.acikSatir === satir.dataset.kayit ? null : satir.dataset.kayit;
+      const onceki = durum.acikSatir;
+      durum.acikSatir = onceki === satir.dataset.kayit ? null : satir.dataset.kayit;
       titret(12);
-      zamanCizgisiCiz();
+      // Liste baştan çizilmiyor: fotoğraflar yerinde kalsın (bkz.
+      // ayrintiyiUygula). Aynı anda tek panel açık olduğu için önceki
+      // satırın panelini de burası kapatıyor.
+      ayrintiyiUygula(onceki, durum.acikSatir);
     };
 
     const baslat = (ev) => {
@@ -953,7 +1019,10 @@ function ayrintiPaneli(k, { konumlu, basliklanabilir, gorsel = false, videoSure 
       ? `video · ${sureYaz(videoSure)} · önizleme, orijinali galeride`
       : 'önizleme · orijinali galeride';
 
-  return `
+  // Tek bir sarmalayıcı: panel açılıp kapanırken bu düğüm olduğu gibi
+  // ekleniyor ya da çıkarılıyor. Listenin tamamı yeniden çizilmiyor —
+  // fotoğraflara hiç dokunulmuyor (bkz. ayrintiyiUygula).
+  return `<div class="ayrinti">
     ${fotoNotu ? `<div class="foto-not">${kacis(fotoNotu)}</div>` : ''}
     <div class="kayit-eylemler">
       ${konumlu ? `<button class="satir-dugme" data-google="${k.lat},${k.lon}">Haritalar'da aç</button>` : ''}
@@ -962,10 +1031,10 @@ function ayrintiPaneli(k, { konumlu, basliklanabilir, gorsel = false, videoSure 
       ${basliklanabilir ? `<button class="satir-dugme vurgulu" data-baslik="${k.id}">${
         k.baslik || k.metin ? 'Adını değiştir' : 'Başlık yaz'}</button>` : ''}
       <button class="satir-dugme sil" data-sil="${k.id}">Sil</button>
-    </div>`;
+    </div>
+  </div>`;
 }
 
-/**
 /**
  * Fotoğraflar uygulamasını açar.
  *
