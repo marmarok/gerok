@@ -72,6 +72,9 @@ const CIZIMLER = {
         + '<circle cx="8.6" cy="10" r="1.5"/>'
         + '<path d="M3.8 17.3l4.8-4.3 3.8 3.3 2.9-2.4 4.7 4"/>',
 
+  // İşaretli kayıtlar süzgeci. Beş köşe, tek çizgi — setin kuralına uyuyor.
+  yildiz: '<path d="M12 3.6l2.6 5.3 5.8.85-4.2 4.1 1 5.8-5.2-2.73-5.2 2.73 1-5.8-4.2-4.1 5.8-.85Z"/>',
+
   // --- Harita düğmeleri ----------------------------------------------------
   buyutec: '<circle cx="10.6" cy="10.6" r="6.8"/><path d="M15.6 15.6L21 21"/>',
 
@@ -106,7 +109,7 @@ const CIZIMLER = {
 const EMOJILER = {
   saat: '📖', harita: '🗺️', arti: '＋', raptiye: '📍', ayarlar: '☰',
   mikrofon: '🎙️', dalga: '🎧', kalem: '✏️', nisan: '🎯', kisi: '🤝',
-  fis: '🧾', gorsel: '🖼️', buyutec: '🔍', genislet: '⤢',
+  fis: '🧾', gorsel: '🖼️', buyutec: '🔍', genislet: '⤢', yildiz: '⭐',
   zamanBos: '📖', yolBos: '🗺️'
 };
 const EMOJI = true;

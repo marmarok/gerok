@@ -420,11 +420,16 @@ const SUZGECLER = {
   hepsi: () => true,
   ses: (k) => ['ses', 'ortam', 'gunluk', 'baslangic', 'bitis', 'mektup'].includes(k.tur),
   baskasi: (k) => k.sahip && k.sahip !== kayit.sahipAl().id,
-  insanPara: (k) => ['kisi', 'fiyat'].includes(k.tur)
+  insanPara: (k) => ['kisi', 'fiyat'].includes(k.tur),
+  // Çift dokunarak işaretlediklerin. Süzgecin asıl işi bu: dört yüz kaydın
+  // içinden o an önemli bulduklarını tek dokunuşla ayırmak — işaretlemenin
+  // var oluş sebebi zaten sonradan bulunabilmesiydi.
+  isaretli: (k) => !!k.isaretli
 };
 const SUZGEC_ADI = {
   hepsi: 'hepsi', ses: 'yalnızca sesler',
-  baskasi: 'arkadaşın kayıtları', insanPara: 'tanıştık ve harcama'
+  baskasi: 'arkadaşın kayıtları', insanPara: 'tanıştık ve harcama',
+  isaretli: 'işaretlediklerin'
 };
 
 // Bir kaydın aranan metni: gördüğün her şey aranabilir olmalı.
@@ -472,7 +477,10 @@ function zamanCizgisiCiz() {
         </div>`
       : `<div class="bos-durum">
           <div class="bos-yazi">Bu süzgeçle kayıt yok.<br>
-          <span style="color:var(--vurgu)">${kacis(sorgu ? `“${sorgu}”` : SUZGEC_ADI[durum.suzgec])}</span></div>
+          <span style="color:var(--vurgu)">${kacis(sorgu ? `“${sorgu}”` : SUZGEC_ADI[durum.suzgec])}</span>
+          ${durum.suzgec === 'isaretli' && !sorgu
+            ? '<br><br>Bir kayda <b>çift dokun</b> — yıldız çıkar, kayıt buraya düşer.'
+            : ''}</div>
         </div>`;
     return;
   }
