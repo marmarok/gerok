@@ -5,7 +5,7 @@
 // Neden önbelleğin adına bakmıyoruz: yeni sürüm indiğinde önbellek adı değişiyor
 // ama ekrandaki kod hâlâ eski oluyor — uygulama kendini güncellenmiş sanıyordu.
 // Bu satır ekrandaki dosyanın içinde olduğu için yalan söyleyemiyor.
-const BU_SURUM = 'gerok-88-20260822-020222';
+const BU_SURUM = 'gerok-89-20260822-022306';
 
 import * as veri from './veri.js';
 import * as iz from './iz.js';
@@ -771,6 +771,9 @@ function ayrintiDugmeleriniBagla(kok) {
   kok.querySelectorAll('[data-yazi-duzenle]').forEach(d => {
     d.addEventListener('click', () => yaziDuzenleSor(d.dataset.yaziDuzenle));
   });
+  kok.querySelectorAll('[data-cozum]').forEach(d => {
+    d.addEventListener('click', () => cozumSor(d.dataset.cozum));
+  });
   kok.querySelectorAll('[data-google]').forEach(d => {
     d.addEventListener('click', () => {
       const [lat, lon] = d.dataset.google.split(',');
@@ -1202,8 +1205,12 @@ function kayitSatiri(k) {
   if (sesli && (k.yazi || '').trim()) {
     const tam = k.yazi.trim();
     const kisa = tam.length > 130 && !acik ? tam.slice(0, 130).trimEnd() + '…' : tam;
+    // Etiket yalnızca MAKİNE çıktısında. Elle düzeltilmiş bir metne
+    // "makineden" demek yalan olurdu — ve on yıl sonra bu satıra bakan biri
+    // hangisinin insan sözü olduğunu bilmek isteyecek.
+    const elle = k.yaziKaynagi === 'elle';
     govde += `<div class="cozum${acik ? ' acik' : ''}">
-      <span class="cozum-etiket">makineden</span>${kacis(kisa)}
+      ${elle ? '' : '<span class="cozum-etiket">makineden</span>'}${kacis(kisa)}
     </div>`;
   }
 
@@ -1316,6 +1323,8 @@ function ayrintiPaneli(k, { konumlu, basliklanabilir, gorsel = false, videoSure 
       ${konumlu ? `<button class="satir-dugme" data-google="${k.lat},${k.lon}">Haritalar'da aç</button>` : ''}
       ${gorsel ? `<button class="satir-dugme" data-galeri="${k.id}">Fotoğrafları aç</button>` : ''}
       ${k.tur === 'yazi' ? `<button class="satir-dugme vurgulu" data-yazi-duzenle="${k.id}">Düzenle</button>` : ''}
+      ${SESLI_TURLER.includes(k.tur) ? `<button class="satir-dugme vurgulu" data-cozum="${k.id}">${
+        (k.yazi || '').trim() ? 'Yazıyı düzelt' : 'Yazıya çevir'}</button>` : ''}
       ${basliklanabilir ? `<button class="satir-dugme vurgulu" data-baslik="${k.id}">${
         k.baslik || k.metin ? 'Adını değiştir' : 'Başlık yaz'}</button>` : ''}
       <button class="satir-dugme sil" data-sil="${k.id}">Sil</button>
@@ -1466,6 +1475,79 @@ function kayitBasligiSor(id) {
  * çalışan adres çözücü (bkz. baglanti.js) yalnızca boş ya da duraktan gelen
  * adları değiştiriyor, senin yazdığının üstüne yazmıyor.
  */
+/**
+ * Sesin yazısı — okuma, düzeltme, yazma.
+ *
+ * WhatsApp'taki "sesi yazıya çevir" düğmesinin karşılığı, ama bir farkla ve o
+ * fark dürüstçe söyleniyor: ÇEVİRME TELEFONDA OLMUYOR.
+ *
+ * Sebebi araştırıldı (22 Ağustos 2026): tarayıcının konuşma tanıma özelliği
+ * (`webkitSpeechRecognition`) iOS'ta ana ekrana eklenmiş uygulamalarda
+ * çalışmıyor ve zaten yalnızca CANLI mikrofonu dinliyor — kayıtlı bir dosyayı
+ * çeviremiyor. Geriye iki yol kalıyor: sesi buluta yollamak (anahtar ister,
+ * ses telefondan çıkar) ya da Mac'teki Whisper (bedava, internetsiz, hiçbir
+ * şey dışarı çıkmaz). İkincisi seçildi.
+ *
+ * Bu yüzden düğme her zaman ELDE BİR ŞEY BIRAKIYOR: metin varsa düzeltirsin,
+ * yoksa kendin yazarsın. Hiçbir şey yapmayan bir düğme olmasın.
+ */
+function cozumSor(id) {
+  const k = durum.kayitlar.find(x => x.id === id);
+  if (!k) return;
+  durum.acikSatir = null;
+  const varOlan = (k.yazi || '').trim();
+
+  ortuAc(`
+    <div class="ortu-baslik">${varOlan ? 'Sesin yazısı' : 'Yazıya çevir'}</div>
+    <div class="ortu-alt">${kacis(veri.TURLER[k.tur] || k.tur)} · ${
+      kacis(gerok.tarihUzun(k.t))} ${kacis(gerok.saat(k.t))}${
+      k.sure ? ` · ${sureYaz(k.sure)}` : ''}</div>
+    ${varOlan ? `<div class="girdi-etiket">${k.yaziKaynagi === 'elle'
+        ? 'Senin düzelttiğin metin' : 'Makinenin duyduğu — yanlış duymuş olabilir'}</div>`
+      : `<div class="cozum-bilgi">Bu ses henüz çevrilmedi.
+        <b>Çevirme Mac'te yapılıyor</b> — bedava, internetsiz, ses telefondan
+        çıkmıyor. Bir sonraki arşivlemede kendiliğinden çevrilecek.
+        Beklemek istemiyorsan aşağıya kendin yazabilirsin.</div>`}
+    <textarea class="alan cozum-alan" id="cozumAlan" rows="8"
+      placeholder="Bu kayıtta ne söylendi?">${kacis(varOlan)}</textarea>
+    <button class="eylem-dugme birincil" id="cozumKaydet">Kaydet</button>
+    ${varOlan ? '<button class="eylem-dugme sil" id="cozumSil">Yazıyı sil</button>' : ''}
+    <button class="eylem-dugme" id="cozumVazgec">Vazgeç</button>
+  `);
+  setTimeout(() => $('#cozumAlan')?.focus(), 120);
+
+  $('#cozumVazgec').addEventListener('click', async () => {
+    ortuKapat();
+    // Metni yoksa ve dokunup vazgeçtiyse: Mac'te çevrilmesini istediği
+    // anlaşılıyor. İşaret paketle Mac'e gidiyor, orada önce bunlar çevriliyor.
+    if (!varOlan && !k.cozumIsteniyor) {
+      await veri.kayitEkle({ ...k, cozumIsteniyor: true });
+      kayitBildir('Sıraya alındı — bir sonraki arşivlemede çevrilecek', 'iyi');
+      await tazele();
+    }
+  });
+
+  $('#cozumSil')?.addEventListener('click', async () => {
+    ortuKapat();
+    const { yazi, yaziKaynagi, ...kalan } = k;
+    await veri.kayitEkle(kalan);
+    kayitBildir('Yazı silindi');
+    await tazele();
+  });
+
+  $('#cozumKaydet').addEventListener('click', async () => {
+    const m = $('#cozumAlan').value.trim();
+    ortuKapat();
+    if (!m && !varOlan) return;
+    if (!m) { const { yazi, yaziKaynagi, ...kalan } = k; await veri.kayitEkle(kalan); }
+    // Elle yazılan metnin üstüne bir daha makine çıktısı YAZILMAMALI —
+    // esitleme.js yalnızca boş alanı dolduruyor, bu da orada korunuyor.
+    else await veri.kayitEkle({ ...k, yazi: m, yaziKaynagi: 'elle', cozumIsteniyor: undefined });
+    kayitBildir(m ? 'Yazı kaydedildi · artık aranabilir' : 'Yazı silindi', 'iyi');
+    await tazele();
+  });
+}
+
 function yaziDuzenleSor(id) {
   const k = durum.kayitlar.find(x => x.id === id);
   if (!k) return;

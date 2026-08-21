@@ -180,7 +180,21 @@ function imza(k) {
 }
 const farkliMi = (a, b) => imza(a) !== imza(b);
 
-export async function paketBirlestir(paket) {
+/**
+ * Gelen paketi defterle birleştirir.
+ *
+ * `mezarlariYoksay` YALNIZCA kendi yedeğinden tam geri yüklemede true olur.
+ * Sebebi (bekçi sınaması 22 Ağustos 2026'da yakaladı):
+ *
+ * Silinen kaydın kimliği "mezar taşı" olarak duruyor — arkadaşının paketinden
+ * geri gelmesin diye. Doğru kural, ama YEDEKTEN GERİ YÜKLEMEDE ters teptiği
+ * görüldü: yanlışlıkla sildiğin bir notu, silmeden ÖNCE alınmış yedekten geri
+ * getiremiyordun. Yedeğin tek var oluş sebebi buyken.
+ *
+ * Ayrım şu: arkadaşının paketi bir GÖRÜŞ, kendi yedeğin bir HÂL. "Defterimi
+ * o günkü hâline döndür" dediğinde mezar taşı kaybeder.
+ */
+export async function paketBirlestir(paket, { mezarlariYoksay = false } = {}) {
   if (!paket?.paketSurum) throw new Error('Bu dosya bir Gerok paketi değil.');
 
   // Paket bizde hiç olmayan bir tura aitse turu da kuruyoruz — yoksa gelen
@@ -246,12 +260,19 @@ export async function paketBirlestir(paket) {
     const benim = bendekiler.get(kayitId);
     if (!benim || !String(metin || '').trim()) continue;
     if (String(benim.yazi || '').trim()) continue;
-    await veri.kayitEkle({ ...benim, yazi: String(metin).trim() });
+    await veri.kayitEkle({ ...benim, yazi: String(metin).trim(), yaziKaynagi: 'makine' });
     yeniCozum++;
   }
 
+  let dirilen = 0;
   for (const k of paket.kayitlar || []) {
     if (varOlanlar.has(k.id)) {
+      // Mezar taşının üstüne yazılıyor: kayıt olduğu gibi geri geliyor.
+      if (mezarlariYoksay && bendekiler.get(k.id)?.silindi && !k.silindi) {
+        await veri.kayitEkle(k);
+        dirilen++;
+        continue;
+      }
       // ÇAKIŞMA: aynı kayıt iki telefonda ayrı ayrı değiştirilmiş.
       //
       // Kural — defterin sahibinin kararı (17 Ağustos): BENDEKİ SÜRÜM ESAS. Ekranda
@@ -310,7 +331,7 @@ export async function paketBirlestir(paket) {
   await durakBilgileriBirlestir(paket.durakBilgileri || null);
 
   return { yeniKayit, yeniIz, yeniMedya, silinen, yeniDurak, yeniGun, yeniNot,
-           yeniTur, cakisan, yeniCozum, kisi: paket.kisi };
+           yeniTur, cakisan, yeniCozum, dirilen, kisi: paket.kisi };
 }
 
 // ---- Gönderme (AirDrop) ---------------------------------------------------
@@ -499,13 +520,16 @@ export function yedektenGeriYukle(bildir, tazele, onayla) {
       const onay = await onayla({ gelen, mevcut, ad: dosya.name });
       if (!onay) { bildir?.('Vazgeçildi — hiçbir şey değişmedi.'); return; }
 
-      const s = await paketBirlestir(paket);
+      const s = await paketBirlestir(paket, { mezarlariYoksay: onay === 'degistir' });
 
       if (onay === 'degistir') {
         const kalacak = new Set((paket.kayitlar || []).map(k => k.id));
         const kalacakIz = new Set((paket.iz || []).map(n => n.id));
         const silinen = await veri.disindakileriSil(kalacak, kalacakIz);
-        bildir?.(`Geri yüklendi · ${kalacak.size} kayıt · ${silinen} fazla kayıt silindi`, 'iyi');
+        // Geri gelen silinmişler ayrıca söyleniyor: "silmiştim, geri geldi mi"
+        // sorusunun cevabı bu satır.
+        bildir?.(`Geri yüklendi · ${kalacak.size} kayıt · ${silinen} fazla kayıt silindi`
+          + (s.dirilen ? ` · ${s.dirilen} silinmiş kayıt geri geldi` : ''), 'iyi');
       } else {
         // Çözüm yaması yeni kayıt getirmiyor; "0 yeni kayıt" demek
         // "hiçbir şey olmadı" gibi okunuyordu.

@@ -1619,3 +1619,13 @@ body:has(.ses-katman:not(.gizli)) .bildirim {
   font-size: 10px; letter-spacing: .1em; text-transform: uppercase;
   color: var(--cok-soluk); font-weight: 700; vertical-align: 1px;
 }
+
+/* Sesin yazısı — düzeltme kartı. */
+.cozum-bilgi {
+  margin: 14px 0 10px; padding: 12px 13px; border-radius: 11px;
+  background: var(--kat2); border: 1px solid var(--cizgi);
+  font-size: 13px; line-height: 1.5; color: var(--soluk);
+}
+/* Çözüm metni uzun oluyor (bir dakikalık ses ~700 harf); alan da uzun olmalı
+   ki düzeltirken sürekli kaydırmak gerekmesin. */
+.cozum-alan { min-height: 170px; line-height: 1.6; }
