@@ -3174,8 +3174,15 @@ async function paneliCiz() {
             <span title="fotoğraf ve video"><i data-ikon="gorsel" data-ikon-boy="14"></i>${gorselSayi}</span>
             <span title="tanıştığınız kişiler"><i data-ikon="kisi" data-ikon-boy="14"></i>${kisiSayi}</span>
           </span></div>
+        ${s.karayoluKm ? `
         <div class="panel-satir"><span class="etiket">Yol</span>
-          <span class="deger">${km.toFixed(1)} km · ${durum.izNoktalari.length} nokta</span></div>
+          <span class="deger">${Math.round(s.karayoluKm).toLocaleString('tr-TR')} km${
+            s.ucusKm ? ` · ${Math.round(s.ucusKm).toLocaleString('tr-TR')} km uçuş` : ''}</span></div>
+        <div class="panel-satir"><span class="etiket">İz kaydı</span>
+          <span class="deger">${km.toFixed(1)} km · ${durum.izNoktalari.length} nokta</span></div>`
+        : `
+        <div class="panel-satir"><span class="etiket">İz kaydı</span>
+          <span class="deger">${km.toFixed(1)} km · ${durum.izNoktalari.length} nokta</span></div>`}
         <div class="panel-satir harcama-ust"><span class="etiket">Harcama</span>
           <span class="deger">
             <span>${harcamaEuro ? euroYaz(harcamaEuro) : (harcamalar.length ? tutarYaz(paralar) : '—')}</span>

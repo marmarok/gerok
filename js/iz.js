@@ -158,14 +158,31 @@ export function suAnkiKonum(zamanAsimi = 10_000) {
 
 export function sonBilinenKonum() { return sonNokta; }
 
-// İzin toplam uzunluğu (km) — Gün Sonu özetinde ve Gerok Kapağı'nda kullanılıyor.
+// Kopukluk eşikleri — arac/iz-onar.py ile AYNI olmalı, yoksa uygulama ve arşiv
+// iki farklı sayı gösterir.
+const AYRIK_SN = 180;      // 3 dakikadan uzun sessizlik
+const AYRIK_M = 1500;      // ya da 1,5 km'den büyük sıçrama
+
+/**
+ * Gerçekten kaydedilmiş yolun uzunluğu (km).
+ *
+ * DİKKAT — bu "gezide kat edilen yol" DEĞİL. iOS'ta ekran kapalıyken iz
+ * kaydedilemiyor; Balkanlar gezisinde sürenin yalnızca %35'inde iz açıktı.
+ * Aradaki boşlukların gerçek yol uzunluğu ancak Mac'te, harita sunucusuna
+ * sorularak bulunabiliyor (arac/iz-onar.py) ve sonuç gerok tanımına yazılıyor.
+ *
+ * Eski sürüm 1 saatten kısa her boşluğu DÜZ ÇİZGİYLE birleştiriyordu. O sayı
+ * ne kaydedilen yoldu ne de gerçek yol: Balkanlar'da 1.094 km gösteriyordu,
+ * gerçekten izlenen 319 km, gerçek karayolu ise 2.576 km.
+ */
 export function izUzunlugu(noktalar) {
   let toplam = 0;
   for (let i = 1; i < noktalar.length; i++) {
     const a = noktalar[i - 1], b = noktalar[i];
     const d = mesafe(a.lat, a.lon, b.lat, b.lon);
-    // Bir sonraki nokta ile arada 1 saatten fazla varsa yol değil, kopukluktur.
-    if (b.t - a.t < 3600_000) toplam += d;
+    // Uzun sessizlik ya da büyük sıçrama: arası kaydedilmemiş, yol sayılmaz.
+    if ((b.t - a.t) / 1000 > AYRIK_SN || d > AYRIK_M) continue;
+    toplam += d;
   }
   return toplam / 1000;
 }

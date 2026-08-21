@@ -186,9 +186,23 @@ export async function paketBirlestir(paket) {
   // gönderdiği bir dosya, o an içinde bulunduğun turu değiştiremesin.
   let yeniTur = null;
   for (const tanim of paket.gerokTanimlari || []) {
-    if (!tanim?.id || await veri.gerokOku(tanim.id)) continue;
-    await veri.gerokYaz({ ...tanim, arsiv: true, yuklenme: Date.now() });
-    yeniTur = yeniTur || tanim.ad;
+    if (!tanim?.id) continue;
+    const bendeki = await veri.gerokOku(tanim.id);
+    if (!bendeki) {
+      await veri.gerokYaz({ ...tanim, arsiv: true, yuklenme: Date.now() });
+      yeniTur = yeniTur || tanim.ad;
+      continue;
+    }
+    // Tur zaten kurulu. Adına, tarihine, duraklarına DOKUNMUYORUZ — birinin
+    // gönderdiği dosya senin turunu yeniden adlandırmasın. Yalnızca kat edilen
+    // yol sayıları güncelleniyor: onları uygulama kendi başına bilemiyor,
+    // Mac'te harita sunucusuna sorularak hesaplanıyor (arac/iz-onar.py) ve
+    // pakete öyle yazılıyor.
+    const yamalar = {};
+    for (const alan of ['karayoluKm', 'ucusKm']) {
+      if (tanim[alan] != null && tanim[alan] !== bendeki[alan]) yamalar[alan] = tanim[alan];
+    }
+    if (Object.keys(yamalar).length) await veri.gerokYaz({ ...bendeki, ...yamalar });
   }
 
   // Silinmişler de sayılıyor: kimliği burada duran bir kayıt yeniden eklenmez.
