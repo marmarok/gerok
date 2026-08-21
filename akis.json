@@ -1,0 +1,125 @@
+{
+ "bicim": 1,
+ "zaman": "2026-08-22T02:57:50+03:00",
+ "kadans": "gunluk",
+ "durum": "bilinen",
+ "sayilar": {
+  "kontrol": 50,
+  "sinama": 574,
+  "gecen": 49,
+  "bilinen": 1,
+  "sorun": 0,
+  "sure": 27.3,
+  "kosu": 8
+ },
+ "sorunlar": [],
+ "bilinenler": [
+  {
+   "ad": "Math.min(...dizi) yığın taşması",
+   "not": "app.js:644; app.js:4528; gerok.js:447; sihirbaz.js:393; sihirbaz.js:394; sihirbaz.js:395 · kabul edildi: Altısı da küçük dizi üstünde (durak, harcama, gün grubu"
+  }
+ ],
+ "onarilan": [],
+ "gruplar": {
+  "yayin": {
+   "gecen": 12,
+   "toplam": 12,
+   "sinama": 95
+  },
+  "bekci": {
+   "gecen": 8,
+   "toplam": 8,
+   "sinama": 64
+  },
+  "kod": {
+   "gecen": 8,
+   "toplam": 8,
+   "sinama": 386
+  },
+  "veri": {
+   "gecen": 2,
+   "toplam": 2,
+   "sinama": 9
+  },
+  "gizlilik": {
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 5
+  },
+  "sartname": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 1
+  },
+  "depolama": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 1
+  },
+  "davranis": {
+   "gecen": 13,
+   "toplam": 13,
+   "sinama": 13
+  }
+ },
+ "mesajlar": [],
+ "bekleyen": [],
+ "telefonSinamasi": [
+  "Sesli not bırak ve ÇAL — sesi duyuyor musun?",
+  "Galeriden 3 fotoğraf ekle — çubuk akıyor mu, özet çıkıyor mu?",
+  "Bir videonun önizleme karesi çıkıyor mu?",
+  "Uçak moduna al, haritayı aç — yer adları görünüyor mu?",
+  "Gerok → Yeni sürüm var mı? — kart çıkıyor mu?",
+  "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
+ ],
+ "gecmis": [
+  {
+   "t": "2026-08-22T02:33:10+03:00",
+   "k": "haftalik",
+   "g": 31,
+   "n": 34
+  },
+  {
+   "t": "2026-08-22T02:35:15+03:00",
+   "k": "6saat",
+   "g": 9,
+   "n": 11
+  },
+  {
+   "t": "2026-08-22T02:35:48+03:00",
+   "k": "6saat",
+   "g": 9,
+   "n": 10
+  },
+  {
+   "t": "2026-08-22T02:36:19+03:00",
+   "k": "haftalik",
+   "g": 31,
+   "n": 33
+  },
+  {
+   "t": "2026-08-22T02:36:49+03:00",
+   "k": "haftalik",
+   "g": 31,
+   "n": 33
+  },
+  {
+   "t": "2026-08-22T02:38:15+03:00",
+   "k": "haftalik",
+   "g": 31,
+   "n": 33
+  },
+  {
+   "t": "2026-08-22T02:39:27+03:00",
+   "k": "saatlik",
+   "g": 2,
+   "n": 2
+  },
+  {
+   "t": "2026-08-22T02:57:50+03:00",
+   "k": "gunluk",
+   "g": 49,
+   "n": 50
+  }
+ ]
+}
