@@ -5,7 +5,7 @@
 // Neden önbelleğin adına bakmıyoruz: yeni sürüm indiğinde önbellek adı değişiyor
 // ama ekrandaki kod hâlâ eski oluyor — uygulama kendini güncellenmiş sanıyordu.
 // Bu satır ekrandaki dosyanın içinde olduğu için yalan söyleyemiyor.
-const BU_SURUM = 'gerok-87-20260822-015839';
+const BU_SURUM = 'gerok-88-20260822-020222';
 
 import * as veri from './veri.js';
 import * as iz from './iz.js';
@@ -2994,17 +2994,36 @@ async function calisanSurumOnbellegi() {
 // Açılışta sessiz yoklama. Uygulama çizilsin diye biraz bekliyoruz; internet
 // yoksa, yeni sürüm yoksa ya da kullanıcı bu sürümü zaten ertelediyse hiçbir
 // şey görünmüyor.
-async function acilistaGuncellemeYokla() {
-  await new Promise(r => setTimeout(r, 4000));
-  if (document.hidden) return;
+// Yoklama TEK SEFERLİK DEĞİL.
+//
+// İlk hâli 4 saniye bekleyip bir kez bakıyordu ve şu üç durumda sessizce
+// vazgeçiyordu: ekran o an gizliyse, başka bir kart açıksa (ad sorma,
+// sihirbaz, gün sonu), ya da internet henüz gelmemişse. Üçü de açılışta
+// olağan — yani "yeni sürüm var" kartı hiç görünmeyebiliyordu ve kullanıcı
+// haklı olarak "bildirim gelmedi" diyordu.
+//
+// Şimdi: uygun an gelene kadar bekliyor, uygulamaya her dönüşte yeniden
+// deniyor. Kart bir kez gösterildikten sonra o oturumda bir daha sorulmuyor.
+let guncellemeSoruldu = false;
+
+async function guncellemeYokla({ gecikme = 4000 } = {}) {
+  if (guncellemeSoruldu) return;
+  await new Promise(r => setTimeout(r, gecikme));
+  if (guncellemeSoruldu) return;
+
+  // Uygun an değilse VAZGEÇMİYORUZ — 20 saniye sonra tekrar bakıyoruz.
+  const uygunDegil = document.hidden
+    || !$('#ortu').classList.contains('gizli')
+    || kayit.sesKaydediyorMu();
+  if (uygunDegil) { setTimeout(() => guncellemeYokla({ gecikme: 0 }), 20000); return; }
+
   try {
     const bilgi = await guncellemeBak();
-    if (!bilgi) return;
+    if (!bilgi) return;                       // en son sürümdeyiz ya da internet yok
     if (await veri.ayarOku('guncellemeErtelendi') === bilgi.surum) return;
-    if (!$('#ortu').classList.contains('gizli')) return;   // başka kart açık
-    if (kayit.sesKaydediyorMu()) return;
+    guncellemeSoruldu = true;
     guncellemeKarti(bilgi);
-  } catch { /* yoklama sessiz başarısız olur */ }
+  } catch { /* yoklama sessiz başarısız olur; dönüşte yine denenecek */ }
 }
 
 // "Yeni sürüm var mı?" düğmesi — açılıştaki sessiz yoklamanın elle çağrılan hâli.
@@ -4952,8 +4971,13 @@ if ('serviceWorker' in navigator) {
     });
   }).catch(e => console.warn('sw kaydı olmadı', e));
 
-  // Açılışta bir kez: yeni sürüm varsa boyutuyla birlikte sorulur.
-  acilistaGuncellemeYokla();
+  // Açılışta ve uygulamaya her dönüşte: yeni sürüm varsa boyutuyla sorulur.
+  // Dönüşte de bakmak şart — telefon cepteyken yayınlanan sürüm, uygulama
+  // yeniden açılmadığı sürece hiç sorulmazdı.
+  guncellemeYokla();
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') guncellemeYokla({ gecikme: 2500 });
+  });
 }
 
 baslat();
