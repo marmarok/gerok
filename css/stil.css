@@ -1480,3 +1480,43 @@ body:has(.ses-katman:not(.gizli)) .bildirim {
   background: var(--secili-zemin); border-color: var(--secili-cizgi);
   color: var(--yesil); font-weight: 600;
 }
+
+/* ---- Durak kartı: haritada gezinme (22 Ağustos 2026) --------------------- */
+/* Kart açıkken haritanın görünür kalması ŞART: "önceki / sonraki" ile
+   zıplarken hareketi göremezsen düğmenin ne yaptığı anlaşılmıyor. Bu yüzden
+   bu kartta perde ve bulanıklık kapalı. Perde dokunuşları da yutmuyor —
+   kart açıkken haritayı kaydırabiliyorsun; kapatmak için Kapat düğmesi var. */
+.ortu[data-kat="durak"] {
+  background: transparent; backdrop-filter: none; pointer-events: none;
+}
+.ortu[data-kat="durak"] .ortu-ic { pointer-events: auto; }
+
+.durak-gezin {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 12px;
+}
+.gezin-dugme {
+  flex: 1; min-width: 0; display: flex; align-items: center; gap: 5px;
+  padding: 8px 10px; border-radius: 9px; font-size: 12.5px;
+  background: var(--kat2); border: 1px solid var(--cizgi); color: var(--soluk);
+}
+.gezin-dugme.sag { justify-content: flex-end; }
+.gezin-dugme:disabled { opacity: .38; }
+.gezin-ok { font-size: 17px; line-height: 1; flex-shrink: 0; }
+/* Durak adları uzun ("Üsküp Uluslararası Havalimanı"); düğmeyi büyütmek
+   yerine tek satırda kırpılıyor, tam adı zaten zıplayınca başlıkta görüyorsun. */
+.gezin-yazi { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gezin-sayac {
+  flex-shrink: 0; font-size: 12px; color: var(--cok-soluk);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- Güncelleme kartı (22 Ağustos 2026) ---------------------------------- */
+.ortu[data-kat="guncelleme"] { z-index: 79; }
+.guncelleme-boyut {
+  margin: 14px 0 4px; padding: 13px 15px; border-radius: 11px;
+  background: var(--kat2); border: 1px solid var(--cizgi);
+  font-size: 21px; font-weight: 600; font-variant-numeric: tabular-nums;
+  display: flex; align-items: baseline; justify-content: space-between; gap: 10px;
+}
+.guncelleme-alt { font-size: 12.5px; font-weight: 400; color: var(--cok-soluk); }
+.guncelleme-not { font-size: 12.5px; color: var(--soluk); margin: 0 2px 14px; line-height: 1.45; }

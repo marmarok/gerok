@@ -22,7 +22,9 @@ async function uygulamaSurumu() {
   try {
     if (!('caches' in window)) return null;
     const adlar = await caches.keys();
-    return adlar.find(a => a.startsWith('gerok-')) || null;
+    // 'gerok-paylasim' de 'gerok-' ile başlıyor ama sürüm değil — paylaşım
+    // önbelleği varsa çalışan sürüm olarak o dönerdi.
+    return adlar.find(a => /^gerok-\d/.test(a)) || null;
   } catch { return null; }
 }
 

@@ -4,7 +4,7 @@
 
 // DİKKAT: her yayında bu sürüm değişmeli, yoksa telefonlar eski dosyaları
 // önbellekten sunmaya devam eder. arac/yayinla.sh bunu kendiliğinden günceller.
-const SURUM = 'gerok-82-20260822-000351';
+const SURUM = 'gerok-83-20260822-003907';
 
 const DOSYALAR = [
   './',
@@ -72,8 +72,28 @@ self.addEventListener('install', (olay) => {
       try { await onbellek.add(new Request(d, { cache: 'reload' })); }
       catch (e) { console.warn('önbelleğe alınamadı:', d, e); }
     }));
-    self.skipWaiting();
+    // BURADA skipWaiting YOK ve olmaması bilerek (22 Ağustos 2026).
+    //
+    // Eskiden vardı. Sonucu şuydu: yeni sürüm sessizce devreye giriyor, ESKİ
+    // önbellek siliniyor, ama ekranda duran kod hâlâ eski oluyordu. Uygulama
+    // "hangi sürümdeyim" sorusuna önbelleğin adına bakarak cevap verdiği için
+    // yeni sürümü çalıştırdığını sanıyor, aslında çalıştırmıyordu — ve neyin
+    // değiştiğini söylemek de imkânsız hâle geliyordu, çünkü karşılaştırılacak
+    // eski dosyalar silinmiş oluyordu.
+    //
+    // Şimdi yeni sürüm indikten sonra BEKLİYOR. Eski önbellek yerinde duruyor,
+    // uygulama ikisini karşılaştırıp "147 KB değişti" diyebiliyor. Devreye
+    // girmesi için kullanıcının "Güncelle" demesi gerekiyor (aşağıdaki mesaj).
+    // Uygulama tamamen kapatılırsa tarayıcı zaten kendi devreye alıyor —
+    // o durumda da önbellek eksiksiz, yani internetsizlik riski yok.
   })());
+});
+
+// Uygulama "İndir ve güncelle" dediğinde bekleyen sürümün hemen devreye
+// girmesini istiyor. install zaten skipWaiting çağırıyor; bu mesaj, bir
+// sebeple beklemede kalmış bir sürüm için ikinci bir kapı.
+self.addEventListener('message', (olay) => {
+  if (olay.data?.tip === 'gec') self.skipWaiting();
 });
 
 self.addEventListener('activate', (olay) => {

@@ -242,6 +242,7 @@ export async function haritaKur() {
     new ResizeObserver(() => harita.resize()).observe(kap);
 
     durakDokunmasiniKur(kap);
+    harita.on('zoom', durakKaymasiTazele);
 
     kaynakYazisiTazele();
     rotayiCiz();
@@ -252,6 +253,7 @@ export async function haritaKur() {
 }
 
 export function aktifKipAl() { return aktifKip; }
+
 
 // Gündüz / Gece / Uydu. Uydu internet ister; diğer ikisi cihazdaki dosyadan.
 export async function kipDegistir(kip) {
@@ -365,6 +367,87 @@ function gidilenYoluCiz(koyu) {
   ]);
 }
 
+// ---- Aynı yerdeki duraklar (22 Ağustos 2026) --------------------------------
+//
+// Üsküp havaalanı hem 3. hem 34. durak: gidiş ve dönüş aynı koordinat. İki
+// iğne birebir üst üste binince numaraların ikisi de okunmuyordu.
+//
+// Çözüm: aynı yerdeki iğneleri EKRANDA yan yana açmak. Kaydırma coğrafi
+// değil piksel cinsinden düşünülüyor — coğrafi bir kayma verilse yakınlaşınca
+// iğneler birbirinden metrelerce uzaklaşır ve gerçek konumu yalan söylerdi.
+// Sabit piksel aralığı istediğimiz için yakınlaştırma değiştikçe koordinatlar
+// yeniden hesaplanıyor (aşağıdaki `zoom` dinleyicisi).
+//
+// Birleştirip "3·34" yazmak da düşünüldü; her durağın kendi gün rengi ve
+// kendi kartı olduğu için ayrı iğne bırakmak daha doğru — ikisine ayrı ayrı
+// dokunulabiliyor.
+const AYNI_YER_M = 60;        // bu kadar yakın duraklar aynı yer sayılıyor
+const YAN_YANA_PX = 26;       // yan yana açılan iğnelerin ekran aralığı
+
+let durakKumeleri = [];
+
+function kabaMesafe(a, b) {
+  const R = 6371000, d = Math.PI / 180;
+  const x = (b.lon - a.lon) * d * Math.cos((a.lat + b.lat) * d / 2);
+  const y = (b.lat - a.lat) * d;
+  return Math.hypot(x, y) * R;
+}
+
+function durakKumeleriKur(liste, gunSirasi) {
+  durakKumeleri = [];
+  liste.forEach((d, i) => {
+    const bilgi = {
+      id: d.id, ad: d.ad, lat: d.lat, lon: d.lon, no: i + 1,
+      renk: GUN_RENKLERI[Math.max(0, gunSirasi.indexOf(d.gun ?? 999)) % GUN_RENKLERI.length]
+    };
+    const kume = durakKumeleri.find(k => kabaMesafe(k[0], bilgi) <= AYNI_YER_M);
+    if (kume) kume.push(bilgi); else durakKumeleri.push([bilgi]);
+  });
+}
+
+// Kaydırma MapLibre'nin kendi izdüşümüyle hesaplanıyor (project/unproject),
+// elle Mercator aritmetiği yazılmıyor: karo boyutu ya da eğim değişirse
+// elle yazılan formül sessizce yanlışa döner.
+function durakOzellikleri() {
+  const ozellikler = [];
+  for (const kume of durakKumeleri) {
+    const n = kume.length;
+    kume.forEach((d, j) => {
+      let koord = [d.lon, d.lat];
+      if (n > 1 && harita) {
+        const px = harita.project(koord);
+        const kaydir = (j - (n - 1) / 2) * YAN_YANA_PX;
+        const yeni = harita.unproject([px.x + kaydir, px.y]);
+        koord = [yeni.lng, d.lat];      // yalnızca yatay kaydırma
+      }
+      ozellikler.push({
+        type: 'Feature',
+        geometry: { type: 'Point', coordinates: koord },
+        properties: {
+          id: d.id, no: String(d.no), renk: d.renk,
+          // Aynı yerin adı bir kez yazılıyor; her iğnenin altına yazılsaydı
+          // adlar da tıpkı numaralar gibi üst üste binerdi.
+          ad: j === 0 ? d.ad : ''
+        }
+      });
+    });
+  }
+  return { type: 'FeatureCollection', features: ozellikler };
+}
+
+// Yakınlaştırma değişince yan yana açılmış iğnelerin aralığı bozulur.
+// Yalnızca açılacak iğne varsa ve yakınlaştırma gözle görülür kadar
+// değiştiyse yeniden yazılıyor — her karede setData demek telefonu yorar.
+let sonKumeZoom = null;
+function durakKaymasiTazele() {
+  if (!harita?.getSource('duraklar')) return;
+  if (!durakKumeleri.some(k => k.length > 1)) return;
+  const z = harita.getZoom();
+  if (sonKumeZoom != null && Math.abs(z - sonKumeZoom) < 0.2) return;
+  sonKumeZoom = z;
+  harita.getSource('duraklar').setData(durakOzellikleri());
+}
+
 function rotayiCiz() {
   const liste = duraklar();
   // Liste boşalsa da çiziliyor: son durağını silen biri onu haritada
@@ -414,17 +497,8 @@ function rotayiCiz() {
 
   // Durak iğneleri: numara üstünde, ad altında.
   const gunSirasi = Array.from(gunler.keys()).sort((a, b) => a - b);
-  kaynakYaz('duraklar', {
-    type: 'FeatureCollection',
-    features: liste.map((d, i) => ({
-      type: 'Feature',
-      geometry: { type: 'Point', coordinates: [d.lon, d.lat] },
-      properties: {
-        id: d.id, ad: d.ad, no: String(i + 1),
-        renk: GUN_RENKLERI[Math.max(0, gunSirasi.indexOf(d.gun ?? 999)) % GUN_RENKLERI.length]
-      }
-    }))
-  }, [
+  durakKumeleriKur(liste, gunSirasi);
+  kaynakYaz('duraklar', durakOzellikleri(), [
     { id: 'durak-halka', type: 'circle', source: 'duraklar',
       paint: {
         'circle-radius': ['interpolate', ['linear'], ['zoom'], 5, 8, 11, 12],
@@ -475,7 +549,18 @@ function durakDokunmasiniKur(kap) {
     // yakın. Araç sallanırken küçük bir daireyi tutturmak imkânsıza yakın.
     const bulunan = harita.queryRenderedFeatures(
       [[x - 24, y - 24], [x + 24, y + 24]], { layers: ['durak-halka'] });
-    if (bulunan.length) durakTiklandi(bulunan[0].properties.id);
+    if (!bulunan.length) return;
+
+    // Aynı yerdeki duraklar yan yana açıldığı için 48 piksellik kutuya iki
+    // iğne birden giriyor. Listedeki ilki değil, parmağa EN YAKIN olan
+    // seçiliyor — yoksa sağdaki iğneye dokunup soldaki durak açılıyor.
+    let secilen = bulunan[0], enYakin = Infinity;
+    for (const f of bulunan) {
+      const p = harita.project(f.geometry.coordinates);
+      const u = Math.hypot(p.x - x, p.y - y);
+      if (u < enYakin) { enYakin = u; secilen = f; }
+    }
+    durakTiklandi(secilen.properties.id);
   };
 
   kap.addEventListener('touchstart', (o) => {
@@ -596,6 +681,22 @@ function gunTahmin(t, kayitlar) {
 export function konumaGit(nokta, zoom = 14) {
   if (!harita || !nokta) return;
   harita.easeTo({ center: [nokta.lon, nokta.lat], zoom, duration: 700 });
+}
+
+// Durak kartındaki "önceki / sonraki" ile zıplama.
+//
+// konumaGit'ten iki farkı var: yakınlaştırmayı olduğu gibi bırakıyor (kullanıcı
+// nereye baktığına kendi karar vermiş) ve kartın kapladığı yüksekliği hesaba
+// katıp merkezi yukarı alıyor — hedef iğne kartın arkasında kalırsa zıpladığı
+// görünmüyor, düğme bozuk sanılıyor.
+export function duragaUc(nokta, altBosluk = 0) {
+  if (!harita || !nokta) return;
+  harita.flyTo({
+    center: [nokta.lon, nokta.lat],
+    zoom: Math.max(harita.getZoom(), 9),
+    offset: [0, -altBosluk / 2],
+    duration: 900, curve: 1.3
+  });
 }
 
 export function hepsiniGoster() {

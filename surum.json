@@ -1,0 +1,203 @@
+{
+ "surum": "gerok-83-20260822-003907",
+ "sayi": 83,
+ "tarih": "2026-08-22T00:39:07+03:00",
+ "dosyalar": {
+  "./index.html": {
+   "boyut": 11909,
+   "ozet": "33c32baed5724688"
+  },
+  "./manifest.webmanifest": {
+   "boyut": 861,
+   "ozet": "0cd2b0c6778c2317"
+  },
+  "./sinama.html": {
+   "boyut": 12895,
+   "ozet": "21c8e866c4199176"
+  },
+  "./kurulum.html": {
+   "boyut": 23037,
+   "ozet": "0d4c40f457a4acb2"
+  },
+  "./tamir.html": {
+   "boyut": 21958,
+   "ozet": "f004a338a3dcafb7"
+  },
+  "./css/stil.css": {
+   "boyut": 73685,
+   "ozet": "5f8531f9d0f0f8b3"
+  },
+  "./yazitipi/dmsans-latin.woff2": {
+   "boyut": 62556,
+   "ozet": "aa530716b0d35186"
+  },
+  "./yazitipi/dmsans-latin-ext.woff2": {
+   "boyut": 31312,
+   "ozet": "0d0609aee778d21b"
+  },
+  "./yazitipi/lora-latin.woff2": {
+   "boyut": 37792,
+   "ozet": "6b102ab35aa1f2b3"
+  },
+  "./yazitipi/lora-latin-ext.woff2": {
+   "boyut": 20176,
+   "ozet": "55606fbc76dc232c"
+  },
+  "./js/app.js": {
+   "boyut": 199353,
+   "ozet": "366ef8c740577680"
+  },
+  "./js/sihirbaz.js": {
+   "boyut": 17037,
+   "ozet": "a9126730f713828d"
+  },
+  "./js/veri.js": {
+   "boyut": 13886,
+   "ozet": "f74d3527aa5fa322"
+  },
+  "./js/depo.js": {
+   "boyut": 9088,
+   "ozet": "5fc392864fc45fe4"
+  },
+  "./js/iz.js": {
+   "boyut": 6621,
+   "ozet": "6479865cbba9bc82"
+  },
+  "./js/gerok.js": {
+   "boyut": 28183,
+   "ozet": "325332d12ea89eaa"
+  },
+  "./js/kayit.js": {
+   "boyut": 24402,
+   "ozet": "b0d429e4763f572f"
+  },
+  "./js/tema.js": {
+   "boyut": 3219,
+   "ozet": "e439c035b812f602"
+  },
+  "./js/renk.js": {
+   "boyut": 1784,
+   "ozet": "f696911843e197fc"
+  },
+  "./js/harita.js": {
+   "boyut": 29041,
+   "ozet": "c00f4992c1221a18"
+  },
+  "./js/harita-stil.js": {
+   "boyut": 12825,
+   "ozet": "5019183ad82ab1a4"
+  },
+  "./js/gunsonu.js": {
+   "boyut": 25583,
+   "ozet": "13e755a02bf08e99"
+  },
+  "./js/esitleme.js": {
+   "boyut": 23085,
+   "ozet": "8ae36b36f3fb4be3"
+  },
+  "./js/yer-ara.js": {
+   "boyut": 4813,
+   "ozet": "59eba65638f5c177"
+  },
+  "./js/ikon.js": {
+   "boyut": 7116,
+   "ozet": "02940519aa941b1b"
+  },
+  "./js/sema.js": {
+   "boyut": 9718,
+   "ozet": "8788c4c0099ea0cf"
+  },
+  "./js/baglanti.js": {
+   "boyut": 26097,
+   "ozet": "e1a690bef8f1bb75"
+  },
+  "./veri-yerler.json": {
+   "boyut": 289547,
+   "ozet": "a84c0b4c139f4632"
+  },
+  "./yazi/noto-regular/0-255.pbf": {
+   "boyut": 76044,
+   "ozet": "62c6d49b15fa836e"
+  },
+  "./yazi/noto-regular/256-511.pbf": {
+   "boyut": 127726,
+   "ozet": "2eca7561f9f566bc"
+  },
+  "./yazi/noto-regular/512-767.pbf": {
+   "boyut": 94728,
+   "ozet": "6abc80badad0e823"
+  },
+  "./yazi/noto-regular/768-1023.pbf": {
+   "boyut": 77034,
+   "ozet": "537ccbee79180f4f"
+  },
+  "./yazi/noto-regular/1024-1279.pbf": {
+   "boyut": 125320,
+   "ozet": "302231023f7048d9"
+  },
+  "./yazi/noto-regular/7680-7935.pbf": {
+   "boyut": 135449,
+   "ozet": "b9100ec886dff647"
+  },
+  "./yazi/noto-regular/8192-8447.pbf": {
+   "boyut": 64220,
+   "ozet": "8ea977a587352fe3"
+  },
+  "./yazi/noto-regular/8448-8703.pbf": {
+   "boyut": 82014,
+   "ozet": "125b49cccfe95ac2"
+  },
+  "./yazi/noto-medium/0-255.pbf": {
+   "boyut": 77628,
+   "ozet": "ba2f0118dd024e30"
+  },
+  "./yazi/noto-medium/256-511.pbf": {
+   "boyut": 129635,
+   "ozet": "d5e801a1a5b1d409"
+  },
+  "./yazi/noto-medium/512-767.pbf": {
+   "boyut": 96169,
+   "ozet": "985e56060887a8e7"
+  },
+  "./yazi/noto-medium/768-1023.pbf": {
+   "boyut": 71160,
+   "ozet": "4b92939b4d3779b2"
+  },
+  "./yazi/noto-medium/1024-1279.pbf": {
+   "boyut": 128608,
+   "ozet": "1fd3385560bae824"
+  },
+  "./yazi/noto-medium/7680-7935.pbf": {
+   "boyut": 138316,
+   "ozet": "21c35a285f8abc65"
+  },
+  "./yazi/noto-medium/8192-8447.pbf": {
+   "boyut": 65101,
+   "ozet": "cc38e4956207f0ed"
+  },
+  "./yazi/noto-medium/8448-8703.pbf": {
+   "boyut": 77027,
+   "ozet": "9579816ed2c7765b"
+  },
+  "./vendor/maplibre-gl.js": {
+   "boyut": 1056837,
+   "ozet": "45a9b07a9189ce56"
+  },
+  "./vendor/maplibre-gl.css": {
+   "boyut": 70024,
+   "ozet": "ab1e70d59ec40465"
+  },
+  "./vendor/pmtiles.js": {
+   "boyut": 19668,
+   "ozet": "36bcbe1ba97cc07b"
+  },
+  "./ikon/ikon-180.png": {
+   "boyut": 4357,
+   "ozet": "525ac9729d61ffa1"
+  },
+  "./ikon/ikon-512.png": {
+   "boyut": 16422,
+   "ozet": "00f633426a4df648"
+  }
+ }
+}

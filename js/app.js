@@ -1,11 +1,19 @@
 // Gerok — uygulama omurgası: açılış, ekran yönlendirme, arayüz.
 
+// EKRANDA ÇALIŞAN sürüm. arac/surum-yaz.py her yayında bu satırı yeniden yazar.
+//
+// Neden önbelleğin adına bakmıyoruz: yeni sürüm indiğinde önbellek adı değişiyor
+// ama ekrandaki kod hâlâ eski oluyor — uygulama kendini güncellenmiş sanıyordu.
+// Bu satır ekrandaki dosyanın içinde olduğu için yalan söyleyemiyor.
+const BU_SURUM = 'gerok-83-20260822-003907';
+
 import * as veri from './veri.js';
 import * as iz from './iz.js';
 import * as gerok from './gerok.js';
 import * as kayit from './kayit.js';
 import { haritaKur, haritaGuncelle, haritaBoyutTazele, konumaGit, hepsiniGoster,
-         kipDegistir, aktifKipAl, haritaMerkezi, durakTiklamasi } from './harita.js';
+         kipDegistir, aktifKipAl, haritaMerkezi, durakTiklamasi,
+         duragaUc } from './harita.js';
 import { gunSonuAc, geziSonuAc, baslangicKaydiAc, bitisKaydiAc, mektupAc } from './gunsonu.js';
 import { paketGonder, paketAl, yedekAl, sonYedekZamani, yedekSina,
   bulutaYukle, yedektenGeriYukle } from './esitleme.js';
@@ -2542,12 +2550,9 @@ let nisanAcik = false;
 
 // Hangi sürümü çalıştırdığımız. Servis worker dosyaları "gerok-YYYYAAGG-ssdd"
 // adlı bir önbelleğe koyuyor; o adı okumak "şu an gerçekten hangi dosyalar
-// çalışıyor" sorusunun en dürüst cevabı — sabit bir yazıya güvenmiyoruz.
-async function calisanSurum() {
-  if (!('caches' in window)) return null;
-  const adlar = await caches.keys();
-  return adlar.find(a => a.startsWith('gerok-')) || null;
-}
+// çalışıyor" sorusunun cevabı. Eskiden önbelleğin adına bakıyordu; yeni sürüm
+// inip önbellek adı değişince ekrandaki kod eski olduğu hâlde yeni görünüyordu.
+function calisanSurum() { return BU_SURUM; }
 
 // Sürüm adı: gerok-82-20260822-101530  →  "#82 · 22.08.2026 10:15"
 // Baştaki numara kaçıncı güncelleme olduğunu söylüyor; her yayında bir artıyor.
@@ -2560,39 +2565,188 @@ function surumOku(ad) {
   return p[1] ? `#${p[1]} · ${tarih}` : tarih;
 }
 
-async function surumuYaz() {
+function surumuYaz() {
   const yer = $('#surumYazi');
   if (!yer) return;
-  const ad = await calisanSurum();
-  yer.textContent = ad ? surumOku(ad) : 'çevrimdışı kurulmamış';
+  yer.textContent = surumOku(calisanSurum());
 }
 
-// Elle güncelleme yoklaması. Kendiliğinden sayfa yenilemiyoruz (kayıt sırasında
-// olursa kaydı uçurur), onun yerine yenisi indiyse "kapat aç" diyoruz.
+// ---- Güncelleme (22 Ağustos 2026'da yeniden yazıldı) -----------------------
+//
+// Eskiden yeni sürüm için uygulamayı İKİ KEZ kapatıp açmak gerekiyordu: birinci
+// açılışta servis worker kuruluyor, ikincisinde devreye giriyordu. Arada da hiç
+// haber verilmiyordu — kullanıcı yeni bir şey olup olmadığını bilmiyordu.
+//
+// Şimdi: açılışta sessizce `surum.json`a bakılıyor (birkaç KB), yeni sürüm
+// varsa NE KADAR indirileceğiyle birlikte soruluyor, "Güncelle" denince
+// sayfa kendisi yenileniyor. Kapat-aç yok.
+//
+// Neden yine de kendiliğinden yenilemiyoruz: sayfa yenilemesi sesli notun
+// ortasına denk gelirse kaydı uçurur. Kararı kullanıcı veriyor, biz de
+// kayıt sürerken güncellemeyi reddediyoruz.
+
+const SURUM_LISTESI = './surum.json';
+
+// Telefondaki önbellekte duran baytların özeti. Sunucudaki listeyle
+// karşılaştırılıp yalnızca GERÇEKTEN değişen dosyaların boyutu toplanıyor —
+// "147 KB" dediğimizde o sayı uydurma değil.
+async function degisenBoyut(liste) {
+  if (!('caches' in window)) return null;
+  const adlar = await caches.keys();
+  if (!adlar.includes(BU_SURUM)) return null;
+  // Karşılaştırma ÇALIŞAN sürümün önbelleğine karşı yapılıyor. Yeni sürüm
+  // inmiş olsa bile eski önbellek duruyor (sw.js artık kendiliğinden devreye
+  // girmiyor), o yüzden "ne değişti" sorusu hâlâ cevaplanabiliyor.
+  const onbellek = await caches.open(BU_SURUM);
+  let toplam = 0, sayi = 0;
+
+  for (const [yol, bilgi] of Object.entries(liste.dosyalar || {})) {
+    let ayni = false;
+    try {
+      const yanit = await onbellek.match(yol);
+      if (yanit) {
+        const ham = await yanit.arrayBuffer();
+        const ozet = await crypto.subtle.digest('SHA-256', ham);
+        const yazi = Array.from(new Uint8Array(ozet).slice(0, 8))
+          .map(b => b.toString(16).padStart(2, '0')).join('');
+        ayni = yazi === bilgi.ozet;
+      }
+    } catch { /* okunamayan dosya değişmiş sayılıyor */ }
+    if (!ayni) { toplam += bilgi.boyut || 0; sayi++; }
+  }
+  return { bayt: toplam, sayi };
+}
+
+// Ağdan sürüm listesini alır. İnternet yoksa sessizce null döner — yolda
+// internetsizlik hata değil, olağan durum.
+async function guncellemeBak() {
+  if (!navigator.onLine) return null;
+  let liste;
+  try {
+    const yanit = await fetch(`${SURUM_LISTESI}?t=${Date.now()}`, { cache: 'no-store' });
+    if (!yanit.ok) return null;
+    liste = await yanit.json();
+  } catch { return null; }
+
+  if (!liste.surum || liste.surum === BU_SURUM) return null;
+  const adlar = ('caches' in window) ? await caches.keys() : [];
+  return {
+    ...liste,
+    indi: adlar.includes(liste.surum),   // dosyalar zaten inmiş mi
+    degisen: await degisenBoyut(liste)
+  };
+}
+
+function baytYaz(b) {
+  if (b == null) return null;
+  return b >= 1024 * 1024 ? `${(b / 1048576).toFixed(1)} MB` : `${Math.max(1, Math.round(b / 1024))} KB`;
+}
+
+function guncellemeKarti(bilgi) {
+  const boyut = baytYaz(bilgi.degisen?.bayt);
+  const sayi = bilgi.degisen?.sayi;
+  ortuAc(`
+    <div class="ortu-baslik">Yeni güncelleme var</div>
+    <div class="ortu-alt">${surumOku(bilgi.surum)}</div>
+    <div class="guncelleme-boyut">
+      <span>${boyut || '—'}</span>
+      ${sayi ? `<span class="guncelleme-alt">${sayi} dosya yenilendi</span>` : ''}
+    </div>
+    <div class="guncelleme-not">${bilgi.indi
+      ? 'Dosyalar indi bile. Tek yapılacak uygulamayı yenilemek — birkaç saniye.'
+      : 'İnternetten inecek, sonra uygulama kendi kendine yenilenecek.'}</div>
+    <button class="eylem-dugme birincil" id="gncEvet">${bilgi.indi
+      ? 'Şimdi güncelle' : 'İndir ve güncelle'}</button>
+    <button class="eylem-dugme" id="gncHayir">Sonra</button>
+  `, true, 'guncelleme');
+
+  $('#gncHayir').addEventListener('click', async () => {
+    ortuKapat();
+    // Aynı sürüm için her açılışta tekrar sorulmuyor. Yeni bir sürüm
+    // çıkınca kart yine gelir.
+    await veri.ayarYaz('guncellemeErtelendi', bilgi.surum);
+  });
+  $('#gncEvet').addEventListener('click', () => guncellemeyiUygula(bilgi));
+}
+
+async function guncellemeyiUygula(bilgi) {
+  if (kayit.sesKaydediyorMu()) {
+    kayitBildir('Ses kaydı sürüyor — önce onu bitir, sonra güncelle.', 'kotu');
+    return;
+  }
+
+  const tus = $('#gncEvet');
+  const yaz = (m) => { if (tus) tus.textContent = m; };
+  if (tus) tus.disabled = true;
+  yaz(bilgi.indi ? 'Yenileniyor…' : 'İndiriliyor…');
+
+  try {
+    const kurulum = await navigator.serviceWorker?.getRegistration();
+    if (!kurulum) throw new Error('çevrimdışı kurulum yok');
+
+    // Sayfa, yeni servis worker devreye girdiği anda yenileniyor. Yenilemeyi
+    // burada bekletmek şart: erken yenilersek eski dosyalar tekrar yüklenir.
+    let yenilendi = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (yenilendi) return;
+      yenilendi = true;
+      location.reload();
+    });
+
+    // Bekleyen sürüm varsa ona "geç" diyoruz; yoksa önce indirtiyoruz.
+    // Süre değil SONUÇ bekleniyor: 3,6 MB yavaş bir bağlantıda sabit bir
+    // süreye sığmaz.
+    const bitis = Date.now() + 90000;
+    while (Date.now() < bitis && !yenilendi) {
+      const k = await navigator.serviceWorker.getRegistration();
+      if (k?.waiting) { k.waiting.postMessage({ tip: 'gec' }); }
+      else if (!k?.installing) { await k?.update().catch(() => {}); }
+      if (await calisanSurumOnbellegi() === bilgi.surum) { location.reload(); return; }
+      await new Promise(r => setTimeout(r, 800));
+    }
+    if (!yenilendi) throw new Error('indirme tamamlanmadı');
+  } catch (h) {
+    kayitBildir(`Güncellenemedi (${h.message}). İnternet varken tekrar dene.`, 'kotu');
+    if (tus) { tus.disabled = false; yaz(bilgi.indi ? 'Şimdi güncelle' : 'İndir ve güncelle'); }
+  }
+}
+
+// Servis worker'ın o an SUNDUĞU önbellek. Devreye girip girmediğini anlamanın
+// tek güvenilir yolu: eski sürümün önbelleği silindiyse geçiş olmuştur.
+async function calisanSurumOnbellegi() {
+  if (!('caches' in window)) return null;
+  const adlar = (await caches.keys()).filter(a => /^gerok-\d/.test(a));
+  return adlar.length === 1 ? adlar[0] : null;
+}
+
+// Açılışta sessiz yoklama. Uygulama çizilsin diye biraz bekliyoruz; internet
+// yoksa, yeni sürüm yoksa ya da kullanıcı bu sürümü zaten ertelediyse hiçbir
+// şey görünmüyor.
+async function acilistaGuncellemeYokla() {
+  await new Promise(r => setTimeout(r, 4000));
+  if (document.hidden) return;
+  try {
+    const bilgi = await guncellemeBak();
+    if (!bilgi) return;
+    if (await veri.ayarOku('guncellemeErtelendi') === bilgi.surum) return;
+    if (!$('#ortu').classList.contains('gizli')) return;   // başka kart açık
+    if (kayit.sesKaydediyorMu()) return;
+    guncellemeKarti(bilgi);
+  } catch { /* yoklama sessiz başarısız olur */ }
+}
+
+// "Yeni sürüm var mı?" düğmesi — açılıştaki sessiz yoklamanın elle çağrılan hâli.
 async function surumuAra() {
   const tus = $('#btnSurum');
   if (tus) { tus.disabled = true; tus.textContent = 'Bakılıyor…'; }
-  const oncekiler = ('caches' in window) ? await caches.keys() : [];
-
   try {
-    const kayit = await navigator.serviceWorker?.getRegistration();
-    if (!kayit) throw new Error('çevrimdışı kurulum yok');
-    await kayit.update();
-    // Yeni servis worker kurulup önbelleğini yazana kadar biraz bekliyoruz.
-    await new Promise(r => setTimeout(r, 2500));
-
-    const sonrakiler = await caches.keys();
-    const yeni = sonrakiler.find(a => a.startsWith('gerok-') && !oncekiler.includes(a));
-    if (yeni) {
-      kayitBildir(`Yeni sürüm indi: ${surumOku(yeni)}. Uygulamayı tamamen kapatıp aç.`, 'iyi');
-    } else {
-      kayitBildir('Zaten en son sürümdesin.', 'iyi');
-    }
+    const bilgi = await guncellemeBak();
+    if (bilgi) guncellemeKarti(bilgi);
+    else if (!navigator.onLine) kayitBildir('İnternet yok — bakılamadı.', 'kotu');
+    else kayitBildir('Zaten en son sürümdesin.', 'iyi');
   } catch (h) {
-    // Yolda internet yok — bu bir hata değil, uygulama önbellekten çalışıyor.
     kayitBildir(`Bakılamadı (${h.message}). İnternet varken dene.`, 'kotu');
   }
-
   if (tus) { tus.disabled = false; tus.textContent = 'Yeni sürüm var mı?'; }
   surumuYaz();
 }
@@ -2822,7 +2976,7 @@ function durakSilSor(id) {
 }
 
 // Haritada bir durak iğnesine dokununca açılan kart.
-function durakKartiAc(id) {
+function durakKartiAc(id, { uc = false } = {}) {
   // Durak koyarken haritaya dokunmak kart açmasın — o an iş nişangâhta.
   if (!$('#haritaNisan').classList.contains('gizli')) return;
   const d = gerok.durakBul(id);
@@ -2830,9 +2984,24 @@ function durakKartiAc(id) {
   const konum = iz.sonBilinenKonum();
   const uzaklik = konum ? iz.mesafe(konum.lat, konum.lon, d.lat, d.lon) : null;
   const dur = durum.durakDurumlari[id]?.durum;
-  const sira = gerok.duraklar().findIndex(x => x.id === id) + 1;
+  const liste = gerok.duraklar();
+  const yer = liste.findIndex(x => x.id === id);
+  const sira = yer + 1;
+  const onceki = yer > 0 ? liste[yer - 1] : null;
+  const sonraki = yer >= 0 && yer < liste.length - 1 ? liste[yer + 1] : null;
 
   ortuAc(`
+    <div class="durak-gezin">
+      <button class="gezin-dugme" id="kartOnceki" ${onceki ? '' : 'disabled'}>
+        <span class="gezin-ok">‹</span>
+        <span class="gezin-yazi">${onceki ? kacis(onceki.ad) : 'ilk durak'}</span>
+      </button>
+      <div class="gezin-sayac">${sira} / ${liste.length}</div>
+      <button class="gezin-dugme sag" id="kartSonraki" ${sonraki ? '' : 'disabled'}>
+        <span class="gezin-yazi">${sonraki ? kacis(sonraki.ad) : 'son durak'}</span>
+        <span class="gezin-ok">›</span>
+      </button>
+    </div>
     <div class="ortu-baslik"><span class="durak-no">${sira}</span>${kacis(d.ad)}</div>
     <div class="ortu-alt">${d.gun == null ? 'Günsüz' : `Gün ${d.gun}`}${uzaklik != null ? ` · ${uzaklikYaz(uzaklik)} uzakta` : ''}${d.kaynak === 'kendi' ? ' · kendi durağın' : ''}</div>
     ${d.unutma?.length ? `<ul class="unutma">${d.unutma.map(u => `<li>${kacis(u)}</li>`).join('')}</ul>` : ''}
@@ -2848,11 +3017,23 @@ function durakKartiAc(id) {
     ${d.kaynak === 'kendi' ? '<button class="eylem-dugme" id="kartDuzenle">Düzenle</button>' : ''}
     ${d.kaynak === 'kendi' ? '<button class="eylem-dugme sil" id="kartSil">Sil</button>' : ''}
     <button class="eylem-dugme" id="kartKapat">Kapat</button>
-  `);
+  `, true, 'durak');
 
   // Not ve puan haritadaki kartta da çalışsın: durak listesine gidip aynı
   // durağı 26'nın arasından bulmak yolda vakit alıyor.
   durakNotVePuanKur($('#ortuIc'), () => durakKartiAc(id));
+
+  // Zıplama kartın AÇILMASINDAN sonra yapılıyor: kaydırma payı kartın gerçek
+  // yüksekliğine göre hesaplanıyor, tahmin edilmiyor. Haritaya dokunarak
+  // açılan kartta zıplamıyoruz — zaten oraya bakıyorsun.
+  if (uc) duragaUc(d, $('#ortuIc')?.getBoundingClientRect().height || 0);
+
+  $('#kartOnceki')?.addEventListener('click', () => {
+    if (onceki) durakKartiAc(onceki.id, { uc: true });
+  });
+  $('#kartSonraki')?.addEventListener('click', () => {
+    if (sonraki) durakKartiAc(sonraki.id, { uc: true });
+  });
 
   $('#kartKapat').addEventListener('click', ortuKapat);
   $('#kartGoogle').addEventListener('click', () =>
@@ -4486,20 +4667,21 @@ function bosDurum(ikonAdi, yazi) {
 
 // --------------------------------------------------------------- servis worker -
 
-// Yeni sürüm telefona daha çabuk insin diye güncelleme açılışta ve uygulamaya
-// her dönüşte elle soruluyor; iOS Safari kendi başına aramakta ağır davranıyor.
-// Bilerek SAYFA KENDİLİĞİNDEN YENİLENMİYOR: yolda yeni sürüm çıkmayacak
-// (bilgisayar evde), buna karşılık kendiliğinden yenileme sesli not kaydının
-// tam ortasına denk gelse kaydı uçururdu. Yeni dosyalar bir sonraki açılışta
-// zaten devreye giriyor. Yolda internet yoksa update() sessizce düşer.
+// Sayfa BİZİM HABERİMİZ OLMADAN yenilenmiyor: kendiliğinden bir yenileme sesli
+// not kaydının ortasına denk gelse kaydı uçururdu. Yenilemeyi yalnızca kullanıcı
+// "İndir ve güncelle" dediğinde yapıyoruz (guncellemeyiUygula). Buradaki
+// update() sadece yoklama; iOS Safari kendi başına aramakta ağır davranıyor.
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js').then((kayit) => {
-    const sor = () => kayit.update().catch(() => {});
+  navigator.serviceWorker.register('sw.js').then((sw) => {
+    const sor = () => sw.update().catch(() => {});
     sor();
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible') sor();
     });
   }).catch(e => console.warn('sw kaydı olmadı', e));
+
+  // Açılışta bir kez: yeni sürüm varsa boyutuyla birlikte sorulur.
+  acilistaGuncellemeYokla();
 }
 
 baslat();
