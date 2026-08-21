@@ -194,13 +194,19 @@ export async function paketBirlestir(paket) {
       continue;
     }
     // Tur zaten kurulu. Adına, tarihine, duraklarına DOKUNMUYORUZ — birinin
-    // gönderdiği dosya senin turunu yeniden adlandırmasın. Yalnızca kat edilen
-    // yol sayıları güncelleniyor: onları uygulama kendi başına bilemiyor,
+    // gönderdiği dosya senin turunu yeniden adlandırmasın. Yalnızca gidilen
+    // yol ve km sayıları güncelleniyor: onları uygulama kendi başına bilemiyor,
     // Mac'te harita sunucusuna sorularak hesaplanıyor (arac/iz-onar.py) ve
-    // pakete öyle yazılıyor.
+    // arac/rota-yamasi.py ile pakete yazılıyor.
     const yamalar = {};
-    for (const alan of ['karayoluKm', 'ucusKm']) {
-      if (tanim[alan] != null && tanim[alan] !== bendeki[alan]) yamalar[alan] = tanim[alan];
+    for (const alan of ['karayoluKm', 'ucusKm', 'izlenenKm', 'gunlukKm',
+                        'gidilenYol', 'ucuslar']) {
+      if (tanim[alan] == null) continue;
+      // Rota ve günlük km birer dizi/nesne: !== her seferinde farklı der.
+      const ayni = typeof tanim[alan] === 'object'
+        ? JSON.stringify(tanim[alan]) === JSON.stringify(bendeki[alan])
+        : tanim[alan] === bendeki[alan];
+      if (!ayni) yamalar[alan] = tanim[alan];
     }
     if (Object.keys(yamalar).length) await veri.gerokYaz({ ...bendeki, ...yamalar });
   }

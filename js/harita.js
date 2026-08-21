@@ -318,6 +318,53 @@ function kaynakYaz(ad, veri, katmanlar) {
 // internete ya da bir rota motoruna gerek var, ikisi de yolda yok.
 //
 // Duraklar rota sırasına göre numaralanıyor; sıralamayı gerok.js belirliyor.
+/**
+ * GERÇEKTEN GİDİLEN YOL.
+ *
+ * Üçüncü çizgi, ötekilerle karıştırılmamalı:
+ *   · ROTA (kesikli)  — gitmeyi PLANLADIĞIN yol, duraktan durağa düz hatlar.
+ *   · İZ (ince)       — uygulama AÇIKKEN kaydedilen ham nokta dizisi.
+ *   · GİDİLEN YOL     — ikisinin arası doldurulmuş, gerçek karayolu.
+ *
+ * NEDEN AYRI: iOS'ta ekran kapalıyken konum kaydedilemiyor; Balkanlar
+ * gezisinde sürenin yalnızca %35'inde iz açıktı. Haritada 319 km'lik kopuk
+ * parçalar görünüyordu, oysa 2.576 km yol gidilmişti. Aradaki boşlukların
+ * gerçek yol rotası ancak Mac'te bulunabiliyor (arac/iz-onar.py); sonuç
+ * gerok tanımına yazılıp buraya çiziliyor. Yoksa çizilmiyor, hata da vermiyor.
+ */
+function gidilenYoluCiz(koyu) {
+  const g = aktifGerok();
+  const parcalar = g?.gidilenYol || [];
+  const ucuslar = g?.ucuslar || [];
+
+  const ozellikler = parcalar
+    .filter(p => Array.isArray(p) && p.length > 1)
+    .map(p => ({ type: 'Feature', geometry: { type: 'LineString', coordinates: p }, properties: {} }));
+
+  // Uçuşlar yol değil: ayrı, soluk ve kesikli. Km'ye de ayrı sayılıyor.
+  const ucusOzellikleri = ucuslar
+    .filter(u => u?.baslangic && u?.bitis)
+    .map(u => ({ type: 'Feature', geometry: { type: 'LineString', coordinates: [u.baslangic, u.bitis] }, properties: {} }));
+
+  kaynakYaz('gidilen-yol', { type: 'FeatureCollection', features: ozellikler }, [
+    { id: 'gidilen-yol-golge', type: 'line', source: 'gidilen-yol',
+      layout: { 'line-cap': 'round', 'line-join': 'round' },
+      paint: { 'line-color': koyu ? '#000000' : '#3a2c1c', 'line-width': 8, 'line-opacity': 0.20, 'line-blur': 2 } },
+    { id: 'gidilen-yol-cizgi', type: 'line', source: 'gidilen-yol',
+      layout: { 'line-cap': 'round', 'line-join': 'round' },
+      paint: { 'line-color': koyu ? '#7fd4c1' : '#0e6577', 'line-width': 4, 'line-opacity': 0.95 } }
+  ]);
+
+  kaynakYaz('ucuslar', { type: 'FeatureCollection', features: ucusOzellikleri }, [
+    { id: 'ucus-cizgi', type: 'line', source: 'ucuslar',
+      layout: { 'line-cap': 'round' },
+      paint: {
+        'line-color': koyu ? '#9aa7ad' : '#7d8f98', 'line-width': 2,
+        'line-opacity': 0.7, 'line-dasharray': [1.5, 2.5]
+      } }
+  ]);
+}
+
 function rotayiCiz() {
   const liste = duraklar();
   // Liste boşalsa da çiziliyor: son durağını silen biri onu haritada
@@ -350,6 +397,8 @@ function rotayiCiz() {
       properties: { renk: GUN_RENKLERI[i % GUN_RENKLERI.length] }
     });
   });
+
+  gidilenYoluCiz(koyu);
 
   kaynakYaz('rota', { type: 'FeatureCollection', features: cizgiler }, [
     { id: 'rota-golge', type: 'line', source: 'rota',
@@ -554,13 +603,28 @@ export function hepsiniGoster() {
 
   // Duraklar VE gerçekten gidilen iz birlikte sığsın: rotadan sapıldıysa
   // "tümünü göster" sapmayı da göstermeli.
-  const noktalar = duraklar().map(d => [d.lon, d.lat]);
-  for (const n of (sonVeri.iz || [])) {
-    if (typeof n.lon === 'number' && typeof n.lat === 'number') noktalar.push([n.lon, n.lat]);
-  }
-  if (!noktalar.length) return;
+  //
+  // Sınırlar tek geçişte, DÖNGÜYLE bulunuyor. Math.min(...dizi) yazılamaz:
+  // gidilen yol dokuz bin noktalı ve bütün nokta dizisi tek bir çağrıya
+  // argüman olarak yayıldığında yığın taşıyor. Arşiv görüntüleyicisinde tam
+  // bu yüzden harita bomboş çizilmişti.
+  let enAz = Infinity, enCok = -Infinity, boyAz = Infinity, boyCok = -Infinity, sayi = 0;
+  const kat = (lon, lat) => {
+    if (typeof lon !== 'number' || typeof lat !== 'number') return;
+    if (lon < enAz) enAz = lon;
+    if (lon > enCok) enCok = lon;
+    if (lat < boyAz) boyAz = lat;
+    if (lat > boyCok) boyCok = lat;
+    sayi++;
+  };
 
-  const enler = noktalar.map(n => n[0]), boylar = noktalar.map(n => n[1]);
+  for (const d of duraklar()) kat(d.lon, d.lat);
+  for (const n of (sonVeri.iz || [])) kat(n.lon, n.lat);
+  // Gerçekten gidilen yol da sığsın — geziyi asıl anlatan çizgi bu.
+  for (const parca of (aktifGerok()?.gidilenYol || [])) {
+    for (const [lon, lat] of parca) kat(lon, lat);
+  }
+  if (!sayi) return;
 
   // Haritanın üstünde kip düğmeleri ve (harita inmediyse) uyarı kutusu duruyor;
   // sağda yuvarlak düğmeler var. Eşit boşluk verilirse ilk duraklar bu
@@ -571,7 +635,7 @@ export function hepsiniGoster() {
   const dar = kap.clientWidth < 420;
 
   harita.fitBounds(
-    [[Math.min(...enler), Math.min(...boylar)], [Math.max(...enler), Math.max(...boylar)]],
+    [[enAz, boyAz], [enCok, boyCok]],
     {
       padding: {
         top: uyariAcik ? 190 : 74,
