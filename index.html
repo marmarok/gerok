@@ -62,16 +62,20 @@
         <input id="araGirdi" class="ara-girdi" type="search" placeholder="kayıtlarda ara"
                autocomplete="off" spellcheck="false" enterkeyhint="search">
       </div>
+      <!-- Beş ikon düğmesi vardı; her yeni süzgeç türü şeridi biraz daha
+           daraltıyordu ve ikonlar telefonda adsız (tooltip yok) kalıyordu.
+           Şimdi tek düğme: dokununca süzgeçler ADLARIYLA ve KAÇ KAYIT
+           olduğuyla listeleniyor. Yıldız ayrı kaldı — en sık kullanılan ve
+           öbürleriyle birleşebilen tek süzgeç o. -->
       <div class="suzgecler" id="suzgecler">
-        <button class="suzgec secili" data-suzgec="hepsi" title="hepsi"
-                data-ikon="saat" data-ikon-boy="17"></button>
-        <button class="suzgec" data-suzgec="ses" title="yalnızca sesler"
-                data-ikon="dalga" data-ikon-boy="17"></button>
-        <button class="suzgec" data-suzgec="baskasi" title="arkadaşın kayıtları"
-                data-ikon="kisi" data-ikon-boy="17"></button>
-        <button class="suzgec" data-suzgec="insanPara" title="tanıştık ve harcama"
-                data-ikon="fis" data-ikon-boy="17"></button>
-        <button class="suzgec" data-suzgec="isaretli" title="işaretlediklerin"
+        <button class="suzgec-dugme" id="btnSuzgec" aria-label="Süzgeçler">
+          <span id="suzgecEtiket">Süzgeç</span>
+          <!-- Huni ikonu denendi: emoji setinde huni yok, ⚗️ imbik düşüyordu ve
+               hiçbir şey anlatmıyordu. Küçük ok "dokununca liste açılır"
+               diyor — düğmenin gerçekten yaptığı şey bu. -->
+          <span class="suzgec-ok" aria-hidden="true">▾</span>
+        </button>
+        <button class="suzgec" id="btnIsaretli" aria-label="İşaretlediklerin"
                 data-ikon="yildiz" data-ikon-boy="17"></button>
       </div>
     </div>

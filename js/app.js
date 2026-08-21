@@ -5,7 +5,7 @@
 // Neden önbelleğin adına bakmıyoruz: yeni sürüm indiğinde önbellek adı değişiyor
 // ama ekrandaki kod hâlâ eski oluyor — uygulama kendini güncellenmiş sanıyordu.
 // Bu satır ekrandaki dosyanın içinde olduğu için yalan söyleyemiyor.
-const BU_SURUM = 'gerok-83-20260822-003907';
+const BU_SURUM = 'gerok-84-20260822-012804';
 
 import * as veri from './veri.js';
 import * as iz from './iz.js';
@@ -36,6 +36,7 @@ let durum = {
   yolModu: false,
   arama: '',
   suzgec: 'hepsi',
+  sadeceIsaretli: false,
   acikSatir: null,          // uzun basılan kaydın kimliği
   acikKisiFotosu: null,     // büyütülmüş tanışma fotoğrafının kaydı
   sonParaBirimi: '',
@@ -424,21 +425,31 @@ function onizlemeAdresiniBirak(medyaId) {
 // Zaman çizgisi süzgeçleri. `hepsi` dışındakiler tür ailelerine bakıyor;
 // `baskasi` ise sahibine — iki telefonun kayıtları birleşince "arkadaşım ne
 // kaydetmiş" sorusu en çok sorulan şey oluyor.
-const SUZGECLER = {
-  hepsi: () => true,
-  ses: (k) => ['ses', 'ortam', 'gunluk', 'baslangic', 'bitis', 'mektup'].includes(k.tur),
-  baskasi: (k) => k.sahip && k.sahip !== kayit.sahipAl().id,
-  insanPara: (k) => ['kisi', 'fiyat'].includes(k.tur),
-  // Çift dokunarak işaretlediklerin. Süzgecin asıl işi bu: dört yüz kaydın
-  // içinden o an önemli bulduklarını tek dokunuşla ayırmak — işaretlemenin
-  // var oluş sebebi zaten sonradan bulunabilmesiydi.
-  isaretli: (k) => !!k.isaretli
-};
-const SUZGEC_ADI = {
-  hepsi: 'hepsi', ses: 'yalnızca sesler',
-  baskasi: 'arkadaşın kayıtları', insanPara: 'tanıştık ve harcama',
-  isaretli: 'işaretlediklerin'
-};
+// Sıra listedeki sırayla aynı — en çok kullanılan üstte.
+// `ad` listede, `kisa` şeritteki düğmede kullanılıyor. İkisi ayrı olmalı:
+// listede yer bol, açıklayıcı olmak serbest — şeritte ise düğme uzayınca
+// arama kutusunu eziyor (375 piksellik ekranda 133'e kadar düştüğü ölçüldü).
+const SUZGECLER = [
+  { id: 'hepsi', ad: 'Hepsi', kisa: 'Süzgeç', dene: () => true },
+  { id: 'ses', ad: 'Sesler', kisa: 'Sesler', ipucu: 'sesli not, ortam sesi, günlük',
+    dene: (k) => ['ses', 'ortam', 'gunluk', 'baslangic', 'bitis', 'mektup'].includes(k.tur) },
+  { id: 'gorsel', ad: 'Fotoğraf ve video', kisa: 'Görseller', ipucu: 'sıradan kareler dahil',
+    dene: (k) => ['foto', 'video', 'siradan'].includes(k.tur) },
+  { id: 'insanPara', ad: 'Harcama ve tanıştıklarımız', kisa: 'Harcama',
+    dene: (k) => ['kisi', 'fiyat'].includes(k.tur) },
+  { id: 'yaziIsaret', ad: 'Yazılar ve buradayım işaretleri', kisa: 'Yazılar',
+    dene: (k) => ['yazi', 'isaret'].includes(k.tur) },
+  { id: 'sinir', ad: 'Sınır geçişleri', kisa: 'Sınırlar',
+    dene: (k) => k.tur === 'sinir' },
+  { id: 'baskasi', ad: 'Arkadaşının kayıtları', kisa: 'Arkadaşın',
+    dene: (k) => k.sahip && k.sahip !== kayit.sahipAl().id }
+];
+const suzgecBul = (id) => SUZGECLER.find(x => x.id === id) || SUZGECLER[0];
+
+// Çift dokunarak işaretlediklerin. Öbür süzgeçlerden ayrı duruyor ve onlarla
+// BİRLEŞİYOR: "işaretlediğim fotoğraflar" tek başına bir süzgeç olarak
+// listelenseydi bu soru sorulamazdı. Şeritte kendi yıldız düğmesi var.
+const isaretliMi = (k) => !!k.isaretli;
 
 // Bir kaydın aranan metni: gördüğün her şey aranabilir olmalı.
 function aranabilirMetin(k) {
@@ -450,6 +461,9 @@ function aranabilirMetin(k) {
 function zamanCizgisiCiz() {
   const kap = $('#zamanListe');
   const s = gerok.aktifGerok();
+  // Şeritteki düğmeler her çizimde tazeleniyor — aşağıdaki erken çıkışlardan
+  // ÖNCE, yoksa liste boşken düğme eski süzgecin adında kalıyor.
+  suzgecEtiketiYaz();
   // Aşağıdaki boş durumların hepsinde erken çıkılıyor; kayan gün başlığı
   // eski günde takılı kalmasın diye şimdiden temizleniyor.
   ustGunleriYaz([]);
@@ -470,9 +484,11 @@ function zamanCizgisiCiz() {
   // Arama ve süzgeç önce uygulanıyor: sayfalama süzülmüş liste üzerinden
   // işlesin, yoksa "son 120 kayıt içinde ara" gibi tuhaf bir şey olurdu.
   const sorgu = (durum.arama || '').trim().toLocaleLowerCase('tr');
-  const suzgec = SUZGECLER[durum.suzgec] || SUZGECLER.hepsi;
+  const suzgec = suzgecBul(durum.suzgec);
   const tumu = durum.kayitlar.filter(k =>
-    suzgec(k) && (!sorgu || aranabilirMetin(k).includes(sorgu)));
+    suzgec.dene(k)
+    && (!durum.sadeceIsaretli || isaretliMi(k))
+    && (!sorgu || aranabilirMetin(k).includes(sorgu)));
 
   if (!tumu.length) {
     const hicYok = !durum.kayitlar.length;
@@ -485,8 +501,9 @@ function zamanCizgisiCiz() {
         </div>`
       : `<div class="bos-durum">
           <div class="bos-yazi">Bu süzgeçle kayıt yok.<br>
-          <span style="color:var(--vurgu)">${kacis(sorgu ? `“${sorgu}”` : SUZGEC_ADI[durum.suzgec])}</span>
-          ${durum.suzgec === 'isaretli' && !sorgu
+          <span style="color:var(--vurgu)">${kacis(sorgu ? `“${sorgu}”`
+            : (durum.sadeceIsaretli ? 'işaretlediklerin' : suzgec.ad.toLocaleLowerCase('tr')))}</span>
+          ${durum.sadeceIsaretli && !sorgu
             ? '<br><br>Bir kayda <b>çift dokun</b> — yıldız çıkar, kayıt buraya düşer.'
             : ''}</div>
         </div>`;
@@ -860,6 +877,60 @@ function uzunBasmayiKur(kap) {
   });
 }
 
+// Şerittteki düğmenin üstünde açık olan süzgecin ADI yazıyor. Beş ikonlu
+// eski şeritte hangi süzgecin açık olduğunu ikonun rengiyle anlamak
+// gerekiyordu ve telefonda ikonun adını gösterecek bir yol yok.
+function suzgecEtiketiYaz() {
+  const dugme = $('#btnSuzgec'), etiket = $('#suzgecEtiket');
+  if (!dugme || !etiket) return;
+  const acik = durum.suzgec !== 'hepsi';
+  etiket.textContent = acik ? suzgecBul(durum.suzgec).kisa : 'Süzgeç';
+  dugme.classList.toggle('secili', acik);
+  $('#btnIsaretli')?.classList.toggle('secili', !!durum.sadeceIsaretli);
+}
+
+// Süzgeç listesi. Her satırda adı ve KAÇ KAYIT olduğu yazıyor: sayı olmadan
+// "sınır geçişleri"ne dokunup boş liste görmek kullanıcının hatası gibi
+// duruyordu, oysa o türden kaydı hiç yoktu.
+function suzgecListesiAc() {
+  const satirlar = SUZGECLER.map(x => {
+    const n = durum.kayitlar.filter(k => x.dene(k)).length;
+    const secili = durum.suzgec === x.id;
+    return `<button class="suzgec-satir ${secili ? 'secili' : ''}" data-suzgec="${x.id}"
+              ${n || x.id === 'hepsi' ? '' : 'disabled'}>
+      <span class="ss-ad">${kacis(x.ad)}${x.ipucu
+        ? `<span class="ss-ipucu">${kacis(x.ipucu)}</span>` : ''}</span>
+      <span class="ss-sayi">${n}</span>
+    </button>`;
+  }).join('');
+
+  const isaretliSayi = durum.kayitlar.filter(isaretliMi).length;
+
+  ortuAc(`
+    <div class="ortu-baslik">Süzgeç</div>
+    <div class="suzgec-liste">${satirlar}</div>
+    <button class="suzgec-satir yildizli ${durum.sadeceIsaretli ? 'secili' : ''}"
+            id="ssIsaretli" ${isaretliSayi ? '' : 'disabled'}>
+      <span class="ss-ad">Yalnızca işaretlediklerin
+        <span class="ss-ipucu">yukarıdakiyle birlikte çalışır</span></span>
+      <span class="ss-sayi">${isaretliSayi}</span>
+    </button>
+    <button class="eylem-dugme" id="ssKapat">Kapat</button>
+  `, true, 'suzgec');
+
+  const uygula = () => {
+    ortuKapat();
+    gosterilenSayi = SAYFA_ADIMI;
+    zamanCizgisiCiz();
+  };
+  $$('#ortuIc .suzgec-satir[data-suzgec]').forEach(d =>
+    d.addEventListener('click', () => { durum.suzgec = d.dataset.suzgec; uygula(); }));
+  $('#ssIsaretli').addEventListener('click', () => {
+    durum.sadeceIsaretli = !durum.sadeceIsaretli; uygula();
+  });
+  $('#ssKapat').addEventListener('click', ortuKapat);
+}
+
 // Arama kutusu ve süzgeçler.
 function aramaVeSuzgecKur() {
   const girdi = $('#araGirdi');
@@ -875,16 +946,12 @@ function aramaVeSuzgecKur() {
     }, 180);
   });
 
-  $$('#suzgecler .suzgec').forEach(d => {
-    d.addEventListener('click', () => {
-      // Aynı süzgece ikinci dokunuş kapatıyor: "hepsi"ye dönmek için ayrıca
-      // düğme aramak gerekmesin.
-      durum.suzgec = durum.suzgec === d.dataset.suzgec ? 'hepsi' : d.dataset.suzgec;
-      $$('#suzgecler .suzgec').forEach(x =>
-        x.classList.toggle('secili', x.dataset.suzgec === durum.suzgec));
-      gosterilenSayi = SAYFA_ADIMI;
-      zamanCizgisiCiz();
-    });
+  $('#btnSuzgec').addEventListener('click', suzgecListesiAc);
+
+  $('#btnIsaretli').addEventListener('click', () => {
+    durum.sadeceIsaretli = !durum.sadeceIsaretli;
+    gosterilenSayi = SAYFA_ADIMI;
+    zamanCizgisiCiz();
   });
 
   // Aşağı kaydırınca şerit çekiliyor, yukarı çıkınca geri geliyor. Küçük
