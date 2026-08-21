@@ -5,7 +5,7 @@
 // Neden önbelleğin adına bakmıyoruz: yeni sürüm indiğinde önbellek adı değişiyor
 // ama ekrandaki kod hâlâ eski oluyor — uygulama kendini güncellenmiş sanıyordu.
 // Bu satır ekrandaki dosyanın içinde olduğu için yalan söyleyemiyor.
-const BU_SURUM = 'gerok-86-20260822-015112';
+const BU_SURUM = 'gerok-87-20260822-015839';
 
 import * as veri from './veri.js';
 import * as iz from './iz.js';
@@ -553,6 +553,9 @@ const isaretliMi = (k) => !!k.isaretli;
 // Bir kaydın aranan metni: gördüğün her şey aranabilir olmalı.
 function aranabilirMetin(k) {
   return [k.metin, k.not, k.baslik, k.ad, k.tutar, k.paraBirimi,
+          // `yazi` = ses kaydının yazıya çevrilmiş hâli. Aramanın asıl kazancı
+          // bu: "Ohrid'de ne demiştik" sorusunun cevabı kaydın İÇİNDE.
+          k.yazi,
           k.kategori, k.sahipAd, veri.TURLER[k.tur] || k.tur]
     .filter(Boolean).join(' ').toLocaleLowerCase('tr');
 }
@@ -1187,6 +1190,20 @@ function kayitSatiri(k) {
     govde += `<div class="diger-surum">
       <div class="diger-etiket">${kacis(d.kimden || 'arkadaşının')} sürümü</div>
       <div class="diger-metin">${kacis(dm)}</div>
+    </div>`;
+  }
+
+  // Sesin yazıya çevrilmiş hâli. Uzun olabiliyor; listede kısaltılıyor,
+  // satır açılınca tamamı görünüyor — 400 satırlık listede her biri yarım
+  // sayfa tutsaydı zaman çizgisi okunmaz olurdu.
+  //
+  // "makineden" etiketi şart: bunu bir insan yazmadı, yanlış olabilir.
+  // On yıl sonra buna bakan biri, kelimesi kelimesine söylenmiş sanmasın.
+  if (sesli && (k.yazi || '').trim()) {
+    const tam = k.yazi.trim();
+    const kisa = tam.length > 130 && !acik ? tam.slice(0, 130).trimEnd() + '…' : tam;
+    govde += `<div class="cozum${acik ? ' acik' : ''}">
+      <span class="cozum-etiket">makineden</span>${kacis(kisa)}
     </div>`;
   }
 

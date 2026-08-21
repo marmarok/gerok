@@ -1604,3 +1604,18 @@ body:has(.ses-katman:not(.gizli)) .bildirim {
 .ozet-ipucu { display: block; font-size: 12.5px; color: var(--soluk); margin-top: 7px; line-height: 1.45; }
 .ozet-ipucu.tek { margin: 12px 2px 0; }
 .ozet-ipucu.kotu { color: var(--kirmizi); }
+
+/* ---- Sesin yazıya çevrilmiş hâli (22 Ağustos 2026) ----------------------- */
+/* Kaydın kendi metni gibi görünmemeli: bunu bir insan yazmadı, makine çözdü
+   ve yanlış olabilir. Sol kenardaki çizgi ve soluk renk "bu alıntı, sözün
+   kendisi değil" diyor. */
+.cozum {
+  margin: 7px 0 2px; padding: 7px 0 7px 11px;
+  border-left: 2px solid var(--cizgi);
+  font-size: 13.5px; line-height: 1.55; color: var(--soluk);
+}
+.cozum-etiket {
+  display: inline-block; margin-right: 7px;
+  font-size: 10px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--cok-soluk); font-weight: 700; vertical-align: 1px;
+}

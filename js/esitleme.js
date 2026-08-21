@@ -231,6 +231,25 @@ export async function paketBirlestir(paket) {
     yeniMedya++;
   }
 
+  // ÇÖZÜM YAMASI — sesin yazıya çevrilmiş hâli.
+  //
+  // Neden ayrı bir alan, neden kayıtların içinde değil: aşağıdaki birleştirme
+  // kuralı "bendeki sürüm esas" diyor ve var olan bir kaydın üstüne yazmıyor,
+  // gelen sürümü `digerSurumler`e iliştiriyor. Çözüm metni ise bir görüş
+  // değil, telefonda hiç OLMAYAN bir alan — Mac'te üretiliyor. Kayıtların
+  // içinde gelseydi çakışma sayılıp aranabilir olmazdı.
+  //
+  // Yalnızca BOŞ alan dolduruluyor. Elle düzeltilmiş bir çözümün üstüne
+  // makine çıktısı yazılmıyor.
+  let yeniCozum = 0;
+  for (const [kayitId, metin] of Object.entries(paket.cozumler || {})) {
+    const benim = bendekiler.get(kayitId);
+    if (!benim || !String(metin || '').trim()) continue;
+    if (String(benim.yazi || '').trim()) continue;
+    await veri.kayitEkle({ ...benim, yazi: String(metin).trim() });
+    yeniCozum++;
+  }
+
   for (const k of paket.kayitlar || []) {
     if (varOlanlar.has(k.id)) {
       // ÇAKIŞMA: aynı kayıt iki telefonda ayrı ayrı değiştirilmiş.
@@ -291,7 +310,7 @@ export async function paketBirlestir(paket) {
   await durakBilgileriBirlestir(paket.durakBilgileri || null);
 
   return { yeniKayit, yeniIz, yeniMedya, silinen, yeniDurak, yeniGun, yeniNot,
-           yeniTur, cakisan, kisi: paket.kisi };
+           yeniTur, cakisan, yeniCozum, kisi: paket.kisi };
 }
 
 // ---- Gönderme (AirDrop) ---------------------------------------------------
@@ -488,7 +507,15 @@ export function yedektenGeriYukle(bildir, tazele, onayla) {
         const silinen = await veri.disindakileriSil(kalacak, kalacakIz);
         bildir?.(`Geri yüklendi · ${kalacak.size} kayıt · ${silinen} fazla kayıt silindi`, 'iyi');
       } else {
-        bildir?.(`Birleştirildi · ${s.yeniKayit} yeni kayıt eklendi`, 'iyi');
+        // Çözüm yaması yeni kayıt getirmiyor; "0 yeni kayıt" demek
+        // "hiçbir şey olmadı" gibi okunuyordu.
+        const parcalar = [];
+        if (s.yeniKayit) parcalar.push(`${s.yeniKayit} yeni kayıt`);
+        if (s.yeniCozum) parcalar.push(`${s.yeniCozum} sesin yazısı`);
+        if (s.yeniIz) parcalar.push(`${s.yeniIz} iz noktası`);
+        bildir?.(parcalar.length
+          ? `Birleştirildi · ${parcalar.join(' · ')} eklendi`
+          : 'Paket alındı · eklenecek yeni bir şey yoktu', 'iyi');
       }
       await tazele?.();
     } catch (hata) {
