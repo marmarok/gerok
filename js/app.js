@@ -2549,9 +2549,15 @@ async function calisanSurum() {
   return adlar.find(a => a.startsWith('gerok-')) || null;
 }
 
+// Sürüm adı: gerok-82-20260822-101530  →  "#82 · 22.08.2026 10:15"
+// Baştaki numara kaçıncı güncelleme olduğunu söylüyor; her yayında bir artıyor.
+// Numarasız eski adlar da okunabilsin diye o bölüm isteğe bağlı bırakıldı —
+// telefonda eski bir sürüm asılı kalırsa yazı yine de anlaşılır çıksın.
 function surumOku(ad) {
-  const p = /^gerok-(\d{4})(\d{2})(\d{2})-(\d{2})(\d{2})/.exec(ad || '');
-  return p ? `${p[3]}.${p[2]}.${p[1]} ${p[4]}:${p[5]}` : (ad || 'bilinmiyor');
+  const p = /^gerok-(?:(\d+)-)?(\d{4})(\d{2})(\d{2})-(\d{2})(\d{2})/.exec(ad || '');
+  if (!p) return ad || 'bilinmiyor';
+  const tarih = `${p[4]}.${p[3]}.${p[2]} ${p[5]}:${p[6]}`;
+  return p[1] ? `#${p[1]} · ${tarih}` : tarih;
 }
 
 async function surumuYaz() {
