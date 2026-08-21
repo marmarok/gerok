@@ -2224,18 +2224,30 @@ function izRozetTikla() {
 }
 
 // Sınır geçişini kendiliğinden zaman çizgisine yazar.
+//
+// DİKKAT — yeni ülke işareti ilk beklemeden ÖNCE konuyor. Konum noktaları peş
+// peşe gelebiliyor; işaret en sona konsaydı iki nokta da eski değeri görür ve
+// aynı sınır iki kez yazılırdı. (11.08 20:01:47'de tam bu oldu.)
 async function ulkeKontrol(nokta) {
   const u = gerok.ulkeBul(nokta.lat, nokta.lon);
   if (!u) return;
-  if (durum.sonUlke && durum.sonUlke !== u.kod) {
-    await kayit.sinirEkle(u.kod, u.ad, nokta.t, nokta.lat, nokta.lon);
-    bildirimGoster(`${u.bayrak} ${u.ad}`, 'Yeni ülkeye girdin — zaman çizgisine işlendi.');
-    titret([10, 60, 10, 60, 10]);
-    await tazele();
-  }
-  if (durum.sonUlke !== u.kod) {
-    durum.sonUlke = u.kod;
+  if (durum.sonUlke === u.kod) return;
+
+  const onceki = durum.sonUlke;
+  durum.sonUlke = u.kod;
+
+  try {
+    if (onceki) {
+      await kayit.sinirEkle(u.kod, u.ad, nokta.t, nokta.lat, nokta.lon);
+      bildirimGoster(`${u.bayrak} ${u.ad}`, 'Yeni ülkeye girdin — zaman çizgisine işlendi.');
+      titret([10, 60, 10, 60, 10]);
+      await tazele();
+    }
     await veri.ayarYaz('sonUlke', u.kod);
+  } catch (e) {
+    // Yazılamadıysa işareti geri al, bir sonraki konum noktası tekrar denesin.
+    durum.sonUlke = onceki;
+    console.warn('sınır geçişi yazılamadı', e);
   }
 }
 
