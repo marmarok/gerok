@@ -5,7 +5,7 @@
 // Neden önbelleğin adına bakmıyoruz: yeni sürüm indiğinde önbellek adı değişiyor
 // ama ekrandaki kod hâlâ eski oluyor — uygulama kendini güncellenmiş sanıyordu.
 // Bu satır ekrandaki dosyanın içinde olduğu için yalan söyleyemiyor.
-const BU_SURUM = 'gerok-85-20260822-014345';
+const BU_SURUM = 'gerok-86-20260822-015112';
 
 import * as veri from './veri.js';
 import * as iz from './iz.js';
@@ -239,11 +239,110 @@ async function tazele() {
 
 // -------------------------------------------------------------- yönlendirme -
 
+/**
+ * Alt şeritteki sekmeler.
+ *
+ * ÜSTÜNDE OLDUĞUN sekmeye yeniden dokunmak ekranı YENİDEN ÇİZMİYOR. Eskiden
+ * çiziyordu ve zaman çizgisindeki bütün fotoğraflar bir anda göz kırpıyordu:
+ * liste HTML'i baştan yazılınca <img> etiketleri yeniden kuruluyor, tarayıcı
+ * resimleri yeniden çözüyor. Çift dokunuşta bu iki kez oluyordu.
+ *
+ * Onun yerine ÇİFT DOKUNUŞ bir kısayol: "başa dön". 400 kayıtlık bir listede
+ * en tepeye parmakla çıkmak gerçekten uzun sürüyor.
+ *
+ * Kısayol yalnızca ZATEN O EKRANDAYKEN yapılan çift dokunuşta çalışıyor.
+ * Başka ekrandan gelip hızlıca iki kez dokunmak kısayolu tetiklemesin —
+ * Kayıt sekmesinde bu, istemeden ses kaydı başlatmak demek olurdu.
+ */
+const CIFT_DOKUNUS_MS = 450;
+
 function sekmeleriKur() {
+  let son = { ekran: null, an: 0, zaten: false };
   $$('#altBar .sekme').forEach(d => {
-    d.addEventListener('click', () => ekranAc(d.dataset.ekran));
+    d.addEventListener('click', () => {
+      const ad = d.dataset.ekran;
+      const simdi = Date.now();
+      const zatenBurada = durum.ekran === ad;
+      const cift = son.ekran === ad && son.zaten
+        && simdi - son.an < CIFT_DOKUNUS_MS;
+
+      son = cift ? { ekran: null, an: 0, zaten: false }
+                 : { ekran: ad, an: simdi, zaten: zatenBurada };
+
+      if (cift) { sekmeKisayolu(ad); return; }
+      if (zatenBurada) { kisayoluOgret(ad); return; }   // yeniden çizme yok
+      ekranAc(ad);
+    });
   });
   kaydirmaKur();
+}
+
+/**
+ * Kısayolu ÖĞRETEN satır.
+ *
+ * Üstünde olduğun sekmeye tek dokunmak artık hiçbir şey yapmıyor — bu boşa
+ * giden dokunuşu öğretmen olarak kullanıyoruz. Yalnızca listenin dibindeyken
+ * çıkıyor (yani yukarı çıkmak isteyen biri dokunmuştur) ve ömür boyu üç kez.
+ * Öğrendikten sonra bir daha görünmemeli; her seferinde çıksa gürültü olurdu.
+ */
+const OGRET_SINIRI = 3;
+let ogretilen = null;
+
+async function kisayoluOgret(ad) {
+  const yazi = { zaman: 'Çift dokun · listenin başına dön',
+                 duraklar: 'Çift dokun · listenin başına dön',
+                 gerok: 'Çift dokun · sayfanın başına dön',
+                 harita: 'Çift dokun · tümünü göster',
+                 kayit: 'Çift dokun · sesli not başlat' }[ad];
+  if (!yazi) return;
+
+  const kaydirici = { zaman: '#zamanListe', duraklar: '#ekran-duraklar', gerok: '#ekran-gerok' }[ad];
+  if (kaydirici && ($(kaydirici)?.scrollTop || 0) < 600) return;
+
+  if (ogretilen == null) ogretilen = await veri.ayarOku('kisayolOgretildi', {}) || {};
+  if ((ogretilen[ad] || 0) >= OGRET_SINIRI) return;
+  ogretilen[ad] = (ogretilen[ad] || 0) + 1;
+  await veri.ayarYaz('kisayolOgretildi', ogretilen);
+  kayitBildir(yazi);
+}
+
+// Uzun listede kaydırma animasyonu iyi durur ama asıl derdi çözmez: 400
+// kaydın dibinden tepeye yumuşak çıkmak da uzun sürüyor. Yakınsa akıyor,
+// uzaksa anında gidiyor.
+function basaDon(secici) {
+  const e = $(secici);
+  if (!e) return false;
+  e.scrollTo({ top: 0, behavior: e.scrollTop > 3000 ? 'auto' : 'smooth' });
+  // Aşağı kaydırırken çekilen şeritler geri gelsin: tepedeyken arama kutusu
+  // ve alt bar açık olmalı.
+  $('#altBar')?.classList.remove('cekildi');
+  $('#zamanAra')?.classList.remove('cekildi');
+  return true;
+}
+
+function sekmeKisayolu(ad) {
+  // Harita ve Kayıt'ta kaydırılacak liste yok; oralarda "başa dön"ün karşılığı
+  // başka bir şey.
+  if (ad === 'harita') {
+    // Haritanın "başa dönmesi" bu: bütün rota ve iz yeniden ekrana sığıyor.
+    // Yakınlaşıp kaybolduktan sonra kendine gelmenin en kısa yolu.
+    hepsiniGoster();
+    titret(8);
+    return;
+  }
+  if (ad === 'kayit') {
+    // Uygulamanın en çok yapılan işi sesli not; şartnamenin en başından beri
+    // "yolda yazmak zor, konuşmak kolay" diye duruyor. Zaten Kayıt ekranında
+    // olan biri için çift dokunuş doğrudan kaydı başlatıyor.
+    // Yanlışlıkla başlarsa görünür bir "Vazgeç" var ve hiçbir şey yazılmıyor.
+    if (kayit.sesKaydediyorMu()) return;
+    titret(8);
+    sesKaydiBaslat('ses', { ipucu: 'Konuş. Ekranı kapatma.\nBitince Durdur ve kaydet.' });
+    return;
+  }
+
+  const kaydirici = { zaman: '#zamanListe', duraklar: '#ekran-duraklar', gerok: '#ekran-gerok' }[ad];
+  if (kaydirici && basaDon(kaydirici)) titret(8);
 }
 
 // Ekranların alt bardaki sırası. Kaydırma bu sırayı izliyor — parmak sola

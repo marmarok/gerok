@@ -1,7 +1,7 @@
 {
- "surum": "gerok-85-20260822-014345",
- "sayi": 85,
- "tarih": "2026-08-22T01:43:45+03:00",
+ "surum": "gerok-86-20260822-015112",
+ "sayi": 86,
+ "tarih": "2026-08-22T01:51:12+03:00",
  "dosyalar": {
   "./index.html": {
    "boyut": 12179,
@@ -44,8 +44,8 @@
    "ozet": "55606fbc76dc232c"
   },
   "./js/app.js": {
-   "boyut": 206676,
-   "ozet": "db7463d3e585ce7f"
+   "boyut": 210814,
+   "ozet": "9249d03afd2e0509"
   },
   "./js/sihirbaz.js": {
    "boyut": 17037,
