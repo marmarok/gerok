@@ -508,34 +508,69 @@ async function onizlemeUret(dosya) {
   }
 }
 
-function videoKaresi(dosya) {
+/**
+ * Videodan önizleme karesi.
+ *
+ * Eski hâli iOS'ta HİÇ çalışmıyordu ve bunu sessizce yapıyordu. Sebep:
+ * `preload = 'metadata'` iken tarayıcı yalnızca üstveriyi okuyor, `loadeddata`
+ * olayı — "ilk kare hazır" — hiç ateşlenmiyor. Beklenen olay gelmeyince
+ * 15 saniyelik emniyet sayacı doluyor ve null dönüyordu. Yani her video,
+ * aktarımı 15 saniye bekletip karşılığında hiçbir şey vermiyordu.
+ * 39 dosyanın içindeki 2 video, ekranın yarım dakika donmuş görünmesinin
+ * sebebiydi (22 Ağustos 2026'da bulundu).
+ *
+ * Şimdi: `preload = 'auto'`, üstveri gelince aranıyor, aramanın sonucu
+ * beklenmeden de elde ne varsa çiziliyor, sınır 9 saniye.
+ */
+function videoKaresi(dosya, sinirMs = 9000) {
   return new Promise((tamam) => {
     const v = document.createElement('video');
-    v.preload = 'metadata';
+    v.preload = 'auto';
     v.muted = true;
     v.playsInline = true;
     const url = URL.createObjectURL(dosya);
+    let bitti = false;
+    let sayac = null;
 
-    const temizle = () => { URL.revokeObjectURL(url); };
-    const vazgec = () => { temizle(); tamam(null); };
-
-    v.onloadeddata = () => {
-      v.currentTime = Math.min(1, (v.duration || 2) / 3);
+    const bitir = (sonuc) => {
+      if (bitti) return;
+      bitti = true;
+      clearTimeout(sayac);
+      v.removeAttribute('src');
+      try { v.load(); } catch { /* önemli değil */ }
+      URL.revokeObjectURL(url);
+      tamam(sonuc);
     };
-    v.onseeked = async () => {
+
+    const kareyiAl = () => {
+      if (bitti) return;
+      if (!v.videoWidth || !v.videoHeight) return bitir(null);
       const oran = Math.min(1, ONIZLEME_EN / Math.max(v.videoWidth, v.videoHeight));
       const en = Math.round(v.videoWidth * oran);
       const boy = Math.round(v.videoHeight * oran);
       const tuval = document.createElement('canvas');
       tuval.width = en; tuval.height = boy;
-      tuval.getContext('2d').drawImage(v, 0, 0, en, boy);
-      tuval.toBlob((b) => {
-        temizle();
-        tamam(b ? { blob: b, en, boy, sure: v.duration } : null);
-      }, 'image/jpeg', ONIZLEME_KALITE);
+      try { tuval.getContext('2d').drawImage(v, 0, 0, en, boy); }
+      catch { return bitir(null); }        // korumalı içerik vs.
+      const sure = Number.isFinite(v.duration) ? v.duration : undefined;
+      tuval.toBlob((b) => bitir(b ? { blob: b, en, boy, sure } : null),
+                   'image/jpeg', ONIZLEME_KALITE);
     };
-    v.onerror = vazgec;
-    setTimeout(vazgec, 15000);   // takılırsa tüm içe aktarmayı kilitlemesin
+
+    v.onloadedmetadata = () => {
+      // Süre bazen Infinity/NaN geliyor (iOS'un parçalı mp4'ü). O hâlde başa
+      // yakın bir yer seçiliyor — tam 0 çoğu videoda siyah kare veriyor.
+      const hedef = Number.isFinite(v.duration) && v.duration > 0.4
+        ? Math.min(1, v.duration / 3) : 0.15;
+      try { v.currentTime = hedef; } catch { kareyiAl(); }
+    };
+    v.onseeked = kareyiAl;
+    // Arama hiç tamamlanmayabiliyor (currentTime yazılıyor ama `seeked`
+    // gelmiyor). Oynatılabilir hâle geldikten kısa süre sonra elde ne varsa
+    // onu alıyoruz — siyah kare, hiç kare olmamasından iyi.
+    v.oncanplay = () => setTimeout(() => { if (!bitti && v.readyState >= 2) kareyiAl(); }, 1200);
+    v.onerror = () => bitir(null);
+    sayac = setTimeout(() => (v.readyState >= 2 ? kareyiAl() : bitir(null)), sinirMs);
     v.src = url;
   });
 }
@@ -637,16 +672,44 @@ function tiffCoz(veri, tiff) {
 
 // Seçilen fotoğraf/videoları içe alır. ilerleme(yapilan, toplam) ile haber verir.
 let basarisiz = [];
+// Kaydı açılan ama önizlemesi üretilemeyen dosyalar. Bunlar "alınamayan"
+// DEĞİL: çekilme saati ve konumu duruyor, "Fotoğrafları aç" düğmesi hâlâ
+// galeride o ana götürüyor. Ama zaman çizgisinde resimsiz göründükleri için
+// söylenmeleri gerekiyor — söylenmezse uygulama bozuk sanılıyor.
+let onizlemesiz = [];
 
-export async function fotoAl(dosyalar, ilerleme = null, ekTur = null) {
+// Tarayıcının ekranı GERÇEKTEN boyaması için bir kare bekliyoruz.
+//
+// Sadece `await` yetmiyor: aradaki iş — 48 megapiksellik bir fotoğrafın
+// çözülüp küçültülmesi — ana iş parçacığını yüzlerce milisaniye kilitliyor,
+// iOS de boyamayı erteliyor. Belirtisi tam olarak şuydu: ekran uzun süre
+// kımıldamıyor, sonra sayaç bir anda "18 / 39"da beliriyor ve iş bitiyor.
+// Sayaç aslında her dosyada güncelleniyordu; görünmüyordu.
+const kareBekle = () => new Promise(r =>
+  (typeof requestAnimationFrame === 'function'
+    ? requestAnimationFrame(() => requestAnimationFrame(r))
+    : setTimeout(r, 0)));
+
+/**
+ * Galeriden seçilen dosyaları zaman çizgisine ekler.
+ *
+ * `ilerleme(yapilan, toplam, dosyaAdi)` her dosyadan ÖNCE çağrılıyor ve
+ * ardından bir kare bekleniyor — göstergenin akması buna bağlı.
+ * `iptalMi()` true dönerse sıradaki dosyaya geçilmiyor; o ana kadar
+ * eklenenler duruyor, geri alınmıyor.
+ */
+export async function fotoAl(dosyalar, ilerleme = null, ekTur = null, iptalMi = null) {
   const iz = await izGetir(aktifGerok()?.id ?? null);
   const eklenenler = [];
   const liste = Array.from(dosyalar);
   basarisiz = [];
+  onizlemesiz = [];
 
   for (let i = 0; i < liste.length; i++) {
     const dosya = liste[i];
-    ilerleme?.(i, liste.length);
+    if (iptalMi?.()) break;
+    ilerleme?.(i, liste.length, dosya.name || '');
+    await kareBekle();
     try {
     const exif = await exifOku(dosya);
     // Sıralama: EXIF çekim saati > dosyanın kendi tarihi.
@@ -665,6 +728,13 @@ export async function fotoAl(dosyalar, ilerleme = null, ekTur = null) {
     if (onizleme?.blob) {
       medyaId = yeniKimlik('m');
       await medyaYaz(medyaId, onizleme.blob);
+    } else {
+      // Kayıt yine de açılıyor: saat ve konum arşivin işine yarıyor, "Fotoğrafları
+      // aç" düğmesi galeride o ana götürüyor. Ama sessizce geçilmiyor —
+      // önizlemesiz satır ekranda boş bir kutu gibi duruyor ve sorulan ilk soru
+      // "fotoğraf gelmedi mi" oluyor. (Videolarda bu OLAĞAN: iOS geçerli
+      // videodan da kare vermiyor.)
+      onizlemesiz.push(dosya.name || 'adsız dosya');
     }
 
     const kayit = await kayitKur(ekTur || (dosya.type.startsWith('video/') ? 'video' : 'foto'), {
@@ -692,3 +762,4 @@ export async function fotoAl(dosyalar, ilerleme = null, ekTur = null) {
 
 // Son aktarımda atlanan dosyalar — arayüz bunu kullanıcıya söylüyor.
 export function sonBasarisizlar() { return basarisiz.slice(); }
+export function sonOnizlemesizler() { return onizlemesiz.slice(); }

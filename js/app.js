@@ -5,7 +5,7 @@
 // Neden önbelleğin adına bakmıyoruz: yeni sürüm indiğinde önbellek adı değişiyor
 // ama ekrandaki kod hâlâ eski oluyor — uygulama kendini güncellenmiş sanıyordu.
 // Bu satır ekrandaki dosyanın içinde olduğu için yalan söyleyemiyor.
-const BU_SURUM = 'gerok-84-20260822-012804';
+const BU_SURUM = 'gerok-85-20260822-014345';
 
 import * as veri from './veri.js';
 import * as iz from './iz.js';
@@ -2182,61 +2182,150 @@ function sesDugmeleriniKur() {
 }
 
 async function fotograflariAl(dosyalar, tur = null) {
+  const toplam = Array.from(dosyalar).length;
+  if (!toplam) return;
+
+  let iptal = false;
+  const basladi = Date.now();
+
   ortuAc(`
-    <div class="ortu-baslik">Fotoğraflar alınıyor</div>
-    <div class="ortu-alt" id="fotoIlerleme">Hazırlanıyor…</div>
+    <div class="ortu-baslik">Görseller alınıyor</div>
+    <div class="ilerleme-yol"><div class="ilerleme-dolu" id="fotoCubuk"></div></div>
+    <div class="ilerleme-satir">
+      <span id="fotoSayi">0 / ${toplam}</span>
+      <span id="fotoKalan"></span>
+    </div>
+    <div class="ilerleme-dosya" id="fotoDosya">başlıyor…</div>
     <div class="panel-not">Orijinaller galeride kalıyor — buraya küçük bir önizleme,
-    çekilme saati ve konum yazılıyor.</div>
+    çekilme saati ve konum yazılıyor. Büyük fotoğraflarda her biri birkaç saniye
+    sürebilir.</div>
+    <button class="eylem-dugme" id="fotoDurdur">Durdur</button>
   `, false);
 
-  // Ne olursa olsun örtü kapanmalı: burada takılırsa uygulama kilitli görünüyor.
+  $('#fotoDurdur').addEventListener('click', () => {
+    iptal = true;
+    $('#fotoDurdur').disabled = true;
+    $('#fotoDosya').textContent = 'bu dosya bitince duracak…';
+  });
+
   let eklenen = [];
   try {
-    eklenen = await kayit.fotoAl(dosyalar, (yapilan, toplam) => {
-      const e = $('#fotoIlerleme');
-      if (e) e.textContent = `${yapilan} / ${toplam}`;
-    }, tur) || [];
+    eklenen = await kayit.fotoAl(dosyalar, (yapilan, hepsi, ad) => {
+      const yuzde = Math.round(yapilan / hepsi * 100);
+      const cubuk = $('#fotoCubuk'); if (cubuk) cubuk.style.width = `${yuzde}%`;
+      const sayi = $('#fotoSayi'); if (sayi) sayi.textContent = `${yapilan} / ${hepsi}`;
+      const dosya = $('#fotoDosya'); if (dosya && !iptal) dosya.textContent = ad || '…';
+
+      // Kalan süre ilk üç dosyadan sonra tahmin ediliyor: ilk dosya her zaman
+      // ötekilerden yavaş (iCloud'dan inmesi gerekebiliyor), tek örnekten
+      // yapılan tahmin gülünç sayılar veriyordu.
+      const kalanYer = $('#fotoKalan');
+      if (kalanYer && yapilan >= 3) {
+        const basina = (Date.now() - basladi) / yapilan;
+        kalanYer.textContent = kalanSureYaz(basina * (hepsi - yapilan));
+      }
+    }, tur, () => iptal) || [];
   } catch (hata) {
     ortuKapat();
-    kayitBildir(`Fotoğraflar alınamadı: ${hata.message}`, 'kotu');
+    kayitBildir(`Görseller alınamadı: ${hata.message}`, 'kotu');
     return;
   }
 
-  ortuKapat();
   await tazele();
+  fotoOzetiAc(eklenen, toplam, iptal);
+}
 
+function kalanSureYaz(ms) {
+  const sn = Math.round(ms / 1000);
+  if (sn < 5) return 'birazdan biter';
+  if (sn < 60) return `yaklaşık ${sn} saniye kaldı`;
+  const dk = Math.round(sn / 60);
+  return `yaklaşık ${dk} dakika kaldı`;
+}
+
+/**
+ * Aktarım bitince ne olduğunu SÖYLEYEN kart.
+ *
+ * Eskiden örtü sessizce kapanıp yerine birkaç saniyelik bir şerit çıkıyordu.
+ * 39 fotoğraf ekleyen biri o şeridi kaçırıyor ve "geldi mi?" diye soruyordu —
+ * nitekim soruldu. Kart kendiliğinden kapanmıyor.
+ *
+ * Fotoğrafın zaman çizgisinde NEREYE düştüğünü söylemek şart: fotoğraf
+ * eklendiği ana değil ÇEKİLDİĞİ ana yerleşiyor (doğrusu da bu). Akşam 20:47'de
+ * eklenen, öğleden sonra çekilmiş bir kare listede saatlerce YUKARIDA beliriyor;
+ * aşağıya bakan kişi "gelmedi" sanıyor. Gerçek kayıtlarda fark 12 dakika ile
+ * 22 saat arasında değişiyordu.
+ */
+function fotoOzetiAc(eklenen, istenen, iptal) {
   const atlanan = kayit.sonBasarisizlar();
-  const izsiz = durum.kayitlar.filter(k => k.tur === 'foto' && !k.lat).length;
+  // Videoların önizlemesi zaten alınamıyor (iOS geçerli videodan da kare
+  // vermiyor); onları "sorun" diye saymak yanlış alarm olurdu.
+  const resimsiz = kayit.sonOnizlemesizler()
+    .filter(ad => !/\.(mov|mp4|m4v|avi|hevc)$/i.test(ad));
+  const liste = (eklenen || []).filter(k => k?.t).sort((a, b) => a.t - b.t);
 
-  // NEREYE GİTTİĞİNİ SÖYLE.
-  //
-  // Gezide "fotoğraflar 10 dakika sonra düşüyor" diye görünen şey aslında
-  // buydu: fotoğraf EKLENDİĞİ ana değil ÇEKİLDİĞİ ana yerleşiyor (doğrusu da
-  // bu). Akşam 20:47'de eklenen, öğleden sonra 18:57'de çekilmiş bir fotoğraf
-  // zaman çizgisinde iki saat YUKARIDA beliriyor — aşağıya bakan kişi
-  // "gelmedi" sanıyor. Gerçek kayıtlarda fark 12 dakika ile 22 saat arasında
-  // değişiyordu. Çözüm saati değiştirmek değil, nereye düştüğünü söylemek.
-  const eklenenler = (eklenen || []).filter(k => k?.t).sort((a, b) => a.t - b.t);
-  let nereye = '';
-  if (eklenenler.length) {
-    const ilk = eklenenler[0], son = eklenenler[eklenenler.length - 1];
-    const ayniGun = new Date(ilk.t).toDateString() === new Date(son.t).toDateString();
-    nereye = eklenenler.length === 1 || (ayniGun && ilk.t === son.t)
-      ? ` ${gerok.tarihUzun(ilk.t)} ${gerok.saat(ilk.t)} hizasına yerleşti.`
-      : ` ${gerok.tarihUzun(ilk.t)} ${gerok.saat(ilk.t)}` +
-        `${ayniGun ? '' : ' – ' + gerok.tarihUzun(son.t)}` +
-        `${ayniGun ? '–' + gerok.saat(son.t) : ' ' + gerok.saat(son.t)} arasına yerleşti.`;
+  if (!liste.length) {
+    ortuKapat();
+    kayitBildir(iptal ? 'Durduruldu, hiçbir şey eklenmedi.'
+      : `Hiçbir görsel eklenemedi (${istenen} dosya denendi).`, 'kotu');
+    return;
   }
 
-  kayitBildir(
-    atlanan.length ? `${atlanan.length} dosya alınamadı, geri kalanı eklendi.`
-      : (`${eklenenler.length} görsel eklendi.${nereye}` +
-         (izsiz ? ` ${izsiz} tanesinin yeri bulunamadı — iz o saatte kapalıymış.` : '')),
-    atlanan.length ? 'kotu' : 'iyi'
-  );
+  const video = liste.filter(k => k.tur === 'video').length;
+  const foto = liste.length - video;
+  // Konumsuzları YALNIZCA yeni eklenenler arasında sayıyoruz. Eskiden bütün
+  // zaman çizgisine bakılıyordu; 39 fotoğraf ekleyen biri "77 tanesinin yeri
+  // bulunamadı" yazısını görüyordu ve bunun kendi eklediklerine dair olduğunu
+  // sanıyordu.
+  const konumsuz = liste.filter(k => k.lat == null).length;
 
-  // Çekildikleri ana git: eklediğini gözüyle görsün, aramak zorunda kalmasın.
-  if (eklenenler.length) fotografaGit(eklenenler[0].id);
+  const ilk = liste[0], son = liste[liste.length - 1];
+  const ayniGun = new Date(ilk.t).toDateString() === new Date(son.t).toDateString();
+  const nereye = liste.length === 1 || ilk.t === son.t
+    ? `${gerok.tarihUzun(ilk.t)} ${gerok.saat(ilk.t)}`
+    : ayniGun
+      ? `${gerok.tarihUzun(ilk.t)} ${gerok.saat(ilk.t)} – ${gerok.saat(son.t)}`
+      : `${gerok.tarihUzun(ilk.t)} ${gerok.saat(ilk.t)} – ${gerok.tarihUzun(son.t)} ${gerok.saat(son.t)}`;
+
+  const satir = (etiket, deger, sinif = '') =>
+    `<div class="ozet-satir ${sinif}"><span>${etiket}</span><span>${deger}</span></div>`;
+
+  ortuAc(`
+    <div class="ortu-baslik">${liste.length} görsel eklendi</div>
+    ${iptal ? `<div class="ortu-alt">Sen durdurdun — ${istenen} dosyadan ${liste.length} tanesi alındı.</div>` : ''}
+    <div class="ozet-kutu">
+      ${foto ? satir('Fotoğraf', foto) : ''}
+      ${video ? satir('Video', video) : ''}
+      ${liste.length - konumsuz ? satir('Yeri bulunan', liste.length - konumsuz) : ''}
+      ${konumsuz ? satir('Yeri bulunamayan', konumsuz, 'soluk') : ''}
+      ${resimsiz.length ? satir('Önizlemesi çıkmayan', resimsiz.length, 'soluk') : ''}
+      ${atlanan.length ? satir('Alınamayan', atlanan.length, 'kotu') : ''}
+    </div>
+    <div class="ozet-nereye">
+      <span class="ozet-etiket">Zaman çizgisinde</span>
+      ${kacis(nereye)} hizasına yerleşti
+      <span class="ozet-ipucu">Fotoğraflar eklendikleri saate değil, çekildikleri
+      saate oturuyor — listede yukarıda olabilirler.</span>
+    </div>
+    ${konumsuz ? `<div class="ozet-ipucu tek">${konumsuz} görselin yeri bulunamadı:
+      fotoğrafta konum yok ve iz kaydı o saatte kapalıymış. Haritada elle
+      iğneleyebilirsin.</div>` : ''}
+    ${resimsiz.length ? `<div class="ozet-ipucu tek">${resimsiz.length} dosyanın
+      önizlemesi çıkmadı — zaman çizgisinde resimsiz görünecekler. Saatleri ve
+      yerleri duruyor, "Fotoğrafları aç" düğmesi galeride o ana götürüyor.</div>` : ''}
+    ${atlanan.length ? `<div class="ozet-ipucu tek kotu">Alınamayanlar:
+      ${kacis(atlanan.slice(0, 6).join(', '))}${atlanan.length > 6
+        ? ` ve ${atlanan.length - 6} tane daha` : ''}</div>` : ''}
+    <button class="eylem-dugme birincil" id="ozetGoster">Zaman çizgisinde göster</button>
+    <button class="eylem-dugme" id="ozetKapat">Tamam</button>
+  `, true, 'ozet');
+
+  $('#ozetKapat').addEventListener('click', ortuKapat);
+  $('#ozetGoster').addEventListener('click', () => {
+    ortuKapat();
+    ekranAc('zaman');
+    fotografaGit(ilk.id);
+  });
 }
 
 // Eklenen ilk fotoğrafın zaman çizgisindeki yerine kaydırır ve kısa süre

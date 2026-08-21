@@ -1554,3 +1554,53 @@ body:has(.ses-katman:not(.gizli)) .bildirim {
 }
 .guncelleme-alt { font-size: 12.5px; font-weight: 400; color: var(--cok-soluk); }
 .guncelleme-not { font-size: 12.5px; color: var(--soluk); margin: 0 2px 14px; line-height: 1.45; }
+
+/* ---- Görsel aktarımı: ilerleme ve özet (22 Ağustos 2026) ----------------- */
+/* Önceden yalnızca "18 / 39" yazan bir satır vardı ve o bile ekrana geç
+   düşüyordu (bkz. kayit.js/kareBekle). Çubuk, dosya adı ve kalan süre birlikte
+   "bir şey oluyor" diyor — 39 fotoğraf dakikalar sürebiliyor. */
+.ilerleme-yol {
+  height: 8px; border-radius: 999px; overflow: hidden; margin: 16px 0 9px;
+  background: var(--kat2); border: 1px solid var(--cizgi);
+}
+.ilerleme-dolu {
+  height: 100%; width: 0; border-radius: 999px; background: var(--vurgu);
+  transition: width .25s ease;
+}
+.ilerleme-satir {
+  display: flex; justify-content: space-between; gap: 12px;
+  font-size: 13px; color: var(--soluk); font-variant-numeric: tabular-nums;
+}
+/* Dosya adları uzun ve tek satırda kalmalı: iki satıra taşarsa kart her
+   dosyada zıplıyor. */
+.ilerleme-dosya {
+  margin-top: 6px; font-size: 12px; color: var(--cok-soluk);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+.ozet-kutu {
+  margin: 15px 0 4px; padding: 4px 14px; border-radius: 12px;
+  background: var(--kat2); border: 1px solid var(--cizgi);
+}
+.ozet-satir {
+  display: flex; justify-content: space-between; gap: 12px;
+  padding: 9px 0; font-size: 14px;
+  border-bottom: 1px solid color-mix(in srgb, var(--cizgi) 55%, transparent);
+}
+.ozet-satir:last-child { border-bottom: 0; }
+.ozet-satir span:last-child { font-weight: 600; font-variant-numeric: tabular-nums; }
+.ozet-satir.soluk { color: var(--soluk); }
+.ozet-satir.kotu span:last-child { color: var(--kirmizi); }
+
+.ozet-nereye {
+  margin: 14px 0 4px; padding: 13px 14px; border-radius: 12px;
+  background: var(--secili-zemin); border: 1px solid var(--secili-cizgi);
+  font-size: 14px; line-height: 1.5;
+}
+.ozet-etiket {
+  display: block; font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--vurgu); font-weight: 700; margin-bottom: 3px;
+}
+.ozet-ipucu { display: block; font-size: 12.5px; color: var(--soluk); margin-top: 7px; line-height: 1.45; }
+.ozet-ipucu.tek { margin: 12px 2px 0; }
+.ozet-ipucu.kotu { color: var(--kirmizi); }

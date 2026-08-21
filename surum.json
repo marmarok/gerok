@@ -1,7 +1,7 @@
 {
- "surum": "gerok-84-20260822-012804",
- "sayi": 84,
- "tarih": "2026-08-22T01:28:04+03:00",
+ "surum": "gerok-85-20260822-014345",
+ "sayi": 85,
+ "tarih": "2026-08-22T01:43:45+03:00",
  "dosyalar": {
   "./index.html": {
    "boyut": 12179,
@@ -24,8 +24,8 @@
    "ozet": "f004a338a3dcafb7"
   },
   "./css/stil.css": {
-   "boyut": 75419,
-   "ozet": "1ee8a381f3507cd4"
+   "boyut": 77531,
+   "ozet": "71a089cb1f1d80b5"
   },
   "./yazitipi/dmsans-latin.woff2": {
    "boyut": 62556,
@@ -44,8 +44,8 @@
    "ozet": "55606fbc76dc232c"
   },
   "./js/app.js": {
-   "boyut": 202688,
-   "ozet": "11798edc8528e69a"
+   "boyut": 206676,
+   "ozet": "db7463d3e585ce7f"
   },
   "./js/sihirbaz.js": {
    "boyut": 17037,
@@ -68,8 +68,8 @@
    "ozet": "325332d12ea89eaa"
   },
   "./js/kayit.js": {
-   "boyut": 24402,
-   "ozet": "b0d429e4763f572f"
+   "boyut": 28088,
+   "ozet": "d39023dbd5132b04"
   },
   "./js/tema.js": {
    "boyut": 3219,
