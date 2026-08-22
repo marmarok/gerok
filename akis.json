@@ -1,22 +1,26 @@
 {
  "bicim": 1,
- "zaman": "2026-08-22T03:21:15+03:00",
- "kadans": "gunluk",
+ "zaman": "2026-08-22T03:22:17+03:00",
+ "kadans": "haftalik",
  "durum": "bilinen",
  "sayilar": {
-  "kontrol": 56,
-  "sinama": 1014,
-  "gecen": 55,
-  "bilinen": 1,
+  "kontrol": 65,
+  "sinama": 1032,
+  "gecen": 63,
+  "bilinen": 2,
   "sorun": 0,
-  "sure": 33.6,
-  "kosu": 15
+  "sure": 29.0,
+  "kosu": 16
  },
  "sorunlar": [],
  "bilinenler": [
   {
    "ad": "Math.min(...dizi) yığın taşması",
    "not": "app.js:697; app.js:4603; gerok.js:447; sihirbaz.js:393; sihirbaz.js:394; sihirbaz.js:395 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
+  },
+  {
+   "ad": "Arşivde fotoğrafların aslı var",
+   "not": "(ayrıntı panoda)"
   }
  ],
  "onarilan": [],
@@ -27,9 +31,9 @@
    "sinama": 98
   },
   "bekci": {
-   "gecen": 8,
-   "toplam": 8,
-   "sinama": 66
+   "gecen": 9,
+   "toplam": 9,
+   "sinama": 70
   },
   "kod": {
    "gecen": 8,
@@ -52,9 +56,14 @@
    "sinama": 413
   },
   "depolama": {
-   "gecen": 1,
-   "toplam": 1,
-   "sinama": 1
+   "gecen": 4,
+   "toplam": 4,
+   "sinama": 4
+  },
+  "kaynak": {
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 11
   },
   "davranis": {
    "gecen": 18,
@@ -63,11 +72,11 @@
   }
  },
  "derin": {
-  "kadans": "gunluk",
-  "zaman": "2026-08-22T03:21:15+03:00",
-  "kontrol": 56,
-  "sinama": 1014,
-  "gecen": 55,
+  "kadans": "haftalik",
+  "zaman": "2026-08-22T03:22:17+03:00",
+  "kontrol": 65,
+  "sinama": 1032,
+  "gecen": 63,
   "sorun": 0,
   "gruplar": {
    "yayin": {
@@ -76,9 +85,9 @@
     "sinama": 98
    },
    "bekci": {
-    "gecen": 8,
-    "toplam": 8,
-    "sinama": 66
+    "gecen": 9,
+    "toplam": 9,
+    "sinama": 70
    },
    "kod": {
     "gecen": 8,
@@ -101,9 +110,14 @@
     "sinama": 413
    },
    "depolama": {
-    "gecen": 1,
-    "toplam": 1,
-    "sinama": 1
+    "gecen": 4,
+    "toplam": 4,
+    "sinama": 4
+   },
+   "kaynak": {
+    "gecen": 5,
+    "toplam": 5,
+    "sinama": 11
    },
    "davranis": {
     "gecen": 18,
@@ -272,6 +286,12 @@
    "k": "gunluk",
    "g": 55,
    "n": 56
+  },
+  {
+   "t": "2026-08-22T03:22:17+03:00",
+   "k": "haftalik",
+   "g": 63,
+   "n": 65
   }
  ]
 }
