@@ -1,6 +1,6 @@
 {
  "bicim": 1,
- "zaman": "2026-08-22T03:15:24+03:00",
+ "zaman": "2026-08-22T03:15:47+03:00",
  "kadans": "saatlik",
  "durum": "iyi",
  "sayilar": {
@@ -9,8 +9,8 @@
   "gecen": 4,
   "bilinen": 0,
   "sorun": 0,
-  "sure": 0.9,
-  "kosu": 9
+  "sure": 0.7,
+  "kosu": 10
  },
  "sorunlar": [],
  "bilinenler": [],
@@ -29,11 +29,11 @@
  },
  "mesajlar": [
   {
-   "id": "bc5a3e573ada",
-   "t": 1787357723436,
+   "id": "b7b4bbc46006",
+   "t": 1787357746867,
    "onem": "iyi",
-   "baslik": "Emir alındı: durum",
-   "govde": "durum bu akışta yazılıyor"
+   "baslik": "Artık buradayım",
+   "govde": "Mac'teki yarım uygulamayı saatte bir sınıyor. Bu telefondaki yarım — yani ben — onun göremediği yere bakıyorum: senin deponu, izinlerini, kayıtlarının dosyalarını, çevrimdışı önbelleğini.\n\nBir şey sorabilirsin, “bu telefonu sına” diyebilirsin, ya da bana emir bırakabilirsin. Bilmediğim bir şey sorarsan bilmediğimi söylerim — uydurmam.\n\nHer şey yolundayken ses çıkarmam. Sessizlik iyi haber."
   }
  ],
  "bekleyen": [],
@@ -96,6 +96,12 @@
   },
   {
    "t": "2026-08-22T03:15:24+03:00",
+   "k": "saatlik",
+   "g": 4,
+   "n": 4
+  },
+  {
+   "t": "2026-08-22T03:15:47+03:00",
    "k": "saatlik",
    "g": 4,
    "n": 4
