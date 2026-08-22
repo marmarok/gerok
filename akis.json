@@ -1,6 +1,6 @@
 {
  "bicim": 1,
- "zaman": "2026-08-22T03:28:33+03:00",
+ "zaman": "2026-08-22T03:31:22+03:00",
  "kadans": "haftalik",
  "durum": "bilinen",
  "sayilar": {
@@ -9,8 +9,8 @@
   "gecen": 63,
   "bilinen": 2,
   "sorun": 0,
-  "sure": 33.3,
-  "kosu": 18
+  "sure": 33.7,
+  "kosu": 19
  },
  "sorunlar": [],
  "bilinenler": [
@@ -73,7 +73,7 @@
  },
  "derin": {
   "kadans": "haftalik",
-  "zaman": "2026-08-22T03:28:33+03:00",
+  "zaman": "2026-08-22T03:31:22+03:00",
   "kontrol": 65,
   "sinama": 1031,
   "gecen": 63,
@@ -249,6 +249,12 @@
   },
   {
    "t": "2026-08-22T03:28:33+03:00",
+   "k": "haftalik",
+   "g": 63,
+   "n": 65
+  },
+  {
+   "t": "2026-08-22T03:31:22+03:00",
    "k": "haftalik",
    "g": 63,
    "n": 65
