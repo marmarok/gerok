@@ -1,26 +1,22 @@
 {
  "bicim": 1,
- "zaman": "2026-08-22T03:31:22+03:00",
- "kadans": "haftalik",
+ "zaman": "2026-08-22T03:32:36+03:00",
+ "kadans": "gunluk",
  "durum": "bilinen",
  "sayilar": {
-  "kontrol": 65,
-  "sinama": 1031,
-  "gecen": 63,
-  "bilinen": 2,
+  "kontrol": 57,
+  "sinama": 1017,
+  "gecen": 56,
+  "bilinen": 1,
   "sorun": 0,
-  "sure": 33.7,
-  "kosu": 19
+  "sure": 28.7,
+  "kosu": 20
  },
  "sorunlar": [],
  "bilinenler": [
   {
    "ad": "Math.min(...dizi) yığın taşması",
    "not": "app.js:697; app.js:4603; gerok.js:447; sihirbaz.js:393; sihirbaz.js:394; sihirbaz.js:395 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
-  },
-  {
-   "ad": "Arşivde fotoğrafların aslı var",
-   "not": "(ayrıntı panoda)"
   }
  ],
  "onarilan": [],
@@ -56,14 +52,9 @@
    "sinama": 413
   },
   "depolama": {
-   "gecen": 4,
-   "toplam": 4,
-   "sinama": 4
-  },
-  "kaynak": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 11
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 1
   },
   "davranis": {
    "gecen": 18,
@@ -72,11 +63,11 @@
   }
  },
  "derin": {
-  "kadans": "haftalik",
-  "zaman": "2026-08-22T03:31:22+03:00",
-  "kontrol": 65,
-  "sinama": 1031,
-  "gecen": 63,
+  "kadans": "gunluk",
+  "zaman": "2026-08-22T03:32:36+03:00",
+  "kontrol": 57,
+  "sinama": 1017,
+  "gecen": 56,
   "sorun": 0,
   "gruplar": {
    "yayin": {
@@ -110,14 +101,9 @@
     "sinama": 413
    },
    "depolama": {
-    "gecen": 4,
-    "toplam": 4,
-    "sinama": 4
-   },
-   "kaynak": {
-    "gecen": 5,
-    "toplam": 5,
-    "sinama": 11
+    "gecen": 1,
+    "toplam": 1,
+    "sinama": 1
    },
    "davranis": {
     "gecen": 18,
@@ -258,6 +244,12 @@
    "k": "haftalik",
    "g": 63,
    "n": 65
+  },
+  {
+   "t": "2026-08-22T03:32:36+03:00",
+   "k": "gunluk",
+   "g": 56,
+   "n": 57
   }
  ]
 }
