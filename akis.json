@@ -1,40 +1,46 @@
 {
  "bicim": 1,
- "zaman": "2026-08-22T08:59:36+03:00",
- "kadans": "6saat",
+ "zaman": "2026-08-22T09:25:17+03:00",
+ "kadans": "haftalik",
  "durum": "bilinen",
  "sayilar": {
-  "kontrol": 23,
-  "sinama": 477,
-  "gecen": 22,
-  "bilinen": 1,
+  "kontrol": 68,
+  "sinama": 1055,
+  "gecen": 66,
+  "bilinen": 2,
   "sorun": 0,
-  "sure": 5.5,
-  "kosu": 24
+  "sure": 49.8,
+  "kosu": 25
  },
  "sorunlar": [],
  "bilinenler": [
   {
    "ad": "Math.min(...dizi) yığın taşması",
    "not": "app.js:697; app.js:4603; gerok.js:447; sihirbaz.js:393; sihirbaz.js:394; sihirbaz.js:395 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
+  },
+  {
+   "ad": "Arşivde fotoğrafların aslı var",
+   "not": "(ayrıntı panoda)"
   }
  ],
- "onarilan": [],
+ "onarilan": [
+  "Canlı sürüm yereldekiyle aynı: Adres: https://marmarok.github.io/gerok/"
+ ],
  "gruplar": {
   "yayin": {
-   "gecen": 8,
-   "toplam": 8,
-   "sinama": 61
+   "gecen": 13,
+   "toplam": 13,
+   "sinama": 98
   },
   "bekci": {
-   "gecen": 4,
-   "toplam": 4,
-   "sinama": 16
+   "gecen": 9,
+   "toplam": 9,
+   "sinama": 69
   },
   "kod": {
-   "gecen": 6,
-   "toplam": 6,
-   "sinama": 380
+   "gecen": 8,
+   "toplam": 8,
+   "sinama": 417
   },
   "veri": {
    "gecen": 2,
@@ -42,17 +48,37 @@
    "sinama": 9
   },
   "gizlilik": {
-   "gecen": 3,
-   "toplam": 3,
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 13
+  },
+  "sartname": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 413
+  },
+  "depolama": {
+   "gecen": 4,
+   "toplam": 4,
+   "sinama": 4
+  },
+  "kaynak": {
+   "gecen": 5,
+   "toplam": 5,
    "sinama": 11
+  },
+  "davranis": {
+   "gecen": 21,
+   "toplam": 21,
+   "sinama": 21
   }
  },
  "derin": {
-  "kadans": "gunluk",
-  "zaman": "2026-08-22T03:35:22+03:00",
-  "kontrol": 57,
-  "sinama": 1017,
-  "gecen": 56,
+  "kadans": "haftalik",
+  "zaman": "2026-08-22T09:25:17+03:00",
+  "kontrol": 68,
+  "sinama": 1055,
+  "gecen": 66,
   "sorun": 0,
   "gruplar": {
    "yayin": {
@@ -68,7 +94,7 @@
    "kod": {
     "gecen": 8,
     "toplam": 8,
-    "sinama": 396
+    "sinama": 417
    },
    "veri": {
     "gecen": 2,
@@ -86,14 +112,19 @@
     "sinama": 413
    },
    "depolama": {
-    "gecen": 1,
-    "toplam": 1,
-    "sinama": 1
+    "gecen": 4,
+    "toplam": 4,
+    "sinama": 4
+   },
+   "kaynak": {
+    "gecen": 5,
+    "toplam": 5,
+    "sinama": 11
    },
    "davranis": {
-    "gecen": 18,
-    "toplam": 18,
-    "sinama": 18
+    "gecen": 21,
+    "toplam": 21,
+    "sinama": 21
    }
   }
  },
@@ -104,6 +135,20 @@
    "onem": "iyi",
    "baslik": "Artık buradayım",
    "govde": "Mac'teki yarım uygulamayı saatte bir sınıyor. Bu telefondaki yarım — yani ben — onun göremediği yere bakıyorum: senin deponu, izinlerini, kayıtlarının dosyalarını, çevrimdışı önbelleğini.\n\nBir şey sorabilirsin, “bu telefonu sına” diyebilirsin, ya da bana emir bırakabilirsin. Bilmediğim bir şey sorarsan bilmediğimi söylerim — uydurmam.\n\nHer şey yolundayken ses çıkarmam. Sessizlik iyi haber."
+  },
+  {
+   "id": "e3a894edbcd8",
+   "t": 1787379867245,
+   "onem": "iyi",
+   "baslik": "Emir alındı: claude-cagir",
+   "govde": "akıl hocası dosyası bırakılacak"
+  },
+  {
+   "id": "d788fb9203e5",
+   "t": 1787379917023,
+   "onem": "iyi",
+   "baslik": "1 şey onardım",
+   "govde": "• Canlı sürüm yereldekiyle aynı: Adres: https://marmarok.github.io/gerok/\n\nHepsini onardıktan sonra kontrolü yeniden koştum; “onardım” demeden önce onardığımı gördüm."
   }
  ],
  "bekleyen": [],
@@ -259,6 +304,12 @@
    "k": "6saat",
    "g": 22,
    "n": 23
+  },
+  {
+   "t": "2026-08-22T09:25:17+03:00",
+   "k": "haftalik",
+   "g": 66,
+   "n": 68
   }
  ]
 }
