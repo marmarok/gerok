@@ -665,9 +665,17 @@ export async function bekciAc() {
       : 'Mac’teki yarımın raporunu henüz alamadım — internet olunca gelir. '
         + 'Bu telefonla ilgili her şeyi internetsiz de sınayabilirim.';
     if (a?.sorunlar?.length) {
-      govde += '<br><br>' + a.sorunlar.map(x => `• <b>${kacis(x.ad)}</b><br><span class="bk-soluk">${kacis(x.not)}</span>`).join('<br>');
+      govde += '<br><br>' + a.sorunlar.map(x =>
+        `• <b>${kacis(x.ad)}</b><br><span class="bk-soluk">${kacis(x.not)}</span>`).join('<br>');
+      govde += '<br><br><span class="bk-soluk">Bunlar bende değil, Mac tarafında. '
+             + 'Kendim onaramadım — Claude’a iletirsem sabah bakar.</span>';
     }
-    soyle(govde, KARSILAMA);
+    soyle(govde, a?.sorunlar?.length
+      ? [{ et: 'Claude’a ilet', is: () => emirSor('claude-cagir',
+            a.sorunlar.map(x => `${x.ad}: ${x.not}`).join('\n')) },
+         { et: 'Şimdi tekrar kontrol et', is: () => emirSor('tam-kontrol', '') },
+         ...KARSILAMA]
+      : KARSILAMA);
     if (a?.bekleyen?.length) kararlariSor(a.bekleyen);
   }
   ciz();
