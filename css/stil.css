@@ -1739,3 +1739,57 @@ body:has(.ses-katman:not(.gizli)) .bildirim {
 .bekci-satir .bekci-durum { font-size: 12px; color: var(--soluk); margin-top: 2px; }
 .bekci-satir .bekci-durum.kotu { color: var(--kirmizi); }
 .bekci-satir .bekci-ok { color: var(--cok-soluk); }
+
+/* ---- Bekçinin aklı ------------------------------------------------------
+   Bekçi bir dil modeline bağlıyken vurgu rengi maviye kayıyor ve modelden
+   gelen balonun kenarı maviyle işaretleniyor.
+
+   Renk süs değil, bilgi: yerelden gelen cevap bekçinin ezberi (sabit,
+   denenmiş, bedava), akıldan gelen cevap bir modelin cümlesi. İkisi
+   karışmasın diye. */
+
+.bk-akil-rozet {
+  margin-left: auto; padding: 4px 9px; border-radius: 999px;
+  font-size: 11px; font-family: inherit; letter-spacing: .02em;
+  background: var(--zemin); border: 1px solid var(--cizgi); color: var(--cok-soluk);
+  cursor: pointer; white-space: nowrap;
+}
+.bk-akil-rozet.acik {
+  background: color-mix(in srgb, var(--su) 16%, var(--zemin));
+  border-color: color-mix(in srgb, var(--su) 55%, var(--cizgi));
+  color: var(--su);
+}
+.bk-nokta.akil { background: var(--su); box-shadow: 0 0 0 3px color-mix(in srgb, var(--su) 22%, transparent); }
+
+.bk-balon.akil {
+  border-color: color-mix(in srgb, var(--su) 45%, var(--cizgi));
+  box-shadow: inset 3px 0 0 var(--su);
+  padding-left: 15px;
+}
+
+.ortu[data-akil="acik"] .bk-yolla { background: var(--su); color: #fff; }
+.ortu[data-akil="acik"] .bk-yolla:active { filter: brightness(.9); }
+.ortu[data-akil="acik"] .girdi:focus { border-color: var(--su); }
+.ortu[data-akil="acik"] .bk-nokta:not(.kotu) {
+  background: var(--su); box-shadow: 0 0 0 3px color-mix(in srgb, var(--su) 22%, transparent);
+}
+
+.bk-alan { margin-top: 12px; }
+.bk-alan .girdi-etiket { margin-bottom: 5px; }
+.bk-dugme.secili {
+  background: color-mix(in srgb, var(--su) 16%, var(--zemin));
+  border-color: color-mix(in srgb, var(--su) 55%, var(--cizgi));
+  color: var(--yazi);
+}
+
+/* Gerok panelindeki satır da bağlıyken maviye dönüyor. */
+.bekci-satir .bekci-durum.akil { color: var(--su); }
+
+/* Akla gidecek metnin önizlemesi. Gizlilik sözü ancak denetlenebiliyorsa
+   sözdür — bu kutu o sözün kanıtı. */
+.bk-onizleme {
+  margin: 10px 0 0; padding: 10px 11px; max-height: 260px; overflow: auto;
+  background: var(--zemin); border: 1px solid var(--cizgi); border-radius: 9px;
+  font: 11.5px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
+  white-space: pre-wrap; overflow-wrap: anywhere; color: var(--soluk);
+}

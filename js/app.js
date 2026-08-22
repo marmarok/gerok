@@ -5,7 +5,7 @@
 // Neden önbelleğin adına bakmıyoruz: yeni sürüm indiğinde önbellek adı değişiyor
 // ama ekrandaki kod hâlâ eski oluyor — uygulama kendini güncellenmiş sanıyordu.
 // Bu satır ekrandaki dosyanın içinde olduğu için yalan söyleyemiyor.
-const BU_SURUM = 'gerok-94-20260822-032702';
+const BU_SURUM = 'gerok-95-20260822-092412';
 
 import * as veri from './veri.js';
 import * as iz from './iz.js';
@@ -3722,7 +3722,7 @@ function bekciSatiri() {
     <span class="bk-nokta ${o.sinif}"></span>
     <span class="bekci-yazi">
       <b>Bekçi</b>
-      <div class="bekci-durum ${o.sinif === 'kotu' ? 'kotu' : ''}">${kacis(o.yazi)}</div>
+      <div class="bekci-durum ${o.sinif === 'kotu' ? 'kotu' : o.sinif === 'akil' ? 'akil' : ''}">${kacis(o.yazi)}</div>
     </span>
     <span class="bekci-ok">›</span>
   </button>`;

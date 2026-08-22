@@ -29,7 +29,12 @@ const AKIS_ADRESI = 'https://raw.githubusercontent.com/marmarok/gerok/bekci/akis
 
 // app.js açılışta dolduruyor: bekçinin uygulamaya uzanan kolları.
 let B = null;
-export function baglamKur(baglam) { B = baglam; }
+export function baglamKur(baglam) {
+  B = baglam;
+  // Akıl ayarı hemen okunuyor: Gerok panelindeki bekçi satırı sohbet
+  // açılmadan çiziliyor ve bağlı olup olmadığını oradan da göstermesi gerek.
+  akliYukle().then(() => B.rozetiTazele?.());
+}
 
 const kacis = (m) => String(m ?? '').replace(/[&<>"']/g,
   c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -78,6 +83,11 @@ export function ozet() {
   const s = akis.sayilar || {};
   const yas = zamanFarki(akis.zaman);
   if (akis.durum === 'sorun') return { yazi: `${s.sorun} sorun · ${yas}`, sinif: 'kotu' };
+  if (akilAcikMi()) {
+    const dd = akis.derin;
+    return { yazi: `akıl açık · ${(dd?.sinama || s.sinama).toLocaleString('tr-TR')} sınama · ${yas}`,
+             sinif: 'akil' };
+  }
   // Büyük sayı en son GENİŞ koşudan; "ne zaman baktı" en son koşudan. Saatlik
   // koşunun 14 sınamasını yazmak "bekçi 14 şeye bakıyor" demek olurdu.
   const d = akis.derin;
@@ -318,12 +328,12 @@ const SINAMALAR = [
     } },
 
   // ---- düzen ----
-  { id: 'sahip', ad: 'Bu telefonun adı konmuş', oyku: 'duzen', async kos() {
+  { id: 'sahip', ad: 'Bu telefonun adı konmuş', oyku: 'duzen', gizli: true, async kos() {
       const ad = B.kayit.sahipAl()?.ad;
       return { gecti: !!ad, not: ad ? ad : 'ad konmamış — kayıtların kimden geldiği yazılamaz',
                onarim: ad ? null : 'ad-koy' };
     } },
-  { id: 'aktif-gezi', ad: 'Açık bir gezi var', oyku: 'duzen', async kos() {
+  { id: 'aktif-gezi', ad: 'Açık bir gezi var', oyku: 'duzen', gizli: true, async kos() {
       const s = B.gerok.aktifGerok();
       return { gecti: !!s, not: s ? s.ad : 'gezi yüklenmemiş' };
     } },
@@ -382,6 +392,12 @@ export async function kendiniSina(ilerleme = null) {
   await veri.ayarYaz('bekciSonSinama', {
     an, gecen: sonuclar.filter(s => s.gecti).length, toplam: sonuclar.length
   });
+  // Akıl açıkken bağlam olarak gidiyor: yalnızca sınama ADI ve SONUCU —
+  // kayıtların içeriği değil. Bekçinin ne gördüğü, defterin ne yazdığı değil.
+  await veri.ayarYaz('bekciSonSinamaAyrinti', sonuclar.map(s =>
+    // `gizli` olanların notu gezinin ya da telefonun ADINI taşıyor. Ekranda
+    // görünmesi doğru, dışarı çıkması değil — bağlama yalnızca sonucu giriyor.
+    ({ ad: s.ad, gecti: s.gecti, not: s.gizli ? (s.gecti ? 'tamam' : 'eksik') : s.not })));
   return sonuclar;
 }
 
@@ -573,6 +589,17 @@ const KONULAR = [
          + 'Mac’in göremediği yeri sınıyorum: senin deponu, izinlerini, '
          + 'medyanı, önbelleğini. Sorularını da cevaplıyorum.<br><br>'
          + 'Her şey yolundayken ses çıkarmıyorum. Sessizlik iyi haber.' },
+  { id: 'akil', baslik: 'Dil modeline bağlanma',
+    anahtar: ['akıl', 'dil modeli', 'yapay zeka', 'model', 'bağla', 'akıllı', 'claude', 'chatgpt'],
+    cevap: 'İsteğe bağlı ikinci beynim. <b>Varsayılan kapalı</b> ve kapalıyken de '
+         + 'tastamam çalışırım: sınamalar, onarımlar, bildiklerim — hepsi internetsiz '
+         + 've ücretsiz.<br><br>Bağlarsan serbest cümleyi daha iyi anlarım. '
+         + 'Akıldan gelen cevapların kenarı <b>mavi</b> olur — hangi cevabın ezberimden, '
+         + 'hangisinin modelden geldiğini karıştırma diye.<br><br>'
+         + '<b>Dışarı gitmeyenler:</b> kayıtlarının metni, ses çözümleri, fotoğraflar, '
+         + 'kişi ve durak adları, koordinatlar, gezinin adı. Anahtar yalnızca bu '
+         + 'telefonda durur. Her soru birkaç kuruş harcar.',
+    eylem: { ad: 'Ayarları aç', yap: () => akilKarti() } },
   { id: 'bekci-sina', baslik: 'Bu telefonu sına',
     anahtar: ['sına', 'kontrol', 'test', 'bak', 'dene', 'sorun var mı', 'çalışıyor mu'],
     cevap: 'Şu anda bu telefonda bir düzine şeyi tek tek sınayabilirim: depolama, '
@@ -633,6 +660,346 @@ export function niyetBul(metin) {
   return puanlar;
 }
 
+// ------------------------------------------------------------------ akıl ---
+//
+// Bekçinin isteğe bağlı ikinci beyni.
+//
+// VARSAYILAN KAPALI ve öyle kalması gerekiyor: bekçinin gövdesi — sınamalar,
+// onarımlar, bilgi tabanı — internetsiz, ücretsiz ve tahmin yürütmeden
+// çalışıyor. Akıl bunun YERİNE geçmiyor, ÜSTÜNE biniyor. Kapalıyken
+// bekçi bugünkü hâliyle tastamam çalışır; açıkken aynı bilgiyi daha iyi
+// anlatır ve serbest cümleyi daha iyi anlar.
+//
+// RENK NEDEN DEĞİŞİYOR: cevabın nereden geldiğini bilmek, cevabın kendisi
+// kadar önemli. Yerelden gelen cevap bekçinin ezberi — sabit, denenmiş,
+// bedava. Akıldan gelen cevap bir dil modelinin cümlesi — daha akıcı ama
+// bir modelin cümlesi. Mavi kenar bunu söylüyor. Karışmasınlar diye.
+//
+// DIŞARI NE GİDİYOR: yazdığın cümle, ve aşağıdaki BEYAZ LİSTE. Kayıtlarının
+// metni, ses çözümleri, başlıklar, kişi adları, koordinatlar, durak adları,
+// gezinin adı — HİÇBİRİ gitmiyor. Bekçinin kendi durumu ve uygulamanın
+// bilgisi gidiyor, defterin içeriği değil.
+
+const AKIL_ADRESI = 'https://api.anthropic.com/v1/messages';
+
+const MODELLER = [
+  { id: 'claude-haiku-4-5-20251001', ad: 'Haiku 4.5', not: 'hızlı ve en ucuz' },
+  { id: 'claude-sonnet-5', ad: 'Sonnet 5', not: 'daha iyi anlar, birkaç kat pahalı' },
+];
+
+let akil = { acik: false, anahtar: '', model: MODELLER[0].id, sayac: 0 };
+let yazilanAnahtar = '';
+
+async function akliYukle() {
+  const d = await veri.ayarOku('bekciAkil', null);
+  if (d) akil = { ...akil, ...d };
+  return akil;
+}
+async function akliKaydet() {
+  await veri.ayarYaz('bekciAkil', akil);
+}
+export function akilAcikMi() { return !!(akil.acik && akil.anahtar); }
+
+// Dışarı çıkacak bağlamın son savunması. Kullanıcının KENDİ yazdığı cümleye
+// dokunulmuyor — onu göndermeyi kendisi seçti. Temizlenen şey bizim eklediğimiz
+// bağlam: bir gün bir kontrol notu dosya yolu ya da ad taşırsa diye.
+const AKIL_YASAK = [
+  /\/Users\/[A-Za-z0-9_.-]+/g, /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g,
+  /\b(?:\d{1,3}\.){3}\d{1,3}\b/g, /\+90\d{10}/g,
+];
+const temizBaglam = (m) => AKIL_YASAK.reduce((x, d) => x.replace(d, '…'), String(m || ''));
+
+/**
+ * Bu defterin kendi özel adları: telefonun adı, arkadaşın adı, gezilerin adı,
+ * durak adları, tanıştığınız kişiler.
+ *
+ * Düzenli ifade bunları yakalayamaz — "Balkanlar Geroku" hiçbir desene
+ * uymuyor. O yüzden kaynağından okunup çıkan metinden siliniyorlar.
+ * Çok kelimeli adlar parçalarıyla birlikte siliniyor: "Üsküp Havaalanı"
+ * kadar "Üsküp" de.
+ */
+async function kendiAdlarim() {
+  const ham = [];
+  try {
+    ham.push(B.kayit.sahipAl()?.ad);
+    for (const g of await veri.geroklar()) ham.push(g.ad);
+    for (const d of (B.gerok.duraklar?.() || [])) ham.push(d.ad);
+    for (const k of tumKayit) { ham.push(k.sahipAd); if (k.tur === 'kisi') ham.push(k.metin); }
+  } catch { /* okunamayan kaynak varsa gerisi yine karartılır */ }
+  const parcalar = new Set();
+  for (const a of ham) {
+    if (!a) continue;
+    parcalar.add(String(a).trim());
+    for (const p of String(a).split(/[\s·—–\-,;:()]+/)) if (p.length > 2) parcalar.add(p);
+  }
+  // Uzun olan önce silinsin: "Üsküp Havaalanı" parçalanmadan gitsin.
+  return [...parcalar].filter(x => x.length > 2).sort((a, b) => b.length - a.length);
+}
+
+function adlariKarart(metin, adlar) {
+  let m = metin;
+  for (const a of adlar) {
+    m = m.split(a).join('…');
+    // Türkçe ekli hâlleri de ("Ohrid'de", "Üsküp'ten") aynı bölünmeyle düşüyor.
+  }
+  return m;
+}
+
+/**
+ * Modele verilen bilgi. TAMAMI BEYAZ LİSTE — burada olmayan hiçbir şey
+ * dışarı çıkmıyor.
+ */
+async function baglamMetni(sonSinama) {
+  const a = akis;
+  const d = a?.derin || a?.sayilar;
+  const satir = [];
+
+  satir.push('# Sen kimsin');
+  satir.push('Gerok adlı gezi anı defteri uygulamasının içindeki bekçisin. İki yarımdan '
+    + 'birisin: Mac’teki yarı kodu ve yayını sınıyor, sen bu telefonu sınıyorsun ve '
+    + 'kullanıcıyla konuşuyorsun. Kullanıcının adıyla hitap etme, bilmiyorsun.');
+  satir.push('Kullanıcı KOD BİLMİYOR ve teknik terim bilmiyor. Sade Türkçe konuş, kısa '
+    + 'yaz (en fazla 5-6 cümle), madde madde anlat. Emoji kullanma.');
+  satir.push('Bilmediğin bir şey sorulursa BİLMİYORUM de. Uydurma. Gerok’un nasıl '
+    + 'çalıştığına dair aşağıdaki bilgi tabanının dışına çıkma; oradaki bir konuysa '
+    + 'kendi cümlelerinle değil, KONU eylemiyle asıl metni göster.');
+  satir.push('Gerok’la ilgisi olmayan sorulara (hava durumu, genel bilgi, sohbet) '
+    + 'kibarca "ben yalnızca Gerok’a bakıyorum" de.');
+
+  satir.push('\n# Yapabileceklerin');
+  satir.push('Cevabının EN SONUNA, ayrı bir satır olarak en fazla iki tane eylem '
+    + 'yazabilirsin. Biçim tam olarak şöyle ve başka hiçbir şey yazma:');
+  satir.push('EYLEM: <ad>');
+  satir.push(Object.entries(AKIL_EYLEMLERI)
+    .map(([k, v]) => `  ${k} — ${v.aciklama}`).join('\n'));
+  satir.push(`  konu:<id> — bilgi tabanındaki bir konuyu olduğu gibi göster. `
+    + `Kimlikler: ${KONULAR.map(k => k.id).join(', ')}`);
+
+  satir.push('\n# Bilgi tabanı (Gerok’un gerçek çalışma biçimi)');
+  for (const k of KONULAR) {
+    satir.push(`## ${k.id} — ${k.baslik}\n${k.cevap.replace(/<[^>]+>/g, '')}`);
+  }
+
+  satir.push('\n# Mac’teki bekçinin son durumu');
+  satir.push(a
+    ? `${d.kontrol} kontrol · ${d.sinama} ayrı sınama · durum: ${a.durum} · `
+      + `en son ${zamanFarki(a.zaman)}`
+      + (a.sorunlar?.length
+          ? `\nAçık sorunlar:\n${a.sorunlar.map(s => `- ${s.ad}: ${s.not}`).join('\n')}`
+          : '\nAçık sorun yok.')
+    : 'Rapor alınamadı (internet yok ya da henüz koşmadı).');
+
+  if (sonSinama?.length) {
+    satir.push('\n# Bu telefonun son sınaması');
+    satir.push(sonSinama.map(s =>
+      `- ${s.gecti ? 'geçti' : 'TAKILDI'} · ${s.ad}: ${s.not}`).join('\n'));
+  }
+
+  satir.push('\n# Bilmediklerin');
+  satir.push('Kullanıcının kayıtlarının içeriğini, notlarını, ses çözümlerini, '
+    + 'gittiği yerleri, durak adlarını, kişi adlarını ve gezinin adını GÖRMÜYORSUN. '
+    + 'Bunlar telefonda kalıyor, sana gönderilmiyor. Sorulursa bunu söyle.');
+
+  return adlariKarart(temizBaglam(satir.join('\n')), await kendiAdlarim());
+}
+
+// Modelin isteyebileceği her şey burada. Listede olmayan bir ad gelirse
+// GÖRMEZDEN GELİNİYOR — modelin cümlesi bir öneri, bir komut değil.
+const AKIL_EYLEMLERI = {
+  'sina':         { et: 'Bu telefonu sına', aciklama: 'bu telefonda 26 kontrol koştur',
+                    is: () => sinamaAkisi() },
+  'rapor':        { et: 'Mac raporunu göster', aciklama: 'Mac’teki bekçinin son raporu',
+                    is: () => raporuGoster() },
+  'yedek':        { et: 'Yedek al', aciklama: 'yedek alma akışını aç', is: () => { kapat(); B.yedekAl(); } },
+  'harita-indir': { et: 'Haritayı indir', aciklama: 'harita paketi indirmeyi aç',
+                    is: () => { kapat(); B.haritaIndir(); } },
+  'gunsonu':      { et: 'Gün Sonu’nu başlat', aciklama: 'akşam ritüelini aç',
+                    is: () => { kapat(); B.gunSonu(); } },
+  'kayit':        { et: 'Kayıt ekranını aç', aciklama: 'ses/foto/not bırakılan ekran',
+                    is: () => { kapat(); B.ekranAc('kayit'); } },
+  'harita':       { et: 'Haritayı aç', aciklama: 'harita ekranı', is: () => { kapat(); B.ekranAc('harita'); } },
+  'zaman':        { et: 'Zaman çizgisini aç', aciklama: 'kayıtların listesi',
+                    is: () => { kapat(); B.ekranAc('zaman'); } },
+  'claude-cagir': { et: 'Mac’teki bekçiye ilet', aciklama: 'çözemediğin bir şeyi sabahki Claude görevine bırak',
+                    is: () => emirSor('claude-cagir', '') },
+};
+
+const kapat = () => { acik = false; B.ortuKapat(); };
+
+/** Modelin cevabından eylemleri ayıklar. Tanınmayan ad sessizce düşer. */
+function eylemleriAyikla(metin) {
+  const dugmeler = [];
+  const govde = metin.replace(/^EYLEM:\s*(.+)$/gim, (_, ham) => {
+    const ad = ham.trim();
+    if (ad.startsWith('konu:')) {
+      const konu = KONULAR.find(k => k.id === ad.slice(5).trim());
+      if (konu) dugmeler.push({ et: konu.baslik, is: () => konuAnlat(konu) });
+    } else if (AKIL_EYLEMLERI[ad]) {
+      dugmeler.push({ et: AKIL_EYLEMLERI[ad].et, is: AKIL_EYLEMLERI[ad].is });
+    }
+    return '';
+  }).trim();
+  return { govde, dugmeler };
+}
+
+/**
+ * Soruyu akla götürür.
+ *
+ * Başarısız olursa SESSİZCE PES ETMİYOR: yerel eşleştiriciye düşüyor ve
+ * neden düştüğünü söylüyor. Yolda internetin gidip gelmesi olağan; bekçinin
+ * o anda susması olmaz.
+ */
+async function akliSor(soru) {
+  const sonSinama = await veri.ayarOku('bekciSonSinamaAyrinti', null);
+  const gecmis = konusma.filter(m => m.duz).slice(-8)
+    .map(m => ({ role: m.kim === 'sen' ? 'user' : 'assistant', content: m.duz }));
+
+  const yanit = await fetch(AKIL_ADRESI, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+      'x-api-key': akil.anahtar,
+      'anthropic-version': '2023-06-01',
+      // Tarayıcıdan doğrudan çağrı için gereken başlık.
+      'anthropic-dangerous-direct-browser-access': 'true',
+    },
+    body: JSON.stringify({
+      model: akil.model,
+      max_tokens: 700,
+      system: await baglamMetni(sonSinama),
+      messages: [...gecmis, { role: 'user', content: soru }],
+    }),
+  });
+
+  if (!yanit.ok) {
+    const h = await yanit.text().catch(() => '');
+    throw new Error(yanit.status === 401 ? 'anahtar kabul edilmedi'
+      : yanit.status === 429 ? 'çok hızlı — biraz bekle'
+      : `${yanit.status} ${h.slice(0, 120)}`);
+  }
+  const d = await yanit.json();
+  akil.sayac++;
+  await akliKaydet();
+  return (d.content || []).filter(p => p.type === 'text').map(p => p.text).join('\n').trim();
+}
+
+/**
+ * Dışarı çıkacak metnin TAMAMI.
+ *
+ * "Kişisel bir şey göndermiyorum" bir söz; bu işlev o sözün kanıtı.
+ * Kullanıcı ayarlar kartından görebiliyor, bir tarayıcı sınaması da her gün
+ * içinde kişisel desen arıyor.
+ */
+export async function baglamOnizle() {
+  if (!tumKayit.length) tumKayit = await veri.kayitlariGetir();
+  return baglamMetni(await veri.ayarOku('bekciSonSinamaAyrinti', null));
+}
+
+/** Akıl açıkken cevabın yolu. */
+async function akillaCevapla(metin) {
+  soyle('<span class="bk-soluk">düşünüyorum…</span>', [], { gecici: true });
+  try {
+    const ham = await akliSor(metin);
+    konusma.pop();
+    if (!ham) throw new Error('boş cevap');
+    const { govde, dugmeler } = eylemleriAyikla(ham);
+    soyle(kacis(govde).replace(/\n/g, '<br>'), dugmeler, { akil: true, duz: govde });
+  } catch (h) {
+    konusma.pop();
+    // Yerel eşleştirici hâlâ yerinde — akıl bir katman, bir bağımlılık değil.
+    soyle(`<span class="bk-soluk">Akla ulaşamadım (${kacis(h.message)}). `
+        + 'Kendi bildiklerimle cevaplıyorum:</span>');
+    yerelCevapla(metin);
+  }
+}
+
+// ---- Ayarlar kartı ---------------------------------------------------------
+
+function akilKarti() {
+  const m = MODELLER.find(x => x.id === akil.model) || MODELLER[0];
+  soyle(`<b>Dil modeline bağlanma</b><br><br>`
+    + (akilAcikMi()
+        ? `Şu an <b>bağlı</b> · ${kacis(m.ad)} · bu cihazdan ${akil.sayac} soru gitti.<br><br>`
+        : 'Şu an <b>kapalı</b>. Bekçi kendi bildikleriyle çalışıyor: internetsiz, '
+          + 'ücretsiz, tahmin yürütmeden.<br><br>')
+    + '<span class="bk-soluk">Bağlıyken serbest cümleyi daha iyi anlarım ve daha akıcı '
+    + 'anlatırım. Akıldan gelen cevapların kenarı <b>mavi</b> olur — hangi cevabın '
+    + 'ezberimden, hangisinin modelden geldiğini karıştırma diye.<br><br>'
+    + '<b>Dışarı ne gidiyor:</b> yazdığın cümle, uygulamanın nasıl çalıştığına dair '
+    + 'bilgi ve bekçinin durumu. <b>Ne gitmiyor:</b> kayıtlarının metni, ses '
+    + 'çözümleri, fotoğraflar, kişi adları, durak adları, koordinatlar, gezinin adı. '
+    + 'Anahtar yalnızca bu telefonda durur.<br><br>'
+    + 'Her soru Anthropic hesabından birkaç kuruş harcar.</span>'
+    + `<div class="bk-alan">
+        <div class="girdi-etiket">Anahtar (sk-ant-…)</div>
+        <input class="girdi" id="bkAnahtar" type="password" autocomplete="off"
+               placeholder="${akil.anahtar ? '•••••••• kayıtlı' : 'buraya yapıştır'}">
+        <div class="girdi-etiket" style="margin-top:10px">Model</div>
+        <div class="bk-dugmeler">${MODELLER.map(x =>
+          `<button class="bk-dugme${x.id === akil.model ? ' secili' : ''}"
+             data-model="${x.id}">${kacis(x.ad)} · ${kacis(x.not)}</button>`).join('')}</div>
+      </div>`,
+    [{ et: akilAcikMi() ? 'Kapat' : 'Bağla', is: () => akliDegistir() },
+     { et: 'Ne gönderdiğimi göster', is: () => baglamiGoster() },
+     ...(akil.anahtar ? [{ et: 'Anahtarı sil', is: () => anahtariSil() }] : []),
+     { et: 'Vazgeç', is: () => soyle('Tamam.') }]);
+}
+
+async function akliDegistir() {
+  const yeni = (yazilanAnahtar || $('#bkAnahtar')?.value || '').trim();
+  if (yeni) { akil.anahtar = yeni; yazilanAnahtar = ''; }
+  if (akilAcikMi()) {                          // açıkken basıldı → kapat
+    akil.acik = false;
+    await akliKaydet();
+    soyle('Kapattım. Kendi bildiklerimle devam ediyorum — internetsiz de çalışırım.');
+    ciz();
+    return;
+  }
+  if (!akil.anahtar) {
+    soyle('Anahtar yok. Anthropic hesabından bir anahtar alıp yukarıdaki kutuya '
+        + 'yapıştırman gerekiyor. Anahtar bu telefondan hiçbir yere gitmiyor, '
+        + 'yalnızca soruları gönderirken kullanılıyor.');
+    return;
+  }
+  soyle('<span class="bk-soluk">bağlanıyor…</span>', [], { gecici: true });
+  akil.acik = true;
+  try {
+    // Gerçekten çalıştığını GÖRMEDEN "bağlandım" demiyorum.
+    await akliSor('Bağlantı sınaması. Tek kelimeyle "hazır" yaz.');
+    await akliKaydet();
+    konusma.pop();
+    soyle('<b>Bağlandım.</b> Artık serbest yazabilirsin — cümleyi anlamaya çalışırım. '
+        + 'Mavi kenarlı cevaplar modelden geliyor.<br><br>'
+        + '<span class="bk-soluk">İnternet giderse kendi bildiklerime dönerim, '
+        + 'susmam.</span>', [], { akil: true });
+  } catch (h) {
+    akil.acik = false;
+    konusma.pop();
+    soyle(`Bağlanamadım: <b>${kacis(h.message)}</b>.<br><br>`
+        + '<span class="bk-soluk">Anahtar yanlış olabilir ya da internet yok. '
+        + 'Kapalı kaldım, bekçi çalışmaya devam ediyor.</span>',
+      [{ et: 'Tekrar dene', is: () => akilKarti() }]);
+  }
+  ciz();
+}
+
+/** Söz değil, kanıt: gidecek metnin kendisi. */
+async function baglamiGoster() {
+  const m = await baglamOnizle();
+  soyle('<b>Bir soru sorduğunda dışarı çıkan metin bu.</b><br>'
+    + `<span class="bk-soluk">${(m.length / 1024).toFixed(1)} KB · yazdığın cümle de `
+    + 'buna ekleniyor. Başka hiçbir şey gitmiyor.</span>'
+    + `<pre class="bk-onizleme">${kacis(m)}</pre>`,
+    [{ et: 'Tamam', is: () => soyle('İstediğin zaman tekrar bakabilirsin.') }]);
+}
+
+async function anahtariSil() {
+  akil = { acik: false, anahtar: '', model: akil.model, sayac: 0 };
+  await akliKaydet();
+  soyle('Anahtarı sildim. Bu telefonda hiçbir izi kalmadı.');
+  ciz();
+}
+
 // -------------------------------------------------------------- konuşma ----
 //
 // Sohbet ekranı. Çoğu iş DOKUNARAK yapılıyor, yazmak isteyene de kutu var:
@@ -646,10 +1013,12 @@ const KARSILAMA = [
   { et: 'Bekçi raporu', is: () => raporuGoster() },
   { et: 'Neler yapabilirsin?', is: () => menuGoster() },
   { et: 'Bir sorunum var', is: () => sorunMenusu() },
+  { et: 'Dil modeline bağla', is: () => akilKarti() },
 ];
 
 export async function bekciAc() {
   acik = true;
+  await akliYukle();
   await akisiTazele();
   await veri.ayarYaz('bekciOkunan', Date.now());
   B.rozetiTazele?.();
@@ -681,16 +1050,22 @@ export async function bekciAc() {
   ciz();
 }
 
-/** Bekçinin ağzından bir satır. */
-function soyle(html, dugmeler = []) {
-  konusma.push({ kim: 'bekci', html, dugmeler });
+/**
+ * Bekçinin ağzından bir satır.
+ *
+ * `kaynak.akil` doğruysa balon mavi kenarlı çiziliyor: cevabın modelden
+ * geldiğini söylüyor. `kaynak.duz` modelin ham metni — sonraki soruda
+ * geçmiş olarak geri gönderiliyor (HTML değil, düz metin).
+ */
+function soyle(html, dugmeler = [], kaynak = {}) {
+  konusma.push({ kim: 'bekci', html, dugmeler, ...kaynak });
   konusma = konusma.slice(-50);
   if (acik) ciz();
 }
 
 /** Kullanıcının ağzından bir satır. */
 function dedim(metin) {
-  konusma.push({ kim: 'sen', html: kacis(metin) });
+  konusma.push({ kim: 'sen', html: kacis(metin), duz: metin });
   if (acik) ciz();
 }
 
@@ -702,6 +1077,9 @@ function ciz() {
       <div class="bk-baslik">
         <span class="bk-nokta ${s.sinif}"></span>
         <span>Bekçi</span>
+        <button class="bk-akil-rozet${akilAcikMi() ? ' acik' : ''}" id="bkAkilRozet">
+          ${akilAcikMi() ? 'akıl açık' : 'akıl kapalı'}
+        </button>
       </div>
       <div class="bk-alt">${kacis(a
         ? `${(a.derin || a.sayilar).kontrol} kontrol · `
@@ -712,7 +1090,7 @@ function ciz() {
     <div class="bk-akis" id="bkAkis">
       ${konusma.map((m, i) => m.kim === 'sen'
         ? `<div class="bk-satir sen"><div class="bk-balon sen">${m.html}</div></div>`
-        : `<div class="bk-satir"><div class="bk-balon">${m.html}
+        : `<div class="bk-satir"><div class="bk-balon${m.akil ? ' akil' : ''}">${m.html}
              ${(m.dugmeler || []).length ? `<div class="bk-dugmeler">${
                m.dugmeler.map((d, j) => `<button class="bk-dugme" data-m="${i}" data-d="${j}">${kacis(d.et)}</button>`).join('')
              }</div>` : ''}
@@ -725,6 +1103,10 @@ function ciz() {
     </div>
     <button class="bk-kapat" id="bkKapat">Kapat</button>
   `, true, 'bekci');
+
+  // Bağlıyken vurgu rengi maviye kayıyor: gönder düğmesi, imleç, kenarlar.
+  // Bekçinin hangi kipte olduğu tek bakışta görünsün diye.
+  $('#ortu').dataset.akil = akilAcikMi() ? 'acik' : 'kapali';
 
   const kap = $('#bkAkis');
   if (kap) kap.scrollTop = kap.scrollHeight;
@@ -745,6 +1127,13 @@ function ciz() {
     dedim(m);
     cevapla(m);
   };
+  $('#bkAkilRozet')?.addEventListener('click', () => akilKarti());
+  $('#bkAnahtar')?.addEventListener('input', (e) => { yazilanAnahtar = e.target.value; });
+  $$('#ortuIc [data-model]').forEach(d => d.addEventListener('click', async () => {
+    akil.model = d.dataset.model;
+    await akliKaydet();
+    akilKarti();
+  }));
   $('#bkYolla')?.addEventListener('click', yolla);
   $('#bkGirdi')?.addEventListener('keydown', (e) => { if (e.key === 'Enter') yolla(); });
   $('#bkKapat')?.addEventListener('click', () => { acik = false; B.ortuKapat(); });
@@ -759,6 +1148,16 @@ function ciz() {
  * bekçide yok. Yanlış cevap veren bekçi, boşuna öten alarmdan farksızdır.
  */
 function cevapla(metin) {
+  if (akilAcikMi() && navigator.onLine) { akillaCevapla(metin); return; }
+  if (akilAcikMi()) {
+    soyle('<span class="bk-soluk">İnternet yok — akla ulaşamıyorum. '
+        + 'Kendi bildiklerimle cevaplıyorum:</span>');
+  }
+  yerelCevapla(metin);
+}
+
+/** Ezberden cevap. Akıl kapalıyken, internetsizken ve akıl hata verdiğinde. */
+function yerelCevapla(metin) {
   const bulunan = niyetBul(metin);
 
   if (!bulunan.length) {
