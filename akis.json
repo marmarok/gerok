@@ -1,30 +1,134 @@
 {
  "bicim": 1,
- "zaman": "2026-08-22T03:15:47+03:00",
- "kadans": "saatlik",
- "durum": "iyi",
+ "zaman": "2026-08-22T03:17:02+03:00",
+ "kadans": "gunluk",
+ "durum": "sorun",
  "sayilar": {
-  "kontrol": 4,
-  "sinama": 14,
-  "gecen": 4,
+  "kontrol": 56,
+  "sinama": 1005,
+  "gecen": 53,
   "bilinen": 0,
-  "sorun": 0,
-  "sure": 0.7,
-  "kosu": 10
+  "sorun": 3,
+  "sure": 33.2,
+  "kosu": 11
  },
- "sorunlar": [],
+ "sorunlar": [
+  {
+   "ad": "surum.json diskle uyuşuyor",
+   "onem": "yuksek",
+   "oyku": "yayin",
+   "not": "onarıldı — ✓ surum.json yazıldı — 50 dosya, 3758 KB, sürüm gerok-90-20260822-031507",
+   "onarilabilir": true
+  },
+  {
+   "ad": "Math.min(...dizi) yığın taşması",
+   "onem": "yuksek",
+   "oyku": "kod",
+   "not": "app.js:697; app.js:4603; gerok.js:447; sihirbaz.js:393; sihirbaz.js:394; sihirbaz.js:395",
+   "onarilabilir": false
+  },
+  {
+   "ad": "Yayınlanmamış değişiklik yok",
+   "onem": "orta",
+   "oyku": "yayin",
+   "not": "1 dosya: s/bekci.js",
+   "onarilabilir": false
+  }
+ ],
  "bilinenler": [],
- "onarilan": [],
+ "onarilan": [
+  "surum.json diskle uyuşuyor: ✓ surum.json yazıldı — 50 dosya, 3758 KB, sürüm gerok-90-20260822-031507"
+ ],
  "gruplar": {
   "yayin": {
-   "gecen": 3,
-   "toplam": 3,
-   "sinama": 6
+   "gecen": 11,
+   "toplam": 13,
+   "sinama": 98
   },
   "bekci": {
+   "gecen": 8,
+   "toplam": 8,
+   "sinama": 65
+  },
+  "kod": {
+   "gecen": 7,
+   "toplam": 8,
+   "sinama": 396
+  },
+  "veri": {
+   "gecen": 2,
+   "toplam": 2,
+   "sinama": 9
+  },
+  "gizlilik": {
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 5
+  },
+  "sartname": {
    "gecen": 1,
    "toplam": 1,
-   "sinama": 8
+   "sinama": 413
+  },
+  "depolama": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 1
+  },
+  "davranis": {
+   "gecen": 18,
+   "toplam": 18,
+   "sinama": 18
+  }
+ },
+ "derin": {
+  "kadans": "gunluk",
+  "zaman": "2026-08-22T03:17:02+03:00",
+  "kontrol": 56,
+  "sinama": 1005,
+  "gecen": 53,
+  "sorun": 3,
+  "gruplar": {
+   "yayin": {
+    "gecen": 11,
+    "toplam": 13,
+    "sinama": 98
+   },
+   "bekci": {
+    "gecen": 8,
+    "toplam": 8,
+    "sinama": 65
+   },
+   "kod": {
+    "gecen": 7,
+    "toplam": 8,
+    "sinama": 396
+   },
+   "veri": {
+    "gecen": 2,
+    "toplam": 2,
+    "sinama": 9
+   },
+   "gizlilik": {
+    "gecen": 5,
+    "toplam": 5,
+    "sinama": 5
+   },
+   "sartname": {
+    "gecen": 1,
+    "toplam": 1,
+    "sinama": 413
+   },
+   "depolama": {
+    "gecen": 1,
+    "toplam": 1,
+    "sinama": 1
+   },
+   "davranis": {
+    "gecen": 18,
+    "toplam": 18,
+    "sinama": 18
+   }
   }
  },
  "mesajlar": [
@@ -34,9 +138,33 @@
    "onem": "iyi",
    "baslik": "Artık buradayım",
    "govde": "Mac'teki yarım uygulamayı saatte bir sınıyor. Bu telefondaki yarım — yani ben — onun göremediği yere bakıyorum: senin deponu, izinlerini, kayıtlarının dosyalarını, çevrimdışı önbelleğini.\n\nBir şey sorabilirsin, “bu telefonu sına” diyebilirsin, ya da bana emir bırakabilirsin. Bilmediğim bir şey sorarsan bilmediğimi söylerim — uydurmam.\n\nHer şey yolundayken ses çıkarmam. Sessizlik iyi haber."
+  },
+  {
+   "id": "57bf200c26df",
+   "t": 1787357822689,
+   "onem": "iyi",
+   "baslik": "1 şey onardım",
+   "govde": "• surum.json diskle uyuşuyor: ✓ surum.json yazıldı — 50 dosya, 3758 KB, sürüm gerok-90-20260822-031507\n\nHepsini onardıktan sonra kontrolü yeniden koştum; “onardım” demeden önce onardığımı gördüm."
+  },
+  {
+   "id": "6aaeb6c0422a",
+   "t": 1787357822689,
+   "onem": "sorun",
+   "baslik": "3 sorun buldum",
+   "govde": "• [yuksek] surum.json diskle uyuşuyor\n   onarıldı — ✓ surum.json yazıldı — 50 dosya, 3758 KB, sürüm gerok-90-20260822-031507\n• [yuksek] Math.min(...dizi) yığın taşması\n   app.js:697; app.js:4603; gerok.js:447; sihirbaz.js:393; sihirbaz.js:394; sihirbaz.js:395\n• [orta] Yayınlanmamış değişiklik yok\n   1 dosya: s/bekci.js"
   }
  ],
- "bekleyen": [],
+ "bekleyen": [
+  {
+   "id": "9ab3bc761976",
+   "soru": "“Math.min(...dizi) yığın taşması” sorunu duruyor: app.js:697; app.js:4603; gerok.js:447; sihirbaz.js:393; sihirbaz.js:394; sihirbaz.js:395. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu?",
+   "secenekler": [
+    "Bu bilinen bir durum",
+    "Gerçekten bozuk, bak",
+    "Yanlış alarm"
+   ]
+  }
+ ],
  "telefonSinamasi": [
   "Sesli not bırak ve ÇAL — sesi duyuyor musun?",
   "Galeriden 3 fotoğraf ekle — çubuk akıyor mu, özet çıkıyor mu?",
@@ -105,6 +233,12 @@
    "k": "saatlik",
    "g": 4,
    "n": 4
+  },
+  {
+   "t": "2026-08-22T03:17:02+03:00",
+   "k": "gunluk",
+   "g": 53,
+   "n": 56
   }
  ]
 }
