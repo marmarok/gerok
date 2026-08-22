@@ -77,10 +77,12 @@ export function ozet() {
   if (!akis) return { yazi: 'daha bakılmadı', sinif: '' };
   const s = akis.sayilar || {};
   const yas = zamanFarki(akis.zaman);
-  if (akis.durum === 'sorun') {
-    return { yazi: `${s.sorun} sorun · ${yas}`, sinif: 'kotu' };
-  }
-  return { yazi: `${s.sinama || s.toplam} sınama · hepsi yolunda · ${yas}`, sinif: 'iyi' };
+  if (akis.durum === 'sorun') return { yazi: `${s.sorun} sorun · ${yas}`, sinif: 'kotu' };
+  // Büyük sayı en son GENİŞ koşudan; "ne zaman baktı" en son koşudan. Saatlik
+  // koşunun 14 sınamasını yazmak "bekçi 14 şeye bakıyor" demek olurdu.
+  const d = akis.derin;
+  return { yazi: `${(d?.sinama || s.sinama || s.toplam).toLocaleString('tr-TR')} sınama · hepsi yolunda · ${yas}`,
+           sinif: 'iyi' };
 }
 
 function zamanFarki(iso) {
@@ -655,9 +657,11 @@ export async function bekciAc() {
   if (!konusma.length) {
     const s = ozet();
     const a = akis;
+    const d = a?.derin || a?.sayilar;
     let govde = a
-      ? `Mac’teki yarım en son <b>${zamanFarki(a.zaman)}</b> baktı: `
-        + `${a.sayilar.sinama} sınamanın ${a.sayilar.sorun ? `${a.sayilar.sorun} tanesinde sorun var` : 'hepsi yolunda'}.`
+      ? `Mac’teki yarım en son <b>${zamanFarki(a.zaman)}</b> baktı. `
+        + `Son geniş koşuda <b>${(d.sinama).toLocaleString('tr-TR')} ayrı sınama</b> yapıldı`
+        + `${a.sayilar.sorun ? ` ve ${a.sayilar.sorun} tanesinde sorun var` : ' ve hepsi yolunda'}.`
       : 'Mac’teki yarımın raporunu henüz alamadım — internet olunca gelir. '
         + 'Bu telefonla ilgili her şeyi internetsiz de sınayabilirim.';
     if (a?.sorunlar?.length) {
@@ -873,8 +877,8 @@ async function raporuGoster() {
       [{ et: 'Bu telefonu sına', is: () => sinamaAkisi() }]);
     return;
   }
-  const a = akis, s = a.sayilar;
-  const gruplar = Object.entries(a.gruplar || {}).map(([g, v]) =>
+  const a = akis, s = a.derin || a.sayilar;
+  const gruplar = Object.entries((a.derin?.gruplar) || a.gruplar || {}).map(([g, v]) =>
     `<div class="bk-sinama ${v.gecen < v.toplam ? 'kotu' : ''}">
        <span>${v.gecen < v.toplam ? '✗' : '✓'}</span>
        <span><b>${kacis(OYKU_ADI[g] || g)}</b><br>
@@ -882,8 +886,8 @@ async function raporuGoster() {
      </div>`).join('');
 
   soyle(`<b>Mac’teki bekçi · ${kacis(zamanFarki(a.zaman))}</b><br>`
-    + `<span class="bk-soluk">${s.kontrol} kontrol · <b>${s.sinama} ayrı sınama</b> · `
-    + `${s.sure} saniye · ${s.kosu} koşu</span><br><br>${gruplar}`
+    + `<span class="bk-soluk">${s.kontrol} kontrol · <b>${(s.sinama).toLocaleString('tr-TR')} ayrı sınama</b>`
+    + ` · ${a.sayilar.kosu} koşu</span><br><br>${gruplar}`
     + (a.onarilan?.length ? `<br><b>Kendi onardıkları</b><br>`
         + a.onarilan.map(o => `• ${kacis(o)}`).join('<br>') : '')
     + (a.bilinenler?.length ? `<br><br><b>Bilinen ve kabul edilenler</b><br>`
