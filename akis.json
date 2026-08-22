@@ -1,6 +1,6 @@
 {
  "bicim": 1,
- "zaman": "2026-08-22T03:22:17+03:00",
+ "zaman": "2026-08-22T03:24:17+03:00",
  "kadans": "haftalik",
  "durum": "bilinen",
  "sayilar": {
@@ -9,8 +9,8 @@
   "gecen": 63,
   "bilinen": 2,
   "sorun": 0,
-  "sure": 29.0,
-  "kosu": 16
+  "sure": 33.0,
+  "kosu": 17
  },
  "sorunlar": [],
  "bilinenler": [
@@ -73,7 +73,7 @@
  },
  "derin": {
   "kadans": "haftalik",
-  "zaman": "2026-08-22T03:22:17+03:00",
+  "zaman": "2026-08-22T03:24:17+03:00",
   "kontrol": 65,
   "sinama": 1032,
   "gecen": 63,
@@ -177,17 +177,7 @@
    "govde": "• [yuksek] Canlı sürüm yereldekiyle aynı\n   onarıldı — Adres: https://marmarok.github.io/gerok/"
   }
  ],
- "bekleyen": [
-  {
-   "id": "9ab3bc761976",
-   "soru": "“Math.min(...dizi) yığın taşması” sorunu duruyor: app.js:697; app.js:4603; gerok.js:447; sihirbaz.js:393; sihirbaz.js:394; sihirbaz.js:395. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu?",
-   "secenekler": [
-    "Bu bilinen bir durum",
-    "Gerçekten bozuk, bak",
-    "Yanlış alarm"
-   ]
-  }
- ],
+ "bekleyen": [],
  "telefonSinamasi": [
   "Sesli not bırak ve ÇAL — sesi duyuyor musun?",
   "Galeriden 3 fotoğraf ekle — çubuk akıyor mu, özet çıkıyor mu?",
@@ -289,6 +279,12 @@
   },
   {
    "t": "2026-08-22T03:22:17+03:00",
+   "k": "haftalik",
+   "g": 63,
+   "n": 65
+  },
+  {
+   "t": "2026-08-22T03:24:17+03:00",
    "k": "haftalik",
    "g": 63,
    "n": 65
