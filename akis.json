@@ -1,49 +1,35 @@
 {
  "bicim": 1,
- "zaman": "2026-08-22T03:20:16+03:00",
- "kadans": "haftalik",
- "durum": "sorun",
+ "zaman": "2026-08-22T03:21:15+03:00",
+ "kadans": "gunluk",
+ "durum": "bilinen",
  "sayilar": {
-  "kontrol": 64,
-  "sinama": 1027,
-  "gecen": 61,
-  "bilinen": 2,
-  "sorun": 1,
-  "sure": 35.3,
-  "kosu": 14
+  "kontrol": 56,
+  "sinama": 1014,
+  "gecen": 55,
+  "bilinen": 1,
+  "sorun": 0,
+  "sure": 33.6,
+  "kosu": 15
  },
- "sorunlar": [
-  {
-   "ad": "Canlı sürüm yereldekiyle aynı",
-   "onem": "yuksek",
-   "oyku": "yayin",
-   "not": "onarıldı — Adres: https://marmarok.github.io/gerok/",
-   "onarilabilir": true
-  }
- ],
+ "sorunlar": [],
  "bilinenler": [
   {
    "ad": "Math.min(...dizi) yığın taşması",
    "not": "app.js:697; app.js:4603; gerok.js:447; sihirbaz.js:393; sihirbaz.js:394; sihirbaz.js:395 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
-  },
-  {
-   "ad": "Arşivde fotoğrafların aslı var",
-   "not": "(ayrıntı panoda)"
   }
  ],
- "onarilan": [
-  "Canlı sürüm yereldekiyle aynı: Adres: https://marmarok.github.io/gerok/"
- ],
+ "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 12,
+   "gecen": 13,
    "toplam": 13,
    "sinama": 98
   },
   "bekci": {
    "gecen": 8,
    "toplam": 8,
-   "sinama": 65
+   "sinama": 66
   },
   "kod": {
    "gecen": 8,
@@ -66,14 +52,9 @@
    "sinama": 413
   },
   "depolama": {
-   "gecen": 4,
-   "toplam": 4,
-   "sinama": 4
-  },
-  "kaynak": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 11
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 1
   },
   "davranis": {
    "gecen": 18,
@@ -82,22 +63,22 @@
   }
  },
  "derin": {
-  "kadans": "haftalik",
-  "zaman": "2026-08-22T03:20:16+03:00",
-  "kontrol": 64,
-  "sinama": 1027,
-  "gecen": 61,
-  "sorun": 1,
+  "kadans": "gunluk",
+  "zaman": "2026-08-22T03:21:15+03:00",
+  "kontrol": 56,
+  "sinama": 1014,
+  "gecen": 55,
+  "sorun": 0,
   "gruplar": {
    "yayin": {
-    "gecen": 12,
+    "gecen": 13,
     "toplam": 13,
     "sinama": 98
    },
    "bekci": {
     "gecen": 8,
     "toplam": 8,
-    "sinama": 65
+    "sinama": 66
    },
    "kod": {
     "gecen": 8,
@@ -120,14 +101,9 @@
     "sinama": 413
    },
    "depolama": {
-    "gecen": 4,
-    "toplam": 4,
-    "sinama": 4
-   },
-   "kaynak": {
-    "gecen": 5,
-    "toplam": 5,
-    "sinama": 11
+    "gecen": 1,
+    "toplam": 1,
+    "sinama": 1
    },
    "davranis": {
     "gecen": 18,
@@ -290,6 +266,12 @@
    "k": "haftalik",
    "g": 61,
    "n": 64
+  },
+  {
+   "t": "2026-08-22T03:21:15+03:00",
+   "k": "gunluk",
+   "g": 55,
+   "n": 56
   }
  ]
 }
