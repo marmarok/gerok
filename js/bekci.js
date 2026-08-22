@@ -695,7 +695,11 @@ function ciz() {
         <span class="bk-nokta ${s.sinif}"></span>
         <span>Bekçi</span>
       </div>
-      <div class="bk-alt">${kacis(a ? `${a.sayilar.kontrol} kontrol · ${a.sayilar.sinama} sınama · ${zamanFarki(a.zaman)}` : 'Mac raporu bekleniyor')}</div>
+      <div class="bk-alt">${kacis(a
+        ? `${(a.derin || a.sayilar).kontrol} kontrol · `
+          + `${((a.derin || a.sayilar).sinama).toLocaleString('tr-TR')} sınama · `
+          + `en son ${zamanFarki(a.zaman)}`
+        : 'Mac raporu bekleniyor')}</div>
     </div>
     <div class="bk-akis" id="bkAkis">
       ${konusma.map((m, i) => m.kim === 'sen'
