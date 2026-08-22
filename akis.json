@@ -1,35 +1,39 @@
 {
  "bicim": 1,
- "zaman": "2026-08-22T03:19:15+03:00",
- "kadans": "gunluk",
+ "zaman": "2026-08-22T03:20:16+03:00",
+ "kadans": "haftalik",
  "durum": "sorun",
  "sayilar": {
-  "kontrol": 56,
-  "sinama": 1013,
-  "gecen": 54,
-  "bilinen": 0,
-  "sorun": 2,
-  "sure": 32.9,
-  "kosu": 13
+  "kontrol": 64,
+  "sinama": 1027,
+  "gecen": 61,
+  "bilinen": 2,
+  "sorun": 1,
+  "sure": 35.3,
+  "kosu": 14
  },
  "sorunlar": [
   {
-   "ad": "Math.min(...dizi) yığın taşması",
+   "ad": "Canlı sürüm yereldekiyle aynı",
    "onem": "yuksek",
-   "oyku": "kod",
-   "not": "app.js:697; app.js:4603; gerok.js:447; sihirbaz.js:393; sihirbaz.js:394; sihirbaz.js:395",
-   "onarilabilir": false
-  },
-  {
-   "ad": "Yayınlanmamış değişiklik yok",
-   "onem": "orta",
    "oyku": "yayin",
-   "not": "2 dosya: s/bekci.js, surum.json",
-   "onarilabilir": false
+   "not": "onarıldı — Adres: https://marmarok.github.io/gerok/",
+   "onarilabilir": true
   }
  ],
- "bilinenler": [],
- "onarilan": [],
+ "bilinenler": [
+  {
+   "ad": "Math.min(...dizi) yığın taşması",
+   "not": "app.js:697; app.js:4603; gerok.js:447; sihirbaz.js:393; sihirbaz.js:394; sihirbaz.js:395 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
+  },
+  {
+   "ad": "Arşivde fotoğrafların aslı var",
+   "not": "(ayrıntı panoda)"
+  }
+ ],
+ "onarilan": [
+  "Canlı sürüm yereldekiyle aynı: Adres: https://marmarok.github.io/gerok/"
+ ],
  "gruplar": {
   "yayin": {
    "gecen": 12,
@@ -42,7 +46,7 @@
    "sinama": 65
   },
   "kod": {
-   "gecen": 7,
+   "gecen": 8,
    "toplam": 8,
    "sinama": 396
   },
@@ -62,9 +66,14 @@
    "sinama": 413
   },
   "depolama": {
-   "gecen": 1,
-   "toplam": 1,
-   "sinama": 1
+   "gecen": 4,
+   "toplam": 4,
+   "sinama": 4
+  },
+  "kaynak": {
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 11
   },
   "davranis": {
    "gecen": 18,
@@ -73,12 +82,12 @@
   }
  },
  "derin": {
-  "kadans": "gunluk",
-  "zaman": "2026-08-22T03:19:15+03:00",
-  "kontrol": 56,
-  "sinama": 1013,
-  "gecen": 54,
-  "sorun": 2,
+  "kadans": "haftalik",
+  "zaman": "2026-08-22T03:20:16+03:00",
+  "kontrol": 64,
+  "sinama": 1027,
+  "gecen": 61,
+  "sorun": 1,
   "gruplar": {
    "yayin": {
     "gecen": 12,
@@ -91,7 +100,7 @@
     "sinama": 65
    },
    "kod": {
-    "gecen": 7,
+    "gecen": 8,
     "toplam": 8,
     "sinama": 396
    },
@@ -111,9 +120,14 @@
     "sinama": 413
    },
    "depolama": {
-    "gecen": 1,
-    "toplam": 1,
-    "sinama": 1
+    "gecen": 4,
+    "toplam": 4,
+    "sinama": 4
+   },
+   "kaynak": {
+    "gecen": 5,
+    "toplam": 5,
+    "sinama": 11
    },
    "davranis": {
     "gecen": 18,
@@ -157,6 +171,20 @@
    "onem": "sorun",
    "baslik": "2 sorun buldum",
    "govde": "• [yuksek] Math.min(...dizi) yığın taşması\n   app.js:697; app.js:4603; gerok.js:447; sihirbaz.js:393; sihirbaz.js:394; sihirbaz.js:395\n• [orta] Yayınlanmamış değişiklik yok\n   2 dosya: s/bekci.js, surum.json"
+  },
+  {
+   "id": "bd64d5417f44",
+   "t": 1787358016243,
+   "onem": "iyi",
+   "baslik": "1 şey onardım",
+   "govde": "• Canlı sürüm yereldekiyle aynı: Adres: https://marmarok.github.io/gerok/\n\nHepsini onardıktan sonra kontrolü yeniden koştum; “onardım” demeden önce onardığımı gördüm."
+  },
+  {
+   "id": "60b849210d29",
+   "t": 1787358016243,
+   "onem": "sorun",
+   "baslik": "1 sorun buldum",
+   "govde": "• [yuksek] Canlı sürüm yereldekiyle aynı\n   onarıldı — Adres: https://marmarok.github.io/gerok/"
   }
  ],
  "bekleyen": [
@@ -256,6 +284,12 @@
    "k": "gunluk",
    "g": 54,
    "n": 56
+  },
+  {
+   "t": "2026-08-22T03:20:16+03:00",
+   "k": "haftalik",
+   "g": 61,
+   "n": 64
   }
  ]
 }
