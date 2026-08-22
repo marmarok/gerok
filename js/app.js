@@ -5,7 +5,7 @@
 // Neden önbelleğin adına bakmıyoruz: yeni sürüm indiğinde önbellek adı değişiyor
 // ama ekrandaki kod hâlâ eski oluyor — uygulama kendini güncellenmiş sanıyordu.
 // Bu satır ekrandaki dosyanın içinde olduğu için yalan söyleyemiyor.
-const BU_SURUM = 'gerok-89-20260822-022306';
+const BU_SURUM = 'gerok-90-20260822-031507';
 
 import * as veri from './veri.js';
 import * as iz from './iz.js';
@@ -24,6 +24,7 @@ import * as baglanti from './baglanti.js';
 import { sihirbaziAc } from './sihirbaz.js';
 import * as yerAra from './yer-ara.js';
 import { ikon, ikonlariYerlestir } from './ikon.js';
+import * as bekci from './bekci.js';
 
 const $ = (s) => document.querySelector(s);
 const $$ = (s) => Array.from(document.querySelectorAll(s));
@@ -112,7 +113,59 @@ async function baslat() {
   iz.basla();
   gunSonuHatirlatmasiKur();
   agDegisiminiIzle();
+  bekciyiKur();
   await paylasilanlariAl();
+}
+
+/**
+ * İç bekçiyi uygulamaya bağlar.
+ *
+ * Bekçinin uygulamaya uzanan tek kolu bu nesne: hangi ekranı açabileceği,
+ * neyi sınayabileceği, neyi onarabileceği burada yazılı. Bekçi app.js'in
+ * içine dağılmış bir şey değil, dışarıdan bağlanan bir konuk — böylece ne
+ * yapabildiği tek bakışta görülüyor ve sınırı belli oluyor.
+ */
+function bekciyiKur() {
+  bekci.baglamKur({
+    SURUM: BU_SURUM,
+    durum, gerok, kayit, veri,
+    ortuAc, ortuKapat,
+    ekranAc: (a) => ekranAc(a),
+    tazele,
+    bildir: kayitBildir,
+    rozetiTazele: bekciRozetiYaz,
+    yedekAl: () => yedekAl(kayitBildir),
+    haritaIndir: haritaIndirmeSor,
+    adSor,
+    surumuAra,
+    gunSonu: () => gunSonuAc(durum, tazele),
+    mektup: () => mektupAc(tazele),
+    paneliAc: (ad) => { acikPanel = ad; ekranAc('gerok'); paneliCiz(); },
+  });
+  // Açılışta sessizce bakılıyor; internet yoksa son bilinen durum kullanılıyor.
+  bekci.akisiTazele().then(bekciRozetiYaz);
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) bekci.akisiTazele().then(bekciRozetiYaz);
+  });
+}
+
+/**
+ * Alt şeritteki Gerok sekmesine düşen rozet.
+ *
+ * Sessizlik varsayılan olduğu için bekçinin konuşmak istediğini gösteren tek
+ * sessiz işaret bu: bildirim gibi araya girmiyor, ama görülmeden de kalmıyor.
+ */
+async function bekciRozetiYaz() {
+  const sekme = $('#altBar .sekme[data-ekran="gerok"]');
+  if (!sekme) return;
+  sekme.querySelector('.sekme-rozet')?.remove();
+  const r = await bekci.rozetDurumu();
+  if (!r) return;
+  const e = document.createElement('span');
+  e.className = `sekme-rozet ${r.tip}`;
+  e.textContent = r.sayi > 9 ? '9+' : String(r.sayi);
+  sekme.appendChild(e);
+  if (durum.ekran === 'gerok') paneliCiz();
 }
 
 /**
@@ -3656,6 +3709,25 @@ function panelKur({ ad, uyari = false, ic, not = '' }) {
   </div>`;
 }
 
+/**
+ * Gerok panelindeki bekçi satırı.
+ *
+ * Katlanan bir panel DEĞİL, tek bir düğme: bekçi bir ayar değil, konuşulacak
+ * biri. Beş panelin arasına altıncı bir katlanır kutu koymak onu ayarların
+ * içinde kaybederdi.
+ */
+function bekciSatiri() {
+  const o = bekci.ozet();
+  return `<button class="bekci-satir" id="btnBekci">
+    <span class="bk-nokta ${o.sinif}"></span>
+    <span class="bekci-yazi">
+      <b>Bekçi</b>
+      <div class="bekci-durum ${o.sinif === 'kotu' ? 'kotu' : ''}">${kacis(o.yazi)}</div>
+    </span>
+    <span class="bekci-ok">›</span>
+  </button>`;
+}
+
 async function paneliCiz() {
   const s = gerok.aktifGerok();
   const depo = await veri.depolamaDurumu();
@@ -3762,6 +3834,8 @@ async function paneliCiz() {
       <button class="eylem-dugme birincil${gunSonuGerek ? ' nabiz' : ''}" id="btnGunSonu">Gün Sonu'nu başlat</button>
       ${gunSonuGerek ? '<div class="panel-uyari-yazi">Bugün henüz sesli günlük yok</div>' : ''}
     </div>
+
+    ${bekciSatiri()}
 
     ${panelKur({
       ad: 'bağlantı',
@@ -3911,6 +3985,7 @@ async function paneliCiz() {
       'Telefon dolarsa iOS bunu küçültür; gerçek boş alan Ayarlar → Genel → ' +
       'iPhone Saklama Alanı’nda yazıyor.'));
 
+  $('#btnBekci')?.addEventListener('click', () => bekci.bekciAc());
   $('#btnHarcamaListe')?.addEventListener('click', harcamaDokumuAc);
   $('#btnHarcamaEkle')?.addEventListener('click', fiyatSor);
   renkDugmeleriniKur();

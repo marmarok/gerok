@@ -217,6 +217,36 @@ async function opfsftenOkuGuvenli(klasor, ad) {
   return opfstenOku(klasor, ad);
 }
 
+/**
+ * Bir klasördeki dosya adları — İKİ DEPODAN DA.
+ *
+ * Bekçinin "sahipsiz dosya birikmiş mi" sınaması için yazıldı. İki yola da
+ * bakması şart: 17 Ağustos'taki yarış hatası yüzünden bazı eski kayıtlar
+ * OPFS'te, bazıları IndexedDB'de kaldı. Tek yola bakan bir sayım, öteki
+ * depodaki dosyaları "sahipsiz" ilan edip silinmelerini önerirdi.
+ */
+export async function listele(klasor) {
+  const adlar = new Set();
+
+  if (navigator.storage?.getDirectory) {
+    try {
+      const k = await opfsKlasor(klasor);
+      for await (const ad of k.keys()) adlar.add(ad);
+    } catch { /* OPFS yoksa sorun değil */ }
+  }
+
+  try {
+    const d = await idbAc();
+    const t = d.transaction(['dosyalar'], 'readonly');
+    const anahtarlar = await idbIstek(t.objectStore('dosyalar').getAllKeys());
+    for (const a of anahtarlar) {
+      if (typeof a === 'string' && a.startsWith(`${klasor}/`)) adlar.add(a.slice(klasor.length + 1));
+    }
+  } catch { /* açılamadıysa boş dön */ }
+
+  return [...adlar];
+}
+
 export async function boyut(klasor, ad) {
   const b = await oku(klasor, ad);
   return b ? b.size : 0;

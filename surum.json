@@ -1,7 +1,7 @@
 {
- "surum": "gerok-89-20260822-022306",
- "sayi": 89,
- "tarih": "2026-08-22T02:23:06+03:00",
+ "surum": "gerok-90-20260822-031507",
+ "sayi": 90,
+ "tarih": "2026-08-22T03:15:07+03:00",
  "dosyalar": {
   "./index.html": {
    "boyut": 12179,
@@ -24,8 +24,8 @@
    "ozet": "f004a338a3dcafb7"
   },
   "./css/stil.css": {
-   "boyut": 78598,
-   "ozet": "6503213b64c84045"
+   "boyut": 83242,
+   "ozet": "cb9f9094ed010f10"
   },
   "./yazitipi/dmsans-latin.woff2": {
    "boyut": 62556,
@@ -44,8 +44,8 @@
    "ozet": "55606fbc76dc232c"
   },
   "./js/app.js": {
-   "boyut": 216932,
-   "ozet": "5a4541ddbfddd9ba"
+   "boyut": 219444,
+   "ozet": "eb8008df1f2f537b"
   },
   "./js/sihirbaz.js": {
    "boyut": 17037,
@@ -56,8 +56,8 @@
    "ozet": "f74d3527aa5fa322"
   },
   "./js/depo.js": {
-   "boyut": 9088,
-   "ozet": "5fc392864fc45fe4"
+   "boyut": 10119,
+   "ozet": "4e03e234aad21843"
   },
   "./js/iz.js": {
    "boyut": 6621,
@@ -110,6 +110,10 @@
   "./js/baglanti.js": {
    "boyut": 26097,
    "ozet": "e1a690bef8f1bb75"
+  },
+  "./js/bekci.js": {
+   "boyut": 49826,
+   "ozet": "47c9b3aa41665aee"
   },
   "./veri-yerler.json": {
    "boyut": 289547,

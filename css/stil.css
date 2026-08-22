@@ -1629,3 +1629,113 @@ body:has(.ses-katman:not(.gizli)) .bildirim {
 /* Çözüm metni uzun oluyor (bir dakikalık ses ~700 harf); alan da uzun olmalı
    ki düzeltirken sürekli kaydırmak gerekmesin. */
 .cozum-alan { min-height: 170px; line-height: 1.6; }
+
+/* ---------------------------------------------------------------- bekçi ---
+   Bekçiyle yazışma. Sohbet ekranı ötekilerden daha uzun: konuşma birikiyor,
+   ve yolda tek elle kullanıldığı için düğmeler klavyeden önce geliyor. */
+
+.ortu[data-kat="bekci"] { z-index: 90; }
+.ortu[data-kat="bekci"] .ortu-ic {
+  max-height: 92dvh; display: flex; flex-direction: column;
+  padding: 16px 16px calc(14px + var(--alt));
+}
+
+.bk-ust {
+  display: flex; flex-direction: column; gap: 2px;
+  padding-bottom: 12px; margin-bottom: 4px; border-bottom: 1px solid var(--cizgi);
+}
+.bk-baslik { display: flex; align-items: center; gap: 8px; font-size: 18px; font-weight: 600; }
+.bk-alt { font-size: 12px; color: var(--soluk); font-variant-numeric: tabular-nums; }
+.bk-nokta {
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--soluk); flex: none;
+}
+.bk-nokta.iyi  { background: var(--yesil); box-shadow: 0 0 0 3px color-mix(in srgb, var(--yesil) 22%, transparent); }
+.bk-nokta.kotu { background: var(--kirmizi); box-shadow: 0 0 0 3px color-mix(in srgb, var(--kirmizi) 22%, transparent); }
+
+.bk-akis {
+  flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
+  display: flex; flex-direction: column; gap: 10px;
+  padding: 12px 2px; min-height: 180px;
+}
+.bk-satir { display: flex; }
+.bk-satir.sen { justify-content: flex-end; }
+.bk-balon {
+  max-width: 92%; padding: 11px 13px; border-radius: 14px;
+  background: var(--kat2); border: 1px solid var(--cizgi);
+  font-size: 14.5px; line-height: 1.55; overflow-wrap: anywhere;
+}
+.bk-balon.sen {
+  background: var(--birincil-zemin); border-color: var(--birincil-cizgi);
+  max-width: 80%;
+}
+.bk-balon b { font-weight: 600; }
+.bk-soluk { color: var(--soluk); font-size: 13px; }
+.bk-soluk.kucuk { font-size: 12px; }
+
+.bk-dugmeler { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 11px; }
+.bk-dugme {
+  padding: 8px 12px; border-radius: 999px; font-size: 13px;
+  background: var(--zemin); border: 1px solid var(--cizgi); color: var(--yazi);
+  font-family: inherit; cursor: pointer;
+}
+.bk-dugme:active { background: var(--kat); transform: scale(.97); }
+
+.bk-grup {
+  font-size: 11px; letter-spacing: .09em; text-transform: uppercase;
+  color: var(--cok-soluk); margin: 14px 0 6px;
+}
+.bk-grup:first-child { margin-top: 0; }
+.bk-sinama {
+  display: grid; grid-template-columns: 18px 1fr; gap: 8px;
+  padding: 6px 0; font-size: 13.5px; line-height: 1.45;
+  border-bottom: 1px solid color-mix(in srgb, var(--cizgi) 55%, transparent);
+}
+.bk-sinama > span:first-child { color: var(--yesil); font-weight: 700; }
+.bk-sinama.kotu > span:first-child { color: var(--kirmizi); }
+
+.bk-ilerleme {
+  height: 5px; border-radius: 3px; background: var(--zemin);
+  overflow: hidden; margin: 10px 0 6px;
+}
+.bk-ilerleme > div { height: 100%; width: 0; background: var(--vurgu); transition: width .18s; }
+
+.bk-girdi { display: flex; gap: 8px; align-items: center; padding-top: 10px; }
+.bk-girdi .girdi { flex: 1; padding: 11px 13px; }
+.bk-yolla {
+  flex: none; width: 42px; height: 42px; border-radius: 50%;
+  background: var(--vurgu); color: var(--vurgu-yazi); border: none;
+  font-size: 19px; font-family: inherit; cursor: pointer;
+}
+.bk-yolla:active { background: var(--vurgu-koyu); }
+.bk-kapat {
+  margin-top: 8px; padding: 11px; border-radius: 11px; width: 100%;
+  background: none; border: 1px solid var(--cizgi); color: var(--soluk);
+  font-size: 14px; font-family: inherit; cursor: pointer;
+}
+
+/* Alt şeritteki Gerok sekmesine düşen rozet. Sessizlik varsayılan olduğu için
+   burası bekçinin konuşmak istediğini gösteren TEK sessiz işaret. */
+.sekme { position: relative; }
+.sekme-rozet {
+  position: absolute; top: 2px; left: 50%; margin-left: 6px;
+  min-width: 15px; height: 15px; padding: 0 4px; border-radius: 999px;
+  background: var(--su); color: #fff; font-size: 10px; font-weight: 700;
+  line-height: 15px; text-align: center;
+}
+.sekme-rozet.sorun { background: var(--kirmizi); }
+.sekme-rozet.karar { background: var(--vurgu); color: var(--vurgu-yazi); }
+
+/* Gerok panelindeki bekçi satırı */
+.bekci-satir {
+  display: flex; align-items: center; gap: 10px; width: 100%;
+  padding: 13px 14px; border-radius: 12px; margin-top: 10px;
+  background: var(--kat2); border: 1px solid var(--cizgi);
+  color: var(--yazi); font-family: inherit; font-size: 14.5px;
+  text-align: left; cursor: pointer;
+}
+.bekci-satir:active { transform: scale(.99); }
+.bekci-satir .bekci-yazi { flex: 1; }
+.bekci-satir .bekci-durum { font-size: 12px; color: var(--soluk); margin-top: 2px; }
+.bekci-satir .bekci-durum.kotu { color: var(--kirmizi); }
+.bekci-satir .bekci-ok { color: var(--cok-soluk); }
