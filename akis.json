@@ -1,6 +1,6 @@
 {
  "bicim": 1,
- "zaman": "2026-08-23T16:27:56+03:00",
+ "zaman": "2026-08-23T17:33:02+03:00",
  "kadans": "saatlik",
  "durum": "iyi",
  "sayilar": {
@@ -9,8 +9,8 @@
   "gecen": 4,
   "bilinen": 0,
   "sorun": 0,
-  "sure": 0.5,
-  "kosu": 40
+  "sure": 0.7,
+  "kosu": 41
  },
  "sorunlar": [],
  "bilinenler": [],
@@ -197,12 +197,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-08-22T02:33:10+03:00",
-   "k": "haftalik",
-   "g": 31,
-   "n": 34
-  },
   {
    "t": "2026-08-22T02:35:15+03:00",
    "k": "6saat",
@@ -433,6 +427,12 @@
   },
   {
    "t": "2026-08-23T16:27:56+03:00",
+   "k": "saatlik",
+   "g": 4,
+   "n": 4
+  },
+  {
+   "t": "2026-08-23T17:33:02+03:00",
    "k": "saatlik",
    "g": 4,
    "n": 4
