@@ -25,7 +25,29 @@ import json, re, hashlib, unicodedata
 from datetime import datetime, timezone
 from pathlib import Path
 
-import akis                      # _git, temizle, YASAK, DEPO, DAL, KULLANICI…
+try:
+    import akis                  # _git, YASAK, DEPO, DAL, KULLANICI…
+except ImportError:
+    # BULUT KOPYASI. Bu dosya `bekci` dalına `bilgi-kaynak/kur.py` olarak da
+    # gidiyor ve orada Mac'in hiçbir dosyası yok. O hâlde yalnızca paket kurma
+    # ve gizlilik sınaması yapılıyor; yayın (git) işi çağıranın.
+    akis = None
+
+# Yayınlanan her metinde aranan GENEL desenler. Burada kişiye özel hiçbir
+# değer YOK ve olamaz: bu dosyanın kendisi herkese açık dalda duruyor, oraya
+# "şu ad, şu şehir" yazmak tam da engellemeye çalıştığı şeyi yapardı.
+#
+# Kişiye özel değerler (ad, memleket, otel adları) yalnızca Mac'teki
+# `akis.YASAK` içinde duruyor ve Mac koştuğunda ek olarak taranıyor.
+KISISEL_GENEL = [
+    re.compile(r"/Users/[A-Za-z0-9_.-]+"),
+    re.compile(r"/home/[A-Za-z0-9_.-]+"),
+    re.compile(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b"),
+    re.compile(r"ghp_|github_pat_|sk-[A-Za-z0-9_-]{20,}|Bearer\s"),
+    re.compile(r"\b(?:\d{1,3}\.){3}\d{1,3}\b"),
+    re.compile(r"\b[A-Za-z0-9-]+\.local\b"),
+    re.compile(r"\+\d{11,}"),
+]
 
 BEKCI = Path.home() / "gerok" / "bekci"
 RAPOR = BEKCI / "rapor"
@@ -81,6 +103,15 @@ def _kopya(taze=True):
 
 
 def kaynak_yolu(taze=True):
+    """Kaynak dosyaların bulunduğu klasör.
+
+    İki yer olabiliyor ve ayırt etmesi kolay: bulutta bu betik zaten
+    `bilgi-kaynak/` içinde duruyor, yani kaynaklar YANINDA. Mac'te betik
+    `bekci/` içinde, kaynaklar ise dalın çalışma kopyasında.
+    """
+    yanim = Path(__file__).resolve().parent
+    if (yanim / "yerler.json").exists():
+        return yanim
     return _kopya(taze) / KAYNAK_KLASOR
 
 
@@ -193,7 +224,10 @@ def gizlilik_dene(paket):
     bulgu = []
     metin = json.dumps(paket, ensure_ascii=False)
 
-    for d in akis.YASAK + [re.compile(r"/Users/[a-z]")]:
+    desenler = list(KISISEL_GENEL)
+    if akis is not None:
+        desenler += akis.YASAK          # kişiye özel değerler, yalnızca Mac'te
+    for d in desenler:
         if d.search(metin):
             bulgu.append(f"kişisel desen: {d.pattern[:50]}")
 
@@ -234,6 +268,8 @@ def gizlilik_dene(paket):
 # ------------------------------------------------------------------ yayın --
 
 def yayinla(paket=None, kuru=False):
+    if akis is None:
+        return False, "bu kopyada yayın yok — paketi kur, git işini çağıran yapsın"
     if paket is None:
         paket = paket_uret()
 
@@ -297,6 +333,27 @@ ADRES = f"https://raw.githubusercontent.com/{akis.KULLANICI}/gerok/{akis.DAL}/{P
 
 if __name__ == "__main__":
     import sys
+
+    if "--kur" in sys.argv:
+        # BULUT KİPİ: kaynaktan paketi kur, gizlilikten geçir, dosyaya yaz.
+        # Git işi yok — çağıran commit'liyor. Bulgu varsa 1 ile çıkıyor ki
+        # bir sonraki adım (commit) hiç çalışmasın.
+        p = paket_uret()
+        b = gizlilik_dene(p)
+        hedef = Path(sys.argv[sys.argv.index("--kur") + 1]) \
+            if len(sys.argv) > sys.argv.index("--kur") + 1 \
+            and not sys.argv[sys.argv.index("--kur") + 1].startswith("-") \
+            else Path(PAKET_ADI)
+        if b:
+            print("GİZLİLİK DURDURDU:")
+            for x in b:
+                print("  -", x)
+            sys.exit(1)
+        hedef.write_text(json.dumps(p, ensure_ascii=False, indent=1), encoding="utf-8")
+        print(f"kuruldu: {hedef} · {p['sayilar']['yer']} yer · "
+              f"{p['sayilar']['ulke']} ülke · {p['sayilar']['terim']} terim · sürüm {p['surum']}")
+        sys.exit(0)
+
     p = paket_uret()
     kapsanan, eksik = kapsam(p)
     print(f"paket: {p['sayilar']['yer']} yer · {p['sayilar']['ulke']} ülke · "
