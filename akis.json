@@ -1,75 +1,30 @@
 {
  "bicim": 1,
- "zaman": "2026-08-23T15:42:14+03:00",
- "kadans": "gunluk",
- "durum": "sorun",
+ "zaman": "2026-08-23T15:42:42+03:00",
+ "kadans": "saatlik",
+ "durum": "iyi",
  "sayilar": {
-  "kontrol": 60,
-  "sinama": 1041,
-  "gecen": 58,
-  "bilinen": 1,
-  "sorun": 1,
-  "sure": 44.2,
-  "kosu": 34
+  "kontrol": 4,
+  "sinama": 14,
+  "gecen": 4,
+  "bilinen": 0,
+  "sorun": 0,
+  "sure": 0.4,
+  "kosu": 35
  },
- "sorunlar": [
-  {
-   "ad": "Yayınlanmamış değişiklik yok",
-   "onem": "orta",
-   "oyku": "yayin",
-   "not": "1 dosya: s/bekci.js",
-   "onarilabilir": false
-  }
- ],
- "bilinenler": [
-  {
-   "ad": "Math.min(...dizi) yığın taşması",
-   "not": "app.js:697; app.js:4603; gerok.js:447; sihirbaz.js:393; sihirbaz.js:394; sihirbaz.js:395 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
-  }
- ],
- "onarilan": [
-  "surum.json diskle uyuşuyor: ✓ surum.json yazıldı — 50 dosya, 3780 KB, sürüm gerok-96-20260822-092511"
- ],
+ "sorunlar": [],
+ "bilinenler": [],
+ "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 12,
-   "toplam": 13,
-   "sinama": 98
+   "gecen": 3,
+   "toplam": 3,
+   "sinama": 6
   },
   "bekci": {
-   "gecen": 9,
-   "toplam": 9,
-   "sinama": 69
-  },
-  "kod": {
-   "gecen": 8,
-   "toplam": 8,
-   "sinama": 417
-  },
-  "veri": {
-   "gecen": 2,
-   "toplam": 2,
-   "sinama": 9
-  },
-  "gizlilik": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 13
-  },
-  "sartname": {
    "gecen": 1,
    "toplam": 1,
-   "sinama": 413
-  },
-  "depolama": {
-   "gecen": 1,
-   "toplam": 1,
-   "sinama": 1
-  },
-  "davranis": {
-   "gecen": 21,
-   "toplam": 21,
-   "sinama": 21
+   "sinama": 8
   }
  },
  "derin": {
@@ -192,6 +147,13 @@
    "onem": "sorun",
    "baslik": "1 sorun buldum",
    "govde": "• [orta] Yayınlanmamış değişiklik yok\n   1 dosya: s/bekci.js"
+  },
+  {
+   "id": "097e2b3fe897",
+   "t": 1787488962086,
+   "onem": "iyi",
+   "baslik": "Söylediğim sorunlar kapandı",
+   "govde": "Hepsi geçti. 4/4 kontrol · 14 ayrı sınama."
   }
  ],
  "bekleyen": [],
@@ -407,6 +369,12 @@
    "k": "gunluk",
    "g": 58,
    "n": 60
+  },
+  {
+   "t": "2026-08-23T15:42:42+03:00",
+   "k": "saatlik",
+   "g": 4,
+   "n": 4
   }
  ]
 }
