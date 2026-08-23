@@ -1,7 +1,7 @@
 {
- "surum": "gerok-98-20260823-161647",
- "sayi": 98,
- "tarih": "2026-08-23T16:16:47+03:00",
+ "surum": "gerok-99-20260823-162104",
+ "sayi": 99,
+ "tarih": "2026-08-23T16:21:04+03:00",
  "dosyalar": {
   "./index.html": {
    "boyut": 12179,
@@ -45,7 +45,7 @@
   },
   "./js/app.js": {
    "boyut": 222433,
-   "ozet": "8794aace7b6cdc82"
+   "ozet": "18e6d212f813000b"
   },
   "./js/sihirbaz.js": {
    "boyut": 17037,
@@ -116,8 +116,8 @@
    "ozet": "7707033489d5dd39"
   },
   "./js/bilgi.js": {
-   "boyut": 13031,
-   "ozet": "1183f3e29476523f"
+   "boyut": 13809,
+   "ozet": "6bb147dfc0c882be"
   },
   "./veri-yerler.json": {
    "boyut": 289547,

@@ -167,7 +167,15 @@ export function bolumBul(metin) {
     for (const k of kelimeler) {
       const s = sade(k);
       if (!m.includes(s)) continue;
-      const puan = s.includes(' ') ? 5 + s.length : (m.split(' ').includes(s) ? 3 : 1);
+      // Türkçede anahtar kelime yalın durmuyor: "Ohrid tarihi" sorusunda
+      // "tarih" tek başına bir kelime değil. Dört harften uzun anahtarlar
+      // kelime BAŞINDAN da tutuyor; kısalar tutmuyor, yoksa "ye" her
+      // "yer"e, her "yedek"e bulaşırdı.
+      const kelimeler = m.split(' ');
+      const puan = s.includes(' ') ? 5 + s.length
+        : kelimeler.includes(s) ? 3
+        : (s.length >= 4 && kelimeler.some(k => k.startsWith(s))) ? 3
+        : 1;
       if (puan > enIyiPuan) { enIyi = bolum; enIyiPuan = puan; }
     }
   }
@@ -182,6 +190,21 @@ export function terimAl(ad) {
   if (s[ad]) return { ad, ...s[ad] };
   const dogru = Object.keys(s).find(k => sade(k) === sade(ad));
   return dogru ? { ad: dogru, ...s[dogru] } : null;
+}
+
+/**
+ * Ek almış bir kelimenin kökünü bulur: "çarşıda" → "çarşı", "tekkenin" → "tekke".
+ *
+ * Sondan BİRER harf kısaltarak deniyor. Tek hamlede altı harf kesmek
+ * "Çarşıda"yı "Ç"ye indiriyordu ve hiçbir terim tutmuyordu — bu sınamadan
+ * çıkan gerçek bir hataydı.
+ */
+export function koklu(kelime) {
+  for (let i = 0; i <= 6 && kelime.length - i >= 2; i++) {
+    const t = terimAl(i ? kelime.slice(0, kelime.length - i) : kelime);
+    if (t) return t;
+  }
+  return null;
 }
 
 export function terimler() { return paket?.sozluk ? Object.keys(paket.sozluk) : []; }
@@ -220,7 +243,7 @@ export function terimleriIsaretle(html) {
   return String(html).split(/(<[^>]*>)/).map(parca => {
     if (parca.startsWith('<')) return parca;
     return parca.replace(d, (tam) => {
-      const t = terimAl(tam) || terimAl(tam.replace(/[a-zçğıöşü']{1,6}$/i, ''));
+      const t = koklu(tam);
       if (!t || gorulen.has(t.ad)) return tam;
       gorulen.add(t.ad);
       return `<button class="bk-terim" data-terim="${kacis(t.ad)}">${kacis(tam)}</button>`;
@@ -235,7 +258,7 @@ export function gecenTerimler(html) {
   const duz = String(html).replace(/<[^>]*>/g, ' ');
   const bulunan = [];
   for (const tam of duz.match(d) || []) {
-    const t = terimAl(tam) || terimAl(tam.replace(/[a-zçğıöşü']{1,6}$/i, ''));
+    const t = koklu(tam);
     if (t && !bulunan.some(x => x.ad === t.ad)) bulunan.push(t);
   }
   return bulunan;
