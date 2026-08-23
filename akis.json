@@ -1,79 +1,30 @@
 {
  "bicim": 1,
- "zaman": "2026-08-23T22:46:38+03:00",
- "kadans": "haftalik",
- "durum": "bilinen",
+ "zaman": "2026-08-23T22:46:42+03:00",
+ "kadans": "saatlik",
+ "durum": "iyi",
  "sayilar": {
-  "kontrol": 83,
-  "sinama": 1562,
-  "gecen": 81,
-  "bilinen": 2,
+  "kontrol": 4,
+  "sinama": 14,
+  "gecen": 4,
+  "bilinen": 0,
   "sorun": 0,
-  "sure": 55.7,
-  "kosu": 42
+  "sure": 0.5,
+  "kosu": 43
  },
  "sorunlar": [],
- "bilinenler": [
-  {
-   "ad": "Math.min(...dizi) yığın taşması",
-   "not": "app.js:700; app.js:4702; gerok.js:447; sihirbaz.js:393; sihirbaz.js:394; sihirbaz.js:395 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
-  },
-  {
-   "ad": "Arşivde fotoğrafların aslı var",
-   "not": "(ayrıntı panoda)"
-  }
- ],
+ "bilinenler": [],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 14,
-   "toplam": 14,
-   "sinama": 101
+   "gecen": 3,
+   "toplam": 3,
+   "sinama": 6
   },
   "bekci": {
-   "gecen": 9,
-   "toplam": 9,
-   "sinama": 77
-  },
-  "kod": {
-   "gecen": 9,
-   "toplam": 9,
-   "sinama": 441
-  },
-  "veri": {
-   "gecen": 2,
-   "toplam": 2,
-   "sinama": 9
-  },
-  "gizlilik": {
-   "gecen": 6,
-   "toplam": 6,
-   "sinama": 64
-  },
-  "bilgi": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 414
-  },
-  "sartname": {
    "gecen": 1,
    "toplam": 1,
-   "sinama": 413
-  },
-  "depolama": {
-   "gecen": 4,
-   "toplam": 4,
-   "sinama": 4
-  },
-  "kaynak": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 11
-  },
-  "davranis": {
-   "gecen": 28,
-   "toplam": 28,
-   "sinama": 28
+   "sinama": 8
   }
  },
  "derin": {
@@ -234,6 +185,13 @@
    "onem": "iyi",
    "baslik": "Artık durakları da biliyorum",
    "govde": "Her durak için ne görülür, ne yenir, ne alınır, gezginler ne demiş ve Türkiye'ye göre fiyat nerede duruyor — 43 yer, 6 ülke, 55 terim. Hepsi telefonda, internetsiz. Sohbete yer adı yaz: “Mostarda ne yenir”. Cevaptaki altı noktalı kelimelere dokun, açıklarım."
+  },
+  {
+   "id": "1487335f4be4",
+   "t": 1787514401846,
+   "onem": "iyi",
+   "baslik": "Rehberim artık kendi kendine büyüyor",
+   "govde": "Bilgim 43 yerden 48 yere çıktı ve bunu MacBook kapalıyken bulutta koşan bir yardımcı yaptı. Her pazar tekrarlanacak. Telefondan kartı olmayan bir durak eklersen sana tek dokunuşla soracağım."
   }
  ],
  "bekleyen": [],
@@ -246,12 +204,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-08-22T02:35:48+03:00",
-   "k": "6saat",
-   "g": 9,
-   "n": 10
-  },
   {
    "t": "2026-08-22T02:36:19+03:00",
    "k": "haftalik",
@@ -485,6 +437,12 @@
    "k": "haftalik",
    "g": 81,
    "n": 83
+  },
+  {
+   "t": "2026-08-23T22:46:42+03:00",
+   "k": "saatlik",
+   "g": 4,
+   "n": 4
   }
  ]
 }
