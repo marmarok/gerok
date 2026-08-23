@@ -600,6 +600,12 @@ const KONULAR = [
          + 'kişi ve durak adları, koordinatlar, gezinin adı. Anahtar yalnızca bu '
          + 'telefonda durur. Her soru birkaç kuruş harcar.',
     eylem: { ad: 'Ayarları aç', yap: () => akilKarti() } },
+  { id: 'sahipsiz-dosya', baslik: 'Sahipsiz dosya nedir?',
+    anahtar: ['sahipsiz', 'öksüz', 'oksuz', 'sahibi yok', 'kimin dosyası'],
+    cevap: 'Telefonun deposunda duran ama hiçbir kayda bağlı olmayan bir fotoğraf ya '
+         + 'da ses dosyası — evde duran, kime ait olduğu belirsiz bir eşya gibi.<br><br>'
+         + 'Genelde bir kaydı sildiğinde ya da bir işlem yarım kaldığında ortaya çıkar. '
+         + '<b>Zararsızdır</b>, sadece gereksiz yer kaplar; bekçi bulursa kendi siler.' },
   { id: 'bekci-sina', baslik: 'Bu telefonu sına',
     anahtar: ['sına', 'kontrol', 'test', 'bak', 'dene', 'sorun var mı', 'çalışıyor mu'],
     cevap: 'Şu anda bu telefonda bir düzine şeyi tek tek sınayabilirim: depolama, '
