@@ -1,6 +1,6 @@
 {
  "bicim": 1,
- "zaman": "2026-08-23T15:42:42+03:00",
+ "zaman": "2026-08-23T15:42:54+03:00",
  "kadans": "saatlik",
  "durum": "iyi",
  "sayilar": {
@@ -9,8 +9,8 @@
   "gecen": 4,
   "bilinen": 0,
   "sorun": 0,
-  "sure": 0.4,
-  "kosu": 35
+  "sure": 0.7,
+  "kosu": 36
  },
  "sorunlar": [],
  "bilinenler": [],
@@ -154,6 +154,20 @@
    "onem": "iyi",
    "baslik": "Söylediğim sorunlar kapandı",
    "govde": "Hepsi geçti. 4/4 kontrol · 14 ayrı sınama."
+  },
+  {
+   "id": "2346ff1d3c7d",
+   "t": 1787488974018,
+   "onem": "bilgi",
+   "baslik": "Sahipsiz dosya nedir?",
+   "govde": "Az önce sormuştun. Telefonun deposunda duran ama hiçbir kayda bağlı olmayan bir fotoğraf ya da ses dosyası — evde duran, kime ait olduğu belirsiz bir eşya gibi.\n\nGenelde bir kaydı sildiğinde ya da bir işlem yarım kaldığında ortaya çıkar. Zararsızdır, sadece gereksiz yer kaplar; bekçi bulursa kendi siler.\n\nBir daha sorarsan bekçi artık bunu kendisi cevaplıyor — bilgi tabanına ekledim ve yayınladım."
+  },
+  {
+   "id": "6d796edf5775",
+   "t": 1787488974082,
+   "onem": "iyi",
+   "baslik": "Gerok bekçisi: sorun yok",
+   "govde": "4/4 geçti, yeni bir şey eklendi."
   }
  ],
  "bekleyen": [],
@@ -372,6 +386,12 @@
   },
   {
    "t": "2026-08-23T15:42:42+03:00",
+   "k": "saatlik",
+   "g": 4,
+   "n": 4
+  },
+  {
+   "t": "2026-08-23T15:42:54+03:00",
    "k": "saatlik",
    "g": 4,
    "n": 4
