@@ -1,38 +1,87 @@
 {
  "bicim": 1,
- "zaman": "2026-08-23T17:33:02+03:00",
- "kadans": "saatlik",
- "durum": "iyi",
+ "zaman": "2026-08-23T22:46:38+03:00",
+ "kadans": "haftalik",
+ "durum": "bilinen",
  "sayilar": {
-  "kontrol": 4,
-  "sinama": 14,
-  "gecen": 4,
-  "bilinen": 0,
+  "kontrol": 83,
+  "sinama": 1562,
+  "gecen": 81,
+  "bilinen": 2,
   "sorun": 0,
-  "sure": 0.7,
-  "kosu": 41
+  "sure": 55.7,
+  "kosu": 42
  },
  "sorunlar": [],
- "bilinenler": [],
+ "bilinenler": [
+  {
+   "ad": "Math.min(...dizi) yığın taşması",
+   "not": "app.js:700; app.js:4702; gerok.js:447; sihirbaz.js:393; sihirbaz.js:394; sihirbaz.js:395 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
+  },
+  {
+   "ad": "Arşivde fotoğrafların aslı var",
+   "not": "(ayrıntı panoda)"
+  }
+ ],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 3,
-   "toplam": 3,
-   "sinama": 6
+   "gecen": 14,
+   "toplam": 14,
+   "sinama": 101
   },
   "bekci": {
+   "gecen": 9,
+   "toplam": 9,
+   "sinama": 77
+  },
+  "kod": {
+   "gecen": 9,
+   "toplam": 9,
+   "sinama": 441
+  },
+  "veri": {
+   "gecen": 2,
+   "toplam": 2,
+   "sinama": 9
+  },
+  "gizlilik": {
+   "gecen": 6,
+   "toplam": 6,
+   "sinama": 64
+  },
+  "bilgi": {
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 414
+  },
+  "sartname": {
    "gecen": 1,
    "toplam": 1,
-   "sinama": 8
+   "sinama": 413
+  },
+  "depolama": {
+   "gecen": 4,
+   "toplam": 4,
+   "sinama": 4
+  },
+  "kaynak": {
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 11
+  },
+  "davranis": {
+   "gecen": 28,
+   "toplam": 28,
+   "sinama": 28
   }
  },
  "derin": {
   "kadans": "haftalik",
-  "zaman": "2026-08-23T16:22:29+03:00",
-  "kontrol": 79,
-  "sinama": 1525,
-  "gecen": 77,
+  "zaman": "2026-08-23T22:46:38+03:00",
+  "kontrol": 83,
+  "sinama": 1562,
+  "gecen": 81,
   "sorun": 0,
   "gruplar": {
    "yayin": {
@@ -43,7 +92,7 @@
    "bekci": {
     "gecen": 9,
     "toplam": 9,
-    "sinama": 75
+    "sinama": 77
    },
    "kod": {
     "gecen": 9,
@@ -58,12 +107,12 @@
    "gizlilik": {
     "gecen": 6,
     "toplam": 6,
-    "sinama": 59
+    "sinama": 64
    },
    "bilgi": {
-    "gecen": 3,
-    "toplam": 3,
-    "sinama": 386
+    "gecen": 5,
+    "toplam": 5,
+    "sinama": 414
    },
    "sartname": {
     "gecen": 1,
@@ -81,9 +130,9 @@
     "sinama": 11
    },
    "davranis": {
-    "gecen": 26,
-    "toplam": 26,
-    "sinama": 26
+    "gecen": 28,
+    "toplam": 28,
+    "sinama": 28
    }
   }
  },
@@ -197,12 +246,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-08-22T02:35:15+03:00",
-   "k": "6saat",
-   "g": 9,
-   "n": 11
-  },
   {
    "t": "2026-08-22T02:35:48+03:00",
    "k": "6saat",
@@ -436,6 +479,12 @@
    "k": "saatlik",
    "g": 4,
    "n": 4
+  },
+  {
+   "t": "2026-08-23T22:46:38+03:00",
+   "k": "haftalik",
+   "g": 81,
+   "n": 83
   }
  ]
 }
