@@ -58,8 +58,14 @@ YASAK_ALAN = {"gun", "sira", "gunler", "iz", "konaklama", "otel", "tarih_gezi",
 # ------------------------------------------------------------------ kurma --
 
 def _kopya(taze=True):
-    """Dalın çalışma kopyası. Ağ yoksa diskteki son hâliyle devam ediyor."""
-    kopya = BEKCI / "akis-kopya"
+    """Dalın çalışma kopyası. Ağ yoksa diskteki son hâliyle devam ediyor.
+
+    AKIŞTAN AYRI BİR KOPYA. İkisi aynı klasörü kullanırken şöyle bir tuzak
+    vardı: akış her saat başı `reset --hard` çekiyor, kaynak dosyalar üstünde
+    yarım kalmış bir düzenleme varsa onu haber vermeden siliyordu. Ayrı kopya
+    bu bağı tamamen kesiyor; ikisi yalnızca uzak dalda buluşuyor.
+    """
+    kopya = BEKCI / "bilgi-kopya"
     if not (kopya / ".git").exists():
         kopya.mkdir(exist_ok=True)
         akis._git(kopya, ["init", "-q"])
@@ -243,6 +249,14 @@ def yayinla(paket=None, kuru=False):
 
     # Kaynak zaten dalda; yerel düzenlemeler kaybolmasın diye tazelemiyoruz.
     kopya = _kopya(taze=False)
+    # Uzakta yeni bir şey varsa (akış az önce ittiyse ya da bulutta bir
+    # oturum kaynağı düzenlediyse) önce onun üstüne biniyoruz. Kaynak
+    # dosyalarda yerel değişiklik varsa DOKUNMUYORUZ — onlar asıl iş.
+    kod, durum = akis._git(kopya, ["status", "--porcelain"])
+    if not durum.strip():
+        kod, _ = akis._git(kopya, ["fetch", "-q", "--depth", "1", "origin", akis.DAL])
+        if kod == 0:
+            akis._git(kopya, ["reset", "-q", "--hard", "FETCH_HEAD"])
 
     # Kurucunun kendisi de dalda duruyor: buluttaki bir Claude oturumu
     # Mac'e hiç dokunmadan paketi kurup aynı gizlilik sınamalarından
@@ -261,6 +275,20 @@ def yayinla(paket=None, kuru=False):
     akis._git(kopya, ["-c", f"user.name={akis.KULLANICI}", "-c", f"user.email={akis.POSTA}",
                       "commit", "-q", "-m", f"bilgi paketi {paket['surum']}"])
     kod, cikti = akis._git(kopya, ["push", "-q", "origin", f"HEAD:{akis.DAL}"])
+    if kod != 0:
+        # Aynı dala akış da yazıyor; arada kalırsak itme reddediliyor.
+        # Bir kez yeniden deniyoruz: uzağın üstüne bin, paketi tekrar yaz.
+        # Paket kaynaktan üretildiği için bu kayıpsız bir işlem.
+        akis._git(kopya, ["fetch", "-q", "--depth", "1", "origin", akis.DAL])
+        akis._git(kopya, ["reset", "-q", "--hard", "FETCH_HEAD"])
+        (kopya / KAYNAK_KLASOR).mkdir(exist_ok=True)
+        (kopya / KAYNAK_KLASOR / "kur.py").write_text(
+            Path(__file__).read_text(encoding="utf-8"), encoding="utf-8")
+        yol.write_text(metin)
+        akis._git(kopya, ["add", "-A"])
+        akis._git(kopya, ["-c", f"user.name={akis.KULLANICI}", "-c", f"user.email={akis.POSTA}",
+                          "commit", "-q", "-m", f"bilgi paketi {paket['surum']}"])
+        kod, cikti = akis._git(kopya, ["push", "-q", "origin", f"HEAD:{akis.DAL}"])
     return kod == 0, ("itildi" if kod == 0 else cikti[-160:])
 
 
