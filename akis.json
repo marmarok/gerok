@@ -1,39 +1,74 @@
 {
  "bicim": 1,
- "zaman": "2026-08-23T15:32:01+03:00",
- "kadans": "saatlik",
- "durum": "iyi",
+ "zaman": "2026-08-23T15:32:52+03:00",
+ "kadans": "gunluk",
+ "durum": "bilinen",
  "sayilar": {
-  "kontrol": 4,
-  "sinama": 14,
-  "gecen": 4,
-  "bilinen": 0,
+  "kontrol": 60,
+  "sinama": 1041,
+  "gecen": 59,
+  "bilinen": 1,
   "sorun": 0,
-  "sure": 0.4,
-  "kosu": 31
+  "sure": 41.8,
+  "kosu": 32
  },
  "sorunlar": [],
- "bilinenler": [],
+ "bilinenler": [
+  {
+   "ad": "Math.min(...dizi) yığın taşması",
+   "not": "app.js:697; app.js:4603; gerok.js:447; sihirbaz.js:393; sihirbaz.js:394; sihirbaz.js:395 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
+  }
+ ],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 3,
-   "toplam": 3,
-   "sinama": 6
+   "gecen": 13,
+   "toplam": 13,
+   "sinama": 98
   },
   "bekci": {
+   "gecen": 9,
+   "toplam": 9,
+   "sinama": 69
+  },
+  "kod": {
+   "gecen": 8,
+   "toplam": 8,
+   "sinama": 417
+  },
+  "veri": {
+   "gecen": 2,
+   "toplam": 2,
+   "sinama": 9
+  },
+  "gizlilik": {
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 13
+  },
+  "sartname": {
    "gecen": 1,
    "toplam": 1,
-   "sinama": 8
+   "sinama": 413
+  },
+  "depolama": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 1
+  },
+  "davranis": {
+   "gecen": 21,
+   "toplam": 21,
+   "sinama": 21
   }
  },
  "derin": {
   "kadans": "gunluk",
-  "zaman": "2026-08-23T15:28:12+03:00",
+  "zaman": "2026-08-23T15:32:52+03:00",
   "kontrol": 60,
   "sinama": 1041,
-  "gecen": 58,
-  "sorun": 1,
+  "gecen": 59,
+  "sorun": 0,
   "gruplar": {
    "yayin": {
     "gecen": 13,
@@ -41,7 +76,7 @@
     "sinama": 98
    },
    "bekci": {
-    "gecen": 8,
+    "gecen": 9,
     "toplam": 9,
     "sinama": 69
    },
@@ -128,17 +163,7 @@
    "govde": "Hepsi geçti. 4/4 kontrol · 14 ayrı sınama."
   }
  ],
- "bekleyen": [
-  {
-   "id": "c2de88561e17",
-   "soru": "“Koşular taze” kontrolü takılıyor ve kendim onaramadım. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu? (Ayrıntısı panoda duruyor.)",
-   "secenekler": [
-    "Bu bilinen bir durum",
-    "Gerçekten bozuk, bak",
-    "Yanlış alarm"
-   ]
-  }
- ],
+ "bekleyen": [],
  "telefonSinamasi": [
   "Sesli not bırak ve ÇAL — sesi duyuyor musun?",
   "Galeriden 3 fotoğraf ekle — çubuk akıyor mu, özet çıkıyor mu?",
@@ -333,6 +358,12 @@
    "k": "saatlik",
    "g": 4,
    "n": 4
+  },
+  {
+   "t": "2026-08-23T15:32:52+03:00",
+   "k": "gunluk",
+   "g": 59,
+   "n": 60
   }
  ]
 }
