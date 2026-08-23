@@ -5,7 +5,7 @@
 // Neden önbelleğin adına bakmıyoruz: yeni sürüm indiğinde önbellek adı değişiyor
 // ama ekrandaki kod hâlâ eski oluyor — uygulama kendini güncellenmiş sanıyordu.
 // Bu satır ekrandaki dosyanın içinde olduğu için yalan söyleyemiyor.
-const BU_SURUM = 'gerok-100-20260823-172743';
+const BU_SURUM = 'gerok-101-20260823-233115';
 
 import * as veri from './veri.js';
 import * as iz from './iz.js';
@@ -3366,15 +3366,20 @@ function durakSor({ lat, lon, mevcut = null, buradan = false }) {
       await gerok.durakDuzenle(d.id, { ad, gun, unutma });
       kayitBildir('Durak güncellendi.', 'iyi');
     } else {
-      await gerok.durakEkle({ ad, lat: enlem, lon: boylam, gun, unutma });
+      // `durum.duraklar` diye bir alan HİÇ OLMADI; buradaki okuma her durak
+      // eklemede sessizce patlıyordu. Sonucu görünmezdi ama ağırdı: durak
+      // kaydediliyor, ardından gelen bildirim, `tazele()` ve bekçinin sorusu
+      // hiç çalışmıyordu. Durak listesi ancak başka bir şey ekranı yeniden
+      // çizdiğinde güncelleniyordu.
+      const yeni = await gerok.durakEkle({ ad, lat: enlem, lon: boylam, gun, unutma });
       // Nereden geldiğini söylemek işe yarıyor: "Burayı durak yap"a basınca
       // konumun gerçekten alındığı ancak bu cümleyle anlaşılıyor.
       kayitBildir(buradan
         ? 'Bulunduğun yer durak yapıldı'
-        : `Durak eklendi · ${durum.duraklar.length + 1}. sıra`, 'iyi');
+        : `Durak eklendi · ${gerok.duraklar().length}. sıra`, 'iyi');
       // Mac'teki bekçi telefondan eklenen durağı hiç görmüyor. Kartı yoksa
-      // bunu ancak buradan haber verebiliyoruz.
-      const yeni = gerok.duraklar().find(x => x.ad === ad && x.kaynak === 'kendi');
+      // bunu ancak buradan haber verebiliyoruz. Dönen kaydı kullanıyoruz;
+      // ada göre aramak, aynı adlı iki durakta yanlış olanı bulurdu.
       if (yeni) setTimeout(() => bilgiEksikSor(yeni), 1200);
     }
     await tazele();
@@ -3491,7 +3496,9 @@ function durakKartiAc(id, { uc = false } = {}) {
       ortuKapat();
       const kaldir = dur === deger;
       await veri.durakDurumuYaz(id, kaldir ? null : deger);
-      const d = durum.duraklar.find(x => x.id === id);
+      // Aynı hata buradaydı: "Gittik" işareti yazılıyor, ama bildirim ve
+      // `tazele()` patlayan bu satır yüzünden hiç çalışmıyordu.
+      const d = gerok.durakBul(id);
       if (!kaldir && d) kayitBildir(`${d.ad} · ${deger === 'gidildi' ? 'gittik' : 'kaçırdık'}`, 'iyi');
       await tazele();
     });
