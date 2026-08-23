@@ -1,0 +1,418 @@
+[
+ {
+  "kod": "MK",
+  "ad": "Kuzey Makedonya",
+  "baskent": "Üsküp (Skopje)",
+  "para": {
+   "kod": "MKD",
+   "ad": "Makedon dinarı",
+   "kur": "1 EUR ≈ 61,5 MKD (yıllardır neredeyse sabit)",
+   "nakit": "Çarşıda nakit şart. Havalimanı bozdurma kurları kötü; şehirde 'menuvachnica' tabelalı büfeler komisyonsuz ve kur panoda yazılı."
+  },
+  "dil": "Makedonca (Kiril alfabesi). Üsküp ve Tetova'da Arnavutça, Türk Çarşısı'nda Türkçe konuşan esnaf çok.",
+  "sozler": [
+   [
+    "Merhaba",
+    "Здраво — zdravo"
+   ],
+   [
+    "Teşekkürler",
+    "Благодарам — blagodaram"
+   ],
+   [
+    "Ne kadar?",
+    "Колку чини? — kolku çini"
+   ],
+   [
+    "Su",
+    "Вода — voda"
+   ],
+   [
+    "Hesap",
+    "Сметка — smetka"
+   ],
+   [
+    "Pahalı",
+    "Скапо — skapo"
+   ],
+   [
+    "Güle güle",
+    "Пријатно — priyatno"
+   ]
+  ],
+  "fiyat": [
+   [
+    "Espresso / Türk kahvesi",
+    "60–120 MKD"
+   ],
+   [
+    "Şkembe / çorba",
+    "150–250 MKD"
+   ],
+   [
+    "Kebapçe (10 adet)",
+    "250–350 MKD"
+   ],
+   [
+    "Şehir içi taksi",
+    "100–250 MKD"
+   ],
+   [
+    "1 lt su (market)",
+    "30–40 MKD"
+   ],
+   [
+    "Müze girişi",
+    "100–300 MKD"
+   ]
+  ],
+  "turkiye": "Genel yeme-içme Türkiye'yle yakın, kimi yerde biraz ucuz. Market ve alkol Türkiye'den belirgin ucuz. Giyim markaları benzer. Kuyumculuk ve gümüş Türkiye'den pahalı.",
+  "dikkat": [
+   "Kiril alfabesi tabelalarda esas; Latin harfli karşılığı hep yok. Harita paketi bunu Latin gösteriyor.",
+   "Taksiye binerken taksimetre çalışıyor mu bak; 'anlaştık' fiyatı turiste yüksek çıkıyor.",
+   "Kart geçen yer arttı ama çarşıda ve küçük lokantada nakit ister."
+  ],
+  "tuvalet": "Çarşıda ve müzelerde ücretli, 20–30 MKD. Bozukluk taşı.",
+  "internet": "Kafelerde ücretsiz wi-fi yaygın ve parolayı sormak normal. AB dolaşımı yok; Türk hattı yurt dışı paketi ister."
+ },
+ {
+  "kod": "RS",
+  "ad": "Sırbistan",
+  "baskent": "Belgrad (Beograd)",
+  "para": {
+   "kod": "RSD",
+   "ad": "Sırp dinarı",
+   "kur": "1 EUR ≈ 117 RSD",
+   "nakit": "Euro her yerde geçmez, dinar şart. Şehirdeki 'menjačnica' büfelerinde kur bankadan iyi ve komisyon yok."
+  },
+  "dil": "Sırpça. Kiril ve Latin alfabesi yan yana kullanılıyor — aynı sokakta iki tabela iki alfabede olabiliyor.",
+  "sozler": [
+   [
+    "Merhaba",
+    "Здраво — zdravo"
+   ],
+   [
+    "Teşekkürler",
+    "Хвала — hvala"
+   ],
+   [
+    "Ne kadar?",
+    "Колико кошта? — koliko koşta"
+   ],
+   [
+    "Su",
+    "Вода — voda"
+   ],
+   [
+    "Hesap",
+    "Рачун — raçun"
+   ],
+   [
+    "Affedersiniz",
+    "Извините — izvinite"
+   ],
+   [
+    "Güle güle",
+    "Довиђења — doviđenya"
+   ]
+  ],
+  "fiyat": [
+   [
+    "Espresso",
+    "150–250 RSD"
+   ],
+   [
+    "Ćevapi porsiyon",
+    "500–900 RSD"
+   ],
+   [
+    "Belgrad'da bira",
+    "250–400 RSD"
+   ],
+   [
+    "Toplu taşıma",
+    "50–100 RSD"
+   ],
+   [
+    "Müze girişi",
+    "300–600 RSD"
+   ]
+  ],
+  "turkiye": "Belgrad altı ülkenin en pahalısı; kafe ve restoran İstanbul merkez fiyatlarına yakın. Buna karşılık kırtasiye, kozmetik ve alkol ucuz.",
+  "dikkat": [
+   "Knez Mihailova gibi ana caddede menüde fiyat yazmayan yere oturma.",
+   "Kalemegdan çevresinde 'ücretsiz tur' diye başlayıp sonunda bahşiş dayatan rehberler var.",
+   "Türkiye'den giderken pasaport damgası alınıyor; Kosova damgası varsa Sırbistan girişinde soru çıkabiliyor — turda bu sıra genelde tersten kurulur."
+  ],
+  "tuvalet": "Alışveriş merkezleri ve kafeler temiz ve ücretsiz. Sokak tuvaleti 50–100 RSD.",
+  "internet": "Belgrad'da şehir wi-fi'si (BgWiFi) çoğu meydanda açık ve ücretsiz."
+ },
+ {
+  "kod": "BA",
+  "ad": "Bosna-Hersek",
+  "baskent": "Saraybosna (Sarajevo)",
+  "para": {
+   "kod": "BAM",
+   "ad": "Konvertibil marka",
+   "kur": "1 EUR = 1,95583 BAM — kanunla sabit, hiç oynamaz",
+   "nakit": "Marka sabit olduğu için hesabı euro üzerinden yapmak kolay: markayı ikiye böl, euro'yu bul. Turistik yerler euro alıyor ama kuru kendine göre yuvarlıyor; markayla ödemek daha ucuz."
+  },
+  "dil": "Boşnakça / Hırvatça / Sırpça — konuşma dili aynı. Boşnakçada Türkçeden geçmiş yüzlerce kelime var: čaršija, avlija, komšija, dućan, jastuk, čarapa.",
+  "sozler": [
+   [
+    "Merhaba",
+    "Zdravo / Merhaba"
+   ],
+   [
+    "Teşekkürler",
+    "Hvala"
+   ],
+   [
+    "Ne kadar?",
+    "Koliko košta?"
+   ],
+   [
+    "Su",
+    "Voda"
+   ],
+   [
+    "Hesap",
+    "Račun"
+   ],
+   [
+    "Buyurun",
+    "Izvolite"
+   ],
+   [
+    "Güle güle",
+    "Doviđenja"
+   ]
+  ],
+  "fiyat": [
+   [
+    "Bosna kahvesi (takımıyla)",
+    "2–4 BAM"
+   ],
+   [
+    "Ćevapi 10'luk somunuyla",
+    "8–14 BAM"
+   ],
+   [
+    "Burek dilim",
+    "3–5 BAM"
+   ],
+   [
+    "Blagaj tekke girişi",
+    "10 BAM"
+   ],
+   [
+    "Şehir içi tramvay",
+    "1,80 BAM"
+   ]
+  ],
+  "turkiye": "Yeme-içme Türkiye'yle çok yakın, bazı yerde ucuz. Bakır işi, kahve takımı ve el işi Türkiye'den pahalı ama işçilik başka. Türk marketi ürünleri (çay, lokum) burada da bulunuyor, almaya değmez.",
+  "dikkat": [
+   "Blagaj ve Mostar çevresinde otopark ücretleri fahiş; şoför nereye bıraktığını söylesin.",
+   "Tekke ve cami girişinde kadınlara etek ve başörtüsü veriliyor, ayakkabı çıkıyor.",
+   "Dağ yollarında (Konjic–Jablanica) telefon çeker çekmez kesiliyor; harita paketi burada işe yarıyor."
+  ],
+  "tuvalet": "Başçarşı'da ücretli, 1 BAM. Camii avlularında ücretsiz.",
+  "internet": "Saraybosna kafelerinde ücretsiz. Neretva vadisinde şebeke zayıf."
+ },
+ {
+  "kod": "ME",
+  "ad": "Karadağ",
+  "baskent": "Podgorica",
+  "para": {
+   "kod": "EUR",
+   "ad": "Euro",
+   "kur": "Karadağ euro kullanıyor ama Avro Bölgesi üyesi değil",
+   "nakit": "Kart yaygın. Plaj ve tekne turlarında nakit isteniyor."
+  },
+  "dil": "Karadağca (Sırpçayla aynı konuşma dili). Sahilde İtalyanca ve Rusça çok duyulur.",
+  "sozler": [
+   [
+    "Merhaba",
+    "Zdravo"
+   ],
+   [
+    "Teşekkürler",
+    "Hvala"
+   ],
+   [
+    "Ne kadar?",
+    "Koliko košta?"
+   ],
+   [
+    "Deniz",
+    "More"
+   ],
+   [
+    "Hesap",
+    "Račun"
+   ],
+   [
+    "Güle güle",
+    "Doviđenja"
+   ]
+  ],
+  "fiyat": [
+   [
+    "Espresso",
+    "1,5–2,5 €"
+   ],
+   [
+    "Kotor sur girişi",
+    "8 €"
+   ],
+   [
+    "Şezlong (Budva/Sveti Stefan)",
+    "20–30 €"
+   ],
+   [
+    "Sahilde otopark",
+    "2–4 €/saat"
+   ],
+   [
+    "Deniz ürünü ana yemek",
+    "15–25 €"
+   ]
+  ],
+  "turkiye": "Sahil kesimi altı ülkenin en pahalısı — Budva ve Sveti Stefan Türkiye'nin lüks tatil beldelerine yakın. İç kesim ucuz. Ağustosta her şeye zam var.",
+  "dikkat": [
+   "Sveti Stefan ADASI özel; otel misafiri değilseniz adaya girilmiyor. Satılan 'ada turu' aslında ücretsiz halk plajına götürüyor.",
+   "Budva'da taksimetresiz taksi ve jet-ski hasar iddiası en çok şikâyet edilen iki tuzak.",
+   "Şezlong fiyatını oturmadan sor; oturduktan sonra söylenen rakam pazarlığa kapalı."
+  ],
+  "tuvalet": "Kotor eski şehirde ücretli 1 €. Plajlarda kafelere bağlı.",
+  "internet": "Sahilde iyi. Kotor surlarında çeker."
+ },
+ {
+  "kod": "AL",
+  "ad": "Arnavutluk",
+  "baskent": "Tiran (Tiranë)",
+  "para": {
+   "kod": "ALL",
+   "ad": "Arnavut leki",
+   "kur": "1 EUR ≈ 100 lek (yuvarlak hesap kolaylığı)",
+   "nakit": "Nakit ağırlıklı. 'Lek i vjetër' (eski lek) diye on katı söyleyen esnaf olabiliyor — 'yeni lek mi?' diye sor."
+  },
+  "dil": "Arnavutça. Türkçeden geçmiş kelime çok: çarshi, dyqan, jastëk, sheqer.",
+  "sozler": [
+   [
+    "Merhaba",
+    "Përshëndetje / Tungjatjeta"
+   ],
+   [
+    "Teşekkürler",
+    "Faleminderit"
+   ],
+   [
+    "Ne kadar?",
+    "Sa kushton?"
+   ],
+   [
+    "Su",
+    "Ujë"
+   ],
+   [
+    "Hesap",
+    "Fatura"
+   ],
+   [
+    "Evet / Hayır",
+    "Po / Jo"
+   ]
+  ],
+  "fiyat": [
+   [
+    "Espresso",
+    "100–150 lek"
+   ],
+   [
+    "Byrek dilim",
+    "50–100 lek"
+   ],
+   [
+    "Ana yemek",
+    "500–900 lek"
+   ],
+   [
+    "Şehir içi otobüs",
+    "40 lek"
+   ],
+   [
+    "Tiran Piramidi çıkışı",
+    "ücretsiz"
+   ]
+  ],
+  "turkiye": "Altı ülkenin en ucuzu. Yeme-içme Türkiye'nin belirgin altında. Kahve kültürü çok güçlü ve fiyatı düşük.",
+  "dikkat": [
+   "Arnavutlar başı yukarı kaldırmayı 'hayır', yana sallamayı 'evet' anlamında kullanabiliyor — teyit et.",
+   "Tiran trafiği yayaya alışkın değil; geçitte bile bak.",
+   "Bazı yerlerde para birimini euro sanıp on katı ödeme riski var; fişe bak."
+  ],
+  "tuvalet": "Kafeler ücretsiz, bir şey ısmarlamak yeterli.",
+  "internet": "Tiran'da çok iyi, kafelerin hepsinde ücretsiz."
+ },
+ {
+  "kod": "XK",
+  "ad": "Kosova",
+  "baskent": "Priştine (Prishtinë)",
+  "para": {
+   "kod": "EUR",
+   "ad": "Euro",
+   "kur": "Kosova euro kullanıyor, Avro Bölgesi üyesi değil",
+   "nakit": "Küçük esnaf nakit. Bankamatikler şehir merkezinde bol."
+  },
+  "dil": "Arnavutça ve Sırpça. Prizren'de Türkçe RESMİ DİL — belediyede, tabelada, okulda Türkçe var. Türkçe konuşan çok.",
+  "sozler": [
+   [
+    "Merhaba",
+    "Përshëndetje — ama Prizren'de Türkçe de yeter"
+   ],
+   [
+    "Teşekkürler",
+    "Faleminderit"
+   ],
+   [
+    "Ne kadar?",
+    "Sa kushton?"
+   ],
+   [
+    "Su",
+    "Ujë"
+   ],
+   [
+    "Hesap",
+    "Fatura"
+   ]
+  ],
+  "fiyat": [
+   [
+    "Makyato (kahve)",
+    "1–1,5 €"
+   ],
+   [
+    "Flia / ana yemek",
+    "4–7 €"
+   ],
+   [
+    "Prizren Kalesi",
+    "ücretsiz"
+   ],
+   [
+    "Şehirler arası minibüs",
+    "3–5 €"
+   ]
+  ],
+  "turkiye": "Türkiye'yle en yakın fiyat düzeyi ve en tanıdık damak. Kahve Türkiye'den ucuz. Deri ve gümüş işçiliği makul.",
+  "dikkat": [
+   "Kosova damgalı pasaportla Sırbistan'a GİRİŞ sorun çıkarabiliyor; Sırbistan'a önce girip Kosova'yı sona bırakmak turların standart çözümü.",
+   "Prizren'de Türkçe konuşmak kapı açıyor; esnafla pazarlık kolaylaşıyor.",
+   "Şehirler arası yol iyi ama tabelalar iki dilli, adlar farklı yazılıyor (Prizren / Prizreni)."
+  ],
+  "tuvalet": "Kafeler ücretsiz.",
+  "internet": "Priştine ve Prizren'de iyi."
+ }
+]

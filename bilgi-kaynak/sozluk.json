@@ -1,0 +1,392 @@
+{
+ "çarşı": {
+  "kisa": "Kapalı ya da yarı kapalı esnaf sokakları bütünü.",
+  "uzun": "Osmanlı şehrinde çarşı yalnızca alışveriş yeri değil, şehrin merkeziydi: her zanaat kendi sokağında toplanırdı — bakırcılar bir sokak, kuyumcular başka bir sokak. Balkanlarda bu düzen ayakta: Üsküp'te Türk Çarşısı, Saraybosna'da Başçarşı hâlâ sokak sokak zanaatlara bölünmüş. Boşnakçada 'čaršija', Arnavutçada 'çarshi' yazılıyor; kelime doğrudan Türkçeden geçmiş.",
+  "oyku": "balkan",
+  "ilgili": [
+   "bedesten",
+   "han",
+   "kazancı",
+   "mahalle"
+  ]
+ },
+ "bedesten": {
+  "kisa": "Çarşının ortasındaki kilitli, kubbeli değerli mal hanı.",
+  "uzun": "Kumaş, mücevher ve para gibi kıymetli malın satıldığı, kalın duvarlı ve demir kapılı yapı. Gece kilitlenirdi, şehrin kasası sayılırdı. Çarşı yanarsa bedesten ayakta kalsın diye taştan yapılırdı — bu yüzden Balkanlarda ayakta kalan en eski çarşı yapıları çoğu kez bedestenlerdir.",
+  "oyku": "balkan",
+  "ilgili": [
+   "çarşı",
+   "han"
+  ]
+ },
+ "han": {
+  "kisa": "Kervanların ve tüccarların konakladığı avlulu yapı.",
+  "uzun": "Alt katta hayvanlar ve mal, üst katta odalar. Şehir içindekine han, yol üstündekine kervansaray denir. Kurşumlu Han (Üsküp) ve Morića Han (Saraybosna) bugün ayakta duran örnekler; ikisi de artık müze ya da kahvehane.",
+  "oyku": "balkan",
+  "ilgili": [
+   "kervansaray",
+   "çarşı"
+  ]
+ },
+ "kervansaray": {
+  "kisa": "Yol üstünde, kervanların bir gecelik durağı.",
+  "uzun": "Bir günlük deve yürüyüşü (yaklaşık 30–40 km) aralıklarla kurulurdu. Ücretsiz konaklama, yemek ve hayvan bakımı vakıf gelirinden karşılanırdı. Balkan yollarındaki bu ağ, Osmanlı ticaretinin omurgasıydı.",
+  "oyku": "balkan",
+  "ilgili": [
+   "han"
+  ]
+ },
+ "tekke": {
+  "kisa": "Tasavvuf yolunun toplandığı, yaşanan ve ibadet edilen yapı.",
+  "uzun": "Cami ibadet yeridir, tekke ise bir topluluğun birlikte yaşadığı yerdir: zikir odası, mutfak, misafir odaları ve türbe bir arada bulunur. Blagaj Tekkesi (Bosna), kayanın dibinde Buna nehrinin kaynağında kurulmuş 600 yıllık bir Bektaşî tekkesidir ve bugün de ziyarete açıktır.",
+  "oyku": "balkan",
+  "ilgili": [
+   "türbe",
+   "derviş",
+   "zaviye"
+  ]
+ },
+ "zaviye": {
+  "kisa": "Küçük tekke; çoğu kez yol üstünde bir odalı.",
+  "uzun": "Tekkenin küçüğü. Yolcuya yatak ve yemek veren, bir dervişin baktığı küçük yapı. Balkanların İslamlaşmasında camiden önce zaviyeler gitmiştir.",
+  "oyku": "balkan",
+  "ilgili": [
+   "tekke"
+  ]
+ },
+ "derviş": {
+  "kisa": "Bir tasavvuf yoluna bağlı kişi.",
+  "uzun": "Bir şeyhe bağlanıp belirli bir yol (tarikat) içinde eğitim gören kişi. Balkanlarda Bektaşî, Nakşî, Halvetî ve Mevlevî yolları yaygındı; Arnavutluk'ta Bektaşîlik hâlâ örgütlü bir yapı ve dünya merkezi Tiran'dadır.",
+  "oyku": "balkan",
+  "ilgili": [
+   "tekke"
+  ]
+ },
+ "türbe": {
+  "kisa": "Bir kişinin üzerine yapılmış, çoğu kubbeli mezar yapısı.",
+  "uzun": "Mezar üstüne yapılan anıt yapı. Kosova'daki I. Murad Hüdavendigâr Türbesi, 1389 Kosova Savaşı'nda öldürülen padişahın iç organlarının gömüldüğü yerdir; naaşı Bursa'ya götürülmüştür. Yapı bugün de bir Türk ailesi tarafından kuşaklardır bakılıyor.",
+  "oyku": "balkan",
+  "ilgili": [
+   "tekke"
+  ]
+ },
+ "medrese": {
+  "kisa": "Osmanlı'nın yüksek öğretim kurumu.",
+  "uzun": "Din, hukuk, mantık ve matematik okutulan okul. Odalar avluya bakar, ortada bir dershane bulunur. Saraybosna'daki Gazi Hüsrev Bey Medresesi 1537'den beri aralıksız açık — Avrupa'nın kesintisiz çalışan en eski okullarından biri.",
+  "oyku": "balkan"
+ },
+ "sebil": {
+  "kisa": "Sokakta karşılıksız su dağıtan küçük yapı.",
+  "uzun": "Vakıf eseri olarak yapılır, görevlisi gelene bardakla su verirdi. Saraybosna Başçarşı meydanındaki ahşap Sebilj şehrin simgesi olmuştur; 1753 tarihli, bugünkü hâli 1913 onarımıdır.",
+  "oyku": "balkan"
+ },
+ "mahalle": {
+  "kisa": "Çoğu kez bir cami ya da kilise etrafında kurulan konut birimi.",
+  "uzun": "Osmanlı şehri mahallelerden kuruluydu ve her mahalle vergi ve güvenlikte ortak sorumluydu. Kelime Boşnakçaya 'mahala', Arnavutçaya 'mahallë' olarak geçmiştir.",
+  "oyku": "balkan"
+ },
+ "konak": {
+  "kisa": "Büyük, çoğu iki katlı şehir evi.",
+  "uzun": "Alt kat taş ve servis, üst kat ahşap ve yaşam alanı. Saraybosna'daki Svrzo Evi ve Prizren evleri bu düzeni koruyor: haremlik-selamlık ayrımı, avlu, çeşme.",
+  "oyku": "balkan"
+ },
+ "stećak": {
+  "kisa": "Ortaçağ Bosna'sına özgü büyük taş mezar taşı.",
+  "uzun": "12.–16. yüzyıl arası Bosna ve Hersek'e yayılmış, sandık ya da ev biçiminde iri taş mezar taşları. Üzerlerindeki kabartmalar — dans eden insanlar, kalkanlı süvariler, hilal ve güneş — hiçbir komşu geleneğe tam benzemez. UNESCO listesinde.",
+  "oyku": "balkan"
+ },
+ "kazancı": {
+  "kisa": "Bakır kap kacak döven usta.",
+  "uzun": "Saraybosna'daki Kazandžiluk sokağı adını bu zanaattan alır; 500 yıldır aynı sokakta aynı iş yapılıyor. Cezve, tepsi, kahve takımı burada elde dövülüyor — çekiç izleri düz değilse el işidir, kusursuz düzgünlük makine demektir.",
+  "oyku": "balkan",
+  "ilgili": [
+   "çarşı",
+   "filigran"
+  ]
+ },
+ "filigran": {
+  "kisa": "İnce gümüş telin burularak işlendiği kuyumculuk tekniği.",
+  "uzun": "Tel gümüş elde bükülerek dantel gibi örülür. Üsküp Türk Çarşısı ve Prizren bu işin Balkanlardaki iki merkezidir. Ağırlığa göre değil işçiliğe göre fiyatlanır; aynı gramda iki parça çok farklı fiyat edebilir.",
+  "oyku": "balkan"
+ },
+ "ćevapi": {
+  "kisa": "Küçük, baharatsız dana köfte; somun içinde soğanla verilir.",
+  "uzun": "Boşnakça okunuşu 'çevapi'. Kıyma yalnız tuz ve karabiberle yoğrulur, ızgarada pişer, 'somun' denen yumuşak pide içinde çiğ soğanla sunulur. Saraybosna'da 5 ya da 10 adet olarak ısmarlanır; yanında kaymak (kajmak) istemek yereldir. Üsküp'te aynı şeye 'kebapçe' denir.",
+  "oyku": "balkan",
+  "ilgili": [
+   "kajmak",
+   "somun"
+  ]
+ },
+ "burek": {
+  "kisa": "Etli yufka böreği; peynirlisine burek denmez.",
+  "uzun": "Balkanlarda burek yalnızca ETLİdir. Peynirli olanı 'sirnica', ıspanaklı 'zeljanica', patatesli 'krompiruša' diye ayrı adlar taşır. Lokantada 'peynirli burek' istemek yerel kulakta yanlış durur. Yanında ayran (jogurt) içilir.",
+  "oyku": "balkan"
+ },
+ "ajvar": {
+  "kisa": "Közlenmiş kırmızı biberden yapılan ezme.",
+  "uzun": "Sonbaharda evlerde kazanla yapılır ve kışa saklanır; Balkanlarda 'kış hazırlığı' demektir. Tatlı ve acı olmak üzere iki tür var. Kavanozla hediyelik satılır ama uçakta el bagajına giremez — sıvı sayılıyor.",
+  "oyku": "balkan"
+ },
+ "kajmak": {
+  "kisa": "Süt kaymağından yapılan tuzlu, olgunlaştırılmış sürme.",
+  "uzun": "Türkiye'deki tatlı kaymağın değil, tuzlu ve hafif ekşimiş bir peynirimsinin adı. Sırbistan ve Bosna'da ćevapi ve ekmekle yenir. İlk kaşık şaşırtır, ikinci kaşıkta alışılır.",
+  "oyku": "balkan",
+  "ilgili": [
+   "ćevapi"
+  ]
+ },
+ "rakija": {
+  "kisa": "Meyve damıtılarak yapılan sert içki.",
+  "uzun": "Erikten yapılana šljivovica, üzümden yapılana lozovača denir. Balkanlarda misafire ilk ikram edilen şey çoğu kez budur; reddetmek kabalık sayılabildiği için 'araba kullanıyorum' demek kabul gören bir kaçamaktır.",
+  "oyku": "balkan"
+ },
+ "boza": {
+  "kisa": "Darı ya da mısırdan yapılan, hafif ekşi, koyu içecek.",
+  "uzun": "Balkanlarda serinletici olarak yazın da içiliyor — Türkiye'deki kış içeceği alışkanlığından farklı. Üsküp ve Priştine'de sokak büfelerinde bulunur.",
+  "oyku": "balkan"
+ },
+ "tavče gravče": {
+  "kisa": "Toprak kapta fırınlanmış kuru fasulye — Makedonya'nın millî yemeği.",
+  "uzun": "Kırmızı biber ve soğanla toprak sahanda fırınlanır, sahanıyla masaya gelir. Etsiz hâli yaygındır. Kelime kelime 'tavada fasulye' demek.",
+  "oyku": "balkan"
+ },
+ "pastrmka": {
+  "kisa": "Alabalık.",
+  "uzun": "Ohrid Gölü, Blagaj'daki Buna kaynağı ve Sveti Naum'da tabaktaki balık çoğu kez budur. Ohrid'in kendine özgü ve nesli tehlikedeki 'letnica' türü avlanma yasağı dönemlerinde menüden kalkar; menüde 'ohridska pastrmka' yazıp da çok ucuzsa büyük ihtimalle çiftlik balığıdır.",
+  "oyku": "balkan"
+ },
+ "byrek": {
+  "kisa": "Arnavut böreği.",
+  "uzun": "Aynı hamur işinin Arnavutçası. Tiran'da sabah kahvaltısının standardı: bir dilim byrek ve bir makyato. 50–100 lek.",
+  "oyku": "balkan",
+  "ilgili": [
+   "burek"
+  ]
+ },
+ "flia": {
+  "kisa": "Kat kat pişirilen Kosova hamur yemeği.",
+  "uzun": "İnce hamur katları sırayla ateşte pişirilir, arasına kaymak sürülür; saatler alır. Bayram ve düğün yemeği sayılır, lokantada bulmak için önceden sormak gerekir.",
+  "oyku": "balkan"
+ },
+ "somun": {
+  "kisa": "Balkanlarda ćevapi ile verilen yumuşak, kabarık pide.",
+  "uzun": "İçi boşaltılıp köfte doldurulur. Fırından yeni çıkmışı ayrı yenir.",
+  "oyku": "balkan",
+  "ilgili": [
+   "ćevapi"
+  ]
+ },
+ "makyato": {
+  "kisa": "Arnavutluk ve Kosova'da 'kahve' denince akla gelen içecek.",
+  "uzun": "İtalyan macchiato'sundan gelir ama yereldir: küçük bardakta espresso üstüne az süt. 1–1,5 €. Arnavutluk'ta kahve içmek sosyal hayatın merkezidir; kafeler sabah dokuzda dolu olur.",
+  "oyku": "balkan"
+ },
+ "salep": {
+  "kisa": "Orkide kökü nişastasından yapılan sıcak içecek.",
+  "uzun": "Balkanlarda da bulunur ama Türkiye'deki kadar yaygın değildir.",
+  "oyku": "balkan"
+ },
+ "tarator": {
+  "kisa": "Yoğurt, salatalık ve sarımsaktan soğuk çorba.",
+  "uzun": "Sıcak günde yemekten önce içilir; cacığın çorba kıvamlısı gibidir.",
+  "oyku": "balkan"
+ },
+ "UNESCO Dünya Mirası": {
+  "kisa": "Birleşmiş Milletler'in koruma altına aldığı kültür ya da doğa alanı.",
+  "uzun": "Listeye girmek koruma yükümlülüğü ve turist ilgisi getirir. Bu rotada Ohrid bölgesi, Mostar Köprüsü ve stećak mezarlıkları listede. Liste, girişin ücretli olduğu anlamına gelmez.",
+  "oyku": "balkan",
+  "ilgili": [
+   "stećak"
+  ]
+ },
+ "eski şehir": {
+  "kisa": "Tarihî çekirdek; çoğu yerde araç girmez.",
+  "uzun": "Kotor'da 'Stari Grad', Saraybosna'da Başçarşı, Budva'da 'Stari Grad'. Otobüsler dışarıda bırakır, içeri yürünür — ayakkabı önemlidir, taş kaygan olur.",
+  "oyku": "balkan"
+ },
+ "kaldırım taşı": {
+  "kisa": "Eski şehirlerin yuvarlak, kaygan taş döşemesi.",
+  "uzun": "Yağmurda ve deniz nemiyle çok kayar. Kotor, Budva ve Ohrid'de düz tabanlı kaymayan ayakkabı, gezinin en somut kolaylığıdır.",
+  "oyku": "balkan"
+ },
+ "şezlong": {
+  "kisa": "Plajda kiralanan güneşlik ve yatak.",
+  "uzun": "Karadağ sahilinde 20–30 €. Fiyatını OTURMADAN sormak gerekiyor: oturduktan sonra söylenen rakam pazarlığa kapalı ve en çok şikâyet edilen konu bu.",
+  "oyku": "balkan"
+ },
+ "Schengen": {
+  "kisa": "Avrupa'da iç sınır kontrolü kaldırılmış ülkeler bölgesi.",
+  "uzun": "Bu rotadaki altı ülkenin HİÇBİRİ Schengen'de değil. Bu yüzden her sınırda tek tek pasaport kontrolü yapılır ve damga alınır. Türk pasaportu bu altı ülkeye vizesiz giriyor.",
+  "oyku": "balkan"
+ },
+ "sınır geçişi": {
+  "kisa": "İki ülke arasındaki kontrol noktası.",
+  "uzun": "Otobüsle geçişte pasaportlar toplanıp topluca veriliyor. Gerok iz kaydından sınırı kendiliğinden fark edip zaman çizgisine düşürür. Geçiş sırasında telefonu şebekeye bağlamak, farkında olmadan dolaşım ücreti başlatabilir.",
+  "oyku": "balkan"
+ },
+ "dolaşım": {
+  "kisa": "Telefonun yurt dışında başka bir operatörün şebekesine bağlanması.",
+  "uzun": "İngilizcesi 'roaming'. Batı Balkanlar AB dolaşım anlaşmasında değil; Türk hattı için ayrı yurt dışı paketi alınmazsa fatura hızla büyür. Uçak modu + wi-fi en güvenlisi ve Gerok bu kipte tam çalışır.",
+  "oyku": "balkan"
+ },
+ "yerel saat": {
+  "kisa": "Bulunulan ülkenin saati.",
+  "uzun": "Bu altı ülke Türkiye'den bir saat geridedir (yazın UTC+2). Telefon şebekeye bağlanınca saati kendiliğinden ayarlar; uçak modunda kalırsa Türkiye saatinde kalır ve kayıtların saati bir saat kayar.",
+  "oyku": "balkan"
+ },
+ "PWA": {
+  "kisa": "Tarayıcıdan kurulan, uygulama gibi çalışan web uygulaması.",
+  "uzun": "Gerok bir PWA. App Store'a girmeden ana ekrana ekleniyor, kendi penceresinde açılıyor, internetsiz çalışıyor. Karşılığında iOS'ta bazı kapılar kapalı: uygulama kapalıyken konum takibi yapamıyor ve titreşim veremiyor.",
+  "oyku": "uygulama",
+  "ilgili": [
+   "önbellek",
+   "çevrimdışı"
+  ]
+ },
+ "önbellek": {
+  "kisa": "Uygulamanın dosyalarının telefonda saklanan kopyası.",
+  "uzun": "İnternetsiz açılabilmesinin sebebi. Gerok'un 51 dosyası ilk açılışta indirilip cihazda tutuluyor; sonraki her açılış internete hiç sormadan bu kopyadan yapılıyor. Bekçi 'önbellek tam mı' diye 50 dosyayı tek tek arıyor.",
+  "oyku": "uygulama",
+  "ilgili": [
+   "PWA",
+   "çevrimdışı motor"
+  ]
+ },
+ "çevrimdışı motor": {
+  "kisa": "Uygulamayı internetsiz ayakta tutan arka plan parçası.",
+  "uzun": "Teknik adı 'service worker'. Tarayıcının arkasında duran, her dosya isteğini yakalayıp önce önbelleğe bakan küçük bir program. Kurulu değilse uygulama internetsiz açılmaz.",
+  "oyku": "uygulama",
+  "ilgili": [
+   "önbellek",
+   "PWA"
+  ]
+ },
+ "iz": {
+  "kisa": "Uygulama açıkken 30 saniyede bir biriken konum noktaları.",
+  "uzun": "Haritadaki çizgiyi bu noktalar çiziyor. Asıl işi başka: fotoğrafın konumu silinmiş olsa bile, çekildiği SAAT ize bakılarak yere oturtuluyor. Şarj %20'nin altına inince aralık 2 dakikaya çıkıyor.",
+  "oyku": "uygulama",
+  "ilgili": [
+   "EXIF",
+   "GPS"
+  ]
+ },
+ "EXIF": {
+  "kisa": "Fotoğrafın içine gömülü çekim bilgisi.",
+  "uzun": "Çekim tarihi, saat, cihaz ve varsa GPS koordinatı. iOS, tarayıcıdan açılan kamerayla çekilen fotoğrafın GPS'ini siliyor — Gerok'un fotoğraf makinesi olmamasının ve galeriden almanın sebebi bu.",
+  "oyku": "uygulama",
+  "ilgili": [
+   "iz",
+   "GPS"
+  ]
+ },
+ "GPS": {
+  "kisa": "Uydulardan konum bulma.",
+  "uzun": "Telefon uydulardan yerini hesaplar; internet gerekmez. Kapalı alanda ve dar vadide zayıflar. Gerok koordinatı önce fotoğrafın kendisinden, yoksa izden, o da yoksa elle iğnelemeden alır.",
+  "oyku": "uygulama",
+  "ilgili": [
+   "iz",
+   "EXIF"
+  ]
+ },
+ "OPFS": {
+  "kisa": "Tarayıcının uygulamaya verdiği özel dosya alanı.",
+  "uzun": "Ses kayıtları ve önizlemeler burada duruyor. Telefonun genel dosya sistemine karışmaz, uygulama silinince o da gider — yedeğin gereksiz değil zorunlu olmasının sebebi bu.",
+  "oyku": "uygulama",
+  "ilgili": [
+   "yedek",
+   "kalıcı depolama"
+  ]
+ },
+ "kalıcı depolama": {
+  "kisa": "Tarayıcının 'yer açmam gerekirse bunu silme' sözü.",
+  "uzun": "Verilmezse iOS yer sıkışınca uygulamanın verisini haber vermeden temizleyebiliyor. Bekçi bunu sınıyor ve verilmemişse tek dokunuşla istiyor.",
+  "oyku": "uygulama",
+  "ilgili": [
+   "OPFS",
+   "yedek"
+  ]
+ },
+ "AirDrop": {
+  "kisa": "iPhone'lar arasında kablosuz dosya gönderme.",
+  "uzun": "İnternet, hesap ve sunucu gerektirmez. Gerok'ta günün paketi bununla karşıya geçiyor. Aynı paket iki kez alınsa bile kayıtlar ikilenmiyor.",
+  "oyku": "uygulama",
+  "ilgili": [
+   "eşitleme"
+  ]
+ },
+ "eşitleme": {
+  "kisa": "İki telefondaki defteri birbirine katma.",
+  "uzun": "Gerok'ta sunucusuz yapılıyor: bir taraf paket çıkarıyor, öbürü alıyor. Her kaydın benzersiz kimliği olduğu için tekrar oluşmuyor.",
+  "oyku": "uygulama",
+  "ilgili": [
+   "AirDrop",
+   "yedek"
+  ]
+ },
+ "yedek": {
+  "kisa": "Defterin tek dosyaya çıkarılmış tam kopyası.",
+  "uzun": "Gün Sonu akışının son adımı. Uygulama silinse, telefon kaybolsa bile defter bu dosyada durur. İsteğe bağlı değil: tek kopya bırakılmıyor.",
+  "oyku": "uygulama",
+  "ilgili": [
+   "OPFS",
+   "eşitleme"
+  ]
+ },
+ "PMTiles": {
+  "kisa": "Tek dosyaya sığdırılmış çevrimdışı harita paketi.",
+  "uzun": "Gerok'un 357 MB'lık harita paketi bu biçimde. Altı ülkenin yolları, yerleşimleri ve arazisi tek dosyada; internetsiz yakınlaşıp uzaklaşabiliyorsun.",
+  "oyku": "uygulama",
+  "ilgili": [
+   "çevrimdışı",
+   "MapLibre"
+  ]
+ },
+ "MapLibre": {
+  "kisa": "Haritayı çizen açık kaynaklı bileşen.",
+  "uzun": "Harita bir resim değil, veriden anında çizilen bir şey; bu yüzden döndürülebiliyor ve etiketleri okunaklı kalıyor.",
+  "oyku": "uygulama",
+  "ilgili": [
+   "PMTiles"
+  ]
+ },
+ "çevrimdışı": {
+  "kisa": "İnternet olmadan çalışma.",
+  "uzun": "Gerok'un tasarım kararı: internet bir kolaylık, şart değil. Harita, kayıt, iz, yedek ve bekçinin ezberi internetsiz çalışıyor. Yalnız kur çevirme, yer adı bulma ve sesi yazıya çevirme internet ister.",
+  "oyku": "uygulama",
+  "ilgili": [
+   "önbellek",
+   "PMTiles"
+  ]
+ },
+ "bekçi": {
+  "kisa": "Uygulamayı kendi kendine denetleyen iki yarımlı düzenek.",
+  "uzun": "Mac yarısı kodu, yayını ve gizliliği sınıyor; telefon yarısı (bu konuştuğun) bu cihazın deposunu, izinlerini, medyasını ve önbelleğini sınıyor. İkisi ayrı bir dalda duran küçük bir dosyayla haberleşiyor.",
+  "oyku": "uygulama",
+  "ilgili": [
+   "akıl",
+   "sınama"
+  ]
+ },
+ "sınama": {
+  "kisa": "Tek bir iddianın doğru olup olmadığının denetlenmesi.",
+  "uzun": "'Önbellek tam' tek satır görünür ama 50 ayrı dosyanın tek tek arandığı anlamına gelir — o 50 ayrı sınamadır. Bekçinin verdiği büyük sayı bu yüzden kontrol sayısından çok daha büyüktür.",
+  "oyku": "uygulama",
+  "ilgili": [
+   "bekçi"
+  ]
+ },
+ "akıl": {
+  "kisa": "Bekçinin isteğe bağlı dil modeli bağlantısı.",
+  "uzun": "Kapalıyken bekçi kendi ezberinden cevap verir — sabit, denenmiş, bedava, internetsiz. Açıkken sorular bir dil modeline gidiyor ve cevaplar MAVİ kenarla işaretleniyor; hangi cevabın ezber, hangisinin model olduğu karışmasın diye.",
+  "oyku": "uygulama",
+  "ilgili": [
+   "bekçi"
+  ]
+ },
+ "gerok": {
+  "kisa": "Bir gezinin tamamı: günleri, durakları, kayıtları.",
+  "uzun": "Uygulamanın adı da bu. Her gezi ayrı bir Gerok; defterler birbirine karışmıyor. Kürtçede 'gezgin, dolaşan' anlamına gelir.",
+  "oyku": "uygulama"
+ }
+}
