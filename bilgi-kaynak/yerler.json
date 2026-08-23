@@ -3601,5 +3601,48 @@
   "terim": [
    "UNESCO Dünya Mirası"
   ]
+ },
+ {
+  "id": "pogradec",
+  "ad": "Pogradec",
+  "ulke": "AL",
+  "lat": 40.9025,
+  "lon": 20.6497,
+  "yaricap": 4000,
+  "eslesme": [
+   "pogradec",
+   "pogradeci"
+  ],
+  "ozet": "Ohrid Gölü'nün Arnavutluk kıyısındaki sakin göl kasabası; gölün karşı yakasında Ohrid (Kuzey Makedonya) görünür.",
+  "neden": "Göl kıyısı boyunca uzanan bir gezinti yolu var; su berrak ve soğuk, çünkü göl Avrupa'nın en eski ve en derin göllerinden biri. Ohrid'e göre çok daha az kalabalık.",
+  "tarih": "Komünist dönemde tatil kasabasıydı; sınır 1991'e kadar kapalıydı, bu yüzden Ohrid'le bu kadar yakın olmalarına rağmen uzun süre birbirinden habersiz kaldılar.",
+  "gez": [
+   {
+    "ad": "Göl kıyısı bulvarı",
+    "not": "Akşamüstü yerel halkla birlikte yürüyüş yapılan yer.",
+    "sure": "1 saat"
+   },
+   {
+    "ad": "Drilon Parkı",
+    "not": "Kasabanın birkaç km dışında, gölü besleyen berrak kaynak suyu havuzları.",
+    "sure": "1-2 saat",
+    "fiyat": "Giriş birkaç yüz lek"
+   }
+  ],
+  "ye": [
+   {
+    "ad": "Koran balığı",
+    "ne": "Yalnızca Ohrid Gölü'nde yaşayan, alabalığa benzer endemik bir balık.",
+    "fiyat": "Porsiyon 600-1000 lek",
+    "not": "Gölün asıl tanınmışı; kıyıdaki balık lokantalarında bulunur."
+   }
+  ],
+  "al": [],
+  "gezgin": [
+   "Sınırın hemen ötesindeki Ohrid'e (Kuzey Makedonya) kıyı yolundan yaklaşık 30 dakikada geçiliyor; Sveti Naum sınır kapısı yakın."
+  ],
+  "dikkat": [],
+  "turkiye": "Ohrid'e göre ucuz.",
+  "terim": []
  }
 ]
