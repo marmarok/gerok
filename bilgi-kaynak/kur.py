@@ -328,7 +328,10 @@ def yayinla(paket=None, kuru=False):
     return kod == 0, ("itildi" if kod == 0 else cikti[-160:])
 
 
-ADRES = f"https://raw.githubusercontent.com/{akis.KULLANICI}/gerok/{akis.DAL}/{PAKET_ADI}"
+# Modül seviyesinde akis'e dokunmuyoruz: bulut kopyasında yok.
+ADRES = ("https://raw.githubusercontent.com/"
+         f"{akis.KULLANICI if akis else 'marmarok'}/gerok/"
+         f"{akis.DAL if akis else 'bekci'}/{PAKET_ADI}")
 
 
 if __name__ == "__main__":

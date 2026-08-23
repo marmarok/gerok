@@ -1,7 +1,7 @@
 {
  "bicim": 1,
  "surum": "c8aeab45c5c21420",
- "zaman": "2026-08-23T14:24:12+00:00",
+ "zaman": "2026-08-23T14:24:31+00:00",
  "sayilar": {
   "yer": 43,
   "ulke": 6,
@@ -9,59 +9,43 @@
  },
  "yerler": [
   {
-   "lon": 21.428,
+   "ulke": "MK",
    "tarih": "Roma'da Scupi adıyla kuruldu, 518'de bir depremde yok oldu. 1392'de Osmanlı aldı ve 520 yıl kaldı; şehrin bugünkü çekirdeğini bu dönem kurdu. 1963 depremi şehrin %80'ini yıktı — 1070 kişi öldü. Eski tren garı saati o depremden beri 5.17'de durmuş hâlde bırakıldı, bugün müze. Yeniden inşa dünyanın her yerinden gelen yardımla yapıldı; bu yüzden merkezde brütalist beton bloklar Osmanlı çarşısının hemen yanında duruyor.",
-   "ozet": "Vardar'ın iki yakası iki ayrı yüzyıl gibi duran, yarısı Osmanlı yarısı yeni yapılmış başkent.",
+   "lat": 41.9973,
    "dikkat": [
     "Taksimetresiz taksi turiste yüksek fiyat söylüyor; binmeden 'metre' de.",
     "Tabelalar Kiril; Latin karşılığı hep yok. Harita paketi Latin gösteriyor.",
     "Çarşıda tuvalet ücretli, 20–30 MKD bozukluk gerekiyor."
    ],
-   "terim": [
-    "çarşı",
-    "filigran",
-    "kazancı",
-    "han",
-    "kervansaray",
-    "ajvar",
-    "boza",
-    "tavče gravče"
-   ],
-   "gezgin": [
-    "Çarşıda pazarlık normal ve bekleniyor: istenen fiyatın %30–50 altından başlayıp güler yüzle yükselmek yerel âdet.",
-    "Nakit taşı — çarşı esnafının çoğu kart okutmuyor, euro alanlar ise kuru kendine göre yuvarlıyor.",
-    "Türkçe konuşan esnaf çok; Türkçe selam vermek fiyatı da muameleyi de yumuşatıyor.",
-    "Yeni yakadaki heykeller yerel halk arasında sevilmiyor; 'nasıl buldunuz' sorusuna dikkatli cevap veriliyor.",
-    "Kale'ye çıkış öğleden sonra çok sıcak, gölge yok. Sabah ya da gün batımı."
-   ],
-   "ye": [
+   "ad": "Üsküp",
+   "turkiye": "Yeme-içme Türkiye'yle yakın, kimi lokantada ucuz. Gümüş ve bakır işçiliği Türkiye'den PAHALI — Kapalıçarşı'ya alışkın gözle bakınca fiyatlar şaşırtabilir. Market ve alkol belirgin ucuz.",
+   "yaricap": 12000,
+   "al": [
     {
-     "ad": "Kebapçe",
-     "ne": "Küçük dana köfte, somun ve soğanla. 10'luk standart porsiyon.",
-     "fiyat": "250–350 MKD",
-     "not": "Çarşıda Destan ve Turist en çok gidilen iki yer; ikisi de sade lokanta."
+     "ad": "Gümüş filigran",
+     "ne": "İnce gümüş telin dantel gibi örüldüğü Üsküp işi.",
+     "fiyat": "Küçük kolye 800–2500 MKD",
+     "dikkat": "Gramla değil işçilikle fiyatlanır. Damga sor; 925 damgası gümüş demek."
     },
     {
-     "ad": "Tavče gravče",
-     "ne": "Toprak sahanda fırınlanmış kuru fasulye — millî yemek.",
-     "fiyat": "200–300 MKD",
-     "not": "Etsiz hâli yaygın."
+     "ad": "Bakır cezve ve tepsi",
+     "ne": "Çarşıda hâlâ elde dövülüyor.",
+     "fiyat": "Cezve 400–900 MKD",
+     "dikkat": "Çekiç izleri düzensizse el işi; kusursuz düzgünlük makine demektir."
     },
     {
-     "ad": "Türk kahvesi",
-     "ne": "Çarşıda cezveyle, lokumla gelir.",
-     "fiyat": "60–100 MKD",
-     "not": "Çarşıda kahve içmek en ucuz oturma biçimi."
+     "ad": "Ajvar",
+     "ne": "Közlenmiş kırmızı biber ezmesi, kavanozda.",
+     "fiyat": "150–300 MKD",
+     "dikkat": "Sıvı sayıldığı için EL BAGAJINA giremez, bavula koy."
     },
     {
-     "ad": "Boza",
-     "ne": "Serinletici olarak yazın da içiliyor.",
-     "fiyat": "50–80 MKD",
-     "not": "Türkiye'deki kış alışkanlığına göre şaşırtıcı."
+     "ad": "Kırmızı biber ve baharat",
+     "ne": "Çarşı baharatçılarında açık satılıyor.",
+     "fiyat": "100 MKD/100 gr",
+     "dikkat": "Türkiye'ye göre pahalı değil ama Türkiye'de zaten var; almaya değeni tütsülenmiş türler."
     }
    ],
-   "neden": "Üsküp tek bir şehir gibi durmuyor. Taş Köprü'nün güney yakasında 2014'te yapılmış devasa beyaz heykeller ve neoklasik cepheler var — 'Skopje 2014' denen ve şehirde hâlâ tartışılan bir proje. Köprüyü geçip kuzeye çıktığında birden 15. yüzyıla giriyorsun: Türk Çarşısı, hanlar, camiler, dar taş sokaklar. Bu iki yaka arasındaki 200 metre, gezinin en keskin geçişi.",
-   "id": "uskup",
    "eslesme": [
     "üsküp",
     "skopje",
@@ -94,80 +78,85 @@
      "sure": "20 dk"
     }
    ],
-   "yaricap": 12000,
-   "ulke": "MK",
-   "turkiye": "Yeme-içme Türkiye'yle yakın, kimi lokantada ucuz. Gümüş ve bakır işçiliği Türkiye'den PAHALI — Kapalıçarşı'ya alışkın gözle bakınca fiyatlar şaşırtabilir. Market ve alkol belirgin ucuz.",
-   "ad": "Üsküp",
-   "al": [
+   "ozet": "Vardar'ın iki yakası iki ayrı yüzyıl gibi duran, yarısı Osmanlı yarısı yeni yapılmış başkent.",
+   "ye": [
     {
-     "ad": "Gümüş filigran",
-     "ne": "İnce gümüş telin dantel gibi örüldüğü Üsküp işi.",
-     "fiyat": "Küçük kolye 800–2500 MKD",
-     "dikkat": "Gramla değil işçilikle fiyatlanır. Damga sor; 925 damgası gümüş demek."
+     "ad": "Kebapçe",
+     "ne": "Küçük dana köfte, somun ve soğanla. 10'luk standart porsiyon.",
+     "fiyat": "250–350 MKD",
+     "not": "Çarşıda Destan ve Turist en çok gidilen iki yer; ikisi de sade lokanta."
     },
     {
-     "ad": "Bakır cezve ve tepsi",
-     "ne": "Çarşıda hâlâ elde dövülüyor.",
-     "fiyat": "Cezve 400–900 MKD",
-     "dikkat": "Çekiç izleri düzensizse el işi; kusursuz düzgünlük makine demektir."
+     "ad": "Tavče gravče",
+     "ne": "Toprak sahanda fırınlanmış kuru fasulye — millî yemek.",
+     "fiyat": "200–300 MKD",
+     "not": "Etsiz hâli yaygın."
     },
     {
-     "ad": "Ajvar",
-     "ne": "Közlenmiş kırmızı biber ezmesi, kavanozda.",
-     "fiyat": "150–300 MKD",
-     "dikkat": "Sıvı sayıldığı için EL BAGAJINA giremez, bavula koy."
+     "ad": "Türk kahvesi",
+     "ne": "Çarşıda cezveyle, lokumla gelir.",
+     "fiyat": "60–100 MKD",
+     "not": "Çarşıda kahve içmek en ucuz oturma biçimi."
     },
     {
-     "ad": "Kırmızı biber ve baharat",
-     "ne": "Çarşı baharatçılarında açık satılıyor.",
-     "fiyat": "100 MKD/100 gr",
-     "dikkat": "Türkiye'ye göre pahalı değil ama Türkiye'de zaten var; almaya değeni tütsülenmiş türler."
+     "ad": "Boza",
+     "ne": "Serinletici olarak yazın da içiliyor.",
+     "fiyat": "50–80 MKD",
+     "not": "Türkiye'deki kış alışkanlığına göre şaşırtıcı."
     }
    ],
-   "lat": 41.9973
-  },
-  {
-   "lon": 21.4353,
-   "tarih": "12. yüzyıldan beri ticaret yeri; bugünkü dokusu 15.–16. yüzyıl Osmanlı yapılarından. 1963 depremini büyük ölçüde atlattı çünkü taş yapılar betondan iyi dayandı. 2010'lardaki onarımla sokak döşemeleri ve cepheler yenilendi.",
-   "ozet": "Balkanların İstanbul dışındaki en büyük ayakta kalmış Osmanlı çarşısı.",
-   "dikkat": [
-    "Kalabalıkta cep dikkati; Bit Pazar tarafında sıkışıklık artıyor.",
-    "Çarşıda kart geçen dükkân az."
+   "gezgin": [
+    "Çarşıda pazarlık normal ve bekleniyor: istenen fiyatın %30–50 altından başlayıp güler yüzle yükselmek yerel âdet.",
+    "Nakit taşı — çarşı esnafının çoğu kart okutmuyor, euro alanlar ise kuru kendine göre yuvarlıyor.",
+    "Türkçe konuşan esnaf çok; Türkçe selam vermek fiyatı da muameleyi de yumuşatıyor.",
+    "Yeni yakadaki heykeller yerel halk arasında sevilmiyor; 'nasıl buldunuz' sorusuna dikkatli cevap veriliyor.",
+    "Kale'ye çıkış öğleden sonra çok sıcak, gölge yok. Sabah ya da gün batımı."
    ],
+   "lon": 21.428,
+   "neden": "Üsküp tek bir şehir gibi durmuyor. Taş Köprü'nün güney yakasında 2014'te yapılmış devasa beyaz heykeller ve neoklasik cepheler var — 'Skopje 2014' denen ve şehirde hâlâ tartışılan bir proje. Köprüyü geçip kuzeye çıktığında birden 15. yüzyıla giriyorsun: Türk Çarşısı, hanlar, camiler, dar taş sokaklar. Bu iki yaka arasındaki 200 metre, gezinin en keskin geçişi.",
    "terim": [
     "çarşı",
     "filigran",
     "kazancı",
     "han",
-    "bedesten"
+    "kervansaray",
+    "ajvar",
+    "boza",
+    "tavče gravče"
    ],
-   "gezgin": [
-    "Pazar günleri birçok dükkân kapalı; çarşı sessiz oluyor.",
-    "Fiyat etiketi çoğu dükkânda yok — sorup pazarlık etmek beklenen davranış.",
-    "Çarşının içinde kaybolmak kolay ve keyifli; Mustafa Paşa Camii'ni pusula gibi kullan, tepede duruyor."
+   "id": "uskup"
+  },
+  {
+   "ulke": "MK",
+   "tarih": "12. yüzyıldan beri ticaret yeri; bugünkü dokusu 15.–16. yüzyıl Osmanlı yapılarından. 1963 depremini büyük ölçüde atlattı çünkü taş yapılar betondan iyi dayandı. 2010'lardaki onarımla sokak döşemeleri ve cepheler yenilendi.",
+   "lat": 42.0006,
+   "dikkat": [
+    "Kalabalıkta cep dikkati; Bit Pazar tarafında sıkışıklık artıyor.",
+    "Çarşıda kart geçen dükkân az."
    ],
-   "ye": [
+   "ad": "Üsküp Türk Çarşısı",
+   "turkiye": "Kapalıçarşı'ya göre daha küçük ve daha az turistik; fiyatlar el işinde benzer, gıda ve kahvede daha ucuz.",
+   "yaricap": 1200,
+   "al": [
     {
-     "ad": "Kebapçe",
-     "ne": "Çarşının içinde onlarca yer.",
-     "fiyat": "250–350 MKD",
-     "not": "Kalabalık olan yeri seç — hızlı dönen mangal daha iyi."
+     "ad": "Filigran gümüş",
+     "ne": "Çarşının asıl ünü bu.",
+     "fiyat": "800–5000 MKD",
+     "dikkat": "Sertifika ya da damga iste."
     },
     {
-     "ad": "Şkembe çorbası",
-     "ne": "İşkembe. Sabah erken açan yerlerde.",
-     "fiyat": "120–200 MKD",
-     "not": "Sarımsaklı sirke masada."
+     "ad": "Bakır işi",
+     "ne": "Cezve, tepsi, mangal.",
+     "fiyat": "400–3000 MKD",
+     "dikkat": "Kalayı yenilenmiş mi sor — yemek kabı olarak kullanacaksan gerekiyor."
     },
     {
-     "ad": "Tulumba ve baklava",
-     "ne": "Şerbetli tatlı; Türkiye'dekinden daha ağır şerbetli.",
-     "fiyat": "50–120 MKD",
-     "not": ""
+     "ad": "El dokuma kilim",
+     "ne": "Küçük seccade ve kilimler.",
+     "fiyat": "1500 MKD'den başlıyor",
+     "dikkat": "Makine dokuması ucuz taklidi çok; arkasına bak, düğümler düzensizse el işidir."
     }
    ],
-   "neden": "Yalnız turist için ayakta tutulan bir dekor değil — hâlâ çalışan bir çarşı. Kuyumcular bir sokakta, bakırcılar başka sokakta, terziler ayrı; Osmanlı çarşı düzeni bozulmadan duruyor. Sabah dokuzda kepenkler açılırken gelmek, öğleden sonraki kalabalıktan bambaşka bir yer gösteriyor.",
-   "id": "uskup-turk-carsisi",
    "eslesme": [
     "türk çarşısı",
     "stara čaršija",
@@ -191,59 +180,62 @@
      "sure": "30 dk"
     }
    ],
-   "yaricap": 1200,
-   "ulke": "MK",
-   "turkiye": "Kapalıçarşı'ya göre daha küçük ve daha az turistik; fiyatlar el işinde benzer, gıda ve kahvede daha ucuz.",
-   "ad": "Üsküp Türk Çarşısı",
-   "al": [
+   "ozet": "Balkanların İstanbul dışındaki en büyük ayakta kalmış Osmanlı çarşısı.",
+   "ye": [
     {
-     "ad": "Filigran gümüş",
-     "ne": "Çarşının asıl ünü bu.",
-     "fiyat": "800–5000 MKD",
-     "dikkat": "Sertifika ya da damga iste."
+     "ad": "Kebapçe",
+     "ne": "Çarşının içinde onlarca yer.",
+     "fiyat": "250–350 MKD",
+     "not": "Kalabalık olan yeri seç — hızlı dönen mangal daha iyi."
     },
     {
-     "ad": "Bakır işi",
-     "ne": "Cezve, tepsi, mangal.",
-     "fiyat": "400–3000 MKD",
-     "dikkat": "Kalayı yenilenmiş mi sor — yemek kabı olarak kullanacaksan gerekiyor."
+     "ad": "Şkembe çorbası",
+     "ne": "İşkembe. Sabah erken açan yerlerde.",
+     "fiyat": "120–200 MKD",
+     "not": "Sarımsaklı sirke masada."
     },
     {
-     "ad": "El dokuma kilim",
-     "ne": "Küçük seccade ve kilimler.",
-     "fiyat": "1500 MKD'den başlıyor",
-     "dikkat": "Makine dokuması ucuz taklidi çok; arkasına bak, düğümler düzensizse el işidir."
+     "ad": "Tulumba ve baklava",
+     "ne": "Şerbetli tatlı; Türkiye'dekinden daha ağır şerbetli.",
+     "fiyat": "50–120 MKD",
+     "not": ""
     }
    ],
-   "lat": 42.0006
+   "gezgin": [
+    "Pazar günleri birçok dükkân kapalı; çarşı sessiz oluyor.",
+    "Fiyat etiketi çoğu dükkânda yok — sorup pazarlık etmek beklenen davranış.",
+    "Çarşının içinde kaybolmak kolay ve keyifli; Mustafa Paşa Camii'ni pusula gibi kullan, tepede duruyor."
+   ],
+   "lon": 21.4353,
+   "neden": "Yalnız turist için ayakta tutulan bir dekor değil — hâlâ çalışan bir çarşı. Kuyumcular bir sokakta, bakırcılar başka sokakta, terziler ayrı; Osmanlı çarşı düzeni bozulmadan duruyor. Sabah dokuzda kepenkler açılırken gelmek, öğleden sonraki kalabalıktan bambaşka bir yer gösteriyor.",
+   "terim": [
+    "çarşı",
+    "filigran",
+    "kazancı",
+    "han",
+    "bedesten"
+   ],
+   "id": "uskup-turk-carsisi"
   },
   {
-   "lon": 21.301,
+   "ulke": "MK",
    "tarih": "1938'de yapılan baraj gölü oluşturdu. Kanyonda 10 ortaçağ manastırı ve kilisesi var; en bilineni 14. yüzyıl Sveti Andrej Manastırı, yürüyüş yolunun başında.",
-   "ozet": "Üsküp'ün 15 km batısında, baraj gölü üstünde yürüyüş ve tekne kanyonu.",
+   "lat": 41.9564,
    "dikkat": [
     "Gölge az, şapka ve su gerekiyor.",
     "Şebeke kanyon içinde kesiliyor — harita paketi burada işe yarıyor."
    ],
-   "terim": [
-    "kaldırım taşı"
-   ],
-   "gezgin": [
-    "Yürüyüş yolu düz görünüyor ama kayalık ve dar; sandalet uygun değil.",
-    "Tekne sırası öğlen saatlerinde uzuyor; erken git.",
-    "Otopark sınırlı, otobüsler biraz uzağa bırakıyor.",
-    "Su içilebilir soğuklukta ama yüzmek serbest değil her yerde; tabelalara bak."
-   ],
-   "ye": [
+   "ad": "Matka Kanyonu",
+   "turkiye": "Giriş ücretsiz; tekne turu Türkiye'deki benzerleriyle aynı fiyat bandında.",
+   "yaricap": 4000,
+   "al": [
     {
-     "ad": "Göl kıyısı lokantası",
-     "ne": "Alabalık ve ızgara. Manzara fiyata dahil.",
-     "fiyat": "400–800 MKD",
-     "not": "Üsküp'ten pahalı ama makul."
+     "ad": "Yok denecek kadar az",
+     "ne": "Birkaç el işi tezgâhı.",
+     "fiyat": "—",
+     "dikkat": "Alışveriş için gelinecek yer değil."
     }
    ],
-   "neden": "Şehirden yarım saatte dağ havasına çıkılıyor. Su zümrüt yeşili, kanyon duvarları dik. Yürüyüş yolu göl kıyısını takip ediyor ve düz sayılır; tekneyle Vrelo Mağarası'na gidiliyor — Avrupa'nın en derin su altı mağaralarından biri, dibi hâlâ ölçülemedi.",
-   "id": "matka",
    "eslesme": [
     "matka",
     "matka kanyonu",
@@ -267,69 +259,59 @@
      "sure": "15 dk"
     }
    ],
-   "yaricap": 4000,
-   "ulke": "MK",
-   "turkiye": "Giriş ücretsiz; tekne turu Türkiye'deki benzerleriyle aynı fiyat bandında.",
-   "ad": "Matka Kanyonu",
-   "al": [
+   "ozet": "Üsküp'ün 15 km batısında, baraj gölü üstünde yürüyüş ve tekne kanyonu.",
+   "ye": [
     {
-     "ad": "Yok denecek kadar az",
-     "ne": "Birkaç el işi tezgâhı.",
-     "fiyat": "—",
-     "dikkat": "Alışveriş için gelinecek yer değil."
+     "ad": "Göl kıyısı lokantası",
+     "ne": "Alabalık ve ızgara. Manzara fiyata dahil.",
+     "fiyat": "400–800 MKD",
+     "not": "Üsküp'ten pahalı ama makul."
     }
    ],
-   "lat": 41.9564
+   "gezgin": [
+    "Yürüyüş yolu düz görünüyor ama kayalık ve dar; sandalet uygun değil.",
+    "Tekne sırası öğlen saatlerinde uzuyor; erken git.",
+    "Otopark sınırlı, otobüsler biraz uzağa bırakıyor.",
+    "Su içilebilir soğuklukta ama yüzmek serbest değil her yerde; tabelalara bak."
+   ],
+   "lon": 21.301,
+   "neden": "Şehirden yarım saatte dağ havasına çıkılıyor. Su zümrüt yeşili, kanyon duvarları dik. Yürüyüş yolu göl kıyısını takip ediyor ve düz sayılır; tekneyle Vrelo Mağarası'na gidiliyor — Avrupa'nın en derin su altı mağaralarından biri, dibi hâlâ ölçülemedi.",
+   "terim": [
+    "kaldırım taşı"
+   ],
+   "id": "matka"
   },
   {
-   "lon": 20.8016,
+   "ulke": "MK",
    "tarih": "Antik Lychnidos. 9.–10. yüzyılda Slav yazısının ve Ohrid Edebiyat Okulu'nun merkezi oldu — Kiril alfabesinin yayıldığı yer burası. 1408'de Osmanlı aldı; 500 yıl boyunca hem kilise hem cami ayakta kaldı. UNESCO listesine hem KÜLTÜREL hem DOĞAL miras olarak girmiş dünyadaki az sayıda yerden biri.",
-   "ozet": "Avrupa'nın en eski göllerinden birinin kıyısında, 'bin kilise' denen UNESCO şehri.",
+   "lat": 41.1172,
    "dikkat": [
     "Taş sokaklar dik ve kaygan; düz taban gerekiyor.",
     "Gölde tekne turu satan sokak satıcıları fiyatı sonradan yükseltebiliyor — kişi başı mı tekne başı mı olduğunu netleştir."
    ],
-   "terim": [
-    "UNESCO Dünya Mirası",
-    "pastrmka",
-    "kaldırım taşı",
-    "eski şehir"
-   ],
-   "gezgin": [
-    "İnci alacaksan doğrudan Filevi ya da Talevi dükkânını sor; taksi şoförü başka yere götürmek isteyebilir (komisyon).",
-    "Kaneo'ya kıyıdan yürüyerek gitmek yukarıdan inmekten kolay.",
-    "Ağustosta kıyı çok kalabalık; sabah 8'de şehir bambaşka.",
-    "Kilise girişleri ayrı ayrı ücretli, hepsini gezmek toplamda 400–500 MKD tutuyor.",
-    "Kilisede omuz ve diz kapalı olsun; girişte uyarıyorlar."
-   ],
-   "ye": [
+   "ad": "Ohrid",
+   "turkiye": "Yeme-içme Türkiye ile aynı bandda, göl kıyısı biraz üstünde. İnci ve el işi Türkiye'den pahalı. Konaklama ucuz.",
+   "yaricap": 8000,
+   "al": [
     {
-     "ad": "Ohrid alabalığı (ohridska pastrmka)",
-     "ne": "Göle özgü tür.",
-     "fiyat": "800–1500 MKD",
-     "not": "Nesli tehlikede olduğu için avı dönemsel yasak; menüde çok ucuzsa çiftlik balığıdır."
+     "ad": "Ohrid incisi",
+     "ne": "Balık pulundan elde edilen kaplama ile yapılan, şehre özgü inci.",
+     "fiyat": "Kolye 1500–6000 MKD",
+     "dikkat": "ÖNEMLİ: gerçeğini yapan yalnızca İKİ AİLE var — Filevi ve Talevi. Ana caddedeki onlarca dükkânın çoğu taklit satıyor. Sertifikalı ve aile adı yazan dükkândan al."
     },
     {
-     "ad": "Belvica / plaşica",
-     "ne": "Gölün küçük balıkları, kızartma.",
-     "fiyat": "300–500 MKD",
-     "not": "Alabalıktan ucuz ve yerel."
+     "ad": "Ohrid kâğıdı",
+     "ne": "El yapımı kâğıt ve baskı.",
+     "fiyat": "200–800 MKD",
+     "dikkat": "Hafif ve kırılmaz — iyi hediye."
     },
     {
-     "ad": "Ohrid şarabı",
-     "ne": "Bölge şarapçılığı güçlü.",
-     "fiyat": "Kadeh 100–200 MKD",
-     "not": ""
-    },
-    {
-     "ad": "Kıyı kahvesi",
-     "ne": "Göl kenarında oturma bedeli.",
-     "fiyat": "80–150 MKD",
-     "not": "Merkezden 100 m içeride yarı fiyat."
+     "ad": "Ahşap oyma",
+     "ne": "Ceviz üstüne ince oyma; bölgenin eski zanaatı.",
+     "fiyat": "500 MKD'den",
+     "dikkat": "Makine oymasıyla karışıyor; arkasına ve derinliğe bak."
     }
    ],
-   "neden": "Ohrid Gölü 2–3 milyon yaşında ve içinde başka hiçbir yerde bulunmayan canlılar var. Şehir gölün üstündeki yamaca kurulmuş: aşağıda kıyı boyu yürüyüş, yukarıda kale, arada kırmızı kiremitli taş evler ve kiliseler. Sveti Jovan Kaneo kilisesi kayalığın ucunda duruyor ve Balkanların en çok fotoğraflanan yapılarından biri.",
-   "id": "ohrid",
    "eslesme": [
     "ohrid",
     "ohri",
@@ -366,67 +348,69 @@
      "sure": "40 dk"
     }
    ],
-   "yaricap": 8000,
-   "ulke": "MK",
-   "turkiye": "Yeme-içme Türkiye ile aynı bandda, göl kıyısı biraz üstünde. İnci ve el işi Türkiye'den pahalı. Konaklama ucuz.",
-   "ad": "Ohrid",
-   "al": [
+   "ozet": "Avrupa'nın en eski göllerinden birinin kıyısında, 'bin kilise' denen UNESCO şehri.",
+   "ye": [
     {
-     "ad": "Ohrid incisi",
-     "ne": "Balık pulundan elde edilen kaplama ile yapılan, şehre özgü inci.",
-     "fiyat": "Kolye 1500–6000 MKD",
-     "dikkat": "ÖNEMLİ: gerçeğini yapan yalnızca İKİ AİLE var — Filevi ve Talevi. Ana caddedeki onlarca dükkânın çoğu taklit satıyor. Sertifikalı ve aile adı yazan dükkândan al."
+     "ad": "Ohrid alabalığı (ohridska pastrmka)",
+     "ne": "Göle özgü tür.",
+     "fiyat": "800–1500 MKD",
+     "not": "Nesli tehlikede olduğu için avı dönemsel yasak; menüde çok ucuzsa çiftlik balığıdır."
     },
     {
-     "ad": "Ohrid kâğıdı",
-     "ne": "El yapımı kâğıt ve baskı.",
-     "fiyat": "200–800 MKD",
-     "dikkat": "Hafif ve kırılmaz — iyi hediye."
+     "ad": "Belvica / plaşica",
+     "ne": "Gölün küçük balıkları, kızartma.",
+     "fiyat": "300–500 MKD",
+     "not": "Alabalıktan ucuz ve yerel."
     },
     {
-     "ad": "Ahşap oyma",
-     "ne": "Ceviz üstüne ince oyma; bölgenin eski zanaatı.",
-     "fiyat": "500 MKD'den",
-     "dikkat": "Makine oymasıyla karışıyor; arkasına ve derinliğe bak."
+     "ad": "Ohrid şarabı",
+     "ne": "Bölge şarapçılığı güçlü.",
+     "fiyat": "Kadeh 100–200 MKD",
+     "not": ""
+    },
+    {
+     "ad": "Kıyı kahvesi",
+     "ne": "Göl kenarında oturma bedeli.",
+     "fiyat": "80–150 MKD",
+     "not": "Merkezden 100 m içeride yarı fiyat."
     }
    ],
-   "lat": 41.1172
+   "gezgin": [
+    "İnci alacaksan doğrudan Filevi ya da Talevi dükkânını sor; taksi şoförü başka yere götürmek isteyebilir (komisyon).",
+    "Kaneo'ya kıyıdan yürüyerek gitmek yukarıdan inmekten kolay.",
+    "Ağustosta kıyı çok kalabalık; sabah 8'de şehir bambaşka.",
+    "Kilise girişleri ayrı ayrı ücretli, hepsini gezmek toplamda 400–500 MKD tutuyor.",
+    "Kilisede omuz ve diz kapalı olsun; girişte uyarıyorlar."
+   ],
+   "lon": 20.8016,
+   "neden": "Ohrid Gölü 2–3 milyon yaşında ve içinde başka hiçbir yerde bulunmayan canlılar var. Şehir gölün üstündeki yamaca kurulmuş: aşağıda kıyı boyu yürüyüş, yukarıda kale, arada kırmızı kiremitli taş evler ve kiliseler. Sveti Jovan Kaneo kilisesi kayalığın ucunda duruyor ve Balkanların en çok fotoğraflanan yapılarından biri.",
+   "terim": [
+    "UNESCO Dünya Mirası",
+    "pastrmka",
+    "kaldırım taşı",
+    "eski şehir"
+   ],
+   "id": "ohrid"
   },
   {
-   "lon": 20.7433,
+   "ulke": "MK",
    "tarih": "905'te Aziz Naum tarafından kuruldu; Naum, Kiril ve Metodius'un öğrencilerindendi ve Slav yazısını yayan Ohrid okulunun kurucularından. Bugünkü kilise 16.–17. yüzyıl. Naum'un mezarı kilisenin içinde; kulağını taşa dayayınca kalp atışı duyulduğu söylenir ve ziyaretçiler sırayla dener.",
-   "ozet": "Ohrid Gölü'nün güney ucunda, Arnavutluk sınırındaki 10. yüzyıl manastırı ve kaynak suları.",
+   "lat": 40.9142,
    "dikkat": [
     "Öğlen saatlerinde otobüs kalabalığı yığılıyor.",
     "Tavus kuşları yemek çalıyor, masayı boş bırakma."
    ],
-   "terim": [
-    "UNESCO Dünya Mirası",
-    "pastrmka",
-    "türbe"
-   ],
-   "gezgin": [
-    "Kayık turu fiyatını kişi başı mı tekne başı mı diye net sor — en sık yaşanan anlaşmazlık bu.",
-    "Kiliseye girerken omuz ve diz kapalı olsun.",
-    "Otopark ücretli ve girişten biraz uzakta.",
-    "Arnavutluk sınırı 2 km ötede; şebeke sınır ötesi operatöre atlayabiliyor — uçak modu iyi fikir."
-   ],
-   "ye": [
+   "ad": "Sveti Naum",
+   "turkiye": "Giriş ve kayık Türkiye ölçülerinde ucuz; lokanta manzara payıyla biraz yüksek.",
+   "yaricap": 3000,
+   "al": [
     {
-     "ad": "Alabalık",
-     "ne": "Kaynak suyunda yetişen.",
-     "fiyat": "600–1200 MKD",
-     "not": "Manzaralı teraslarda."
-    },
-    {
-     "ad": "Manastır avlusunda kahve",
-     "ne": "Tavus kuşlarıyla.",
-     "fiyat": "80–120 MKD",
-     "not": ""
+     "ad": "Manastır ürünleri",
+     "ne": "Bal, likör, ikona.",
+     "fiyat": "300–1500 MKD",
+     "dikkat": "Bal gerçekten yerel; likör sınırdan geçerken bavula."
     }
    ],
-   "neden": "Manastır gölün üstündeki bir tepecikte, avlusunda tavus kuşları geziyor. Asıl sürpriz aşağıdaki kaynaklar: Drim nehrinin doğduğu, dipteki kumun kaynadığı görülen berrak su gözeleri. Küçük kayıklarla gözelerin üstünde dolaştırıyorlar.",
-   "id": "sveti-naum",
    "eslesme": [
     "sveti naum",
     "aziz naum",
@@ -451,54 +435,54 @@
      "sure": "serbest"
     }
    ],
-   "yaricap": 3000,
-   "ulke": "MK",
-   "turkiye": "Giriş ve kayık Türkiye ölçülerinde ucuz; lokanta manzara payıyla biraz yüksek.",
-   "ad": "Sveti Naum",
-   "al": [
-    {
-     "ad": "Manastır ürünleri",
-     "ne": "Bal, likör, ikona.",
-     "fiyat": "300–1500 MKD",
-     "dikkat": "Bal gerçekten yerel; likör sınırdan geçerken bavula."
-    }
-   ],
-   "lat": 40.9142
-  },
-  {
-   "lon": 20.9714,
-   "tarih": "1438'de yapıldı, 1833'te Abdurrahman Paşa tarafından bugünkü boyalı hâliyle yeniden inşa edildi. Yakınında Arabati Baba Bektaşî Tekkesi bulunuyor — Balkanlardaki en büyük ve en iyi korunmuş tekke külliyelerinden biri.",
-   "ozet": "Şar Dağı eteğinde, dışı ve içi baştan aşağı boyalı Alaca Camii'yle bilinen şehir.",
-   "dikkat": [
-    "Şehir turistik değil, İngilizce az; Türkçe daha çok işe yarıyor."
-   ],
-   "terim": [
-    "tekke",
-    "derviş",
-    "medrese",
-    "türbe"
-   ],
-   "gezgin": [
-    "Cami namaz vaktinde ziyarete kapalı; öğle ve ikindi arasına denk getirme.",
-    "Kadın ziyaretçilere başörtüsü veriliyor.",
-    "Tekke camiye yürüme mesafesinde ama tabela zayıf; sormak gerekebiliyor."
-   ],
+   "ozet": "Ohrid Gölü'nün güney ucunda, Arnavutluk sınırındaki 10. yüzyıl manastırı ve kaynak suları.",
    "ye": [
     {
-     "ad": "Tetova fasulyesi",
-     "ne": "Bölgenin adıyla anılan iri beyaz fasulye.",
-     "fiyat": "200–300 MKD",
-     "not": "Tavče gravče'nin en iyisi burada yapılıyor derler."
+     "ad": "Alabalık",
+     "ne": "Kaynak suyunda yetişen.",
+     "fiyat": "600–1200 MKD",
+     "not": "Manzaralı teraslarda."
     },
     {
-     "ad": "Kebapçe",
-     "ne": "Ucuz ve iyi.",
-     "fiyat": "200–300 MKD",
+     "ad": "Manastır avlusunda kahve",
+     "ne": "Tavus kuşlarıyla.",
+     "fiyat": "80–120 MKD",
      "not": ""
     }
    ],
-   "neden": "Alaca Camii (Şarena Camii) Balkanlarda eşi olmayan bir yapı: cami dışının tamamı renkli geometrik ve manzara resimleriyle kaplı — 30 binden fazla yumurta akı katılmış boyayla yapıldığı anlatılır. İçeride figürlü resimler var; bu, cami mimarisinde son derece sıra dışı.",
-   "id": "tetovo",
+   "gezgin": [
+    "Kayık turu fiyatını kişi başı mı tekne başı mı diye net sor — en sık yaşanan anlaşmazlık bu.",
+    "Kiliseye girerken omuz ve diz kapalı olsun.",
+    "Otopark ücretli ve girişten biraz uzakta.",
+    "Arnavutluk sınırı 2 km ötede; şebeke sınır ötesi operatöre atlayabiliyor — uçak modu iyi fikir."
+   ],
+   "lon": 20.7433,
+   "neden": "Manastır gölün üstündeki bir tepecikte, avlusunda tavus kuşları geziyor. Asıl sürpriz aşağıdaki kaynaklar: Drim nehrinin doğduğu, dipteki kumun kaynadığı görülen berrak su gözeleri. Küçük kayıklarla gözelerin üstünde dolaştırıyorlar.",
+   "terim": [
+    "UNESCO Dünya Mirası",
+    "pastrmka",
+    "türbe"
+   ],
+   "id": "sveti-naum"
+  },
+  {
+   "ulke": "MK",
+   "tarih": "1438'de yapıldı, 1833'te Abdurrahman Paşa tarafından bugünkü boyalı hâliyle yeniden inşa edildi. Yakınında Arabati Baba Bektaşî Tekkesi bulunuyor — Balkanlardaki en büyük ve en iyi korunmuş tekke külliyelerinden biri.",
+   "lat": 42.0106,
+   "dikkat": [
+    "Şehir turistik değil, İngilizce az; Türkçe daha çok işe yarıyor."
+   ],
+   "ad": "Tetova (Tetovo)",
+   "turkiye": "Belirgin ucuz. Yemek Üsküp'ün altında.",
+   "yaricap": 6000,
+   "al": [
+    {
+     "ad": "Kuru fasulye",
+     "ne": "Tetova fasulyesi paketli satılıyor.",
+     "fiyat": "150–250 MKD/kg",
+     "dikkat": "Hafif, kırılmaz, gerçekten yerel — iyi hediye."
+    }
+   ],
    "eslesme": [
     "tetova",
     "tetovo",
@@ -524,41 +508,52 @@
      "sure": "—"
     }
    ],
-   "yaricap": 6000,
-   "ulke": "MK",
-   "turkiye": "Belirgin ucuz. Yemek Üsküp'ün altında.",
-   "ad": "Tetova (Tetovo)",
-   "al": [
-    {
-     "ad": "Kuru fasulye",
-     "ne": "Tetova fasulyesi paketli satılıyor.",
-     "fiyat": "150–250 MKD/kg",
-     "dikkat": "Hafif, kırılmaz, gerçekten yerel — iyi hediye."
-    }
-   ],
-   "lat": 42.0106
-  },
-  {
-   "lon": 21.335,
-   "tarih": "Antik Heraklea Lyncestis MÖ 4. yüzyılda kuruldu; mozaikleri Balkanların en iyilerinden.",
-   "ozet": "Konsoloslar şehri; geniş yaya caddesi ve Heraklea antik kenti.",
-   "dikkat": [],
-   "terim": [
-    "çarşı"
-   ],
-   "gezgin": [
-    "Heraklea gölgesiz; şapka gerekiyor."
-   ],
+   "ozet": "Şar Dağı eteğinde, dışı ve içi baştan aşağı boyalı Alaca Camii'yle bilinen şehir.",
    "ye": [
     {
-     "ad": "Kafe kahvesi",
-     "ne": "Şirok Sokak'ta oturmak şehrin âdeti.",
-     "fiyat": "70–120 MKD",
+     "ad": "Tetova fasulyesi",
+     "ne": "Bölgenin adıyla anılan iri beyaz fasulye.",
+     "fiyat": "200–300 MKD",
+     "not": "Tavče gravče'nin en iyisi burada yapılıyor derler."
+    },
+    {
+     "ad": "Kebapçe",
+     "ne": "Ucuz ve iyi.",
+     "fiyat": "200–300 MKD",
      "not": ""
     }
    ],
-   "neden": "Osmanlı döneminde onlarca ülkenin konsolosluğu buradaydı, şehre 'konsoloslar şehri' denirdi. Mustafa Kemal askerî idadîyi burada okudu. Şirok Sokak denen geniş yaya caddesi hâlâ şehrin salonu gibi.",
-   "id": "bitola",
+   "gezgin": [
+    "Cami namaz vaktinde ziyarete kapalı; öğle ve ikindi arasına denk getirme.",
+    "Kadın ziyaretçilere başörtüsü veriliyor.",
+    "Tekke camiye yürüme mesafesinde ama tabela zayıf; sormak gerekebiliyor."
+   ],
+   "lon": 20.9714,
+   "neden": "Alaca Camii (Şarena Camii) Balkanlarda eşi olmayan bir yapı: cami dışının tamamı renkli geometrik ve manzara resimleriyle kaplı — 30 binden fazla yumurta akı katılmış boyayla yapıldığı anlatılır. İçeride figürlü resimler var; bu, cami mimarisinde son derece sıra dışı.",
+   "terim": [
+    "tekke",
+    "derviş",
+    "medrese",
+    "türbe"
+   ],
+   "id": "tetovo"
+  },
+  {
+   "ulke": "MK",
+   "tarih": "Antik Heraklea Lyncestis MÖ 4. yüzyılda kuruldu; mozaikleri Balkanların en iyilerinden.",
+   "lat": 41.0297,
+   "dikkat": [],
+   "ad": "Manastır (Bitola)",
+   "turkiye": "Ucuz.",
+   "yaricap": 6000,
+   "al": [
+    {
+     "ad": "El işi",
+     "ne": "Çarşıda az sayıda tezgâh.",
+     "fiyat": "—",
+     "dikkat": ""
+    }
+   ],
    "eslesme": [
     "bitola",
     "manastır"
@@ -581,39 +576,41 @@
      "sure": "30 dk"
     }
    ],
-   "yaricap": 6000,
+   "ozet": "Konsoloslar şehri; geniş yaya caddesi ve Heraklea antik kenti.",
+   "ye": [
+    {
+     "ad": "Kafe kahvesi",
+     "ne": "Şirok Sokak'ta oturmak şehrin âdeti.",
+     "fiyat": "70–120 MKD",
+     "not": ""
+    }
+   ],
+   "gezgin": [
+    "Heraklea gölgesiz; şapka gerekiyor."
+   ],
+   "lon": 21.335,
+   "neden": "Osmanlı döneminde onlarca ülkenin konsolosluğu buradaydı, şehre 'konsoloslar şehri' denirdi. Mustafa Kemal askerî idadîyi burada okudu. Şirok Sokak denen geniş yaya caddesi hâlâ şehrin salonu gibi.",
+   "terim": [
+    "çarşı"
+   ],
+   "id": "bitola"
+  },
+  {
    "ulke": "MK",
+   "tarih": "Şiir Akşamları festivaliyle bilinir.",
+   "lat": 41.1783,
+   "dikkat": [],
+   "ad": "Struga",
    "turkiye": "Ucuz.",
-   "ad": "Manastır (Bitola)",
+   "yaricap": 4000,
    "al": [
     {
-     "ad": "El işi",
-     "ne": "Çarşıda az sayıda tezgâh.",
+     "ad": "Pazar",
+     "ne": "Yerel pazar salı ve cuma.",
      "fiyat": "—",
      "dikkat": ""
     }
    ],
-   "lat": 41.0297
-  },
-  {
-   "lon": 20.6781,
-   "tarih": "Şiir Akşamları festivaliyle bilinir.",
-   "ozet": "Ohrid Gölü'nün kuzey ucu; Kara Drim nehrinin gölden çıktığı yer.",
-   "dikkat": [],
-   "terim": [],
-   "gezgin": [
-    "Ohrid kalabalığından kaçmak için iyi."
-   ],
-   "ye": [
-    {
-     "ad": "Göl balığı",
-     "ne": "Ohrid'den ucuz.",
-     "fiyat": "400–800 MKD",
-     "not": ""
-    }
-   ],
-   "neden": "Ohrid'e 14 km. Daha sakin, daha yerel. Nehrin göle karıştığı köprü akşam yürüyüşünün merkezi.",
-   "id": "struga",
    "eslesme": [
     "struga"
    ],
@@ -624,71 +621,61 @@
      "sure": "30 dk"
     }
    ],
-   "yaricap": 4000,
-   "ulke": "MK",
-   "turkiye": "Ucuz.",
-   "ad": "Struga",
-   "al": [
+   "ozet": "Ohrid Gölü'nün kuzey ucu; Kara Drim nehrinin gölden çıktığı yer.",
+   "ye": [
     {
-     "ad": "Pazar",
-     "ne": "Yerel pazar salı ve cuma.",
-     "fiyat": "—",
-     "dikkat": ""
+     "ad": "Göl balığı",
+     "ne": "Ohrid'den ucuz.",
+     "fiyat": "400–800 MKD",
+     "not": ""
     }
    ],
-   "lat": 41.1783
+   "gezgin": [
+    "Ohrid kalabalığından kaçmak için iyi."
+   ],
+   "lon": 20.6781,
+   "neden": "Ohrid'e 14 km. Daha sakin, daha yerel. Nehrin göle karıştığı köprü akşam yürüyüşünün merkezi.",
+   "terim": [],
+   "id": "struga"
   },
   {
-   "lon": 20.4569,
+   "ulke": "RS",
    "tarih": "Kelt yerleşimi Singidunum olarak başladı, Roma, Bizans, Sırp krallığı, Osmanlı ve Avusturya arasında yüzlerce kez el değiştirdi — tarihçiler 115 kez yıkıldığını yazar. 1521–1867 arası Osmanlı yönetiminde kaldı. 1999 NATO bombardımanının izleri merkezde hâlâ duruyor; bazı yıkık binalar bilerek onarılmadan bırakıldı.",
-   "ozet": "Tuna ile Sava'nın birleştiği yerde, 115 kez yıkılıp yeniden kurulmuş başkent.",
+   "lat": 44.8176,
    "dikkat": [
     "Euro her yerde geçmez, dinar şart.",
     "Kosova damgalı pasaportla giriş soru çıkarabiliyor.",
     "Taksiye binmeden taksimetreyi göster dedirt."
    ],
-   "terim": [
-    "ćevapi",
-    "kajmak",
-    "rakija",
-    "ajvar",
-    "eski şehir"
-   ],
-   "gezgin": [
-    "Menüde fiyat yazmayan yere oturma — en sık yaşanan şikâyet bu.",
-    "'Ücretsiz tur' diye başlayıp sonunda yüksek bahşiş dayatan rehberler Kalemegdan çevresinde çok.",
-    "Kafede oturmak Belgrad'ın kendisi; acele etmeyen servis kabalık değil âdet.",
-    "Toplu taşıma bileti kioskatan alınıyor ve araçta damgalanıyor.",
-    "Nehir kenarındaki yüzen kulüpler (splav) gece pahalı; kapıda fiyat sor."
-   ],
-   "ye": [
+   "ad": "Belgrad",
+   "turkiye": "Altı ülkenin EN PAHALISI. Kafe ve restoran İstanbul merkez fiyatlarına yakın, bazı yerde üstünde. Buna karşılık market, alkol ve kozmetik ucuz.",
+   "yaricap": 15000,
+   "al": [
     {
-     "ad": "Ćevapi",
-     "ne": "Sırp usulü, somun ve kajmakla.",
-     "fiyat": "500–900 RSD",
-     "not": "Kajmak istemeyi unutma — tuzlu süt kaymağı."
+     "ad": "Rakija",
+     "ne": "Erik (šljivovica) ya da ayva.",
+     "fiyat": "800–2500 RSD",
+     "dikkat": "Bavula; el bagajına giremez."
     },
     {
-     "ad": "Pljeskavica",
-     "ne": "Büyük yassı köfte, ekmek arası.",
-     "fiyat": "400–700 RSD",
-     "not": "Sokak yemeği hâli daha ucuz."
+     "ad": "Ajvar ve turşu",
+     "ne": "Marketlerde iyi ve ucuz.",
+     "fiyat": "200–400 RSD",
+     "dikkat": "Sıvı — bavul."
     },
     {
-     "ad": "Karađorđeva šnicla",
-     "ne": "Kaymak dolgulu rulo şnitzel.",
-     "fiyat": "900–1400 RSD",
-     "not": "Ağır; paylaşılabilir."
+     "ad": "Kırtasiye, kozmetik",
+     "ne": "Türkiye'ye göre ucuz kalıyor.",
+     "fiyat": "—",
+     "dikkat": ""
     },
     {
-     "ad": "Espresso",
-     "ne": "Kafe kültürü güçlü.",
-     "fiyat": "150–250 RSD",
-     "not": "Knez Mihailova üstü pahalı, bir sokak içerisi ucuz."
+     "ad": "Etno el işi",
+     "ne": "Opanak (geleneksel ayakkabı) minyatürü, işleme.",
+     "fiyat": "500–2000 RSD",
+     "dikkat": "Knez Mihailova'daki tezgâhlar turistik fiyat veriyor."
     }
    ],
-   "neden": "Belgrad güzel olmakla değil dirençli olmakla anılır. Kalemegdan'dan iki nehrin birleşmesine bakmak şehri anlatan tek manzara: Balkanların kapısı burasıydı ve bu yüzden herkes burayı istedi. Şehir yıpranmış cephelerin arasında çok canlı bir kafe ve gece hayatı taşıyor.",
-   "id": "belgrad",
    "eslesme": [
     "belgrad",
     "beograd",
@@ -721,64 +708,69 @@
      "sure": "40 dk"
     }
    ],
-   "yaricap": 15000,
-   "ulke": "RS",
-   "turkiye": "Altı ülkenin EN PAHALISI. Kafe ve restoran İstanbul merkez fiyatlarına yakın, bazı yerde üstünde. Buna karşılık market, alkol ve kozmetik ucuz.",
-   "ad": "Belgrad",
-   "al": [
+   "ozet": "Tuna ile Sava'nın birleştiği yerde, 115 kez yıkılıp yeniden kurulmuş başkent.",
+   "ye": [
     {
-     "ad": "Rakija",
-     "ne": "Erik (šljivovica) ya da ayva.",
-     "fiyat": "800–2500 RSD",
-     "dikkat": "Bavula; el bagajına giremez."
+     "ad": "Ćevapi",
+     "ne": "Sırp usulü, somun ve kajmakla.",
+     "fiyat": "500–900 RSD",
+     "not": "Kajmak istemeyi unutma — tuzlu süt kaymağı."
     },
     {
-     "ad": "Ajvar ve turşu",
-     "ne": "Marketlerde iyi ve ucuz.",
-     "fiyat": "200–400 RSD",
-     "dikkat": "Sıvı — bavul."
+     "ad": "Pljeskavica",
+     "ne": "Büyük yassı köfte, ekmek arası.",
+     "fiyat": "400–700 RSD",
+     "not": "Sokak yemeği hâli daha ucuz."
     },
     {
-     "ad": "Kırtasiye, kozmetik",
-     "ne": "Türkiye'ye göre ucuz kalıyor.",
-     "fiyat": "—",
-     "dikkat": ""
+     "ad": "Karađorđeva šnicla",
+     "ne": "Kaymak dolgulu rulo şnitzel.",
+     "fiyat": "900–1400 RSD",
+     "not": "Ağır; paylaşılabilir."
     },
     {
-     "ad": "Etno el işi",
-     "ne": "Opanak (geleneksel ayakkabı) minyatürü, işleme.",
-     "fiyat": "500–2000 RSD",
-     "dikkat": "Knez Mihailova'daki tezgâhlar turistik fiyat veriyor."
+     "ad": "Espresso",
+     "ne": "Kafe kültürü güçlü.",
+     "fiyat": "150–250 RSD",
+     "not": "Knez Mihailova üstü pahalı, bir sokak içerisi ucuz."
     }
    ],
-   "lat": 44.8176
+   "gezgin": [
+    "Menüde fiyat yazmayan yere oturma — en sık yaşanan şikâyet bu.",
+    "'Ücretsiz tur' diye başlayıp sonunda yüksek bahşiş dayatan rehberler Kalemegdan çevresinde çok.",
+    "Kafede oturmak Belgrad'ın kendisi; acele etmeyen servis kabalık değil âdet.",
+    "Toplu taşıma bileti kioskatan alınıyor ve araçta damgalanıyor.",
+    "Nehir kenarındaki yüzen kulüpler (splav) gece pahalı; kapıda fiyat sor."
+   ],
+   "lon": 20.4569,
+   "neden": "Belgrad güzel olmakla değil dirençli olmakla anılır. Kalemegdan'dan iki nehrin birleşmesine bakmak şehri anlatan tek manzara: Balkanların kapısı burasıydı ve bu yüzden herkes burayı istedi. Şehir yıpranmış cephelerin arasında çok canlı bir kafe ve gece hayatı taşıyor.",
+   "terim": [
+    "ćevapi",
+    "kajmak",
+    "rakija",
+    "ajvar",
+    "eski şehir"
+   ],
+   "id": "belgrad"
   },
   {
-   "lon": 20.4506,
+   "ulke": "RS",
    "tarih": "Roma kastrumu üstüne Bizans, Sırp, Osmanlı ve Avusturya katmanları bindi. Bugünkü surların çoğu 18. yüzyıl Avusturya işi. Pobednik heykeli 1928'de dikildi; çıplak olduğu için önce şehir merkezine konamadı, surların ucuna taşındı.",
-   "ozet": "İki nehrin birleştiği burun üstünde, şehrin 2000 yıllık çekirdeği ve en büyük parkı.",
+   "lat": 44.8226,
    "dikkat": [
     "Sur taşları düzensiz; dikkatli basmak gerekiyor."
    ],
-   "terim": [
-    "eski şehir",
-    "kaldırım taşı"
-   ],
-   "gezgin": [
-    "Park büyük ve gölgeli; sıcakta Belgrad'ın en serin yeri.",
-    "Gün batımında Pobednik çevresi kalabalık oluyor, 20 dakika erken git.",
-    "Aşağı kapıdan nehir kıyısına inmek dik ama manzaralı."
-   ],
-   "ye": [
+   "ad": "Belgrad Kalesi (Kalemegdan)",
+   "turkiye": "Park ve manzara ücretsiz; yalnız müze ücretli.",
+   "yaricap": 1500,
+   "al": [
     {
-     "ad": "Park büfeleri",
-     "ne": "Mısır, dondurma, kahve.",
-     "fiyat": "150–400 RSD",
-     "not": "Sur üstü kafeler manzara payı alıyor."
+     "ad": "Tezgâh el işi",
+     "ne": "Giriş yolunda sıralanır.",
+     "fiyat": "—",
+     "dikkat": "Turistik fiyat; pazarlık az."
     }
    ],
-   "neden": "Adı Türkçe: 'kale meydanı'. Surların ucundan bakınca Sava'nın Tuna'ya karıştığı yer, iki farklı renkte su olarak görünüyor. Belgradlılar için burası müze değil park — koşan, satranç oynayan, piknik yapan insanlar arasında geziliyor.",
-   "id": "kalemegdan",
    "eslesme": [
     "kalemegdan",
     "belgrad kalesi",
@@ -808,49 +800,52 @@
      "sure": "45 dk"
     }
    ],
-   "yaricap": 1500,
-   "ulke": "RS",
-   "turkiye": "Park ve manzara ücretsiz; yalnız müze ücretli.",
-   "ad": "Belgrad Kalesi (Kalemegdan)",
-   "al": [
+   "ozet": "İki nehrin birleştiği burun üstünde, şehrin 2000 yıllık çekirdeği ve en büyük parkı.",
+   "ye": [
     {
-     "ad": "Tezgâh el işi",
-     "ne": "Giriş yolunda sıralanır.",
-     "fiyat": "—",
-     "dikkat": "Turistik fiyat; pazarlık az."
+     "ad": "Park büfeleri",
+     "ne": "Mısır, dondurma, kahve.",
+     "fiyat": "150–400 RSD",
+     "not": "Sur üstü kafeler manzara payı alıyor."
     }
    ],
-   "lat": 44.8226
+   "gezgin": [
+    "Park büyük ve gölgeli; sıcakta Belgrad'ın en serin yeri.",
+    "Gün batımında Pobednik çevresi kalabalık oluyor, 20 dakika erken git.",
+    "Aşağı kapıdan nehir kıyısına inmek dik ama manzaralı."
+   ],
+   "lon": 20.4506,
+   "neden": "Adı Türkçe: 'kale meydanı'. Surların ucundan bakınca Sava'nın Tuna'ya karıştığı yer, iki farklı renkte su olarak görünüyor. Belgradlılar için burası müze değil park — koşan, satranç oynayan, piknik yapan insanlar arasında geziliyor.",
+   "terim": [
+    "eski şehir",
+    "kaldırım taşı"
+   ],
+   "id": "kalemegdan"
   },
   {
-   "lon": 20.459,
+   "ulke": "RS",
    "tarih": "Roma döneminden beri aynı hat üstünde; bugünkü cepheler 1870 sonrası. Koruma altında.",
-   "ozet": "Kalemegdan'a çıkan, uçtan uca yaya olan ana alışveriş caddesi.",
+   "lat": 44.8163,
    "dikkat": [
     "Fiyatların en yüksek olduğu hat."
    ],
-   "terim": [],
-   "gezgin": [
-    "Cadde üstündeki menüsüz kafelerden uzak dur.",
-    "Sokak müzisyenleri akşam yoğunlaşıyor.",
-    "Yankesici dikkatinin gerektiği tek merkez burası."
-   ],
-   "ye": [
+   "ad": "Knez Mihailova Caddesi",
+   "turkiye": "Kafe fiyatı İstanbul merkeziyle aynı ya da üstünde.",
+   "yaricap": 800,
+   "al": [
     {
-     "ad": "Kafe",
-     "ne": "Cadde üstü pahalı.",
-     "fiyat": "200–350 RSD",
-     "not": "Bir sokak içeri gir, fiyat düşer."
+     "ad": "Zincir markalar",
+     "ne": "Türkiye'dekiyle aynı markalar.",
+     "fiyat": "benzer",
+     "dikkat": "Buradan alışverişin anlamı az."
     },
     {
-     "ad": "Dondurma",
-     "ne": "Yerel zincirler iyi.",
-     "fiyat": "150–250 RSD",
-     "not": ""
+     "ad": "Kitapçılar",
+     "ne": "Büyük ve iyi.",
+     "fiyat": "—",
+     "dikkat": ""
     }
    ],
-   "neden": "Belgrad'ın İstiklal Caddesi'ne en yakın karşılığı: 19. yüzyıl cepheleri, markalar, sokak müzisyenleri ve kafeler. Kalemegdan'a giden yol zaten buradan geçiyor, bu yüzden çoğu gezi burada başlıyor.",
-   "id": "knez-mihailova",
    "eslesme": [
     "knez mihailova",
     "knez mihailova caddesi"
@@ -867,45 +862,47 @@
      "sure": "—"
     }
    ],
-   "yaricap": 800,
-   "ulke": "RS",
-   "turkiye": "Kafe fiyatı İstanbul merkeziyle aynı ya da üstünde.",
-   "ad": "Knez Mihailova Caddesi",
-   "al": [
-    {
-     "ad": "Zincir markalar",
-     "ne": "Türkiye'dekiyle aynı markalar.",
-     "fiyat": "benzer",
-     "dikkat": "Buradan alışverişin anlamı az."
-    },
-    {
-     "ad": "Kitapçılar",
-     "ne": "Büyük ve iyi.",
-     "fiyat": "—",
-     "dikkat": ""
-    }
-   ],
-   "lat": 44.8163
-  },
-  {
-   "lon": 19.8335,
-   "tarih": "Petrovaradin Kalesi 18. yy Avusturya işi; 'Tuna'nın Cebelitarık'ı' denir.",
-   "ozet": "Tuna kıyısında, Petrovaradin Kalesi'yle bilinen Voyvodina başkenti.",
-   "dikkat": [],
-   "terim": [],
-   "gezgin": [
-    "Belgrad'dan günübirlik yapılabilir."
-   ],
+   "ozet": "Kalemegdan'a çıkan, uçtan uca yaya olan ana alışveriş caddesi.",
    "ye": [
     {
-     "ad": "Voyvodina mutfağı",
-     "ne": "Macar etkisi, paprika ağırlıklı.",
-     "fiyat": "700–1200 RSD",
+     "ad": "Kafe",
+     "ne": "Cadde üstü pahalı.",
+     "fiyat": "200–350 RSD",
+     "not": "Bir sokak içeri gir, fiyat düşer."
+    },
+    {
+     "ad": "Dondurma",
+     "ne": "Yerel zincirler iyi.",
+     "fiyat": "150–250 RSD",
      "not": ""
     }
    ],
-   "neden": "Belgrad'dan 80 km. Avusturya-Macaristan mimarisi baskın; Belgrad'dan daha düzenli ve sakin.",
-   "id": "novi-sad",
+   "gezgin": [
+    "Cadde üstündeki menüsüz kafelerden uzak dur.",
+    "Sokak müzisyenleri akşam yoğunlaşıyor.",
+    "Yankesici dikkatinin gerektiği tek merkez burası."
+   ],
+   "lon": 20.459,
+   "neden": "Belgrad'ın İstiklal Caddesi'ne en yakın karşılığı: 19. yüzyıl cepheleri, markalar, sokak müzisyenleri ve kafeler. Kalemegdan'a giden yol zaten buradan geçiyor, bu yüzden çoğu gezi burada başlıyor.",
+   "terim": [],
+   "id": "knez-mihailova"
+  },
+  {
+   "ulke": "RS",
+   "tarih": "Petrovaradin Kalesi 18. yy Avusturya işi; 'Tuna'nın Cebelitarık'ı' denir.",
+   "lat": 45.2671,
+   "dikkat": [],
+   "ad": "Novi Sad",
+   "turkiye": "Belgrad'dan ucuz.",
+   "yaricap": 8000,
+   "al": [
+    {
+     "ad": "Şarap",
+     "ne": "Fruška Gora bağları.",
+     "fiyat": "600–2000 RSD",
+     "dikkat": "Bavula."
+    }
+   ],
    "eslesme": [
     "novi sad"
    ],
@@ -921,40 +918,32 @@
      "sure": "30 dk"
     }
    ],
-   "yaricap": 8000,
-   "ulke": "RS",
-   "turkiye": "Belgrad'dan ucuz.",
-   "ad": "Novi Sad",
-   "al": [
-    {
-     "ad": "Şarap",
-     "ne": "Fruška Gora bağları.",
-     "fiyat": "600–2000 RSD",
-     "dikkat": "Bavula."
-    }
-   ],
-   "lat": 45.2671
-  },
-  {
-   "lon": 21.8958,
-   "tarih": "Konstantin burada doğdu. Kafatası Kulesi (Ćele Kula) 1809 ayaklanması sonrası yapıldı; Sırp tarihinin en sert simgelerinden.",
-   "ozet": "Osmanlı kalesi ve Kafatası Kulesi'yle bilinen güney Sırbistan şehri.",
-   "dikkat": [],
-   "terim": [
-    "burek",
-    "çarşı"
-   ],
-   "gezgin": [],
+   "ozet": "Tuna kıyısında, Petrovaradin Kalesi'yle bilinen Voyvodina başkenti.",
    "ye": [
     {
-     "ad": "Burek",
-     "ne": "Niş bureği ünlü.",
-     "fiyat": "200–350 RSD",
+     "ad": "Voyvodina mutfağı",
+     "ne": "Macar etkisi, paprika ağırlıklı.",
+     "fiyat": "700–1200 RSD",
      "not": ""
     }
    ],
-   "neden": "Türkiye'den karayoluyla gelenlerin ilk büyük Sırp şehri. Kale içi bugün park ve kafe.",
-   "id": "nis",
+   "gezgin": [
+    "Belgrad'dan günübirlik yapılabilir."
+   ],
+   "lon": 19.8335,
+   "neden": "Belgrad'dan 80 km. Avusturya-Macaristan mimarisi baskın; Belgrad'dan daha düzenli ve sakin.",
+   "terim": [],
+   "id": "novi-sad"
+  },
+  {
+   "ulke": "RS",
+   "tarih": "Konstantin burada doğdu. Kafatası Kulesi (Ćele Kula) 1809 ayaklanması sonrası yapıldı; Sırp tarihinin en sert simgelerinden.",
+   "lat": 43.3209,
+   "dikkat": [],
+   "ad": "Niş (Niš)",
+   "turkiye": "Belgrad'dan belirgin ucuz.",
+   "yaricap": 6000,
+   "al": [],
    "eslesme": [
     "niş",
     "nis"
@@ -971,76 +960,62 @@
      "sure": "20 dk"
     }
    ],
-   "yaricap": 6000,
-   "ulke": "RS",
-   "turkiye": "Belgrad'dan belirgin ucuz.",
-   "ad": "Niş (Niš)",
-   "al": [],
-   "lat": 43.3209
+   "ozet": "Osmanlı kalesi ve Kafatası Kulesi'yle bilinen güney Sırbistan şehri.",
+   "ye": [
+    {
+     "ad": "Burek",
+     "ne": "Niş bureği ünlü.",
+     "fiyat": "200–350 RSD",
+     "not": ""
+    }
+   ],
+   "gezgin": [],
+   "lon": 21.8958,
+   "neden": "Türkiye'den karayoluyla gelenlerin ilk büyük Sırp şehri. Kale içi bugün park ve kafe.",
+   "terim": [
+    "burek",
+    "çarşı"
+   ],
+   "id": "nis"
   },
   {
-   "lon": 18.4131,
+   "ulke": "BA",
    "tarih": "1461'de İshak Bey'in oğlu İsa Bey tarafından kuruldu; adı 'saray' kelimesinden geliyor. Gazi Hüsrev Bey 16. yüzyılda camisi, medresesi, bedesteni ve hamamıyla şehri bugünkü çekirdeğine kavuşturdu. 1878'de Avusturya-Macaristan aldı ve şehre bambaşka bir mimari ekledi. 1914'te Franz Ferdinand burada öldürüldü ve I. Dünya Savaşı başladı. 1984 Kış Olimpiyatları burada yapıldı; sekiz yıl sonra aynı tesisler cephe hattı oldu.",
-   "ozet": "Dört dinin ibadethanesinin yürüme mesafesinde olduğu, dağlarla çevrili vadi şehri.",
+   "lat": 43.8563,
    "dikkat": [
     "Şehir vadi olduğu için yazın çok sıcak, kışın sisli ve kirli hava oluyor.",
     "Kuşatma müzeleri ağır; küçük çocukla girmeden içeriğine bak.",
     "Tramvayda bilet önceden alınır ve araçta damgalanır; kontrol var."
    ],
-   "terim": [
-    "çarşı",
-    "kazancı",
-    "bedesten",
-    "medrese",
-    "sebil",
-    "ćevapi",
-    "burek",
-    "somun",
-    "kajmak",
-    "stećak",
-    "mahalle"
-   ],
-   "gezgin": [
-    "Ćevapi için Željo'da sıra olur ama hızlı akar; 10'luk çoğu kişiye fazla geliyor, 5'lik yeter.",
-    "Bakırcılarda pazarlık normal ama sert değil; %10–20 iniyor.",
-    "Sarı Tabya'ya akşam ezanına yakın çık — şehirdeki bütün camiler aynı anda okuyor ve vadi yankılanıyor.",
-    "Kaldırımdaki kırmızı 'Saraybosna gülleri' havan izleridir; üstüne basmamak yerel nezaket sayılıyor.",
-    "Kart geçen yer arttı ama çarşıda nakit ister; euro alan dükkânlar kuru kendine göre yuvarlıyor."
-   ],
-   "ye": [
+   "ad": "Saraybosna (Sarajevo)",
+   "turkiye": "Yeme-içme Türkiye ile çok yakın, bazı yerde ucuz. Bakır işi Türkiye'den PAHALI ama işçilik ve desen farklı — Türkiye'de bulunmayan bir şey alıyorsun. Kahve ve tatlı ucuz.",
+   "yaricap": 12000,
+   "al": [
     {
-     "ad": "Ćevapi",
-     "ne": "Saraybosna usulü: baharatsız, somun içinde soğanla.",
-     "fiyat": "8–14 BAM",
-     "not": "Şehrin ünlü yerleri Željo ve Petica. 5'lik ya da 10'luk ısmarlanıyor."
+     "ad": "Bakır kahve takımı",
+     "ne": "Kazandžiluk'ta elde dövülüyor.",
+     "fiyat": "El işi set 40–90 BAM (25–50 €)",
+     "dikkat": "'El yapımı' yazan levhaya bak; kusurlar el işinin işaretidir. Makine işi 15–25 BAM'a düşüyor."
     },
     {
-     "ad": "Burek",
-     "ne": "Burada burek YALNIZCA etli demek; peynirlisi 'sirnica'.",
-     "fiyat": "3–5 BAM/dilim",
-     "not": "Buregdžinica denen yerlerde tepsiden kesilerek satılıyor."
+     "ad": "Cezve (džezva)",
+     "ne": "Tek başına da satılıyor.",
+     "fiyat": "20–45 BAM",
+     "dikkat": "Kalayı yenilenmiş mi sor."
     },
     {
-     "ad": "Bosna kahvesi",
-     "ne": "Cezve, fincan, lokum ve bir bardak suyla bakır takımda.",
-     "fiyat": "2–4 BAM",
-     "not": "Türk kahvesinden farkı: köpüğü ayrı fincana alınıp sonra dökülüyor. Acele edilmez."
+     "ad": "Mermi kovanından işleme",
+     "ne": "Kuşatmadan kalma kovanların üstüne işlenmiş desenler.",
+     "fiyat": "15–40 BAM",
+     "dikkat": "Uçakta sorun çıkarabilir; boş kovan bile bazı havalimanlarında tutuluyor. Almadan önce düşün."
     },
     {
-     "ad": "Begova čorba",
-     "ne": "Tavuk ve bamyalı 'bey çorbası'.",
-     "fiyat": "5–8 BAM",
-     "not": ""
-    },
-    {
-     "ad": "Tufahija",
-     "ne": "Cevizle doldurulmuş haşlanmış elma tatlısı.",
-     "fiyat": "4–6 BAM",
-     "not": ""
+     "ad": "Bosna kahvesi ve rahatlokum",
+     "ne": "Paketli, hafif.",
+     "fiyat": "5–15 BAM",
+     "dikkat": "İyi hediye."
     }
    ],
-   "neden": "Saraybosna'da bir sokakta yürürken kaldırıma çizilmiş bir çizgi görüyorsun: bir yanında Osmanlı çarşısı, öbür yanında Avusturya-Macaristan cephesi. 'Kültürlerin buluşma noktası' diye yazılı ve gerçekten öyle. Cami, katolik katedral, ortodoks kilise ve sinagog birbirine birkaç yüz metre. Şehrin ikinci katmanı ise kuşatma: 1992–96 arasında 1425 gün kuşatma altında kaldı, Avrupa'nın modern tarihindeki en uzun kuşatma. İzleri duvarlarda ve 'Saraybosna gülleri' denen kırmızı reçineyle doldurulmuş havan izlerinde duruyor.",
-   "id": "saraybosna",
    "eslesme": [
     "saraybosna",
     "sarajevo",
@@ -1079,80 +1054,94 @@
      "fiyat": "20 BAM"
     }
    ],
-   "yaricap": 12000,
-   "ulke": "BA",
-   "turkiye": "Yeme-içme Türkiye ile çok yakın, bazı yerde ucuz. Bakır işi Türkiye'den PAHALI ama işçilik ve desen farklı — Türkiye'de bulunmayan bir şey alıyorsun. Kahve ve tatlı ucuz.",
-   "ad": "Saraybosna (Sarajevo)",
-   "al": [
+   "ozet": "Dört dinin ibadethanesinin yürüme mesafesinde olduğu, dağlarla çevrili vadi şehri.",
+   "ye": [
     {
-     "ad": "Bakır kahve takımı",
-     "ne": "Kazandžiluk'ta elde dövülüyor.",
-     "fiyat": "El işi set 40–90 BAM (25–50 €)",
-     "dikkat": "'El yapımı' yazan levhaya bak; kusurlar el işinin işaretidir. Makine işi 15–25 BAM'a düşüyor."
+     "ad": "Ćevapi",
+     "ne": "Saraybosna usulü: baharatsız, somun içinde soğanla.",
+     "fiyat": "8–14 BAM",
+     "not": "Şehrin ünlü yerleri Željo ve Petica. 5'lik ya da 10'luk ısmarlanıyor."
     },
     {
-     "ad": "Cezve (džezva)",
-     "ne": "Tek başına da satılıyor.",
-     "fiyat": "20–45 BAM",
-     "dikkat": "Kalayı yenilenmiş mi sor."
+     "ad": "Burek",
+     "ne": "Burada burek YALNIZCA etli demek; peynirlisi 'sirnica'.",
+     "fiyat": "3–5 BAM/dilim",
+     "not": "Buregdžinica denen yerlerde tepsiden kesilerek satılıyor."
     },
     {
-     "ad": "Mermi kovanından işleme",
-     "ne": "Kuşatmadan kalma kovanların üstüne işlenmiş desenler.",
-     "fiyat": "15–40 BAM",
-     "dikkat": "Uçakta sorun çıkarabilir; boş kovan bile bazı havalimanlarında tutuluyor. Almadan önce düşün."
+     "ad": "Bosna kahvesi",
+     "ne": "Cezve, fincan, lokum ve bir bardak suyla bakır takımda.",
+     "fiyat": "2–4 BAM",
+     "not": "Türk kahvesinden farkı: köpüğü ayrı fincana alınıp sonra dökülüyor. Acele edilmez."
     },
     {
-     "ad": "Bosna kahvesi ve rahatlokum",
-     "ne": "Paketli, hafif.",
-     "fiyat": "5–15 BAM",
-     "dikkat": "İyi hediye."
+     "ad": "Begova čorba",
+     "ne": "Tavuk ve bamyalı 'bey çorbası'.",
+     "fiyat": "5–8 BAM",
+     "not": ""
+    },
+    {
+     "ad": "Tufahija",
+     "ne": "Cevizle doldurulmuş haşlanmış elma tatlısı.",
+     "fiyat": "4–6 BAM",
+     "not": ""
     }
    ],
-   "lat": 43.8563
-  },
-  {
-   "lon": 18.431,
-   "tarih": "1462'de İsa Bey vakfıyla kuruldu. En parlak döneminde 12 bin dükkân ve 80 zanaat vardı. 1697'de Habsburg ordusu şehri yaktı, çarşı yeniden kuruldu. 1990'lardaki kuşatmada da hasar aldı ve onarıldı.",
-   "ozet": "Saraybosna'nın 15. yüzyıldan kalma çarşısı; şehrin meydanı ve buluşma yeri.",
-   "dikkat": [
-    "Güvercin yemi satanlar ısrarcı olabiliyor.",
-    "Çarşı tuvaleti ücretli, 1 BAM."
+   "gezgin": [
+    "Ćevapi için Željo'da sıra olur ama hızlı akar; 10'luk çoğu kişiye fazla geliyor, 5'lik yeter.",
+    "Bakırcılarda pazarlık normal ama sert değil; %10–20 iniyor.",
+    "Sarı Tabya'ya akşam ezanına yakın çık — şehirdeki bütün camiler aynı anda okuyor ve vadi yankılanıyor.",
+    "Kaldırımdaki kırmızı 'Saraybosna gülleri' havan izleridir; üstüne basmamak yerel nezaket sayılıyor.",
+    "Kart geçen yer arttı ama çarşıda nakit ister; euro alan dükkânlar kuru kendine göre yuvarlıyor."
    ],
+   "lon": 18.4131,
+   "neden": "Saraybosna'da bir sokakta yürürken kaldırıma çizilmiş bir çizgi görüyorsun: bir yanında Osmanlı çarşısı, öbür yanında Avusturya-Macaristan cephesi. 'Kültürlerin buluşma noktası' diye yazılı ve gerçekten öyle. Cami, katolik katedral, ortodoks kilise ve sinagog birbirine birkaç yüz metre. Şehrin ikinci katmanı ise kuşatma: 1992–96 arasında 1425 gün kuşatma altında kaldı, Avrupa'nın modern tarihindeki en uzun kuşatma. İzleri duvarlarda ve 'Saraybosna gülleri' denen kırmızı reçineyle doldurulmuş havan izlerinde duruyor.",
    "terim": [
     "çarşı",
     "kazancı",
     "bedesten",
-    "han",
-    "sebil"
+    "medrese",
+    "sebil",
+    "ćevapi",
+    "burek",
+    "somun",
+    "kajmak",
+    "stećak",
+    "mahalle"
    ],
-   "gezgin": [
-    "Dükkânlar sabah 9 civarı açılıyor, akşam 6–7'de kapanıyor; yaz aylarında biraz geç.",
-    "Nakit taşı; birçok tezgâh kart okutmuyor.",
-    "Sebilj çevresi öğleden sonra çok kalabalık; sabah çarşı bambaşka."
+   "id": "saraybosna"
+  },
+  {
+   "ulke": "BA",
+   "tarih": "1462'de İsa Bey vakfıyla kuruldu. En parlak döneminde 12 bin dükkân ve 80 zanaat vardı. 1697'de Habsburg ordusu şehri yaktı, çarşı yeniden kuruldu. 1990'lardaki kuşatmada da hasar aldı ve onarıldı.",
+   "lat": 43.8595,
+   "dikkat": [
+    "Güvercin yemi satanlar ısrarcı olabiliyor.",
+    "Çarşı tuvaleti ücretli, 1 BAM."
    ],
-   "ye": [
+   "ad": "Başçarşı",
+   "turkiye": "Kapalıçarşı'ya göre küçük ve daha sakin; bakır işi Türkiye'den pahalı, yiyecek ucuz.",
+   "yaricap": 1000,
+   "al": [
     {
-     "ad": "Ćevapi",
-     "ne": "Çarşının içinde onlarca yer.",
-     "fiyat": "8–14 BAM",
-     "not": ""
+     "ad": "Bakır işi",
+     "ne": "Kazandžiluk'un asıl işi.",
+     "fiyat": "20–90 BAM",
+     "dikkat": "Huseinović gibi 280 yıllık aile atölyeleri var; sorunca gösteriyorlar."
     },
     {
-     "ad": "Bosna kahvesi",
-     "ne": "Han avlusunda içmek en güzeli.",
-     "fiyat": "2–4 BAM",
-     "not": ""
+     "ad": "El işi halı ve kilim",
+     "ne": "",
+     "fiyat": "60 BAM'dan",
+     "dikkat": "Makine dokuması çok."
     },
     {
-     "ad": "Baklava ve hurmašica",
-     "ne": "Şerbetli tatlılar.",
-     "fiyat": "2–4 BAM",
-     "not": ""
+     "ad": "Gümüş",
+     "ne": "Filigran ve sade işler.",
+     "fiyat": "30–200 BAM",
+     "dikkat": "Damgaya bak."
     }
    ],
-   "neden": "Adı Türkçe: 'baş çarşı'. Zanaatların sokak sokak ayrıldığı düzen hâlâ görülüyor. Ortasındaki ahşap Sebilj çeşmesi ve güvercinleri şehrin simgesi olmuş; 'suyundan içen Saraybosna'ya döner' derler.",
-   "id": "bascarsi",
    "eslesme": [
     "başçarşı",
     "bascarsija",
@@ -1182,57 +1171,61 @@
      "fiyat": "3 BAM"
     }
    ],
-   "yaricap": 1000,
-   "ulke": "BA",
-   "turkiye": "Kapalıçarşı'ya göre küçük ve daha sakin; bakır işi Türkiye'den pahalı, yiyecek ucuz.",
-   "ad": "Başçarşı",
-   "al": [
+   "ozet": "Saraybosna'nın 15. yüzyıldan kalma çarşısı; şehrin meydanı ve buluşma yeri.",
+   "ye": [
     {
-     "ad": "Bakır işi",
-     "ne": "Kazandžiluk'un asıl işi.",
-     "fiyat": "20–90 BAM",
-     "dikkat": "Huseinović gibi 280 yıllık aile atölyeleri var; sorunca gösteriyorlar."
+     "ad": "Ćevapi",
+     "ne": "Çarşının içinde onlarca yer.",
+     "fiyat": "8–14 BAM",
+     "not": ""
     },
     {
-     "ad": "El işi halı ve kilim",
-     "ne": "",
-     "fiyat": "60 BAM'dan",
-     "dikkat": "Makine dokuması çok."
+     "ad": "Bosna kahvesi",
+     "ne": "Han avlusunda içmek en güzeli.",
+     "fiyat": "2–4 BAM",
+     "not": ""
     },
     {
-     "ad": "Gümüş",
-     "ne": "Filigran ve sade işler.",
-     "fiyat": "30–200 BAM",
-     "dikkat": "Damgaya bak."
+     "ad": "Baklava ve hurmašica",
+     "ne": "Şerbetli tatlılar.",
+     "fiyat": "2–4 BAM",
+     "not": ""
     }
    ],
-   "lat": 43.8595
+   "gezgin": [
+    "Dükkânlar sabah 9 civarı açılıyor, akşam 6–7'de kapanıyor; yaz aylarında biraz geç.",
+    "Nakit taşı; birçok tezgâh kart okutmuyor.",
+    "Sebilj çevresi öğleden sonra çok kalabalık; sabah çarşı bambaşka."
+   ],
+   "lon": 18.431,
+   "neden": "Adı Türkçe: 'baş çarşı'. Zanaatların sokak sokak ayrıldığı düzen hâlâ görülüyor. Ortasındaki ahşap Sebilj çeşmesi ve güvercinleri şehrin simgesi olmuş; 'suyundan içen Saraybosna'ya döner' derler.",
+   "terim": [
+    "çarşı",
+    "kazancı",
+    "bedesten",
+    "han",
+    "sebil"
+   ],
+   "id": "bascarsi"
   },
   {
-   "lon": 18.2725,
+   "ulke": "BA",
    "tarih": "Roma döneminden beri bilinen kaynak. Avusturya-Macaristan 1890'larda burayı mesire yeri olarak düzenledi; Ilidža'daki kaplıca otelleriyle birlikte dönemin tatil bölgesiydi.",
-   "ozet": "Saraybosna'nın batısında, Bosna nehrinin doğduğu kaynak ve park.",
+   "lat": 43.8206,
    "dikkat": [
     "Yol uzun ve gölgeli ama düz; yaşlılar için at arabası iyi fikir."
    ],
-   "terim": [
-    "kaldırım taşı"
-   ],
-   "gezgin": [
-    "Su çok soğuk; ayak sokmak isteyenler dikkatli.",
-    "At arabası fiyatını binmeden netleştir, dönüş dahil mi sor.",
-    "Hafta sonu yerel halkla dolu; hafta içi sakin."
-   ],
-   "ye": [
+   "ad": "Vrelo Bosne",
+   "turkiye": "Ucuz; giriş sembolik.",
+   "yaricap": 2500,
+   "al": [
     {
-     "ad": "Park kafesi",
-     "ne": "Kahve ve hafif yiyecek.",
-     "fiyat": "3–8 BAM",
-     "not": "Ilidža'da lokantalar daha iyi."
+     "ad": "Yok",
+     "ne": "Alışveriş yeri değil.",
+     "fiyat": "—",
+     "dikkat": ""
     }
    ],
-   "neden": "Ülkeye adını veren nehrin ilk metreleri burada. Kaynak suları küçük adacıklar arasında çoğalıp nehir oluyor; park ağaçlı, gölgeli ve serin — vadi sıcağından kaçılan yer. Girişten kaynağa uzanan 3,5 km'lik çınarlı yol Avusturya döneminde yapılmış ve at arabalarıyla (fijaker) gidiliyor.",
-   "id": "vrelo-bosne",
    "eslesme": [
     "vrelo bosne",
     "bosna kaynağı",
@@ -1252,52 +1245,51 @@
      "fiyat": "Park girişi 2–4 BAM"
     }
    ],
-   "yaricap": 2500,
-   "ulke": "BA",
-   "turkiye": "Ucuz; giriş sembolik.",
-   "ad": "Vrelo Bosne",
-   "al": [
+   "ozet": "Saraybosna'nın batısında, Bosna nehrinin doğduğu kaynak ve park.",
+   "ye": [
     {
-     "ad": "Yok",
-     "ne": "Alışveriş yeri değil.",
-     "fiyat": "—",
-     "dikkat": ""
+     "ad": "Park kafesi",
+     "ne": "Kahve ve hafif yiyecek.",
+     "fiyat": "3–8 BAM",
+     "not": "Ilidža'da lokantalar daha iyi."
     }
    ],
-   "lat": 43.8206
+   "gezgin": [
+    "Su çok soğuk; ayak sokmak isteyenler dikkatli.",
+    "At arabası fiyatını binmeden netleştir, dönüş dahil mi sor.",
+    "Hafta sonu yerel halkla dolu; hafta içi sakin."
+   ],
+   "lon": 18.2725,
+   "neden": "Ülkeye adını veren nehrin ilk metreleri burada. Kaynak suları küçük adacıklar arasında çoğalıp nehir oluyor; park ağaçlı, gölgeli ve serin — vadi sıcağından kaçılan yer. Girişten kaynağa uzanan 3,5 km'lik çınarlı yol Avusturya döneminde yapılmış ve at arabalarıyla (fijaker) gidiliyor.",
+   "terim": [
+    "kaldırım taşı"
+   ],
+   "id": "vrelo-bosne"
   },
   {
-   "lon": 17.9614,
+   "ulke": "BA",
    "tarih": "Köprü 1682'de yapıldı; 1945'te çekilen Alman ordusu tarafından havaya uçuruldu ve 2009'da özgün taşlarıyla yeniden kuruldu. Sığınak 1953–79 arası 26 yılda, tam gizlilik içinde inşa edildi; maliyeti dönemin parasıyla milyarlarca doları buldu ve varlığı 1992'ye kadar halktan gizlendi.",
-   "ozet": "Neretva üstünde 17. yüzyıl Osmanlı köprüsü ve Tito'nun gizli sığınağıyla bilinen kasaba.",
+   "lat": 43.6528,
    "dikkat": [
     "Vadi yolunda şebeke kesiliyor."
    ],
-   "terim": [
-    "UNESCO Dünya Mirası",
-    "kaldırım taşı"
-   ],
-   "gezgin": [
-    "Mola çoğu turda 20–30 dakika; sığınak için ayrı zaman gerekiyor, turda yoksa yetişmez.",
-    "Köprünün en iyi açısı nehrin sağ yakasındaki kafe terasından.",
-    "Ahşap oyma dükkânları köprünün yakınında toplanmış."
-   ],
-   "ye": [
+   "ad": "Konjic",
+   "turkiye": "Ucuz. Ahşap oyma işçiliği için ödenen para Türkiye'de karşılığı olmayan bir zanaat.",
+   "yaricap": 4000,
+   "al": [
     {
-     "ad": "Alabalık",
-     "ne": "Neretva alabalığı.",
-     "fiyat": "12–20 BAM",
-     "not": "Yol üstü lokantalarda."
+     "ad": "Konjic ahşap oyması",
+     "ne": "Ceviz üstüne el oyması; UNESCO korumasında bir zanaat.",
+     "fiyat": "Küçük kutu 20–60 BAM",
+     "dikkat": "Gerçek Konjic işi atölyeden alınır; yol kenarındaki ucuz taklitler makine işi."
     },
     {
-     "ad": "Bosna kahvesi",
-     "ne": "Mola için.",
-     "fiyat": "2–3 BAM",
-     "not": ""
+     "ad": "Bal",
+     "ne": "Dağ balı.",
+     "fiyat": "10–20 BAM",
+     "dikkat": "Cam kavanoz — bavulda sar."
     }
    ],
-   "neden": "Saraybosna–Mostar yolunun ortası; otobüs burada mola veriyor. Taş köprü Neretva'nın turkuaz suyu üstünde duruyor ve fotoğrafı bu rotanın en kolay güzel karesi. Kasabanın ikinci şaşırtıcı yanı yer altında: Tito için yapılmış, nükleer savaşa dayanacak dev bir sığınak (D-0 ARK) burada ve bugün çağdaş sanat sergisi olarak geziliyor.",
-   "id": "konjic",
    "eslesme": [
     "konjic",
     "konjic köprüsü",
@@ -1321,58 +1313,52 @@
      "sure": "20 dk"
     }
    ],
-   "yaricap": 4000,
-   "ulke": "BA",
-   "turkiye": "Ucuz. Ahşap oyma işçiliği için ödenen para Türkiye'de karşılığı olmayan bir zanaat.",
-   "ad": "Konjic",
-   "al": [
-    {
-     "ad": "Konjic ahşap oyması",
-     "ne": "Ceviz üstüne el oyması; UNESCO korumasında bir zanaat.",
-     "fiyat": "Küçük kutu 20–60 BAM",
-     "dikkat": "Gerçek Konjic işi atölyeden alınır; yol kenarındaki ucuz taklitler makine işi."
-    },
-    {
-     "ad": "Bal",
-     "ne": "Dağ balı.",
-     "fiyat": "10–20 BAM",
-     "dikkat": "Cam kavanoz — bavulda sar."
-    }
-   ],
-   "lat": 43.6528
-  },
-  {
-   "lon": 17.7583,
-   "tarih": "1943 Neretva Muharebesi Yugoslavya'nın kurucu efsanelerinden; 1969'da yapılan film Oscar'a aday oldu ve köprü film için ikinci kez havaya uçuruldu.",
-   "ozet": "Neretva üstünde, kuzu çevirmesiyle ve savaşta yıkılan köprüsüyle bilinen kasaba.",
-   "dikkat": [
-    "Vejetaryen için seçenek çok az."
-   ],
-   "terim": [
-    "kajmak",
-    "somun"
-   ],
-   "gezgin": [
-    "Kiloyla satıldığı için sipariş verirken gram söylemek gerekiyor — 'bir porsiyon' diye ısmarlarsan sürprizle karşılaşabiliyorsun.",
-    "Öğle saatinde otobüsler yığılıyor; servis yavaşlıyor.",
-    "En bilinen yer Zdrava Voda; ama yol boyunca hepsi aynı işi yapıyor."
-   ],
+   "ozet": "Neretva üstünde 17. yüzyıl Osmanlı köprüsü ve Tito'nun gizli sığınağıyla bilinen kasaba.",
    "ye": [
     {
-     "ad": "Kuzu çevirme (janjetina)",
-     "ne": "Şişte, kiloyla satılıyor.",
-     "fiyat": "25–40 BAM/kg",
-     "not": "Kişi başı 300–400 gr yeter. Yanında somun, soğan ve kaymak."
+     "ad": "Alabalık",
+     "ne": "Neretva alabalığı.",
+     "fiyat": "12–20 BAM",
+     "not": "Yol üstü lokantalarda."
     },
     {
-     "ad": "Kaymak (kajmak)",
-     "ne": "Kuzunun yanında.",
-     "fiyat": "5–8 BAM",
+     "ad": "Bosna kahvesi",
+     "ne": "Mola için.",
+     "fiyat": "2–3 BAM",
      "not": ""
     }
    ],
-   "neden": "Yol boyunca sağlı sollu kuzu çevirme lokantaları sıralanır; kokusu yola çıkar. 'Jablanica kuzusu' Bosna'da kendi başına bir marka. Nehir üstündeki yıkık demiryolu köprüsü 1943 Neretva Muharebesi'nden kalma — partizanların yaralı taşıyarak geçtiği köprü kasıtlı olarak yıkılmış hâliyle bırakılmış, yanında müze var.",
-   "id": "jablanica",
+   "gezgin": [
+    "Mola çoğu turda 20–30 dakika; sığınak için ayrı zaman gerekiyor, turda yoksa yetişmez.",
+    "Köprünün en iyi açısı nehrin sağ yakasındaki kafe terasından.",
+    "Ahşap oyma dükkânları köprünün yakınında toplanmış."
+   ],
+   "lon": 17.9614,
+   "neden": "Saraybosna–Mostar yolunun ortası; otobüs burada mola veriyor. Taş köprü Neretva'nın turkuaz suyu üstünde duruyor ve fotoğrafı bu rotanın en kolay güzel karesi. Kasabanın ikinci şaşırtıcı yanı yer altında: Tito için yapılmış, nükleer savaşa dayanacak dev bir sığınak (D-0 ARK) burada ve bugün çağdaş sanat sergisi olarak geziliyor.",
+   "terim": [
+    "UNESCO Dünya Mirası",
+    "kaldırım taşı"
+   ],
+   "id": "konjic"
+  },
+  {
+   "ulke": "BA",
+   "tarih": "1943 Neretva Muharebesi Yugoslavya'nın kurucu efsanelerinden; 1969'da yapılan film Oscar'a aday oldu ve köprü film için ikinci kez havaya uçuruldu.",
+   "lat": 43.6597,
+   "dikkat": [
+    "Vejetaryen için seçenek çok az."
+   ],
+   "ad": "Jablanica",
+   "turkiye": "Et fiyatı Türkiye'yle benzer; porsiyon büyük.",
+   "yaricap": 4000,
+   "al": [
+    {
+     "ad": "Bal ve reçel",
+     "ne": "Yol kenarı tezgâhları.",
+     "fiyat": "8–20 BAM",
+     "dikkat": "Cam; bavula."
+    }
+   ],
    "eslesme": [
     "jablanica"
    ],
@@ -1389,72 +1375,72 @@
      "sure": "—"
     }
    ],
-   "yaricap": 4000,
-   "ulke": "BA",
-   "turkiye": "Et fiyatı Türkiye'yle benzer; porsiyon büyük.",
-   "ad": "Jablanica",
-   "al": [
+   "ozet": "Neretva üstünde, kuzu çevirmesiyle ve savaşta yıkılan köprüsüyle bilinen kasaba.",
+   "ye": [
     {
-     "ad": "Bal ve reçel",
-     "ne": "Yol kenarı tezgâhları.",
-     "fiyat": "8–20 BAM",
-     "dikkat": "Cam; bavula."
+     "ad": "Kuzu çevirme (janjetina)",
+     "ne": "Şişte, kiloyla satılıyor.",
+     "fiyat": "25–40 BAM/kg",
+     "not": "Kişi başı 300–400 gr yeter. Yanında somun, soğan ve kaymak."
+    },
+    {
+     "ad": "Kaymak (kajmak)",
+     "ne": "Kuzunun yanında.",
+     "fiyat": "5–8 BAM",
+     "not": ""
     }
    ],
-   "lat": 43.6597
+   "gezgin": [
+    "Kiloyla satıldığı için sipariş verirken gram söylemek gerekiyor — 'bir porsiyon' diye ısmarlarsan sürprizle karşılaşabiliyorsun.",
+    "Öğle saatinde otobüsler yığılıyor; servis yavaşlıyor.",
+    "En bilinen yer Zdrava Voda; ama yol boyunca hepsi aynı işi yapıyor."
+   ],
+   "lon": 17.7583,
+   "neden": "Yol boyunca sağlı sollu kuzu çevirme lokantaları sıralanır; kokusu yola çıkar. 'Jablanica kuzusu' Bosna'da kendi başına bir marka. Nehir üstündeki yıkık demiryolu köprüsü 1943 Neretva Muharebesi'nden kalma — partizanların yaralı taşıyarak geçtiği köprü kasıtlı olarak yıkılmış hâliyle bırakılmış, yanında müze var.",
+   "terim": [
+    "kajmak",
+    "somun"
+   ],
+   "id": "jablanica"
   },
   {
-   "lon": 17.8148,
+   "ulke": "BA",
    "tarih": "1566'da Mimar Sinan'ın öğrencisi Mimar Hayruddin yaptı. Tek kemerli açıklığı 28,7 m; yapıldığında dünyanın en geniş tek kemerli taş köprüsüydü. Şehrin adı 'köprü bekçisi' anlamındaki 'mostari'den geliyor. Köprü 9 Kasım 1993'te yıkıldı; UNESCO gözetiminde 2004'te yeniden açıldı ve ertesi yıl Dünya Mirası oldu.",
-   "ozet": "Neretva üstündeki tek kemerli Osmanlı köprüsüyle bilinen, yıkılıp yeniden kurulmuş şehir.",
+   "lat": 43.3369,
    "dikkat": [
     "Şehir yazın çok sıcak — Hersek Bosna'nın en sıcak bölgesi, 40 dereceyi geçiyor.",
     "Savaş izleri taşıyan yıkık binalar merkezden birkaç sokak ötede duruyor; girmek güvenli değil.",
     "Kart geçen yer az."
    ],
-   "terim": [
-    "UNESCO Dünya Mirası",
-    "çarşı",
-    "kazancı",
-    "ćevapi",
-    "kaldırım taşı",
-    "eski şehir"
-   ],
-   "gezgin": [
-    "Köprü taşları CİLALANMIŞ ve çok kaygan; yağmurda tehlikeli. Basamaklara konmuş çıtalara bas.",
-    "Öğlen 11–16 arası tur otobüsleri yığılıyor; sabah erken ya da akşamüstü şehir bambaşka.",
-    "Çarşı fiyatları Bosna'nın en yükseği — pazarlık normal ve %20–30 iniyor.",
-    "Atlayanlara fotoğraf çekmeden önce para toplama turu yapılıyor; atlayış o toplandıktan sonra oluyor.",
-    "Köprünün en iyi fotoğrafı camii minaresinden ya da nehir kıyısındaki alt platformdan."
-   ],
-   "ye": [
+   "ad": "Mostar",
+   "turkiye": "Yemek Türkiye ile benzer. Bakır işi Türkiye'den pahalı ama Mostar çarşısı Saraybosna'dan da pahalı — mümkünse Saraybosna'da al.",
+   "yaricap": 6000,
+   "al": [
     {
-     "ad": "Ćevapi",
-     "ne": "Saraybosna'dakiyle aynı ama porsiyon farklı olabiliyor.",
-     "fiyat": "8–14 BAM",
-     "not": ""
+     "ad": "Bakır ve pirinç işi",
+     "ne": "Kujundžiluk'un asıl işi: tepsi, cezve, değirmen.",
+     "fiyat": "15–80 BAM",
+     "dikkat": "Çarşı çok turistik; aynı mal 100 m ötede ucuz olabiliyor. İki dükkân dolaş."
     },
     {
-     "ad": "Japrak / dolma",
-     "ne": "Asma yaprağı sarma, Hersek usulü.",
-     "fiyat": "8–12 BAM",
-     "not": ""
+     "ad": "Mermi kovanı işleme",
+     "ne": "Savaştan kalma kovanlara işleme.",
+     "fiyat": "15–40 BAM",
+     "dikkat": "Havalimanı güvenliğinde sorun çıkabiliyor."
     },
     {
-     "ad": "Alabalık",
-     "ne": "Neretva balığı.",
-     "fiyat": "15–25 BAM",
-     "not": "Köprü manzaralı teraslar %30 pahalı."
+     "ad": "El dokuma ve halı",
+     "ne": "",
+     "fiyat": "40 BAM'dan",
+     "dikkat": "Makine işi çok."
     },
     {
-     "ad": "Bosna kahvesi",
-     "ne": "Çarşıda bakır takımla.",
-     "fiyat": "2–4 BAM",
-     "not": ""
+     "ad": "Nar şurubu ve incir reçeli",
+     "ne": "Hersek'in sıcak iklim ürünleri.",
+     "fiyat": "8–15 BAM",
+     "dikkat": "Sıvı — bavula."
     }
    ],
-   "neden": "Stari Most yalnız güzel bir köprü değil; yıkılışı ve yeniden yapılışı bu ülkenin son otuz yılının özeti. 427 yıl ayakta durduktan sonra 1993'te top ateşiyle yıkıldı, 2004'te nehirden çıkarılan özgün taşlarla ve aynı yöntemle yeniden kuruldu. Köprüden atlayan gençler (mostari) 450 yıllık bir gelenek sürdürüyor — 21 metre, buz gibi su.",
-   "id": "mostar",
    "eslesme": [
     "mostar",
     "stari most",
@@ -1489,76 +1475,78 @@
      "sure": "—"
     }
    ],
-   "yaricap": 6000,
-   "ulke": "BA",
-   "turkiye": "Yemek Türkiye ile benzer. Bakır işi Türkiye'den pahalı ama Mostar çarşısı Saraybosna'dan da pahalı — mümkünse Saraybosna'da al.",
-   "ad": "Mostar",
-   "al": [
+   "ozet": "Neretva üstündeki tek kemerli Osmanlı köprüsüyle bilinen, yıkılıp yeniden kurulmuş şehir.",
+   "ye": [
     {
-     "ad": "Bakır ve pirinç işi",
-     "ne": "Kujundžiluk'un asıl işi: tepsi, cezve, değirmen.",
-     "fiyat": "15–80 BAM",
-     "dikkat": "Çarşı çok turistik; aynı mal 100 m ötede ucuz olabiliyor. İki dükkân dolaş."
+     "ad": "Ćevapi",
+     "ne": "Saraybosna'dakiyle aynı ama porsiyon farklı olabiliyor.",
+     "fiyat": "8–14 BAM",
+     "not": ""
     },
     {
-     "ad": "Mermi kovanı işleme",
-     "ne": "Savaştan kalma kovanlara işleme.",
-     "fiyat": "15–40 BAM",
-     "dikkat": "Havalimanı güvenliğinde sorun çıkabiliyor."
+     "ad": "Japrak / dolma",
+     "ne": "Asma yaprağı sarma, Hersek usulü.",
+     "fiyat": "8–12 BAM",
+     "not": ""
     },
     {
-     "ad": "El dokuma ve halı",
-     "ne": "",
-     "fiyat": "40 BAM'dan",
-     "dikkat": "Makine işi çok."
+     "ad": "Alabalık",
+     "ne": "Neretva balığı.",
+     "fiyat": "15–25 BAM",
+     "not": "Köprü manzaralı teraslar %30 pahalı."
     },
     {
-     "ad": "Nar şurubu ve incir reçeli",
-     "ne": "Hersek'in sıcak iklim ürünleri.",
-     "fiyat": "8–15 BAM",
-     "dikkat": "Sıvı — bavula."
+     "ad": "Bosna kahvesi",
+     "ne": "Çarşıda bakır takımla.",
+     "fiyat": "2–4 BAM",
+     "not": ""
     }
    ],
-   "lat": 43.3369
+   "gezgin": [
+    "Köprü taşları CİLALANMIŞ ve çok kaygan; yağmurda tehlikeli. Basamaklara konmuş çıtalara bas.",
+    "Öğlen 11–16 arası tur otobüsleri yığılıyor; sabah erken ya da akşamüstü şehir bambaşka.",
+    "Çarşı fiyatları Bosna'nın en yükseği — pazarlık normal ve %20–30 iniyor.",
+    "Atlayanlara fotoğraf çekmeden önce para toplama turu yapılıyor; atlayış o toplandıktan sonra oluyor.",
+    "Köprünün en iyi fotoğrafı camii minaresinden ya da nehir kıyısındaki alt platformdan."
+   ],
+   "lon": 17.8148,
+   "neden": "Stari Most yalnız güzel bir köprü değil; yıkılışı ve yeniden yapılışı bu ülkenin son otuz yılının özeti. 427 yıl ayakta durduktan sonra 1993'te top ateşiyle yıkıldı, 2004'te nehirden çıkarılan özgün taşlarla ve aynı yöntemle yeniden kuruldu. Köprüden atlayan gençler (mostari) 450 yıllık bir gelenek sürdürüyor — 21 metre, buz gibi su.",
+   "terim": [
+    "UNESCO Dünya Mirası",
+    "çarşı",
+    "kazancı",
+    "ćevapi",
+    "kaldırım taşı",
+    "eski şehir"
+   ],
+   "id": "mostar"
   },
   {
-   "lon": 17.8917,
+   "ulke": "BA",
    "tarih": "15. yüzyılın başında, Osmanlı'nın bölgeye gelişinin hemen ardından kuruldu; Bektaşî geleneğine bağlanır. Yapı birkaç kez sel ve kaya düşmesiyle hasar gördü, aslına uygun onarıldı. Türbede iki derviş yatıyor. Buna kaynağı Avrupa'nın en güçlü kaynaklarından biri sayılıyor.",
-   "ozet": "200 metrelik kayanın dibinde, Buna nehrinin doğduğu ağzın yanına kurulmuş 600 yıllık tekke.",
+   "lat": 43.2569,
    "dikkat": [
     "Kaya düşmesi riski nedeniyle bazı alanlar kapalı olabiliyor.",
     "Ayakkabı çıkarılıyor — çorap durumunu düşün.",
     "Su çok soğuk."
    ],
-   "terim": [
-    "tekke",
-    "derviş",
-    "türbe",
-    "zaviye"
-   ],
-   "gezgin": [
-    "Saat 10'dan önce gelmek başka bir yer görmek demek; sonrası çok kalabalık ve gürültülü.",
-    "OTOPARK ücretleri fahiş ve şoförden şoföre değişiyor — nereye bırakıldığını sor.",
-    "Girişten tekkeye kadar yol tezgâhlarla dolu ve baskı hissi verebiliyor.",
-    "Çoğu ziyaret 45–60 dakika sürüyor; turda daha az verilirse balık yemeye vakit kalmıyor.",
-    "Lokanta fiyatları Bosna ortalamasının üstünde ama bu her kaynak başı lokantasında böyle."
-   ],
-   "ye": [
+   "ad": "Blagaj Tekkesi",
+   "turkiye": "Giriş ucuz; lokanta Türkiye'deki manzaralı balıkçı fiyatlarına yakın.",
+   "yaricap": 2500,
+   "al": [
     {
-     "ad": "Izgara alabalık",
-     "ne": "Buna kaynağının balığı, kömürde. Su üstündeki ahşap platformlarda.",
-     "fiyat": "18–30 BAM",
-     "not": "Restoran Fajić ve Mlinica en bilinen ikisi. Bosna'ya göre pahalı ama yer öyle."
+     "ad": "Yol boyu tezgâhları",
+     "ne": "Bal, lavanta, nar şurubu, el işi.",
+     "fiyat": "5–25 BAM",
+     "dikkat": "Çoğu tezgâh KART OKUTMUYOR — nakit gerekiyor."
     },
     {
-     "ad": "Bosna kahvesi",
-     "ne": "Su sesiyle.",
-     "fiyat": "3–5 BAM",
-     "not": ""
+     "ad": "Nar şurubu",
+     "ne": "Hersek narı.",
+     "fiyat": "10–15 BAM",
+     "dikkat": "Sıvı; bavula."
     }
    ],
-   "neden": "Bu rotanın en sahnesi belli yeri. Kayadan çıkan bir mağaradan saniyede tonlarca su fışkırıyor, hemen yanında beyaz badanalı ahşap tekke duruyor. Mostar'a yarım saat. İçeride ayakkabı çıkıyor, ahşap odalarda derviş hücreleri, semahane ve türbe geziliyor.",
-   "id": "blagaj",
    "eslesme": [
     "blagaj",
     "blagaj tekkesi",
@@ -1584,57 +1572,69 @@
      "fiyat": "10–20 BAM"
     }
    ],
-   "yaricap": 2500,
-   "ulke": "BA",
-   "turkiye": "Giriş ucuz; lokanta Türkiye'deki manzaralı balıkçı fiyatlarına yakın.",
-   "ad": "Blagaj Tekkesi",
-   "al": [
+   "ozet": "200 metrelik kayanın dibinde, Buna nehrinin doğduğu ağzın yanına kurulmuş 600 yıllık tekke.",
+   "ye": [
     {
-     "ad": "Yol boyu tezgâhları",
-     "ne": "Bal, lavanta, nar şurubu, el işi.",
-     "fiyat": "5–25 BAM",
-     "dikkat": "Çoğu tezgâh KART OKUTMUYOR — nakit gerekiyor."
+     "ad": "Izgara alabalık",
+     "ne": "Buna kaynağının balığı, kömürde. Su üstündeki ahşap platformlarda.",
+     "fiyat": "18–30 BAM",
+     "not": "Restoran Fajić ve Mlinica en bilinen ikisi. Bosna'ya göre pahalı ama yer öyle."
     },
     {
-     "ad": "Nar şurubu",
-     "ne": "Hersek narı.",
-     "fiyat": "10–15 BAM",
-     "dikkat": "Sıvı; bavula."
+     "ad": "Bosna kahvesi",
+     "ne": "Su sesiyle.",
+     "fiyat": "3–5 BAM",
+     "not": ""
     }
    ],
-   "lat": 43.2569
+   "gezgin": [
+    "Saat 10'dan önce gelmek başka bir yer görmek demek; sonrası çok kalabalık ve gürültülü.",
+    "OTOPARK ücretleri fahiş ve şoförden şoföre değişiyor — nereye bırakıldığını sor.",
+    "Girişten tekkeye kadar yol tezgâhlarla dolu ve baskı hissi verebiliyor.",
+    "Çoğu ziyaret 45–60 dakika sürüyor; turda daha az verilirse balık yemeye vakit kalmıyor.",
+    "Lokanta fiyatları Bosna ortalamasının üstünde ama bu her kaynak başı lokantasında böyle."
+   ],
+   "lon": 17.8917,
+   "neden": "Bu rotanın en sahnesi belli yeri. Kayadan çıkan bir mağaradan saniyede tonlarca su fışkırıyor, hemen yanında beyaz badanalı ahşap tekke duruyor. Mostar'a yarım saat. İçeride ayakkabı çıkıyor, ahşap odalarda derviş hücreleri, semahane ve türbe geziliyor.",
+   "terim": [
+    "tekke",
+    "derviş",
+    "türbe",
+    "zaviye"
+   ],
+   "id": "blagaj"
   },
   {
-   "lon": 17.6786,
+   "ulke": "BA",
    "tarih": "24 Haziran 1981'de altı genç tepede Meryem'i gördüklerini söyledi. Vatikan olayların doğaüstülüğünü resmen onaylamadı ama 2019'da resmî hac ziyaretlerine izin verdi. Kasaba nüfusu 4 binken yılda 2,5 milyon ziyaretçi alıyor.",
-   "ozet": "1981'den beri Meryem Ana görünümleri anlatılan, yılda milyonlarca hacının geldiği kasaba.",
+   "lat": 43.19,
    "dikkat": [
     "Ziyaretin niteliği gereği sessizlik ve saygı bekleniyor.",
     "Tepede su satan yok; yanında taşı."
    ],
-   "terim": [],
-   "gezgin": [
-    "Tepe yolu taşlık ve keskin; sağlam ayakkabı şart, sandaletle çıkanlar zorlanıyor.",
-    "Sabah erken ya da akşamüstü çık — gündüz gölgesiz ve çok sıcak.",
-    "Kasabada gece hayatı yok; akşam erken kapanıyor.",
-    "Konaklama ucuz ve bol, ama hac dönemlerinde (Haziran, Ağustos) doluyor."
-   ],
-   "ye": [
+   "ad": "Medjugorje",
+   "turkiye": "Konaklama ve yemek ucuz.",
+   "yaricap": 4000,
+   "al": [
     {
-     "ad": "Hersek mutfağı",
-     "ne": "Izgara, sarma, ev yemeği.",
-     "fiyat": "10–20 BAM",
-     "not": "Hacı kalabalığına göre fiyatlanmış; makul."
+     "ad": "Dinî hediyelik",
+     "ne": "Tespih, ikona, heykelcik. Kasabanın ana ticareti.",
+     "fiyat": "5–50 BAM",
+     "dikkat": "Dükkân çok, fiyat farkı büyük."
     },
     {
-     "ad": "Şarap",
-     "ne": "Hersek bağları (Žilavka, Blatina).",
-     "fiyat": "Kadeh 4–8 BAM",
-     "not": ""
+     "ad": "Hersek şarabı",
+     "ne": "Yerel üzüm türleri.",
+     "fiyat": "15–40 BAM",
+     "dikkat": "Bavula."
+    },
+    {
+     "ad": "Lavanta ve zeytinyağı",
+     "ne": "Bölge ürünü.",
+     "fiyat": "8–25 BAM",
+     "dikkat": ""
     }
    ],
-   "neden": "Gezinin en farklı durağı: turistik değil, hac merkezi. Kasaba tamamen bu işlev üstüne kurulmuş — pansiyonlar, dua alanları, onlarca dilde ayin. Akşamları kilise önündeki açık alanda binlerce kişi birlikte dua ediyor; inanmasan da o kalabalığın sesi etkileyici.",
-   "id": "medjugorje",
    "eslesme": [
     "medjugorje",
     "međugorje",
@@ -1657,63 +1657,50 @@
      "sure": "2 saat"
     }
    ],
-   "yaricap": 4000,
-   "ulke": "BA",
-   "turkiye": "Konaklama ve yemek ucuz.",
-   "ad": "Medjugorje",
-   "al": [
-    {
-     "ad": "Dinî hediyelik",
-     "ne": "Tespih, ikona, heykelcik. Kasabanın ana ticareti.",
-     "fiyat": "5–50 BAM",
-     "dikkat": "Dükkân çok, fiyat farkı büyük."
-    },
-    {
-     "ad": "Hersek şarabı",
-     "ne": "Yerel üzüm türleri.",
-     "fiyat": "15–40 BAM",
-     "dikkat": "Bavula."
-    },
-    {
-     "ad": "Lavanta ve zeytinyağı",
-     "ne": "Bölge ürünü.",
-     "fiyat": "8–25 BAM",
-     "dikkat": ""
-    }
-   ],
-   "lat": 43.19
-  },
-  {
-   "lon": 17.7386,
-   "tarih": "15. yy; Osmanlı ve Macar arasında el değiştirdi. 1990'larda ağır hasar gördü, onarıldı.",
-   "ozet": "Neretva vadisinde yamaca kurulmuş, kale ve camisiyle bütün hâlde kalmış Osmanlı kasabası.",
-   "dikkat": [
-    "Gölge az."
-   ],
-   "terim": [
-    "eski şehir",
-    "kaldırım taşı"
-   ],
-   "gezgin": [
-    "Merdivenler dik ve korkuluksuz.",
-    "Kısa durak için ideal, 30–45 dakika yeter."
-   ],
+   "ozet": "1981'den beri Meryem Ana görünümleri anlatılan, yılda milyonlarca hacının geldiği kasaba.",
    "ye": [
     {
-     "ad": "Nar suyu",
-     "ne": "Yol kenarında sıkılıyor.",
-     "fiyat": "3–5 BAM",
-     "not": "Bölge narıyla ünlü."
+     "ad": "Hersek mutfağı",
+     "ne": "Izgara, sarma, ev yemeği.",
+     "fiyat": "10–20 BAM",
+     "not": "Hacı kalabalığına göre fiyatlanmış; makul."
     },
     {
-     "ad": "İncir",
-     "ne": "Mevsiminde tezgâhlarda.",
-     "fiyat": "5 BAM/kg",
+     "ad": "Şarap",
+     "ne": "Hersek bağları (Žilavka, Blatina).",
+     "fiyat": "Kadeh 4–8 BAM",
      "not": ""
     }
    ],
-   "neden": "Mostar–Medjugorje yolu üstünde küçük bir durak. Taş evler, Hacı Alija Camii ve tepedeki kule bir arada duruyor; Bosna'nın en fotojenik küçük yerlerinden.",
-   "id": "pocitelj",
+   "gezgin": [
+    "Tepe yolu taşlık ve keskin; sağlam ayakkabı şart, sandaletle çıkanlar zorlanıyor.",
+    "Sabah erken ya da akşamüstü çık — gündüz gölgesiz ve çok sıcak.",
+    "Kasabada gece hayatı yok; akşam erken kapanıyor.",
+    "Konaklama ucuz ve bol, ama hac dönemlerinde (Haziran, Ağustos) doluyor."
+   ],
+   "lon": 17.6786,
+   "neden": "Gezinin en farklı durağı: turistik değil, hac merkezi. Kasaba tamamen bu işlev üstüne kurulmuş — pansiyonlar, dua alanları, onlarca dilde ayin. Akşamları kilise önündeki açık alanda binlerce kişi birlikte dua ediyor; inanmasan da o kalabalığın sesi etkileyici.",
+   "terim": [],
+   "id": "medjugorje"
+  },
+  {
+   "ulke": "BA",
+   "tarih": "15. yy; Osmanlı ve Macar arasında el değiştirdi. 1990'larda ağır hasar gördü, onarıldı.",
+   "lat": 43.13,
+   "dikkat": [
+    "Gölge az."
+   ],
+   "ad": "Počitelj",
+   "turkiye": "Ucuz.",
+   "yaricap": 2000,
+   "al": [
+    {
+     "ad": "Kuru incir, nar şurubu",
+     "ne": "",
+     "fiyat": "5–15 BAM",
+     "dikkat": ""
+    }
+   ],
    "eslesme": [
     "počitelj",
     "pocitelj"
@@ -1730,45 +1717,49 @@
      "sure": "15 dk"
     }
    ],
-   "yaricap": 2000,
-   "ulke": "BA",
-   "turkiye": "Ucuz.",
-   "ad": "Počitelj",
-   "al": [
-    {
-     "ad": "Kuru incir, nar şurubu",
-     "ne": "",
-     "fiyat": "5–15 BAM",
-     "dikkat": ""
-    }
-   ],
-   "lat": 43.13
-  },
-  {
-   "lon": 17.6653,
-   "tarih": "1699–1850 arası Bosna eyalet merkeziydi.",
-   "ozet": "Bosna vezirlerinin 150 yıl oturduğu şehir; Ivo Andrić'in doğduğu yer.",
-   "dikkat": [],
-   "terim": [
-    "çarşı"
-   ],
-   "gezgin": [],
+   "ozet": "Neretva vadisinde yamaca kurulmuş, kale ve camisiyle bütün hâlde kalmış Osmanlı kasabası.",
    "ye": [
     {
-     "ad": "Travnik peyniri",
-     "ne": "Salamura koyun peyniri, coğrafi işaretli.",
-     "fiyat": "12–20 BAM/kg",
-     "not": ""
+     "ad": "Nar suyu",
+     "ne": "Yol kenarında sıkılıyor.",
+     "fiyat": "3–5 BAM",
+     "not": "Bölge narıyla ünlü."
     },
     {
-     "ad": "Ćevapi",
-     "ne": "",
-     "fiyat": "8–12 BAM",
+     "ad": "İncir",
+     "ne": "Mevsiminde tezgâhlarda.",
+     "fiyat": "5 BAM/kg",
      "not": ""
     }
    ],
-   "neden": "Renkli boyalı Alaca Camii ve kale. Nobel ödüllü 'Travnik Günlüğü' burada geçiyor.",
-   "id": "travnik",
+   "gezgin": [
+    "Merdivenler dik ve korkuluksuz.",
+    "Kısa durak için ideal, 30–45 dakika yeter."
+   ],
+   "lon": 17.7386,
+   "neden": "Mostar–Medjugorje yolu üstünde küçük bir durak. Taş evler, Hacı Alija Camii ve tepedeki kule bir arada duruyor; Bosna'nın en fotojenik küçük yerlerinden.",
+   "terim": [
+    "eski şehir",
+    "kaldırım taşı"
+   ],
+   "id": "pocitelj"
+  },
+  {
+   "ulke": "BA",
+   "tarih": "1699–1850 arası Bosna eyalet merkeziydi.",
+   "lat": 44.2264,
+   "dikkat": [],
+   "ad": "Travnik",
+   "turkiye": "Ucuz.",
+   "yaricap": 4000,
+   "al": [
+    {
+     "ad": "Travnik peyniri",
+     "ne": "",
+     "fiyat": "12–20 BAM",
+     "dikkat": "Vakumlanmışı bavula girer."
+    }
+   ],
    "eslesme": [
     "travnik"
    ],
@@ -1784,39 +1775,38 @@
      "sure": "15 dk"
     }
    ],
-   "yaricap": 4000,
-   "ulke": "BA",
-   "turkiye": "Ucuz.",
-   "ad": "Travnik",
-   "al": [
-    {
-     "ad": "Travnik peyniri",
-     "ne": "",
-     "fiyat": "12–20 BAM",
-     "dikkat": "Vakumlanmışı bavula girer."
-    }
-   ],
-   "lat": 44.2264
-  },
-  {
-   "lon": 17.2703,
-   "tarih": "Son Bosna kralı 1463'te burada Osmanlı'ya teslim oldu. 1943'te Yugoslavya'nın kuruluş kararı burada alındı.",
-   "ozet": "Şehrin ortasına 22 metreden dökülen şelaleyle bilinen kale kasabası.",
-   "dikkat": [],
-   "terim": [],
-   "gezgin": [
-    "Şelale platformunda ıslanılıyor."
-   ],
+   "ozet": "Bosna vezirlerinin 150 yıl oturduğu şehir; Ivo Andrić'in doğduğu yer.",
    "ye": [
     {
-     "ad": "Alabalık",
+     "ad": "Travnik peyniri",
+     "ne": "Salamura koyun peyniri, coğrafi işaretli.",
+     "fiyat": "12–20 BAM/kg",
+     "not": ""
+    },
+    {
+     "ad": "Ćevapi",
      "ne": "",
-     "fiyat": "12–20 BAM",
+     "fiyat": "8–12 BAM",
      "not": ""
     }
    ],
-   "neden": "Pliva nehri Vrbas'a şehir merkezinde şelaleyle dökülüyor — Avrupa'da şehir içinde bu ölçekte şelale az.",
-   "id": "jajce",
+   "gezgin": [],
+   "lon": 17.6653,
+   "neden": "Renkli boyalı Alaca Camii ve kale. Nobel ödüllü 'Travnik Günlüğü' burada geçiyor.",
+   "terim": [
+    "çarşı"
+   ],
+   "id": "travnik"
+  },
+  {
+   "ulke": "BA",
+   "tarih": "Son Bosna kralı 1463'te burada Osmanlı'ya teslim oldu. 1943'te Yugoslavya'nın kuruluş kararı burada alındı.",
+   "lat": 44.3417,
+   "dikkat": [],
+   "ad": "Jajce",
+   "turkiye": "Ucuz.",
+   "yaricap": 3000,
+   "al": [],
    "eslesme": [
     "jajce"
    ],
@@ -1838,33 +1828,32 @@
      "sure": "30 dk"
     }
    ],
-   "yaricap": 3000,
-   "ulke": "BA",
-   "turkiye": "Ucuz.",
-   "ad": "Jajce",
-   "al": [],
-   "lat": 44.3417
-  },
-  {
-   "lon": 19.2939,
-   "tarih": "1577'de Sokullu Mehmed Paşa'nın vakfıyla, Mimar Sinan tarafından yapıldı. 11 kemer, 179 m.",
-   "ozet": "Sokullu Mehmed Paşa Köprüsü'nün Drina üstünde durduğu kasaba.",
-   "dikkat": [],
-   "terim": [
-    "UNESCO Dünya Mirası",
-    "kervansaray"
-   ],
-   "gezgin": [],
+   "ozet": "Şehrin ortasına 22 metreden dökülen şelaleyle bilinen kale kasabası.",
    "ye": [
     {
-     "ad": "Drina alabalığı",
+     "ad": "Alabalık",
      "ne": "",
-     "fiyat": "15–25 BAM",
+     "fiyat": "12–20 BAM",
      "not": ""
     }
    ],
-   "neden": "Ivo Andrić'in 'Drina Köprüsü' romanının köprüsü; UNESCO listesinde. Mimar Sinan yapısı.",
-   "id": "visegrad",
+   "gezgin": [
+    "Şelale platformunda ıslanılıyor."
+   ],
+   "lon": 17.2703,
+   "neden": "Pliva nehri Vrbas'a şehir merkezinde şelaleyle dökülüyor — Avrupa'da şehir içinde bu ölçekte şelale az.",
+   "terim": [],
+   "id": "jajce"
+  },
+  {
+   "ulke": "BA",
+   "tarih": "1577'de Sokullu Mehmed Paşa'nın vakfıyla, Mimar Sinan tarafından yapıldı. 11 kemer, 179 m.",
+   "lat": 43.7825,
+   "dikkat": [],
+   "ad": "Vişegrad",
+   "turkiye": "Ucuz.",
+   "yaricap": 3000,
+   "al": [],
    "eslesme": [
     "višegrad",
     "visegrad",
@@ -1884,35 +1873,40 @@
      "sure": "1 saat"
     }
    ],
-   "yaricap": 3000,
-   "ulke": "BA",
-   "turkiye": "Ucuz.",
-   "ad": "Vişegrad",
-   "al": [],
-   "lat": 43.7825
-  },
-  {
-   "lon": 18.3436,
-   "tarih": "Osmanlı çarşısı ve Avusturya dönemi cepheleri iç içe.",
-   "ozet": "Hersek'in güneyinde, çınarlı meydanı ve şarabıyla bilinen sıcak şehir.",
-   "dikkat": [],
-   "terim": [
-    "çarşı",
-    "eski şehir"
-   ],
-   "gezgin": [
-    "Meydandaki çınarların altı sıcakta en serin yer."
-   ],
+   "ozet": "Sokullu Mehmed Paşa Köprüsü'nün Drina üstünde durduğu kasaba.",
    "ye": [
     {
-     "ad": "Hersek şarabı",
-     "ne": "Žilavka beyaz, Vranac kırmızı.",
-     "fiyat": "Kadeh 3–6 BAM",
+     "ad": "Drina alabalığı",
+     "ne": "",
+     "fiyat": "15–25 BAM",
      "not": ""
     }
    ],
-   "neden": "Dubrovnik ve Kotor'a yakın; Akdeniz iklimi. Arslanagić Köprüsü ve tepedeki Hercegovačka Gračanica kilisesi.",
-   "id": "trebinje",
+   "gezgin": [],
+   "lon": 19.2939,
+   "neden": "Ivo Andrić'in 'Drina Köprüsü' romanının köprüsü; UNESCO listesinde. Mimar Sinan yapısı.",
+   "terim": [
+    "UNESCO Dünya Mirası",
+    "kervansaray"
+   ],
+   "id": "visegrad"
+  },
+  {
+   "ulke": "BA",
+   "tarih": "Osmanlı çarşısı ve Avusturya dönemi cepheleri iç içe.",
+   "lat": 42.7119,
+   "dikkat": [],
+   "ad": "Trebinje",
+   "turkiye": "Ucuz.",
+   "yaricap": 3000,
+   "al": [
+    {
+     "ad": "Şarap ve zeytinyağı",
+     "ne": "",
+     "fiyat": "15–40 BAM",
+     "dikkat": "Bavula."
+    }
+   ],
    "eslesme": [
     "trebinje"
    ],
@@ -1928,63 +1922,58 @@
      "sure": "20 dk"
     }
    ],
-   "yaricap": 3000,
-   "ulke": "BA",
-   "turkiye": "Ucuz.",
-   "ad": "Trebinje",
-   "al": [
+   "ozet": "Hersek'in güneyinde, çınarlı meydanı ve şarabıyla bilinen sıcak şehir.",
+   "ye": [
     {
-     "ad": "Şarap ve zeytinyağı",
-     "ne": "",
-     "fiyat": "15–40 BAM",
-     "dikkat": "Bavula."
+     "ad": "Hersek şarabı",
+     "ne": "Žilavka beyaz, Vranac kırmızı.",
+     "fiyat": "Kadeh 3–6 BAM",
+     "not": ""
     }
    ],
-   "lat": 42.7119
+   "gezgin": [
+    "Meydandaki çınarların altı sıcakta en serin yer."
+   ],
+   "lon": 18.3436,
+   "neden": "Dubrovnik ve Kotor'a yakın; Akdeniz iklimi. Arslanagić Köprüsü ve tepedeki Hercegovačka Gračanica kilisesi.",
+   "terim": [
+    "çarşı",
+    "eski şehir"
+   ],
+   "id": "trebinje"
   },
   {
-   "lon": 18.7712,
+   "ulke": "ME",
    "tarih": "Roma'dan beri yerleşim. 1420–1797 arası Venedik yönetiminde kaldı ve bugünkü mimarisini o dönem kurdu — 'Cattaro'. 1979 depremi ağır hasar verdi, UNESCO desteğiyle onarıldı. Eski şehir ve körfez UNESCO Dünya Mirası.",
-   "ozet": "Dağların dibindeki körfezin ucunda, surları dağa tırmanan Venedik eski şehri.",
+   "lat": 42.4247,
    "dikkat": [
     "Kaldırım taşları cilalı ve kaygan.",
     "Otopark pahalı ve sınırlı; otobüsler dışarıda bırakıyor.",
     "Eski şehirde tuvalet ücretli, 1 €."
    ],
-   "terim": [
-    "eski şehir",
-    "kaldırım taşı",
-    "UNESCO Dünya Mirası"
-   ],
-   "gezgin": [
-    "Sur tırmanışına sabah erken ya da 17'den sonra başla — gündüz gölge yok ve taş ısınıyor.",
-    "Suya 1,5 lt su ve kaymayan ayakkabı ile çık; ara noktalarda su satan var ama pahalı.",
-    "Eski şehir giriş kapılarında ücret YOK; ücret isteyen olursa yanlış yerdesin.",
-    "Kruvaziyer geldiği günler eski şehir tıklım dolu oluyor; limana bak.",
-    "Sokak kedilerini beslemek yerel âdet, kimse kızmıyor."
-   ],
-   "ye": [
+   "ad": "Kotor",
+   "turkiye": "Deniz ürünü Türkiye'nin turistik sahillerine yakın ya da üstünde. Kahve benzer. Sur girişi makul.",
+   "yaricap": 5000,
+   "al": [
     {
-     "ad": "Karadağ deniz ürünleri",
-     "ne": "Kalamar, karides, taze balık.",
-     "fiyat": "15–25 €",
-     "not": "Meydan kenarı pahalı; bir sokak içeri ucuz."
+     "ad": "Njeguški pršut ve peynir",
+     "ne": "Vakumlu satılıyor.",
+     "fiyat": "15–30 €/kg",
+     "dikkat": "Türkiye'ye et ürünü sokmak gümrükte sorun; küçük miktar bile riskli."
     },
     {
-     "ad": "Njeguški pršut",
-     "ne": "Lovćen dağında tütsülenen kuru et — bölgenin en bilinen ürünü.",
-     "fiyat": "Tabak 8–14 €",
-     "not": "Yanında yerel peynir."
+     "ad": "Zeytinyağı ve incir reçeli",
+     "ne": "Bölge ürünü.",
+     "fiyat": "8–20 €",
+     "dikkat": "Sıvı; bavula."
     },
     {
-     "ad": "Espresso",
-     "ne": "",
-     "fiyat": "1,5–2,5 €",
-     "not": ""
+     "ad": "El işi mücevher",
+     "ne": "Eski şehirde küçük atölyeler.",
+     "fiyat": "20–100 €",
+     "dikkat": "Turistik fiyat; pazarlık az."
     }
    ],
-   "neden": "Kotor Körfezi denize açılan bir fiyort gibi görünüyor ama aslında batmış bir nehir vadisi. Şehrin surları eski şehirden başlayıp dağa 260 metre tırmanıyor; 1350 basamak sonunda körfezin tamamı ayağının altında. Eski şehir küçük ve labirent gibi — kaybolmak bir dakika sürüyor ve zaten amaç bu. Sokak kedileri şehrin simgesi, müzesi bile var.",
-   "id": "kotor",
    "eslesme": [
     "kotor",
     "kotor stari grad",
@@ -2013,74 +2002,68 @@
      "sure": "30 dk"
     }
    ],
-   "yaricap": 5000,
-   "ulke": "ME",
-   "turkiye": "Deniz ürünü Türkiye'nin turistik sahillerine yakın ya da üstünde. Kahve benzer. Sur girişi makul.",
-   "ad": "Kotor",
-   "al": [
+   "ozet": "Dağların dibindeki körfezin ucunda, surları dağa tırmanan Venedik eski şehri.",
+   "ye": [
     {
-     "ad": "Njeguški pršut ve peynir",
-     "ne": "Vakumlu satılıyor.",
-     "fiyat": "15–30 €/kg",
-     "dikkat": "Türkiye'ye et ürünü sokmak gümrükte sorun; küçük miktar bile riskli."
+     "ad": "Karadağ deniz ürünleri",
+     "ne": "Kalamar, karides, taze balık.",
+     "fiyat": "15–25 €",
+     "not": "Meydan kenarı pahalı; bir sokak içeri ucuz."
     },
     {
-     "ad": "Zeytinyağı ve incir reçeli",
-     "ne": "Bölge ürünü.",
-     "fiyat": "8–20 €",
-     "dikkat": "Sıvı; bavula."
+     "ad": "Njeguški pršut",
+     "ne": "Lovćen dağında tütsülenen kuru et — bölgenin en bilinen ürünü.",
+     "fiyat": "Tabak 8–14 €",
+     "not": "Yanında yerel peynir."
     },
     {
-     "ad": "El işi mücevher",
-     "ne": "Eski şehirde küçük atölyeler.",
-     "fiyat": "20–100 €",
-     "dikkat": "Turistik fiyat; pazarlık az."
+     "ad": "Espresso",
+     "ne": "",
+     "fiyat": "1,5–2,5 €",
+     "not": ""
     }
    ],
-   "lat": 42.4247
+   "gezgin": [
+    "Sur tırmanışına sabah erken ya da 17'den sonra başla — gündüz gölge yok ve taş ısınıyor.",
+    "Suya 1,5 lt su ve kaymayan ayakkabı ile çık; ara noktalarda su satan var ama pahalı.",
+    "Eski şehir giriş kapılarında ücret YOK; ücret isteyen olursa yanlış yerdesin.",
+    "Kruvaziyer geldiği günler eski şehir tıklım dolu oluyor; limana bak.",
+    "Sokak kedilerini beslemek yerel âdet, kimse kızmıyor."
+   ],
+   "lon": 18.7712,
+   "neden": "Kotor Körfezi denize açılan bir fiyort gibi görünüyor ama aslında batmış bir nehir vadisi. Şehrin surları eski şehirden başlayıp dağa 260 metre tırmanıyor; 1350 basamak sonunda körfezin tamamı ayağının altında. Eski şehir küçük ve labirent gibi — kaybolmak bir dakika sürüyor ve zaten amaç bu. Sokak kedileri şehrin simgesi, müzesi bile var.",
+   "terim": [
+    "eski şehir",
+    "kaldırım taşı",
+    "UNESCO Dünya Mirası"
+   ],
+   "id": "kotor"
   },
   {
-   "lon": 18.84,
+   "ulke": "ME",
    "tarih": "Balkanların en eski yerleşimlerinden; Yunan ve Roma dönemine dayanıyor. 1979 depreminde eski şehrin büyük kısmı yıkıldı ve taş taş yeniden kuruldu.",
-   "ozet": "Karadağ sahilinin en kalabalık tatil şehri; küçük bir Venedik eski şehri ve uzun plajlar.",
+   "lat": 42.2864,
    "dikkat": [
     "Sahilde otopark 4 €/saat.",
     "Ağustos Karadağ'ın en pahalı ayı."
    ],
-   "terim": [
-    "eski şehir",
-    "şezlong",
-    "kaldırım taşı"
-   ],
-   "gezgin": [
-    "ŞEZLONG fiyatını OTURMADAN sor. Oturduktan sonra söylenen 20–30 € pazarlığa kapalı ve en çok şikâyet edilen konu bu.",
-    "Taksimetresiz taksi ve jet-ski hasar iddiası Budva'nın en bilinen iki tuzağı — jet-ski kiralarken hasar tutanağı ve fotoğraf iste.",
-    "Gece kulüplerinde kapı ücreti ve içki fiyatı sonradan şişebiliyor; menüde fiyat yoksa girme.",
-    "Halk plajları ücretsiz; ücretli olan yalnız şezlong ve şemsiye.",
-    "Ağustosta sahil çok kalabalık; sabah 9'a kadar sakin."
-   ],
-   "ye": [
+   "ad": "Budva",
+   "turkiye": "Türkiye'nin lüks tatil beldeleriyle aynı band, kimi yerde üstünde. Altı ülkenin en pahalı sahili.",
+   "yaricap": 5000,
+   "al": [
     {
-     "ad": "Deniz ürünü",
-     "ne": "Balık ve kalamar.",
-     "fiyat": "15–25 €",
-     "not": "Sahil bandı pahalı."
+     "ad": "Plaj ürünleri",
+     "ne": "Turistik.",
+     "fiyat": "—",
+     "dikkat": "Almaya değer bir yerel ürün az."
     },
     {
-     "ad": "Pizza / burger",
-     "ne": "Ucuz seçenek.",
-     "fiyat": "6–10 €",
-     "not": ""
-    },
-    {
-     "ad": "Dondurma",
+     "ad": "Zeytinyağı ve rakija",
      "ne": "",
-     "fiyat": "2–3 €",
-     "not": ""
+     "fiyat": "10–25 €",
+     "dikkat": "Bavula."
     }
    ],
-   "neden": "Budva iki şey birden: 2500 yıllık taş bir eski şehir ve etrafını saran modern otel-plaj-gece kulübü kuşağı. Eski şehir yürüyerek 20 dakikada dolaşılıyor, surlarından denize bakılıyor. Ağustosta çok kalabalık ve bölgenin en pahalı yeri.",
-   "id": "budva",
    "eslesme": [
     "budva"
    ],
@@ -2107,53 +2090,62 @@
      "sure": "—"
     }
    ],
-   "yaricap": 5000,
-   "ulke": "ME",
-   "turkiye": "Türkiye'nin lüks tatil beldeleriyle aynı band, kimi yerde üstünde. Altı ülkenin en pahalı sahili.",
-   "ad": "Budva",
-   "al": [
+   "ozet": "Karadağ sahilinin en kalabalık tatil şehri; küçük bir Venedik eski şehri ve uzun plajlar.",
+   "ye": [
     {
-     "ad": "Plaj ürünleri",
-     "ne": "Turistik.",
-     "fiyat": "—",
-     "dikkat": "Almaya değer bir yerel ürün az."
+     "ad": "Deniz ürünü",
+     "ne": "Balık ve kalamar.",
+     "fiyat": "15–25 €",
+     "not": "Sahil bandı pahalı."
     },
     {
-     "ad": "Zeytinyağı ve rakija",
+     "ad": "Pizza / burger",
+     "ne": "Ucuz seçenek.",
+     "fiyat": "6–10 €",
+     "not": ""
+    },
+    {
+     "ad": "Dondurma",
      "ne": "",
-     "fiyat": "10–25 €",
-     "dikkat": "Bavula."
+     "fiyat": "2–3 €",
+     "not": ""
     }
    ],
-   "lat": 42.2864
+   "gezgin": [
+    "ŞEZLONG fiyatını OTURMADAN sor. Oturduktan sonra söylenen 20–30 € pazarlığa kapalı ve en çok şikâyet edilen konu bu.",
+    "Taksimetresiz taksi ve jet-ski hasar iddiası Budva'nın en bilinen iki tuzağı — jet-ski kiralarken hasar tutanağı ve fotoğraf iste.",
+    "Gece kulüplerinde kapı ücreti ve içki fiyatı sonradan şişebiliyor; menüde fiyat yoksa girme.",
+    "Halk plajları ücretsiz; ücretli olan yalnız şezlong ve şemsiye.",
+    "Ağustosta sahil çok kalabalık; sabah 9'a kadar sakin."
+   ],
+   "lon": 18.84,
+   "neden": "Budva iki şey birden: 2500 yıllık taş bir eski şehir ve etrafını saran modern otel-plaj-gece kulübü kuşağı. Eski şehir yürüyerek 20 dakikada dolaşılıyor, surlarından denize bakılıyor. Ağustosta çok kalabalık ve bölgenin en pahalı yeri.",
+   "terim": [
+    "eski şehir",
+    "şezlong",
+    "kaldırım taşı"
+   ],
+   "id": "budva"
   },
   {
-   "lon": 18.8917,
+   "ulke": "ME",
    "tarih": "15. yüzyılda korsanlara karşı korunaklı balıkçı köyü olarak kuruldu. 1950'lerde Yugoslavya tüm köyü kamulaştırıp lüks otele çevirdi; Sophia Loren, Elizabeth Taylor ve Kraliçe II. Elizabeth kalanlar arasında. 2009'da Aman zincirine kiralandı.",
-   "ozet": "Dar bir kum diliyle karaya bağlı, tamamı otele çevrilmiş küçük ada.",
+   "lat": 42.2564,
    "dikkat": [
     "Adaya girilemez — bunu bilerek git, hayal kırıklığı olmasın.",
     "Plajda çakıl var, deniz ayakkabısı rahat ettiriyor."
    ],
-   "terim": [
-    "şezlong"
-   ],
-   "gezgin": [
-    "'Sveti Stefan adası turu' diye satılan geziler aslında ÜCRETSİZ halk plajına götürüyor — adaya girilmiyor. En yaygın kandırmaca bu.",
-    "Şezlong 20–30 €; plaj barlarının fiyat dayatması sıkça şikâyet ediliyor.",
-    "Miločer otoparkı 2 €/saat, sahil otoparkı 4 €/saat.",
-    "En iyi fotoğraf ışığı öğleden sonra; sabah ada gölgede kalıyor."
-   ],
-   "ye": [
+   "ad": "Sveti Stefan",
+   "turkiye": "Manzara ücretsiz, gerisi Türkiye'nin en pahalı sahil beldelerinin üstünde.",
+   "yaricap": 2500,
+   "al": [
     {
-     "ad": "Sahil lokantaları",
-     "ne": "Manzaralı ve pahalı.",
-     "fiyat": "20–35 €",
-     "not": "Bir üst yoldaki yerler yarı fiyat."
+     "ad": "Yok",
+     "ne": "Alışveriş yeri değil.",
+     "fiyat": "—",
+     "dikkat": ""
     }
    ],
-   "neden": "Karadağ'ın kartpostal görüntüsü. Ama önemli bir gerçek var: ADA ÖZEL. Aman Sveti Stefan oteli tüm adayı kiralıyor ve otel misafiri olmayan giremiyor. Ziyaretçilerin yaptığı şey yukarıdaki yoldan fotoğraf çekmek ve yandaki halk plajına inmek — ki bu da güzel ve ücretsiz.",
-   "id": "sveti-stefan",
    "eslesme": [
     "sveti stefan",
     "aziz stefan"
@@ -2175,41 +2167,37 @@
      "sure": "45 dk"
     }
    ],
-   "yaricap": 2500,
-   "ulke": "ME",
-   "turkiye": "Manzara ücretsiz, gerisi Türkiye'nin en pahalı sahil beldelerinin üstünde.",
-   "ad": "Sveti Stefan",
-   "al": [
-    {
-     "ad": "Yok",
-     "ne": "Alışveriş yeri değil.",
-     "fiyat": "—",
-     "dikkat": ""
-    }
-   ],
-   "lat": 42.2564
-  },
-  {
-   "lon": 18.5375,
-   "tarih": "1382'de Bosna kralı kurdu; Osmanlı, Venedik ve Avusturya elinde kaldı.",
-   "ozet": "Körfezin girişinde, basamaklı sokaklarıyla bilinen şehir.",
-   "dikkat": [],
-   "terim": [
-    "eski şehir"
-   ],
-   "gezgin": [
-    "Şehir dik; merdiven çok."
-   ],
+   "ozet": "Dar bir kum diliyle karaya bağlı, tamamı otele çevrilmiş küçük ada.",
    "ye": [
     {
-     "ad": "Deniz ürünü",
-     "ne": "",
-     "fiyat": "12–20 €",
-     "not": "Kotor'dan ucuz."
+     "ad": "Sahil lokantaları",
+     "ne": "Manzaralı ve pahalı.",
+     "fiyat": "20–35 €",
+     "not": "Bir üst yoldaki yerler yarı fiyat."
     }
    ],
-   "neden": "Kotor'a göre sakin. Saat kulesi, Kanlı Kule ve deniz kenarı yürüyüş yolu (Pet Danica) 7 km.",
-   "id": "herceg-novi",
+   "gezgin": [
+    "'Sveti Stefan adası turu' diye satılan geziler aslında ÜCRETSİZ halk plajına götürüyor — adaya girilmiyor. En yaygın kandırmaca bu.",
+    "Şezlong 20–30 €; plaj barlarının fiyat dayatması sıkça şikâyet ediliyor.",
+    "Miločer otoparkı 2 €/saat, sahil otoparkı 4 €/saat.",
+    "En iyi fotoğraf ışığı öğleden sonra; sabah ada gölgede kalıyor."
+   ],
+   "lon": 18.8917,
+   "neden": "Karadağ'ın kartpostal görüntüsü. Ama önemli bir gerçek var: ADA ÖZEL. Aman Sveti Stefan oteli tüm adayı kiralıyor ve otel misafiri olmayan giremiyor. Ziyaretçilerin yaptığı şey yukarıdaki yoldan fotoğraf çekmek ve yandaki halk plajına inmek — ki bu da güzel ve ücretsiz.",
+   "terim": [
+    "şezlong"
+   ],
+   "id": "sveti-stefan"
+  },
+  {
+   "ulke": "ME",
+   "tarih": "1382'de Bosna kralı kurdu; Osmanlı, Venedik ve Avusturya elinde kaldı.",
+   "lat": 42.4531,
+   "dikkat": [],
+   "ad": "Herceg Novi",
+   "turkiye": "Kotor'dan ucuz.",
+   "yaricap": 4000,
+   "al": [],
    "eslesme": [
     "herceg novi"
    ],
@@ -2225,30 +2213,34 @@
      "sure": "—"
     }
    ],
-   "yaricap": 4000,
-   "ulke": "ME",
-   "turkiye": "Kotor'dan ucuz.",
-   "ad": "Herceg Novi",
-   "al": [],
-   "lat": 42.4531
-  },
-  {
-   "lon": 19.2594,
-   "tarih": "Osmanlı döneminde 'Podgoriçe'. II. Dünya Savaşı'nda ağır bombalandı, yeniden kuruldu.",
-   "ozet": "Karadağ'ın başkenti; turistik değil, işlevsel.",
-   "dikkat": [],
-   "terim": [],
-   "gezgin": [],
+   "ozet": "Körfezin girişinde, basamaklı sokaklarıyla bilinen şehir.",
    "ye": [
     {
-     "ad": "Ev yemeği lokantaları",
-     "ne": "Sahilden ucuz.",
-     "fiyat": "8–15 €",
-     "not": ""
+     "ad": "Deniz ürünü",
+     "ne": "",
+     "fiyat": "12–20 €",
+     "not": "Kotor'dan ucuz."
     }
    ],
-   "neden": "Çoğu gezi burada yalnız aktarma yapıyor. Millennium Köprüsü ve Ribnica kalıntıları var.",
-   "id": "podgorica",
+   "gezgin": [
+    "Şehir dik; merdiven çok."
+   ],
+   "lon": 18.5375,
+   "neden": "Kotor'a göre sakin. Saat kulesi, Kanlı Kule ve deniz kenarı yürüyüş yolu (Pet Danica) 7 km.",
+   "terim": [
+    "eski şehir"
+   ],
+   "id": "herceg-novi"
+  },
+  {
+   "ulke": "ME",
+   "tarih": "Osmanlı döneminde 'Podgoriçe'. II. Dünya Savaşı'nda ağır bombalandı, yeniden kuruldu.",
+   "lat": 42.4304,
+   "dikkat": [],
+   "ad": "Podgorica",
+   "turkiye": "Sahilden belirgin ucuz.",
+   "yaricap": 8000,
+   "al": [],
    "eslesme": [
     "podgorica"
    ],
@@ -2259,61 +2251,58 @@
      "sure": "30 dk"
     }
    ],
-   "yaricap": 8000,
-   "ulke": "ME",
-   "turkiye": "Sahilden belirgin ucuz.",
-   "ad": "Podgorica",
-   "al": [],
-   "lat": 42.4304
+   "ozet": "Karadağ'ın başkenti; turistik değil, işlevsel.",
+   "ye": [
+    {
+     "ad": "Ev yemeği lokantaları",
+     "ne": "Sahilden ucuz.",
+     "fiyat": "8–15 €",
+     "not": ""
+    }
+   ],
+   "gezgin": [],
+   "lon": 19.2594,
+   "neden": "Çoğu gezi burada yalnız aktarma yapıyor. Millennium Köprüsü ve Ribnica kalıntıları var.",
+   "terim": [],
+   "id": "podgorica"
   },
   {
-   "lon": 19.5126,
+   "ulke": "AL",
    "tarih": "MÖ 4. yüzyıldan beri İlirya başkenti. Rozafa Kalesi'nin efsanesi Balkanlarda ortak: kaleyi kuran üç kardeşten en küçüğünün karısı, duvar tutsun diye canlı canlı örülür; sağ göğsü çocuğunu emzirmek için dışarıda bırakılır. Aynı efsane Türkiye'de de anlatılır. Osmanlı 1479'da aldı, 1913'e kadar kaldı.",
-   "ozet": "Arnavutluk'un kuzey kapısı; Rozafa Kalesi ve Balkanların en büyük gölü.",
+   "lat": 42.0693,
    "dikkat": [
     "Trafikte yaya önceliği pek gözetilmiyor.",
     "Karadağ sınır kapısında yaz aylarında kuyruk uzuyor."
    ],
-   "terim": [
-    "byrek",
-    "makyato",
-    "kaldırım taşı",
-    "eski şehir"
-   ],
-   "gezgin": [
-    "Kaleye çıkış taşlık, gölgesiz; sabah ya da akşamüstü.",
-    "Fiyat söylenirken 'eski lek' (on katı) karışıklığı olabiliyor — 'yeni lek mi?' diye teyit et.",
-    "Bisiklet kiralamak şehri gezmenin en kolay yolu, günlüğü 500–800 lek.",
-    "Kart geçen yer az; nakit taşı."
-   ],
-   "ye": [
+   "ad": "İşkodra (Shkodër)",
+   "turkiye": "Altı ülkenin en ucuzu. Yemek Türkiye'nin belirgin altında; kahve çok ucuz.",
+   "yaricap": 6000,
+   "al": [
     {
-     "ad": "Göl balığı (koran, krap)",
-     "ne": "İşkodra Gölü'nden.",
-     "fiyat": "800–1500 lek",
-     "not": "Göl kıyısı lokantaları."
+     "ad": "Dokuma ve kilim",
+     "ne": "Kuzey Arnavutluk dokumacılığı.",
+     "fiyat": "1500–6000 lek",
+     "dikkat": "Pazarlık normal."
     },
     {
-     "ad": "Byrek",
-     "ne": "Arnavut böreği; kahvaltının standardı.",
-     "fiyat": "50–100 lek",
-     "not": ""
+     "ad": "Rakı (raki)",
+     "ne": "Üzüm ve dut rakısı; Arnavutluk'ta ev yapımı yaygın.",
+     "fiyat": "500–1500 lek",
+     "dikkat": "Bavula."
     },
     {
-     "ad": "Makyato",
-     "ne": "Kahve. Şehrin sosyal merkezi kafeler.",
-     "fiyat": "100–150 lek",
-     "not": ""
+     "ad": "Bal ve zeytinyağı",
+     "ne": "Ucuz ve iyi.",
+     "fiyat": "400–1000 lek",
+     "dikkat": "Sıvı; bavula."
     },
     {
-     "ad": "Tavë kosi",
-     "ne": "Yoğurtlu kuzu fırın.",
-     "fiyat": "400–700 lek",
-     "not": "Arnavutluk'un millî yemeği."
+     "ad": "Gümüş filigran",
+     "ne": "",
+     "fiyat": "1000 lek'ten",
+     "dikkat": "Prizren ve Üsküp'ten ucuz."
     }
    ],
-   "neden": "Karadağ'dan Arnavutluk'a girerken ilk büyük şehir. Rozafa Kalesi üç nehrin ve gölün birleştiği noktaya tepeden bakıyor — Balkanların en iyi manzaralarından. Şehir merkezi (Kolë Idromeno caddesi) İtalyan etkili renkli cepheleriyle yenilenmiş ve yürümesi keyifli. Bisiklet şehri: herkes bisikletle.",
-   "id": "iskodra",
    "eslesme": [
     "işkodra",
     "shkoder",
@@ -2350,94 +2339,92 @@
      "fiyat": "700 lek"
     }
    ],
-   "yaricap": 6000,
-   "ulke": "AL",
-   "turkiye": "Altı ülkenin en ucuzu. Yemek Türkiye'nin belirgin altında; kahve çok ucuz.",
-   "ad": "İşkodra (Shkodër)",
-   "al": [
+   "ozet": "Arnavutluk'un kuzey kapısı; Rozafa Kalesi ve Balkanların en büyük gölü.",
+   "ye": [
     {
-     "ad": "Dokuma ve kilim",
-     "ne": "Kuzey Arnavutluk dokumacılığı.",
-     "fiyat": "1500–6000 lek",
-     "dikkat": "Pazarlık normal."
+     "ad": "Göl balığı (koran, krap)",
+     "ne": "İşkodra Gölü'nden.",
+     "fiyat": "800–1500 lek",
+     "not": "Göl kıyısı lokantaları."
     },
     {
-     "ad": "Rakı (raki)",
-     "ne": "Üzüm ve dut rakısı; Arnavutluk'ta ev yapımı yaygın.",
-     "fiyat": "500–1500 lek",
-     "dikkat": "Bavula."
+     "ad": "Byrek",
+     "ne": "Arnavut böreği; kahvaltının standardı.",
+     "fiyat": "50–100 lek",
+     "not": ""
     },
     {
-     "ad": "Bal ve zeytinyağı",
-     "ne": "Ucuz ve iyi.",
-     "fiyat": "400–1000 lek",
-     "dikkat": "Sıvı; bavula."
+     "ad": "Makyato",
+     "ne": "Kahve. Şehrin sosyal merkezi kafeler.",
+     "fiyat": "100–150 lek",
+     "not": ""
     },
     {
-     "ad": "Gümüş filigran",
-     "ne": "",
-     "fiyat": "1000 lek'ten",
-     "dikkat": "Prizren ve Üsküp'ten ucuz."
+     "ad": "Tavë kosi",
+     "ne": "Yoğurtlu kuzu fırın.",
+     "fiyat": "400–700 lek",
+     "not": "Arnavutluk'un millî yemeği."
     }
    ],
-   "lat": 42.0693
+   "gezgin": [
+    "Kaleye çıkış taşlık, gölgesiz; sabah ya da akşamüstü.",
+    "Fiyat söylenirken 'eski lek' (on katı) karışıklığı olabiliyor — 'yeni lek mi?' diye teyit et.",
+    "Bisiklet kiralamak şehri gezmenin en kolay yolu, günlüğü 500–800 lek.",
+    "Kart geçen yer az; nakit taşı."
+   ],
+   "lon": 19.5126,
+   "neden": "Karadağ'dan Arnavutluk'a girerken ilk büyük şehir. Rozafa Kalesi üç nehrin ve gölün birleştiği noktaya tepeden bakıyor — Balkanların en iyi manzaralarından. Şehir merkezi (Kolë Idromeno caddesi) İtalyan etkili renkli cepheleriyle yenilenmiş ve yürümesi keyifli. Bisiklet şehri: herkes bisikletle.",
+   "terim": [
+    "byrek",
+    "makyato",
+    "kaldırım taşı",
+    "eski şehir"
+   ],
+   "id": "iskodra"
   },
   {
-   "lon": 19.8187,
+   "ulke": "AL",
    "tarih": "1614'te Süleyman Paşa tarafından cami, hamam ve fırınla kuruldu. 1920'de başkent oldu. 1944–85 arası Enver Hoxha yönetiminde ülke tam yalıtıldı; ülkeye 170 binden fazla beton sığınak (bunker) yapıldı ve bugün hâlâ tarlalarda duruyorlar.",
-   "ozet": "Renklere boyanmış bloklarıyla, otuz yılda tanınmaz hâle gelmiş başkent.",
+   "lat": 41.3275,
    "dikkat": [
     "Ağustos çok sıcak ve nemli; öğle saatleri ağır.",
     "Taksi yerine uygulama üstünden çağırmak daha ucuz."
    ],
-   "terim": [
-    "byrek",
-    "makyato",
-    "çarşı",
-    "derviş",
-    "tekke"
-   ],
-   "gezgin": [
-    "Piramide çıkış ücretsiz ve manzara iyi; basamaklar diktir ama korkuluklu.",
-    "Kahve içmek Tiran'ın kendisi — kişi başına düşen kafe sayısı Avrupa'da en yüksek olanlardan.",
-    "Yayaya alışkın olmayan bir trafik var; geçitte bile iki tarafa bak.",
-    "'Eski lek' karışıklığı burada da geçerli, fişe bak.",
-    "Blloku akşam çok canlı ve güvenli."
-   ],
-   "ye": [
+   "ad": "Tiran (Tiranë)",
+   "turkiye": "Belirgin ucuz. Kahve, börek ve ev yemeği Türkiye'nin altında; deniz ürünü benzer.",
+   "yaricap": 10000,
+   "al": [
     {
-     "ad": "Tavë kosi",
-     "ne": "Yoğurt ve yumurtayla fırınlanmış kuzu.",
-     "fiyat": "500–800 lek",
-     "not": "Millî yemek."
+     "ad": "Bunker biblosu",
+     "ne": "Beton sığınak maketi — ülkenin kendine özgü simgesi.",
+     "fiyat": "500–1500 lek",
+     "dikkat": "Hafif, taşınabilir, başka yerde yok."
     },
     {
-     "ad": "Fërgesë",
-     "ne": "Biber, domates ve beyaz peynirle güveç.",
-     "fiyat": "400–600 lek",
-     "not": "Tiran'a özgü."
+     "ad": "Kırmızı-siyah kartal ürünleri",
+     "ne": "Bayrak, tişört, atkı.",
+     "fiyat": "500–2000 lek",
+     "dikkat": ""
     },
     {
-     "ad": "Byrek",
-     "ne": "Sokak fırınlarında.",
-     "fiyat": "50–100 lek",
-     "not": "Kahvaltı."
+     "ad": "Zeytinyağı ve bal",
+     "ne": "Arnavutluk zeytinyağı iyi ve ucuz.",
+     "fiyat": "500–1200 lek",
+     "dikkat": "Sıvı; bavula."
     },
     {
-     "ad": "Makyato",
-     "ne": "Kahve kültürü çok güçlü.",
-     "fiyat": "100–150 lek",
-     "not": "Kafeler sabah 9'da dolu."
+     "ad": "Rakı",
+     "ne": "Dut rakısı yerel.",
+     "fiyat": "600–1500 lek",
+     "dikkat": "Bavula."
     },
     {
-     "ad": "Deniz ürünü",
-     "ne": "Durrës'ten geliyor.",
-     "fiyat": "800–1500 lek",
-     "not": ""
+     "ad": "Filigran gümüş",
+     "ne": "Pazar ve çarşıda.",
+     "fiyat": "1500 lek'ten",
+     "dikkat": "Damgaya bak."
     }
    ],
-   "neden": "Tiran'ı ilginç yapan şey güzelliği değil, hızı. 1990'a kadar dünyanın en kapalı ülkesinin başkentiydi; özel araba yasaktı, din yasaktı, yabancı giremiyordu. Bugün kafe dolu, canlı ve tuhaf biçimde renkli bir şehir — eski belediye başkanı gri komünist blokları parlak renklere boyattı ve şehir bununla tanındı. İskender Bey Meydanı Balkanların en büyük meydanlarından.",
-   "id": "tiran",
    "eslesme": [
     "tiran",
     "tirana",
@@ -2477,68 +2464,75 @@
      "fiyat": "1000–1500 lek"
     }
    ],
-   "yaricap": 10000,
-   "ulke": "AL",
-   "turkiye": "Belirgin ucuz. Kahve, börek ve ev yemeği Türkiye'nin altında; deniz ürünü benzer.",
-   "ad": "Tiran (Tiranë)",
-   "al": [
+   "ozet": "Renklere boyanmış bloklarıyla, otuz yılda tanınmaz hâle gelmiş başkent.",
+   "ye": [
     {
-     "ad": "Bunker biblosu",
-     "ne": "Beton sığınak maketi — ülkenin kendine özgü simgesi.",
-     "fiyat": "500–1500 lek",
-     "dikkat": "Hafif, taşınabilir, başka yerde yok."
+     "ad": "Tavë kosi",
+     "ne": "Yoğurt ve yumurtayla fırınlanmış kuzu.",
+     "fiyat": "500–800 lek",
+     "not": "Millî yemek."
     },
     {
-     "ad": "Kırmızı-siyah kartal ürünleri",
-     "ne": "Bayrak, tişört, atkı.",
-     "fiyat": "500–2000 lek",
-     "dikkat": ""
+     "ad": "Fërgesë",
+     "ne": "Biber, domates ve beyaz peynirle güveç.",
+     "fiyat": "400–600 lek",
+     "not": "Tiran'a özgü."
     },
     {
-     "ad": "Zeytinyağı ve bal",
-     "ne": "Arnavutluk zeytinyağı iyi ve ucuz.",
-     "fiyat": "500–1200 lek",
-     "dikkat": "Sıvı; bavula."
+     "ad": "Byrek",
+     "ne": "Sokak fırınlarında.",
+     "fiyat": "50–100 lek",
+     "not": "Kahvaltı."
     },
     {
-     "ad": "Rakı",
-     "ne": "Dut rakısı yerel.",
-     "fiyat": "600–1500 lek",
-     "dikkat": "Bavula."
+     "ad": "Makyato",
+     "ne": "Kahve kültürü çok güçlü.",
+     "fiyat": "100–150 lek",
+     "not": "Kafeler sabah 9'da dolu."
     },
     {
-     "ad": "Filigran gümüş",
-     "ne": "Pazar ve çarşıda.",
-     "fiyat": "1500 lek'ten",
-     "dikkat": "Damgaya bak."
+     "ad": "Deniz ürünü",
+     "ne": "Durrës'ten geliyor.",
+     "fiyat": "800–1500 lek",
+     "not": ""
     }
    ],
-   "lat": 41.3275
+   "gezgin": [
+    "Piramide çıkış ücretsiz ve manzara iyi; basamaklar diktir ama korkuluklu.",
+    "Kahve içmek Tiran'ın kendisi — kişi başına düşen kafe sayısı Avrupa'da en yüksek olanlardan.",
+    "Yayaya alışkın olmayan bir trafik var; geçitte bile iki tarafa bak.",
+    "'Eski lek' karışıklığı burada da geçerli, fişe bak.",
+    "Blloku akşam çok canlı ve güvenli."
+   ],
+   "lon": 19.8187,
+   "neden": "Tiran'ı ilginç yapan şey güzelliği değil, hızı. 1990'a kadar dünyanın en kapalı ülkesinin başkentiydi; özel araba yasaktı, din yasaktı, yabancı giremiyordu. Bugün kafe dolu, canlı ve tuhaf biçimde renkli bir şehir — eski belediye başkanı gri komünist blokları parlak renklere boyattı ve şehir bununla tanındı. İskender Bey Meydanı Balkanların en büyük meydanlarından.",
+   "terim": [
+    "byrek",
+    "makyato",
+    "çarşı",
+    "derviş",
+    "tekke"
+   ],
+   "id": "tiran"
   },
   {
-   "lon": 19.8189,
+   "ulke": "AL",
    "tarih": "İskender Bey (Gjergj Kastrioti) 15. yüzyılda Osmanlı'ya karşı 25 yıl direnen Arnavut beyi; ulusal kahraman. Heykeli 1968'de dikildi.",
-   "ozet": "Tiran'ın merkezi; 40 bin metrekarelik taş döşeli yaya meydanı.",
+   "lat": 41.3275,
    "dikkat": [
     "Gölgesiz."
    ],
-   "terim": [
-    "makyato"
-   ],
-   "gezgin": [
-    "Akşam serinliğinde meydan yerel halkla doluyor; en canlı saat bu.",
-    "Zemin taşları gündüz çok ısınıyor, gölge az."
-   ],
-   "ye": [
+   "ad": "İskender Bey Meydanı",
+   "turkiye": "Ücretsiz; müze girişleri ucuz.",
+   "yaricap": 800,
+   "al": [
     {
-     "ad": "Meydan çevresi kafeler",
-     "ne": "",
-     "fiyat": "150–250 lek",
-     "not": "Blloku daha iyi ve benzer fiyat."
+     "ad": "Sokak tezgâhları",
+     "ne": "Bayrak, magnet, bunker biblosu.",
+     "fiyat": "300–1000 lek",
+     "dikkat": ""
     }
    ],
-   "neden": "Araç trafiğine tamamen kapatılıp 2017'de yayalaştırıldı. Zemin, Arnavutluk'un her yöresinden getirilen taşlarla döşenmiş ve hafifçe piramit gibi yükseliyor. Kenarında Ethem Bey Camii, saat kulesi, Millî Müze ve opera var — şehrin bütün simgeleri tek karede.",
-   "id": "iskender-bey-meydani",
    "eslesme": [
     "iskender bey",
     "skanderbeg",
@@ -2569,43 +2563,44 @@
      "fiyat": "700 lek"
     }
    ],
-   "yaricap": 800,
-   "ulke": "AL",
-   "turkiye": "Ücretsiz; müze girişleri ucuz.",
-   "ad": "İskender Bey Meydanı",
-   "al": [
+   "ozet": "Tiran'ın merkezi; 40 bin metrekarelik taş döşeli yaya meydanı.",
+   "ye": [
     {
-     "ad": "Sokak tezgâhları",
-     "ne": "Bayrak, magnet, bunker biblosu.",
-     "fiyat": "300–1000 lek",
-     "dikkat": ""
+     "ad": "Meydan çevresi kafeler",
+     "ne": "",
+     "fiyat": "150–250 lek",
+     "not": "Blloku daha iyi ve benzer fiyat."
     }
    ],
-   "lat": 41.3275
+   "gezgin": [
+    "Akşam serinliğinde meydan yerel halkla doluyor; en canlı saat bu.",
+    "Zemin taşları gündüz çok ısınıyor, gölge az."
+   ],
+   "lon": 19.8189,
+   "neden": "Araç trafiğine tamamen kapatılıp 2017'de yayalaştırıldı. Zemin, Arnavutluk'un her yöresinden getirilen taşlarla döşenmiş ve hafifçe piramit gibi yükseliyor. Kenarında Ethem Bey Camii, saat kulesi, Millî Müze ve opera var — şehrin bütün simgeleri tek karede.",
+   "terim": [
+    "makyato"
+   ],
+   "id": "iskender-bey-meydani"
   },
   {
-   "lon": 19.8203,
+   "ulke": "AL",
    "tarih": "1988 açılışı. Hoxha 1985'te ölmüştü; müze yalnız üç yıl amacına hizmet etti.",
-   "ozet": "Diktatör için müze olarak yapılmış, otuz yıl harabe kalmış, sonra herkesin üstüne çıktığı bir yapıya dönüşmüş beton piramit.",
+   "lat": 41.3181,
    "dikkat": [
     "Yağmurda beton kayıyor."
    ],
-   "terim": [],
-   "gezgin": [
-    "Eğimli beton yüzeyden çıkmaya çalışanlar oluyor; merdiven var ve güvenli olan o.",
-    "Gün batımında tepesi kalabalık.",
-    "Ücretsiz olması az bilinen bir şey — bilet arama."
-   ],
-   "ye": [
+   "ad": "Tiran Piramidi",
+   "turkiye": "Ücretsiz.",
+   "yaricap": 600,
+   "al": [
     {
-     "ad": "Çevredeki kafeler",
+     "ad": "Yok",
      "ne": "",
-     "fiyat": "100–200 lek",
-     "not": ""
+     "fiyat": "—",
+     "dikkat": ""
     }
    ],
-   "neden": "Bu yapının hikâyesi Arnavutluk'un hikâyesi. 1988'de Enver Hoxha müzesi olarak açıldı — kızı tasarladı. 1991'den sonra sırayla konferans merkezi, NATO üssü, televizyon binası ve nihayet grafitiyle kaplı bir harabe oldu; gençler beton yüzeyinden kayarak iniyordu. Yıkılması tartışıldı ama 2023'te merdivenler ve renkli kutular eklenerek kamuya açık bir yapıya çevrildi. Şimdi üstüne çıkılıyor, ücretsiz.",
-   "id": "tiran-piramidi",
    "eslesme": [
     "piramit",
     "piramida",
@@ -2625,45 +2620,55 @@
      "sure": "20 dk"
     }
    ],
-   "yaricap": 600,
-   "ulke": "AL",
-   "turkiye": "Ücretsiz.",
-   "ad": "Tiran Piramidi",
-   "al": [
-    {
-     "ad": "Yok",
-     "ne": "",
-     "fiyat": "—",
-     "dikkat": ""
-    }
-   ],
-   "lat": 41.3181
-  },
-  {
-   "lon": 19.7928,
-   "tarih": "1443–68 arası İskender Bey burayı üsse çevirdi ve Osmanlı üç büyük kuşatmayı burada kıramadı.",
-   "ozet": "İskender Bey'in kalesi ve Balkanların en canlı el işi çarşısı.",
-   "dikkat": [
-    "Çarşı taş döşeli ve eğimli."
-   ],
-   "terim": [
-    "çarşı",
-    "tekke",
-    "derviş"
-   ],
-   "gezgin": [
-    "Alışveriş için Arnavutluk'taki en iyi yer burası; Tiran'dan ucuz ve çeşit fazla."
-   ],
+   "ozet": "Diktatör için müze olarak yapılmış, otuz yıl harabe kalmış, sonra herkesin üstüne çıktığı bir yapıya dönüşmüş beton piramit.",
    "ye": [
     {
-     "ad": "Ev yemeği",
+     "ad": "Çevredeki kafeler",
      "ne": "",
-     "fiyat": "400–800 lek",
+     "fiyat": "100–200 lek",
      "not": ""
     }
    ],
-   "neden": "Tiran'a 40 km. Dağ yamacında kale, içinde İskender Bey Müzesi ve hemen dışında taş döşeli eski çarşı.",
-   "id": "kruje",
+   "gezgin": [
+    "Eğimli beton yüzeyden çıkmaya çalışanlar oluyor; merdiven var ve güvenli olan o.",
+    "Gün batımında tepesi kalabalık.",
+    "Ücretsiz olması az bilinen bir şey — bilet arama."
+   ],
+   "lon": 19.8203,
+   "neden": "Bu yapının hikâyesi Arnavutluk'un hikâyesi. 1988'de Enver Hoxha müzesi olarak açıldı — kızı tasarladı. 1991'den sonra sırayla konferans merkezi, NATO üssü, televizyon binası ve nihayet grafitiyle kaplı bir harabe oldu; gençler beton yüzeyinden kayarak iniyordu. Yıkılması tartışıldı ama 2023'te merdivenler ve renkli kutular eklenerek kamuya açık bir yapıya çevrildi. Şimdi üstüne çıkılıyor, ücretsiz.",
+   "terim": [],
+   "id": "tiran-piramidi"
+  },
+  {
+   "ulke": "AL",
+   "tarih": "1443–68 arası İskender Bey burayı üsse çevirdi ve Osmanlı üç büyük kuşatmayı burada kıramadı.",
+   "lat": 41.5094,
+   "dikkat": [
+    "Çarşı taş döşeli ve eğimli."
+   ],
+   "ad": "Kruja (Akçahisar)",
+   "turkiye": "Ucuz; el işi Türkiye'yle benzer.",
+   "yaricap": 3000,
+   "al": [
+    {
+     "ad": "Kilim ve dokuma",
+     "ne": "Arnavutluk'un en iyi el işi çarşısı sayılıyor.",
+     "fiyat": "2000–10000 lek",
+     "dikkat": "Pazarlık şart; %30–40 iniyor."
+    },
+    {
+     "ad": "Antika ve bakır",
+     "ne": "",
+     "fiyat": "1000 lek'ten",
+     "dikkat": "Gerçek antika ihracı izne tabi."
+    },
+    {
+     "ad": "Gümüş filigran",
+     "ne": "",
+     "fiyat": "1500 lek'ten",
+     "dikkat": ""
+    }
+   ],
    "eslesme": [
     "kruja",
     "krujë",
@@ -2687,56 +2692,43 @@
      "sure": "20 dk"
     }
    ],
-   "yaricap": 3000,
-   "ulke": "AL",
-   "turkiye": "Ucuz; el işi Türkiye'yle benzer.",
-   "ad": "Kruja (Akçahisar)",
-   "al": [
-    {
-     "ad": "Kilim ve dokuma",
-     "ne": "Arnavutluk'un en iyi el işi çarşısı sayılıyor.",
-     "fiyat": "2000–10000 lek",
-     "dikkat": "Pazarlık şart; %30–40 iniyor."
-    },
-    {
-     "ad": "Antika ve bakır",
-     "ne": "",
-     "fiyat": "1000 lek'ten",
-     "dikkat": "Gerçek antika ihracı izne tabi."
-    },
-    {
-     "ad": "Gümüş filigran",
-     "ne": "",
-     "fiyat": "1500 lek'ten",
-     "dikkat": ""
-    }
-   ],
-   "lat": 41.5094
-  },
-  {
-   "lon": 19.9522,
-   "tarih": "2400 yıllık. Osmanlı döneminde Belgrad-ı Arnavud.",
-   "ozet": "'Bin pencereli şehir'; yamaca dizilmiş beyaz Osmanlı evleriyle UNESCO listesinde.",
-   "dikkat": [],
-   "terim": [
-    "UNESCO Dünya Mirası",
-    "mahalle",
-    "konak",
-    "eski şehir"
-   ],
-   "gezgin": [
-    "Kaleye çıkış dik ve taşlık."
-   ],
+   "ozet": "İskender Bey'in kalesi ve Balkanların en canlı el işi çarşısı.",
    "ye": [
     {
-     "ad": "Berat şarabı",
+     "ad": "Ev yemeği",
      "ne": "",
-     "fiyat": "Kadeh 200–400 lek",
+     "fiyat": "400–800 lek",
      "not": ""
     }
    ],
-   "neden": "Evlerin pencereleri yamaçta üst üste diziliyor ve şehir aşağıdan tek bir cepheymiş gibi görünüyor. Kale içinde hâlâ insan yaşıyor.",
-   "id": "berat",
+   "gezgin": [
+    "Alışveriş için Arnavutluk'taki en iyi yer burası; Tiran'dan ucuz ve çeşit fazla."
+   ],
+   "lon": 19.7928,
+   "neden": "Tiran'a 40 km. Dağ yamacında kale, içinde İskender Bey Müzesi ve hemen dışında taş döşeli eski çarşı.",
+   "terim": [
+    "çarşı",
+    "tekke",
+    "derviş"
+   ],
+   "id": "kruje"
+  },
+  {
+   "ulke": "AL",
+   "tarih": "2400 yıllık. Osmanlı döneminde Belgrad-ı Arnavud.",
+   "lat": 40.7058,
+   "dikkat": [],
+   "ad": "Berat",
+   "turkiye": "Ucuz.",
+   "yaricap": 4000,
+   "al": [
+    {
+     "ad": "Şarap ve rakı",
+     "ne": "",
+     "fiyat": "600–1500 lek",
+     "dikkat": "Bavula."
+    }
+   ],
    "eslesme": [
     "berat"
    ],
@@ -2753,39 +2745,37 @@
      "sure": "1 saat"
     }
    ],
-   "yaricap": 4000,
-   "ulke": "AL",
-   "turkiye": "Ucuz.",
-   "ad": "Berat",
-   "al": [
-    {
-     "ad": "Şarap ve rakı",
-     "ne": "",
-     "fiyat": "600–1500 lek",
-     "dikkat": "Bavula."
-    }
-   ],
-   "lat": 40.7058
-  },
-  {
-   "lon": 19.4414,
-   "tarih": "MÖ 627'de Epidamnos olarak kuruldu; Via Egnatia'nın başlangıç noktasıydı.",
-   "ozet": "Adriyatik kıyısında liman şehri; Balkanların en büyük Roma amfitiyatrosu burada.",
-   "dikkat": [],
-   "terim": [],
-   "gezgin": [
-    "Plajlar yazın çok kalabalık."
-   ],
+   "ozet": "'Bin pencereli şehir'; yamaca dizilmiş beyaz Osmanlı evleriyle UNESCO listesinde.",
    "ye": [
     {
-     "ad": "Deniz ürünü",
-     "ne": "Ülkenin en tazesi.",
-     "fiyat": "600–1200 lek",
+     "ad": "Berat şarabı",
+     "ne": "",
+     "fiyat": "Kadeh 200–400 lek",
      "not": ""
     }
    ],
-   "neden": "Tiran'a 35 km, ülkenin ana plaj bölgesi. Amfitiyatro şehrin tam ortasında ve 20 bin kişilikti.",
-   "id": "durres",
+   "gezgin": [
+    "Kaleye çıkış dik ve taşlık."
+   ],
+   "lon": 19.9522,
+   "neden": "Evlerin pencereleri yamaçta üst üste diziliyor ve şehir aşağıdan tek bir cepheymiş gibi görünüyor. Kale içinde hâlâ insan yaşıyor.",
+   "terim": [
+    "UNESCO Dünya Mirası",
+    "mahalle",
+    "konak",
+    "eski şehir"
+   ],
+   "id": "berat"
+  },
+  {
+   "ulke": "AL",
+   "tarih": "MÖ 627'de Epidamnos olarak kuruldu; Via Egnatia'nın başlangıç noktasıydı.",
+   "lat": 41.3233,
+   "dikkat": [],
+   "ad": "Durrës",
+   "turkiye": "Ucuz.",
+   "yaricap": 6000,
+   "al": [],
    "eslesme": [
     "durres",
     "durrës",
@@ -2804,66 +2794,60 @@
      "sure": "45 dk"
     }
    ],
-   "yaricap": 6000,
-   "ulke": "AL",
-   "turkiye": "Ucuz.",
-   "ad": "Durrës",
-   "al": [],
-   "lat": 41.3233
+   "ozet": "Adriyatik kıyısında liman şehri; Balkanların en büyük Roma amfitiyatrosu burada.",
+   "ye": [
+    {
+     "ad": "Deniz ürünü",
+     "ne": "Ülkenin en tazesi.",
+     "fiyat": "600–1200 lek",
+     "not": ""
+    }
+   ],
+   "gezgin": [
+    "Plajlar yazın çok kalabalık."
+   ],
+   "lon": 19.4414,
+   "neden": "Tiran'a 35 km, ülkenin ana plaj bölgesi. Amfitiyatro şehrin tam ortasında ve 20 bin kişilikti.",
+   "terim": [],
+   "id": "durres"
   },
   {
-   "lon": 20.7397,
+   "ulke": "XK",
    "tarih": "Osmanlı 1455'te aldı; Prizren uzun süre Rumeli'nin önemli merkezlerinden biri oldu. Sinan Paşa Camii (1615) şehrin siluetini belirliyor. 1878'de kurulan Prizren Birliği Arnavut ulusal hareketinin başlangıcı sayılıyor. 1999 ve 2004 olaylarında bazı kilise ve camiler zarar gördü; onarımlar sürdü.",
-   "ozet": "Türkçenin resmî dil olduğu, taş köprüsü ve kalesiyle Kosova'nın kültür başkenti.",
+   "lat": 42.2139,
    "dikkat": [
     "Kosova damgalı pasaportla Sırbistan'a GİRİŞ sorun çıkarabiliyor — Sırbistan'a önce girilip Kosova'nın sona bırakılması turların standart çözümü.",
     "Kale yolunda gölge yok."
    ],
-   "terim": [
-    "çarşı",
-    "filigran",
-    "medrese",
-    "han",
-    "flia",
-    "makyato",
-    "kaldırım taşı",
-    "eski şehir"
-   ],
-   "gezgin": [
-    "TÜRKÇE konuşmak burada kapı açıyor — esnaf, garson ve taksici çoğu kez Türkçe biliyor ve muamele değişiyor.",
-    "Kaleye çıkış ücretsiz ama yol dik ve taşlık; su al.",
-    "Şehir küçük, her yer yürüme mesafesinde; taksiye gerek yok.",
-    "Kafe fiyatları Türkiye'nin altında; oturmak ucuz.",
-    "Filigran alacaksan iki üç dükkân dolaş, aynı işçilikte fiyat farkı büyük olabiliyor."
-   ],
-   "ye": [
+   "ad": "Prizren",
+   "turkiye": "Türkiye'yle en yakın fiyat düzeyi ve en tanıdık damak. Kahve ve yemek Türkiye'den ucuz. Filigran ve gümüş makul.",
+   "yaricap": 5000,
+   "al": [
     {
-     "ad": "Flia",
-     "ne": "Kat kat pişirilen Kosova hamur yemeği; saatler alıyor.",
-     "fiyat": "4–7 €",
-     "not": "Lokantada önceden sormak gerekebiliyor."
+     "ad": "Gümüş filigran",
+     "ne": "Prizren Balkanlarda filigranın iki merkezinden biri.",
+     "fiyat": "20–150 €",
+     "dikkat": "Üsküp'ten genelde uygun. Damga ve sertifika iste."
     },
     {
-     "ad": "Kebap ve sac",
-     "ne": "Türk mutfağına çok yakın.",
-     "fiyat": "4–8 €",
-     "not": ""
+     "ad": "Deri işi",
+     "ne": "Çanta, kemer, terlik.",
+     "fiyat": "15–60 €",
+     "dikkat": "Kalite değişken; dikişe bak."
     },
     {
-     "ad": "Makyato",
-     "ne": "Kahve; kafe kültürü güçlü.",
-     "fiyat": "1–1,5 €",
-     "not": "Türkiye'den ucuz."
+     "ad": "Bakır ve pirinç",
+     "ne": "Çarşıda az sayıda usta kaldı.",
+     "fiyat": "15–70 €",
+     "dikkat": ""
     },
     {
-     "ad": "Baklava ve tulumba",
-     "ne": "Türkiye'dekiyle neredeyse aynı.",
-     "fiyat": "1–3 €",
-     "not": ""
+     "ad": "Kosova balı ve peyniri",
+     "ne": "",
+     "fiyat": "5–15 €",
+     "dikkat": "Peyniri vakumlu al."
     }
    ],
-   "neden": "Bu rotada Türkiyeli bir gezginin kendini en çok evinde hissedeceği yer. Prizren'de Türkçe RESMÎ DİL: belediyede, tabelada, okulda Türkçe var ve sokakta Türkçe konuşuluyor. Bistrica deresi şehrin ortasından geçiyor, üstünde Osmanlı taş köprüsü duruyor, iki yanında kafeler sıralanıyor. Yukarıda Kalaja (kale) şehrin tamamını gösteriyor ve girişi ücretsiz.",
-   "id": "prizren",
    "eslesme": [
     "prizren"
    ],
@@ -2900,65 +2884,73 @@
      "sure": "30 dk"
     }
    ],
-   "yaricap": 5000,
-   "ulke": "XK",
-   "turkiye": "Türkiye'yle en yakın fiyat düzeyi ve en tanıdık damak. Kahve ve yemek Türkiye'den ucuz. Filigran ve gümüş makul.",
-   "ad": "Prizren",
-   "al": [
+   "ozet": "Türkçenin resmî dil olduğu, taş köprüsü ve kalesiyle Kosova'nın kültür başkenti.",
+   "ye": [
     {
-     "ad": "Gümüş filigran",
-     "ne": "Prizren Balkanlarda filigranın iki merkezinden biri.",
-     "fiyat": "20–150 €",
-     "dikkat": "Üsküp'ten genelde uygun. Damga ve sertifika iste."
+     "ad": "Flia",
+     "ne": "Kat kat pişirilen Kosova hamur yemeği; saatler alıyor.",
+     "fiyat": "4–7 €",
+     "not": "Lokantada önceden sormak gerekebiliyor."
     },
     {
-     "ad": "Deri işi",
-     "ne": "Çanta, kemer, terlik.",
-     "fiyat": "15–60 €",
-     "dikkat": "Kalite değişken; dikişe bak."
+     "ad": "Kebap ve sac",
+     "ne": "Türk mutfağına çok yakın.",
+     "fiyat": "4–8 €",
+     "not": ""
     },
     {
-     "ad": "Bakır ve pirinç",
-     "ne": "Çarşıda az sayıda usta kaldı.",
-     "fiyat": "15–70 €",
-     "dikkat": ""
+     "ad": "Makyato",
+     "ne": "Kahve; kafe kültürü güçlü.",
+     "fiyat": "1–1,5 €",
+     "not": "Türkiye'den ucuz."
     },
     {
-     "ad": "Kosova balı ve peyniri",
-     "ne": "",
-     "fiyat": "5–15 €",
-     "dikkat": "Peyniri vakumlu al."
+     "ad": "Baklava ve tulumba",
+     "ne": "Türkiye'dekiyle neredeyse aynı.",
+     "fiyat": "1–3 €",
+     "not": ""
     }
    ],
-   "lat": 42.2139
+   "gezgin": [
+    "TÜRKÇE konuşmak burada kapı açıyor — esnaf, garson ve taksici çoğu kez Türkçe biliyor ve muamele değişiyor.",
+    "Kaleye çıkış ücretsiz ama yol dik ve taşlık; su al.",
+    "Şehir küçük, her yer yürüme mesafesinde; taksiye gerek yok.",
+    "Kafe fiyatları Türkiye'nin altında; oturmak ucuz.",
+    "Filigran alacaksan iki üç dükkân dolaş, aynı işçilikte fiyat farkı büyük olabiliyor."
+   ],
+   "lon": 20.7397,
+   "neden": "Bu rotada Türkiyeli bir gezginin kendini en çok evinde hissedeceği yer. Prizren'de Türkçe RESMÎ DİL: belediyede, tabelada, okulda Türkçe var ve sokakta Türkçe konuşuluyor. Bistrica deresi şehrin ortasından geçiyor, üstünde Osmanlı taş köprüsü duruyor, iki yanında kafeler sıralanıyor. Yukarıda Kalaja (kale) şehrin tamamını gösteriyor ve girişi ücretsiz.",
+   "terim": [
+    "çarşı",
+    "filigran",
+    "medrese",
+    "han",
+    "flia",
+    "makyato",
+    "kaldırım taşı",
+    "eski şehir"
+   ],
+   "id": "prizren"
   },
   {
-   "lon": 21.1006,
+   "ulke": "XK",
    "tarih": "15 Haziran 1389 Kosova Savaşı. Sultan I. Murad savaş sonrasında öldürüldü. Yapı 19. yüzyılda II. Abdülhamid döneminde yenilendi. Birkaç yüz metre ötede Sırpların Gazimestan anıtı var; aynı savaşın iki ayrı hafızası yan yana duruyor.",
-   "ozet": "1389 Kosova Savaşı'nda öldürülen I. Murad'ın iç organlarının gömüldüğü, 630 yıldır aynı ailenin baktığı türbe.",
+   "lat": 42.6906,
    "dikkat": [
     "Ayakkabı çıkarılıyor.",
     "Fotoğraf için izin sor."
    ],
-   "terim": [
-    "türbe",
-    "medrese"
-   ],
-   "gezgin": [
-    "Türbedar Türkçe anlatıyor; sormak gerekiyor, kendiliğinden başlamayabiliyor.",
-    "Ziyaret kısa; 20–30 dakika yeter.",
-    "Yol kenarında, tabelası küçük; şoför bilmezse kaçırılabiliyor."
-   ],
-   "ye": [
+   "ad": "I. Murad Hüdavendigâr Türbesi",
+   "turkiye": "Ücretsiz / bağış.",
+   "yaricap": 2000,
+   "al": [
     {
-     "ad": "Yakında yok",
-     "ne": "Priştine'de yenir.",
-     "fiyat": "—",
-     "not": ""
+     "ad": "Küçük hediyelik",
+     "ne": "Türbe girişinde.",
+     "fiyat": "2–10 €",
+     "dikkat": ""
     }
    ],
-   "neden": "Küçük bir yapı ama ağırlığı büyük. Türk tarihinde bir padişahın savaş meydanında öldürüldüğü tek olay burada geçti. Naaşı Bursa'ya götürüldü; iç organları öldüğü yere gömüldü ve üstüne bu türbe yapıldı. Türbeye bakan Türbedar ailesi kuşaktan kuşağa aynı görevi sürdürüyor — bugünkü türbedar aileden gelen kişi ve gelen ziyaretçilere kendisi anlatıyor.",
-   "id": "murad-turbesi",
    "eslesme": [
     "murad hüdavendigar",
     "meşhed-i hüdavendigar",
@@ -2984,48 +2976,44 @@
      "sure": "20 dk"
     }
    ],
-   "yaricap": 2000,
-   "ulke": "XK",
-   "turkiye": "Ücretsiz / bağış.",
-   "ad": "I. Murad Hüdavendigâr Türbesi",
-   "al": [
-    {
-     "ad": "Küçük hediyelik",
-     "ne": "Türbe girişinde.",
-     "fiyat": "2–10 €",
-     "dikkat": ""
-    }
-   ],
-   "lat": 42.6906
-  },
-  {
-   "lon": 21.1655,
-   "tarih": "Osmanlı döneminde önemli bir kaza merkezi. Fatih Camii (1461) merkezde. 2008'de bağımsızlık ilan edildi; 'NEWBORN' anıtı her yıl yeniden boyanıyor.",
-   "ozet": "Kosova'nın genç ve hızlı büyüyen başkenti.",
-   "dikkat": [],
-   "terim": [
-    "makyato"
-   ],
-   "gezgin": [
-    "Türkçe bilen çok.",
-    "Şehir yürünerek geziliyor."
-   ],
+   "ozet": "1389 Kosova Savaşı'nda öldürülen I. Murad'ın iç organlarının gömüldüğü, 630 yıldır aynı ailenin baktığı türbe.",
    "ye": [
     {
-     "ad": "Makyato",
-     "ne": "",
-     "fiyat": "1–1,5 €",
-     "not": "Kahve kalitesi şaşırtıcı iyi."
-    },
-    {
-     "ad": "Kebap ve pite",
-     "ne": "",
-     "fiyat": "3–6 €",
+     "ad": "Yakında yok",
+     "ne": "Priştine'de yenir.",
+     "fiyat": "—",
      "not": ""
     }
    ],
-   "neden": "Turistik değil ama canlı: nüfusun yarısı 30 yaş altı ve kafeler her saat dolu. Millî Kütüphane binası mimarisiyle tartışılan bir yapı — kimileri dünyanın en çirkin binası der, kimileri başyapıt.",
-   "id": "pristine",
+   "gezgin": [
+    "Türbedar Türkçe anlatıyor; sormak gerekiyor, kendiliğinden başlamayabiliyor.",
+    "Ziyaret kısa; 20–30 dakika yeter.",
+    "Yol kenarında, tabelası küçük; şoför bilmezse kaçırılabiliyor."
+   ],
+   "lon": 21.1006,
+   "neden": "Küçük bir yapı ama ağırlığı büyük. Türk tarihinde bir padişahın savaş meydanında öldürüldüğü tek olay burada geçti. Naaşı Bursa'ya götürüldü; iç organları öldüğü yere gömüldü ve üstüne bu türbe yapıldı. Türbeye bakan Türbedar ailesi kuşaktan kuşağa aynı görevi sürdürüyor — bugünkü türbedar aileden gelen kişi ve gelen ziyaretçilere kendisi anlatıyor.",
+   "terim": [
+    "türbe",
+    "medrese"
+   ],
+   "id": "murad-turbesi"
+  },
+  {
+   "ulke": "XK",
+   "tarih": "Osmanlı döneminde önemli bir kaza merkezi. Fatih Camii (1461) merkezde. 2008'de bağımsızlık ilan edildi; 'NEWBORN' anıtı her yıl yeniden boyanıyor.",
+   "lat": 42.6629,
+   "dikkat": [],
+   "ad": "Priştine (Prishtinë)",
+   "turkiye": "Türkiye'den ucuz.",
+   "yaricap": 8000,
+   "al": [
+    {
+     "ad": "Yerel tasarım",
+     "ne": "Genç tasarımcı dükkânları.",
+     "fiyat": "—",
+     "dikkat": ""
+    }
+   ],
    "eslesme": [
     "priştine",
     "pristina",
@@ -3054,40 +3042,48 @@
      "sure": "45 dk"
     }
    ],
-   "yaricap": 8000,
-   "ulke": "XK",
-   "turkiye": "Türkiye'den ucuz.",
-   "ad": "Priştine (Prishtinë)",
-   "al": [
-    {
-     "ad": "Yerel tasarım",
-     "ne": "Genç tasarımcı dükkânları.",
-     "fiyat": "—",
-     "dikkat": ""
-    }
-   ],
-   "lat": 42.6629
-  },
-  {
-   "lon": 20.2883,
-   "tarih": "Osmanlı'da İpek. Çarşı hâlâ çalışıyor.",
-   "ozet": "Rugova Kanyonu'nun ağzında, patrikhanesi ve çarşısıyla bilinen şehir.",
-   "dikkat": [],
-   "terim": [
-    "çarşı",
-    "UNESCO Dünya Mirası"
-   ],
-   "gezgin": [],
+   "ozet": "Kosova'nın genç ve hızlı büyüyen başkenti.",
    "ye": [
     {
-     "ad": "Ev yemeği",
+     "ad": "Makyato",
      "ne": "",
-     "fiyat": "4–8 €",
+     "fiyat": "1–1,5 €",
+     "not": "Kahve kalitesi şaşırtıcı iyi."
+    },
+    {
+     "ad": "Kebap ve pite",
+     "ne": "",
+     "fiyat": "3–6 €",
      "not": ""
     }
    ],
-   "neden": "Peć Patrikhanesi Sırp Ortodoks Kilisesi'nin tarihî merkezi ve UNESCO listesinde. Rugova Kanyonu doğa yürüyüşü için Kosova'nın en iyisi.",
-   "id": "peja",
+   "gezgin": [
+    "Türkçe bilen çok.",
+    "Şehir yürünerek geziliyor."
+   ],
+   "lon": 21.1655,
+   "neden": "Turistik değil ama canlı: nüfusun yarısı 30 yaş altı ve kafeler her saat dolu. Millî Kütüphane binası mimarisiyle tartışılan bir yapı — kimileri dünyanın en çirkin binası der, kimileri başyapıt.",
+   "terim": [
+    "makyato"
+   ],
+   "id": "pristine"
+  },
+  {
+   "ulke": "XK",
+   "tarih": "Osmanlı'da İpek. Çarşı hâlâ çalışıyor.",
+   "lat": 42.6592,
+   "dikkat": [],
+   "ad": "Peja (İpek)",
+   "turkiye": "Ucuz.",
+   "yaricap": 4000,
+   "al": [
+    {
+     "ad": "Deri ve dokuma",
+     "ne": "Çarşıda.",
+     "fiyat": "10–50 €",
+     "dikkat": ""
+    }
+   ],
    "eslesme": [
     "peja",
     "ipek",
@@ -3110,39 +3106,40 @@
      "sure": "yarım gün"
     }
    ],
-   "yaricap": 4000,
-   "ulke": "XK",
-   "turkiye": "Ucuz.",
-   "ad": "Peja (İpek)",
-   "al": [
-    {
-     "ad": "Deri ve dokuma",
-     "ne": "Çarşıda.",
-     "fiyat": "10–50 €",
-     "dikkat": ""
-    }
-   ],
-   "lat": 42.6592
-  },
-  {
-   "lon": 20.4308,
-   "tarih": "16. yüzyıldan beri ticaret merkezi. Hadum Camii 1594.",
-   "ozet": "Balkanların en uzun eski çarşılarından birine sahip şehir.",
-   "dikkat": [],
-   "terim": [
-    "çarşı"
-   ],
-   "gezgin": [],
+   "ozet": "Rugova Kanyonu'nun ağzında, patrikhanesi ve çarşısıyla bilinen şehir.",
    "ye": [
     {
-     "ad": "Çarşı lokantaları",
+     "ad": "Ev yemeği",
      "ne": "",
-     "fiyat": "3–7 €",
+     "fiyat": "4–8 €",
      "not": ""
     }
    ],
-   "neden": "Çarşı (Çarshia e Madhe) 1999'da yakıldı ve aslına uygun yeniden kuruldu; bugün ahşap dükkânlarıyla ayakta.",
-   "id": "gjakova",
+   "gezgin": [],
+   "lon": 20.2883,
+   "neden": "Peć Patrikhanesi Sırp Ortodoks Kilisesi'nin tarihî merkezi ve UNESCO listesinde. Rugova Kanyonu doğa yürüyüşü için Kosova'nın en iyisi.",
+   "terim": [
+    "çarşı",
+    "UNESCO Dünya Mirası"
+   ],
+   "id": "peja"
+  },
+  {
+   "ulke": "XK",
+   "tarih": "16. yüzyıldan beri ticaret merkezi. Hadum Camii 1594.",
+   "lat": 42.3803,
+   "dikkat": [],
+   "ad": "Gjakova (Yakova)",
+   "turkiye": "Ucuz.",
+   "yaricap": 3000,
+   "al": [
+    {
+     "ad": "El işi",
+     "ne": "",
+     "fiyat": "—",
+     "dikkat": ""
+    }
+   ],
    "eslesme": [
     "gjakova",
     "yakova",
@@ -3160,19 +3157,22 @@
      "sure": "20 dk"
     }
    ],
-   "yaricap": 3000,
-   "ulke": "XK",
-   "turkiye": "Ucuz.",
-   "ad": "Gjakova (Yakova)",
-   "al": [
+   "ozet": "Balkanların en uzun eski çarşılarından birine sahip şehir.",
+   "ye": [
     {
-     "ad": "El işi",
+     "ad": "Çarşı lokantaları",
      "ne": "",
-     "fiyat": "—",
-     "dikkat": ""
+     "fiyat": "3–7 €",
+     "not": ""
     }
    ],
-   "lat": 42.3803
+   "gezgin": [],
+   "lon": 20.4308,
+   "neden": "Çarşı (Çarshia e Madhe) 1999'da yakıldı ve aslına uygun yeniden kuruldu; bugün ahşap dükkânlarıyla ayakta.",
+   "terim": [
+    "çarşı"
+   ],
+   "id": "gjakova"
   }
  ],
  "ulkeler": [
