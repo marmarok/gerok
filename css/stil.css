@@ -1793,3 +1793,41 @@ body:has(.ses-katman:not(.gizli)) .bildirim {
   font: 11.5px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
   white-space: pre-wrap; overflow-wrap: anywhere; color: var(--soluk);
 }
+
+/* ---------------------------------------------------------- gezi bilgisi --
+   Bekçinin ikinci bilgi tabanı: duraklar, yeme-içme, alışveriş ve sözlük.
+   Terimler cevabın içinde dokunulabilir; alt çizgi "burada bir şey var"
+   demek için yeterli, düğme gibi görünmesi paragrafı parçalardı. */
+
+.bk-terim {
+  background: none; border: 0; padding: 0; margin: 0;
+  font: inherit; color: inherit; cursor: pointer;
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--su);
+}
+.bk-terim:hover, .bk-terim:focus-visible { text-decoration-style: solid; }
+
+.bk-madde { margin: 10px 0; padding-left: 10px; border-left: 2px solid var(--cizgi); }
+.bk-madde:first-child { margin-top: 6px; }
+.bk-fiyat { color: var(--su); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.bk-dikkat { color: var(--vurgu); }
+
+/* Yaklaşma uyarısından önceki küçük soru. Ekranı kaplamıyor: yolda telefona
+   bakmadan devam edilebilsin diye alt şeridin üstüne oturuyor ve kendi
+   kendine çekiliyor. */
+.on-sezi {
+  position: fixed; left: 12px; right: 12px; bottom: calc(var(--altbar) + 14px);
+  z-index: 60; display: flex; gap: 12px; align-items: center;
+  padding: 12px 14px; border-radius: 14px;
+  background: var(--kat2); border: 1px solid var(--cizgi);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, .28);
+  animation: onSeziGel .22s ease-out;
+}
+@keyframes onSeziGel { from { opacity: 0; transform: translateY(10px); } }
+@media (prefers-reduced-motion: reduce) { .on-sezi { animation: none; } }
+.on-sezi-yazi { flex: 1; min-width: 0; }
+.on-sezi-ust { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--soluk); }
+.on-sezi-ad { font-weight: 600; margin: 2px 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.on-sezi-alt { font-size: 13px; color: var(--soluk); }
+.on-sezi-dugmeler { display: flex; flex-direction: column; gap: 6px; flex-shrink: 0; }

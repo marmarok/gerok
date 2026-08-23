@@ -5,7 +5,7 @@
 // Neden önbelleğin adına bakmıyoruz: yeni sürüm indiğinde önbellek adı değişiyor
 // ama ekrandaki kod hâlâ eski oluyor — uygulama kendini güncellenmiş sanıyordu.
 // Bu satır ekrandaki dosyanın içinde olduğu için yalan söyleyemiyor.
-const BU_SURUM = 'gerok-97-20260823-154231';
+const BU_SURUM = 'gerok-98-20260823-161647';
 
 import * as veri from './veri.js';
 import * as iz from './iz.js';
@@ -43,7 +43,8 @@ let durum = {
   sonParaBirimi: '',
   uyanikKilit: null,
   sonUlke: null,
-  uyarilmisDuraklar: new Set()
+  uyarilmisDuraklar: new Set(),
+  sorulmusDuraklar: new Set()
 };
 
 // ---------------------------------------------------------------- açılış ---
@@ -86,6 +87,7 @@ async function baslat() {
   await turAyrimiGocu();
 
   durum.uyarilmisDuraklar = new Set(await veri.ayarOku('uyarilmisDuraklar', []));
+  durum.sorulmusDuraklar = new Set(await veri.ayarOku('sorulmusDuraklar', []));
   durum.sonUlke = await veri.ayarOku('sonUlke', null);
   durum.sonParaBirimi = await veri.ayarOku('sonParaBirimi', '');
 
@@ -141,6 +143,7 @@ function bekciyiKur() {
     gunSonu: () => gunSonuAc(durum, tazele),
     mektup: () => mektupAc(tazele),
     paneliAc: (ad) => { acikPanel = ad; ekranAc('gerok'); paneliCiz(); },
+    duraklar: () => gerok.duraklar(),
   });
   // Açılışta sessizce bakılıyor; internet yoksa son bilinen durum kullanılıyor.
   bekci.akisiTazele().then(bekciRozetiYaz);
@@ -2612,6 +2615,7 @@ function izDinle() {
       await ulkeKontrol(olay.nokta);
     }
     if (olay.tur === 'konum' && durum.yolModu) {
+      onSeziKontrol(olay.lat, olay.lon);
       yaklasmaKontrol(olay.lat, olay.lon);
     }
   });
@@ -3437,6 +3441,7 @@ function durakKartiAc(id, { uc = false } = {}) {
       <button class="kucuk-dugme ${dur === 'gidildi' ? 'secili' : ''}" id="kartGidildi">Gittik</button>
       <button class="kucuk-dugme ${dur === 'kacirildi' ? 'secili' : ''}" id="kartKacirildi">Kaçırdık</button>
       <button class="kucuk-dugme" data-not-ekle="${d.id}">Not yaz</button>
+      <button class="kucuk-dugme" id="kartBilgi" hidden>Bilgi</button>
       <button class="kucuk-dugme g-dugme" id="kartGoogle"
               title="Google Haritalar'da aç" aria-label="Google Haritalar'da aç">G</button>
     </div>
@@ -3448,6 +3453,13 @@ function durakKartiAc(id, { uc = false } = {}) {
   // Not ve puan haritadaki kartta da çalışsın: durak listesine gidip aynı
   // durağı 26'nın arasından bulmak yolda vakit alıyor.
   durakNotVePuanKur($('#ortuIc'), () => durakKartiAc(id));
+
+  // Bilgi kartı varsa düğme açılıyor. Sorulan ilk soru yolda "burası neresi"
+  // oluyordu; cevabı artık kartın kendi üstünde.
+  bekci.durakBilgisiVarMi(d).then(v => {
+    if (v) $('#kartBilgi')?.removeAttribute('hidden');
+  });
+  $('#kartBilgi')?.addEventListener('click', () => bekci.durakBilgisi(d));
 
   // Zıplama kartın AÇILMASINDAN sonra yapılıyor: kaydırma payı kartın gerçek
   // yüksekliğine göre hesaplanıyor, tahmin edilmiyor. Haritaya dokunarak
@@ -3507,9 +3519,62 @@ function yaklasmaUyarisi(durak, uzaklik) {
         ? `<ul class="unutma">${durak.unutma.map(u => `<li>${kacis(u)}</li>`).join('')}</ul>`
         : '<div class="ortu-alt">Not yok.</div>'}
     </div>
+    <button class="eylem-dugme" id="uyariBilgi" hidden>Burası hakkında bilgi</button>
     <button class="eylem-dugme birincil" id="uyariTamam">Tamam</button>
   `);
   $('#uyariTamam').addEventListener('click', ortuKapat);
+  // Kart varsa düğme açılıyor; yoksa hiç görünmüyor — basınca "bilgim yok"
+  // diyen bir düğme, olmayan düğmeden kötüdür.
+  bekci.durakBilgisiVarMi(durak).then(v => {
+    if (v) $('#uyariBilgi')?.removeAttribute('hidden');
+  });
+  $('#uyariBilgi')?.addEventListener('click', () => bekci.durakBilgisi(durak));
+}
+
+// Yaklaşma uyarısından ÖNCE gelen küçük soru.
+//
+// 2 km'de gelen uyarı "geldik" demek; okumaya vakit kalmıyor. Bu yüzden daha
+// uzaktan, ekranı kaplamayan tek satırlık bir soru soruluyor: sıradaki durağı
+// haber veriyor ve detay isteyip istemediğini soruyor. İstemezsen bir daha
+// sormuyor.
+const ONSEZI_METRE = 15000;
+
+function onSeziKontrol(lat, lon) {
+  if (durum.sorulmusDuraklar?.size == null) return;
+  for (const { durak, uzaklik } of gerok.yakinDuraklar(lat, lon, ONSEZI_METRE)) {
+    if (durum.sorulmusDuraklar.has(durak.id)) continue;
+    if (durum.uyarilmisDuraklar.has(durak.id)) continue;
+    if (uzaklik < YAKLASMA_METRE) continue;        // zaten oradayız, uyarı gelecek
+    durum.sorulmusDuraklar.add(durak.id);
+    veri.ayarYaz('sorulmusDuraklar', Array.from(durum.sorulmusDuraklar));
+    onSeziSor(durak, uzaklik);
+    break;
+  }
+}
+
+async function onSeziSor(durak, uzaklik) {
+  if (!await bekci.durakBilgisiVarMi(durak)) return;
+  const eski = $('#onSezi');
+  if (eski) eski.remove();
+  const kutu = document.createElement('div');
+  kutu.id = 'onSezi';
+  kutu.className = 'on-sezi';
+  kutu.innerHTML = `
+    <div class="on-sezi-yazi">
+      <div class="on-sezi-ust">Sıradaki · ${uzaklikYaz(uzaklik)}</div>
+      <div class="on-sezi-ad">${kacis(durak.ad)}</div>
+      <div class="on-sezi-alt">Bu durakla ilgili detay ister misin?</div>
+    </div>
+    <div class="on-sezi-dugmeler">
+      <button class="kucuk-dugme birincil" id="onSeziEvet">Anlat</button>
+      <button class="kucuk-dugme" id="onSeziHayir">Şimdi değil</button>
+    </div>`;
+  document.body.appendChild(kutu);
+  const kapat = () => kutu.remove();
+  $('#onSeziHayir').addEventListener('click', kapat);
+  $('#onSeziEvet').addEventListener('click', () => { kapat(); bekci.durakBilgisi(durak); });
+  // Kendiliğinden çekiliyor: yolda ekranı kalıcı olarak işgal etmesin.
+  setTimeout(() => { if (document.body.contains(kutu)) kapat(); }, 40000);
 }
 
 // Uyarı sesi.

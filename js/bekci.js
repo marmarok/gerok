@@ -21,6 +21,7 @@
 
 import * as veri from './veri.js';
 import * as depo from './depo.js';
+import * as bilgi from './bilgi.js';
 
 const $ = (s, k = document) => k.querySelector(s);
 const $$ = (s, k = document) => Array.from(k.querySelectorAll(s));
@@ -34,6 +35,16 @@ export function baglamKur(baglam) {
   // Akıl ayarı hemen okunuyor: Gerok panelindeki bekçi satırı sohbet
   // açılmadan çiziliyor ve bağlı olup olmadığını oradan da göstermesi gerek.
   akliYukle().then(() => B.rozetiTazele?.());
+  // Bilgi paketi: önce cihazdaki kopya (internetsiz de dolu gelsin), sonra
+  // sessizce yenisine bak. Mac tarafı her koşusunda yeni durak eklemiş
+  // olabiliyor; telefon her bağlandığında bunu kendiliğinden alıyor.
+  bilgi.yukle().then(() => bilgi.tazele()).catch(() => {});
+}
+
+/** Uygulama internete kavuşunca yeniden bak — açılışta çevrimdışıysa kaçırmasın. */
+export async function bilgiyiTazele(zorla = false) {
+  const s = await bilgi.tazele({ zorla });
+  return s;
 }
 
 const kacis = (m) => String(m ?? '').replace(/[&<>"']/g,
@@ -115,6 +126,65 @@ function zamanFarki(iso) {
 let tumKayit = [];
 
 const SINAMALAR = [
+  // ---- bilgi paketi ----
+  { id: 'bilgi-paketi', ad: 'Gezi bilgisi cihazda duruyor', oyku: 'bilgi', async kos() {
+      await bilgi.yukle();
+      const n = bilgi.sayilar();
+      return { gecti: !!n?.yer, sayi: 3,
+               not: n ? `${n.yer} yer · ${n.ulke} ülke · ${n.terim} terim`
+                      : 'paket inmemiş — internete bağlanınca kendiliğinden gelir',
+               onarim: n?.yer ? null : 'bilgi-indir' };
+    } },
+  { id: 'bilgi-kapsam', ad: 'Durakların bilgisi var', oyku: 'bilgi', async kos() {
+      await bilgi.yukle();
+      const liste = B.duraklar?.() || [];
+      if (!bilgi.paketVar()) return { gecti: true, not: 'paket yok, kapsam sorulamaz' };
+      if (!liste.length) return { gecti: true, not: 'yüklü gerok yok' };
+      const kartli = liste.filter(d => bilgi.kartBul(d));
+      // Not YALNIZCA SAYI taşıyor: durak adları gezinin kendisidir, sınama
+      // notu ise akıl açıkken dışarı gidebiliyor.
+      return { gecti: kartli.length === liste.length, sayi: liste.length,
+               not: `${kartli.length}/${liste.length} durağın kartı var`, gizli: true };
+    } },
+  { id: 'bilgi-taze', ad: 'Bilgi paketi bayat değil', oyku: 'bilgi', async kos() {
+      const t = await veri.ayarOku('bekciBilgiZaman', 0);
+      if (!t) return { gecti: true, not: 'henüz indirilmedi' };
+      const gun = (Date.now() - t) / 86400000;
+      return { gecti: gun < 30, not: `${Math.round(gun)} gün önce bakıldı` };
+    } },
+  { id: 'sozluk-baglantilari', ad: 'Sözlük kendi içinde tutarlı', oyku: 'bilgi', async kos() {
+      await bilgi.yukle();
+      if (!bilgi.paketVar()) return { gecti: true, not: 'paket yok' };
+      const adlar = bilgi.terimler();
+      const kotu = [];
+      let sayi = 0;
+      for (const a of adlar) {
+        const t = bilgi.terimAl(a); sayi += 2;
+        if (!t?.kisa || !t?.uzun || t.uzun.length < 40) kotu.push(a);
+        for (const i of (t?.ilgili || [])) { sayi++; if (!bilgi.terimAl(i)) kotu.push(`${a}→${i}`); }
+      }
+      // Kartların saydığı terimlerin karşılığı var mı: bekçi kullandığı
+      // kelimeyi açıklayamıyorsa o kelimeyi kullanmamalı.
+      for (const y of bilgi.yerler()) {
+        for (const t of (y.terim || [])) { sayi++; if (!bilgi.terimAl(t)) kotu.push(`${y.id}→${t}`); }
+      }
+      return { gecti: !kotu.length, sayi,
+               not: kotu.length ? `${kotu.length} karşılıksız terim` : `${adlar.length} terim, hepsi tam`,
+               ayrinti: kotu.slice(0, 6) };
+    } },
+  { id: 'terim-isaretleme', ad: 'Terimler cevapta işaretleniyor', oyku: 'bilgi', async kos() {
+      await bilgi.yukle();
+      if (!bilgi.paketVar()) return { gecti: true, not: 'paket yok' };
+      // Gerçek bir cümle üstünde sınanıyor: hem işaretlemeli hem de "izin"
+      // gibi kelimelerin içindeki kısa terimlere BULAŞMAMALI.
+      const c = bilgi.terimleriIsaretle('Çarşıda bir tekke var; izin verilirse gireriz.');
+      const tuttu = c.includes('data-terim="çarşı"') && c.includes('data-terim="tekke"');
+      const bulasti = /data-terim="iz"/.test(c);
+      return { gecti: tuttu && !bulasti, sayi: 2,
+               not: !tuttu ? 'bilinen terim işaretlenmedi'
+                  : bulasti ? '“izin” içindeki kısa terime bulaştı' : 'iki terim tuttu, bulaşma yok' };
+    } },
+
   // ---- depolama ----
   { id: 'depo-kota', ad: 'Depolama payı okunabiliyor', oyku: 'depolama', async kos() {
       const d = await veri.depolamaDurumu();
@@ -408,6 +478,12 @@ export async function kendiniSina(ilerleme = null) {
 // söylüyor ve onay istiyor.
 
 export const ONARIMLAR = {
+  'bilgi-indir': { ad: 'Gezi bilgisini indir', async yap() {
+      const r = await bilgi.tazele({ zorla: true });
+      const n = bilgi.sayilar();
+      return r.durum === 'internet-yok' ? 'İnternet yok; bağlanınca kendiliğinden inecek.'
+           : n ? `İndi: ${n.yer} yer, ${n.terim} terim.` : 'Pakete ulaşılamadı.';
+    } },
   'kalici-iste': { ad: 'Kalıcı depolama iste', async yap() {
       const s = await veri.kaliciDepolamaIste();
       return s.kalici ? 'Açıldı — iOS artık veriyi kendiliğinden silmez.'
@@ -459,6 +535,52 @@ export const ONARIMLAR = {
 // düğmeye basınca oraya götürüyor.
 
 const KONULAR = [
+  { id: 'durak-bilgisi', baslik: 'Duraklar hakkında ne biliyorsun?',
+    anahtar: ['durak', 'bilgi', 'anlat', 'rehber', 'gezi', 'yer', 'neresi', 'burası'],
+    cevap: 'Her durak için bir kartım var: <b>ne görülür</b>, <b>ne yenir</b>, '
+         + '<b>ne alınır</b>, gezginler ne söylemiş, nelere dikkat etmeli ve '
+         + 'Türkiye’ye göre fiyat nerede duruyor.<br><br>'
+         + 'Hepsi cihazda duruyor — tünelde, sınırda, uçak modunda da açılıyor. '
+         + 'Bir durağa yaklaşırken de sana kendim soruyorum: “detay ister misin?”',
+    derin: 'Kartlar Mac’teki bekçiden geliyor ve bölgeyi kapsıyor: altı ülkenin '
+         + 'tanınmış yerleri toplu hâlde. <b>Hangisinin senin durağın olduğu '
+         + 'pakette yazmıyor</b> — o eşleştirme bu telefonun içinde, koordinat '
+         + 've ad yakınlığıyla yapılıyor.<br><br>'
+         + 'Sebebi basit: paket herkese açık bir yerde duruyor ve rota asla '
+         + 'dışarı çıkmayacak. Dışarıdan bakan biri sıradan bir Balkan rehberi '
+         + 'görüyor.<br><br>'
+         + 'Bir durakta kartım yoksa uydurmuyorum; “yok” deyip Claude’a iletmeyi '
+         + 'öneriyorum, bir sonraki pakete ekleniyor.',
+    eylem: { ad: 'Duraklarımı göster', yap: () => bekciAc().then(() => duraklariGoster()) } },
+  { id: 'sozluk-konu', baslik: 'Bilmediğim bir kelime geçti',
+    anahtar: ['kelime', 'terim', 'sözlük', 'anlamı', 'ne demek', 'bilmiyorum', 'anlamadım'],
+    cevap: 'Cevaplarımdaki bilinen terimler <b>dokunulabilir</b> — üstüne '
+         + 'bas, açıklarım. Doğrudan da sorabilirsin: “tekke nedir”.<br><br>'
+         + 'Kural şu: kullandığım her terimin karşılığı elimde olacak. '
+         + 'Açıklayamayacağım bir kelimeyi kullanmamam gerekiyor.',
+    derin: 'Sözlük iki bölümden oluşuyor: <b>gezi ve tarih</b> terimleri '
+         + '(çarşı, tekke, bedesten, stećak, ćevapi, filigran…) ve '
+         + '<b>uygulama</b> terimleri (önbellek, iz, EXIF, PMTiles, kalıcı '
+         + 'depolama…).<br><br>'
+         + 'Her terimin iki katmanı var: tek cümlelik karşılık ve arkasındaki '
+         + 'hikâye. “Detaylandır” ikincisini getiriyor.<br><br>'
+         + 'Sınamalarımdan biri bunu her koşuda denetliyor: karşılığı olmayan '
+         + 'ya da birbirine kırık bağ veren terim varsa kırmızı yanıyorum.' },
+  { id: 'yeme-alisveris', baslik: 'Nerede ne yenir, ne alınır?',
+    anahtar: ['ye', 'yemek', 'yenir', 'alışveriş', 'hediye', 'al', 'alınır',
+              'fiyat', 'pahalı', 'ucuz', 'para', 'kaç para'],
+    cevap: 'Yer adını söyle, anlatayım: “Mostar’da ne yenir”, “Üsküp’te ne alınır”, '
+         + '“Kotor pahalı mı”.<br><br>'
+         + 'Her kartta yemek ve alışveriş için ad, ne olduğu, <b>kaça</b> ve '
+         + 'nelere dikkat edileceği yazıyor. Ülke kartlarında da para birimi, '
+         + 'kur ve <b>Türkiye’ye göre nerede durduğu</b> var.',
+    derin: 'Fiyatlar yerel para biriminde yazılı — çünkü kur oynuyor ve TL '
+         + 'karşılığı bir haftada kayabiliyor. Harcamalarını Gerok’a girersen '
+         + 'uygulama o günün gerçek kurunu ayrıca çekiyor.<br><br>'
+         + 'Alışverişte en çok işe yarayan üç şey: pazarlığın normal olduğu '
+         + 'yerler, taklidin yaygın olduğu ürünler (Ohrid incisi, el işi kilim) '
+         + 've sıvı olduğu için EL BAGAJINA giremeyen şeyler (ajvar, rakı, '
+         + 'nar şurubu, bal).' },
   { id: 'sesli-not', baslik: 'Sesli not nasıl bırakılır?',
     anahtar: ['ses', 'sesli', 'not', 'konus', 'kaydet', 'mikrofon', 'söyle'],
     cevap: 'Alt şeritten <b>Kayıt</b>’a geç, mikrofon düğmesine <b>basılı tut</b>, konuş, '
@@ -719,10 +841,14 @@ const temizBaglam = (m) => AKIL_YASAK.reduce((x, d) => x.replace(d, '…'), Stri
  * Bu defterin kendi özel adları: telefonun adı, arkadaşın adı, gezilerin adı,
  * durak adları, tanıştığınız kişiler.
  *
- * Düzenli ifade bunları yakalayamaz — "Balkanlar Geroku" hiçbir desene
- * uymuyor. O yüzden kaynağından okunup çıkan metinden siliniyorlar.
- * Çok kelimeli adlar parçalarıyla birlikte siliniyor: "Üsküp Havaalanı"
- * kadar "Üsküp" de.
+ * Düzenli ifade bunları yakalayamaz — bir gezinin ya da bir durağın adı
+ * hiçbir desene uymuyor. O yüzden kaynağından okunup çıkan metinden
+ * siliniyorlar. Çok kelimeli adlar parçalarıyla birlikte siliniyor: iki
+ * kelimelik bir yer adının ilk kelimesi tek başına da geçerse o da gidiyor.
+ *
+ * Bu açıklamada ÖRNEK AD YAZMIYORUZ: bu dosya herkese açık depoda duruyor ve
+ * örnek diye yazılmış gerçek bir gezi adı, tam da engellemeye çalıştığı şeyi
+ * yapardı. (22–23 Ağustos taramasında böyle bir satır bulundu ve kaldırıldı.)
  */
 async function kendiAdlarim() {
   const ham = [];
@@ -755,7 +881,7 @@ function adlariKarart(metin, adlar) {
  * Modele verilen bilgi. TAMAMI BEYAZ LİSTE — burada olmayan hiçbir şey
  * dışarı çıkmıyor.
  */
-async function baglamMetni(sonSinama) {
+async function baglamMetni(sonSinama, soru = '') {
   const a = akis;
   const d = a?.derin || a?.sayilar;
   const satir = [];
@@ -806,7 +932,25 @@ async function baglamMetni(sonSinama) {
     + 'gittiği yerleri, durak adlarını, kişi adlarını ve gezinin adını GÖRMÜYORSUN. '
     + 'Bunlar telefonda kalıyor, sana gönderilmiyor. Sorulursa bunu söyle.');
 
-  return adlariKarart(temizBaglam(satir.join('\n')), await kendiAdlarim());
+  const govde = adlariKarart(temizBaglam(satir.join('\n')), await kendiAdlarim());
+
+  // Sorulan YERİN kartı, karartmadan SONRA ekleniyor.
+  //
+  // Neden sonra: kart metni herkese açık pakettten geliyor ve içindeki yer
+  // adları karartmaya takılıp "•••" olsaydı kart okunamaz hâle gelirdi.
+  // Neden güvenli: kart YALNIZCA kullanıcının kendi cümlesinde geçen bir yer
+  // için ekleniyor. O ad zaten kullanıcının yazdığı soruyla modele gidiyor;
+  // kart yeni bir gezi bilgisi eklemiyor. Durak listesinden ya da konumdan
+  // kart eklenmiyor — o, rotayı ele vermek olurdu.
+  const eslesen = soru ? bilgi.yerAra(soru)[0] : null;
+  if (!eslesen) return govde;
+  const y = eslesen.yer;
+  const duz = (h) => String(h || '').replace(/<[^>]+>/g, '');
+  const bolumler = bilgi.doluBolumler(y)
+    .map(b => `### ${bilgi.BOLUM_ADI[b]}\n${duz(bilgi.bolumHtml(y, b))}`).join('\n');
+  return govde
+    + `\n\n# Kullanıcının sorduğu yerin kartı (bunun DIŞINA çıkma, uydurma)\n`
+    + `## ${y.ad}\n${y.ozet}\n${y.neden}\n${bolumler}`;
 }
 
 // Modelin isteyebileceği her şey burada. Listede olmayan bir ad gelirse
@@ -872,7 +1016,7 @@ async function akliSor(soru) {
     body: JSON.stringify({
       model: akil.model,
       max_tokens: 700,
-      system: await baglamMetni(sonSinama),
+      system: await baglamMetni(sonSinama, soru),
       messages: [...gecmis, { role: 'user', content: soru }],
     }),
   });
@@ -1019,6 +1163,8 @@ const KARSILAMA = [
   { et: 'Bekçi raporu', is: () => raporuGoster() },
   { et: 'Neler yapabilirsin?', is: () => menuGoster() },
   { et: 'Bir sorunum var', is: () => sorunMenusu() },
+  { et: 'Durak bilgisi', is: () => duraklariGoster() },
+  { et: 'Sözlük', is: () => sozlukGoster() },
   { et: 'Dil modeline bağla', is: () => akilKarti() },
 ];
 
@@ -1064,9 +1210,149 @@ export async function bekciAc() {
  * geçmiş olarak geri gönderiliyor (HTML değil, düz metin).
  */
 function soyle(html, dugmeler = [], kaynak = {}) {
-  konusma.push({ kim: 'bekci', html, dugmeler, ...kaynak });
+  // Her cevap iki şeyden geçiyor:
+  //   1. Bilinen terimler dokunulabilir hâle geliyor — bekçi kullandığı
+  //      kelimeyi açıklayamıyorsa o kelimeyi kullanmamalı.
+  //   2. Daha derini varsa "Detaylandır" düğmesi kendiliğinden ekleniyor.
+  const isaretli = bilgi.terimleriIsaretle(html);
+  const d = [...dugmeler];
+  const derin = kaynak.derin || terimDerinlestirici(html);
+  if (derin) d.unshift({ et: kaynak.derinAd || 'Detaylandır', is: derin });
+  konusma.push({ kim: 'bekci', html: isaretli, dugmeler: d, ...kaynak, derin: undefined });
   konusma = konusma.slice(-50);
   if (acik) ciz();
+}
+
+// Bir konuşmada aynı terimi ikinci kez anlatmıyoruz; "Detaylandır" her
+// basışta yeni bir şey söylemeli, aynı paragrafı tekrarlamamalı.
+let anlatilanTerimler = new Set();
+
+/** Cevapta açıklanabilecek terim varsa onları anlatan bir iş döner. */
+function terimDerinlestirici(html) {
+  const t = bilgi.gecenTerimler(html).filter(x => !anlatilanTerimler.has(x.ad));
+  if (!t.length) return null;
+  return () => terimleriAnlat(t.slice(0, 4));
+}
+
+function terimleriAnlat(liste) {
+  for (const t of liste) anlatilanTerimler.add(t.ad);
+  const govde = liste.map(t =>
+    `<b>${kacis(t.ad)}</b><br>${kacis(t.uzun)}`).join('<br><br>');
+  soyle(govde, [{ et: 'Sözlüğün tamamı', is: () => sozlukGoster() }]);
+}
+
+function terimAnlat(ad) {
+  const t = bilgi.terimAl(ad);
+  if (!t) { soyle('Bu terimi bilmiyorum — ve bilmiyorsam söylemem gerekir.'); return; }
+  anlatilanTerimler.add(t.ad);
+  const d = [];
+  for (const i of (t.ilgili || []).slice(0, 3)) {
+    if (bilgi.terimAl(i)) d.push({ et: i, is: () => terimAnlat(i) });
+  }
+  d.push({ et: 'Sözlüğün tamamı', is: () => sozlukGoster() });
+  soyle(`<b>${kacis(t.ad)}</b><br><span class="bk-soluk">${kacis(t.kisa)}</span>`
+      + `<br><br>${kacis(t.uzun)}`, d);
+}
+
+function sozlukGoster() {
+  const hepsi = bilgi.terimler();
+  if (!hepsi.length) { soyle('Sözlük henüz inmemiş. İnternete bağlanınca kendiliğinden gelir.'); return; }
+  const gezi = hepsi.filter(a => bilgi.terimAl(a)?.oyku !== 'uygulama');
+  const uyg = hepsi.filter(a => bilgi.terimAl(a)?.oyku === 'uygulama');
+  const yaz = (l) => l.map(a =>
+    `<button class="bk-terim" data-terim="${kacis(a)}">${kacis(a)}</button>`).join(' ');
+  soyle(`<b>Bildiğim ${hepsi.length} terim</b><br><br>`
+      + `<b>Gezi ve tarih</b><br>${yaz(gezi)}<br><br>`
+      + `<b>Uygulama</b><br>${yaz(uyg)}<br><br>`
+      + `<span class="bk-soluk">Dokun, anlatayım.</span>`);
+}
+
+// ------------------------------------------------------------ durak bilgisi -
+//
+// Bekçinin ikinci bilgi tabanı: uygulamayı değil GEZİYİ biliyor. Kartlar
+// bölgeyi kapsıyor, hangisinin senin durağın olduğu bu cihazda eşleşiyor.
+
+/** Bir yerin giriş kartı; oradan bölümlere dallanıyor. */
+function yerAnlat(yer, bolum = null) {
+  if (!yer) return;
+  const dolu = bilgi.doluBolumler(yer);
+  const digerleri = (haric) => dolu.filter(b => b !== haric)
+    .map(b => ({ et: bilgi.BOLUM_ADI[b], is: () => yerAnlat(yer, b) }));
+
+  if (!bolum) {
+    const u = bilgi.ulkeAl(yer.ulke);
+    const d = digerleri(null);
+    if (u) d.push({ et: `${u.ad} · para, dil, fiyat`, is: () => ulkeAnlat(yer.ulke) });
+    soyle(bilgi.ozetHtml(yer), d,
+      { derin: () => yerAnlat(yer, dolu.includes('tarih') ? 'tarih' : dolu[0]) });
+    return;
+  }
+
+  const govde = bilgi.bolumHtml(yer, bolum);
+  if (!govde) { soyle(`${kacis(yer.ad)} için bu başlıkta bir şey yazmamışım.`); return; }
+  soyle(`<b>${kacis(yer.ad)} · ${kacis(bilgi.BOLUM_ADI[bolum])}</b><br><br>${govde}`,
+    digerleri(bolum).concat([{ et: `${yer.ad} başa dön`, is: () => yerAnlat(yer) }]));
+}
+
+function ulkeAnlat(kod) {
+  const u = bilgi.ulkeAl(kod);
+  if (!u) { soyle('Bu ülkenin kartı pakette yok.'); return; }
+  soyle(bilgi.ulkeHtml(u), [{ et: 'Sözlük', is: () => sozlukGoster() }]);
+}
+
+/** Gerok panelinden ve harita kartından çağrılıyor: bu durağı anlat. */
+export async function durakBilgisi(durak) {
+  await bilgi.yukle();
+  const yer = bilgi.kartBul(durak);
+  await bekciAc();
+  dedim(`${durak.ad} hakkında`);
+  if (!yer) {
+    soyle(`<b>${kacis(durak.ad)}</b> için kartım yok — ve uydurmayacağım.<br><br>`
+        + `Bilgi paketimde ${bilgi.sayilar()?.yer || 0} yer var; bu durak hiçbirine `
+        + `yeterince benzemedi. Claude'a iletirsem bir sonraki pakete eklenir.`,
+      [{ et: 'Claude’a ilet', is: () => emirSor('claude-cagir',
+          `bilgi paketinde eksik yer: ${durak.ad}`) }]);
+    return;
+  }
+  yerAnlat(yer);
+}
+
+/** Uygulamanın "bu durağın bilgisi var mı" sorusu — düğme boşuna çıkmasın. */
+export async function durakBilgisiVarMi(durak) {
+  await bilgi.yukle();
+  return !!bilgi.kartBul(durak);
+}
+
+/** Duraklar listesi — hangi durakların kartı var. */
+function duraklariGoster() {
+  const liste = B.duraklar?.() || [];
+  if (!liste.length) { soyle('Yüklü bir gerok yok, durak listesi boş.'); return; }
+  const kartli = liste.map(d => ({ d, y: bilgi.kartBul(d) })).filter(x => x.y);
+  if (!kartli.length) {
+    soyle('Duraklarının hiçbiri bilgi paketimle eşleşmedi. Paket inmemiş olabilir.',
+      [{ et: 'Paketi şimdi indir', is: () => paketiTazele(true) }]);
+    return;
+  }
+  soyle(`<b>${kartli.length} durağın bilgisi var.</b> Hangisini anlatayım?`,
+    kartli.map(x => ({ et: x.d.ad, is: () => yerAnlat(x.y) })));
+}
+
+async function paketiTazele(zorla = false) {
+  const s = await bilgi.tazele({ zorla });
+  const n = bilgi.sayilar();
+  if (s.durum === 'yeni') {
+    soyle(`Yeni paket indi: <b>${n.yer} yer · ${n.ulke} ülke · ${n.terim} terim</b>.`
+        + (s.eklenen > 0 ? `<br><span class="bk-soluk">${s.eklenen} yer eklenmiş.</span>` : ''),
+      [{ et: 'Duraklarımı göster', is: () => duraklariGoster() }]);
+  } else if (s.durum === 'ayni') {
+    soyle(`Paket zaten güncel: <b>${n.yer} yer · ${n.terim} terim</b>.`,
+      [{ et: 'Duraklarımı göster', is: () => duraklariGoster() }]);
+  } else if (s.durum === 'internet-yok') {
+    soyle(n ? `İnternet yok — elimdeki paketle devam: <b>${n.yer} yer</b>.`
+            : 'İnternet yok ve elimde paket de yok. Bağlanınca kendiliğinden inecek.');
+  } else {
+    soyle('Pakete ulaşamadım' + (n ? ` — elimdekiyle devam: <b>${n.yer} yer</b>.` : '.'));
+  }
 }
 
 /** Kullanıcının ağzından bir satır. */
@@ -1117,6 +1403,9 @@ function ciz() {
   const kap = $('#bkAkis');
   if (kap) kap.scrollTop = kap.scrollHeight;
 
+  $$('#ortuIc .bk-terim').forEach(d => d.addEventListener('click',
+    () => terimAnlat(d.dataset.terim)));
+
   $$('#ortuIc .bk-dugme').forEach(d => d.addEventListener('click', () => {
     const m = konusma[+d.dataset.m];
     const dug = m?.dugmeler?.[+d.dataset.d];
@@ -1164,6 +1453,10 @@ function cevapla(metin) {
 
 /** Ezberden cevap. Akıl kapalıyken, internetsizken ve akıl hata verdiğinde. */
 function yerelCevapla(metin) {
+  // Sıra önemli: tek bir terim sorulduysa sözlük, bir yer adı geçiyorsa durak
+  // bilgisi, değilse uygulama konuları. Yer adları ayırt edici olduğu için
+  // (Mostar, Ohrid) uygulama konularıyla çakışmıyor.
+  if (bilgiCevabi(metin)) return;
   const bulunan = niyetBul(metin);
 
   if (!bulunan.length) {
@@ -1182,17 +1475,52 @@ function yerelCevapla(metin) {
     ({ et: x.konu.baslik, is: () => konuAnlat(x.konu) })));
 }
 
+/**
+ * Gezi bilgisiyle cevaplanabilir mi? Cevaplandıysa true.
+ *
+ * Emin olmadığında FALSE dönüyor — yakın duran bir yeri doğruymuş gibi
+ * anlatmak, hiç cevap vermemekten kötü olurdu.
+ */
+function bilgiCevabi(metin) {
+  if (!bilgi.paketVar()) return false;
+
+  // "çarşı nedir" gibi doğrudan terim soruları.
+  const sadeMetin = metin.replace(/\b(nedir|ne demek|ne demektir|neydi|anlamı)\b/gi, '').trim();
+  const t = bilgi.terimAl(sadeMetin);
+  if (t && sadeMetin.length >= 3) { terimAnlat(t.ad); return true; }
+
+  const yerler = bilgi.yerAra(metin);
+  if (!yerler.length) return false;
+  const bolum = bilgi.bolumBul(metin);
+
+  const [ilk, ikinci] = yerler;
+  if (ikinci && ilk.puan - ikinci.puan < 10) {
+    soyle('Hangisini soruyorsun?', yerler.slice(0, 3).map(x =>
+      ({ et: x.yer.ad, is: () => yerAnlat(x.yer, bolum) })));
+    return true;
+  }
+  yerAnlat(ilk.yer, bolum);
+  return true;
+}
+
 function konuAnlat(konu) {
   const d = [];
   if (konu.eylem) d.push({ et: konu.eylem.ad, is: () => { B.ortuKapat(); acik = false; konu.eylem.yap(); } });
   d.push({ et: 'Başka bir şey', is: () => menuGoster() });
-  soyle(`<b>${kacis(konu.baslik)}</b><br><br>${konu.cevap}`, d);
+  soyle(`<b>${kacis(konu.baslik)}</b><br><br>${konu.cevap}`, d,
+    konu.derin ? { derin: () => soyle(`<b>${kacis(konu.baslik)} · ayrıntı</b><br><br>${konu.derin}`) }
+               : {});
 }
 
 const menuDugmeleri = () => KONULAR.map(k => ({ et: k.baslik, is: () => konuAnlat(k) }));
 
 function menuGoster() {
-  soyle('Bildiklerim:', menuDugmeleri());
+  const n = bilgi.sayilar();
+  soyle('Bildiklerim:', menuDugmeleri().concat([
+    { et: n ? `Duraklar (${n.yer} yer)` : 'Durak bilgisi', is: () => duraklariGoster() },
+    { et: n ? `Sözlük (${n.terim} terim)` : 'Sözlük', is: () => sozlukGoster() },
+    { et: 'Bilgi paketini tazele', is: () => paketiTazele(true) },
+  ]));
 }
 
 function sorunMenusu() {

@@ -1,7 +1,7 @@
 {
- "surum": "gerok-97-20260823-154231",
- "sayi": 97,
- "tarih": "2026-08-23T15:42:31+03:00",
+ "surum": "gerok-98-20260823-161647",
+ "sayi": 98,
+ "tarih": "2026-08-23T16:16:47+03:00",
  "dosyalar": {
   "./index.html": {
    "boyut": 12179,
@@ -24,8 +24,8 @@
    "ozet": "f004a338a3dcafb7"
   },
   "./css/stil.css": {
-   "boyut": 85481,
-   "ozet": "de54b896b7018869"
+   "boyut": 87428,
+   "ozet": "efbb02748fedad43"
   },
   "./yazitipi/dmsans-latin.woff2": {
    "boyut": 62556,
@@ -44,8 +44,8 @@
    "ozet": "55606fbc76dc232c"
   },
   "./js/app.js": {
-   "boyut": 219474,
-   "ozet": "58b5e364c9d03072"
+   "boyut": 222433,
+   "ozet": "8794aace7b6cdc82"
   },
   "./js/sihirbaz.js": {
    "boyut": 17037,
@@ -112,8 +112,12 @@
    "ozet": "e1a690bef8f1bb75"
   },
   "./js/bekci.js": {
-   "boyut": 69975,
-   "ozet": "18c43264426db46f"
+   "boyut": 87085,
+   "ozet": "7707033489d5dd39"
+  },
+  "./js/bilgi.js": {
+   "boyut": 13031,
+   "ozet": "1183f3e29476523f"
   },
   "./veri-yerler.json": {
    "boyut": 289547,
