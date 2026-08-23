@@ -5,7 +5,7 @@
 // Neden önbelleğin adına bakmıyoruz: yeni sürüm indiğinde önbellek adı değişiyor
 // ama ekrandaki kod hâlâ eski oluyor — uygulama kendini güncellenmiş sanıyordu.
 // Bu satır ekrandaki dosyanın içinde olduğu için yalan söyleyemiyor.
-const BU_SURUM = 'gerok-99-20260823-162104';
+const BU_SURUM = 'gerok-100-20260823-172743';
 
 import * as veri from './veri.js';
 import * as iz from './iz.js';
@@ -3372,6 +3372,10 @@ function durakSor({ lat, lon, mevcut = null, buradan = false }) {
       kayitBildir(buradan
         ? 'Bulunduğun yer durak yapıldı'
         : `Durak eklendi · ${durum.duraklar.length + 1}. sıra`, 'iyi');
+      // Mac'teki bekçi telefondan eklenen durağı hiç görmüyor. Kartı yoksa
+      // bunu ancak buradan haber verebiliyoruz.
+      const yeni = gerok.duraklar().find(x => x.ad === ad && x.kaynak === 'kendi');
+      if (yeni) setTimeout(() => bilgiEksikSor(yeni), 1200);
     }
     await tazele();
     if (durum.ekran === 'harita') haritaGuncelle(durum.kayitlar, durum.izNoktalari);
@@ -3529,6 +3533,36 @@ function yaklasmaUyarisi(durak, uzaklik) {
     if (v) $('#uyariBilgi')?.removeAttribute('hidden');
   });
   $('#uyariBilgi')?.addEventListener('click', () => bekci.durakBilgisi(durak));
+}
+
+/**
+ * Bekçi kartı olmayan bir durak gördüğünde soran küçük şerit.
+ *
+ * Uyarı vermiyoruz, SORUYORUZ: bilgiyi isteyip istemediğine sen karar
+ * veriyorsun ve "gerek yok" dersen aynı durak için bir daha çıkmıyor.
+ */
+async function bilgiEksikSor(duraklar, secenek = {}) {
+  const s = await bekci.yeniDuraklariGozden(duraklar, secenek);
+  if (!s) return;
+  document.getElementById('onSezi')?.remove();
+  const kutu = document.createElement('div');
+  kutu.id = 'onSezi';
+  kutu.className = 'on-sezi';
+  kutu.innerHTML = `
+    <div class="on-sezi-yazi">
+      <div class="on-sezi-ust">Bekçi</div>
+      <div class="on-sezi-ad">${kacis(s.baslik)}</div>
+      <div class="on-sezi-alt">${kacis(s.ad)} · bilgisini isteyeyim mi?</div>
+    </div>
+    <div class="on-sezi-dugmeler">
+      <button class="kucuk-dugme birincil" id="onSeziEvet">İste</button>
+      <button class="kucuk-dugme" id="onSeziHayir">Gerek yok</button>
+    </div>`;
+  document.body.appendChild(kutu);
+  const kapat = () => kutu.remove();
+  $('#onSeziHayir').addEventListener('click', kapat);
+  $('#onSeziEvet').addEventListener('click', () => { kapat(); s.iste(); });
+  setTimeout(() => { if (document.body.contains(kutu)) kapat(); }, 45000);
 }
 
 // Yaklaşma uyarısından ÖNCE gelen küçük soru.
@@ -4991,6 +5025,8 @@ $('#dosyaSecici').addEventListener('change', async (e) => {
     iz.gerokAyarla(s.id);
     gosterilenSayi = SAYFA_ADIMI;
     kayitBildir(`"${s.ad}" yüklendi · ${s.gunler.length} gün, ${s.duraklar.length} durak`, 'iyi');
+    // Yeni bir tur geldi: rehberde karşılığı olmayan durakları sor.
+    setTimeout(() => bilgiEksikSor(gerok.duraklar(), { paket: true }), 1500);
     await tazele();
     if (durum.ekran === 'harita') haritaGuncelle(durum.kayitlar, durum.izNoktalari);
   } catch (hata) {

@@ -1317,6 +1317,61 @@ export async function durakBilgisi(durak) {
   yerAnlat(yer);
 }
 
+/**
+ * Yeni durak ya da yeni paket geldiğinde: kartı olmayanlar için tek dokunuşla
+ * bilgi iste.
+ *
+ * Neden kendiliğinden soruyor: Mac'teki bekçi YALNIZCA Mac'teki rota
+ * dosyasını görüyor. Telefondan eklediğin bir durak oraya hiç ulaşmıyor —
+ * yani sen söylemezsen o durağın kartı hiç yazılmıyordu. Bu köprü o boşluğu
+ * kapatıyor.
+ *
+ * Araya girme ölçüsü: bir kez soruyor, "gerek yok" dersen bir daha aynı durak
+ * için sormuyor, ve kart zaten varsa hiç görünmüyor.
+ */
+export async function yeniDuraklariGozden(duraklar, { paket = false } = {}) {
+  await bilgi.yukle();
+  const liste = (Array.isArray(duraklar) ? duraklar : [duraklar]).filter(Boolean);
+  if (!liste.length) return null;
+
+  const sorulan = new Set(await veri.ayarOku('bilgiIstenen', []));
+  const kartsiz = liste.filter(d => !sorulan.has(d.id) && !bilgi.kartBul(d));
+  if (!kartsiz.length) return null;
+
+  for (const d of kartsiz) sorulan.add(d.id);
+  await veri.ayarYaz('bilgiIstenen', Array.from(sorulan));
+
+  const ad = kartsiz.length === 1 ? kartsiz[0].ad : `${kartsiz.length} durak`;
+  return {
+    ad,
+    kartsiz,
+    baslik: paket ? 'Yeni paketteki bazı durakları bilmiyorum' : 'Bu durağı bilmiyorum',
+    govde: kartsiz.length === 1
+      ? `<b>${kacis(kartsiz[0].ad)}</b> için kartım yok — ne yenir, ne alınır, `
+        + 'nelere dikkat edilir, hiçbirini bilmiyorum.<br><br>'
+        + 'Claude’dan isteyeyim mi? Bir sonraki hazırlıkta buraya iner.'
+      : `Yeni gelen duraklardan <b>${kartsiz.length} tanesinin</b> kartı yok.<br><br>`
+        + '<span class="bk-soluk">' + kacis(kartsiz.slice(0, 6).map(d => d.ad).join(' · '))
+        + (kartsiz.length > 6 ? ' …' : '') + '</span><br><br>'
+        + 'Claude’dan isteyeyim mi?',
+    iste: () => bilgiIste(kartsiz),
+  };
+}
+
+/**
+ * Tek dokunuş: emir dosyasını doğrudan paylaşım sayfasına veriyor.
+ *
+ * Buradan çıkan metinde YALNIZCA yer adı ve koordinat var — kayıt, not, kişi
+ * ya da gezinin adı yok. Zaten yer adlarını sen koydun.
+ */
+async function bilgiIste(kartsiz) {
+  await bekciAc();
+  dedim(kartsiz.length === 1 ? `${kartsiz[0].ad} için bilgi iste` : 'Eksik durakların bilgisini iste');
+  const metin = 'bilgi paketinde eksik yerler:\n'
+    + kartsiz.map(d => `- ${d.ad} (${d.lat.toFixed(4)}, ${d.lon.toFixed(4)})`).join('\n');
+  await emirYolla('claude-cagir', metin);
+}
+
 /** Uygulamanın "bu durağın bilgisi var mı" sorusu — düğme boşuna çıkmasın. */
 export async function durakBilgisiVarMi(durak) {
   await bilgi.yukle();
