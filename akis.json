@@ -1,58 +1,30 @@
 {
  "bicim": 1,
- "zaman": "2026-08-23T15:31:32+03:00",
- "kadans": "6saat",
- "durum": "sorun",
+ "zaman": "2026-08-23T15:32:01+03:00",
+ "kadans": "saatlik",
+ "durum": "iyi",
  "sayilar": {
-  "kontrol": 23,
-  "sinama": 498,
-  "gecen": 21,
-  "bilinen": 1,
-  "sorun": 1,
-  "sure": 5.1,
-  "kosu": 30
+  "kontrol": 4,
+  "sinama": 14,
+  "gecen": 4,
+  "bilinen": 0,
+  "sorun": 0,
+  "sure": 0.4,
+  "kosu": 31
  },
- "sorunlar": [
-  {
-   "ad": "Koşular taze",
-   "onem": "yuksek",
-   "oyku": "bekci",
-   "not": "6saat: 1.3 gündür koşmadı",
-   "onarilabilir": false
-  }
- ],
- "bilinenler": [
-  {
-   "ad": "Math.min(...dizi) yığın taşması",
-   "not": "app.js:697; app.js:4603; gerok.js:447; sihirbaz.js:393; sihirbaz.js:394; sihirbaz.js:395 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
-  }
- ],
+ "sorunlar": [],
+ "bilinenler": [],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 8,
-   "toplam": 8,
-   "sinama": 61
-  },
-  "bekci": {
-   "gecen": 3,
-   "toplam": 4,
-   "sinama": 16
-  },
-  "kod": {
-   "gecen": 6,
-   "toplam": 6,
-   "sinama": 401
-  },
-  "veri": {
-   "gecen": 2,
-   "toplam": 2,
-   "sinama": 9
-  },
-  "gizlilik": {
    "gecen": 3,
    "toplam": 3,
-   "sinama": 11
+   "sinama": 6
+  },
+  "bekci": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 8
   }
  },
  "derin": {
@@ -147,6 +119,13 @@
    "onem": "sorun",
    "baslik": "1 sorun buldum",
    "govde": "• [yuksek] Koşular taze\n   6saat: 1.3 gündür koşmadı"
+  },
+  {
+   "id": "38cd1f6776f9",
+   "t": 1787488321628,
+   "onem": "iyi",
+   "baslik": "Söylediğim sorunlar kapandı",
+   "govde": "Hepsi geçti. 4/4 kontrol · 14 ayrı sınama."
   }
  ],
  "bekleyen": [
@@ -348,6 +327,12 @@
    "k": "6saat",
    "g": 21,
    "n": 23
+  },
+  {
+   "t": "2026-08-23T15:32:01+03:00",
+   "k": "saatlik",
+   "g": 4,
+   "n": 4
   }
  ]
 }
