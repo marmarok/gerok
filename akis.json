@@ -1,79 +1,30 @@
 {
  "bicim": 1,
- "zaman": "2026-08-23T16:22:29+03:00",
- "kadans": "haftalik",
- "durum": "bilinen",
+ "zaman": "2026-08-23T16:24:14+03:00",
+ "kadans": "saatlik",
+ "durum": "iyi",
  "sayilar": {
-  "kontrol": 79,
-  "sinama": 1525,
-  "gecen": 77,
-  "bilinen": 2,
+  "kontrol": 4,
+  "sinama": 14,
+  "gecen": 4,
+  "bilinen": 0,
   "sorun": 0,
-  "sure": 51.0,
-  "kosu": 37
+  "sure": 0.4,
+  "kosu": 38
  },
  "sorunlar": [],
- "bilinenler": [
-  {
-   "ad": "Math.min(...dizi) yığın taşması",
-   "not": "app.js:700; app.js:4668; gerok.js:447; sihirbaz.js:393; sihirbaz.js:394; sihirbaz.js:395 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
-  },
-  {
-   "ad": "Arşivde fotoğrafların aslı var",
-   "not": "(ayrıntı panoda)"
-  }
- ],
+ "bilinenler": [],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 14,
-   "toplam": 14,
-   "sinama": 101
-  },
-  "bekci": {
-   "gecen": 9,
-   "toplam": 9,
-   "sinama": 75
-  },
-  "kod": {
-   "gecen": 9,
-   "toplam": 9,
-   "sinama": 441
-  },
-  "veri": {
-   "gecen": 2,
-   "toplam": 2,
-   "sinama": 9
-  },
-  "gizlilik": {
-   "gecen": 6,
-   "toplam": 6,
-   "sinama": 59
-  },
-  "bilgi": {
    "gecen": 3,
    "toplam": 3,
-   "sinama": 386
+   "sinama": 6
   },
-  "sartname": {
+  "bekci": {
    "gecen": 1,
    "toplam": 1,
-   "sinama": 413
-  },
-  "depolama": {
-   "gecen": 4,
-   "toplam": 4,
-   "sinama": 4
-  },
-  "kaynak": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 11
-  },
-  "davranis": {
-   "gecen": 26,
-   "toplam": 26,
-   "sinama": 26
+   "sinama": 8
   }
  },
  "derin": {
@@ -227,6 +178,13 @@
    "onem": "iyi",
    "baslik": "Gerok bekçisi: sorun yok",
    "govde": "4/4 geçti, yeni bir şey eklendi."
+  },
+  {
+   "id": "8c93f6f4348f",
+   "t": 1787491453439,
+   "onem": "iyi",
+   "baslik": "Artık durakları da biliyorum",
+   "govde": "Her durak için ne görülür, ne yenir, ne alınır, gezginler ne demiş ve Türkiye'ye göre fiyat nerede duruyor — 43 yer, 6 ülke, 55 terim. Hepsi telefonda, internetsiz. Sohbete yer adı yaz: “Mostarda ne yenir”. Cevaptaki altı noktalı kelimelere dokun, açıklarım."
   }
  ],
  "bekleyen": [],
@@ -460,6 +418,12 @@
    "k": "haftalik",
    "g": 77,
    "n": 79
+  },
+  {
+   "t": "2026-08-23T16:24:14+03:00",
+   "k": "saatlik",
+   "g": 4,
+   "n": 4
   }
  ]
 }
