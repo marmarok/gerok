@@ -1,39 +1,82 @@
 {
  "bicim": 1,
- "zaman": "2026-08-23T15:22:51+03:00",
- "kadans": "saatlik",
- "durum": "iyi",
+ "zaman": "2026-08-23T15:28:12+03:00",
+ "kadans": "gunluk",
+ "durum": "sorun",
  "sayilar": {
-  "kontrol": 4,
-  "sinama": 14,
-  "gecen": 4,
-  "bilinen": 0,
-  "sorun": 0,
-  "sure": 1.0,
-  "kosu": 28
+  "kontrol": 60,
+  "sinama": 1041,
+  "gecen": 58,
+  "bilinen": 1,
+  "sorun": 1,
+  "sure": 50.8,
+  "kosu": 29
  },
- "sorunlar": [],
- "bilinenler": [],
+ "sorunlar": [
+  {
+   "ad": "Koşular taze",
+   "onem": "yuksek",
+   "oyku": "bekci",
+   "not": "6saat: 1.3 gündür koşmadı",
+   "onarilabilir": false
+  }
+ ],
+ "bilinenler": [
+  {
+   "ad": "Math.min(...dizi) yığın taşması",
+   "not": "app.js:697; app.js:4603; gerok.js:447; sihirbaz.js:393; sihirbaz.js:394; sihirbaz.js:395 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
+  }
+ ],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 3,
-   "toplam": 3,
-   "sinama": 6
+   "gecen": 13,
+   "toplam": 13,
+   "sinama": 98
   },
   "bekci": {
+   "gecen": 8,
+   "toplam": 9,
+   "sinama": 69
+  },
+  "kod": {
+   "gecen": 8,
+   "toplam": 8,
+   "sinama": 417
+  },
+  "veri": {
+   "gecen": 2,
+   "toplam": 2,
+   "sinama": 9
+  },
+  "gizlilik": {
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 13
+  },
+  "sartname": {
    "gecen": 1,
    "toplam": 1,
-   "sinama": 8
+   "sinama": 413
+  },
+  "depolama": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 1
+  },
+  "davranis": {
+   "gecen": 21,
+   "toplam": 21,
+   "sinama": 21
   }
  },
  "derin": {
-  "kadans": "haftalik",
-  "zaman": "2026-08-22T09:26:48+03:00",
-  "kontrol": 68,
-  "sinama": 1055,
-  "gecen": 66,
-  "sorun": 0,
+  "kadans": "gunluk",
+  "zaman": "2026-08-23T15:28:12+03:00",
+  "kontrol": 60,
+  "sinama": 1041,
+  "gecen": 58,
+  "sorun": 1,
   "gruplar": {
    "yayin": {
     "gecen": 13,
@@ -41,7 +84,7 @@
     "sinama": 98
    },
    "bekci": {
-    "gecen": 9,
+    "gecen": 8,
     "toplam": 9,
     "sinama": 69
    },
@@ -66,14 +109,9 @@
     "sinama": 413
    },
    "depolama": {
-    "gecen": 4,
-    "toplam": 4,
-    "sinama": 4
-   },
-   "kaynak": {
-    "gecen": 5,
-    "toplam": 5,
-    "sinama": 11
+    "gecen": 1,
+    "toplam": 1,
+    "sinama": 1
    },
    "davranis": {
     "gecen": 21,
@@ -103,9 +141,40 @@
    "onem": "iyi",
    "baslik": "1 şey onardım",
    "govde": "• Canlı sürüm yereldekiyle aynı: Adres: https://marmarok.github.io/gerok/\n\nHepsini onardıktan sonra kontrolü yeniden koştum; “onardım” demeden önce onardığımı gördüm."
+  },
+  {
+   "id": "8e0e427eb583",
+   "t": 1787487971201,
+   "onem": "bilgi",
+   "baslik": "Menemen tarifi",
+   "govde": "Malzemeler (2 kişilik): 3 domates, 2 yeşil biber, 3 yumurta, 2 yemek kaşığı yağ, tuz, karabiber, pul biber. İsteğe bağlı beyaz peynir.\n\n1) Yağı kızdır, doğranmış biberleri 2-3 dk kavur.\n2) Doğranmış domatesleri ekle, suyunu çekip pütürleşene kadar (~8-10 dk) orta ateşte pişir.\n3) Tuz, karabiber, pul biber ekle.\n4) Yumurtaları kır (sahanda gibi bırakabilir ya da çırpıp karıştırabilirsin).\n5) Kısık ateşte 3-5 dk, yumurta istediğin kıvama gelene kadar pişir.\n6) İstersen peynir serp, sıcak ekmekle servis et.\n\nAfiyet olsun!"
+  },
+  {
+   "id": "8cf092d065da",
+   "t": 1787488041568,
+   "onem": "iyi",
+   "baslik": "Emir alındı: claude-cagir",
+   "govde": "akıl hocası dosyası bırakılacak"
+  },
+  {
+   "id": "e6752e62973f",
+   "t": 1787488092356,
+   "onem": "sorun",
+   "baslik": "1 sorun buldum",
+   "govde": "• [yuksek] Koşular taze\n   6saat: 1.3 gündür koşmadı"
   }
  ],
- "bekleyen": [],
+ "bekleyen": [
+  {
+   "id": "c2de88561e17",
+   "soru": "“Koşular taze” kontrolü takılıyor ve kendim onaramadım. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu? (Ayrıntısı panoda duruyor.)",
+   "secenekler": [
+    "Bu bilinen bir durum",
+    "Gerçekten bozuk, bak",
+    "Yanlış alarm"
+   ]
+  }
+ ],
  "telefonSinamasi": [
   "Sesli not bırak ve ÇAL — sesi duyuyor musun?",
   "Galeriden 3 fotoğraf ekle — çubuk akıyor mu, özet çıkıyor mu?",
@@ -282,6 +351,12 @@
    "k": "saatlik",
    "g": 4,
    "n": 4
+  },
+  {
+   "t": "2026-08-23T15:28:12+03:00",
+   "k": "gunluk",
+   "g": 58,
+   "n": 60
   }
  ]
 }
