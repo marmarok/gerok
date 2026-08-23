@@ -1383,13 +1383,25 @@ function duraklariGoster() {
   const liste = B.duraklar?.() || [];
   if (!liste.length) { soyle('Yüklü bir gerok yok, durak listesi boş.'); return; }
   const kartli = liste.map(d => ({ d, y: bilgi.kartBul(d) })).filter(x => x.y);
+  const kartsiz = liste.filter(d => !bilgi.kartBul(d));
   if (!kartli.length) {
     soyle('Duraklarının hiçbiri bilgi paketimle eşleşmedi. Paket inmemiş olabilir.',
       [{ et: 'Paketi şimdi indir', is: () => paketiTazele(true) }]);
     return;
   }
-  soyle(`<b>${kartli.length} durağın bilgisi var.</b> Hangisini anlatayım?`,
-    kartli.map(x => ({ et: x.d.ad, is: () => yerAnlat(x.y) })));
+  // Eksikleri de SÖYLÜYORUZ. "43 yer biliyorum" demek, bilmediğini
+  // saklamak pahasına geliyorsa işe yaramaz.
+  const d = kartli.map(x => ({ et: x.d.ad, is: () => yerAnlat(x.y) }));
+  if (kartsiz.length) {
+    d.push({ et: `${kartsiz.length} durağın bilgisini iste`, is: () => bilgiIste(kartsiz) });
+  }
+  soyle(`<b>${kartli.length} durağın bilgisi var.</b>`
+      + (kartsiz.length
+          ? ` <span class="bk-soluk">${kartsiz.length} durağı bilmiyorum: `
+            + `${kacis(kartsiz.slice(0, 5).map(x => x.ad).join(' · '))}`
+            + `${kartsiz.length > 5 ? ' …' : ''}</span>`
+          : '')
+      + '<br><br>Hangisini anlatayım?', d);
 }
 
 async function paketiTazele(zorla = false) {

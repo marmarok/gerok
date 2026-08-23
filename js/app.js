@@ -5,7 +5,7 @@
 // Neden önbelleğin adına bakmıyoruz: yeni sürüm indiğinde önbellek adı değişiyor
 // ama ekrandaki kod hâlâ eski oluyor — uygulama kendini güncellenmiş sanıyordu.
 // Bu satır ekrandaki dosyanın içinde olduğu için yalan söyleyemiyor.
-const BU_SURUM = 'gerok-101-20260823-233115';
+const BU_SURUM = 'gerok-102-20260823-233350';
 
 import * as veri from './veri.js';
 import * as iz from './iz.js';
@@ -2789,6 +2789,13 @@ function durakNotVePuanKur(kap, sonra = null) {
   });
 }
 
+// Ekleme anını kaçırmış duraklar için tek seferlik tarama.
+//
+// Soru yalnızca durak EKLENİRKEN çıkıyor. Daha önce eklenmiş ya da o anda
+// bir hata yüzünden sorulamamış durakların kartı hiç istenmiyordu. Duraklar
+// ekranına girmek bunu sormak için doğru an: zaten listeye bakıyorsun.
+let duraklarTarandi = false;
+
 function duraklariCiz() {
   const kap = $('#duraklarListe');
   const liste = gerok.duraklar();
@@ -2882,6 +2889,13 @@ function duraklariCiz() {
 
   $('#durakEkleHarita').addEventListener('click', haritadanDurakEkle);
   $('#durakEkleBurada').addEventListener('click', buradanDurakEkle);
+
+  if (!duraklarTarandi) {
+    duraklarTarandi = true;
+    // Aynı "bir kez sor" defterini kullanıyor: daha önce sorulmuş ya da
+    // "gerek yok" denmiş duraklar burada da tekrar sorulmuyor.
+    setTimeout(() => bilgiEksikSor(gerok.duraklar(), { paket: true }), 900);
+  }
 
   kap.querySelectorAll('[data-durak-google]').forEach(d => {
     d.addEventListener('click', () => {
