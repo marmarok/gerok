@@ -1,54 +1,103 @@
 {
  "bicim": 1,
- "zaman": "2026-08-23T15:42:54+03:00",
- "kadans": "saatlik",
- "durum": "iyi",
+ "zaman": "2026-08-23T16:22:29+03:00",
+ "kadans": "haftalik",
+ "durum": "bilinen",
  "sayilar": {
-  "kontrol": 4,
-  "sinama": 14,
-  "gecen": 4,
-  "bilinen": 0,
+  "kontrol": 79,
+  "sinama": 1525,
+  "gecen": 77,
+  "bilinen": 2,
   "sorun": 0,
-  "sure": 0.7,
-  "kosu": 36
+  "sure": 51.0,
+  "kosu": 37
  },
  "sorunlar": [],
- "bilinenler": [],
+ "bilinenler": [
+  {
+   "ad": "Math.min(...dizi) yığın taşması",
+   "not": "app.js:700; app.js:4668; gerok.js:447; sihirbaz.js:393; sihirbaz.js:394; sihirbaz.js:395 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
+  },
+  {
+   "ad": "Arşivde fotoğrafların aslı var",
+   "not": "(ayrıntı panoda)"
+  }
+ ],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 3,
-   "toplam": 3,
-   "sinama": 6
+   "gecen": 14,
+   "toplam": 14,
+   "sinama": 101
   },
   "bekci": {
+   "gecen": 9,
+   "toplam": 9,
+   "sinama": 75
+  },
+  "kod": {
+   "gecen": 9,
+   "toplam": 9,
+   "sinama": 441
+  },
+  "veri": {
+   "gecen": 2,
+   "toplam": 2,
+   "sinama": 9
+  },
+  "gizlilik": {
+   "gecen": 6,
+   "toplam": 6,
+   "sinama": 59
+  },
+  "bilgi": {
+   "gecen": 3,
+   "toplam": 3,
+   "sinama": 386
+  },
+  "sartname": {
    "gecen": 1,
    "toplam": 1,
-   "sinama": 8
+   "sinama": 413
+  },
+  "depolama": {
+   "gecen": 4,
+   "toplam": 4,
+   "sinama": 4
+  },
+  "kaynak": {
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 11
+  },
+  "davranis": {
+   "gecen": 26,
+   "toplam": 26,
+   "sinama": 26
   }
  },
  "derin": {
-  "kadans": "gunluk",
-  "zaman": "2026-08-23T15:42:14+03:00",
-  "kontrol": 60,
-  "sinama": 1041,
-  "gecen": 58,
-  "sorun": 1,
+  "kadans": "haftalik",
+  "zaman": "2026-08-23T16:22:29+03:00",
+  "kontrol": 79,
+  "sinama": 1525,
+  "gecen": 77,
+  "sorun": 0,
   "gruplar": {
    "yayin": {
-    "gecen": 12,
-    "toplam": 13,
-    "sinama": 98
+    "gecen": 14,
+    "toplam": 14,
+    "sinama": 101
    },
    "bekci": {
     "gecen": 9,
     "toplam": 9,
-    "sinama": 69
+    "sinama": 75
    },
    "kod": {
-    "gecen": 8,
-    "toplam": 8,
-    "sinama": 417
+    "gecen": 9,
+    "toplam": 9,
+    "sinama": 441
    },
    "veri": {
     "gecen": 2,
@@ -56,9 +105,14 @@
     "sinama": 9
    },
    "gizlilik": {
-    "gecen": 5,
-    "toplam": 5,
-    "sinama": 13
+    "gecen": 6,
+    "toplam": 6,
+    "sinama": 59
+   },
+   "bilgi": {
+    "gecen": 3,
+    "toplam": 3,
+    "sinama": 386
    },
    "sartname": {
     "gecen": 1,
@@ -66,14 +120,19 @@
     "sinama": 413
    },
    "depolama": {
-    "gecen": 1,
-    "toplam": 1,
-    "sinama": 1
+    "gecen": 4,
+    "toplam": 4,
+    "sinama": 4
+   },
+   "kaynak": {
+    "gecen": 5,
+    "toplam": 5,
+    "sinama": 11
    },
    "davranis": {
-    "gecen": 21,
-    "toplam": 21,
-    "sinama": 21
+    "gecen": 26,
+    "toplam": 26,
+    "sinama": 26
    }
   }
  },
@@ -395,6 +454,12 @@
    "k": "saatlik",
    "g": 4,
    "n": 4
+  },
+  {
+   "t": "2026-08-23T16:22:29+03:00",
+   "k": "haftalik",
+   "g": 77,
+   "n": 79
   }
  ]
 }
