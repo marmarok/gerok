@@ -341,7 +341,15 @@ if __name__ == "__main__":
         # BULUT KİPİ: kaynaktan paketi kur, gizlilikten geçir, dosyaya yaz.
         # Git işi yok — çağıran commit'liyor. Bulgu varsa 1 ile çıkıyor ki
         # bir sonraki adım (commit) hiç çalışmasın.
-        p = paket_uret()
+        try:
+            p = paket_uret()
+        except Exception as h:
+            # Bulutta bunu okuyan bir Claude oturumu; yığın izi değil, ne
+            # yapması gerektiğini söyleyen bir cümle görmeli.
+            print(f"KAYNAK HATALI: {h}")
+            print("Beyaz liste dışında alan ekleme; izin verilenler: "
+                  + ", ".join(sorted(YER_ALANLARI)))
+            sys.exit(1)
         b = gizlilik_dene(p)
         hedef = Path(sys.argv[sys.argv.index("--kur") + 1]) \
             if len(sys.argv) > sys.argv.index("--kur") + 1 \
