@@ -1,42 +1,87 @@
 {
  "bicim": 1,
- "zaman": "2026-08-23T15:34:36+03:00",
- "kadans": "saatlik",
- "durum": "iyi",
+ "zaman": "2026-08-23T15:42:14+03:00",
+ "kadans": "gunluk",
+ "durum": "sorun",
  "sayilar": {
-  "kontrol": 4,
-  "sinama": 14,
-  "gecen": 4,
-  "bilinen": 0,
-  "sorun": 0,
-  "sure": 0.8,
-  "kosu": 33
+  "kontrol": 60,
+  "sinama": 1041,
+  "gecen": 58,
+  "bilinen": 1,
+  "sorun": 1,
+  "sure": 44.2,
+  "kosu": 34
  },
- "sorunlar": [],
- "bilinenler": [],
- "onarilan": [],
+ "sorunlar": [
+  {
+   "ad": "Yayınlanmamış değişiklik yok",
+   "onem": "orta",
+   "oyku": "yayin",
+   "not": "1 dosya: s/bekci.js",
+   "onarilabilir": false
+  }
+ ],
+ "bilinenler": [
+  {
+   "ad": "Math.min(...dizi) yığın taşması",
+   "not": "app.js:697; app.js:4603; gerok.js:447; sihirbaz.js:393; sihirbaz.js:394; sihirbaz.js:395 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
+  }
+ ],
+ "onarilan": [
+  "surum.json diskle uyuşuyor: ✓ surum.json yazıldı — 50 dosya, 3780 KB, sürüm gerok-96-20260822-092511"
+ ],
  "gruplar": {
   "yayin": {
-   "gecen": 3,
-   "toplam": 3,
-   "sinama": 6
+   "gecen": 12,
+   "toplam": 13,
+   "sinama": 98
   },
   "bekci": {
+   "gecen": 9,
+   "toplam": 9,
+   "sinama": 69
+  },
+  "kod": {
+   "gecen": 8,
+   "toplam": 8,
+   "sinama": 417
+  },
+  "veri": {
+   "gecen": 2,
+   "toplam": 2,
+   "sinama": 9
+  },
+  "gizlilik": {
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 13
+  },
+  "sartname": {
    "gecen": 1,
    "toplam": 1,
-   "sinama": 8
+   "sinama": 413
+  },
+  "depolama": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 1
+  },
+  "davranis": {
+   "gecen": 21,
+   "toplam": 21,
+   "sinama": 21
   }
  },
  "derin": {
   "kadans": "gunluk",
-  "zaman": "2026-08-23T15:32:52+03:00",
+  "zaman": "2026-08-23T15:42:14+03:00",
   "kontrol": 60,
   "sinama": 1041,
-  "gecen": 59,
-  "sorun": 0,
+  "gecen": 58,
+  "sorun": 1,
   "gruplar": {
    "yayin": {
-    "gecen": 13,
+    "gecen": 12,
     "toplam": 13,
     "sinama": 98
    },
@@ -133,6 +178,20 @@
    "onem": "iyi",
    "baslik": "Bir gecikme buldum, düzelttim",
    "govde": "Bilgisayarın yaklaşık 25 saat boyunca kesintisiz uyku halinde kaldı (dün öğleden bir süre sonra bugün öğlene kadar), bu yüzden bekçinin 6 saatte bir çalışan kontrolü gecikti. Bu bir yazılım hatası değil — bilgisayar uyurken zamanlı görevler çalışamıyor.\n\nBilgisayarı şimdi açtığında bekçi hemen yakaladı, ben de eksik kalan kontrolü elle çalıştırıp güncelledim. Her şey şu anda yeşil, yapılacak bir şey yok.\n"
+  },
+  {
+   "id": "59c8053e5700",
+   "t": 1787488934025,
+   "onem": "iyi",
+   "baslik": "1 şey onardım",
+   "govde": "• surum.json diskle uyuşuyor: ✓ surum.json yazıldı — 50 dosya, 3780 KB, sürüm gerok-96-20260822-092511\n\nHepsini onardıktan sonra kontrolü yeniden koştum; “onardım” demeden önce onardığımı gördüm."
+  },
+  {
+   "id": "158ebb9d5e49",
+   "t": 1787488934025,
+   "onem": "sorun",
+   "baslik": "1 sorun buldum",
+   "govde": "• [orta] Yayınlanmamış değişiklik yok\n   1 dosya: s/bekci.js"
   }
  ],
  "bekleyen": [],
@@ -342,6 +401,12 @@
    "k": "saatlik",
    "g": 4,
    "n": 4
+  },
+  {
+   "t": "2026-08-23T15:42:14+03:00",
+   "k": "gunluk",
+   "g": 58,
+   "n": 60
   }
  ]
 }
