@@ -1,70 +1,30 @@
 {
  "bicim": 1,
- "zaman": "2026-08-23T23:35:31+03:00",
- "kadans": "gunluk",
- "durum": "bilinen",
+ "zaman": "2026-08-23T23:35:49+03:00",
+ "kadans": "saatlik",
+ "durum": "iyi",
  "sayilar": {
-  "kontrol": 78,
-  "sinama": 1571,
-  "gecen": 77,
-  "bilinen": 1,
+  "kontrol": 4,
+  "sinama": 14,
+  "gecen": 4,
+  "bilinen": 0,
   "sorun": 0,
-  "sure": 63.9,
-  "kosu": 45
+  "sure": 0.7,
+  "kosu": 46
  },
  "sorunlar": [],
- "bilinenler": [
-  {
-   "ad": "Math.min(...dizi) yığın taşması",
-   "not": "app.js:700; app.js:4723; gerok.js:447; sihirbaz.js:393; sihirbaz.js:394; sihirbaz.js:395 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
-  }
- ],
+ "bilinenler": [],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 14,
-   "toplam": 14,
-   "sinama": 101
+   "gecen": 3,
+   "toplam": 3,
+   "sinama": 6
   },
   "bekci": {
-   "gecen": 9,
-   "toplam": 9,
-   "sinama": 78
-  },
-  "kod": {
-   "gecen": 10,
-   "toplam": 10,
-   "sinama": 461
-  },
-  "veri": {
-   "gecen": 2,
-   "toplam": 2,
-   "sinama": 9
-  },
-  "gizlilik": {
-   "gecen": 6,
-   "toplam": 6,
-   "sinama": 64
-  },
-  "bilgi": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 414
-  },
-  "sartname": {
    "gecen": 1,
    "toplam": 1,
-   "sinama": 413
-  },
-  "depolama": {
-   "gecen": 1,
-   "toplam": 1,
-   "sinama": 1
-  },
-  "davranis": {
-   "gecen": 30,
-   "toplam": 30,
-   "sinama": 30
+   "sinama": 8
   }
  },
  "derin": {
@@ -227,6 +187,13 @@
    "onem": "iyi",
    "baslik": "Rehberim artık kendi kendine büyüyor",
    "govde": "Bilgim 43 yerden 48 yere çıktı ve bunu MacBook kapalıyken bulutta koşan bir yardımcı yaptı. Her pazar tekrarlanacak. Telefondan kartı olmayan bir durak eklersen sana tek dokunuşla soracağım."
+  },
+  {
+   "id": "fbdfac2c340d",
+   "t": 1787517348404,
+   "onem": "uyari",
+   "baslik": "Durak eklerken sormamamın sebebi bir hataydı",
+   "govde": "Durak ekleme işleminin ortasında eski bir satır patlıyordu: durak kaydediliyor ama sonrasındaki hicbir şey çalışmıyordu — bildirim de, listenin tazelenmesi de, benim sorum da. Düzeldi. Uygulamayı güncelle, sonra Duraklar ekranına gir: daha önce eklediğin duraklar için orada bir kez soracağım."
   }
  ],
  "bekleyen": [],
@@ -239,12 +206,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-08-22T02:38:15+03:00",
-   "k": "haftalik",
-   "g": 31,
-   "n": 33
-  },
   {
    "t": "2026-08-22T02:39:27+03:00",
    "k": "saatlik",
@@ -478,6 +439,12 @@
    "k": "gunluk",
    "g": 77,
    "n": 78
+  },
+  {
+   "t": "2026-08-23T23:35:49+03:00",
+   "k": "saatlik",
+   "g": 4,
+   "n": 4
   }
  ]
 }
