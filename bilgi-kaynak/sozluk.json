@@ -75,6 +75,16 @@
   "uzun": "Din, hukuk, mantık ve matematik okutulan okul. Odalar avluya bakar, ortada bir dershane bulunur. Saraybosna'daki Gazi Hüsrev Bey Medresesi 1537'den beri aralıksız açık — Avrupa'nın kesintisiz çalışan en eski okullarından biri.",
   "oyku": "balkan"
  },
+ "hamam": {
+  "kisa": "Osmanlı dönemi taş yıkanma yapısı, çoğu kubbeli.",
+  "uzun": "Sıcak, ılık ve soğuk bölümlerden oluşur; su kubbedeki küçük deliklerden süzülen ışıkla aydınlanan mermer bir mekânda dökülürdü. Şehir hamamları herkese açıktı ve toplumsal hayatın bir parçasıydı. Novi Pazar'daki İsa Bey Hamamı (1461) ve Niş Kalesi'ndeki hamam (1498) bugün de ayakta duran örnekler.",
+  "oyku": "balkan",
+  "ilgili": [
+   "çarşı",
+   "han",
+   "sebil"
+  ]
+ },
  "sebil": {
   "kisa": "Sokakta karşılıksız su dağıtan küçük yapı.",
   "uzun": "Vakıf eseri olarak yapılır, görevlisi gelene bardakla su verirdi. Saraybosna Başçarşı meydanındaki ahşap Sebilj şehrin simgesi olmuştur; 1753 tarihli, bugünkü hâli 1913 onarımıdır.",
