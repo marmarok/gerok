@@ -1,26 +1,18 @@
 {
  "bicim": 1,
- "zaman": "2026-08-25T01:44:28+03:00",
+ "zaman": "2026-08-25T01:45:39+03:00",
  "kadans": "gunluk",
- "durum": "sorun",
+ "durum": "bilinen",
  "sayilar": {
   "kontrol": 79,
   "sinama": 1579,
-  "gecen": 77,
+  "gecen": 78,
   "bilinen": 1,
-  "sorun": 1,
-  "sure": 61.5,
-  "kosu": 57
+  "sorun": 0,
+  "sure": 58.6,
+  "kosu": 58
  },
- "sorunlar": [
-  {
-   "ad": "Canlı dosyalar indirilebiliyor",
-   "onem": "kritik",
-   "oyku": "yayin",
-   "not": "./js/bekci.js (özet tutmuyor); ./js/bilgi.js (özet tutmuyor)",
-   "onarilabilir": false
-  }
- ],
+ "sorunlar": [],
  "bilinenler": [
   {
    "ad": "Math.min(...dizi) yığın taşması",
@@ -30,7 +22,7 @@
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 13,
+   "gecen": 14,
    "toplam": 14,
    "sinama": 101
   },
@@ -77,14 +69,14 @@
  },
  "derin": {
   "kadans": "gunluk",
-  "zaman": "2026-08-25T01:44:28+03:00",
+  "zaman": "2026-08-25T01:45:39+03:00",
   "kontrol": 79,
   "sinama": 1579,
-  "gecen": 77,
-  "sorun": 1,
+  "gecen": 78,
+  "sorun": 0,
   "gruplar": {
    "yayin": {
-    "gecen": 13,
+    "gecen": 14,
     "toplam": 14,
     "sinama": 101
    },
@@ -270,19 +262,16 @@
    "onem": "sorun",
    "baslik": "1 sorun buldum",
    "govde": "• [kritik] Canlı dosyalar indirilebiliyor\n   ./js/bekci.js (özet tutmuyor); ./js/bilgi.js (özet tutmuyor)"
-  }
- ],
- "bekleyen": [
+  },
   {
-   "id": "590cd7570cb8",
-   "soru": "“Canlı dosyalar indirilebiliyor” kontrolü takılıyor ve kendim onaramadım. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu? (Ayrıntısı panoda duruyor.)",
-   "secenekler": [
-    "Bu bilinen bir durum",
-    "Gerçekten bozuk, bak",
-    "Yanlış alarm"
-   ]
+   "id": "1770952da839",
+   "t": 1787611539913,
+   "onem": "iyi",
+   "baslik": "Söylediğim sorunlar kapandı",
+   "govde": "Hepsi geçti. 78/79 kontrol · 1579 ayrı sınama."
   }
  ],
+ "bekleyen": [],
  "telefonSinamasi": [
   "Sesli not bırak ve ÇAL — sesi duyuyor musun?",
   "Galeriden 3 fotoğraf ekle — çubuk akıyor mu, özet çıkıyor mu?",
@@ -292,12 +281,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-08-22T03:28:33+03:00",
-   "k": "haftalik",
-   "g": 63,
-   "n": 65
-  },
   {
    "t": "2026-08-22T03:31:22+03:00",
    "k": "haftalik",
@@ -530,6 +513,12 @@
    "t": "2026-08-25T01:44:28+03:00",
    "k": "gunluk",
    "g": 77,
+   "n": 79
+  },
+  {
+   "t": "2026-08-25T01:45:39+03:00",
+   "k": "gunluk",
+   "g": 78,
    "n": 79
   }
  ]
