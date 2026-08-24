@@ -1306,6 +1306,12 @@ export async function durakBilgisi(durak) {
   const yer = bilgi.kartBul(durak);
   await bekciAc();
   dedim(`${durak.ad} hakkında`);
+  if (!yer && !bilgi.bolgeIci(durak)) {
+    soyle(`<b>${kacis(durak.ad)}</b> rehberimin bölgesi dışında.<br><br>`
+        + 'Bilgi paketim Balkanlar\u2019ı anlatıyor; bu durak oraya düşmüyor. '
+        + 'Bu bir eksik değil, o yüzden bunu bir daha eksik diye saymayacağım.');
+    return;
+  }
   if (!yer) {
     soyle(`<b>${kacis(durak.ad)}</b> için kartım yok — ve uydurmayacağım.<br><br>`
         + `Bilgi paketimde ${bilgi.sayilar()?.yer || 0} yer var; bu durak hiçbirine `
@@ -1335,7 +1341,11 @@ export async function yeniDuraklariGozden(duraklar, { paket = false } = {}) {
   if (!liste.length) return null;
 
   const sorulan = new Set(await veri.ayarOku('bilgiIstenen', []));
-  const kartsiz = liste.filter(d => !sorulan.has(d.id) && !bilgi.kartBul(d));
+  // Bölge dışındakiler sorulmuyor: cevabı "kart yaz" olamaz. Ev ya da
+  // Türkiye içindeki bir durak için kart yazmak, herkese açık pakete
+  // rotanın başladığı yeri koymak demekti.
+  const kartsiz = liste.filter(d => !sorulan.has(d.id)
+                                 && bilgi.bolgeIci(d) && !bilgi.kartBul(d));
   if (!kartsiz.length) return null;
 
   for (const d of kartsiz) sorulan.add(d.id);
@@ -1383,7 +1393,9 @@ function duraklariGoster() {
   const liste = B.duraklar?.() || [];
   if (!liste.length) { soyle('Yüklü bir gerok yok, durak listesi boş.'); return; }
   const kartli = liste.map(d => ({ d, y: bilgi.kartBul(d) })).filter(x => x.y);
-  const kartsiz = liste.filter(d => !bilgi.kartBul(d));
+  const eksikler = liste.filter(d => !bilgi.kartBul(d));
+  const kartsiz = eksikler.filter(d => bilgi.bolgeIci(d));
+  const disarida = eksikler.filter(d => !bilgi.bolgeIci(d));
   if (!kartli.length) {
     soyle('Duraklarının hiçbiri bilgi paketimle eşleşmedi. Paket inmemiş olabilir.',
       [{ et: 'Paketi şimdi indir', is: () => paketiTazele(true) }]);
@@ -1400,6 +1412,12 @@ function duraklariGoster() {
           ? ` <span class="bk-soluk">${kartsiz.length} durağı bilmiyorum: `
             + `${kacis(kartsiz.slice(0, 5).map(x => x.ad).join(' · '))}`
             + `${kartsiz.length > 5 ? ' …' : ''}</span>`
+          : '')
+      // Bölge dışındakiler AYRI sayılıyor. Onları "bilmiyorum"a katmak yanlış
+      // olurdu: bilmediğim değil, anlatmadığım bir yer.
+      + (disarida.length
+          ? `<br><span class="bk-soluk">${disarida.length} durak rehberimin `
+            + 'bölgesi dışında (Balkanlar’ı anlatıyorum) — onları eksik saymıyorum.</span>'
           : '')
       + '<br><br>Hangisini anlatayım?', d);
 }

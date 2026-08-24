@@ -121,6 +121,21 @@ export function kartBul(durak) {
   return enIyiPuan >= 40 ? enIyi : null;
 }
 
+/**
+ * Bu durak rehberin anlattığı bölgede mi?
+ *
+ * "Bilmiyorum" ile "benim işim değil" ayrı şeyler. Ev, işyeri ya da Türkiye
+ * içindeki bir havaalanı bir EKSİK değil, kapsam dışı — ve bekçi bunları her
+ * açılışta "şunları bilmiyorum" diye sayıp durursa hem yanıltıyor hem yoruyor.
+ * Kural `bilgi.py`deki `bolge_ici` ile birebir aynı.
+ */
+export function bolgeIci(durak) {
+  const b = paket?.bolge;
+  if (!b || !durak || durak.lat == null || durak.lon == null) return true;
+  return durak.lat >= b.guney && durak.lat <= b.kuzey
+      && durak.lon >= b.bati && durak.lon <= b.dogu;
+}
+
 export function kartAl(id) { return paket?.yerler.find(y => y.id === id) || null; }
 export function ulkeAl(kod) { return paket?.ulkeler.find(u => u.kod === kod) || null; }
 
