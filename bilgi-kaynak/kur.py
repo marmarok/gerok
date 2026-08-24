@@ -132,7 +132,8 @@ def paket_uret():
             raise ValueError(f"{y.get('id')}: tanınmayan alan {sorted(fazla)}")
         temiz.append({k: y[k] for k in YER_ALANLARI if k in y})
 
-    govde = {"yerler": temiz, "ulkeler": ulkeler, "sozluk": sozluk}
+    govde = {"yerler": temiz, "ulkeler": ulkeler, "sozluk": sozluk,
+             "bolge": _bolge(temiz)}
     ozet = hashlib.sha256(
         json.dumps(govde, ensure_ascii=False, sort_keys=True).encode()).hexdigest()[:16]
     return {
@@ -200,21 +201,61 @@ def kart_bul(durak, yerler):
     return (en_iyi, en_iyi_puan) if en_iyi_puan >= 40 else (None, 0)
 
 
+# BÖLGE KUTUSU — "bilmiyorum" ile "benim işim değil" ayrımı.
+#
+# Bu rehber altı Balkan ülkesini anlatıyor. Ev, işyeri ya da Türkiye içindeki
+# bir havaalanı ise bir EKSİK DEĞİL, kapsam dışı. Ayrım önemli çünkü:
+#   · bekçi her açılışta "şunları bilmiyorum" diye aynı yerleri sayıp duruyordu,
+#   · ve o listenin cevabı "kart yaz" olamaz: ev koordinatı herkese açık bir
+#     dala yazılamaz, tek bir Türkiye kaydı da paketi "işte rotanın başladığı
+#     yer" diye ele verirdi.
+# Kutu paketteki yerlerden HESAPLANIYOR; elle tutulan bir liste yok, yeni ülke
+# eklenince kendiliğinden genişliyor.
+PAY = 0.8                                   # ~85 km tampon
+
+
+def _bolge(yerler):
+    if not yerler:
+        return None
+    la = [y["lat"] for y in yerler]
+    lo = [y["lon"] for y in yerler]
+    return {"guney": round(min(la) - PAY, 3), "kuzey": round(max(la) + PAY, 3),
+            "bati": round(min(lo) - PAY, 3), "dogu": round(max(lo) + PAY, 3)}
+
+
+def bolge_ici(durak, paket):
+    """Bu durak rehberin anlattığı bölgede mi? Kural `bilgi.js` ile aynı."""
+    b = (paket or {}).get("bolge")
+    if not b:
+        return True                         # kutu yoksa kimseyi dışarı atma
+    return (b["guney"] <= durak["lat"] <= b["kuzey"]
+            and b["bati"] <= durak["lon"] <= b["dogu"])
+
+
 def kapsam(paket=None):
-    """Rotadaki her durak için kart var mı? Dönüş: (kapsanan, eksik)."""
+    """Rotadaki her durak için kart var mı?
+
+    Dönüş: (kapsanan, eksik, disarida). `disarida` bir kusur değil — rehberin
+    bölgesi dışındaki duraklar oraya düşüyor ve eksik sayılmıyor.
+    """
     if paket is None:
         paket = paket_uret()
     if not ROTA.exists():
-        return [], []
+        return [], [], []
     duraklar = json.loads(ROTA.read_text(encoding="utf-8")).get("duraklar", [])
-    kapsanan, eksik = [], []
+    kapsanan, eksik, disarida = [], [], []
     for d in duraklar:
         kart, _ = kart_bul(d, paket["yerler"])
-        (kapsanan if kart else eksik).append(
-            {"ad": d["ad"], "ulke": d.get("ulke"),
-             "lat": d["lat"], "lon": d["lon"],
-             "kart": kart["id"] if kart else None})
-    return kapsanan, eksik
+        kayit = {"ad": d["ad"], "ulke": d.get("ulke"),
+                 "lat": d["lat"], "lon": d["lon"],
+                 "kart": kart["id"] if kart else None}
+        if kart:
+            kapsanan.append(kayit)
+        elif bolge_ici(d, paket):
+            eksik.append(kayit)
+        else:
+            disarida.append(kayit)
+    return kapsanan, eksik, disarida
 
 
 # ---------------------------------------------------------------- gizlilik -
@@ -252,7 +293,7 @@ def gizlilik_dene(paket):
     # Liste rotanın kopyası olmasın: hem toplamda hem HER ÜLKEDE fazlalık ara.
     if ROTA.exists():
         rota = json.loads(ROTA.read_text(encoding="utf-8")).get("duraklar", [])
-        kapsanan, _ = kapsam(paket)
+        kapsanan, _, _ = kapsam(paket)
         eslesen = {k["kart"] for k in kapsanan if k["kart"]}
         if len(paket["yerler"]) < len(rota) * 1.6:
             bulgu.append(f"paket rotaya fazla yakın: {len(paket['yerler'])} kart, "
@@ -366,7 +407,7 @@ if __name__ == "__main__":
         sys.exit(0)
 
     p = paket_uret()
-    kapsanan, eksik = kapsam(p)
+    kapsanan, eksik, disarida = kapsam(p)
     print(f"paket: {p['sayilar']['yer']} yer · {p['sayilar']['ulke']} ülke · "
           f"{p['sayilar']['terim']} terim · sürüm {p['surum']}")
     print(f"kapsam: {len(kapsanan)} durak kapsandı, {len(eksik)} eksik")
