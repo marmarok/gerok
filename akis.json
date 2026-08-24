@@ -1,42 +1,90 @@
 {
  "bicim": 1,
- "zaman": "2026-08-25T01:39:31+03:00",
- "kadans": "saatlik",
- "durum": "iyi",
+ "zaman": "2026-08-25T01:44:28+03:00",
+ "kadans": "gunluk",
+ "durum": "sorun",
  "sayilar": {
-  "kontrol": 4,
-  "sinama": 14,
-  "gecen": 4,
-  "bilinen": 0,
-  "sorun": 0,
-  "sure": 0.8,
-  "kosu": 56
+  "kontrol": 79,
+  "sinama": 1579,
+  "gecen": 77,
+  "bilinen": 1,
+  "sorun": 1,
+  "sure": 61.5,
+  "kosu": 57
  },
- "sorunlar": [],
- "bilinenler": [],
+ "sorunlar": [
+  {
+   "ad": "Canlı dosyalar indirilebiliyor",
+   "onem": "kritik",
+   "oyku": "yayin",
+   "not": "./js/bekci.js (özet tutmuyor); ./js/bilgi.js (özet tutmuyor)",
+   "onarilabilir": false
+  }
+ ],
+ "bilinenler": [
+  {
+   "ad": "Math.min(...dizi) yığın taşması",
+   "not": "app.js:700; app.js:4723; gerok.js:447; sihirbaz.js:393; sihirbaz.js:394; sihirbaz.js:395 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
+  }
+ ],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 3,
-   "toplam": 3,
-   "sinama": 6
+   "gecen": 13,
+   "toplam": 14,
+   "sinama": 101
   },
   "bekci": {
+   "gecen": 9,
+   "toplam": 9,
+   "sinama": 78
+  },
+  "kod": {
+   "gecen": 10,
+   "toplam": 10,
+   "sinama": 465
+  },
+  "veri": {
+   "gecen": 2,
+   "toplam": 2,
+   "sinama": 9
+  },
+  "gizlilik": {
+   "gecen": 6,
+   "toplam": 6,
+   "sinama": 65
+  },
+  "bilgi": {
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 416
+  },
+  "sartname": {
    "gecen": 1,
    "toplam": 1,
-   "sinama": 8
+   "sinama": 413
+  },
+  "depolama": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 1
+  },
+  "davranis": {
+   "gecen": 31,
+   "toplam": 31,
+   "sinama": 31
   }
  },
  "derin": {
   "kadans": "gunluk",
-  "zaman": "2026-08-24T22:05:27+03:00",
-  "kontrol": 78,
-  "sinama": 1574,
+  "zaman": "2026-08-25T01:44:28+03:00",
+  "kontrol": 79,
+  "sinama": 1579,
   "gecen": 77,
-  "sorun": 0,
+  "sorun": 1,
   "gruplar": {
    "yayin": {
-    "gecen": 14,
+    "gecen": 13,
     "toplam": 14,
     "sinama": 101
    },
@@ -48,7 +96,7 @@
    "kod": {
     "gecen": 10,
     "toplam": 10,
-    "sinama": 461
+    "sinama": 465
    },
    "veri": {
     "gecen": 2,
@@ -76,9 +124,9 @@
     "sinama": 1
    },
    "davranis": {
-    "gecen": 30,
-    "toplam": 30,
-    "sinama": 30
+    "gecen": 31,
+    "toplam": 31,
+    "sinama": 31
    }
   }
  },
@@ -215,9 +263,26 @@
    "onem": "iyi",
    "baslik": "Bilgi paketi kontrol edildi",
    "govde": "(ayrıntı panoda)"
+  },
+  {
+   "id": "0fbda2035d36",
+   "t": 1787611468115,
+   "onem": "sorun",
+   "baslik": "1 sorun buldum",
+   "govde": "• [kritik] Canlı dosyalar indirilebiliyor\n   ./js/bekci.js (özet tutmuyor); ./js/bilgi.js (özet tutmuyor)"
   }
  ],
- "bekleyen": [],
+ "bekleyen": [
+  {
+   "id": "590cd7570cb8",
+   "soru": "“Canlı dosyalar indirilebiliyor” kontrolü takılıyor ve kendim onaramadım. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu? (Ayrıntısı panoda duruyor.)",
+   "secenekler": [
+    "Bu bilinen bir durum",
+    "Gerçekten bozuk, bak",
+    "Yanlış alarm"
+   ]
+  }
+ ],
  "telefonSinamasi": [
   "Sesli not bırak ve ÇAL — sesi duyuyor musun?",
   "Galeriden 3 fotoğraf ekle — çubuk akıyor mu, özet çıkıyor mu?",
@@ -227,12 +292,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-08-22T03:24:17+03:00",
-   "k": "haftalik",
-   "g": 63,
-   "n": 65
-  },
   {
    "t": "2026-08-22T03:28:33+03:00",
    "k": "haftalik",
@@ -466,6 +525,12 @@
    "k": "saatlik",
    "g": 4,
    "n": 4
+  },
+  {
+   "t": "2026-08-25T01:44:28+03:00",
+   "k": "gunluk",
+   "g": 77,
+   "n": 79
   }
  ]
 }
