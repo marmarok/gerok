@@ -1,23 +1,23 @@
 {
  "bicim": 1,
- "zaman": "2026-08-25T16:04:06+03:00",
- "kadans": "6saat",
+ "zaman": "2026-08-25T16:16:04+03:00",
+ "kadans": "gunluk",
  "durum": "sorun",
  "sayilar": {
-  "kontrol": 34,
-  "sinama": 1035,
-  "gecen": 32,
+  "kontrol": 85,
+  "sinama": 1603,
+  "gecen": 83,
   "bilinen": 1,
   "sorun": 1,
-  "sure": 10.1,
-  "kosu": 75
+  "sure": 69.8,
+  "kosu": 76
  },
  "sorunlar": [
   {
-   "ad": "Telefon yedeği duruyor",
-   "onem": "yuksek",
-   "oyku": "yedek",
-   "not": "hiç yedek dosyası yok — telefonda tek kopya var",
+   "ad": "Zamanlayıcı ayakta",
+   "onem": "kritik",
+   "oyku": "bekci",
+   "not": "alti: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`",
    "onarilabilir": false
   }
  ],
@@ -30,24 +30,24 @@
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 10,
-   "toplam": 10,
-   "sinama": 71
+   "gecen": 15,
+   "toplam": 15,
+   "sinama": 109
   },
   "bekci": {
-   "gecen": 4,
-   "toplam": 4,
-   "sinama": 16
+   "gecen": 8,
+   "toplam": 9,
+   "sinama": 81
   },
   "yedek": {
-   "gecen": 0,
+   "gecen": 1,
    "toplam": 1,
-   "sinama": 1
+   "sinama": 2
   },
   "kod": {
-   "gecen": 8,
-   "toplam": 8,
-   "sinama": 459
+   "gecen": 10,
+   "toplam": 10,
+   "sinama": 475
   },
   "veri": {
    "gecen": 2,
@@ -55,38 +55,53 @@
    "sinama": 9
   },
   "gizlilik": {
-   "gecen": 4,
-   "toplam": 4,
-   "sinama": 63
+   "gecen": 6,
+   "toplam": 6,
+   "sinama": 65
   },
   "bilgi": {
    "gecen": 5,
    "toplam": 5,
    "sinama": 416
+  },
+  "sartname": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 410
+  },
+  "depolama": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 1
+  },
+  "davranis": {
+   "gecen": 35,
+   "toplam": 35,
+   "sinama": 35
   }
  },
  "derin": {
-  "kadans": "haftalik",
-  "zaman": "2026-08-25T13:29:10+03:00",
-  "kontrol": 93,
-  "sinama": 1615,
-  "gecen": 90,
+  "kadans": "gunluk",
+  "zaman": "2026-08-25T16:16:04+03:00",
+  "kontrol": 85,
+  "sinama": 1603,
+  "gecen": 83,
   "sorun": 1,
   "gruplar": {
    "yayin": {
-    "gecen": 14,
+    "gecen": 15,
     "toplam": 15,
     "sinama": 109
    },
    "bekci": {
-    "gecen": 9,
+    "gecen": 8,
     "toplam": 9,
-    "sinama": 80
+    "sinama": 81
    },
    "yedek": {
     "gecen": 1,
     "toplam": 1,
-    "sinama": 1
+    "sinama": 2
    },
    "kod": {
     "gecen": 10,
@@ -114,14 +129,9 @@
     "sinama": 410
    },
    "depolama": {
-    "gecen": 4,
-    "toplam": 4,
-    "sinama": 4
-   },
-   "kaynak": {
-    "gecen": 5,
-    "toplam": 5,
-    "sinama": 11
+    "gecen": 1,
+    "toplam": 1,
+    "sinama": 1
    },
    "davranis": {
     "gecen": 35,
@@ -131,20 +141,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "158ebb9d5e49",
-   "t": 1787488934025,
-   "onem": "sorun",
-   "baslik": "1 sorun buldum",
-   "govde": "• [orta] Yayınlanmamış değişiklik yok\n   1 dosya: s/bekci.js"
-  },
-  {
-   "id": "097e2b3fe897",
-   "t": 1787488962086,
-   "onem": "iyi",
-   "baslik": "Söylediğim sorunlar kapandı",
-   "govde": "Hepsi geçti. 4/4 kontrol · 14 ayrı sınama."
-  },
   {
    "id": "2346ff1d3c7d",
    "t": 1787488974018,
@@ -305,21 +301,26 @@
    "onem": "sorun",
    "baslik": "1 sorun buldum",
    "govde": "• [yuksek] Telefon yedeği duruyor\n   hiç yedek dosyası yok — telefonda tek kopya var"
+  },
+  {
+   "id": "8a9da94d8e32",
+   "t": 1787663686264,
+   "onem": "bilgi",
+   "baslik": "O iki soruyu boşuna sordum",
+   "govde": "İkisi de gerçek sorun değildi, benim kontrollerimin hatasıydı. \"Canlı dosyalar\" GitHub yeni sürümü dünyaya dağıtırken bakıyordu — artık bekleyip tekrar soruyor. \"Telefon yedeği\" ise iCloud'un dosya adlandırmasını bilmiyordu; iki yedeğin de yerinde. Cevap vermene gerek yok."
+  },
+  {
+   "id": "503e74a1e846",
+   "t": 1787663764041,
+   "onem": "sorun",
+   "baslik": "1 sorun buldum",
+   "govde": "• [kritik] Zamanlayıcı ayakta\n   alti: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`"
   }
  ],
  "bekleyen": [
   {
-   "id": "32a9d74d3158",
-   "soru": "“Canlı dosyalar indirilebiliyor” kontrolü takılıyor ve kendim onaramadım. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu? (Ayrıntısı panoda duruyor.)",
-   "secenekler": [
-    "Bu bilinen bir durum",
-    "Gerçekten bozuk, bak",
-    "Yanlış alarm"
-   ]
-  },
-  {
-   "id": "50aafe7f75c1",
-   "soru": "“Telefon yedeği duruyor” kontrolü takılıyor ve kendim onaramadım. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu? (Ayrıntısı panoda duruyor.)",
+   "id": "614385587988",
+   "soru": "“Zamanlayıcı ayakta” kontrolü takılıyor ve kendim onaramadım. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu? (Ayrıntısı panoda duruyor.)",
    "secenekler": [
     "Bu bilinen bir durum",
     "Gerçekten bozuk, bak",
@@ -336,12 +337,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-08-23T15:42:54+03:00",
-   "k": "saatlik",
-   "g": 4,
-   "n": 4
-  },
   {
    "t": "2026-08-23T16:22:29+03:00",
    "k": "haftalik",
@@ -575,6 +570,12 @@
    "k": "6saat",
    "g": 32,
    "n": 34
+  },
+  {
+   "t": "2026-08-25T16:16:04+03:00",
+   "k": "gunluk",
+   "g": 83,
+   "n": 85
   }
  ]
 }
