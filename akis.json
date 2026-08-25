@@ -1,54 +1,102 @@
 {
  "bicim": 1,
- "zaman": "2026-08-25T10:03:44+03:00",
- "kadans": "saatlik",
- "durum": "iyi",
+ "zaman": "2026-08-25T10:11:46+03:00",
+ "kadans": "gunluk",
+ "durum": "sorun",
  "sayilar": {
-  "kontrol": 4,
-  "sinama": 14,
-  "gecen": 4,
-  "bilinen": 0,
-  "sorun": 0,
-  "sure": 0.8,
-  "kosu": 64
+  "kontrol": 82,
+  "sinama": 1591,
+  "gecen": 80,
+  "bilinen": 1,
+  "sorun": 1,
+  "sure": 67.7,
+  "kosu": 65
  },
- "sorunlar": [],
- "bilinenler": [],
+ "sorunlar": [
+  {
+   "ad": "Canlı dosyalar indirilebiliyor",
+   "onem": "kritik",
+   "oyku": "yayin",
+   "not": "./css/stil.css (özet tutmuyor); ./js/app.js (özet tutmuyor)",
+   "onarilabilir": false
+  }
+ ],
+ "bilinenler": [
+  {
+   "ad": "Math.min(...dizi) yığın taşması",
+   "not": "app.js:711; app.js:4779; gerok.js:447; sihirbaz.js:393; sihirbaz.js:394; sihirbaz.js:395 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
+  }
+ ],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 3,
-   "toplam": 3,
-   "sinama": 6
+   "gecen": 14,
+   "toplam": 15,
+   "sinama": 107
   },
   "bekci": {
+   "gecen": 9,
+   "toplam": 9,
+   "sinama": 79
+  },
+  "kod": {
+   "gecen": 10,
+   "toplam": 10,
+   "sinama": 468
+  },
+  "veri": {
+   "gecen": 2,
+   "toplam": 2,
+   "sinama": 9
+  },
+  "gizlilik": {
+   "gecen": 6,
+   "toplam": 6,
+   "sinama": 65
+  },
+  "bilgi": {
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 416
+  },
+  "sartname": {
    "gecen": 1,
    "toplam": 1,
-   "sinama": 8
+   "sinama": 413
+  },
+  "depolama": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 1
+  },
+  "davranis": {
+   "gecen": 33,
+   "toplam": 33,
+   "sinama": 33
   }
  },
  "derin": {
   "kadans": "gunluk",
-  "zaman": "2026-08-25T09:32:06+03:00",
-  "kontrol": 80,
-  "sinama": 1581,
-  "gecen": 79,
-  "sorun": 0,
+  "zaman": "2026-08-25T10:11:46+03:00",
+  "kontrol": 82,
+  "sinama": 1591,
+  "gecen": 80,
+  "sorun": 1,
   "gruplar": {
    "yayin": {
     "gecen": 14,
-    "toplam": 14,
-    "sinama": 101
+    "toplam": 15,
+    "sinama": 107
    },
    "bekci": {
     "gecen": 9,
     "toplam": 9,
-    "sinama": 78
+    "sinama": 79
    },
    "kod": {
     "gecen": 10,
     "toplam": 10,
-    "sinama": 466
+    "sinama": 468
    },
    "veri": {
     "gecen": 2,
@@ -76,9 +124,9 @@
     "sinama": 1
    },
    "davranis": {
-    "gecen": 32,
-    "toplam": 32,
-    "sinama": 32
+    "gecen": 33,
+    "toplam": 33,
+    "sinama": 33
    }
   }
  },
@@ -243,9 +291,26 @@
    "onem": "bilgi",
    "baslik": "Gezin kaybolmadı — arşivde",
    "govde": "Geziyi bitirince ekran \"paketi yükle\" diyordu, bu yanlıştı: bütün kayıtların telefonunda duruyor. Artık zaman çizgisinde \"<gezi adı> arşivde, N kayıt duruyor\" yazıyor ve \"Geziye geri dön\" düğmesi var. Şimdi bile geri dönebilirsin: Gerok sekmesi → Bütün geziler → Bu tura geç. Sürüm gerok-104."
+  },
+  {
+   "id": "4f4b0932894a",
+   "t": 1787641906199,
+   "onem": "sorun",
+   "baslik": "1 sorun buldum",
+   "govde": "• [kritik] Canlı dosyalar indirilebiliyor\n   ./css/stil.css (özet tutmuyor); ./js/app.js (özet tutmuyor)"
   }
  ],
- "bekleyen": [],
+ "bekleyen": [
+  {
+   "id": "c9eaf0c7aac2",
+   "soru": "“Canlı dosyalar indirilebiliyor” kontrolü takılıyor ve kendim onaramadım. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu? (Ayrıntısı panoda duruyor.)",
+   "secenekler": [
+    "Bu bilinen bir durum",
+    "Gerçekten bozuk, bak",
+    "Yanlış alarm"
+   ]
+  }
+ ],
  "telefonSinamasi": [
   "Sesli not bırak ve ÇAL — sesi duyuyor musun?",
   "Galeriden 3 fotoğraf ekle — çubuk akıyor mu, özet çıkıyor mu?",
@@ -255,12 +320,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-08-22T09:25:17+03:00",
-   "k": "haftalik",
-   "g": 66,
-   "n": 68
-  },
   {
    "t": "2026-08-22T09:26:48+03:00",
    "k": "haftalik",
@@ -494,6 +553,12 @@
    "k": "saatlik",
    "g": 4,
    "n": 4
+  },
+  {
+   "t": "2026-08-25T10:11:46+03:00",
+   "k": "gunluk",
+   "g": 80,
+   "n": 82
   }
  ]
 }
