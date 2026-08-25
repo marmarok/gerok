@@ -378,8 +378,20 @@ export function paketAl(bildir, tazele) {
     if (!dosya) return;
     bildir?.('Paket okunuyor…');
     try {
-      const paket = JSON.parse(await dosya.text());
+      // Arkadaş paketi küçük olmalı ama yanlışlıkla tam yedek seçilebiliyor;
+      // aynı akan okuyucu ikisini de kaldırıyor.
+      const { govde: paket, tam } = await paketiAkit(dosya);
+      if (!tam) throw new Error('Bu dosya yarım — gönderen yeniden göndersin.');
       const s = await paketBirlestir(paket);
+      let yeniMedya = 0;
+      await paketiAkit(dosya, {
+        ilerleme: (y, t) => bildir?.(`Dosyalar alınıyor… %${Math.round(y / t * 100)}`),
+        medya: async (id, tur, b64) => {
+          if (await veri.medyaOku(id)) return;
+          await veri.medyaYaz(id, base64Coz(b64, tur));
+          yeniMedya++;
+        }
+      });
       const silNotu = s.silinen ? ` ${s.silinen} kayıt da silinmiş, burada da silindi.` : '';
       const cakismaNotu = s.cakisan
         ? ` ${s.cakisan} kayıtta iki sürüm vardı — seninki tutuldu, diğeri kaydın içinde duruyor.`
@@ -439,6 +451,67 @@ export async function yedekAl(bildir) {
 
 
 /**
+ * Paketi akıtarak okur: gövdeyi ayrıştırır, medyayı TEK TEK verir.
+ *
+ * Neden gerekli: `JSON.parse(await dosya.text())` 355 MB'lık gerçek bir
+ * yedekte telefonu öldürüyor. En kötüsü de bunun GERİ YÜKLEME yolunda
+ * olmasıydı — yani yedeğin var ama telefondan geri yükleyemiyorsun ve bunu
+ * ancak her şeyi kaybettiğin gün öğreniyorsun.
+ *
+ * Biçim bunu kolaylaştırıyor: gövde başta ve küçük, `,"medya":{` sonrası
+ * dosyanın geri kalanı. Tampon en fazla bir medya kaydı + bir dilim tutuyor.
+ */
+export async function paketiAkit(dosya, { medya = null, ilerleme = null } = {}) {
+  let boy = DOGRULAMA_PARCA, govde = null, medyaBasi = -1;
+  while (true) {
+    const bas = await dosya.slice(0, Math.min(boy, dosya.size)).text();
+    const yer = bas.indexOf(',"medya":{');
+    if (yer !== -1) {
+      govde = JSON.parse(bas.slice(0, yer) + '}');
+      // Karakter değil BAYT: bkz. `yedegiTara` içindeki not.
+      medyaBasi = new TextEncoder()
+        .encode(bas.slice(0, yer + ',"medya":{'.length)).length;
+      break;
+    }
+    if (boy >= dosya.size) {
+      // Medya bölümü hiç yok: eski biçim ya da medyasız paket.
+      govde = JSON.parse(bas);
+      return { govde, medyaSayisi: 0, tam: true };
+    }
+    boy *= 2;
+  }
+
+  const kuyruk = await dosya.slice(Math.max(0, dosya.size - 64)).text();
+  const tam = kuyruk.trimEnd().endsWith('}}');
+
+  let sayi = 0;
+  if (medya) {
+    const girdi = /^\s*,?\s*"([^"]{1,64})"\s*:\s*\{"tur":("(?:[^"\\]|\\.)*")\s*,\s*"veri":"([^"]*)"\}/;
+    let tampon = '';
+    let konum = medyaBasi;
+    let bitti = false;
+    while (!bitti) {
+      if (konum < dosya.size) {
+        tampon += await dosya.slice(konum, konum + DOGRULAMA_PARCA).text();
+        konum += DOGRULAMA_PARCA;
+        ilerleme?.(Math.min(konum, dosya.size), dosya.size);
+      } else {
+        bitti = true;
+      }
+      // Tamponda tam kayıt kaldığı sürece boşalt — bellek şişmesin.
+      let m;
+      while ((m = girdi.exec(tampon)) !== null) {
+        await medya(m[1], JSON.parse(m[2]), m[3]);
+        sayi++;
+        tampon = tampon.slice(m[0].length);
+      }
+      if (bitti) break;
+    }
+  }
+  return { govde, medyaSayisi: sayi, tam };
+}
+
+/**
  * YEDEĞİ GERİ OKU — "aldım" ile "var" arasındaki farkı kapatan tek şey.
  *
  * `navigator.share` dosyayı iOS'a veriyor ve orada bitiyor: nereye gittiğini,
@@ -452,6 +525,73 @@ export async function yedekAl(bildir) {
  * Dönüş: {dogru, kayit, canliKayit, medya, iz, eksik, ad, boyut} ya da null
  * (kullanıcı seçmekten vazgeçti).
  */
+const DOGRULAMA_PARCA = 8 * 1024 * 1024;      // 8 MB'lık dilimler
+
+/**
+ * Yedek dosyasını PARÇA PARÇA okur — asla tamamını belleğe almaz.
+ *
+ * `JSON.parse(await dosya.text())` yazmak kolaydı ve 355 MB'lık gerçek bir
+ * defterde telefonu öldürüyordu: base64 şişmesiyle birlikte bir gigabaytı
+ * aşıyor, iOS sekmeyi kapatıyor, kullanıcı hiçbir sonuç görmeden zaman
+ * çizgisine düşüyor.
+ *
+ * Paketin biçimi bunu gereksiz kılıyor: gövde (kayıtlar, iz, duraklar) başta
+ * ve küçük; ondan sonra `,"medya":{` gelip dosyanın geri kalanını dolduruyor.
+ * Gövdeyi baştan okuyup ayrıştırıyoruz, medyayı ise akarak tarayıp hangi
+ * kimliklerin GERÇEKTEN dosyada olduğunu topluyoruz.
+ */
+async function yedegiTara(dosya, ilerleme = null) {
+  // 1. Gövde: `,"medya":{` işaretini bulana kadar büyüyen dilim.
+  let boy = DOGRULAMA_PARCA, govde = null, medyaBasi = -1;
+  while (boy <= dosya.size * 2) {
+    const bas = await dosya.slice(0, Math.min(boy, dosya.size)).text();
+    const yer = bas.indexOf(',"medya":{');
+    if (yer !== -1) {
+      govde = JSON.parse(bas.slice(0, yer) + '}');
+      // KARAKTER ≠ BAYT. `indexOf` karakter sayısı veriyor, `Blob.slice`
+      // bayt istiyor. Gövdede Türkçe harfler var (iki bayt), bu yüzden
+      // karakter sayısını bayt yerine kullanmak dilimi yanlış yerden
+      // başlatıyordu. Gerçek 355 MB'lık yedekte 2.371.556 karakter,
+      // baytta bundan fazla.
+      medyaBasi = new TextEncoder()
+        .encode(bas.slice(0, yer + ',"medya":{'.length)).length;
+      break;
+    }
+    if (boy >= dosya.size) break;
+    boy *= 2;
+  }
+  if (!govde) throw new Error('Bu bir Gerok yedeği değil ya da dosya yarım.');
+
+  // 2. Son: dosya `}}` ile bitmiyorsa yazma yarım kalmış demektir.
+  const kuyruk = await dosya.slice(Math.max(0, dosya.size - 64)).text();
+  const tam = kuyruk.trimEnd().endsWith('}}');
+
+  // 3. Medya: akarak tara, yalnızca kimlikleri topla.
+  const bulunan = new Set();
+  const desen = /"([^"]{4,64})":\{"tur":/g;
+  let konum = medyaBasi, artik = '';
+  while (konum < dosya.size) {
+    const dilim = artik + await dosya.slice(konum, konum + DOGRULAMA_PARCA).text();
+    let m;
+    desen.lastIndex = 0;
+    while ((m = desen.exec(dilim)) !== null) bulunan.add(m[1]);
+    // Dilim sınırına denk gelen kimlik kesilmesin diye kuyruk taşınıyor.
+    artik = dilim.slice(-128);
+    konum += DOGRULAMA_PARCA;
+    ilerleme?.(Math.min(konum, dosya.size), dosya.size);
+  }
+  return { govde, tam, bulunan };
+}
+
+/**
+ * YEDEĞİ GERİ OKU — "aldım" ile "var" arasındaki farkı kapatan tek şey.
+ *
+ * `navigator.share` dosyayı iOS'a veriyor ve orada bitiyor: nereye gittiğini,
+ * gidip gitmediğini uygulama ÖĞRENEMİYOR. Buna rağmen "Yedek kaydedildi"
+ * yazıp damga atıyorduk. O damga bir iddiaydı, olgu değil.
+ *
+ * Gizlilik taramasıyla aynı disiplin: denetlenemeyen söz, söz değildir.
+ */
 export function yedegiDogrula(bildir, bitti) {
   const secici = document.createElement('input');
   secici.type = 'file';
@@ -462,23 +602,21 @@ export function yedegiDogrula(bildir, bitti) {
     if (!dosya) { bitti?.(null); return; }
     bildir?.('Yedek okunuyor…');
     try {
-      const paket = JSON.parse(await dosya.text());
-      if (!paket?.paketSurum) throw new Error('Bu bir Gerok yedeği değil.');
+      const { govde, tam, bulunan } = await yedegiTara(dosya, (y, t) => {
+        bildir?.(`Yedek okunuyor… %${Math.round(y / t * 100)}`);
+      });
+      if (!govde?.paketSurum) throw new Error('Bu bir Gerok yedeği değil.');
 
-      const kayit = (paket.kayitlar || []).length;
-      const medya = Object.keys(paket.medya || {}).length;
-      const iz = (paket.iz || []).length;
-      // Asıl tehlike: sesi/görseli olması gereken ama paketten çıkmayan kayıt.
-      const eksik = (paket.kayitlar || [])
-        .filter(k => k.medyaId && !(k.medyaId in (paket.medya || {}))).length;
+      const kayit = (govde.kayitlar || []).length;
+      const iz = (govde.iz || []).length;
+      const gereken = (govde.kayitlar || []).filter(k => k.medyaId);
+      const eksik = gereken.filter(k => !bulunan.has(k.medyaId)).length;
 
       // `tumKayitlar` MEZAR TAŞLARINI da sayıyor (silinmiş kayıtların izi).
       // Onunla karşılaştırılırsa, bir kez bile kayıt silmiş biri her yedekte
       // "yedeğin eski" uyarısı alırdı. Karşılaştırma yaşayan kayıtlarla.
       const canliKayit = (await veri.kayitlariGetir()).length;
-      // Yedek alındıktan SONRA kayıt eklenmiş olabilir; eksik olması hata değil,
-      // fazla olması da. Bakılan şey: yedek canlının gerisinde mi kalmış.
-      const dogru = eksik === 0 && kayit >= canliKayit;
+      const dogru = tam && eksik === 0 && kayit >= canliKayit;
 
       if (dogru) {
         const an = Date.now();
@@ -486,7 +624,7 @@ export function yedegiDogrula(bildir, bitti) {
         await veri.ayarYaz('sonYedekDogrulandi', an);
         await veri.ayarYaz('sonYedekSayi', kayit);
       }
-      bitti?.({ dogru, kayit, canliKayit, medya, iz, eksik,
+      bitti?.({ dogru, tam, kayit, canliKayit, medya: bulunan.size, iz, eksik,
                 ad: dosya.name, boyut: dosya.size });
     } catch (hata) {
       bildir?.(`Yedek okunamadı: ${hata.message}`, 'kotu');
@@ -577,7 +715,10 @@ export function yedektenGeriYukle(bildir, tazele, onayla) {
     if (!dosya) return;
     bildir?.('Yedek okunuyor…');
     try {
-      const paket = JSON.parse(await dosya.text());
+      // Gövde önce okunuyor, medya SONRA ve tek tek: 355 MB'lık bir yedeği
+      // tek seferde belleğe almak telefonu öldürüyordu.
+      const { govde: paket, tam } = await paketiAkit(dosya);
+      if (!tam) throw new Error('Bu dosya yarım — yazma tamamlanmamış.');
       // Doğrulama ONAYDAN ÖNCE: kullanıcıya "2 kaydın silinecek" diye
       // sorup sonra "bu dosya okunamadı" demek olmaz.
       if (!paket?.paketSurum) throw new Error('Bu dosya bir Gerok yedeği değil.');
@@ -591,6 +732,18 @@ export function yedektenGeriYukle(bildir, tazele, onayla) {
       if (!onay) { bildir?.('Vazgeçildi — hiçbir şey değişmedi.'); return; }
 
       const s = await paketBirlestir(paket, { mezarlariYoksay: onay === 'degistir' });
+
+      // Medya ayrı geçiş: her dosya okunur okunmaz depoya yazılıp bellekten
+      // düşüyor. Böylece 355 MB'lık yedek 8 MB'lık tamponla geri yükleniyor.
+      let yeniMedya = 0;
+      await paketiAkit(dosya, {
+        ilerleme: (y, t) => bildir?.(`Dosyalar yazılıyor… %${Math.round(y / t * 100)}`),
+        medya: async (id, tur, b64) => {
+          if (await veri.medyaOku(id)) return;
+          await veri.medyaYaz(id, base64Coz(b64, tur));
+          yeniMedya++;
+        }
+      });
 
       if (onay === 'degistir') {
         const kalacak = new Set((paket.kayitlar || []).map(k => k.id));
@@ -632,27 +785,39 @@ export function yedektenGeriYukle(bildir, tazele, onayla) {
  * yazmıyor, hiçbir şeyi değiştirmiyor — sadece okuyup rapor veriyor.
  */
 export async function yedekSina(ilerleme = null) {
-  const blob = await paketBlobu({ tumTurlar: true, ilerleme });
-  const metin = await blob.text();
+  // BURASI TELEFONU ÖLDÜRÜYORDU. Eski hâli bütün paketi üretip
+  // `blob.text()` ile TEK BİR JS METNİNE çeviriyor, sonra `JSON.parse`
+  // ediyordu. 355 MB'lık bir defterde bu, base64 şişmesiyle birlikte bir
+  // gigabaytı aşan bellek demek: iOS sekmeyi öldürüyor, sayfa yeniden
+  // yükleniyor ve kullanıcı kendini zaman çizgisinde buluyor — hiçbir sonuç
+  // yazılmadan. Sonuç: "Yedeği sına" satırı 17 Ağustos'ta donup kalmıştı.
+  //
+  // Oysa sorunun cevabı için paketi ÜRETMEK GEREKMİYOR. Sorulan şey:
+  // "yedeğe girmesi gereken her ses/görsel gerçekten okunabiliyor mu?"
+  // Bunu doğrudan depodan, dosya dosya, sabit bellekle sınıyoruz.
+  const kayitlar = await veri.kayitlariGetir();
+  const medyali = kayitlar.filter(k => k.medyaId);
 
-  let paket;
-  try { paket = JSON.parse(metin); }
-  catch { throw new Error('Yedek okunamadı — dosya bozuk çıktı.'); }
+  let boyut = 0, okunan = 0;
+  const eksikler = [];
+  for (const [i, k] of medyali.entries()) {
+    ilerleme?.(i, medyali.length);
+    const dosya = await veri.medyaOku(k.medyaId);
+    if (dosya) { okunan++; boyut += dosya.size || 0; }
+    else eksikler.push(k.id);
+  }
+  ilerleme?.(medyali.length, medyali.length);
 
-  if (!paket?.paketSurum) throw new Error('Yedek okunamadı — paket damgası yok.');
-
-  const kayitSayi = (paket.kayitlar || []).length;
-  const medyaAnahtarlari = Object.keys(paket.medya || {});
-  // Ses/görsel taşıması gereken ama paketten çıkmayan kayıtlar: asıl tehlike bu.
-  const eksik = (paket.kayitlar || [])
-    .filter(k => k.medyaId && !(k.medyaId in (paket.medya || {}))).length;
-
+  const izSayi = (await veri.izGetir()).length;
   return {
-    boyut: blob.size,
-    kayitSayi,
-    medyaSayi: medyaAnahtarlari.length,
-    izSayi: (paket.iz || []).length,
-    eksik,
-    saglam: eksik === 0
+    // Gövde de yer tutuyor ama medyanın yanında küçük kalıyor; base64
+    // yaklaşık üçte bir şişiriyor.
+    boyut: Math.round(boyut * 4 / 3),
+    kayitSayi: kayitlar.length,
+    medyaSayi: okunan,
+    izSayi,
+    eksik: eksikler.length,
+    eksikOrnek: eksikler.slice(0, 3),
+    saglam: eksikler.length === 0
   };
 }

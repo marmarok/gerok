@@ -5,7 +5,7 @@
 // Neden önbelleğin adına bakmıyoruz: yeni sürüm indiğinde önbellek adı değişiyor
 // ama ekrandaki kod hâlâ eski oluyor — uygulama kendini güncellenmiş sanıyordu.
 // Bu satır ekrandaki dosyanın içinde olduğu için yalan söyleyemiyor.
-const BU_SURUM = 'gerok-107-20260825-132744';
+const BU_SURUM = 'gerok-108-20260825-165302';
 
 import * as veri from './veri.js';
 import * as iz from './iz.js';
@@ -3662,6 +3662,9 @@ async function yedekAlVeDogrula() {
         ortuKapat();
         kayitBildir(`Yedek doğrulandı · ${s.kayit} kayıt, ${s.medya} dosya`, 'iyi');
         tazele();
+      } else if (s.tam === false) {
+        yaz('<b>Bu dosya yarım.</b> Yazma tamamlanmamış — kaydetme sırasında '
+          + 'iptal edilmiş ya da yer bitmiş olabilir. Yeniden yedek al.');
       } else if (s.eksik) {
         yaz(`<b>Dikkat:</b> ${s.eksik} kaydın sesi ya da görseli yedeğe girmemiş. `
           + 'Bu yedek eksik — yer açıp yeniden dene.');
@@ -4791,7 +4794,7 @@ async function yedegiSina() {
   kayitBildir('Yedek sınanıyor…');
   try {
     const r = await yedekSina((y, t) => {
-      if (t > 3) kayitBildir(`Yedek sınanıyor… ${y}/${t}`);
+      if (t > 3) kayitBildir(`Yedek sınanıyor… ${y}/${t} dosya`);
     });
     if (r.saglam) {
       await veri.ayarYaz('sonSinama', { an: Date.now(), saglam: true });
@@ -4800,8 +4803,9 @@ async function yedegiSina() {
       paneliCiz();
     } else {
       await veri.ayarYaz('sonSinama', { an: Date.now(), saglam: false });
-      kayitBildir(`Dikkat: ${r.eksik} kaydın ses/görsel dosyası yedeğe girmedi. ` +
+      kayitBildir(`Dikkat: ${r.eksik} kaydın ses/görsel dosyası okunamıyor. ` +
         'Yer açıp tekrar dene; olmuyorsa tamir kılavuzuna bak.', 'kotu');
+      paneliCiz();          // sonuç kötü de olsa satır TAZELENMELİ
     }
   } catch (hata) {
     kayitBildir(`Yedek sınanamadı: ${hata.message}`, 'kotu');
