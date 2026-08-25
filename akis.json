@@ -1,70 +1,30 @@
 {
  "bicim": 1,
- "zaman": "2026-08-25T10:31:25+03:00",
- "kadans": "gunluk",
- "durum": "bilinen",
+ "zaman": "2026-08-25T11:08:48+03:00",
+ "kadans": "saatlik",
+ "durum": "iyi",
  "sayilar": {
-  "kontrol": 83,
-  "sinama": 1592,
-  "gecen": 82,
-  "bilinen": 1,
+  "kontrol": 4,
+  "sinama": 14,
+  "gecen": 4,
+  "bilinen": 0,
   "sorun": 0,
-  "sure": 68.7,
-  "kosu": 68
+  "sure": 0.8,
+  "kosu": 69
  },
  "sorunlar": [],
- "bilinenler": [
-  {
-   "ad": "Math.min(...dizi) yığın taşması",
-   "not": "app.js:711; app.js:4829; gerok.js:447; sihirbaz.js:393; sihirbaz.js:394; sihirbaz.js:395 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
-  }
- ],
+ "bilinenler": [],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 15,
-   "toplam": 15,
-   "sinama": 108
+   "gecen": 3,
+   "toplam": 3,
+   "sinama": 6
   },
   "bekci": {
-   "gecen": 9,
-   "toplam": 9,
-   "sinama": 79
-  },
-  "kod": {
-   "gecen": 10,
-   "toplam": 10,
-   "sinama": 470
-  },
-  "veri": {
-   "gecen": 2,
-   "toplam": 2,
-   "sinama": 9
-  },
-  "gizlilik": {
-   "gecen": 6,
-   "toplam": 6,
-   "sinama": 65
-  },
-  "bilgi": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 416
-  },
-  "sartname": {
    "gecen": 1,
    "toplam": 1,
-   "sinama": 410
-  },
-  "depolama": {
-   "gecen": 1,
-   "toplam": 1,
-   "sinama": 1
-  },
-  "davranis": {
-   "gecen": 34,
-   "toplam": 34,
-   "sinama": 34
+   "sinama": 8
   }
  },
  "derin": {
@@ -123,13 +83,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "8e0e427eb583",
-   "t": 1787487971201,
-   "onem": "bilgi",
-   "baslik": "Menemen tarifi",
-   "govde": "Malzemeler (2 kişilik): 3 domates, 2 yeşil biber, 3 yumurta, 2 yemek kaşığı yağ, tuz, karabiber, pul biber. İsteğe bağlı beyaz peynir.\n\n1) Yağı kızdır, doğranmış biberleri 2-3 dk kavur.\n2) Doğranmış domatesleri ekle, suyunu çekip pütürleşene kadar (~8-10 dk) orta ateşte pişir.\n3) Tuz, karabiber, pul biber ekle.\n4) Yumurtaları kır (sahanda gibi bırakabilir ya da çırpıp karıştırabilirsin).\n5) Kısık ateşte 3-5 dk, yumurta istediğin kıvama gelene kadar pişir.\n6) İstersen peynir serp, sıcak ekmekle servis et.\n\nAfiyet olsun!"
-  },
   {
    "id": "8cf092d065da",
    "t": 1787488041568,
@@ -297,6 +250,13 @@
    "onem": "iyi",
    "baslik": "Söylediğim sorunlar kapandı",
    "govde": "Hepsi geçti. 82/83 kontrol · 1592 ayrı sınama."
+  },
+  {
+   "id": "7f8fc826d13b",
+   "t": 1787643099405,
+   "onem": "bilgi",
+   "baslik": "Gün Sonu korkusu düzeltildi",
+   "govde": "Haklıymışsın. Gün Sonu hiçbir şey silmiyordu ama \"Günü kapat\" / \"Gün kapandı\" yazıyordu — kapanıyormuş gibi okunuyor. Kaldırdım. İlk adımda artık \"hiçbir adım kayıt silmez, istediğin yerde çıkabilirsin\" yazıyor. Daha önemlisi: yedek alma artık Gün Sonu'nun içinde değil, ayrı soruyor. Sürüm gerok-106."
   }
  ],
  "bekleyen": [],
@@ -309,12 +269,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-08-23T15:28:12+03:00",
-   "k": "gunluk",
-   "g": 58,
-   "n": 60
-  },
   {
    "t": "2026-08-23T15:31:32+03:00",
    "k": "6saat",
@@ -548,6 +502,12 @@
    "k": "gunluk",
    "g": 82,
    "n": 83
+  },
+  {
+   "t": "2026-08-25T11:08:48+03:00",
+   "k": "saatlik",
+   "g": 4,
+   "n": 4
   }
  ]
 }
