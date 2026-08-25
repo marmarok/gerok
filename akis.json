@@ -1,16 +1,16 @@
 {
  "bicim": 1,
- "zaman": "2026-08-25T16:29:51+03:00",
- "kadans": "gunluk",
+ "zaman": "2026-08-25T16:30:10+03:00",
+ "kadans": "saatlik",
  "durum": "sorun",
  "sayilar": {
-  "kontrol": 86,
-  "sinama": 1620,
-  "gecen": 84,
-  "bilinen": 1,
-  "sorun": 1,
-  "sure": 68.9,
-  "kosu": 79
+  "kontrol": 5,
+  "sinama": 15,
+  "gecen": 3,
+  "bilinen": 0,
+  "sorun": 2,
+  "sure": 0.5,
+  "kosu": 80
  },
  "sorunlar": [
   {
@@ -19,70 +19,32 @@
    "oyku": "bekci",
    "not": "saatlik: son koşu 1 ile bitti · alti: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`",
    "onarilabilir": false
-  }
- ],
- "bilinenler": [
+  },
   {
-   "ad": "Math.min(...dizi) yığın taşması",
-   "not": "app.js:712; app.js:4880; gerok.js:447; sihirbaz.js:393; sihirbaz.js:394; sihirbaz.js:395 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
+   "ad": "iCloud köprüsü okunabiliyor",
+   "onem": "yuksek",
+   "oyku": "koprü",
+   "not": "izin yok — telefondan gelen emirler SESSİZCE düşüyor. Sistem Ayarları → Gizlilik → Tam Disk Erişimi → /usr/bin/python3",
+   "onarilabilir": false
   }
  ],
+ "bilinenler": [],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 15,
-   "toplam": 15,
-   "sinama": 109
+   "gecen": 3,
+   "toplam": 3,
+   "sinama": 6
   },
   "bekci": {
-   "gecen": 8,
-   "toplam": 9,
-   "sinama": 81
-  },
-  "yedek": {
-   "gecen": 1,
+   "gecen": 0,
    "toplam": 1,
-   "sinama": 2
+   "sinama": 8
   },
   "koprü": {
-   "gecen": 1,
-   "toplam": 1,
-   "sinama": 17
-  },
-  "kod": {
-   "gecen": 10,
-   "toplam": 10,
-   "sinama": 475
-  },
-  "veri": {
-   "gecen": 2,
-   "toplam": 2,
-   "sinama": 9
-  },
-  "gizlilik": {
-   "gecen": 6,
-   "toplam": 6,
-   "sinama": 65
-  },
-  "bilgi": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 416
-  },
-  "sartname": {
-   "gecen": 1,
-   "toplam": 1,
-   "sinama": 410
-  },
-  "depolama": {
-   "gecen": 1,
+   "gecen": 0,
    "toplam": 1,
    "sinama": 1
-  },
-  "davranis": {
-   "gecen": 35,
-   "toplam": 35,
-   "sinama": 35
   }
  },
  "derin": {
@@ -151,13 +113,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "1487335f4be4",
-   "t": 1787514401846,
-   "onem": "iyi",
-   "baslik": "Rehberim artık kendi kendine büyüyor",
-   "govde": "Bilgim 43 yerden 48 yere çıktı ve bunu MacBook kapalıyken bulutta koşan bir yardımcı yaptı. Her pazar tekrarlanacak. Telefondan kartı olmayan bir durak eklersen sana tek dokunuşla soracağım."
-  },
   {
    "id": "fbdfac2c340d",
    "t": 1787517348404,
@@ -325,6 +280,13 @@
    "onem": "sorun",
    "baslik": "1 sorun buldum",
    "govde": "• [kritik] Zamanlayıcı ayakta\n   saatlik: son koşu 1 ile bitti · alti: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`"
+  },
+  {
+   "id": "17d8782d1ab9",
+   "t": 1787664610753,
+   "onem": "sorun",
+   "baslik": "2 sorun buldum",
+   "govde": "• [kritik] Zamanlayıcı ayakta\n   saatlik: son koşu 1 ile bitti · alti: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`\n• [yuksek] iCloud köprüsü okunabiliyor\n   izin yok — telefondan gelen emirler SESSİZCE düşüyor. Sistem Ayarları → Gizlilik → Tam Disk Erişimi → /usr/bin/python3"
   }
  ],
  "bekleyen": [
@@ -345,6 +307,15 @@
     "Gerçekten bozuk, bak",
     "Yanlış alarm"
    ]
+  },
+  {
+   "id": "19498d1c3b8f",
+   "soru": "“iCloud köprüsü okunabiliyor” kontrolü takılıyor ve kendim onaramadım. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu? (Ayrıntısı panoda duruyor.)",
+   "secenekler": [
+    "Bu bilinen bir durum",
+    "Gerçekten bozuk, bak",
+    "Yanlış alarm"
+   ]
   }
  ],
  "telefonSinamasi": [
@@ -356,12 +327,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-08-23T16:27:56+03:00",
-   "k": "saatlik",
-   "g": 4,
-   "n": 4
-  },
   {
    "t": "2026-08-23T17:33:02+03:00",
    "k": "saatlik",
@@ -595,6 +560,12 @@
    "k": "gunluk",
    "g": 84,
    "n": 86
+  },
+  {
+   "t": "2026-08-25T16:30:10+03:00",
+   "k": "saatlik",
+   "g": 3,
+   "n": 5
   }
  ]
 }
