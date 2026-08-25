@@ -1,70 +1,30 @@
 {
  "bicim": 1,
- "zaman": "2026-08-25T09:32:06+03:00",
- "kadans": "gunluk",
- "durum": "bilinen",
+ "zaman": "2026-08-25T10:03:44+03:00",
+ "kadans": "saatlik",
+ "durum": "iyi",
  "sayilar": {
-  "kontrol": 80,
-  "sinama": 1581,
-  "gecen": 79,
-  "bilinen": 1,
+  "kontrol": 4,
+  "sinama": 14,
+  "gecen": 4,
+  "bilinen": 0,
   "sorun": 0,
-  "sure": 64.7,
-  "kosu": 63
+  "sure": 0.8,
+  "kosu": 64
  },
  "sorunlar": [],
- "bilinenler": [
-  {
-   "ad": "Math.min(...dizi) yığın taşması",
-   "not": "app.js:711; app.js:4734; gerok.js:447; sihirbaz.js:393; sihirbaz.js:394; sihirbaz.js:395 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
-  }
- ],
+ "bilinenler": [],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 14,
-   "toplam": 14,
-   "sinama": 101
+   "gecen": 3,
+   "toplam": 3,
+   "sinama": 6
   },
   "bekci": {
-   "gecen": 9,
-   "toplam": 9,
-   "sinama": 78
-  },
-  "kod": {
-   "gecen": 10,
-   "toplam": 10,
-   "sinama": 466
-  },
-  "veri": {
-   "gecen": 2,
-   "toplam": 2,
-   "sinama": 9
-  },
-  "gizlilik": {
-   "gecen": 6,
-   "toplam": 6,
-   "sinama": 65
-  },
-  "bilgi": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 416
-  },
-  "sartname": {
    "gecen": 1,
    "toplam": 1,
-   "sinama": 413
-  },
-  "depolama": {
-   "gecen": 1,
-   "toplam": 1,
-   "sinama": 1
-  },
-  "davranis": {
-   "gecen": 32,
-   "toplam": 32,
-   "sinama": 32
+   "sinama": 8
   }
  },
  "derin": {
@@ -276,6 +236,13 @@
    "onem": "bilgi",
    "baslik": "Karsız durak sorusu düzeldi",
    "govde": "Ev, işyeri ve Türkiye içindeki duraklar artık \"bilmiyorum\" diye sayılmıyor — rehberim Balkanlar’ı anlatıyor, o duraklar eksik değil kapsam dışı. Pogradec’in kartı zaten yazılmıştı. Uygulamayı güncelle: gerok-103."
+  },
+  {
+   "id": "9e75b56117d3",
+   "t": 1787639541812,
+   "onem": "bilgi",
+   "baslik": "Gezin kaybolmadı — arşivde",
+   "govde": "Geziyi bitirince ekran \"paketi yükle\" diyordu, bu yanlıştı: bütün kayıtların telefonunda duruyor. Artık zaman çizgisinde \"<gezi adı> arşivde, N kayıt duruyor\" yazıyor ve \"Geziye geri dön\" düğmesi var. Şimdi bile geri dönebilirsin: Gerok sekmesi → Bütün geziler → Bu tura geç. Sürüm gerok-104."
   }
  ],
  "bekleyen": [],
@@ -288,12 +255,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-08-22T08:59:36+03:00",
-   "k": "6saat",
-   "g": 22,
-   "n": 23
-  },
   {
    "t": "2026-08-22T09:25:17+03:00",
    "k": "haftalik",
@@ -527,6 +488,12 @@
    "k": "gunluk",
    "g": 79,
    "n": 80
+  },
+  {
+   "t": "2026-08-25T10:03:44+03:00",
+   "k": "saatlik",
+   "g": 4,
+   "n": 4
   }
  ]
 }
