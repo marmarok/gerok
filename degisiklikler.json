@@ -2,6 +2,18 @@
   "aciklama": "Her güncellemede ne eklendi, ne düzeldi, ne çıktı. En yeni en üstte. Bu dosya güncelleme kartında okunuyor; boş bırakılamaz, yayınlama betiği kontrol ediyor.",
   "surumler": [
     {
+      "sayi": 106,
+      "eklendi": [
+        "Yedek hatırlatıcısı artık Gün Sonu'ndan bağımsız: son yedekten sonra yeni kayıt varsa günde bir kez soruyor.",
+        "Gün Sonu'nun ilk adımında güvence yazıyor: hiçbir adım kayıt silmez, günü kapatmaz, istediğin yerde çıkabilirsin."
+      ],
+      "duzeldi": [
+        "\"Günü kapat\" ve \"Gün kapandı\" yazıları kaldırıldı — hiçbir şeyi kapatmadığı hâlde kapatıyormuş gibi okunuyordu.",
+        "Fotoğraf adımı \"Bugünü topla\" yerine \"Bugünden fotoğraf ekle\": seçilmeyenlerin galeride kaldığı açıkça yazıyor."
+      ],
+      "cikti": []
+    },
+    {
       "sayi": 105,
       "eklendi": [
         "Güncelleme kartı artık ne eklendiğini, ne düzeldiğini ve ne çıkarıldığını yazıyor.",

@@ -113,6 +113,9 @@ async function ozetAdimi(durum) {
       <div class="gs-kutu"><div class="gs-sayi">${bugunkuler.length}</div><div class="gs-etiket">toplam kayıt</div></div>
     </div>
     ${ulkeler.length ? `<div class="panel-not">Bugün geçtiğin sınır: ${ulkeler.map(gerok.ulkeAdi).join(', ')}</div>` : ''}
+    <div class="panel-not gs-guvence">Buradaki hiçbir adım kayıt silmez, günü
+    kapatmaz, hiçbir şeyi kesinleştirmez. İstediğin yerde çıkabilirsin; bugüne
+    sonra da kayıt ekleyebilir, bu akışı tekrar açabilirsin.</div>
     <div class="gs-dugmeler">
       <button class="eylem-dugme" id="gsCik">Şimdi değil</button>
       <button class="eylem-dugme birincil" id="gsIleri">Başla</button>
@@ -157,8 +160,10 @@ async function gunlukAdimi(durum) {
 
 async function fotografAdimi(durum) {
   ortu(`
-    ${ustBilgi('Bugünü topla',
-      'Galeriden bugünü seç. Manzara şart değil: oda, kahvaltı masası, otobüsün içi.')}
+    ${ustBilgi('Bugünden fotoğraf ekle',
+      'Galeriden seç, deftere eklensin. Manzara şart değil: oda, kahvaltı masası, '
+      + 'otobüsün içi. Seçmediklerin galerinde olduğu gibi kalır — burada '
+      + 'yapılan tek şey EKLEMEK.')}
     <button class="eylem-dugme birincil" id="fotoSec">Galeriden seç</button>
     <div id="fotoDurum" class="panel-not"></div>
     <div class="gs-dugmeler">
@@ -211,7 +216,7 @@ async function kapanisAdimi(durum) {
     <button class="eylem-dugme" id="kGonder">Günümü arkadaşıma gönder</button>
     <div id="kDurum" class="panel-not"></div>
     <div class="gs-dugmeler">
-      <button class="eylem-dugme birincil" id="gsBitir">Günü kapat</button>
+      <button class="eylem-dugme birincil" id="gsBitir">Bitir</button>
     </div>
   `);
 
@@ -220,7 +225,7 @@ async function kapanisAdimi(durum) {
   $('#kGonder').onclick = () => paketGonder(bildir, gun?.no ?? null);
   $('#gsBitir').onclick = async () => {
     kapat();
-    kayitBildir('Gün kapandı', 'iyi');
+    kayitBildir('Bitti · bugünün kayıtları yerinde', 'iyi');
     await tazeleDisari?.();
   };
 }

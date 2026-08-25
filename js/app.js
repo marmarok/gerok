@@ -5,7 +5,7 @@
 // Neden önbelleğin adına bakmıyoruz: yeni sürüm indiğinde önbellek adı değişiyor
 // ama ekrandaki kod hâlâ eski oluyor — uygulama kendini güncellenmiş sanıyordu.
 // Bu satır ekrandaki dosyanın içinde olduğu için yalan söyleyemiyor.
-const BU_SURUM = 'gerok-105-20260825-101024';
+const BU_SURUM = 'gerok-106-20260825-102646';
 
 import * as veri from './veri.js';
 import * as iz from './iz.js';
@@ -3616,6 +3616,56 @@ function yaklasmaUyarisi(durak, uzaklik) {
  * Uyarı vermiyoruz, SORUYORUZ: bilgiyi isteyip istemediğine sen karar
  * veriyorsun ve "gerek yok" dersen aynı durak için bir daha çıkmıyor.
  */
+
+/**
+ * Yedek hatırlatıcısı — Gün Sonu'ndan BAĞIMSIZ.
+ *
+ * Yedek alma adımı Gün Sonu akışının içindeydi. Akış yapılmayınca yedek de
+ * alınmıyordu; gerçek gezide tam olarak bu oldu ve dokuz sesli not neredeyse
+ * gidiyordu. Bir korumanın, kullanıcının kaçınabileceği bir ritüelin arkasına
+ * saklanması tasarım hatasıydı.
+ *
+ * Ölçü: günde en fazla bir kez, yalnızca son yedekten sonra YENİ kayıt varsa,
+ * ve "bugün olmaz" denince o gün bir daha sorulmuyor.
+ */
+const YEDEK_ARALIK = 24 * 60 * 60 * 1000;
+
+async function yedekHatirlat() {
+  const yedek = await sonYedekZamani();
+  const esik = yedek || 0;
+  if (yedek && Date.now() - yedek < YEDEK_ARALIK) return;
+
+  // Yedekten sonra yeni kayıt yoksa hatırlatmanın anlamı yok.
+  const yeni = (durum.kayitlar || []).filter(k => (k.t || 0) > esik).length;
+  if (!yeni) return;
+
+  const bugunAnahtar = new Date().toISOString().slice(0, 10);
+  if (await veri.ayarOku('yedekErtelendi', null) === bugunAnahtar) return;
+  if (document.getElementById('yedekSerit')) return;
+
+  const kutu = document.createElement('div');
+  kutu.id = 'yedekSerit';
+  kutu.className = 'on-sezi';
+  kutu.innerHTML = `
+    <div class="on-sezi-yazi">
+      <div class="on-sezi-ust">Yedek</div>
+      <div class="on-sezi-ad">${yedek ? 'Son yedekten beri' : 'Henüz hiç yedek yok'}</div>
+      <div class="on-sezi-alt">${yeni} yeni kayıt · tek dosya, telefonda kalır</div>
+    </div>
+    <div class="on-sezi-dugmeler">
+      <button class="kucuk-dugme birincil" id="yedekSimdi">Yedek al</button>
+      <button class="kucuk-dugme" id="yedekSonra">Bugün olmaz</button>
+    </div>`;
+  document.body.appendChild(kutu);
+  const kapat = () => kutu.remove();
+  $('#yedekSimdi').addEventListener('click', () => { kapat(); yedekAl(kayitBildir); });
+  $('#yedekSonra').addEventListener('click', async () => {
+    kapat();
+    await veri.ayarYaz('yedekErtelendi', bugunAnahtar);
+  });
+  setTimeout(() => { if (document.body.contains(kutu)) kapat(); }, 45000);
+}
+
 async function bilgiEksikSor(duraklar, secenek = {}) {
   const s = await bekci.yeniDuraklariGozden(duraklar, secenek);
   if (!s) return;
@@ -5130,6 +5180,7 @@ $('#dosyaSecici').addEventListener('change', async (e) => {
     kayitBildir(`"${s.ad}" yüklendi · ${s.gunler.length} gün, ${s.duraklar.length} durak`, 'iyi');
     // Yeni bir tur geldi: rehberde karşılığı olmayan durakları sor.
     setTimeout(() => bilgiEksikSor(gerok.duraklar(), { paket: true }), 1500);
+    setTimeout(yedekHatirlat, 6000);
     await tazele();
     if (durum.ekran === 'harita') haritaGuncelle(durum.kayitlar, durum.izNoktalari);
   } catch (hata) {
