@@ -1,16 +1,16 @@
 {
  "bicim": 1,
- "zaman": "2026-08-25T08:58:52+03:00",
- "kadans": "6saat",
+ "zaman": "2026-08-25T08:59:47+03:00",
+ "kadans": "gunluk",
  "durum": "bilinen",
  "sayilar": {
-  "kontrol": 32,
-  "sinama": 1016,
-  "gecen": 31,
+  "kontrol": 79,
+  "sinama": 1579,
+  "gecen": 78,
   "bilinen": 1,
   "sorun": 0,
-  "sure": 12.8,
-  "kosu": 61
+  "sure": 67.3,
+  "kosu": 62
  },
  "sorunlar": [],
  "bilinenler": [
@@ -22,19 +22,19 @@
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 9,
-   "toplam": 9,
-   "sinama": 63
+   "gecen": 14,
+   "toplam": 14,
+   "sinama": 101
   },
   "bekci": {
-   "gecen": 4,
-   "toplam": 4,
-   "sinama": 16
+   "gecen": 9,
+   "toplam": 9,
+   "sinama": 78
   },
   "kod": {
-   "gecen": 8,
-   "toplam": 8,
-   "sinama": 449
+   "gecen": 10,
+   "toplam": 10,
+   "sinama": 465
   },
   "veri": {
    "gecen": 2,
@@ -42,19 +42,34 @@
    "sinama": 9
   },
   "gizlilik": {
-   "gecen": 4,
-   "toplam": 4,
-   "sinama": 63
+   "gecen": 6,
+   "toplam": 6,
+   "sinama": 65
   },
   "bilgi": {
    "gecen": 5,
    "toplam": 5,
    "sinama": 416
+  },
+  "sartname": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 413
+  },
+  "depolama": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 1
+  },
+  "davranis": {
+   "gecen": 31,
+   "toplam": 31,
+   "sinama": 31
   }
  },
  "derin": {
   "kadans": "gunluk",
-  "zaman": "2026-08-25T01:45:39+03:00",
+  "zaman": "2026-08-25T08:59:47+03:00",
   "kontrol": 79,
   "sinama": 1579,
   "gecen": 78,
@@ -273,12 +288,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-08-22T03:35:22+03:00",
-   "k": "gunluk",
-   "g": 56,
-   "n": 57
-  },
   {
    "t": "2026-08-22T08:59:31+03:00",
    "k": "saatlik",
@@ -512,6 +521,12 @@
    "k": "6saat",
    "g": 31,
    "n": 32
+  },
+  {
+   "t": "2026-08-25T08:59:47+03:00",
+   "k": "gunluk",
+   "g": 78,
+   "n": 79
   }
  ]
 }
