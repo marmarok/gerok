@@ -1,16 +1,16 @@
 {
  "bicim": 1,
- "zaman": "2026-08-25T16:30:10+03:00",
- "kadans": "saatlik",
+ "zaman": "2026-08-25T16:54:49+03:00",
+ "kadans": "gunluk",
  "durum": "sorun",
  "sayilar": {
-  "kontrol": 5,
-  "sinama": 15,
-  "gecen": 3,
-  "bilinen": 0,
-  "sorun": 2,
-  "sure": 0.5,
-  "kosu": 80
+  "kontrol": 87,
+  "sinama": 1622,
+  "gecen": 85,
+  "bilinen": 1,
+  "sorun": 1,
+  "sure": 68.6,
+  "kosu": 81
  },
  "sorunlar": [
   {
@@ -19,46 +19,84 @@
    "oyku": "bekci",
    "not": "saatlik: son koşu 1 ile bitti · alti: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`",
    "onarilabilir": false
-  },
-  {
-   "ad": "iCloud köprüsü okunabiliyor",
-   "onem": "yuksek",
-   "oyku": "koprü",
-   "not": "izin yok — telefondan gelen emirler SESSİZCE düşüyor. Sistem Ayarları → Gizlilik → Tam Disk Erişimi → /usr/bin/python3",
-   "onarilabilir": false
   }
  ],
- "bilinenler": [],
+ "bilinenler": [
+  {
+   "ad": "Math.min(...dizi) yığın taşması",
+   "not": "app.js:712; app.js:4884; gerok.js:447; sihirbaz.js:393; sihirbaz.js:394; sihirbaz.js:395 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
+  }
+ ],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 3,
-   "toplam": 3,
-   "sinama": 6
+   "gecen": 15,
+   "toplam": 15,
+   "sinama": 110
   },
   "bekci": {
-   "gecen": 0,
+   "gecen": 8,
+   "toplam": 9,
+   "sinama": 81
+  },
+  "yedek": {
+   "gecen": 1,
    "toplam": 1,
-   "sinama": 8
+   "sinama": 2
   },
   "koprü": {
-   "gecen": 0,
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 17
+  },
+  "kod": {
+   "gecen": 10,
+   "toplam": 10,
+   "sinama": 475
+  },
+  "veri": {
+   "gecen": 2,
+   "toplam": 2,
+   "sinama": 9
+  },
+  "gizlilik": {
+   "gecen": 6,
+   "toplam": 6,
+   "sinama": 65
+  },
+  "bilgi": {
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 416
+  },
+  "sartname": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 410
+  },
+  "depolama": {
+   "gecen": 1,
    "toplam": 1,
    "sinama": 1
+  },
+  "davranis": {
+   "gecen": 36,
+   "toplam": 36,
+   "sinama": 36
   }
  },
  "derin": {
   "kadans": "gunluk",
-  "zaman": "2026-08-25T16:29:51+03:00",
-  "kontrol": 86,
-  "sinama": 1620,
-  "gecen": 84,
+  "zaman": "2026-08-25T16:54:49+03:00",
+  "kontrol": 87,
+  "sinama": 1622,
+  "gecen": 85,
   "sorun": 1,
   "gruplar": {
    "yayin": {
     "gecen": 15,
     "toplam": 15,
-    "sinama": 109
+    "sinama": 110
    },
    "bekci": {
     "gecen": 8,
@@ -106,27 +144,13 @@
     "sinama": 1
    },
    "davranis": {
-    "gecen": 35,
-    "toplam": 35,
-    "sinama": 35
+    "gecen": 36,
+    "toplam": 36,
+    "sinama": 36
    }
   }
  },
  "mesajlar": [
-  {
-   "id": "fbdfac2c340d",
-   "t": 1787517348404,
-   "onem": "uyari",
-   "baslik": "Durak eklerken sormamamın sebebi bir hataydı",
-   "govde": "Durak ekleme işleminin ortasında eski bir satır patlıyordu: durak kaydediliyor ama sonrasındaki hicbir şey çalışmıyordu — bildirim de, listenin tazelenmesi de, benim sorum da. Düzeldi. Uygulamayı güncelle, sonra Duraklar ekranına gir: daha önce eklediğin duraklar için orada bir kez soracağım."
-  },
-  {
-   "id": "1e517fdbcc48",
-   "t": 1787518379949,
-   "onem": "bilgi",
-   "baslik": "Eksik durak bilgisi: 1 kart eklendi, 8 tanesine dokunmadım",
-   "govde": "(ayrıntı panoda)"
-  },
   {
    "id": "c079f47ff81f",
    "t": 1787518380079,
@@ -287,6 +311,20 @@
    "onem": "sorun",
    "baslik": "2 sorun buldum",
    "govde": "• [kritik] Zamanlayıcı ayakta\n   saatlik: son koşu 1 ile bitti · alti: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`\n• [yuksek] iCloud köprüsü okunabiliyor\n   izin yok — telefondan gelen emirler SESSİZCE düşüyor. Sistem Ayarları → Gizlilik → Tam Disk Erişimi → /usr/bin/python3"
+  },
+  {
+   "id": "aa4a1b791eb1",
+   "t": 1787665238165,
+   "onem": "uyari",
+   "baslik": "Mac izin bekliyor — senin bir dokunuşun gerek",
+   "govde": "Zamanlanmış bekçi iCloud klasörünü okuyamıyor (macOS gizlilik izni). İki sonucu var: 1) yedeklerini göremiyorum, 2) telefondan \"Claude'a ilet\" dediğinde emir dosyası sessizce düşüyor olabilir. Çözüm: Sistem Ayarları → Gizlilik ve Güvenlik → Tam Disk Erişimi → + → Cmd+Shift+G → /usr/bin/python3 ekle ve aç."
+  },
+  {
+   "id": "21a26fbee31c",
+   "t": 1787666089787,
+   "onem": "sorun",
+   "baslik": "1 sorun buldum",
+   "govde": "• [kritik] Zamanlayıcı ayakta\n   saatlik: son koşu 1 ile bitti · alti: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`"
   }
  ],
  "bekleyen": [
@@ -307,15 +345,6 @@
     "Gerçekten bozuk, bak",
     "Yanlış alarm"
    ]
-  },
-  {
-   "id": "19498d1c3b8f",
-   "soru": "“iCloud köprüsü okunabiliyor” kontrolü takılıyor ve kendim onaramadım. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu? (Ayrıntısı panoda duruyor.)",
-   "secenekler": [
-    "Bu bilinen bir durum",
-    "Gerçekten bozuk, bak",
-    "Yanlış alarm"
-   ]
   }
  ],
  "telefonSinamasi": [
@@ -327,12 +356,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-08-23T17:33:02+03:00",
-   "k": "saatlik",
-   "g": 4,
-   "n": 4
-  },
   {
    "t": "2026-08-23T22:46:38+03:00",
    "k": "haftalik",
@@ -566,6 +589,12 @@
    "k": "saatlik",
    "g": 3,
    "n": 5
+  },
+  {
+   "t": "2026-08-25T16:54:49+03:00",
+   "k": "gunluk",
+   "g": 85,
+   "n": 87
   }
  ]
 }
