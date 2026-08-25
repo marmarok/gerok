@@ -1,26 +1,18 @@
 {
  "bicim": 1,
- "zaman": "2026-08-25T10:28:28+03:00",
+ "zaman": "2026-08-25T10:31:25+03:00",
  "kadans": "gunluk",
- "durum": "sorun",
+ "durum": "bilinen",
  "sayilar": {
   "kontrol": 83,
-  "sinama": 1595,
-  "gecen": 81,
+  "sinama": 1592,
+  "gecen": 82,
   "bilinen": 1,
-  "sorun": 1,
-  "sure": 71.8,
-  "kosu": 67
+  "sorun": 0,
+  "sure": 68.7,
+  "kosu": 68
  },
- "sorunlar": [
-  {
-   "ad": "Şartname maddeleri",
-   "onem": "orta",
-   "oyku": "sartname",
-   "not": "409/413 — gerileme",
-   "onarilabilir": false
-  }
- ],
+ "sorunlar": [],
  "bilinenler": [
   {
    "ad": "Math.min(...dizi) yığın taşması",
@@ -60,9 +52,9 @@
    "sinama": 416
   },
   "sartname": {
-   "gecen": 0,
+   "gecen": 1,
    "toplam": 1,
-   "sinama": 413
+   "sinama": 410
   },
   "depolama": {
    "gecen": 1,
@@ -77,11 +69,11 @@
  },
  "derin": {
   "kadans": "gunluk",
-  "zaman": "2026-08-25T10:28:28+03:00",
+  "zaman": "2026-08-25T10:31:25+03:00",
   "kontrol": 83,
-  "sinama": 1595,
-  "gecen": 81,
-  "sorun": 1,
+  "sinama": 1592,
+  "gecen": 82,
+  "sorun": 0,
   "gruplar": {
    "yayin": {
     "gecen": 15,
@@ -114,9 +106,9 @@
     "sinama": 416
    },
    "sartname": {
-    "gecen": 0,
+    "gecen": 1,
     "toplam": 1,
-    "sinama": 413
+    "sinama": 410
    },
    "depolama": {
     "gecen": 1,
@@ -131,13 +123,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "d788fb9203e5",
-   "t": 1787379917023,
-   "onem": "iyi",
-   "baslik": "1 şey onardım",
-   "govde": "• Canlı sürüm yereldekiyle aynı: Adres: https://marmarok.github.io/gerok/\n\nHepsini onardıktan sonra kontrolü yeniden koştum; “onardım” demeden önce onardığımı gördüm."
-  },
   {
    "id": "8e0e427eb583",
    "t": 1787487971201,
@@ -305,6 +290,13 @@
    "onem": "sorun",
    "baslik": "1 sorun buldum",
    "govde": "• [orta] Şartname maddeleri\n   409/413 — gerileme"
+  },
+  {
+   "id": "a4e88427f2e5",
+   "t": 1787643085943,
+   "onem": "iyi",
+   "baslik": "Söylediğim sorunlar kapandı",
+   "govde": "Hepsi geçti. 82/83 kontrol · 1592 ayrı sınama."
   }
  ],
  "bekleyen": [],
@@ -317,12 +309,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-08-23T15:22:51+03:00",
-   "k": "saatlik",
-   "g": 4,
-   "n": 4
-  },
   {
    "t": "2026-08-23T15:28:12+03:00",
    "k": "gunluk",
@@ -555,6 +541,12 @@
    "t": "2026-08-25T10:28:28+03:00",
    "k": "gunluk",
    "g": 81,
+   "n": 83
+  },
+  {
+   "t": "2026-08-25T10:31:25+03:00",
+   "k": "gunluk",
+   "g": 82,
    "n": 83
   }
  ]
