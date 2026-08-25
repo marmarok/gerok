@@ -1,16 +1,16 @@
 {
  "bicim": 1,
- "zaman": "2026-08-25T16:16:04+03:00",
- "kadans": "gunluk",
+ "zaman": "2026-08-25T16:16:27+03:00",
+ "kadans": "6saat",
  "durum": "sorun",
  "sayilar": {
-  "kontrol": 85,
-  "sinama": 1603,
-  "gecen": 83,
+  "kontrol": 34,
+  "sinama": 1035,
+  "gecen": 31,
   "bilinen": 1,
-  "sorun": 1,
-  "sure": 69.8,
-  "kosu": 76
+  "sorun": 2,
+  "sure": 9.0,
+  "kosu": 77
  },
  "sorunlar": [
   {
@@ -18,6 +18,13 @@
    "onem": "kritik",
    "oyku": "bekci",
    "not": "alti: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`",
+   "onarilabilir": false
+  },
+  {
+   "ad": "telefon_yedegi",
+   "onem": "yuksek",
+   "oyku": "bekci",
+   "not": "kontrol çöktü: [Errno 1] Operation not permitted: '~/Library/Mobile Documents/com~apple~CloudDocs/Gerok'",
    "onarilabilir": false
   }
  ],
@@ -30,24 +37,19 @@
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 15,
-   "toplam": 15,
-   "sinama": 109
-  },
-  "bekci": {
-   "gecen": 8,
-   "toplam": 9,
-   "sinama": 81
-  },
-  "yedek": {
-   "gecen": 1,
-   "toplam": 1,
-   "sinama": 2
-  },
-  "kod": {
    "gecen": 10,
    "toplam": 10,
-   "sinama": 475
+   "sinama": 71
+  },
+  "bekci": {
+   "gecen": 3,
+   "toplam": 5,
+   "sinama": 17
+  },
+  "kod": {
+   "gecen": 8,
+   "toplam": 8,
+   "sinama": 459
   },
   "veri": {
    "gecen": 2,
@@ -55,29 +57,14 @@
    "sinama": 9
   },
   "gizlilik": {
-   "gecen": 6,
-   "toplam": 6,
-   "sinama": 65
+   "gecen": 4,
+   "toplam": 4,
+   "sinama": 63
   },
   "bilgi": {
    "gecen": 5,
    "toplam": 5,
    "sinama": 416
-  },
-  "sartname": {
-   "gecen": 1,
-   "toplam": 1,
-   "sinama": 410
-  },
-  "depolama": {
-   "gecen": 1,
-   "toplam": 1,
-   "sinama": 1
-  },
-  "davranis": {
-   "gecen": 35,
-   "toplam": 35,
-   "sinama": 35
   }
  },
  "derin": {
@@ -141,13 +128,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "2346ff1d3c7d",
-   "t": 1787488974018,
-   "onem": "bilgi",
-   "baslik": "Sahipsiz dosya nedir?",
-   "govde": "Az önce sormuştun. Telefonun deposunda duran ama hiçbir kayda bağlı olmayan bir fotoğraf ya da ses dosyası — evde duran, kime ait olduğu belirsiz bir eşya gibi.\n\nGenelde bir kaydı sildiğinde ya da bir işlem yarım kaldığında ortaya çıkar. Zararsızdır, sadece gereksiz yer kaplar; bekçi bulursa kendi siler.\n\nBir daha sorarsan bekçi artık bunu kendisi cevaplıyor — bilgi tabanına ekledim ve yayınladım."
-  },
   {
    "id": "6d796edf5775",
    "t": 1787488974082,
@@ -315,12 +295,28 @@
    "onem": "sorun",
    "baslik": "1 sorun buldum",
    "govde": "• [kritik] Zamanlayıcı ayakta\n   alti: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`"
+  },
+  {
+   "id": "1df220fa3d16",
+   "t": 1787663787017,
+   "onem": "sorun",
+   "baslik": "2 sorun buldum",
+   "govde": "• [kritik] Zamanlayıcı ayakta\n   alti: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`\n• [yuksek] telefon_yedegi\n   kontrol çöktü: [Errno 1] Operation not permitted: '~/Library/Mobile Documents/com~apple~CloudDocs/Gerok'"
   }
  ],
  "bekleyen": [
   {
    "id": "614385587988",
    "soru": "“Zamanlayıcı ayakta” kontrolü takılıyor ve kendim onaramadım. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu? (Ayrıntısı panoda duruyor.)",
+   "secenekler": [
+    "Bu bilinen bir durum",
+    "Gerçekten bozuk, bak",
+    "Yanlış alarm"
+   ]
+  },
+  {
+   "id": "07aefe2c63ed",
+   "soru": "“telefon_yedegi” kontrolü takılıyor ve kendim onaramadım. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu? (Ayrıntısı panoda duruyor.)",
    "secenekler": [
     "Bu bilinen bir durum",
     "Gerçekten bozuk, bak",
@@ -337,12 +333,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-08-23T16:22:29+03:00",
-   "k": "haftalik",
-   "g": 77,
-   "n": 79
-  },
   {
    "t": "2026-08-23T16:24:14+03:00",
    "k": "saatlik",
@@ -576,6 +566,12 @@
    "k": "gunluk",
    "g": 83,
    "n": 85
+  },
+  {
+   "t": "2026-08-25T16:16:27+03:00",
+   "k": "6saat",
+   "g": 31,
+   "n": 34
   }
  ]
 }
