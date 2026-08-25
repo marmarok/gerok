@@ -5,7 +5,7 @@
 // Neden önbelleğin adına bakmıyoruz: yeni sürüm indiğinde önbellek adı değişiyor
 // ama ekrandaki kod hâlâ eski oluyor — uygulama kendini güncellenmiş sanıyordu.
 // Bu satır ekrandaki dosyanın içinde olduğu için yalan söyleyemiyor.
-const BU_SURUM = 'gerok-103-20260825-014315';
+const BU_SURUM = 'gerok-104-20260825-093049';
 
 import * as veri from './veri.js';
 import * as iz from './iz.js';
@@ -629,6 +629,17 @@ function zamanCizgisiCiz() {
   // Tur yokken de kayıtlar gösterilmeli. Eskiden burada koşulsuz "paketi yükle"
   // yazıyordu; paketten önce bırakılan sesli not silinmiş gibi görünüyordu
   // (iPhone'da denerken çıktı). Kayıt duruyor, sadece görünmüyordu.
+  // "Paketi yükle" demek, gezisini ARŞİVLEMİŞ birine YALAN söylemek: kayıtları
+  // yerinde duruyor, ekran onları göstermiyor. Gezisini bitiren biri tam da
+  // bunu görüp "gezi hiç yok" diye bildirdi.
+  //
+  // BURAYA İSİM YAZILMAZ. Bu dosya herkese açık depoda; kişi adı, gezi adı ya
+  // da yer adı örneği yorum satırında bile dışarı çıkar.
+  //
+  // Çağrı İKİ dalın da üstünde: hangi boş duruma düşüldüğü önemli değil, tur
+  // yokken arşivde bir gezi varsa bunun söylenmesi gerekiyor.
+  if (!s) arsivVarsaAnlat();
+
   if (!s && !durum.kayitlar.length) {
     kap.innerHTML = bosDurum('harita', 'Henüz bir gerok yüklenmedi.<br>Gerok sekmesinden paketi yükle.');
     return;
@@ -4893,9 +4904,15 @@ async function turDegisti() {
   kayitBildir(yeni ? `"${yeni.ad}" turundasın.` : 'Aktif tur yok.', 'iyi');
 }
 
-function turArsivleSor(id) {
+async function turArsivleSor(id) {
+  // Son turu arşivlemek ekranların TAMAMINI boşaltıyor. Bunu önceden söylemek
+  // gerekiyor: sonradan görünce insan haklı olarak "veriler gitti" sanıyor.
+  const kalan = (await gerok.turlar()).filter(t => !t.arsiv && t.id !== id).length;
   ortuAc(`
     <div class="ortu-baslik">Tur arşivlensin mi?</div>
+    ${kalan ? '' : `<div class="panel-not"><b>Bu son turun.</b> Arşivleyince zaman
+    çizgisi, harita ve duraklar boşalacak — kayıtların yerinde duracak ve
+    ekranda <b>Geziye geri dön</b> düğmesi çıkacak.</div>`}
     <div class="ortu-alt">Kayıtların, sesli notların, fotoğrafların ve izin
     <b>silinmez</b> — telefonda durur. Sadece ekranlardan çekilir, yeni turla
     karışmaz. İstediğin an geri dönebilirsin.</div>
@@ -5233,6 +5250,55 @@ export function uzaklikYaz(metre) {
 function bosDurum(ikonAdi, yazi) {
   return `<div class="bos-durum"><div class="bos-ikon">${ikon(ikonAdi, 46)}</div>`
        + `<div class="bos-yazi">${yazi}</div></div>`;
+}
+
+/**
+ * Aktif tur yokken: arşivde tur var mı, varsa kaç kayıt duruyor?
+ *
+ * Boş ekranın kendisi zararsız görünüyor ama insanın aklına ilk geleni
+ * söylüyor: "veriler gitti". Bu yüzden burada sayı VERİLİYOR — "duruyor"
+ * demek yetmez, kaç tanesinin durduğunu görmek gerekiyor.
+ *
+ * Çizim eşzamanlı olmak zorunda olduğu için önce boş durum basılıyor, arşiv
+ * bulunursa üstüne yazılıyor. Bulunmazsa hiçbir şey değişmiyor.
+ */
+async function arsivVarsaAnlat() {
+  const turlar = await gerok.turlar();
+  const arsiv = turlar.filter(t => t.arsiv);
+  if (!arsiv.length) return;
+  let kayit = 0;
+  for (const t of arsiv) kayit += (await veri.kayitlariGetir(t.id)).length;
+  // Kabı ŞİMDİ arıyoruz. Çağıran anda yakalanan öğe bu bekleme sırasında
+  // yeniden çizilmiş olabiliyordu; öyle olunca yazı hiç görünmüyordu.
+  const kap = $('#zamanListe');
+  if (!kap || gerok.aktifGerok()) return;            // arada tur açılmışsa dokunma
+  if (kap.querySelector('#arsivDon')) return;        // zaten yazılmış
+
+  const son = arsiv[0];
+  const yazi = `<b>${kacis(son.ad)}</b> arşivde. `
+    + `${kayit} kayıt telefonunda duruyor — hiçbiri silinmedi.`;
+  const dugme = `<div class="bos-eylem"><button class="eylem-dugme birincil"`
+    + ` id="arsivDon">Geziye geri dön</button></div>`;
+
+  // Aşağıdaki "Henüz bir gerok yüklenmedi" uyarısı arşiv varken ARTIK DOĞRU
+  // DEĞİL: gerok var, arşivde. İki satır yan yana durursa hangisine
+  // inanacağını bilemezsin, o yüzden yanlış olan kaldırılıyor.
+  for (const u of kap.querySelectorAll('.uyari-satir'))
+    if (/Henüz bir gerok yüklenmedi/.test(u.textContent)) u.remove();
+
+  // Liste boşsa yerini alıyor, doluysa ÜSTÜNE biniyor: aşağıdaki kayıtları
+  // silip yerine açıklama koymak, açıklamanın anlattığı korkuyu doğrularadı.
+  if (kap.querySelector('.bos-durum') || !kap.children.length) {
+    kap.innerHTML = bosDurum('saat', yazi.replace('. ', '.<br>')) + dugme;
+  } else {
+    kap.insertAdjacentHTML('afterbegin',
+      `<div class="uyari-satir">${yazi}</div>${dugme}`);
+  }
+  $('#arsivDon').addEventListener('click', async () => {
+    await gerok.turSec(son.id);
+    await turDegisti();
+    kayitBildir(`${son.ad} yeniden açıldı.`, 'iyi');
+  });
 }
 
 // --------------------------------------------------------------- servis worker -

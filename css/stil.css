@@ -1831,3 +1831,8 @@ body:has(.ses-katman:not(.gizli)) .bildirim {
 .on-sezi-ad { font-weight: 600; margin: 2px 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .on-sezi-alt { font-size: 13px; color: var(--soluk); }
 .on-sezi-dugmeler { display: flex; flex-direction: column; gap: 6px; flex-shrink: 0; }
+
+/* Arşiv boş durumundaki dönüş düğmesi. Boş ekranın kendisi "veri gitti" diye
+   okunuyordu; düğme o okumayı kesiyor. */
+.bos-eylem { margin-top: 16px; display: flex; justify-content: center; }
+.bos-eylem .eylem-dugme { max-width: 260px; }
