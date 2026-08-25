@@ -1,54 +1,121 @@
 {
  "bicim": 1,
- "zaman": "2026-08-25T13:02:53+03:00",
- "kadans": "saatlik",
- "durum": "iyi",
+ "zaman": "2026-08-25T13:29:10+03:00",
+ "kadans": "haftalik",
+ "durum": "sorun",
  "sayilar": {
-  "kontrol": 4,
-  "sinama": 14,
-  "gecen": 4,
-  "bilinen": 0,
-  "sorun": 0,
-  "sure": 2.8,
-  "kosu": 70
+  "kontrol": 93,
+  "sinama": 1615,
+  "gecen": 90,
+  "bilinen": 2,
+  "sorun": 1,
+  "sure": 68.6,
+  "kosu": 71
  },
- "sorunlar": [],
- "bilinenler": [],
+ "sorunlar": [
+  {
+   "ad": "Canlı dosyalar indirilebiliyor",
+   "onem": "kritik",
+   "oyku": "yayin",
+   "not": "./js/app.js (özet tutmuyor); ./js/gunsonu.js (özet tutmuyor); ./js/esitleme.js (özet tutmuyor)",
+   "onarilabilir": false
+  }
+ ],
+ "bilinenler": [
+  {
+   "ad": "Math.min(...dizi) yığın taşması",
+   "not": "app.js:712; app.js:4880; gerok.js:447; sihirbaz.js:393; sihirbaz.js:394; sihirbaz.js:395 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
+  },
+  {
+   "ad": "Arşivde fotoğrafların aslı var",
+   "not": "(ayrıntı panoda)"
+  }
+ ],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 3,
-   "toplam": 3,
-   "sinama": 6
+   "gecen": 14,
+   "toplam": 15,
+   "sinama": 109
   },
   "bekci": {
+   "gecen": 9,
+   "toplam": 9,
+   "sinama": 80
+  },
+  "yedek": {
    "gecen": 1,
    "toplam": 1,
-   "sinama": 8
+   "sinama": 1
+  },
+  "kod": {
+   "gecen": 10,
+   "toplam": 10,
+   "sinama": 475
+  },
+  "veri": {
+   "gecen": 2,
+   "toplam": 2,
+   "sinama": 9
+  },
+  "gizlilik": {
+   "gecen": 6,
+   "toplam": 6,
+   "sinama": 65
+  },
+  "bilgi": {
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 416
+  },
+  "sartname": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 410
+  },
+  "depolama": {
+   "gecen": 4,
+   "toplam": 4,
+   "sinama": 4
+  },
+  "kaynak": {
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 11
+  },
+  "davranis": {
+   "gecen": 35,
+   "toplam": 35,
+   "sinama": 35
   }
  },
  "derin": {
-  "kadans": "gunluk",
-  "zaman": "2026-08-25T10:31:25+03:00",
-  "kontrol": 83,
-  "sinama": 1592,
-  "gecen": 82,
-  "sorun": 0,
+  "kadans": "haftalik",
+  "zaman": "2026-08-25T13:29:10+03:00",
+  "kontrol": 93,
+  "sinama": 1615,
+  "gecen": 90,
+  "sorun": 1,
   "gruplar": {
    "yayin": {
-    "gecen": 15,
+    "gecen": 14,
     "toplam": 15,
-    "sinama": 108
+    "sinama": 109
    },
    "bekci": {
     "gecen": 9,
     "toplam": 9,
-    "sinama": 79
+    "sinama": 80
+   },
+   "yedek": {
+    "gecen": 1,
+    "toplam": 1,
+    "sinama": 1
    },
    "kod": {
     "gecen": 10,
     "toplam": 10,
-    "sinama": 470
+    "sinama": 475
    },
    "veri": {
     "gecen": 2,
@@ -71,32 +138,23 @@
     "sinama": 410
    },
    "depolama": {
-    "gecen": 1,
-    "toplam": 1,
-    "sinama": 1
+    "gecen": 4,
+    "toplam": 4,
+    "sinama": 4
+   },
+   "kaynak": {
+    "gecen": 5,
+    "toplam": 5,
+    "sinama": 11
    },
    "davranis": {
-    "gecen": 34,
-    "toplam": 34,
-    "sinama": 34
+    "gecen": 35,
+    "toplam": 35,
+    "sinama": 35
    }
   }
  },
  "mesajlar": [
-  {
-   "id": "8cf092d065da",
-   "t": 1787488041568,
-   "onem": "iyi",
-   "baslik": "Emir alındı: claude-cagir",
-   "govde": "akıl hocası dosyası bırakılacak"
-  },
-  {
-   "id": "e6752e62973f",
-   "t": 1787488092356,
-   "onem": "sorun",
-   "baslik": "1 sorun buldum",
-   "govde": "• [yuksek] Koşular taze\n   6saat: 1.3 gündür koşmadı"
-  },
   {
    "id": "38cd1f6776f9",
    "t": 1787488321628,
@@ -257,9 +315,33 @@
    "onem": "bilgi",
    "baslik": "Gün Sonu korkusu düzeltildi",
    "govde": "Haklıymışsın. Gün Sonu hiçbir şey silmiyordu ama \"Günü kapat\" / \"Gün kapandı\" yazıyordu — kapanıyormuş gibi okunuyor. Kaldırdım. İlk adımda artık \"hiçbir adım kayıt silmez, istediğin yerde çıkabilirsin\" yazıyor. Daha önemlisi: yedek alma artık Gün Sonu'nun içinde değil, ayrı soruyor. Sürüm gerok-106."
+  },
+  {
+   "id": "d074beb6eedc",
+   "t": 1787653681666,
+   "onem": "iyi",
+   "baslik": "Emir alındı: tam-kontrol",
+   "govde": "haftalık kontrolün tamamı koşuluyor"
+  },
+  {
+   "id": "38973cab4fba",
+   "t": 1787653750296,
+   "onem": "sorun",
+   "baslik": "1 sorun buldum",
+   "govde": "• [kritik] Canlı dosyalar indirilebiliyor\n   ./js/app.js (özet tutmuyor); ./js/gunsonu.js (özet tutmuyor); ./js/esitleme.js (özet tutmuyor)"
   }
  ],
- "bekleyen": [],
+ "bekleyen": [
+  {
+   "id": "32a9d74d3158",
+   "soru": "“Canlı dosyalar indirilebiliyor” kontrolü takılıyor ve kendim onaramadım. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu? (Ayrıntısı panoda duruyor.)",
+   "secenekler": [
+    "Bu bilinen bir durum",
+    "Gerçekten bozuk, bak",
+    "Yanlış alarm"
+   ]
+  }
+ ],
  "telefonSinamasi": [
   "Sesli not bırak ve ÇAL — sesi duyuyor musun?",
   "Galeriden 3 fotoğraf ekle — çubuk akıyor mu, özet çıkıyor mu?",
@@ -269,12 +351,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-08-23T15:32:01+03:00",
-   "k": "saatlik",
-   "g": 4,
-   "n": 4
-  },
   {
    "t": "2026-08-23T15:32:52+03:00",
    "k": "gunluk",
@@ -508,6 +584,12 @@
    "k": "saatlik",
    "g": 4,
    "n": 4
+  },
+  {
+   "t": "2026-08-25T13:29:10+03:00",
+   "k": "haftalik",
+   "g": 90,
+   "n": 93
   }
  ]
 }
