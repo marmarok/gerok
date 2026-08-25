@@ -1,16 +1,16 @@
 {
  "bicim": 1,
- "zaman": "2026-08-25T16:16:27+03:00",
- "kadans": "6saat",
+ "zaman": "2026-08-25T16:24:08+03:00",
+ "kadans": "saatlik",
  "durum": "sorun",
  "sayilar": {
-  "kontrol": 34,
-  "sinama": 1035,
-  "gecen": 31,
-  "bilinen": 1,
-  "sorun": 2,
-  "sure": 9.0,
-  "kosu": 77
+  "kontrol": 4,
+  "sinama": 14,
+  "gecen": 3,
+  "bilinen": 0,
+  "sorun": 1,
+  "sure": 0.5,
+  "kosu": 78
  },
  "sorunlar": [
   {
@@ -19,52 +19,20 @@
    "oyku": "bekci",
    "not": "alti: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`",
    "onarilabilir": false
-  },
-  {
-   "ad": "telefon_yedegi",
-   "onem": "yuksek",
-   "oyku": "bekci",
-   "not": "kontrol çöktü: [Errno 1] Operation not permitted: '~/Library/Mobile Documents/com~apple~CloudDocs/Gerok'",
-   "onarilabilir": false
   }
  ],
- "bilinenler": [
-  {
-   "ad": "Math.min(...dizi) yığın taşması",
-   "not": "app.js:712; app.js:4880; gerok.js:447; sihirbaz.js:393; sihirbaz.js:394; sihirbaz.js:395 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
-  }
- ],
+ "bilinenler": [],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 10,
-   "toplam": 10,
-   "sinama": 71
+   "gecen": 3,
+   "toplam": 3,
+   "sinama": 6
   },
   "bekci": {
-   "gecen": 3,
-   "toplam": 5,
-   "sinama": 17
-  },
-  "kod": {
-   "gecen": 8,
-   "toplam": 8,
-   "sinama": 459
-  },
-  "veri": {
-   "gecen": 2,
-   "toplam": 2,
-   "sinama": 9
-  },
-  "gizlilik": {
-   "gecen": 4,
-   "toplam": 4,
-   "sinama": 63
-  },
-  "bilgi": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 416
+   "gecen": 0,
+   "toplam": 1,
+   "sinama": 8
   }
  },
  "derin": {
@@ -128,13 +96,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "6d796edf5775",
-   "t": 1787488974082,
-   "onem": "iyi",
-   "baslik": "Gerok bekçisi: sorun yok",
-   "govde": "4/4 geçti, yeni bir şey eklendi."
-  },
   {
    "id": "8c93f6f4348f",
    "t": 1787491453439,
@@ -302,6 +263,13 @@
    "onem": "sorun",
    "baslik": "2 sorun buldum",
    "govde": "• [kritik] Zamanlayıcı ayakta\n   alti: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`\n• [yuksek] telefon_yedegi\n   kontrol çöktü: [Errno 1] Operation not permitted: '~/Library/Mobile Documents/com~apple~CloudDocs/Gerok'"
+  },
+  {
+   "id": "a919ef377dfc",
+   "t": 1787664248847,
+   "onem": "sorun",
+   "baslik": "1 sorun buldum",
+   "govde": "• [kritik] Zamanlayıcı ayakta\n   alti: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`"
   }
  ],
  "bekleyen": [
@@ -333,12 +301,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-08-23T16:24:14+03:00",
-   "k": "saatlik",
-   "g": 4,
-   "n": 4
-  },
   {
    "t": "2026-08-23T16:26:58+03:00",
    "k": "saatlik",
@@ -572,6 +534,12 @@
    "k": "6saat",
    "g": 31,
    "n": 34
+  },
+  {
+   "t": "2026-08-25T16:24:08+03:00",
+   "k": "saatlik",
+   "g": 3,
+   "n": 4
   }
  ]
 }
