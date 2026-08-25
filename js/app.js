@@ -5,7 +5,7 @@
 // Neden önbelleğin adına bakmıyoruz: yeni sürüm indiğinde önbellek adı değişiyor
 // ama ekrandaki kod hâlâ eski oluyor — uygulama kendini güncellenmiş sanıyordu.
 // Bu satır ekrandaki dosyanın içinde olduğu için yalan söyleyemiyor.
-const BU_SURUM = 'gerok-104-20260825-093049';
+const BU_SURUM = 'gerok-105-20260825-101024';
 
 import * as veri from './veri.js';
 import * as iz from './iz.js';
@@ -3022,6 +3022,47 @@ function surumuYaz() {
 // kayıt sürerken güncellemeyi reddediyoruz.
 
 const SURUM_LISTESI = './surum.json';
+const DEGISIKLIK_LISTESI = './degisiklikler.json';
+
+/**
+ * Bir sürümün notları: ne eklendi, ne düzeldi, ne çıktı.
+ *
+ * Neden var: "3 dosya yenilendi, 147 KB" bir insana hiçbir şey anlatmıyor.
+ * Güncellemeyi kabul edip etmemeye karar verecek olan kişi neyin değiştiğini
+ * bilmeli — özellikle bir şey ÇIKARILDIYSA.
+ *
+ * Sürüm numarası `gerok-105-20260825-...` biçiminde; ortadaki sayı anahtar.
+ */
+function surumSayisi(surum) {
+  const m = /gerok-(\d+)-/.exec(surum || '');
+  return m ? Number(m[1]) : null;
+}
+
+async function degisiklikNotlari(surum, { agdan = true } = {}) {
+  const sayi = surumSayisi(surum);
+  if (sayi == null) return null;
+  try {
+    const yol = agdan ? `${DEGISIKLIK_LISTESI}?t=${Date.now()}` : DEGISIKLIK_LISTESI;
+    const yanit = await fetch(yol, agdan ? { cache: 'no-store' } : undefined);
+    if (!yanit.ok) return null;
+    const d = await yanit.json();
+    return (d.surumler || []).find(x => x.sayi === sayi) || null;
+  } catch { return null; }        // internet yoksa kart notsuz çıkar, susmaz
+}
+
+/** Kart ve panel aynı listeyi çizsin diye tek yerde. */
+function notlariHtml(n) {
+  if (!n) return '';
+  const bolum = (baslik, sinif, liste) => (liste && liste.length)
+    ? `<div class="gnc-bolum ${sinif}"><div class="gnc-baslik">${baslik}</div>`
+      + `<ul>${liste.map(x => `<li>${kacis(x)}</li>`).join('')}</ul></div>`
+    : '';
+  const html = bolum('Eklenenler', 'gnc-ekle', n.eklendi)
+             + bolum('Düzelenler', 'gnc-duzel', n.duzeldi)
+             + bolum('Çıkarılanlar', 'gnc-cikar', n.cikti);
+  return html || '<div class="gnc-bolum"><div class="gnc-baslik">Bu güncellemede '
+       + 'görünür bir değişiklik yok — içeride iyileştirme var.</div></div>';
+}
 
 // Telefondaki önbellekte duran baytların özeti. Sunucudaki listeyle
 // karşılaştırılıp yalnızca GERÇEKTEN değişen dosyaların boyutu toplanıyor —
@@ -3069,7 +3110,8 @@ async function guncellemeBak() {
   return {
     ...liste,
     indi: adlar.includes(liste.surum),   // dosyalar zaten inmiş mi
-    degisen: await degisenBoyut(liste)
+    degisen: await degisenBoyut(liste),
+    notlar: await degisiklikNotlari(liste.surum)
   };
 }
 
@@ -3088,6 +3130,7 @@ function guncellemeKarti(bilgi) {
       <span>${boyut || '—'}</span>
       ${sayi ? `<span class="guncelleme-alt">${sayi} dosya yenilendi</span>` : ''}
     </div>
+    ${notlariHtml(bilgi.notlar)}
     <div class="guncelleme-not">${bilgi.indi
       ? 'Dosyalar indi bile. Tek yapılacak uygulamayı yenilemek — birkaç saniye.'
       : 'İnternetten inecek, sonra uygulama kendi kendine yenilenecek.'}</div>
@@ -4079,6 +4122,7 @@ async function paneliCiz() {
       ic: `
         ${panelSatiri({ etiket: 'Telefondaki sürüm', id: 'btnSurum',
           deger: '<span id="surumYazi">bakılıyor…</span>' })}
+        ${panelSatiri({ etiket: 'Neler değişti', id: 'btnDegisiklik' })}
         ${panelSatiri({ etiket: 'Telefonu sına', id: 'btnSinama' })}
         ${panelSatiri({ etiket: 'Nasıl kullanılır', id: 'btnKurulum' })}
         ${panelSatiri({ etiket: 'Bir şey ters giderse', id: 'btnTamir',
@@ -4152,6 +4196,7 @@ async function paneliCiz() {
     }
   }));
   $('#btnTurlar').addEventListener('click', turlariYonet);
+  $('#btnDegisiklik').addEventListener('click', degisiklikleriGoster);
   $('#btnYeniTur').addEventListener('click', () => yeniTurSor());
   $('#btnHarita').addEventListener('click', haritaIndirmeSor);
   $('#btnSurum').addEventListener('click', surumuAra);
@@ -4902,6 +4947,26 @@ async function turDegisti() {
   await tazele();
   if (durum.ekran === 'harita') haritaGuncelle(durum.kayitlar, durum.izNoktalari);
   kayitBildir(yeni ? `"${yeni.ad}" turundasın.` : 'Aktif tur yok.', 'iyi');
+}
+
+
+/**
+ * "Neler değişti" — çalışan sürümün notları.
+ *
+ * Güncelleme kartı bir kez çıkıyor ve "Sonra" denince kapanıyor; notlar orada
+ * kalırsa kaybolmuş oluyor. Burada ağdan DEĞİL, telefondaki dosyadan okunuyor:
+ * internetsizken de açılıyor.
+ */
+async function degisiklikleriGoster() {
+  const n = await degisiklikNotlari(BU_SURUM, { agdan: false });
+  ortuAc(`
+    <div class="ortu-baslik">Neler değişti</div>
+    <div class="ortu-alt">${surumOku(BU_SURUM)}</div>
+    ${n ? notlariHtml(n)
+        : '<div class="panel-not">Bu sürümün notu yok.</div>'}
+    <button class="eylem-dugme" id="dgsKapat">Kapat</button>
+  `);
+  $('#dgsKapat').addEventListener('click', ortuKapat);
 }
 
 async function turArsivleSor(id) {

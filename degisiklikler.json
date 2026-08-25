@@ -1,0 +1,52 @@
+{
+  "aciklama": "Her güncellemede ne eklendi, ne düzeldi, ne çıktı. En yeni en üstte. Bu dosya güncelleme kartında okunuyor; boş bırakılamaz, yayınlama betiği kontrol ediyor.",
+  "surumler": [
+    {
+      "sayi": 105,
+      "eklendi": [
+        "Güncelleme kartı artık ne eklendiğini, ne düzeldiğini ve ne çıkarıldığını yazıyor.",
+        "Gerok sekmesine \"Neler değişti\" eklendi — kartı kaçırsan da sonradan okuyabilirsin."
+      ],
+      "duzeldi": [],
+      "cikti": []
+    },
+    {
+      "sayi": 104,
+      "eklendi": [
+        "Son turu arşivlemeden önce uyarı: ekranların boşalacağı ve kayıtların duracağı önceden söyleniyor."
+      ],
+      "duzeldi": [
+        "Gezi arşivlenince zaman çizgisi \"Henüz bir gerok yüklenmedi\" diyordu; artık \"gezin arşivde, N kayıt duruyor\" yazıyor ve \"Geziye geri dön\" düğmesi çıkıyor."
+      ],
+      "cikti": []
+    },
+    {
+      "sayi": 103,
+      "eklendi": [
+        "Bekçi artık rehberinin hangi bölgeyi anlattığını biliyor."
+      ],
+      "duzeldi": [
+        "Ev, işyeri ve Türkiye içindeki duraklar \"bilmiyorum\" diye sayılmıyor — eksik değil, kapsam dışı."
+      ],
+      "cikti": []
+    },
+    {
+      "sayi": 102,
+      "eklendi": [
+        "Duraklar ekranı, ekleme anını kaçırmış duraklar için bir kez bilgi soruyor.",
+        "Bekçi durak listesinde bilmediklerini de sayıyor."
+      ],
+      "duzeldi": [],
+      "cikti": []
+    },
+    {
+      "sayi": 101,
+      "eklendi": [],
+      "duzeldi": [
+        "Durak eklerken bildirim çıkmıyor, liste tazelenmiyor ve bekçi soru sormuyordu — eski bir hata sessizce patlıyordu.",
+        "\"Gittik / Kaçırdık\" düğmeleri de aynı hata yüzünden bildirim vermiyordu."
+      ],
+      "cikti": []
+    }
+  ]
+}

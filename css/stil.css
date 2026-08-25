@@ -1836,3 +1836,14 @@ body:has(.ses-katman:not(.gizli)) .bildirim {
    okunuyordu; düğme o okumayı kesiyor. */
 .bos-eylem { margin-top: 16px; display: flex; justify-content: center; }
 .bos-eylem .eylem-dugme { max-width: 260px; }
+
+/* Güncelleme notları. Üç bölüm üç ayrı şey söylüyor ve en önemlisi
+   "çıkarılanlar" — bir özelliğin gittiğini fark etmemek en can sıkıcı olanı,
+   o yüzden rengi uyarı rengi. */
+.gnc-bolum { margin: 12px 0; text-align: left; }
+.gnc-baslik { font-size: 12px; letter-spacing: .04em; text-transform: uppercase;
+  color: var(--cok-soluk); margin-bottom: 6px; }
+.gnc-bolum ul { margin: 0; padding-left: 18px; }
+.gnc-bolum li { font-size: 13.5px; line-height: 1.55; margin-bottom: 5px; color: var(--yazi); }
+.gnc-ekle .gnc-baslik { color: var(--iyi, #2e7d5b); }
+.gnc-cikar .gnc-baslik { color: var(--kotu, #b3402f); }

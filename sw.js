@@ -4,7 +4,7 @@
 
 // DİKKAT: her yayında bu sürüm değişmeli, yoksa telefonlar eski dosyaları
 // önbellekten sunmaya devam eder. arac/yayinla.sh bunu kendiliğinden günceller.
-const SURUM = 'gerok-104-20260825-093049';
+const SURUM = 'gerok-105-20260825-101024';
 
 const DOSYALAR = [
   './',
@@ -42,6 +42,7 @@ const DOSYALAR = [
   // Bölgenin yer adları (kamuya açık GeoNames verisi, kişisel hiçbir şey yok).
   // Haritada yer aramak internetsiz de çalışsın diye gömülü — yolda wifi yok.
   './veri-yerler.json',
+  './degisiklikler.json',
   // Harita yazı tipleri. Bunlar olmadan haritada tek bir yer adı görünmez.
   './yazi/noto-regular/0-255.pbf',
   './yazi/noto-regular/256-511.pbf',
