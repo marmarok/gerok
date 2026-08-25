@@ -5,7 +5,7 @@
 // Neden önbelleğin adına bakmıyoruz: yeni sürüm indiğinde önbellek adı değişiyor
 // ama ekrandaki kod hâlâ eski oluyor — uygulama kendini güncellenmiş sanıyordu.
 // Bu satır ekrandaki dosyanın içinde olduğu için yalan söyleyemiyor.
-const BU_SURUM = 'gerok-106-20260825-102646';
+const BU_SURUM = 'gerok-107-20260825-132744';
 
 import * as veri from './veri.js';
 import * as iz from './iz.js';
@@ -16,6 +16,7 @@ import { haritaKur, haritaGuncelle, haritaBoyutTazele, konumaGit, hepsiniGoster,
          duragaUc } from './harita.js';
 import { gunSonuAc, geziSonuAc, baslangicKaydiAc, bitisKaydiAc, mektupAc } from './gunsonu.js';
 import { paketGonder, paketAl, yedekAl, sonYedekZamani, yedekSina,
+         yedegiDogrula, yedekDogrulamaDurumu,
   bulutaYukle, yedektenGeriYukle } from './esitleme.js';
 import { temaBaslat, kagitSecimi, kagitSec, kagitSil, varsayilanKagit } from './tema.js';
 import { semaSecimi, semaUygula, gununRenkleri,
@@ -140,7 +141,7 @@ function bekciyiKur() {
     haritaIndir: haritaIndirmeSor,
     adSor,
     surumuAra,
-    gunSonu: () => gunSonuAc(durum, tazele),
+    gunSonu: () => gunSonuAc(durum, tazele, yedekAlVeDogrula),
     mektup: () => mektupAc(tazele),
     paneliAc: (ad) => { acikPanel = ad; ekranAc('gerok'); paneliCiz(); },
     duraklar: () => gerok.duraklar(),
@@ -3630,6 +3631,50 @@ function yaklasmaUyarisi(durak, uzaklik) {
  */
 const YEDEK_ARALIK = 24 * 60 * 60 * 1000;
 
+
+/**
+ * Yedek al, sonra HEMEN doğrula — her yedekte, kullanıcının kararı.
+ *
+ * Doğrulamayı atlamak serbest ama sonucu görünür: ekran "alındı" ile
+ * "doğrulandı"yı ayrı gösteriyor. Yedeğin var sanıp olmaması, hiç yedek
+ * almamaktan kötüdür.
+ */
+async function yedekAlVeDogrula() {
+  await yedekAl(kayitBildir);
+  const d = await yedekDogrulamaDurumu();
+  if (!d.alindi) return;                 // iptal edilmiş, sorma
+
+  ortuAc(`
+    <div class="ortu-baslik">Yedeği doğrulayalım</div>
+    <div class="ortu-alt">Telefon, dosyanın nereye kaydedildiğini göremiyor —
+    o yüzden "kaydedildi" yazısı bir <b>varsayım</b>. Az önce kaydettiğin
+    dosyayı seç, açıp sayayım. Böylece yedeğin olduğunu <b>bilelim</b>.</div>
+    <button class="eylem-dugme birincil" id="ydgSec">Dosyayı seç</button>
+    <button class="eylem-dugme" id="ydgAtla">Şimdi değil</button>
+    <div id="ydgDurum" class="panel-not"></div>
+  `);
+  $('#ydgAtla').addEventListener('click', ortuKapat);
+  $('#ydgSec').addEventListener('click', () => {
+    const yaz = (m) => { const e = $('#ydgDurum'); if (e) e.innerHTML = m; };
+    yedegiDogrula(kayitBildir, (s) => {
+      if (!s) return;
+      if (s.dogru) {
+        ortuKapat();
+        kayitBildir(`Yedek doğrulandı · ${s.kayit} kayıt, ${s.medya} dosya`, 'iyi');
+        tazele();
+      } else if (s.eksik) {
+        yaz(`<b>Dikkat:</b> ${s.eksik} kaydın sesi ya da görseli yedeğe girmemiş. `
+          + 'Bu yedek eksik — yer açıp yeniden dene.');
+      } else if (s.kayit != null && s.kayit < s.canliKayit) {
+        yaz(`Bu yedek <b>eski</b>: içinde ${s.kayit} kayıt var, telefonunda `
+          + `${s.canliKayit}. Yeni bir yedek al.`);
+      } else {
+        yaz('Doğrulanamadı. Doğru dosyayı seçtiğinden emin ol.');
+      }
+    });
+  });
+}
+
 async function yedekHatirlat() {
   const yedek = await sonYedekZamani();
   const esik = yedek || 0;
@@ -3658,7 +3703,7 @@ async function yedekHatirlat() {
     </div>`;
   document.body.appendChild(kutu);
   const kapat = () => kutu.remove();
-  $('#yedekSimdi').addEventListener('click', () => { kapat(); yedekAl(kayitBildir); });
+  $('#yedekSimdi').addEventListener('click', () => { kapat(); yedekAlVeDogrula(); });
   $('#yedekSonra').addEventListener('click', async () => {
     kapat();
     await veri.ayarYaz('yedekErtelendi', bugunAnahtar);
@@ -3989,8 +4034,14 @@ async function paneliCiz() {
   const yedekEski = !yedek || (Date.now() - yedek) > 24 * 60 * 60 * 1000;
   const azYer = depo?.kota && (depo.kota - depo.kullanilan) < AZ_YER_ESIGI;
 
+  // "Alındı" ile "doğrulandı" AYRI gösteriliyor. Telefon dosyanın nereye
+  // gittiğini göremiyor; doğrulanmamış bir yedek bir iddia, olgu değil.
+  const ydg = await yedekDogrulamaDurumu();
+  const dogruMu = ydg.dogrulandi && yedek && ydg.dogrulandi >= yedek;
   const yedekYazi = yedek
     ? gerok.tarihUzun(yedek) + ' ' + gerok.saat(yedek)
+      + (dogruMu ? ` · doğrulandı${ydg.sayi ? ` (${ydg.sayi} kayıt)` : ''}`
+                 : ' · DOĞRULANMADI')
     : 'hiç alınmadı';
 
   const bulut = await veri.ayarOku('sonBulut', null);
@@ -4216,10 +4267,10 @@ async function paneliCiz() {
   renkDugmeleriniKur();
   baglantiPaneliniKur(ag, kuyruk);
 
-  $('#btnGunSonu').addEventListener('click', () => gunSonuAc(durum, tazele));
+  $('#btnGunSonu').addEventListener('click', () => gunSonuAc(durum, tazele, yedekAlVeDogrula));
   $('#btnGonder').addEventListener('click', () => paketGonder(kayitBildir));
   $('#btnAl').addEventListener('click', () => paketAl(kayitBildir, tazele));
-  $('#btnYedek').addEventListener('click', () => yedekAl(kayitBildir));
+  $('#btnYedek').addEventListener('click', yedekAlVeDogrula);
   $('#btnBulut').addEventListener('click', async () => {
     await bulutaYukle(kayitBildir);
     paneliCiz();

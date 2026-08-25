@@ -428,11 +428,81 @@ export async function yedekAl(bildir) {
       setTimeout(() => URL.revokeObjectURL(url), 3000);
       bildir?.('Yedek indirildi.', 'iyi');
     }
+    // Damga "dosyayı iOS'a verdik" demek, "yedek var" demek DEĞİL. Doğrulama
+    // damgası ayrı tutuluyor; ekran ikisini karıştırmıyor.
     await veri.ayarYaz('sonYedek', Date.now());
   } catch (hata) {
     if (hata.name === 'AbortError') { bildir?.('Yedek iptal edildi.'); return; }
     bildir?.(`Yedek alınamadı: ${hata.message}`, 'kotu');
   }
+}
+
+
+/**
+ * YEDEĞİ GERİ OKU — "aldım" ile "var" arasındaki farkı kapatan tek şey.
+ *
+ * `navigator.share` dosyayı iOS'a veriyor ve orada bitiyor: nereye gittiğini,
+ * gidip gitmediğini uygulama ÖĞRENEMİYOR. Buna rağmen "Yedek kaydedildi"
+ * yazıp damga atıyorduk. O damga bir iddiaydı, olgu değil.
+ *
+ * Burada kullanıcı dosyayı geri veriyor, biz açıp SAYIYORUZ ve telefondaki
+ * canlı veriyle karşılaştırıyoruz. Gizlilik taramasıyla aynı disiplin:
+ * denetlenemeyen söz, söz değildir.
+ *
+ * Dönüş: {dogru, kayit, canliKayit, medya, iz, eksik, ad, boyut} ya da null
+ * (kullanıcı seçmekten vazgeçti).
+ */
+export function yedegiDogrula(bildir, bitti) {
+  const secici = document.createElement('input');
+  secici.type = 'file';
+  secici.accept = '.json,application/json';
+
+  secici.addEventListener('change', async () => {
+    const dosya = secici.files[0];
+    if (!dosya) { bitti?.(null); return; }
+    bildir?.('Yedek okunuyor…');
+    try {
+      const paket = JSON.parse(await dosya.text());
+      if (!paket?.paketSurum) throw new Error('Bu bir Gerok yedeği değil.');
+
+      const kayit = (paket.kayitlar || []).length;
+      const medya = Object.keys(paket.medya || {}).length;
+      const iz = (paket.iz || []).length;
+      // Asıl tehlike: sesi/görseli olması gereken ama paketten çıkmayan kayıt.
+      const eksik = (paket.kayitlar || [])
+        .filter(k => k.medyaId && !(k.medyaId in (paket.medya || {}))).length;
+
+      // `tumKayitlar` MEZAR TAŞLARINI da sayıyor (silinmiş kayıtların izi).
+      // Onunla karşılaştırılırsa, bir kez bile kayıt silmiş biri her yedekte
+      // "yedeğin eski" uyarısı alırdı. Karşılaştırma yaşayan kayıtlarla.
+      const canliKayit = (await veri.kayitlariGetir()).length;
+      // Yedek alındıktan SONRA kayıt eklenmiş olabilir; eksik olması hata değil,
+      // fazla olması da. Bakılan şey: yedek canlının gerisinde mi kalmış.
+      const dogru = eksik === 0 && kayit >= canliKayit;
+
+      if (dogru) {
+        const an = Date.now();
+        await veri.ayarYaz('sonYedek', an);
+        await veri.ayarYaz('sonYedekDogrulandi', an);
+        await veri.ayarYaz('sonYedekSayi', kayit);
+      }
+      bitti?.({ dogru, kayit, canliKayit, medya, iz, eksik,
+                ad: dosya.name, boyut: dosya.size });
+    } catch (hata) {
+      bildir?.(`Yedek okunamadı: ${hata.message}`, 'kotu');
+      bitti?.({ dogru: false, hata: hata.message });
+    }
+  });
+
+  secici.click();
+}
+
+export async function yedekDogrulamaDurumu() {
+  return {
+    alindi: await veri.ayarOku('sonYedek', null),
+    dogrulandi: await veri.ayarOku('sonYedekDogrulandi', null),
+    sayi: await veri.ayarOku('sonYedekSayi', null)
+  };
 }
 
 export async function sonYedekZamani() {

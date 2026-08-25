@@ -19,6 +19,9 @@ const $ = (s) => document.querySelector(s);
 let adim = 0;
 let gun = null;
 let tazeleDisari = null;
+// Yedek akışı dışarıdan veriliyor: doğrulama app.js'te yaşıyor ve
+// Gün Sonu'nun ondan haberi olmadan zayıf yola düşmesi istenmiyor.
+let disYedek = null;
 
 // Tasarım Gün Sonu'nu DÖRT adım olarak kapatmış: özet → sesli günlük →
 // bugünü topla → yedek ve gönder. Bizde altı adım vardı.
@@ -32,8 +35,9 @@ let tazeleDisari = null;
 // Hiçbir şey silinmedi, yalnızca zorunlu soru kalktı.
 const ADIMLAR = ['ozet', 'gunluk', 'fotograf', 'kapanis'];
 
-export async function gunSonuAc(durum, tazele) {
+export async function gunSonuAc(durum, tazele, yedekAkisi = null) {
   tazeleDisari = tazele;
+  disYedek = yedekAkisi;
   gun = gerok.bugununGunu() || sonGun();
   adim = 0;
   await ciz(durum);
@@ -221,7 +225,9 @@ async function kapanisAdimi(durum) {
   `);
 
   const bildir = (m) => { const e = $('#kDurum'); if (e) e.textContent = m; };
-  $('#kYedek').onclick = () => yedekAl(bildir);
+  // Gün Sonu'ndaki yedek de doğrulanıyor — akış farklı diye koruma
+  // zayıflamaz.
+  $('#kYedek').onclick = () => (disYedek || yedekAl)(bildir);
   $('#kGonder').onclick = () => paketGonder(bildir, gun?.no ?? null);
   $('#gsBitir').onclick = async () => {
     kapat();

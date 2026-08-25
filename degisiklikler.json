@@ -2,6 +2,18 @@
   "aciklama": "Her güncellemede ne eklendi, ne düzeldi, ne çıktı. En yeni en üstte. Bu dosya güncelleme kartında okunuyor; boş bırakılamaz, yayınlama betiği kontrol ediyor.",
   "surumler": [
     {
+      "sayi": 107,
+      "eklendi": [
+        "Her yedekten sonra doğrulama: dosyayı geri seçiyorsun, uygulama açıp sayıyor ve telefondakiyle karşılaştırıyor.",
+        "Gerok panelinde yedek satırı artık \"doğrulandı\" mı yoksa \"DOĞRULANMADI\" mı olduğunu yazıyor.",
+        "Mac'teki bekçi iCloud'daki yedeklerine bakıyor: yoksa, çok küçükse ya da 14 günden eskiyse haber veriyor."
+      ],
+      "duzeldi": [
+        "Yedek doğrulaması silinmiş kayıtları da sayıyordu; bir kez kayıt silmiş olsan her yedekte \"yedeğin eski\" derdi."
+      ],
+      "cikti": []
+    },
+    {
       "sayi": 106,
       "eklendi": [
         "Yedek hatırlatıcısı artık Gün Sonu'ndan bağımsız: son yedekten sonra yeni kayıt varsa günde bir kez soruyor.",
