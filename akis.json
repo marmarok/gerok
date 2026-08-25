@@ -1,46 +1,96 @@
 {
  "bicim": 1,
- "zaman": "2026-08-25T16:24:08+03:00",
- "kadans": "saatlik",
+ "zaman": "2026-08-25T16:29:51+03:00",
+ "kadans": "gunluk",
  "durum": "sorun",
  "sayilar": {
-  "kontrol": 4,
-  "sinama": 14,
-  "gecen": 3,
-  "bilinen": 0,
+  "kontrol": 86,
+  "sinama": 1620,
+  "gecen": 84,
+  "bilinen": 1,
   "sorun": 1,
-  "sure": 0.5,
-  "kosu": 78
+  "sure": 68.9,
+  "kosu": 79
  },
  "sorunlar": [
   {
    "ad": "Zamanlayıcı ayakta",
    "onem": "kritik",
    "oyku": "bekci",
-   "not": "alti: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`",
+   "not": "saatlik: son koşu 1 ile bitti · alti: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`",
    "onarilabilir": false
   }
  ],
- "bilinenler": [],
+ "bilinenler": [
+  {
+   "ad": "Math.min(...dizi) yığın taşması",
+   "not": "app.js:712; app.js:4880; gerok.js:447; sihirbaz.js:393; sihirbaz.js:394; sihirbaz.js:395 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
+  }
+ ],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 3,
-   "toplam": 3,
-   "sinama": 6
+   "gecen": 15,
+   "toplam": 15,
+   "sinama": 109
   },
   "bekci": {
-   "gecen": 0,
+   "gecen": 8,
+   "toplam": 9,
+   "sinama": 81
+  },
+  "yedek": {
+   "gecen": 1,
    "toplam": 1,
-   "sinama": 8
+   "sinama": 2
+  },
+  "koprü": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 17
+  },
+  "kod": {
+   "gecen": 10,
+   "toplam": 10,
+   "sinama": 475
+  },
+  "veri": {
+   "gecen": 2,
+   "toplam": 2,
+   "sinama": 9
+  },
+  "gizlilik": {
+   "gecen": 6,
+   "toplam": 6,
+   "sinama": 65
+  },
+  "bilgi": {
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 416
+  },
+  "sartname": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 410
+  },
+  "depolama": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 1
+  },
+  "davranis": {
+   "gecen": 35,
+   "toplam": 35,
+   "sinama": 35
   }
  },
  "derin": {
   "kadans": "gunluk",
-  "zaman": "2026-08-25T16:16:04+03:00",
-  "kontrol": 85,
-  "sinama": 1603,
-  "gecen": 83,
+  "zaman": "2026-08-25T16:29:51+03:00",
+  "kontrol": 86,
+  "sinama": 1620,
+  "gecen": 84,
   "sorun": 1,
   "gruplar": {
    "yayin": {
@@ -57,6 +107,11 @@
     "gecen": 1,
     "toplam": 1,
     "sinama": 2
+   },
+   "koprü": {
+    "gecen": 1,
+    "toplam": 1,
+    "sinama": 17
    },
    "kod": {
     "gecen": 10,
@@ -96,13 +151,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "8c93f6f4348f",
-   "t": 1787491453439,
-   "onem": "iyi",
-   "baslik": "Artık durakları da biliyorum",
-   "govde": "Her durak için ne görülür, ne yenir, ne alınır, gezginler ne demiş ve Türkiye'ye göre fiyat nerede duruyor — 43 yer, 6 ülke, 55 terim. Hepsi telefonda, internetsiz. Sohbete yer adı yaz: “Mostarda ne yenir”. Cevaptaki altı noktalı kelimelere dokun, açıklarım."
-  },
   {
    "id": "1487335f4be4",
    "t": 1787514401846,
@@ -270,6 +318,13 @@
    "onem": "sorun",
    "baslik": "1 sorun buldum",
    "govde": "• [kritik] Zamanlayıcı ayakta\n   alti: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`"
+  },
+  {
+   "id": "b74695851f8a",
+   "t": 1787664591950,
+   "onem": "sorun",
+   "baslik": "1 sorun buldum",
+   "govde": "• [kritik] Zamanlayıcı ayakta\n   saatlik: son koşu 1 ile bitti · alti: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`"
   }
  ],
  "bekleyen": [
@@ -301,12 +356,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-08-23T16:26:58+03:00",
-   "k": "saatlik",
-   "g": 4,
-   "n": 4
-  },
   {
    "t": "2026-08-23T16:27:56+03:00",
    "k": "saatlik",
@@ -540,6 +589,12 @@
    "k": "saatlik",
    "g": 3,
    "n": 4
+  },
+  {
+   "t": "2026-08-25T16:29:51+03:00",
+   "k": "gunluk",
+   "g": 84,
+   "n": 86
   }
  ]
 }
