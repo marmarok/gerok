@@ -1,89 +1,35 @@
 {
  "bicim": 1,
- "zaman": "2026-08-26T21:07:41+03:00",
- "kadans": "haftalik",
- "durum": "bilinen",
+ "zaman": "2026-08-26T21:07:57+03:00",
+ "kadans": "saatlik",
+ "durum": "iyi",
  "sayilar": {
-  "kontrol": 95,
-  "sinama": 1639,
-  "gecen": 93,
-  "bilinen": 2,
+  "kontrol": 5,
+  "sinama": 34,
+  "gecen": 5,
+  "bilinen": 0,
   "sorun": 0,
-  "sure": 76.1,
-  "kosu": 92
+  "sure": 0.5,
+  "kosu": 93
  },
  "sorunlar": [],
- "bilinenler": [
-  {
-   "ad": "Math.min(...dizi) yığın taşması",
-   "not": "app.js:712; app.js:4884; gerok.js:447; sihirbaz.js:393; sihirbaz.js:394; sihirbaz.js:395 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
-  },
-  {
-   "ad": "Arşivde fotoğrafların aslı var",
-   "not": "(ayrıntı panoda)"
-  }
- ],
+ "bilinenler": [],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 15,
-   "toplam": 15,
-   "sinama": 110
+   "gecen": 3,
+   "toplam": 3,
+   "sinama": 6
   },
   "bekci": {
-   "gecen": 9,
-   "toplam": 9,
-   "sinama": 81
-  },
-  "yedek": {
    "gecen": 1,
    "toplam": 1,
-   "sinama": 2
+   "sinama": 8
   },
   "koprü": {
    "gecen": 1,
    "toplam": 1,
    "sinama": 20
-  },
-  "kod": {
-   "gecen": 10,
-   "toplam": 10,
-   "sinama": 475
-  },
-  "veri": {
-   "gecen": 2,
-   "toplam": 2,
-   "sinama": 9
-  },
-  "gizlilik": {
-   "gecen": 6,
-   "toplam": 6,
-   "sinama": 65
-  },
-  "bilgi": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 416
-  },
-  "sartname": {
-   "gecen": 1,
-   "toplam": 1,
-   "sinama": 410
-  },
-  "depolama": {
-   "gecen": 4,
-   "toplam": 4,
-   "sinama": 4
-  },
-  "kaynak": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 11
-  },
-  "davranis": {
-   "gecen": 36,
-   "toplam": 36,
-   "sinama": 36
   }
  },
  "derin": {
@@ -363,12 +309,6 @@
  ],
  "gecmis": [
   {
-   "t": "2026-08-24T22:06:39+03:00",
-   "k": "saatlik",
-   "g": 4,
-   "n": 4
-  },
-  {
    "t": "2026-08-24T23:11:43+03:00",
    "k": "saatlik",
    "g": 4,
@@ -601,6 +541,12 @@
    "k": "haftalik",
    "g": 93,
    "n": 95
+  },
+  {
+   "t": "2026-08-26T21:07:57+03:00",
+   "k": "saatlik",
+   "g": 5,
+   "n": 5
   }
  ]
 }
