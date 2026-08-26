@@ -2,6 +2,17 @@
  "aciklama": "Her güncellemede ne eklendi, ne düzeldi, ne çıktı. En yeni en üstte. Bu dosya güncelleme kartında okunuyor; boş bırakılamaz, yayınlama betiği kontrol ediyor.",
  "surumler": [
   {
+   "sayi": 111,
+   "eklendi": [
+    "Gerok sekmesine “Kullanım sayıları” eklendi. Haftada bir kez birkaç sayı gidiyor: kaç kez açıldı, kaç kayıt var, hata çıktı mı, hangi sürüm, hangi telefon.",
+    "Satıra dokununca giden şeyin tamamı görünüyor ve tek dokunuşla kapatılabiliyor.",
+    "Telefonları ayırt etmek için kısa bir işaret gidiyor. Cihaz kimliğinin kendisi değil, geri çevrilemez özeti — gelen sayılarla kimsenin defteri eşleştirilemiyor.",
+    "Notlar, sesler, fotoğraflar, konum ve isim bu yoldan gitmiyor. Hata yazıları da gitmiyor; onlar yalnızca sen “Sorun bildir” deyip okuduğunda gidiyor."
+   ],
+   "duzeldi": [],
+   "cikti": []
+  },
+  {
    "sayi": 110,
    "eklendi": [
     "Kara kutu: uygulama artık kendi hatalarını telefonda kaydediyor. Bugüne kadar bir şey kırıldığında o bilgi hiçbir yerde durmuyordu.",

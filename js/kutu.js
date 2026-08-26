@@ -20,6 +20,15 @@
 
 import * as veri from './veri.js';
 
+// Otomatik istatistik kanalı. Buraya YALNIZCA `sayacOzeti()` gidiyor —
+// sayılar. Hata metinleri buraya asla girmez; onlar kişi görüp onaylayınca,
+// ayrı bir yoldan gider. Sebep: bir hata mesajı o an elindeki veriyi
+// alıntılayabiliyor ve bu kanalda kimse ona bakmıyor.
+const ISTATISTIK_ADRESI = 'https://docs.google.com/forms/d/e/'
+  + '1FAIpQLSfh_T2NbVR6u-ABRZ8-E2ypr4ISujwSZt7siIyA19AYFxTmzA/formResponse';
+const ISTATISTIK_ALANI = 'entry.2041046097';
+const ISTATISTIK_ARALIK = 7 * 86400000;      // Haftada bir; günlük gürültü olur.
+
 const ANAHTAR = 'karaKutu';
 const EN_FAZLA_HATA = 40;        // Defter şişmesin; en eskiler düşer.
 const MESAJ_SINIRI = 300;        // Uzun yığın izleri kırpılır.
@@ -175,4 +184,68 @@ export function tamRapor() {
 export async function temizle() {
   kutu = bos();
   await diskeYaz();
+}
+
+
+/**
+ * Telefonu ayırt eden kısa, geri döndürülemez bir işaret.
+ *
+ * Neden gerekli: 8 telefondan gelen sayıları ayıramazsan "bir kişide çok
+ * çıkıyor" ile "herkeste bir kez çıkıyor" birbirine karışır.
+ *
+ * Neden cihaz kimliğinin kendisi DEĞİL: o kimlik kayıtların içinde de
+ * yazıyor (`sahip.id`). Olduğu gibi gönderilirse, gelen sayılarla birinin
+ * defteri eşleştirilebilir olurdu. Özeti gönderiliyor; geri çevrilemiyor.
+ */
+async function telefonIsareti() {
+  const ham = await veri.ayarOku('cihazKimligi', '') || '';
+  if (!ham || !crypto?.subtle) return 'bilinmiyor';
+  const oz = await crypto.subtle.digest('SHA-256', new TextEncoder().encode('gerok:' + ham));
+  return [...new Uint8Array(oz)].slice(0, 4)
+    .map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+export async function istatistikAcikMi() {
+  return await veri.ayarOku('istatistikGonder', true) !== false;
+}
+
+export async function istatistikAyarla(acik) {
+  await veri.ayarYaz('istatistikGonder', !!acik);
+}
+
+export async function sonIstatistikZamani() {
+  return await veri.ayarOku('sonIstatistik', null);
+}
+
+/**
+ * Haftalık sayı gönderimi.
+ *
+ * `mode: 'no-cors'` zorunlu: Google Formlar cevabında CORS başlığı yok.
+ * Bunun bedeli, GİTTİĞİNİ DOĞRULAYAMAMAK — istek başarısız olsa da aynı
+ * görünüyor. O yüzden aşağıda yazılan şey "gönderildi" değil, "denendi".
+ * Bu ayrımı gizlemiyoruz; panelde de böyle yazıyor.
+ */
+export async function istatistikGonder({ zorla = false } = {}) {
+  if (!kutu) return 'kutu yok';
+  if (!await istatistikAcikMi()) return 'kapalı';
+  if (!navigator.onLine) return 'çevrimdışı';
+
+  const son = await veri.ayarOku('sonIstatistik', 0);
+  if (!zorla && son && Date.now() - son < ISTATISTIK_ARALIK) return 'erken';
+
+  const paket = { ...sayacOzeti(), telefon_isareti: await telefonIsareti() };
+  try {
+    await fetch(ISTATISTIK_ADRESI, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({ [ISTATISTIK_ALANI]: JSON.stringify(paket) }),
+    });
+    await veri.ayarYaz('sonIstatistik', Date.now());
+    return 'denendi';
+  } catch (h) {
+    // Ağ hatası raporlanmıyor: istatistik gönderememek kullanıcının sorunu
+    // değil ve kara kutuyu kendi gürültüsüyle doldurmasın.
+    return 'ağ yok';
+  }
 }

@@ -5,7 +5,7 @@
 // Neden önbelleğin adına bakmıyoruz: yeni sürüm indiğinde önbellek adı değişiyor
 // ama ekrandaki kod hâlâ eski oluyor — uygulama kendini güncellenmiş sanıyordu.
 // Bu satır ekrandaki dosyanın içinde olduğu için yalan söyleyemiyor.
-const BU_SURUM = 'gerok-110-20260827-020812';
+const BU_SURUM = 'gerok-111-20260827-024119';
 
 import * as veri from './veri.js';
 import * as iz from './iz.js';
@@ -124,6 +124,8 @@ async function baslat() {
   // Hatayı bildirmek kimsenin aklına gelmez; sorulunca gelir. Gecikme,
   // açılışın önüne geçmemesi için.
   setTimeout(sorunSorHatirlat, 9000);
+  // Açılışı yavaşlatmasın; haftada bir gerçekten gönderiyor, gerisi erken dönüyor.
+  setTimeout(() => kutu.istatistikGonder(), 15000);
 }
 
 
@@ -4259,7 +4261,9 @@ async function paneliCiz() {
         ${panelSatiri({ etiket: 'Bir şey ters giderse', id: 'btnTamir',
           deger: 'tamir kılavuzu' })}
         ${panelSatiri({ etiket: 'Sorun bildir', id: 'btnSorunBildir',
-          deger: kacis(kutuOzetYazi()) })}`,
+          deger: kacis(kutuOzetYazi()) })}
+        ${panelSatiri({ etiket: 'Kullanım sayıları', id: 'btnIstatistik',
+          deger: '<span id="istatistikYazi">bakılıyor…</span>' })}`,
       not: 'Sürüm bilgisi, sınama ve tamir kılavuzu.'
     })}
   `;
@@ -4349,6 +4353,8 @@ async function paneliCiz() {
   $('#btnKurulum').addEventListener('click', () => window.open('./kurulum.html', '_blank'));
   $('#btnPaylas').addEventListener('click', uygulamayiPaylas);
   $('#btnSorunBildir').addEventListener('click', () => sorunBildir());
+  $('#btnIstatistik').addEventListener('click', istatistikAyariniSor);
+  istatistikSatiriniYaz();
   $('#btnTamir').addEventListener('click', () => window.open('./tamir.html', '_blank'));
   $('#btnKalici')?.addEventListener('click', async () => {
     const s = await veri.kaliciDepolamaIste();
@@ -5095,6 +5101,65 @@ async function yerelHaritaMB() {
     for (const a of adlar) t += await depo.boyut('harita', a);
     return Math.round(t / 1e6);
   } catch { return 0; }
+}
+
+
+/**
+ * "Kullanım sayıları" satırının yazısı.
+ *
+ * "gönderildi" DEMİYOR, "gönderiliyor" diyor. Sebep: gönderim cevabı
+ * okunamayan bir yolla gidiyor (`no-cors`), yani ulaştığı doğrulanamıyor.
+ * Uygulamanın bilmediği bir şeyi biliyormuş gibi yazması, bu projede
+ * baştan beri kaçınılan şey.
+ */
+async function istatistikSatiriniYaz() {
+  const yer = $('#istatistikYazi');
+  if (!yer) return;
+  if (!await kutu.istatistikAcikMi()) { yer.textContent = 'kapalı'; return; }
+  const son = await kutu.sonIstatistikZamani();
+  yer.textContent = son
+    ? `haftada bir · son ${gerok.tarihUzun(son)}`
+    : 'haftada bir gönderiliyor';
+}
+
+
+/**
+ * Sayı gönderimini açıp kapatmak.
+ *
+ * BU DOSYA HERKESE AÇIK — buraya kimsenin adı yazılmaz.
+ * Açık geliyor: uygulamanın nasıl kullanıldığını görmek hataların
+ * düzelmesini sağlıyor.
+ * Ama gizli değil: panelde yazıyor, ne gittiği burada anlatılıyor ve tek
+ * dokunuşla kapanıyor. Arkadaşına haber vermeden veri toplamak, bu
+ * uygulamanın en baştaki sözüyle bağdaşmazdı.
+ */
+async function istatistikAyariniSor() {
+  const acik = await kutu.istatistikAcikMi();
+  const o = kutu.sayacOzeti();
+  ortuAc(`
+    <div class="ortu-baslik">Kullanım sayıları</div>
+    <div class="ortu-alt">Gerok’u yapana haftada bir kez birkaç sayı gidiyor:
+      kaç kez açıldı, kaç kayıt var, hata çıktı mı, hangi sürüm ve hangi telefon.
+      Hataların düzelmesi buna bakılarak oluyor.</div>
+    <div class="panel-not">Notların, seslerin, fotoğrafların, konumun ve adın
+      <b>gitmiyor</b>. Hata yazıları da bu yoldan gitmiyor — onlar yalnızca sen
+      “Sorun bildir” deyip okuduğunda gidiyor.</div>
+    <details style="margin:14px 0">
+      <summary class="panel-not">Giden şeyin tamamı</summary>
+      <pre style="white-space:pre-wrap;word-break:break-word;font-size:12px;
+        max-height:200px;overflow:auto">${kacis(JSON.stringify(o, null, 1))}</pre>
+    </details>
+    <button class="eylem-dugme ${acik ? '' : 'birincil'}" id="istAc">
+      ${acik ? 'Açık — kapatmak için dokun' : 'Kapalı — açmak için dokun'}</button>
+    <button class="eylem-dugme" id="istKapat">Kapat</button>
+  `);
+  $('#istKapat').addEventListener('click', ortuKapat);
+  $('#istAc').addEventListener('click', async () => {
+    await kutu.istatistikAyarla(!acik);
+    ortuKapat();
+    kayitBildir(acik ? 'Sayı gönderimi kapatıldı.' : 'Sayı gönderimi açıldı.', 'iyi');
+    paneliCiz();
+  });
 }
 
 
