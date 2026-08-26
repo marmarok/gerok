@@ -1,22 +1,41 @@
 {
  "bicim": 1,
- "zaman": "2026-08-26T20:53:29+03:00",
- "kadans": "gunluk",
- "durum": "bilinen",
+ "zaman": "2026-08-26T21:03:21+03:00",
+ "kadans": "haftalik",
+ "durum": "sorun",
  "sayilar": {
-  "kontrol": 87,
-  "sinama": 1625,
-  "gecen": 86,
-  "bilinen": 1,
-  "sorun": 0,
-  "sure": 70.7,
-  "kosu": 90
+  "kontrol": 60,
+  "sinama": 1604,
+  "gecen": 56,
+  "bilinen": 2,
+  "sorun": 2,
+  "sure": 926.0,
+  "kosu": 91
  },
- "sorunlar": [],
+ "sorunlar": [
+  {
+   "ad": "Zamanlayıcı ayakta",
+   "onem": "kritik",
+   "oyku": "bekci",
+   "not": "saatlik: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`",
+   "onarilabilir": false
+  },
+  {
+   "ad": "Tarayıcı sınamaları",
+   "onem": "kritik",
+   "oyku": "davranis",
+   "not": "zaman aşımı (900 sn)",
+   "onarilabilir": false
+  }
+ ],
  "bilinenler": [
   {
    "ad": "Math.min(...dizi) yığın taşması",
    "not": "app.js:712; app.js:4884; gerok.js:447; sihirbaz.js:393; sihirbaz.js:394; sihirbaz.js:395 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
+  },
+  {
+   "ad": "Arşivde fotoğrafların aslı var",
+   "not": "(ayrıntı panoda)"
   }
  ],
  "onarilan": [],
@@ -27,7 +46,7 @@
    "sinama": 110
   },
   "bekci": {
-   "gecen": 9,
+   "gecen": 8,
    "toplam": 9,
    "sinama": 81
   },
@@ -67,23 +86,28 @@
    "sinama": 410
   },
   "depolama": {
-   "gecen": 1,
-   "toplam": 1,
-   "sinama": 1
+   "gecen": 4,
+   "toplam": 4,
+   "sinama": 4
+  },
+  "kaynak": {
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 11
   },
   "davranis": {
-   "gecen": 36,
-   "toplam": 36,
-   "sinama": 36
+   "gecen": 0,
+   "toplam": 1,
+   "sinama": 1
   }
  },
  "derin": {
-  "kadans": "gunluk",
-  "zaman": "2026-08-26T20:53:29+03:00",
-  "kontrol": 87,
-  "sinama": 1625,
-  "gecen": 86,
-  "sorun": 0,
+  "kadans": "haftalik",
+  "zaman": "2026-08-26T21:03:21+03:00",
+  "kontrol": 60,
+  "sinama": 1604,
+  "gecen": 56,
+  "sorun": 2,
   "gruplar": {
    "yayin": {
     "gecen": 15,
@@ -91,7 +115,7 @@
     "sinama": 110
    },
    "bekci": {
-    "gecen": 9,
+    "gecen": 8,
     "toplam": 9,
     "sinama": 81
    },
@@ -131,25 +155,23 @@
     "sinama": 410
    },
    "depolama": {
-    "gecen": 1,
-    "toplam": 1,
-    "sinama": 1
+    "gecen": 4,
+    "toplam": 4,
+    "sinama": 4
+   },
+   "kaynak": {
+    "gecen": 5,
+    "toplam": 5,
+    "sinama": 11
    },
    "davranis": {
-    "gecen": 36,
-    "toplam": 36,
-    "sinama": 36
+    "gecen": 0,
+    "toplam": 1,
+    "sinama": 1
    }
   }
  },
  "mesajlar": [
-  {
-   "id": "4f4b0932894a",
-   "t": 1787641906199,
-   "onem": "sorun",
-   "baslik": "1 sorun buldum",
-   "govde": "• [kritik] Canlı dosyalar indirilebiliyor\n   ./css/stil.css (özet tutmuyor); ./js/app.js (özet tutmuyor)"
-  },
   {
    "id": "955650c9afa8",
    "t": 1787641940653,
@@ -317,12 +339,37 @@
    "onem": "iyi",
    "baslik": "Söylediğim sorunlar kapandı",
    "govde": "Hepsi geçti. 5/5 kontrol · 34 ayrı sınama."
+  },
+  {
+   "id": "57a9a20d52c9",
+   "t": 1787767401279,
+   "onem": "sorun",
+   "baslik": "2 sorun buldum",
+   "govde": "• [kritik] Zamanlayıcı ayakta\n   saatlik: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`\n• [kritik] Tarayıcı sınamaları\n   zaman aşımı (900 sn)"
   }
  ],
  "bekleyen": [
   {
    "id": "07aefe2c63ed",
    "soru": "“telefon_yedegi” kontrolü takılıyor ve kendim onaramadım. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu? (Ayrıntısı panoda duruyor.)",
+   "secenekler": [
+    "Bu bilinen bir durum",
+    "Gerçekten bozuk, bak",
+    "Yanlış alarm"
+   ]
+  },
+  {
+   "id": "a18b0d94d986",
+   "soru": "“Zamanlayıcı ayakta” kontrolü takılıyor ve kendim onaramadım. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu? (Ayrıntısı panoda duruyor.)",
+   "secenekler": [
+    "Bu bilinen bir durum",
+    "Gerçekten bozuk, bak",
+    "Yanlış alarm"
+   ]
+  },
+  {
+   "id": "d868c0613b0f",
+   "soru": "“Tarayıcı sınamaları” kontrolü takılıyor ve kendim onaramadım. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu? (Ayrıntısı panoda duruyor.)",
    "secenekler": [
     "Bu bilinen bir durum",
     "Gerçekten bozuk, bak",
@@ -339,12 +386,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-08-24T22:05:27+03:00",
-   "k": "gunluk",
-   "g": 77,
-   "n": 78
-  },
   {
    "t": "2026-08-24T22:05:54+03:00",
    "k": "saatlik",
@@ -578,6 +619,12 @@
    "k": "gunluk",
    "g": 86,
    "n": 87
+  },
+  {
+   "t": "2026-08-26T21:03:21+03:00",
+   "k": "haftalik",
+   "g": 56,
+   "n": 60
   }
  ]
 }
