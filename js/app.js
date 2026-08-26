@@ -5,7 +5,7 @@
 // Neden önbelleğin adına bakmıyoruz: yeni sürüm indiğinde önbellek adı değişiyor
 // ama ekrandaki kod hâlâ eski oluyor — uygulama kendini güncellenmiş sanıyordu.
 // Bu satır ekrandaki dosyanın içinde olduğu için yalan söyleyemiyor.
-const BU_SURUM = 'gerok-108-20260825-165302';
+const BU_SURUM = 'gerok-109-20260827-010833';
 
 import * as veri from './veri.js';
 import * as iz from './iz.js';
@@ -4229,6 +4229,8 @@ async function paneliCiz() {
         ${panelSatiri({ etiket: 'Neler değişti', id: 'btnDegisiklik' })}
         ${panelSatiri({ etiket: 'Telefonu sına', id: 'btnSinama' })}
         ${panelSatiri({ etiket: 'Nasıl kullanılır', id: 'btnKurulum' })}
+        ${panelSatiri({ etiket: 'Uygulamayı paylaş', id: 'btnPaylas',
+          deger: 'arkadaşına gönder' })}
         ${panelSatiri({ etiket: 'Bir şey ters giderse', id: 'btnTamir',
           deger: 'tamir kılavuzu' })}`,
       not: 'Sürüm bilgisi, sınama ve tamir kılavuzu.'
@@ -4318,6 +4320,7 @@ async function paneliCiz() {
     window.open('./sinama.html', '_blank');
   });
   $('#btnKurulum').addEventListener('click', () => window.open('./kurulum.html', '_blank'));
+  $('#btnPaylas').addEventListener('click', uygulamayiPaylas);
   $('#btnTamir').addEventListener('click', () => window.open('./tamir.html', '_blank'));
   $('#btnKalici')?.addEventListener('click', async () => {
     const s = await veri.kaliciDepolamaIste();
@@ -5052,6 +5055,43 @@ async function turDegisti() {
   await tazele();
   if (durum.ekran === 'harita') haritaGuncelle(durum.kayitlar, durum.izNoktalari);
   kayitBildir(yeni ? `"${yeni.ad}" turundasın.` : 'Aktif tur yok.', 'iyi');
+}
+
+
+/**
+ * Uygulamanın kendisini paylaşmak.
+ *
+ * Çıplak bağlantı YETMİYOR. iPhone'da Gerok yalnızca SAFARI'den "Ana Ekrana
+ * Ekle" ile kuruluyor; bağlantı WhatsApp'ın kendi tarayıcısında açılırsa o
+ * seçenek listede hiç çıkmıyor ve karşı taraf "bende çalışmadı" diyor.
+ * Metindeki o tek cümle bu yüzden var.
+ *
+ * Giden şey yalnızca genel adres. Gezinin kendisi — kayıtlar, rota, duraklar,
+ * isimler — bu bağlantıda YOK, onlar telefondan hiç çıkmıyor. Paylaşmak
+ * uygulamayı verir, defteri vermez.
+ */
+async function uygulamayiPaylas() {
+  const adres = new URL('./', location.href).href;
+  const metin =
+    'Gerok — internetsiz çalışan gezi defteri.\n\n' +
+    'Bu bağlantıyı SAFARİ\u2019de aç, sonra alttaki paylaş düğmesinden ' +
+    '\u201CAna Ekrana Ekle\u201D de. Başka tarayıcıda kurulmuyor.\n\n' +
+    'Ayrıntılı kurulum: ' + new URL('./kurulum.html', location.href).href;
+
+  try {
+    if (navigator.share) {
+      await navigator.share({ title: 'Gerok', text: metin, url: adres });
+      kayitBildir('Gönderildi.', 'iyi');
+      return;
+    }
+    // Paylaşım yoksa panoya düş: bağlantı hiç olmazsa elde kalsın.
+    await navigator.clipboard.writeText(metin + '\n\n' + adres);
+    kayitBildir('Bağlantı kopyalandı — yapıştırıp gönder.', 'iyi');
+  } catch (hata) {
+    // Paylaş sayfasından vazgeçmek hata değil, karar.
+    if (hata.name === 'AbortError') return;
+    kayitBildir('Paylaşılamadı: ' + hata.message, 'kotu');
+  }
 }
 
 

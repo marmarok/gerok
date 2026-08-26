@@ -1,88 +1,97 @@
 {
-  "aciklama": "Her güncellemede ne eklendi, ne düzeldi, ne çıktı. En yeni en üstte. Bu dosya güncelleme kartında okunuyor; boş bırakılamaz, yayınlama betiği kontrol ediyor.",
-  "surumler": [
-    {
-      "sayi": 108,
-      "eklendi": [],
-      "duzeldi": [
-        "\"Yedeği sına\" 184'e kadar sayıp zaman çizgisine düşüyordu: telefonun belleği yetmiyordu. Artık dosyaları tek tek okuyor, sonucu yazıyor.",
-        "\"Yedeği sına\" satırı 17 Ağustos'ta donmuştu — her deneme sonuç yazılmadan çöktüğü için. Artık her denemede tazeleniyor.",
-        "Yedeği geri yükleme de aynı yüzden çöküyordu. Bu en ağırıydı: yedeğin var ama geri yükleyemiyordun. Artık 355 MB'lık yedek parça parça yükleniyor.",
-        "Arkadaş paketi alma ve yedek doğrulama da aynı şekilde parça parça okuyor.",
-        "Yarım kalmış bir yedek dosyası artık tanınıyor ve söyleniyor."
-      ],
-      "cikti": []
-    },
-    {
-      "sayi": 107,
-      "eklendi": [
-        "Her yedekten sonra doğrulama: dosyayı geri seçiyorsun, uygulama açıp sayıyor ve telefondakiyle karşılaştırıyor.",
-        "Gerok panelinde yedek satırı artık \"doğrulandı\" mı yoksa \"DOĞRULANMADI\" mı olduğunu yazıyor.",
-        "Mac'teki bekçi iCloud'daki yedeklerine bakıyor: yoksa, çok küçükse ya da 14 günden eskiyse haber veriyor."
-      ],
-      "duzeldi": [
-        "Yedek doğrulaması silinmiş kayıtları da sayıyordu; bir kez kayıt silmiş olsan her yedekte \"yedeğin eski\" derdi."
-      ],
-      "cikti": []
-    },
-    {
-      "sayi": 106,
-      "eklendi": [
-        "Yedek hatırlatıcısı artık Gün Sonu'ndan bağımsız: son yedekten sonra yeni kayıt varsa günde bir kez soruyor.",
-        "Gün Sonu'nun ilk adımında güvence yazıyor: hiçbir adım kayıt silmez, günü kapatmaz, istediğin yerde çıkabilirsin."
-      ],
-      "duzeldi": [
-        "\"Günü kapat\" ve \"Gün kapandı\" yazıları kaldırıldı — hiçbir şeyi kapatmadığı hâlde kapatıyormuş gibi okunuyordu.",
-        "Fotoğraf adımı \"Bugünü topla\" yerine \"Bugünden fotoğraf ekle\": seçilmeyenlerin galeride kaldığı açıkça yazıyor."
-      ],
-      "cikti": []
-    },
-    {
-      "sayi": 105,
-      "eklendi": [
-        "Güncelleme kartı artık ne eklendiğini, ne düzeldiğini ve ne çıkarıldığını yazıyor.",
-        "Gerok sekmesine \"Neler değişti\" eklendi — kartı kaçırsan da sonradan okuyabilirsin."
-      ],
-      "duzeldi": [],
-      "cikti": []
-    },
-    {
-      "sayi": 104,
-      "eklendi": [
-        "Son turu arşivlemeden önce uyarı: ekranların boşalacağı ve kayıtların duracağı önceden söyleniyor."
-      ],
-      "duzeldi": [
-        "Gezi arşivlenince zaman çizgisi \"Henüz bir gerok yüklenmedi\" diyordu; artık \"gezin arşivde, N kayıt duruyor\" yazıyor ve \"Geziye geri dön\" düğmesi çıkıyor."
-      ],
-      "cikti": []
-    },
-    {
-      "sayi": 103,
-      "eklendi": [
-        "Bekçi artık rehberinin hangi bölgeyi anlattığını biliyor."
-      ],
-      "duzeldi": [
-        "Ev, işyeri ve Türkiye içindeki duraklar \"bilmiyorum\" diye sayılmıyor — eksik değil, kapsam dışı."
-      ],
-      "cikti": []
-    },
-    {
-      "sayi": 102,
-      "eklendi": [
-        "Duraklar ekranı, ekleme anını kaçırmış duraklar için bir kez bilgi soruyor.",
-        "Bekçi durak listesinde bilmediklerini de sayıyor."
-      ],
-      "duzeldi": [],
-      "cikti": []
-    },
-    {
-      "sayi": 101,
-      "eklendi": [],
-      "duzeldi": [
-        "Durak eklerken bildirim çıkmıyor, liste tazelenmiyor ve bekçi soru sormuyordu — eski bir hata sessizce patlıyordu.",
-        "\"Gittik / Kaçırdık\" düğmeleri de aynı hata yüzünden bildirim vermiyordu."
-      ],
-      "cikti": []
-    }
-  ]
+ "aciklama": "Her güncellemede ne eklendi, ne düzeldi, ne çıktı. En yeni en üstte. Bu dosya güncelleme kartında okunuyor; boş bırakılamaz, yayınlama betiği kontrol ediyor.",
+ "surumler": [
+  {
+   "sayi": 109,
+   "eklendi": [
+    "Gerok sekmesinde “Sürüm ve yardım” altına “Uygulamayı paylaş” eklendi. Arkadaşına uygulamanın bağlantısını gönderiyor; mesajın içinde “Safari’de aç, Ana Ekrana Ekle de” yazıyor — başka tarayıcıda kurulmuyor.",
+    "Paylaşılan şey yalnızca uygulamanın genel adresi. Gezi, kayıtlar, duraklar ve isimler bu bağlantıda yok; telefondan hiçbir şey çıkmıyor."
+   ],
+   "duzeldi": [],
+   "cikti": []
+  },
+  {
+   "sayi": 108,
+   "eklendi": [],
+   "duzeldi": [
+    "\"Yedeği sına\" 184'e kadar sayıp zaman çizgisine düşüyordu: telefonun belleği yetmiyordu. Artık dosyaları tek tek okuyor, sonucu yazıyor.",
+    "\"Yedeği sına\" satırı 17 Ağustos'ta donmuştu — her deneme sonuç yazılmadan çöktüğü için. Artık her denemede tazeleniyor.",
+    "Yedeği geri yükleme de aynı yüzden çöküyordu. Bu en ağırıydı: yedeğin var ama geri yükleyemiyordun. Artık 355 MB'lık yedek parça parça yükleniyor.",
+    "Arkadaş paketi alma ve yedek doğrulama da aynı şekilde parça parça okuyor.",
+    "Yarım kalmış bir yedek dosyası artık tanınıyor ve söyleniyor."
+   ],
+   "cikti": []
+  },
+  {
+   "sayi": 107,
+   "eklendi": [
+    "Her yedekten sonra doğrulama: dosyayı geri seçiyorsun, uygulama açıp sayıyor ve telefondakiyle karşılaştırıyor.",
+    "Gerok panelinde yedek satırı artık \"doğrulandı\" mı yoksa \"DOĞRULANMADI\" mı olduğunu yazıyor.",
+    "Mac'teki bekçi iCloud'daki yedeklerine bakıyor: yoksa, çok küçükse ya da 14 günden eskiyse haber veriyor."
+   ],
+   "duzeldi": [
+    "Yedek doğrulaması silinmiş kayıtları da sayıyordu; bir kez kayıt silmiş olsan her yedekte \"yedeğin eski\" derdi."
+   ],
+   "cikti": []
+  },
+  {
+   "sayi": 106,
+   "eklendi": [
+    "Yedek hatırlatıcısı artık Gün Sonu'ndan bağımsız: son yedekten sonra yeni kayıt varsa günde bir kez soruyor.",
+    "Gün Sonu'nun ilk adımında güvence yazıyor: hiçbir adım kayıt silmez, günü kapatmaz, istediğin yerde çıkabilirsin."
+   ],
+   "duzeldi": [
+    "\"Günü kapat\" ve \"Gün kapandı\" yazıları kaldırıldı — hiçbir şeyi kapatmadığı hâlde kapatıyormuş gibi okunuyordu.",
+    "Fotoğraf adımı \"Bugünü topla\" yerine \"Bugünden fotoğraf ekle\": seçilmeyenlerin galeride kaldığı açıkça yazıyor."
+   ],
+   "cikti": []
+  },
+  {
+   "sayi": 105,
+   "eklendi": [
+    "Güncelleme kartı artık ne eklendiğini, ne düzeldiğini ve ne çıkarıldığını yazıyor.",
+    "Gerok sekmesine \"Neler değişti\" eklendi — kartı kaçırsan da sonradan okuyabilirsin."
+   ],
+   "duzeldi": [],
+   "cikti": []
+  },
+  {
+   "sayi": 104,
+   "eklendi": [
+    "Son turu arşivlemeden önce uyarı: ekranların boşalacağı ve kayıtların duracağı önceden söyleniyor."
+   ],
+   "duzeldi": [
+    "Gezi arşivlenince zaman çizgisi \"Henüz bir gerok yüklenmedi\" diyordu; artık \"gezin arşivde, N kayıt duruyor\" yazıyor ve \"Geziye geri dön\" düğmesi çıkıyor."
+   ],
+   "cikti": []
+  },
+  {
+   "sayi": 103,
+   "eklendi": [
+    "Bekçi artık rehberinin hangi bölgeyi anlattığını biliyor."
+   ],
+   "duzeldi": [
+    "Ev, işyeri ve Türkiye içindeki duraklar \"bilmiyorum\" diye sayılmıyor — eksik değil, kapsam dışı."
+   ],
+   "cikti": []
+  },
+  {
+   "sayi": 102,
+   "eklendi": [
+    "Duraklar ekranı, ekleme anını kaçırmış duraklar için bir kez bilgi soruyor.",
+    "Bekçi durak listesinde bilmediklerini de sayıyor."
+   ],
+   "duzeldi": [],
+   "cikti": []
+  },
+  {
+   "sayi": 101,
+   "eklendi": [],
+   "duzeldi": [
+    "Durak eklerken bildirim çıkmıyor, liste tazelenmiyor ve bekçi soru sormuyordu — eski bir hata sessizce patlıyordu.",
+    "\"Gittik / Kaçırdık\" düğmeleri de aynı hata yüzünden bildirim vermiyordu."
+   ],
+   "cikti": []
+  }
+ ]
 }
