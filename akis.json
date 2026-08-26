@@ -1,45 +1,35 @@
 {
  "bicim": 1,
- "zaman": "2026-08-27T01:04:28+03:00",
- "kadans": "gunluk",
- "durum": "sorun",
+ "zaman": "2026-08-27T01:09:32+03:00",
+ "kadans": "6saat",
+ "durum": "bilinen",
  "sayilar": {
-  "kontrol": 87,
-  "sinama": 1626,
-  "gecen": 85,
+  "kontrol": 35,
+  "sinama": 1059,
+  "gecen": 34,
   "bilinen": 1,
-  "sorun": 1,
-  "sure": 77.7,
-  "kosu": 96
+  "sorun": 0,
+  "sure": 14.6,
+  "kosu": 97
  },
- "sorunlar": [
-  {
-   "ad": "Yayınlanmamış değişiklik yok",
-   "onem": "orta",
-   "oyku": "yayin",
-   "not": "1 dosya: s/app.js",
-   "onarilabilir": false
-  }
- ],
+ "sorunlar": [],
  "bilinenler": [
   {
    "ad": "Math.min(...dizi) yığın taşması",
    "not": "app.js:712; app.js:4887; gerok.js:447; sihirbaz.js:393; sihirbaz.js:394; sihirbaz.js:395 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
   }
  ],
- "onarilan": [
-  "surum.json diskle uyuşuyor: ✓ surum.json yazıldı — 52 dosya, 3849 KB, sürüm gerok-108-20260825-165302"
- ],
+ "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 14,
-   "toplam": 15,
-   "sinama": 110
+   "gecen": 10,
+   "toplam": 10,
+   "sinama": 73
   },
   "bekci": {
-   "gecen": 9,
-   "toplam": 9,
-   "sinama": 81
+   "gecen": 4,
+   "toplam": 4,
+   "sinama": 16
   },
   "yedek": {
    "gecen": 1,
@@ -52,9 +42,9 @@
    "sinama": 20
   },
   "kod": {
-   "gecen": 10,
-   "toplam": 10,
-   "sinama": 476
+   "gecen": 8,
+   "toplam": 8,
+   "sinama": 460
   },
   "veri": {
    "gecen": 2,
@@ -62,29 +52,14 @@
    "sinama": 9
   },
   "gizlilik": {
-   "gecen": 6,
-   "toplam": 6,
-   "sinama": 65
+   "gecen": 4,
+   "toplam": 4,
+   "sinama": 63
   },
   "bilgi": {
    "gecen": 5,
    "toplam": 5,
    "sinama": 416
-  },
-  "sartname": {
-   "gecen": 1,
-   "toplam": 1,
-   "sinama": 410
-  },
-  "depolama": {
-   "gecen": 1,
-   "toplam": 1,
-   "sinama": 1
-  },
-  "davranis": {
-   "gecen": 36,
-   "toplam": 36,
-   "sinama": 36
   }
  },
  "derin": {
@@ -153,13 +128,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "a4e88427f2e5",
-   "t": 1787643085943,
-   "onem": "iyi",
-   "baslik": "Söylediğim sorunlar kapandı",
-   "govde": "Hepsi geçti. 82/83 kontrol · 1592 ayrı sınama."
-  },
   {
    "id": "7f8fc826d13b",
    "t": 1787643099405,
@@ -327,6 +295,13 @@
    "onem": "sorun",
    "baslik": "1 sorun buldum",
    "govde": "• [orta] Yayınlanmamış değişiklik yok\n   1 dosya: s/app.js"
+  },
+  {
+   "id": "921113424862",
+   "t": 1787782172636,
+   "onem": "iyi",
+   "baslik": "Söylediğim sorunlar kapandı",
+   "govde": "Hepsi geçti. 34/35 kontrol · 1059 ayrı sınama."
   }
  ],
  "bekleyen": [
@@ -358,12 +333,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-08-25T01:44:28+03:00",
-   "k": "gunluk",
-   "g": 77,
-   "n": 79
-  },
   {
    "t": "2026-08-25T01:45:39+03:00",
    "k": "gunluk",
@@ -597,6 +566,12 @@
    "k": "gunluk",
    "g": 85,
    "n": 87
+  },
+  {
+   "t": "2026-08-27T01:09:32+03:00",
+   "k": "6saat",
+   "g": 34,
+   "n": 35
   }
  ]
 }
