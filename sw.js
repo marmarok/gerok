@@ -4,7 +4,7 @@
 
 // DİKKAT: her yayında bu sürüm değişmeli, yoksa telefonlar eski dosyaları
 // önbellekten sunmaya devam eder. arac/yayinla.sh bunu kendiliğinden günceller.
-const SURUM = 'gerok-109-20260827-010833';
+const SURUM = 'gerok-110-20260827-020812';
 
 const DOSYALAR = [
   './',
@@ -38,6 +38,7 @@ const DOSYALAR = [
   './js/sema.js',
   './js/baglanti.js',
   './js/bekci.js',
+  './js/kutu.js',
   './js/bilgi.js',
   // Bölgenin yer adları (kamuya açık GeoNames verisi, kişisel hiçbir şey yok).
   // Haritada yer aramak internetsiz de çalışsın diye gömülü — yolda wifi yok.

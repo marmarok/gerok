@@ -5,7 +5,7 @@
 // Neden önbelleğin adına bakmıyoruz: yeni sürüm indiğinde önbellek adı değişiyor
 // ama ekrandaki kod hâlâ eski oluyor — uygulama kendini güncellenmiş sanıyordu.
 // Bu satır ekrandaki dosyanın içinde olduğu için yalan söyleyemiyor.
-const BU_SURUM = 'gerok-109-20260827-010833';
+const BU_SURUM = 'gerok-110-20260827-020812';
 
 import * as veri from './veri.js';
 import * as iz from './iz.js';
@@ -26,6 +26,7 @@ import { sihirbaziAc } from './sihirbaz.js';
 import * as yerAra from './yer-ara.js';
 import { ikon, ikonlariYerlestir } from './ikon.js';
 import * as bekci from './bekci.js';
+import * as kutu from './kutu.js';
 
 const $ = (s) => document.querySelector(s);
 const $$ = (s) => Array.from(document.querySelectorAll(s));
@@ -67,6 +68,8 @@ function semayiTazele(secim = semaSecimi()) {
 async function baslat() {
   temaBaslat();
   await veri.ac();
+  // Kara kutu erken açılıyor: açılışın KENDİSİNDE çıkan hata da yakalansın.
+  await kutu.baslat(BU_SURUM);
   await gerok.baslat();
   semayiTazele();
   // Telefon kendi kendine gece kipine geçerse (otomatik tema) vurgu da o
@@ -118,6 +121,28 @@ async function baslat() {
   agDegisiminiIzle();
   bekciyiKur();
   await paylasilanlariAl();
+  // Hatayı bildirmek kimsenin aklına gelmez; sorulunca gelir. Gecikme,
+  // açılışın önüne geçmemesi için.
+  setTimeout(sorunSorHatirlat, 9000);
+}
+
+
+/**
+ * Bildirilmemiş hata varsa bir kez sor.
+ *
+ * İnsanlar hata bildirmez — ama sorulduğunda "evet" der. Sessiz kalan bir
+ * hata kimseye ulaşmıyor; en çok can yakan hatalar da zaten sessiz olanlar.
+ *
+ * Rahatsız etmeme kuralı: günde bir kez, ve ekranda başka bir pencere
+ * açıkken hiç. "Şimdi değil" denince o hatalar bir daha sorulmuyor.
+ */
+async function sorunSorHatirlat() {
+  if (!kutu.bildirilmeyenHatalar().length) return;
+  if (document.querySelector('#ortu:not(.gizli)')) return;
+  const bugun = new Date().toDateString();
+  if (await veri.ayarOku('sorunSoruldu', null) === bugun) return;
+  await veri.ayarYaz('sorunSoruldu', bugun);
+  sorunBildir(true);
 }
 
 /**
@@ -4232,7 +4257,9 @@ async function paneliCiz() {
         ${panelSatiri({ etiket: 'Uygulamayı paylaş', id: 'btnPaylas',
           deger: 'arkadaşına gönder' })}
         ${panelSatiri({ etiket: 'Bir şey ters giderse', id: 'btnTamir',
-          deger: 'tamir kılavuzu' })}`,
+          deger: 'tamir kılavuzu' })}
+        ${panelSatiri({ etiket: 'Sorun bildir', id: 'btnSorunBildir',
+          deger: kacis(kutuOzetYazi()) })}`,
       not: 'Sürüm bilgisi, sınama ve tamir kılavuzu.'
     })}
   `;
@@ -4321,6 +4348,7 @@ async function paneliCiz() {
   });
   $('#btnKurulum').addEventListener('click', () => window.open('./kurulum.html', '_blank'));
   $('#btnPaylas').addEventListener('click', uygulamayiPaylas);
+  $('#btnSorunBildir').addEventListener('click', () => sorunBildir());
   $('#btnTamir').addEventListener('click', () => window.open('./tamir.html', '_blank'));
   $('#btnKalici')?.addEventListener('click', async () => {
     const s = await veri.kaliciDepolamaIste();
@@ -5055,6 +5083,142 @@ async function turDegisti() {
   await tazele();
   if (durum.ekran === 'harita') haritaGuncelle(durum.kayitlar, durum.izNoktalari);
   kayitBildir(yeni ? `"${yeni.ad}" turundasın.` : 'Aktif tur yok.', 'iyi');
+}
+
+
+/** Telefondaki harita parçalarının toplamı — ağa hiç çıkmadan. */
+async function yerelHaritaMB() {
+  try {
+    const depo = await import('./depo.js');
+    const adlar = await depo.listele('harita');
+    let t = 0;
+    for (const a of adlar) t += await depo.boyut('harita', a);
+    return Math.round(t / 1e6);
+  } catch { return 0; }
+}
+
+
+/**
+ * Rapora eklenecek CANLI sayılar.
+ *
+ * Neden her çağrı yerine sayaç koymadık: sayaç kodun içine serpiştirilir,
+ * biri unutulur ve sayı sessizce yanlış olur. Buradaki sayılar rapor
+ * anında veritabanından okunuyor — unutulacak bir yer yok.
+ *
+ * Yalnızca SAYI çıkıyor. Kaydın türü sayılıyor, içeriği değil; gezinin
+ * kaç tane olduğu sayılıyor, adı değil.
+ */
+async function canliSayilar() {
+  try {
+    const kayitlar = await veri.kayitlariGetir();
+    const tur = {};
+    for (const k of kayitlar) tur[k.tur] = (tur[k.tur] || 0) + 1;
+    const izler = await veri.izGetir();
+    const geziler = await veri.geroklar();
+    const yedek = await sonYedekZamani();
+    return {
+      kayit: kayitlar.length,
+      kayitTuru: tur,
+      izNoktasi: izler.length,
+      gezi: geziler.length,
+      // Haritayı YEREL depodan sayıyoruz. `haritaVarMi()` uzaktaki parça
+      // listesini indiriyor; rapor ekranı internetsizken de anında açılmalı.
+      haritaMB: await yerelHaritaMB(),
+      yedekYasiGun: yedek ? Math.round((Date.now() - yedek) / 86400000) : null,
+    };
+  } catch (h) {
+    // Sayı toplarken çıkan bir hata raporu engellememeli: rapor asıl iş.
+    return { sayilamadi: String(h.message || h).slice(0, 120) };
+  }
+}
+
+
+/**
+ * Panel satırında görünen kısa özet: bildirilecek bir şey var mı?
+ */
+function kutuOzetYazi() {
+  const o = kutu.sayacOzeti();
+  if (!o) return '';
+  const yeni = kutu.bildirilmeyenHatalar().length;
+  if (yeni) return `${yeni} yeni hata`;
+  return o.sayaclar.hata ? 'hata yok · sayılar hazır' : 'her şey yolunda';
+}
+
+
+/**
+ * "Sorun bildir" — kara kutuyu sahibine göndermek.
+ *
+ * KURAL: gönderilecek şey ÖNCE ekranda gösteriliyor. Kimse görmediği bir
+ * şeyi göndermek zorunda kalmıyor. Uygulamanın en baştaki sözü "hiçbir şey
+ * telefondan çıkmıyor"du; bu kapı o sözü bozmuyor çünkü kapıyı kişi açıyor.
+ *
+ * Raporun içinde kaydın İÇERİĞİ yok — not, ses, fotoğraf, konum, isim, gezi
+ * adı hiçbiri geçmiyor. Bu `kutu.js` tarafında güvence altına alınmış,
+ * burada da bekçi sınamasıyla kontrol ediliyor.
+ */
+async function sorunBildir(otomatikSoruldu = false) {
+  const r = kutu.tamRapor();
+  if (!r) { kayitBildir('Kara kutu henüz açılmadı.', 'kotu'); return; }
+  r.kullanim = await canliSayilar();
+
+  const metin = JSON.stringify(r, null, 1);
+  const satirlar = r.hatalar.length
+    ? r.hatalar.slice(-8).reverse().map(h => `
+        <div class="gs-liste-satir">
+          <div>${kacis(h.ne)}</div>
+          <div class="panel-not">${kacis(h.yer || 'yer bilinmiyor')}
+            ${h.kac > 1 ? ` · ${h.kac} kez` : ''} · ${kacis(h.ne_zaman)}</div>
+        </div>`).join('')
+    : '<div class="panel-not">Kayıtlı hata yok. Yine de sayıları gönderebilirsin.</div>';
+
+  ortuAc(`
+    <div class="ortu-baslik">Sorun bildir</div>
+    <div class="ortu-alt">${otomatikSoruldu
+      ? 'Geçen sefer bir şey ters gitti. Aşağıdakini gönderirsen düzeltilebilir.'
+      : 'Gönderilecek şeyin tamamı aşağıda.'}
+      Notların, seslerin ve fotoğrafların gönderilmiyor.
+      <b>Ama bir hata mesajı, o an elindeki bir yazıyı alıntılamış olabilir.</b>
+      Aşağıyı oku; göndermek istemediğin bir şey varsa gönderme.</div>
+    <div class="panel-not">${kacis(r.surum)} · ${kacis(r.telefon)} ·
+      ${r.gun} gün · ${r.sayaclar.acilis || 0} açılış</div>
+    ${satirlar}
+    <details style="margin:14px 0">
+      <summary class="panel-not">Ham hali (gönderilecek dosyanın aynısı)</summary>
+      <pre style="white-space:pre-wrap;word-break:break-word;font-size:12px;
+        max-height:220px;overflow:auto">${kacis(metin)}</pre>
+    </details>
+    <button class="eylem-dugme birincil" id="sbGonder">Gönder</button>
+    <button class="eylem-dugme" id="sbSonra">Şimdi değil</button>
+  `);
+
+  $('#sbSonra').addEventListener('click', async () => {
+    // "Şimdi değil" de bir cevap: aynı hatalar için bir daha sorulmuyor.
+    if (otomatikSoruldu) await kutu.bildirildiIsaretle();
+    ortuKapat();
+  });
+
+  $('#sbGonder').addEventListener('click', async () => {
+    ortuKapat();
+    const ad = `gerok-rapor-${new Date().toISOString().slice(0, 10)}.json`;
+    const blob = new Blob([metin], { type: 'application/json' });
+    const dosya = new File([blob], ad, { type: 'application/json' });
+    try {
+      if (navigator.canShare?.({ files: [dosya] })) {
+        await navigator.share({ files: [dosya], title: 'Gerok raporu' });
+      } else {
+        const u = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = u; a.download = ad; a.click();
+        setTimeout(() => URL.revokeObjectURL(u), 3000);
+      }
+      await kutu.bildirildiIsaretle();
+      kayitBildir('Rapor hazır — Gerok’u yapana gönder.', 'iyi');
+      paneliCiz();
+    } catch (hata) {
+      if (hata.name === 'AbortError') return;
+      kayitBildir('Gönderilemedi: ' + hata.message, 'kotu');
+    }
+  });
 }
 
 
