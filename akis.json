@@ -1,28 +1,38 @@
 {
  "bicim": 1,
- "zaman": "2026-08-26T21:09:11+03:00",
+ "zaman": "2026-08-27T01:04:28+03:00",
  "kadans": "gunluk",
- "durum": "bilinen",
+ "durum": "sorun",
  "sayilar": {
   "kontrol": 87,
-  "sinama": 1625,
-  "gecen": 86,
+  "sinama": 1626,
+  "gecen": 85,
   "bilinen": 1,
-  "sorun": 0,
-  "sure": 73.9,
-  "kosu": 95
+  "sorun": 1,
+  "sure": 77.7,
+  "kosu": 96
  },
- "sorunlar": [],
+ "sorunlar": [
+  {
+   "ad": "Yayınlanmamış değişiklik yok",
+   "onem": "orta",
+   "oyku": "yayin",
+   "not": "1 dosya: s/app.js",
+   "onarilabilir": false
+  }
+ ],
  "bilinenler": [
   {
    "ad": "Math.min(...dizi) yığın taşması",
-   "not": "app.js:712; app.js:4884; gerok.js:447; sihirbaz.js:393; sihirbaz.js:394; sihirbaz.js:395 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
+   "not": "app.js:712; app.js:4887; gerok.js:447; sihirbaz.js:393; sihirbaz.js:394; sihirbaz.js:395 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
   }
  ],
- "onarilan": [],
+ "onarilan": [
+  "surum.json diskle uyuşuyor: ✓ surum.json yazıldı — 52 dosya, 3849 KB, sürüm gerok-108-20260825-165302"
+ ],
  "gruplar": {
   "yayin": {
-   "gecen": 15,
+   "gecen": 14,
    "toplam": 15,
    "sinama": 110
   },
@@ -44,7 +54,7 @@
   "kod": {
    "gecen": 10,
    "toplam": 10,
-   "sinama": 475
+   "sinama": 476
   },
   "veri": {
    "gecen": 2,
@@ -79,14 +89,14 @@
  },
  "derin": {
   "kadans": "gunluk",
-  "zaman": "2026-08-26T21:09:11+03:00",
+  "zaman": "2026-08-27T01:04:28+03:00",
   "kontrol": 87,
-  "sinama": 1625,
-  "gecen": 86,
-  "sorun": 0,
+  "sinama": 1626,
+  "gecen": 85,
+  "sorun": 1,
   "gruplar": {
    "yayin": {
-    "gecen": 15,
+    "gecen": 14,
     "toplam": 15,
     "sinama": 110
    },
@@ -108,7 +118,7 @@
    "kod": {
     "gecen": 10,
     "toplam": 10,
-    "sinama": 475
+    "sinama": 476
    },
    "veri": {
     "gecen": 2,
@@ -143,20 +153,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "3275cca9db56",
-   "t": 1787641977043,
-   "onem": "bilgi",
-   "baslik": "Güncellemeler artık ne değiştiğini söylüyor",
-   "govde": "Bundan sonra her güncelleme kartında \"Eklenenler / Düzelenler / Çıkarılanlar\" yazacak. Kartı kaçırırsan Gerok sekmesi → Neler değişti'ten okuyabilirsin, internetsizken de açılır. Notu yazmayı unutursam yayın duruyor. Sürüm gerok-105."
-  },
-  {
-   "id": "8d646f9f3c18",
-   "t": 1787642908693,
-   "onem": "sorun",
-   "baslik": "1 sorun buldum",
-   "govde": "• [orta] Şartname maddeleri\n   409/413 — gerileme"
-  },
   {
    "id": "a4e88427f2e5",
    "t": 1787643085943,
@@ -317,6 +313,20 @@
    "onem": "iyi",
    "baslik": "Söylediğim sorunlar kapandı",
    "govde": "Hepsi geçti. 93/95 kontrol · 1639 ayrı sınama."
+  },
+  {
+   "id": "f7b4e5adeaa0",
+   "t": 1787781868942,
+   "onem": "iyi",
+   "baslik": "1 şey onardım",
+   "govde": "• surum.json diskle uyuşuyor: ✓ surum.json yazıldı — 52 dosya, 3849 KB, sürüm gerok-108-20260825-165302\n\nHepsini onardıktan sonra kontrolü yeniden koştum; “onardım” demeden önce onardığımı gördüm."
+  },
+  {
+   "id": "a94919924df5",
+   "t": 1787781868943,
+   "onem": "sorun",
+   "baslik": "1 sorun buldum",
+   "govde": "• [orta] Yayınlanmamış değişiklik yok\n   1 dosya: s/app.js"
   }
  ],
  "bekleyen": [
@@ -348,12 +358,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-08-25T01:39:31+03:00",
-   "k": "saatlik",
-   "g": 4,
-   "n": 4
-  },
   {
    "t": "2026-08-25T01:44:28+03:00",
    "k": "gunluk",
@@ -586,6 +590,12 @@
    "t": "2026-08-26T21:09:11+03:00",
    "k": "gunluk",
    "g": 86,
+   "n": 87
+  },
+  {
+   "t": "2026-08-27T01:04:28+03:00",
+   "k": "gunluk",
+   "g": 85,
    "n": 87
   }
  ]
