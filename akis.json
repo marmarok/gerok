@@ -1,16 +1,16 @@
 {
  "bicim": 1,
- "zaman": "2026-08-26T20:52:32+03:00",
- "kadans": "6saat",
+ "zaman": "2026-08-26T20:53:29+03:00",
+ "kadans": "gunluk",
  "durum": "bilinen",
  "sayilar": {
-  "kontrol": 35,
-  "sinama": 1057,
-  "gecen": 34,
+  "kontrol": 87,
+  "sinama": 1625,
+  "gecen": 86,
   "bilinen": 1,
   "sorun": 0,
-  "sure": 13.9,
-  "kosu": 89
+  "sure": 70.7,
+  "kosu": 90
  },
  "sorunlar": [],
  "bilinenler": [
@@ -22,14 +22,14 @@
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 10,
-   "toplam": 10,
-   "sinama": 72
+   "gecen": 15,
+   "toplam": 15,
+   "sinama": 110
   },
   "bekci": {
-   "gecen": 4,
-   "toplam": 4,
-   "sinama": 16
+   "gecen": 9,
+   "toplam": 9,
+   "sinama": 81
   },
   "yedek": {
    "gecen": 1,
@@ -42,9 +42,9 @@
    "sinama": 20
   },
   "kod": {
-   "gecen": 8,
-   "toplam": 8,
-   "sinama": 459
+   "gecen": 10,
+   "toplam": 10,
+   "sinama": 475
   },
   "veri": {
    "gecen": 2,
@@ -52,23 +52,38 @@
    "sinama": 9
   },
   "gizlilik": {
-   "gecen": 4,
-   "toplam": 4,
-   "sinama": 63
+   "gecen": 6,
+   "toplam": 6,
+   "sinama": 65
   },
   "bilgi": {
    "gecen": 5,
    "toplam": 5,
    "sinama": 416
+  },
+  "sartname": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 410
+  },
+  "depolama": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 1
+  },
+  "davranis": {
+   "gecen": 36,
+   "toplam": 36,
+   "sinama": 36
   }
  },
  "derin": {
   "kadans": "gunluk",
-  "zaman": "2026-08-26T20:49:17+03:00",
+  "zaman": "2026-08-26T20:53:29+03:00",
   "kontrol": 87,
   "sinama": 1625,
-  "gecen": 85,
-  "sorun": 1,
+  "gecen": 86,
+  "sorun": 0,
   "gruplar": {
    "yayin": {
     "gecen": 15,
@@ -76,7 +91,7 @@
     "sinama": 110
    },
    "bekci": {
-    "gecen": 8,
+    "gecen": 9,
     "toplam": 9,
     "sinama": 81
    },
@@ -325,12 +340,6 @@
  ],
  "gecmis": [
   {
-   "t": "2026-08-24T21:01:34+03:00",
-   "k": "saatlik",
-   "g": 4,
-   "n": 4
-  },
-  {
    "t": "2026-08-24T22:05:27+03:00",
    "k": "gunluk",
    "g": 77,
@@ -563,6 +572,12 @@
    "k": "6saat",
    "g": 34,
    "n": 35
+  },
+  {
+   "t": "2026-08-26T20:53:29+03:00",
+   "k": "gunluk",
+   "g": 86,
+   "n": 87
   }
  ]
 }
