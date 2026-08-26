@@ -1,88 +1,43 @@
 {
  "bicim": 1,
- "zaman": "2026-08-26T20:45:56+03:00",
- "kadans": "gunluk",
+ "zaman": "2026-08-26T20:47:26+03:00",
+ "kadans": "saatlik",
  "durum": "sorun",
  "sayilar": {
-  "kontrol": 87,
-  "sinama": 1625,
-  "gecen": 85,
-  "bilinen": 1,
+  "kontrol": 5,
+  "sinama": 34,
+  "gecen": 4,
+  "bilinen": 0,
   "sorun": 1,
-  "sure": 69.3,
-  "kosu": 84
+  "sure": 0.5,
+  "kosu": 85
  },
  "sorunlar": [
   {
    "ad": "Zamanlayıcı ayakta",
    "onem": "kritik",
    "oyku": "bekci",
-   "not": "saatlik: son koşu 1 ile bitti · alti: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`",
+   "not": "alti: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`",
    "onarilabilir": false
   }
  ],
- "bilinenler": [
-  {
-   "ad": "Math.min(...dizi) yığın taşması",
-   "not": "app.js:712; app.js:4884; gerok.js:447; sihirbaz.js:393; sihirbaz.js:394; sihirbaz.js:395 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
-  }
- ],
+ "bilinenler": [],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 15,
-   "toplam": 15,
-   "sinama": 110
+   "gecen": 3,
+   "toplam": 3,
+   "sinama": 6
   },
   "bekci": {
-   "gecen": 8,
-   "toplam": 9,
-   "sinama": 81
-  },
-  "yedek": {
-   "gecen": 1,
+   "gecen": 0,
    "toplam": 1,
-   "sinama": 2
+   "sinama": 8
   },
   "koprü": {
    "gecen": 1,
    "toplam": 1,
    "sinama": 20
-  },
-  "kod": {
-   "gecen": 10,
-   "toplam": 10,
-   "sinama": 475
-  },
-  "veri": {
-   "gecen": 2,
-   "toplam": 2,
-   "sinama": 9
-  },
-  "gizlilik": {
-   "gecen": 6,
-   "toplam": 6,
-   "sinama": 65
-  },
-  "bilgi": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 416
-  },
-  "sartname": {
-   "gecen": 1,
-   "toplam": 1,
-   "sinama": 410
-  },
-  "depolama": {
-   "gecen": 1,
-   "toplam": 1,
-   "sinama": 1
-  },
-  "davranis": {
-   "gecen": 36,
-   "toplam": 36,
-   "sinama": 36
   }
  },
  "derin": {
@@ -151,13 +106,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "1770952da839",
-   "t": 1787611539913,
-   "onem": "iyi",
-   "baslik": "Söylediğim sorunlar kapandı",
-   "govde": "Hepsi geçti. 78/79 kontrol · 1579 ayrı sınama."
-  },
   {
    "id": "5ba39f48ffd7",
    "t": 1787611587345,
@@ -325,6 +273,13 @@
    "onem": "sorun",
    "baslik": "1 sorun buldum",
    "govde": "• [kritik] Zamanlayıcı ayakta\n   saatlik: son koşu 1 ile bitti · alti: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`"
+  },
+  {
+   "id": "fdedf87049c1",
+   "t": 1787766446716,
+   "onem": "sorun",
+   "baslik": "1 sorun buldum",
+   "govde": "• [kritik] Zamanlayıcı ayakta\n   alti: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`"
   }
  ],
  "bekleyen": [
@@ -356,12 +311,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-08-23T23:35:31+03:00",
-   "k": "gunluk",
-   "g": 77,
-   "n": 78
-  },
   {
    "t": "2026-08-23T23:35:49+03:00",
    "k": "saatlik",
@@ -595,6 +544,12 @@
    "k": "gunluk",
    "g": 85,
    "n": 87
+  },
+  {
+   "t": "2026-08-26T20:47:26+03:00",
+   "k": "saatlik",
+   "g": 4,
+   "n": 5
   }
  ]
 }
