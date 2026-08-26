@@ -1,6 +1,6 @@
 {
  "bicim": 1,
- "zaman": "2026-08-27T01:14:43+03:00",
+ "zaman": "2026-08-27T01:15:40+03:00",
  "kadans": "saatlik",
  "durum": "iyi",
  "sayilar": {
@@ -9,8 +9,8 @@
   "gecen": 5,
   "bilinen": 0,
   "sorun": 0,
-  "sure": 0.5,
-  "kosu": 99
+  "sure": 0.4,
+  "kosu": 100
  },
  "sorunlar": [],
  "bilinenler": [],
@@ -98,13 +98,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "7f8fc826d13b",
-   "t": 1787643099405,
-   "onem": "bilgi",
-   "baslik": "Gün Sonu korkusu düzeltildi",
-   "govde": "Haklıymışsın. Gün Sonu hiçbir şey silmiyordu ama \"Günü kapat\" / \"Gün kapandı\" yazıyordu — kapanıyormuş gibi okunuyor. Kaldırdım. İlk adımda artık \"hiçbir adım kayıt silmez, istediğin yerde çıkabilirsin\" yazıyor. Daha önemlisi: yedek alma artık Gün Sonu'nun içinde değil, ayrı soruyor. Sürüm gerok-106."
-  },
   {
    "id": "d074beb6eedc",
    "t": 1787653681666,
@@ -272,6 +265,13 @@
    "onem": "iyi",
    "baslik": "Söylediğim sorunlar kapandı",
    "govde": "Hepsi geçti. 34/35 kontrol · 1059 ayrı sınama."
+  },
+  {
+   "id": "0423c769af29",
+   "t": 1787782539711,
+   "onem": "iyi",
+   "baslik": "İki geçici kesinti onarıldı",
+   "govde": "Bu gece bekçi iki kırmızı gördü: canlı site/iCloud kontrolleri ve tarayıcı testleri. İkisini de araştırdım — gerçek arıza değil, Mac'in kısa bakım uykusu sırasında ağ birkaç saniyeliğine kesiliyor ve iki kontrol koşusu üst üste düşünce paylaştıkları test sunucusunu birbirinden çalıyorlardı. İkisine de kalıcı düzeltme yaptım: ağ/iCloud kontrolleri artık kısa aralıklarla 3 kez deniyor, tarayıcı testleri artık sıraya giriyor. Şimdi her şey yeşil, senin yapman gereken bir şey yok."
   }
  ],
  "bekleyen": [
@@ -303,12 +303,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-08-25T08:58:40+03:00",
-   "k": "saatlik",
-   "g": 4,
-   "n": 4
-  },
   {
    "t": "2026-08-25T08:58:52+03:00",
    "k": "6saat",
@@ -539,6 +533,12 @@
   },
   {
    "t": "2026-08-27T01:14:43+03:00",
+   "k": "saatlik",
+   "g": 5,
+   "n": 5
+  },
+  {
+   "t": "2026-08-27T01:15:40+03:00",
    "k": "saatlik",
    "g": 5,
    "n": 5
