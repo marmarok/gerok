@@ -1,16 +1,16 @@
 {
  "bicim": 1,
- "zaman": "2026-08-25T16:54:49+03:00",
+ "zaman": "2026-08-26T20:44:40+03:00",
  "kadans": "gunluk",
  "durum": "sorun",
  "sayilar": {
   "kontrol": 87,
-  "sinama": 1622,
+  "sinama": 1625,
   "gecen": 85,
   "bilinen": 1,
   "sorun": 1,
-  "sure": 68.6,
-  "kosu": 81
+  "sure": 86.4,
+  "kosu": 83
  },
  "sorunlar": [
   {
@@ -47,7 +47,7 @@
   "koprü": {
    "gecen": 1,
    "toplam": 1,
-   "sinama": 17
+   "sinama": 20
   },
   "kod": {
    "gecen": 10,
@@ -87,9 +87,9 @@
  },
  "derin": {
   "kadans": "gunluk",
-  "zaman": "2026-08-25T16:54:49+03:00",
+  "zaman": "2026-08-26T20:44:40+03:00",
   "kontrol": 87,
-  "sinama": 1622,
+  "sinama": 1625,
   "gecen": 85,
   "sorun": 1,
   "gruplar": {
@@ -111,7 +111,7 @@
    "koprü": {
     "gecen": 1,
     "toplam": 1,
-    "sinama": 17
+    "sinama": 20
    },
    "kod": {
     "gecen": 10,
@@ -151,27 +151,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "c079f47ff81f",
-   "t": 1787518380079,
-   "onem": "iyi",
-   "baslik": "Emir alındı: claude-cagir",
-   "govde": "akıl hocası dosyası bırakılacak"
-  },
-  {
-   "id": "b8097965b9c2",
-   "t": 1787598349665,
-   "onem": "iyi",
-   "baslik": "Bilgi paketi kontrol edildi",
-   "govde": "(ayrıntı panoda)"
-  },
-  {
-   "id": "0fbda2035d36",
-   "t": 1787611468115,
-   "onem": "sorun",
-   "baslik": "1 sorun buldum",
-   "govde": "• [kritik] Canlı dosyalar indirilebiliyor\n   ./js/bekci.js (özet tutmuyor); ./js/bilgi.js (özet tutmuyor)"
-  },
   {
    "id": "1770952da839",
    "t": 1787611539913,
@@ -325,6 +304,27 @@
    "onem": "sorun",
    "baslik": "1 sorun buldum",
    "govde": "• [kritik] Zamanlayıcı ayakta\n   saatlik: son koşu 1 ile bitti · alti: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`"
+  },
+  {
+   "id": "630dc8427806",
+   "t": 1787666104361,
+   "onem": "bilgi",
+   "baslik": "Yedeği sına ve geri yükleme düzeldi",
+   "govde": "184'te çökmesinin sebebi bulundu: telefonun belleği yetmiyordu, hepsini tek seferde okuyordu. Daha kötüsü: YEDEĞİ GERİ YÜKLEME de aynı yüzden çöküyordu — yedeğin vardı ama geri yükleyemezdin. Senin 355 MB'lık gerçek yedeğinle sınadım: 239 kayıt, 184 dosya, 3,5 saniye. Sürüm gerok-108."
+  },
+  {
+   "id": "c27b9543924b",
+   "t": 1787741275411,
+   "onem": "sorun",
+   "baslik": "4 sorun buldum",
+   "govde": "• [kritik] Canlı site ayakta\n   URLError: <urlopen error [Errno 8] nodename nor servname provided, or not known>\n• [kritik] Canlı index.html açılıyor\n   <urlopen error [Errno 8] nodename nor servname provided, or not known>\n• [kritik] Zamanlayıcı ayakta\n   saatlik: son koşu 1 ile bitti · alti: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`\n• [yuksek] iCloud köprüsü okunabiliyor\n   izin yok — telefondan gelen emirler SESSİZCE düşüyor. Sistem Ayarları → Gizlilik → Tam Disk Erişimi → /usr/bin/python3"
+  },
+  {
+   "id": "d9b80368ab1f",
+   "t": 1787766280152,
+   "onem": "sorun",
+   "baslik": "1 sorun buldum",
+   "govde": "• [kritik] Zamanlayıcı ayakta\n   saatlik: son koşu 1 ile bitti · alti: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`"
   }
  ],
  "bekleyen": [
@@ -356,18 +356,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-08-23T22:46:38+03:00",
-   "k": "haftalik",
-   "g": 81,
-   "n": 83
-  },
-  {
-   "t": "2026-08-23T22:46:42+03:00",
-   "k": "saatlik",
-   "g": 4,
-   "n": 4
-  },
   {
    "t": "2026-08-23T23:07:32+03:00",
    "k": "saatlik",
@@ -592,6 +580,18 @@
   },
   {
    "t": "2026-08-25T16:54:49+03:00",
+   "k": "gunluk",
+   "g": 85,
+   "n": 87
+  },
+  {
+   "t": "2026-08-26T13:47:55+03:00",
+   "k": "saatlik",
+   "g": 1,
+   "n": 5
+  },
+  {
+   "t": "2026-08-26T20:44:40+03:00",
    "k": "gunluk",
    "g": 85,
    "n": 87
