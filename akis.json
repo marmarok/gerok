@@ -1,33 +1,18 @@
 {
  "bicim": 1,
- "zaman": "2026-08-26T21:03:21+03:00",
+ "zaman": "2026-08-26T21:07:41+03:00",
  "kadans": "haftalik",
- "durum": "sorun",
+ "durum": "bilinen",
  "sayilar": {
-  "kontrol": 60,
-  "sinama": 1604,
-  "gecen": 56,
+  "kontrol": 95,
+  "sinama": 1639,
+  "gecen": 93,
   "bilinen": 2,
-  "sorun": 2,
-  "sure": 926.0,
-  "kosu": 91
+  "sorun": 0,
+  "sure": 76.1,
+  "kosu": 92
  },
- "sorunlar": [
-  {
-   "ad": "Zamanlayıcı ayakta",
-   "onem": "kritik",
-   "oyku": "bekci",
-   "not": "saatlik: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`",
-   "onarilabilir": false
-  },
-  {
-   "ad": "Tarayıcı sınamaları",
-   "onem": "kritik",
-   "oyku": "davranis",
-   "not": "zaman aşımı (900 sn)",
-   "onarilabilir": false
-  }
- ],
+ "sorunlar": [],
  "bilinenler": [
   {
    "ad": "Math.min(...dizi) yığın taşması",
@@ -46,7 +31,7 @@
    "sinama": 110
   },
   "bekci": {
-   "gecen": 8,
+   "gecen": 9,
    "toplam": 9,
    "sinama": 81
   },
@@ -96,18 +81,18 @@
    "sinama": 11
   },
   "davranis": {
-   "gecen": 0,
-   "toplam": 1,
-   "sinama": 1
+   "gecen": 36,
+   "toplam": 36,
+   "sinama": 36
   }
  },
  "derin": {
   "kadans": "haftalik",
-  "zaman": "2026-08-26T21:03:21+03:00",
-  "kontrol": 60,
-  "sinama": 1604,
-  "gecen": 56,
-  "sorun": 2,
+  "zaman": "2026-08-26T21:07:41+03:00",
+  "kontrol": 95,
+  "sinama": 1639,
+  "gecen": 93,
+  "sorun": 0,
   "gruplar": {
    "yayin": {
     "gecen": 15,
@@ -115,7 +100,7 @@
     "sinama": 110
    },
    "bekci": {
-    "gecen": 8,
+    "gecen": 9,
     "toplam": 9,
     "sinama": 81
    },
@@ -165,20 +150,13 @@
     "sinama": 11
    },
    "davranis": {
-    "gecen": 0,
-    "toplam": 1,
-    "sinama": 1
+    "gecen": 36,
+    "toplam": 36,
+    "sinama": 36
    }
   }
  },
  "mesajlar": [
-  {
-   "id": "955650c9afa8",
-   "t": 1787641940653,
-   "onem": "iyi",
-   "baslik": "Söylediğim sorunlar kapandı",
-   "govde": "Hepsi geçti. 32/33 kontrol · 1025 ayrı sınama."
-  },
   {
    "id": "3275cca9db56",
    "t": 1787641977043,
@@ -346,21 +324,19 @@
    "onem": "sorun",
    "baslik": "2 sorun buldum",
    "govde": "• [kritik] Zamanlayıcı ayakta\n   saatlik: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`\n• [kritik] Tarayıcı sınamaları\n   zaman aşımı (900 sn)"
+  },
+  {
+   "id": "612d592e82e0",
+   "t": 1787767661020,
+   "onem": "iyi",
+   "baslik": "Söylediğim sorunlar kapandı",
+   "govde": "Hepsi geçti. 93/95 kontrol · 1639 ayrı sınama."
   }
  ],
  "bekleyen": [
   {
    "id": "07aefe2c63ed",
    "soru": "“telefon_yedegi” kontrolü takılıyor ve kendim onaramadım. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu? (Ayrıntısı panoda duruyor.)",
-   "secenekler": [
-    "Bu bilinen bir durum",
-    "Gerçekten bozuk, bak",
-    "Yanlış alarm"
-   ]
-  },
-  {
-   "id": "a18b0d94d986",
-   "soru": "“Zamanlayıcı ayakta” kontrolü takılıyor ve kendim onaramadım. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu? (Ayrıntısı panoda duruyor.)",
    "secenekler": [
     "Bu bilinen bir durum",
     "Gerçekten bozuk, bak",
@@ -386,12 +362,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-08-24T22:05:54+03:00",
-   "k": "saatlik",
-   "g": 4,
-   "n": 4
-  },
   {
    "t": "2026-08-24T22:06:39+03:00",
    "k": "saatlik",
@@ -625,6 +595,12 @@
    "k": "haftalik",
    "g": 56,
    "n": 60
+  },
+  {
+   "t": "2026-08-26T21:07:41+03:00",
+   "k": "haftalik",
+   "g": 93,
+   "n": 95
   }
  ]
 }
