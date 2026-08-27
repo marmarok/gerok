@@ -1,39 +1,35 @@
 {
  "bicim": 1,
- "zaman": "2026-08-27T16:38:08+03:00",
- "kadans": "haftalik",
+ "zaman": "2026-08-27T16:49:09+03:00",
+ "kadans": "6saat",
  "durum": "bilinen",
  "sayilar": {
-  "kontrol": 103,
-  "sinama": 1685,
-  "gecen": 101,
-  "bilinen": 2,
+  "kontrol": 35,
+  "sinama": 1094,
+  "gecen": 34,
+  "bilinen": 1,
   "sorun": 0,
-  "sure": 81.9,
-  "kosu": 110
+  "sure": 14.0,
+  "kosu": 111
  },
  "sorunlar": [],
  "bilinenler": [
   {
    "ad": "Math.min(...dizi) yığın taşması",
    "not": "app.js:740; app.js:4933; gerok.js:447; sihirbaz.js:393; sihirbaz.js:394; sihirbaz.js:395 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
-  },
-  {
-   "ad": "Arşivde fotoğrafların aslı var",
-   "not": "(ayrıntı panoda)"
   }
  ],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 15,
-   "toplam": 15,
-   "sinama": 120
+   "gecen": 10,
+   "toplam": 10,
+   "sinama": 80
   },
   "bekci": {
-   "gecen": 9,
-   "toplam": 9,
-   "sinama": 81
+   "gecen": 4,
+   "toplam": 4,
+   "sinama": 16
   },
   "yedek": {
    "gecen": 1,
@@ -46,9 +42,9 @@
    "sinama": 20
   },
   "kod": {
-   "gecen": 10,
-   "toplam": 10,
-   "sinama": 504
+   "gecen": 8,
+   "toplam": 8,
+   "sinama": 488
   },
   "veri": {
    "gecen": 2,
@@ -56,34 +52,14 @@
    "sinama": 9
   },
   "gizlilik": {
-   "gecen": 6,
-   "toplam": 6,
-   "sinama": 65
+   "gecen": 4,
+   "toplam": 4,
+   "sinama": 63
   },
   "bilgi": {
    "gecen": 5,
    "toplam": 5,
    "sinama": 416
-  },
-  "sartname": {
-   "gecen": 1,
-   "toplam": 1,
-   "sinama": 409
-  },
-  "depolama": {
-   "gecen": 4,
-   "toplam": 4,
-   "sinama": 4
-  },
-  "kaynak": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 11
-  },
-  "davranis": {
-   "gecen": 44,
-   "toplam": 44,
-   "sinama": 44
   }
  },
  "derin": {
@@ -363,12 +339,6 @@
  ],
  "gecmis": [
   {
-   "t": "2026-08-25T13:29:10+03:00",
-   "k": "haftalik",
-   "g": 90,
-   "n": 93
-  },
-  {
    "t": "2026-08-25T13:29:41+03:00",
    "k": "6saat",
    "g": 33,
@@ -601,6 +571,12 @@
    "k": "haftalik",
    "g": 101,
    "n": 103
+  },
+  {
+   "t": "2026-08-27T16:49:09+03:00",
+   "k": "6saat",
+   "g": 34,
+   "n": 35
   }
  ]
 }
