@@ -2,6 +2,20 @@
  "aciklama": "Her güncellemede ne eklendi, ne düzeldi, ne çıktı. En yeni en üstte. Bu dosya güncelleme kartında okunuyor; boş bırakılamaz, yayınlama betiği kontrol ediyor.",
  "surumler": [
   {
+   "sayi": 117,
+   "eklendi": [
+    "İlk açılışta kısa bir tanıtım turu var. Beş-altı adımda gerçek düğmelerin üstünü işaret ederek anlatıyor: sesli not, ortam sesi, haritayı yola çıkmadan indirmek, Yol Modu ve Gün Sonu. Gerok panelinden istediğin zaman baştan izlenebiliyor.",
+    "“Gerok’u yapana yaz” diye bir kutu eklendi. Bir şey çalışmıyorsa ya da bir fikrin varsa doğrudan yazıyorsun; telefon numarası bilmeye gerek yok. Adını yazmak isteğe bağlı.",
+    "İnternet yokken yazılan mesaj kaybolmuyor: kuyrukta bekliyor, bağlanınca kendiliğinden gidiyor. Gönderdiklerinin kopyası telefonda duruyor."
+   ],
+   "duzeldi": [
+    "“Sorun bildir” artık gerçekten gönderiyor. Eskiden bir dosya üretip “bunu Gerok’u yapana ilet” diyordu; kimse o dosyayla uğraşmıyordu, yani hiçbir arıza bildirimi ulaşmıyordu.",
+    "Mesaj gönderirken yazılan ad ve açıklama kayboluyordu: pencere kapandıktan sonra okunduğu için boş gidiyordu, ekranda ise “gönderildi” yazıyordu. Sessiz bir veri kaybıydı, düzeltildi.",
+    "Tanıtım turu ilk açılışta “Adın ne?” ekranının üstüne biniyordu; artık sırayla çıkıyor."
+   ],
+   "cikti": []
+  },
+  {
    "sayi": 116,
    "eklendi": [
     "Harita artık DÜNYANIN HER YERİNDE indiriliyor. Önceden yalnızca önceden hazırlanmış bölgeler inebiliyordu; başka bir yere giden kişi “bu bölgeyi iste” deyip beklemek zorundaydı. O bekleme tamamen kalktı.",

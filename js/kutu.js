@@ -29,6 +29,19 @@ const ISTATISTIK_ADRESI = 'https://docs.google.com/forms/d/e/'
 const ISTATISTIK_ALANI = 'entry.2041046097';
 const ISTATISTIK_ARALIK = 7 * 86400000;      // Haftada bir; günlük gürültü olur.
 
+// Kişinin KENDİ YAZDIĞI mesaj için iki ayrı alan. Aynı forma gidiyorlar ama
+// ayrı sütunlara düşüyorlar: mesaj okunacak bir metin, JSON'un içine gömülse
+// okunmaz olurdu.
+const MESAJ_ALANI = 'entry.294066813';
+const KIM_ALANI = 'entry.18087285';
+
+// Gönderilemeyenlerin beklediği yer. Uygulamanın var oluş sebebi
+// internetsizlik: yurtdışında bir şey ters gidince kişi o an yazar,
+// internet ancak günler sonra gelir. Kuyruk olmasaydı o mesaj kaybolurdu.
+const KUYRUK = 'gidenKutusu';
+const GONDERILEN = 'gonderilenMesajlar';
+const EN_FAZLA_KUYRUK = 20;
+
 const ANAHTAR = 'karaKutu';
 const EN_FAZLA_HATA = 40;        // Defter şişmesin; en eskiler düşer.
 const MESAJ_SINIRI = 300;        // Uzun yığın izleri kırpılır.
@@ -248,4 +261,109 @@ export async function istatistikGonder({ zorla = false } = {}) {
     // değil ve kara kutuyu kendi gürültüsüyle doldurmasın.
     return 'ağ yok';
   }
+}
+
+
+// ---- Kişinin yazdığı mesaj -------------------------------------------------
+
+/**
+ * Mesajı forma yollar.
+ *
+ * `no-cors` yüzünden GİTTİĞİNİ DOĞRULAYAMIYORUZ — istek başarısız olsa da
+ * aynı görünüyor. Bu yüzden iki şey yapılıyor: gönderilen her mesajın
+ * kopyası cihazda kalıyor (kişi ne yazdığını sonra görebilsin), ve ağ
+ * yokken mesaj kuyruğa giriyor.
+ */
+async function forma(alanlar) {
+  await fetch(ISTATISTIK_ADRESI, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams(alanlar),
+  });
+}
+
+/**
+ * Bir mesajı (ve istenirse arıza raporunu) gönderir.
+ *
+ * Dönüş: 'gonderildi' | 'kuyrukta'
+ */
+export async function mesajGonder({ mesaj = '', kim = '', rapor = null } = {}) {
+  const paket = {
+    [MESAJ_ALANI]: String(mesaj || '').slice(0, 4000),
+    [KIM_ALANI]: String(kim || '').slice(0, 100),
+    [ISTATISTIK_ALANI]: JSON.stringify(rapor || {
+      ...sayacOzeti(), telefon_isareti: await telefonIsareti(),
+    }),
+  };
+
+  const kayit = {
+    an: Date.now(), mesaj: paket[MESAJ_ALANI], kim: paket[KIM_ALANI],
+    raporlu: !!rapor,
+  };
+
+  if (!navigator.onLine) {
+    await kuyrugaKoy(paket, kayit);
+    return 'kuyrukta';
+  }
+  try {
+    await forma(paket);
+  } catch {
+    await kuyrugaKoy(paket, kayit);
+    return 'kuyrukta';
+  }
+  await gonderileneEkle({ ...kayit, durum: 'gonderildi' });
+  return 'gonderildi';
+}
+
+async function kuyrugaKoy(paket, kayit) {
+  const k = await veri.ayarOku(KUYRUK, []);
+  k.push({ paket, kayit });
+  await veri.ayarYaz(KUYRUK, k.slice(-EN_FAZLA_KUYRUK));
+  await gonderileneEkle({ ...kayit, durum: 'kuyrukta' });
+}
+
+async function gonderileneEkle(kayit) {
+  const g = await veri.ayarOku(GONDERILEN, []);
+  g.push(kayit);
+  await veri.ayarYaz(GONDERILEN, g.slice(-EN_FAZLA_KUYRUK));
+}
+
+/** Cihazda duran mesaj kopyaları — "ne yazmıştım?" sorusunun cevabı. */
+export async function gonderilenMesajlar() {
+  return veri.ayarOku(GONDERILEN, []);
+}
+
+export async function bekleyenMesajSayisi() {
+  return (await veri.ayarOku(KUYRUK, [])).length;
+}
+
+/**
+ * Kuyruktakileri internet gelince yollar.
+ *
+ * Uygulama her açıldığında ve internet geri geldiğinde çağrılıyor.
+ * Gönderilemeyen kuyrukta kalıyor: bir daha denenir, kaybolmaz.
+ */
+export async function kuyruguBosalt() {
+  if (!navigator.onLine) return 0;
+  const k = await veri.ayarOku(KUYRUK, []);
+  if (!k.length) return 0;
+
+  const kalan = [];
+  let giden = 0;
+  for (const oge of k) {
+    try { await forma(oge.paket); giden++; }
+    catch { kalan.push(oge); }
+  }
+  await veri.ayarYaz(KUYRUK, kalan);
+
+  if (giden) {
+    // Kopyalardaki "kuyrukta" damgası düşüyor: kişi panelde bekleyen
+    // mesaj görmesin.
+    const g = await veri.ayarOku(GONDERILEN, []);
+    let d = giden;
+    for (const m of g) if (m.durum === 'kuyrukta' && d > 0) { m.durum = 'gonderildi'; d--; }
+    await veri.ayarYaz(GONDERILEN, g);
+  }
+  return giden;
 }

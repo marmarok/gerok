@@ -5,7 +5,7 @@
 // Neden önbelleğin adına bakmıyoruz: yeni sürüm indiğinde önbellek adı değişiyor
 // ama ekrandaki kod hâlâ eski oluyor — uygulama kendini güncellenmiş sanıyordu.
 // Bu satır ekrandaki dosyanın içinde olduğu için yalan söyleyemiyor.
-const BU_SURUM = 'gerok-116-20260827-192946';
+const BU_SURUM = 'gerok-117-20260828-003135';
 
 import * as veri from './veri.js';
 import * as iz from './iz.js';
@@ -28,6 +28,7 @@ import * as yerAra from './yer-ara.js';
 import { ikon, ikonlariYerlestir } from './ikon.js';
 import * as bekci from './bekci.js';
 import * as kutu from './kutu.js';
+import * as rehber from './rehber.js';
 
 const $ = (s) => document.querySelector(s);
 const $$ = (s) => Array.from(document.querySelectorAll(s));
@@ -124,9 +125,14 @@ async function baslat() {
   await paylasilanlariAl();
   // Hatayı bildirmek kimsenin aklına gelmez; sorulunca gelir. Gecikme,
   // açılışın önüne geçmemesi için.
+  setTimeout(rehberiDusun, 1400);
   setTimeout(sorunSorHatirlat, 9000);
   // Açılışı yavaşlatmasın; haftada bir gerçekten gönderiyor, gerisi erken dönüyor.
   setTimeout(() => kutu.istatistikGonder(), 15000);
+  // Kuyrukta bekleyen mesajlar: açılışta ve internet geri geldiğinde.
+  // Yurtdışında yazılan bir mesaj, eve dönünce kendiliğinden gidiyor.
+  setTimeout(() => kutu.kuyruguBosalt(), 6000);
+  window.addEventListener('online', () => kutu.kuyruguBosalt());
 }
 
 
@@ -139,7 +145,24 @@ async function baslat() {
  * Rahatsız etmeme kuralı: günde bir kez, ve ekranda başka bir pencere
  * açıkken hiç. "Şimdi değil" denince o hatalar bir daha sorulmuyor.
  */
+/**
+ * Rehberi açmanın DOĞRU anını beklemek.
+ *
+ * İlk açılışta önce ad soruluyor, sonra yarım kalmış kayıtlar. Rehber
+ * onların üstüne binmesin diye iki yerden çağrılıyor: açılışta bir kez,
+ * bir de ad kaydedildikten sonra. Açık pencere varsa rehberin kendisi
+ * zaten açılmıyor (bkz. rehber.gerekiyorsaAc), o yüzden burada ikinci
+ * bir kontrol yok — kural tek yerde dursun.
+ */
+async function rehberiDusun() {
+  await rehber.gerekiyorsaAc({ ekranAc });
+}
+
+
 async function sorunSorHatirlat() {
+  // Rehber ekrandayken araya girmiyor: ilk açılışta iki pencere üst üste
+  // binerse yeni kullanıcı ikisini de kapatıp gidiyor.
+  if (document.querySelector('.rehber-kat')) return;
   if (!kutu.bildirilmeyenHatalar().length) return;
   if (document.querySelector('#ortu:not(.gizli)')) return;
   const bugun = new Date().toDateString();
@@ -4259,10 +4282,14 @@ async function paneliCiz() {
         ${panelSatiri({ etiket: 'Neler değişti', id: 'btnDegisiklik' })}
         ${panelSatiri({ etiket: 'Telefonu sına', id: 'btnSinama' })}
         ${panelSatiri({ etiket: 'Nasıl kullanılır', id: 'btnKurulum' })}
+        ${panelSatiri({ etiket: 'Tanıtım turunu göster', id: 'btnRehber',
+          deger: 'baştan gezdir' })}
         ${panelSatiri({ etiket: 'Uygulamayı paylaş', id: 'btnPaylas',
           deger: 'arkadaşına gönder' })}
         ${panelSatiri({ etiket: 'Bir şey ters giderse', id: 'btnTamir',
           deger: 'tamir kılavuzu' })}
+        ${panelSatiri({ etiket: 'Gerok’u yapana yaz', id: 'btnBanaYaz',
+          deger: '<span id="mesajYazi">bir şey sor ya da söyle</span>' })}
         ${panelSatiri({ etiket: 'Sorun bildir', id: 'btnSorunBildir',
           deger: kacis(kutuOzetYazi()) })}
         ${panelSatiri({ etiket: 'Kullanım sayıları', id: 'btnIstatistik',
@@ -4355,8 +4382,10 @@ async function paneliCiz() {
     window.open('./sinama.html', '_blank');
   });
   $('#btnKurulum').addEventListener('click', () => window.open('./kurulum.html', '_blank'));
+  $('#btnRehber').addEventListener('click', () => rehber.rehberiAc({ ekranAc }));
   $('#btnPaylas').addEventListener('click', uygulamayiPaylas);
   $('#btnSorunBildir').addEventListener('click', () => sorunBildir());
+  $('#btnBanaYaz').addEventListener('click', () => banaYaz());
   $('#btnIstatistik').addEventListener('click', istatistikAyariniSor);
   istatistikSatiriniYaz();
   $('#btnTamir').addEventListener('click', () => window.open('./tamir.html', '_blank'));
@@ -4406,6 +4435,9 @@ function adSor() {
     await tazele();
     // Ad sorulurken örtü doluydu; yarım kayıt penceresi ancak şimdi çıkabilir.
     await yarimKayitSor();
+    // Ve rehber ancak şimdi: yeni kullanıcının ilk gördüğü şey adını
+    // sormak, ikincisi rehber. Üst üste değil, sırayla.
+    setTimeout(rehberiDusun, 600);
   };
   $('#adKaydet').addEventListener('click', kaydet);
   girdi.addEventListener('keydown', (e) => { if (e.key === 'Enter') kaydet(); });
@@ -5264,6 +5296,8 @@ async function sorunBildir(otomatikSoruldu = false) {
       <pre style="white-space:pre-wrap;word-break:break-word;font-size:12px;
         max-height:220px;overflow:auto">${kacis(metin)}</pre>
     </details>
+    <textarea class="girdi" id="sbNot" rows="3"
+      placeholder="İstersen ne olduğunu kendi cümlenle yaz (isteğe bağlı)"></textarea>
     <button class="eylem-dugme birincil" id="sbGonder">Gönder</button>
     <button class="eylem-dugme" id="sbSonra">Şimdi değil</button>
   `);
@@ -5275,24 +5309,22 @@ async function sorunBildir(otomatikSoruldu = false) {
   });
 
   $('#sbGonder').addEventListener('click', async () => {
+    // Not ortuKapat'tan ÖNCE okunuyor. Sonra okunduğunda alan silinmiş
+    // oluyor ve `?.` sayesinde çökmüyor ama kişinin yazdığı açıklama
+    // SESSİZCE düşüyordu — "gönderildi" yazıp notu atmak en kötüsü.
+    const ekNot = $('#sbNot')?.value?.trim() || '';
     ortuKapat();
-    const ad = `gerok-rapor-${new Date().toISOString().slice(0, 10)}.json`;
-    const blob = new Blob([metin], { type: 'application/json' });
-    const dosya = new File([blob], ad, { type: 'application/json' });
+    // Eskiden burada JSON dosyası üretilip "Gerok'u yapana gönder" deniyordu.
+    // Kimse onunla uğraşmıyordu: dosyayı kaydet, bul, birine ilet — üç
+    // adımda kaybolan bir yol. Artık düğmeye basınca gerçekten gidiyor.
     try {
-      if (navigator.canShare?.({ files: [dosya] })) {
-        await navigator.share({ files: [dosya], title: 'Gerok raporu' });
-      } else {
-        const u = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = u; a.download = ad; a.click();
-        setTimeout(() => URL.revokeObjectURL(u), 3000);
-      }
+      const sonuc = await kutu.mesajGonder({ mesaj: ekNot, rapor: r });
       await kutu.bildirildiIsaretle();
-      kayitBildir('Rapor hazır — Gerok’u yapana gönder.', 'iyi');
+      kayitBildir(sonuc === 'kuyrukta'
+        ? 'İnternet yok — rapor kuyruğa alındı, bağlanınca kendiliğinden gidecek.'
+        : 'Rapor gönderildi ✓', 'iyi');
       paneliCiz();
     } catch (hata) {
-      if (hata.name === 'AbortError') return;
       kayitBildir('Gönderilemedi: ' + hata.message, 'kotu');
     }
   });
@@ -5539,6 +5571,76 @@ async function alaniIndir(kapat) {
   } catch (hata) {
     kayitBildir('İnmedi: ' + hata.message, 'kotu');
   }
+}
+
+
+/**
+ * Gerok'u yapana doğrudan yazmak.
+ *
+ * NEDEN VAR: uygulamayı kuran herkes beni tanımıyor, telefon numaramı
+ * bilmiyor. Bilse bile "şunu yazayım mı, rahatsız eder miyim" diye
+ * yazmıyor. Uygulamanın içinde bir kutu olunca yazıyor.
+ *
+ * NEDEN E-POSTA YA DA WHATSAPP BAĞLANTISI DEĞİL: bu uygulamanın kaynağı
+ * herkese açık. Oraya bir adres ya da kullanıcı adı koymak, o bilgiyi
+ * kalıcı ve aranabilir biçimde internete koymak olurdu. Form kanalı
+ * kimseye kimin yaptığını söylemeden mesajı iletiyor.
+ *
+ * NE GİDİYOR: yalnızca yazdığın metin, istersen adın, ve sürüm/telefon
+ * türü gibi sayılar. Notların, seslerin, fotoğrafların, gezin gitmiyor.
+ */
+async function banaYaz() {
+  const bekleyen = await kutu.bekleyenMesajSayisi();
+  const gecmis = (await kutu.gonderilenMesajlar()).slice(-5).reverse();
+
+  const gecmisYazi = gecmis.length ? `
+    <details style="margin:14px 0">
+      <summary class="panel-not">Daha önce yazdıkların (${gecmis.length})</summary>
+      ${gecmis.map(m => `
+        <div class="gs-liste-satir">
+          <div>${kacis(m.mesaj || '(yalnızca rapor)')}</div>
+          <div class="panel-not">${kacis(gerok.tarihUzun(m.an))}
+            ${m.durum === 'kuyrukta' ? ' · <b>henüz gitmedi</b>' : ' · gönderildi'}</div>
+        </div>`).join('')}
+    </details>` : '';
+
+  ortuAc(`
+    <div class="ortu-baslik">Gerok’u yapana yaz</div>
+    <div class="ortu-alt">Bir şey çalışmıyorsa, bir şey eksikse ya da bir
+      fikrin varsa buraya yaz. Doğrudan bana gelir.</div>
+    ${bekleyen ? `<div class="panel-not"><b>${bekleyen} mesajın</b> internet
+      bekliyor. Bağlanınca kendiliğinden gidecek.</div>` : ''}
+    <textarea class="girdi" id="byMetin" rows="5"
+      placeholder="Ne oldu? Ne olsun isterdin?"></textarea>
+    <input class="girdi" id="byKim" maxlength="60"
+      placeholder="Adın (istersen — boş bırakabilirsin)">
+    <div class="panel-not">Giden şey: yazdığın metin, yazdıysan adın, bir de
+      sürüm ve telefon türü. <b>Notların, seslerin, fotoğrafların ve gezin
+      gitmiyor.</b></div>
+    ${gecmisYazi}
+    <button class="eylem-dugme birincil" id="byGonder">Gönder</button>
+    <button class="eylem-dugme" id="byKapat">Vazgeç</button>
+  `);
+
+  $('#byKapat').addEventListener('click', ortuKapat);
+  $('#byGonder').addEventListener('click', async () => {
+    // İKİSİ DE ortuKapat'tan ÖNCE okunuyor. ortuKapat örtünün içini
+    // siliyor; sonra okumaya kalkmak alanı null buluyordu ve mesaj hiç
+    // gitmiyordu. (Aynı tuzağa bu projede daha önce de düşüldü.)
+    const metin = $('#byMetin').value.trim();
+    const kim = $('#byKim').value.trim();
+    if (!metin) { kayitBildir('Önce bir şeyler yaz.', 'kotu'); return; }
+    ortuKapat();
+    try {
+      const sonuc = await kutu.mesajGonder({ mesaj: metin, kim });
+      kayitBildir(sonuc === 'kuyrukta'
+        ? 'İnternet yok — mesajın kuyrukta, bağlanınca gidecek.'
+        : 'Gönderildi ✓ Kopyası Gerok’ta duruyor.', 'iyi');
+      paneliCiz();
+    } catch (hata) {
+      kayitBildir('Gönderilemedi: ' + hata.message, 'kotu');
+    }
+  });
 }
 
 

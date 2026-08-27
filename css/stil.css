@@ -1847,3 +1847,90 @@ body:has(.ses-katman:not(.gizli)) .bildirim {
 .gnc-bolum li { font-size: 13.5px; line-height: 1.55; margin-bottom: 5px; color: var(--yazi); }
 .gnc-ekle .gnc-baslik { color: var(--iyi, #2e7d5b); }
 .gnc-cikar .gnc-baslik { color: var(--kotu, #b3402f); }
+
+/* ---------- İlk açılış rehberi ----------
+   Karartma tek bir elemanla yapılıyor: işaret çerçevesinin devasa bir
+   box-shadow'u ekranın geri kalanını kaplıyor. Böylece hedefin üstü
+   gerçekten açık kalıyor ve kişi anlatılan düğmeyi GÖRÜYOR. Dört ayrı
+   perde koymaya ya da clip-path'e gerek yok. */
+.rehber-kat {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  background: transparent;
+}
+/* Hedefsiz adımda (hoş geldin) çerçeve gizleniyor; karartmayı katın
+   kendisi yapıyor. */
+.rehber-kat:has(.rehber-isaret[style*="display: none"]) { background: rgba(0,0,0,.74); }
+
+.rehber-isaret {
+  position: absolute;
+  border-radius: 14px;
+  box-shadow: 0 0 0 9999px rgba(0,0,0,.74), 0 0 0 2px var(--vurgu) inset;
+  pointer-events: none;
+  transition: all .28s cubic-bezier(.4,0,.2,1);
+}
+
+.rehber-balon {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(360px, calc(100vw - 32px));
+  background: var(--kat);
+  border: 1px solid var(--cizgi);
+  border-radius: 16px;
+  padding: 18px 18px 14px;
+  box-shadow: 0 18px 44px rgba(0,0,0,.5);
+}
+.rehber-balon.ortada { top: 50%; transform: translate(-50%, -50%); }
+
+.rehber-sayac {
+  font-size: 12px;
+  color: var(--cok-soluk);
+  letter-spacing: .06em;
+  margin-bottom: 6px;
+}
+.rehber-baslik {
+  font-size: 19px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  text-wrap: balance;
+}
+.rehber-metin {
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--soluk);
+}
+.rehber-dugmeler {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 16px;
+}
+.rehber-gec {
+  flex: 0 0 auto;
+  background: none;
+  border: none;
+  color: var(--cok-soluk);
+  font-size: 14px;
+  padding: 10px 4px;
+  cursor: pointer;
+}
+.rehber-ileri {
+  flex: 1;
+  background: var(--vurgu);
+  color: var(--vurgu-yazi);
+  border: none;
+  border-radius: 11px;
+  padding: 13px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.rehber-gec:focus-visible, .rehber-ileri:focus-visible {
+  outline: 2px solid var(--su);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .rehber-isaret { transition: none; }
+}
