@@ -52,6 +52,11 @@ async function haritaAdresiSec() {
 let harita = null;
 let kuruluyor = null;
 let pmt = null;
+// Karo verecek BİR kaynak var mı? Üçünden biri yeter: inen alan, eski tam
+// dosya, ya da internet. Kip değiştirirken de buna bakılıyor — eskiden
+// yalnızca `pmt`ye bakılıyordu ve tam dosya kalkınca kip değiştirmek
+// haritayı bomboş bırakıyordu.
+let kaynakVar = false;
 let aktifKip = 'gunduz';
 // Kip değişince stil sıfırlanıyor, kendi katmanlarımız (iz, anılar, duraklar)
 // siliniyor. Yeniden çizebilmek için en son ne gösterdiğimizi tutuyoruz.
@@ -194,7 +199,7 @@ export async function haritaKur() {
     // Eskiden yalnızca 375 MB'lık dosya varsa çalışıyordu ve o dosya
     // inmeden harita bomboş bir ekrandı.
     const inenAlan = await alan.yerelKaroDurumu();
-    let kaynakVar = false;
+    kaynakVar = false;
 
     if (boyut) {
       try {
@@ -258,7 +263,9 @@ export async function kipDegistir(kip) {
   aktifKip = kip;
   await ayarYaz('haritaKipi', kip);
 
-  harita.setStyle(pmt ? stilUret(kip) : BOS_STIL);
+  // Uydu kipi pmtiles'a hiç bağlı değil — görüntü ayrı bir sunucudan raster
+  // olarak geliyor. O yüzden hiçbir vektör kaynağı olmasa bile çalışmalı.
+  harita.setStyle((kaynakVar || kip === 'uydu') ? stilUret(kip) : BOS_STIL);
   await new Promise(t => harita.once('styledata', t));
 
   // Stil sıfırlandı: rota, iz ve anı katmanları yeniden kuruluyor.

@@ -2,6 +2,15 @@
  "aciklama": "Her güncellemede ne eklendi, ne düzeldi, ne çıktı. En yeni en üstte. Bu dosya güncelleme kartında okunuyor; boş bırakılamaz, yayınlama betiği kontrol ediyor.",
  "surumler": [
   {
+   "sayi": 115,
+   "eklendi": [],
+   "duzeldi": [
+    "ÖNEMLİ: Gündüz/Gece/Uydu arasında geçiş yapınca harita bomboş kalıyordu. Tam harita indirme kaldırılınca ortaya çıkan bir hataydı; yalnızca eski tam haritası OLMAYAN telefonlarda görülüyordu, yani yeni kuranlarda.",
+    "Uydu kipi artık hiçbir harita indirilmemiş olsa da çalışıyor — uydu görüntüsü zaten ayrı bir yerden geliyor, vektör haritaya bağlı değil."
+   ],
+   "cikti": []
+  },
+  {
    "sayi": 114,
    "eklendi": [
     "“Harita alanı indir” satırı artık önce inen alanların listesini açıyor: hangi alan, ne kadar yer, ne zaman inmiş.",
