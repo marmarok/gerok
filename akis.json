@@ -1,49 +1,111 @@
 {
  "bicim": 1,
- "zaman": "2026-08-27T16:14:45+03:00",
- "kadans": "saatlik",
- "durum": "iyi",
+ "zaman": "2026-08-27T16:35:45+03:00",
+ "kadans": "haftalik",
+ "durum": "sorun",
  "sayilar": {
-  "kontrol": 5,
-  "sinama": 34,
-  "gecen": 5,
-  "bilinen": 0,
-  "sorun": 0,
-  "sure": 0.7,
-  "kosu": 108
+  "kontrol": 103,
+  "sinama": 1686,
+  "gecen": 100,
+  "bilinen": 2,
+  "sorun": 1,
+  "sure": 85.6,
+  "kosu": 109
  },
- "sorunlar": [],
- "bilinenler": [],
+ "sorunlar": [
+  {
+   "ad": "Şartname maddeleri",
+   "onem": "orta",
+   "oyku": "sartname",
+   "not": "408/410 — gerileme",
+   "onarilabilir": false
+  }
+ ],
+ "bilinenler": [
+  {
+   "ad": "Math.min(...dizi) yığın taşması",
+   "not": "app.js:740; app.js:4933; gerok.js:447; sihirbaz.js:393; sihirbaz.js:394; sihirbaz.js:395 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
+  },
+  {
+   "ad": "Arşivde fotoğrafların aslı var",
+   "not": "(ayrıntı panoda)"
+  }
+ ],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 3,
-   "toplam": 3,
-   "sinama": 6
+   "gecen": 15,
+   "toplam": 15,
+   "sinama": 120
   },
   "bekci": {
+   "gecen": 9,
+   "toplam": 9,
+   "sinama": 81
+  },
+  "yedek": {
    "gecen": 1,
    "toplam": 1,
-   "sinama": 8
+   "sinama": 2
   },
   "koprü": {
    "gecen": 1,
    "toplam": 1,
    "sinama": 20
+  },
+  "kod": {
+   "gecen": 10,
+   "toplam": 10,
+   "sinama": 504
+  },
+  "veri": {
+   "gecen": 2,
+   "toplam": 2,
+   "sinama": 9
+  },
+  "gizlilik": {
+   "gecen": 6,
+   "toplam": 6,
+   "sinama": 65
+  },
+  "bilgi": {
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 416
+  },
+  "sartname": {
+   "gecen": 0,
+   "toplam": 1,
+   "sinama": 410
+  },
+  "depolama": {
+   "gecen": 4,
+   "toplam": 4,
+   "sinama": 4
+  },
+  "kaynak": {
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 11
+  },
+  "davranis": {
+   "gecen": 44,
+   "toplam": 44,
+   "sinama": 44
   }
  },
  "derin": {
   "kadans": "haftalik",
-  "zaman": "2026-08-27T16:06:37+03:00",
-  "kontrol": 102,
-  "sinama": 1682,
+  "zaman": "2026-08-27T16:35:45+03:00",
+  "kontrol": 103,
+  "sinama": 1686,
   "gecen": 100,
-  "sorun": 0,
+  "sorun": 1,
   "gruplar": {
    "yayin": {
     "gecen": 15,
     "toplam": 15,
-    "sinama": 118
+    "sinama": 120
    },
    "bekci": {
     "gecen": 9,
@@ -63,7 +125,7 @@
    "kod": {
     "gecen": 10,
     "toplam": 10,
-    "sinama": 503
+    "sinama": 504
    },
    "veri": {
     "gecen": 2,
@@ -81,7 +143,7 @@
     "sinama": 416
    },
    "sartname": {
-    "gecen": 1,
+    "gecen": 0,
     "toplam": 1,
     "sinama": 410
    },
@@ -96,20 +158,13 @@
     "sinama": 11
    },
    "davranis": {
-    "gecen": 43,
-    "toplam": 43,
-    "sinama": 43
+    "gecen": 44,
+    "toplam": 44,
+    "sinama": 44
    }
   }
  },
  "mesajlar": [
-  {
-   "id": "d074beb6eedc",
-   "t": 1787653681666,
-   "onem": "iyi",
-   "baslik": "Emir alındı: tam-kontrol",
-   "govde": "haftalık kontrolün tamamı koşuluyor"
-  },
   {
    "id": "38973cab4fba",
    "t": 1787653750296,
@@ -277,6 +332,13 @@
    "onem": "iyi",
    "baslik": "İki geçici kesinti onarıldı",
    "govde": "Bu gece bekçi iki kırmızı gördü: canlı site/iCloud kontrolleri ve tarayıcı testleri. İkisini de araştırdım — gerçek arıza değil, Mac'in kısa bakım uykusu sırasında ağ birkaç saniyeliğine kesiliyor ve iki kontrol koşusu üst üste düşünce paylaştıkları test sunucusunu birbirinden çalıyorlardı. İkisine de kalıcı düzeltme yaptım: ağ/iCloud kontrolleri artık kısa aralıklarla 3 kez deniyor, tarayıcı testleri artık sıraya giriyor. Şimdi her şey yeşil, senin yapman gereken bir şey yok."
+  },
+  {
+   "id": "557641a0e8d8",
+   "t": 1787837745509,
+   "onem": "sorun",
+   "baslik": "1 sorun buldum",
+   "govde": "• [orta] Şartname maddeleri\n   408/410 — gerileme"
   }
  ],
  "bekleyen": [
@@ -308,12 +370,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-08-25T11:08:48+03:00",
-   "k": "saatlik",
-   "g": 4,
-   "n": 4
-  },
   {
    "t": "2026-08-25T13:02:53+03:00",
    "k": "saatlik",
@@ -547,6 +603,12 @@
    "k": "saatlik",
    "g": 5,
    "n": 5
+  },
+  {
+   "t": "2026-08-27T16:35:45+03:00",
+   "k": "haftalik",
+   "g": 100,
+   "n": 103
   }
  ]
 }
