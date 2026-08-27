@@ -5,7 +5,7 @@
 // Neden önbelleğin adına bakmıyoruz: yeni sürüm indiğinde önbellek adı değişiyor
 // ama ekrandaki kod hâlâ eski oluyor — uygulama kendini güncellenmiş sanıyordu.
 // Bu satır ekrandaki dosyanın içinde olduğu için yalan söyleyemiyor.
-const BU_SURUM = 'gerok-111-20260827-024119';
+const BU_SURUM = 'gerok-112-20260827-160434';
 
 import * as veri from './veri.js';
 import * as iz from './iz.js';
@@ -13,7 +13,8 @@ import * as gerok from './gerok.js';
 import * as kayit from './kayit.js';
 import { haritaKur, haritaGuncelle, haritaBoyutTazele, konumaGit, hepsiniGoster,
          kipDegistir, aktifKipAl, haritaMerkezi, durakTiklamasi,
-         duragaUc } from './harita.js';
+         duragaUc, gorunenKutu, hareketDinle, hareketiBirak } from './harita.js';
+import * as haritaAlan from './harita-alan.js';
 import { gunSonuAc, geziSonuAc, baslangicKaydiAc, bitisKaydiAc, mektupAc } from './gunsonu.js';
 import { paketGonder, paketAl, yedekAl, sonYedekZamani, yedekSina,
          yedegiDogrula, yedekDogrulamaDurumu,
@@ -4216,6 +4217,8 @@ async function paneliCiz() {
             rozet: azYer ? '!' : '' })}
           ${panelSatiri({ etiket: 'Veri kalıcı korunuyor', deger: depo.kalici ? 'evet' : 'hayır' })}
         ` : ''}
+        ${panelSatiri({ etiket: 'Harita alanı indir', id: 'btnHaritaAlan',
+          deger: '<span id="alanDurum">bakılıyor…</span>' })}
         ${panelSatiri({ etiket: 'Harita paketi indir', id: 'btnHarita' })}
         ${!depo?.kalici ? panelSatiri({ etiket: 'Kalıcı depolama iste', id: 'btnKalici' }) : ''}
 
@@ -4336,6 +4339,8 @@ async function paneliCiz() {
   $('#btnDegisiklik').addEventListener('click', degisiklikleriGoster);
   $('#btnYeniTur').addEventListener('click', () => yeniTurSor());
   $('#btnHarita').addEventListener('click', haritaIndirmeSor);
+  $('#btnHaritaAlan').addEventListener('click', haritaAlaniSec);
+  alanDurumunuYaz();
   $('#btnSurum').addEventListener('click', surumuAra);
   // Sınama ve kurulum kartı ana ekrandan kurulu uygulamada adres çubuğu
   // olmadığı için başka türlü açılamıyordu — teknik olmayan biri oraya
@@ -5279,6 +5284,183 @@ async function sorunBildir(otomatikSoruldu = false) {
       await kutu.bildirildiIsaretle();
       kayitBildir('Rapor hazır — Gerok’u yapana gönder.', 'iyi');
       paneliCiz();
+    } catch (hata) {
+      if (hata.name === 'AbortError') return;
+      kayitBildir('Gönderilemedi: ' + hata.message, 'kotu');
+    }
+  });
+}
+
+
+// --------------------------------------------------- harita alanı seçme ----
+
+// Ayrıntı seviyesi. 14 sokak adı ve bina, 12 yollar ve şehirler.
+// 12'de alan yaklaşık on beşte bir yer kaplıyor; uzun bir yol güzergâhı
+// için sokak ayrıntısı çoğu zaman gereksiz.
+const ALAN_AYRINTI = { sokak: 14, yol: 12 };
+let alanAyrinti = 'sokak';
+let alanTahminZaman = null;
+
+async function alanDurumunuYaz() {
+  const yer = $('#alanDurum');
+  if (!yer) return;
+  const d = await haritaAlan.yerelKaroDurumu();
+  const alanlar = await haritaAlan.inenAlanlar();
+  yer.textContent = d.karo
+    ? `${alanlar.length} alan · ${boyutYaz(d.bayt)}`
+    : 'henüz alan inmedi';
+}
+
+
+/**
+ * "Harita alanı indir" — haritada gördüğün yeri cihaza almak.
+ *
+ * Neden kutu çizdirmiyoruz: telefonda parmakla dikdörtgen çizmek haritayı
+ * kaydırmakla karışıyor ve iki parmakla yakınlaştırmayı bozuyor. Zaten
+ * baktığın yeri indirmek hem tek dokunuş hem de ne alacağını GÖRÜYORSUN.
+ */
+async function haritaAlaniSec() {
+  ekranAc('harita');
+  await haritaKur();
+  const bar = $('#haritaAlanBar');
+  bar.classList.remove('gizli');
+  $('#alanAyrinti').textContent = alanAyrinti === 'sokak' ? 'Sokak' : 'Yol';
+
+  const kapat = () => {
+    bar.classList.add('gizli');
+    hareketiBirak(tahminiTazele);
+    clearTimeout(alanTahminZaman);
+  };
+
+  $('#alanVazgec').onclick = kapat;
+
+  $('#alanAyrinti').onclick = () => {
+    alanAyrinti = alanAyrinti === 'sokak' ? 'yol' : 'sokak';
+    $('#alanAyrinti').textContent = alanAyrinti === 'sokak' ? 'Sokak' : 'Yol';
+    tahminiTazele();
+  };
+
+  $('#alanIndir').onclick = () => alaniIndir(kapat);
+
+  hareketDinle(tahminiTazele);
+  tahminiTazele();
+}
+
+
+/**
+ * Tahmini yenile.
+ *
+ * Ağdan ~20 karo okuyor, yani birkaç saniye sürüyor. Her kaydırmada
+ * çalışmasın diye gecikmeli; kullanıcı haritayı bırakınca hesaplıyor.
+ */
+function tahminiTazele() {
+  const yer = $('#alanTahmin');
+  if (!yer) return;
+  clearTimeout(alanTahminZaman);
+  yer.textContent = 'hesaplanıyor…';
+  alanTahminZaman = setTimeout(async () => {
+    const kutu = gorunenKutu();
+    if (!kutu) return;
+    const z = ALAN_AYRINTI[alanAyrinti];
+
+    if (!await haritaAlan.kapsamIcinde(kutu)) {
+      yer.innerHTML = 'Bu alan yayınlanan haritanın dışında. ' +
+        '<b>Bu alanı indir</b> dersen istek olarak gönderilir.';
+      return;
+    }
+    const t = await haritaAlan.alanTahmini(kutu, z);
+    if (t.cokBuyuk) {
+      yer.textContent = `Alan çok büyük (${t.karo.toLocaleString('tr')} karo). ` +
+        `Yakınlaş ya da ayrıntıyı "Yol" yap.`;
+    } else if (t.agYok) {
+      yer.textContent = 'İnternet yok — alan indirmek için internet gerekiyor.';
+    } else {
+      // "≈" bilerek: örneklemeyle bulunuyor, kesin değil.
+      yer.textContent = `≈ ${boyutYaz(t.bayt)} · ${t.karo.toLocaleString('tr')} karo`;
+    }
+  }, 600);
+}
+
+
+async function alaniIndir(kapat) {
+  const kutu = gorunenKutu();
+  if (!kutu) return;
+  const z = ALAN_AYRINTI[alanAyrinti];
+
+  if (!await haritaAlan.kapsamIcinde(kutu)) { bolgeIste(kutu); return; }
+
+  const t = await haritaAlan.alanTahmini(kutu, z);
+  if (t.cokBuyuk) {
+    kayitBildir(`Alan çok büyük — ${t.karo.toLocaleString('tr')} karo. Yakınlaş.`, 'kotu');
+    return;
+  }
+  kapat();
+  kayitBildir('Alan iniyor…');
+  try {
+    const r = await haritaAlan.alanIndir(kutu, z, (y, toplam, bayt) => {
+      if (y % 25 === 0 || y === toplam)
+        kayitBildir(`Alan iniyor… ${y}/${toplam} · ${boyutYaz(bayt)}`);
+    });
+    kayitBildir(`Alan indi ✓ · ${boyutYaz(r.bayt)} · ${r.yazilan} karo` +
+      (r.atlanan ? ` · ${r.atlanan} zaten vardı` : ''), 'iyi');
+    paneliCiz();
+  } catch (hata) {
+    kayitBildir('İnmedi: ' + hata.message, 'kotu');
+  }
+}
+
+
+/**
+ * Kapsam dışı bir alan seçildiğinde: bölgeyi istemek.
+ *
+ * Yayınlanan harita şimdilik Balkanlar. Başka bir yere gidecek biri burada
+ * tıkanıyordu. Uygulama o alanı üretemez — harita 137 GB'lık bir kaynaktan
+ * kesiliyor ve o kaynak tarayıcıya kapalı. Ama İSTEĞİ iletebilir: kutunun
+ * koordinatları küçük bir dosyaya yazılıp Gerok'u yapana gönderiliyor,
+ * o bölgeyi yayınlayınca herkeste görünür oluyor.
+ *
+ * Giden şey yalnızca dört sayı. Kayıtlar, gezi, isim gitmiyor.
+ */
+async function bolgeIste(kutu) {
+  const yuvarla = (n) => Math.round(n * 100) / 100;
+  const istek = {
+    gerok: 'bolge-istegi', bicim: 1, t: Date.now(),
+    kutu: { bati: yuvarla(kutu.bati), dogu: yuvarla(kutu.dogu),
+            guney: yuvarla(kutu.guney), kuzey: yuvarla(kutu.kuzey) },
+    ayrinti: alanAyrinti,
+  };
+  const metin = JSON.stringify(istek, null, 1);
+
+  ortuAc(`
+    <div class="ortu-baslik">Bu alan haritada yok</div>
+    <div class="ortu-alt">Yayınlanan harita şu an Balkanlar’ı kapsıyor.
+      Baktığın yer onun dışında kalıyor.</div>
+    <div class="panel-not">İstersen bu alanı isteyebilirsin. Gönderilen şey
+      yalnızca <b>dört koordinat</b> — kayıtların, gezin ve adın gitmiyor.
+      Bölge hazırlanınca güncellemeyle herkese gelir.</div>
+    <details style="margin:14px 0">
+      <summary class="panel-not">Gönderilecek şeyin tamamı</summary>
+      <pre style="white-space:pre-wrap;font-size:12px">${kacis(metin)}</pre>
+    </details>
+    <button class="eylem-dugme birincil" id="blgGonder">Bu bölgeyi iste</button>
+    <button class="eylem-dugme" id="blgKapat">Vazgeç</button>
+  `);
+  $('#blgKapat').addEventListener('click', ortuKapat);
+  $('#blgGonder').addEventListener('click', async () => {
+    ortuKapat();
+    const ad = `gerok-bolge-istegi-${new Date().toISOString().slice(0, 10)}.json`;
+    const blob = new Blob([metin], { type: 'application/json' });
+    const dosya = new File([blob], ad, { type: 'application/json' });
+    try {
+      if (navigator.canShare?.({ files: [dosya] })) {
+        await navigator.share({ files: [dosya], title: 'Gerok bölge isteği' });
+      } else {
+        const u = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = u; a.download = ad; a.click();
+        setTimeout(() => URL.revokeObjectURL(u), 3000);
+      }
+      kayitBildir('İstek hazır — Gerok’u yapana gönder.', 'iyi');
     } catch (hata) {
       if (hata.name === 'AbortError') return;
       kayitBildir('Gönderilemedi: ' + hata.message, 'kotu');

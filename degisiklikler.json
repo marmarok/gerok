@@ -2,6 +2,21 @@
  "aciklama": "Her güncellemede ne eklendi, ne düzeldi, ne çıktı. En yeni en üstte. Bu dosya güncelleme kartında okunuyor; boş bırakılamaz, yayınlama betiği kontrol ediyor.",
  "surumler": [
   {
+   "sayi": 112,
+   "eklendi": [
+    "Harita artık internet varken HİÇ İNDİRMEDEN çalışıyor. Uzaktaki dosyadan yalnızca ekranda görünen parça okunuyor.",
+    "Gerok sekmesine “Harita alanı indir” eklendi. Haritada gideceğin yeri ekrana getir, “Bu alanı indir” de — yalnızca o alan iniyor.",
+    "İndirmeden önce ne kadar yer kaplayacağı yazıyor. Üsküp merkezi için ≈4 MB; eskiden tek seçenek 375 MB’ın tamamıydı.",
+    "“Sokak” ve “Yol” ayrıntısı: uzun bir güzergâh için sokak adları gerekmiyorsa alan çok daha küçük iniyor.",
+    "Zaten inmiş karolar tekrar inmiyor; alanı büyütmek baştan indirmek değil.",
+    "Haritanın kapsamadığı bir yere bakarsan uygulama bunu söylüyor ve o bölgeyi isteyebiliyorsun. İstekte yalnızca dört koordinat var."
+   ],
+   "duzeldi": [
+    "Harita ekranı, 375 MB inmeden bomboş bir ekrandı. Artık internet varken doluyor."
+   ],
+   "cikti": []
+  },
+  {
    "sayi": 111,
    "eklendi": [
     "Gerok sekmesine “Kullanım sayıları” eklendi. Haftada bir kez birkaç sayı gidiyor: kaç kez açıldı, kaç kayıt var, hata çıktı mı, hangi sürüm, hangi telefon.",

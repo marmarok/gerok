@@ -12,6 +12,7 @@
 import { aktifGerok, duraklar } from './gerok.js';
 import * as depo from './depo.js';
 import { stilUret, BOS_STIL, KIPLER } from './harita-stil.js';
+import * as alan from './harita-alan.js';
 
 export { KIPLER };
 
@@ -174,20 +175,54 @@ export async function haritaIndir(ilerleme) {
 
 // ---- Harita kurulumu ------------------------------------------------------
 
-// pmtiles:// isteklerini cihazdaki dosyadan karşılar. Ağ hiç devreye girmiyor.
+/**
+ * Bir karoyu ÜÇ kaynaktan sırayla arar.
+ *
+ *   1. İnen alan — kişi bu bölgeyi çevrimdışı için indirmiş.
+ *   2. Tam dosya — 375 MB'ın tamamı inmiş (eski yol, hâlâ destekleniyor).
+ *   3. Uzaktaki dosya — internet varken bayt aralığıyla okunuyor.
+ *
+ * Sıra önemli: cihazdaki her zaman önce. Çevrimdışıyken 3. adım sessizce
+ * boş dönüyor ve harita indirilmiş alanlarda çalışmaya devam ediyor.
+ */
+async function karoBul(z, x, y) {
+  const inen = await alan.yerelKaro(z, x, y);
+  if (inen) return inen;               // boş karo da bir cevaptır: burası deniz
+
+  if (pmt) {
+    const k = await pmt.getZxy(z, x, y);
+    if (k) return new Uint8Array(k.data);
+  }
+  const uzak = await alan.uzakHarita();
+  if (uzak) {
+    try {
+      const k = await uzak.getZxy(z, x, y);
+      if (k) return new Uint8Array(k.data);
+    } catch { /* ağ gitti; boş karo dön, harita çökmesin */ }
+  }
+  return new Uint8Array();
+}
+
+let protokolKuruldu = false;
 function protokolKur() {
+  // addProtocol iki kez çağrılırsa MapLibre öncekini sessizce eziyor;
+  // harita yeniden kurulduğunda bu bir kez oluyordu ve karo isteği kayboluyordu.
+  if (protokolKuruldu) return;
+  protokolKuruldu = true;
   maplibregl.addProtocol('pmtiles', async (istek) => {
     const e = istek.url.match(/pmtiles:\/\/[^/]+\/(\d+)\/(\d+)\/(\d+)/);
     if (!e) {
-      const ust = await pmt.getHeader();
+      const kaynak = pmt || await alan.uzakHarita();
+      const ust = kaynak ? await kaynak.getHeader() : null;
       return { data: {
         tiles: ['pmtiles://harita/{z}/{x}/{y}'],
-        minzoom: ust.minZoom, maxzoom: ust.maxZoom,
-        bounds: [ust.minLon, ust.minLat, ust.maxLon, ust.maxLat]
+        minzoom: ust?.minZoom ?? 0, maxzoom: ust?.maxZoom ?? 14,
+        bounds: ust
+          ? [ust.minLon, ust.minLat, ust.maxLon, ust.maxLat]
+          : [-180, -85, 180, 85]
       } };
     }
-    const karo = await pmt.getZxy(+e[1], +e[2], +e[3]);
-    return { data: karo ? new Uint8Array(karo.data) : new Uint8Array() };
+    return { data: await karoBul(+e[1], +e[2], +e[3]) };
   });
 }
 
@@ -204,22 +239,32 @@ export async function haritaKur() {
     aktifKip = await ayarOku('haritaKipi', 'gunduz');
     let stil = BOS_STIL;
 
+    // Harita artık ÜÇ kaynaktan beslenebiliyor; biri yetiyor.
+    // Eskiden yalnızca 375 MB'lık dosya varsa çalışıyordu ve o dosya
+    // inmeden harita bomboş bir ekrandı.
+    const inenAlan = await alan.yerelKaroDurumu();
+    let kaynakVar = false;
+
     if (boyut) {
       try {
         const dosya = await haritaBlobu();
         if (!dosya) throw new Error('harita parçaları okunamadı');
         pmt = new pmtiles.PMTiles(new BlobKaynak(dosya, 'gerok-harita'));
-        protokolKur();
-        stil = stilUret(aktifKip);
-        uyari?.classList.add('gizli');
+        kaynakVar = true;
       } catch (hata) {
         console.warn('harita dosyası açılamadı', hata);
-        uyari.textContent = 'Harita dosyası okunamadı. Gerok sekmesinden yeniden indir.';
-        uyari.classList.remove('gizli');
       }
+    }
+    if (!kaynakVar && (inenAlan.karo > 0 || navigator.onLine)) kaynakVar = true;
+
+    if (kaynakVar) {
+      protokolKur();
+      stil = stilUret(aktifKip);
+      uyari?.classList.add('gizli');
     } else {
-      uyari.innerHTML = 'Offline harita henüz indirilmedi.<br>' +
-        '<b>Gerok</b> sekmesinden, <b>ev wifi\'sindeyken</b> indir — yolda internet olmayacak.';
+      uyari.innerHTML = 'Harita için internet ya da indirilmiş bir alan gerekiyor.<br>' +
+        '<b>Gerok</b> sekmesinden <b>Harita alanı indir</b> ile gideceğin yeri seç — ' +
+        'yolda internet olmayabilir.';
       uyari.classList.remove('gizli');
     }
 
@@ -281,6 +326,18 @@ function kaynakYazisiTazele() {
 }
 
 // Haritanın o an baktığı yer — "Google Haritalar'da aç" bunu kullanıyor.
+/** Ekranda görünen alanın kutusu — alan indirmede bu iniyor. */
+export function gorunenKutu() {
+  if (!harita) return null;
+  const s = harita.getBounds();
+  return { bati: s.getWest(), dogu: s.getEast(),
+           guney: s.getSouth(), kuzey: s.getNorth() };
+}
+
+/** Harita durduğunda haber ver. Tahmin her kaydırmada değil, durunca yenileniyor. */
+export function hareketDinle(fn) { harita?.on('moveend', fn); }
+export function hareketiBirak(fn) { harita?.off('moveend', fn); }
+
 export function haritaMerkezi() {
   if (!harita) return null;
   const m = harita.getCenter();

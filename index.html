@@ -103,6 +103,22 @@
         </div>
       </div>
 
+      <!-- Harita alanı indirme: haritayı gördüğün yer iniyor.
+           Kutu ÇİZDİRMİYORUZ — parmakla dikdörtgen çizmek telefonda zor ve
+           kaydırmayla karışıyor. Zaten baktığın yeri indirmek hem anlaşılır
+           hem tek dokunuş. -->
+      <div id="haritaAlanBar" class="harita-ekle-bar gizli">
+        <div class="ekle-yazi">
+          Haritayı kaydır ve yakınlaştır — <b>ekranda gördüğün alan</b> inecek.
+          <div id="alanTahmin" class="panel-not">hesaplanıyor…</div>
+        </div>
+        <div class="ekle-dugmeler">
+          <button id="alanVazgec" class="kucuk-dugme">Vazgeç</button>
+          <button id="alanAyrinti" class="kucuk-dugme">Sokak</button>
+          <button id="alanIndir" class="kucuk-dugme secili">Bu alanı indir</button>
+        </div>
+      </div>
+
       <!-- Yer arama: durak koymak için haritayı elle bulmak zordu.
            Çevrimdışı çalışır — bölgenin yer adları uygulamada gömülü. -->
       <div id="haritaAramaKap" class="harita-arama gizli">
