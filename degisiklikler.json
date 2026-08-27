@@ -2,6 +2,18 @@
  "aciklama": "Her güncellemede ne eklendi, ne düzeldi, ne çıktı. En yeni en üstte. Bu dosya güncelleme kartında okunuyor; boş bırakılamaz, yayınlama betiği kontrol ediyor.",
  "surumler": [
   {
+   "sayi": 114,
+   "eklendi": [
+    "“Harita alanı indir” satırı artık önce inen alanların listesini açıyor: hangi alan, ne kadar yer, ne zaman inmiş.",
+    "Her alanın yanında Sil düğmesi var. Üst üste binen alanlar birbirini bozmuyor — birini silmek diğerinin karolarına dokunmuyor.",
+    "Birden fazla alan varsa “Hepsini sil” çıkıyor."
+   ],
+   "duzeldi": [
+    "Kapsam dışı bir yere bakarken düğme “Bu alanı indir” diyordu ve basınca istek ekranı çıkıyordu. Artık düğme basmadan önce “Bu bölgeyi iste” yazıyor."
+   ],
+   "cikti": []
+  },
+  {
    "sayi": 113,
    "eklendi": [
     "Gerok sekmesinde “Eski tam harita” satırı: telefonunda duran 375 MB’lık eski harita artık gereksiz, tek dokunuşla silip yer açabiliyorsun.",

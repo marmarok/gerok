@@ -1,7 +1,7 @@
 {
- "surum": "gerok-113-20260827-163245",
- "sayi": 113,
- "tarih": "2026-08-27T16:32:45+03:00",
+ "surum": "gerok-114-20260827-165831",
+ "sayi": 114,
+ "tarih": "2026-08-27T16:58:31+03:00",
  "dosyalar": {
   "./index.html": {
    "boyut": 13014,
@@ -44,8 +44,8 @@
    "ozet": "55606fbc76dc232c"
   },
   "./js/app.js": {
-   "boyut": 254853,
-   "ozet": "e128f27032cff821"
+   "boyut": 257824,
+   "ozet": "27479781b5195d6b"
   },
   "./js/sihirbaz.js": {
    "boyut": 17037,
@@ -120,8 +120,8 @@
    "ozet": "4ace6a1123a99174"
   },
   "./js/harita-alan.js": {
-   "boyut": 11510,
-   "ozet": "19ef11478059368e"
+   "boyut": 12614,
+   "ozet": "c1f6feb0fed17f74"
   },
   "./bolgeler.json": {
    "boyut": 798,
@@ -136,8 +136,8 @@
    "ozet": "a84c0b4c139f4632"
   },
   "./degisiklikler.json": {
-   "boyut": 7053,
-   "ozet": "203fe576bfeebf42"
+   "boyut": 7655,
+   "ozet": "37ee04e7e181b675"
   },
   "./yazi/noto-regular/0-255.pbf": {
    "boyut": 76044,

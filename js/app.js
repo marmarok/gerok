@@ -5,7 +5,7 @@
 // Neden önbelleğin adına bakmıyoruz: yeni sürüm indiğinde önbellek adı değişiyor
 // ama ekrandaki kod hâlâ eski oluyor — uygulama kendini güncellenmiş sanıyordu.
 // Bu satır ekrandaki dosyanın içinde olduğu için yalan söyleyemiyor.
-const BU_SURUM = 'gerok-113-20260827-163245';
+const BU_SURUM = 'gerok-114-20260827-165831';
 
 import * as veri from './veri.js';
 import * as iz from './iz.js';
@@ -4338,7 +4338,7 @@ async function paneliCiz() {
   $('#btnTurlar').addEventListener('click', turlariYonet);
   $('#btnDegisiklik').addEventListener('click', degisiklikleriGoster);
   $('#btnYeniTur').addEventListener('click', () => yeniTurSor());
-  $('#btnHaritaAlan').addEventListener('click', haritaAlaniSec);
+  $('#btnHaritaAlan').addEventListener('click', inenAlanlariGoster);
   alanDurumunuYaz();
   $('#btnSurum').addEventListener('click', surumuAra);
   // Sınama ve kurulum kartı ana ekrandan kurulu uygulamada adres çubuğu
@@ -5301,6 +5301,67 @@ async function sorunBildir(otomatikSoruldu = false) {
 
 // --------------------------------------------------- harita alanı seçme ----
 
+/**
+ * İnen harita alanları: neler var, ne kadar yer kaplıyor, hangisi silinsin.
+ *
+ * Alan indirmek tek yönlü bir işlem olmamalı. Telefon dolduğunda ya da bir
+ * gezi bittiğinde o alanların gitmesi gerekiyor; yolu yoksa tek çare
+ * uygulamayı silmek olurdu ve o da kayıtları götürürdü.
+ */
+async function inenAlanlariGoster() {
+  const alanlar = await haritaAlan.inenAlanlar();
+  const d = await haritaAlan.yerelKaroDurumu();
+
+  const satirlar = alanlar.length
+    ? alanlar.map((a, i) => {
+        const k = a.kutu;
+        const orta = `${((k.guney + k.kuzey) / 2).toFixed(2)}, ${((k.bati + k.dogu) / 2).toFixed(2)}`;
+        return `
+        <div class="gs-liste-satir" style="display:flex;align-items:center;gap:12px">
+          <span style="flex:1;min-width:0">
+            ${kacis(boyutYaz(a.bayt || 0))} · ${a.karo} karo
+            <div class="panel-not">${kacis(orta)} ·
+              ${a.enFazlaZ >= 14 ? 'sokak' : 'yol'} ·
+              ${kacis(gerok.tarihUzun(a.an))}</div>
+          </span>
+          <button class="satir-dugme" data-alan-sil="${i}">Sil</button>
+        </div>`;
+      }).join('')
+    : '<div class="panel-not">Henüz alan inmedi. İnternetsizken harita boş kalır.</div>';
+
+  ortuAc(`
+    <div class="ortu-baslik">Çevrimdışı harita alanları</div>
+    <div class="ortu-alt">İnternet yokken yalnızca buradaki alanlar açılır.
+      İnternet varken harita her yerde çalışır.</div>
+    <div class="panel-not">Toplam ${d.karo} karo · ${kacis(boyutYaz(d.bayt))}</div>
+    ${satirlar}
+    <button class="eylem-dugme birincil" id="alYeni">Yeni alan indir</button>
+    ${alanlar.length > 1
+      ? '<button class="eylem-dugme sil" id="alHepsi">Hepsini sil</button>' : ''}
+    <button class="eylem-dugme" id="alKapat">Kapat</button>
+  `);
+
+  $('#alKapat').addEventListener('click', ortuKapat);
+  $('#alYeni').addEventListener('click', () => { ortuKapat(); haritaAlaniSec(); });
+
+  $('#alHepsi')?.addEventListener('click', async () => {
+    ortuKapat();
+    const b = await haritaAlan.alanlariSil();
+    kayitBildir(`${boyutYaz(b)} yer açıldı.`, 'iyi');
+    paneliCiz();
+  });
+
+  $$('[data-alan-sil]').forEach(d2 => d2.addEventListener('click', async () => {
+    const i = +d2.dataset.alanSil;
+    d2.disabled = true; d2.textContent = 'siliniyor…';
+    const b = await haritaAlan.alanSil(i);
+    kayitBildir(`Alan silindi · ${boyutYaz(b)} yer açıldı.`, 'iyi');
+    paneliCiz();
+    inenAlanlariGoster();
+  }));
+}
+
+
 // Ayrıntı seviyesi. 14 sokak adı ve bina, 12 yollar ve şehirler.
 // 12'de alan yaklaşık on beşte bir yer kaplıyor; uzun bir yol güzergâhı
 // için sokak ayrıntısı çoğu zaman gereksiz.
@@ -5416,11 +5477,18 @@ function tahminiTazele() {
     if (!kutu) return;
     const z = ALAN_AYRINTI[alanAyrinti];
 
+    // Kapsam dışındayken düğmenin YAZISI değişiyor. Eskiden "Bu alanı indir"
+    // yazıyordu ve basınca "istek gönder" penceresi çıkıyordu — basan kişi
+    // indirme bekleyip istek ekranı görüyordu, bu bir sürpriz ve hayal
+    // kırıklığıydı. Düğme ne yapacağını basmadan önce söylüyor.
+    const dugme = $('#alanIndir');
     if (!await haritaAlan.kapsamIcinde(kutu)) {
-      yer.innerHTML = 'Bu alan yayınlanan haritanın dışında. ' +
-        '<b>Bu alanı indir</b> dersen istek olarak gönderilir.';
+      if (dugme) dugme.textContent = 'Bu bölgeyi iste';
+      yer.innerHTML = 'Burası indirilebilir bölgelerin dışında — ' +
+        'indirilecek veri henüz yayınlanmadı. İstersen istenebilir.';
       return;
     }
+    if (dugme) dugme.textContent = 'Bu alanı indir';
     const t = await haritaAlan.alanTahmini(kutu, z);
     if (t.cokBuyuk) {
       yer.textContent = `Alan çok büyük (${t.karo.toLocaleString('tr')} karo). ` +

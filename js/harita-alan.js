@@ -274,8 +274,41 @@ export async function yerelKaro(z, x, y) {
 }
 
 export async function alanlariSil() {
-  for (const ad of await depo.listele(KARO_KLASOR)) await depo.sil(KARO_KLASOR, ad);
+  let bayt = 0;
+  for (const ad of await depo.listele(KARO_KLASOR)) {
+    bayt += await depo.boyut(KARO_KLASOR, ad);
+    await depo.sil(KARO_KLASOR, ad);
+  }
   await veri.ayarYaz('haritaAlanlari', []);
+  return bayt;
+}
+
+/**
+ * TEK bir alanı siler.
+ *
+ * Dikkat edilen şey: iki alan üst üste binmiş olabilir (Üsküp indirilir,
+ * sonra çevresi de indirilir). Ortak karoları körü körüne silmek, duran
+ * alanı da delik deşik ederdi. O yüzden önce KALAN alanların karoları
+ * çıkarılıyor, yalnızca hiçbirine ait olmayanlar siliniyor.
+ */
+export async function alanSil(sira) {
+  const alanlar = await veri.ayarOku('haritaAlanlari', []);
+  if (sira < 0 || sira >= alanlar.length) return 0;
+
+  const kalanlar = alanlar.filter((_, i) => i !== sira);
+  const korunacak = new Set();
+  for (const a of kalanlar)
+    for (const k of karolar(a.kutu, a.enFazlaZ)) korunacak.add(karoAdi(k.z, k.x, k.y));
+
+  let bayt = 0;
+  for (const k of karolar(alanlar[sira].kutu, alanlar[sira].enFazlaZ)) {
+    const ad = karoAdi(k.z, k.x, k.y);
+    if (korunacak.has(ad)) continue;
+    bayt += await depo.boyut(KARO_KLASOR, ad);
+    await depo.sil(KARO_KLASOR, ad);
+  }
+  await veri.ayarYaz('haritaAlanlari', kalanlar);
+  return bayt;
 }
 
 // ---- Kapsam dışı istekleri ------------------------------------------------
