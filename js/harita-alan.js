@@ -1,19 +1,23 @@
 // Gerok — haritanın YALNIZCA gereken parçasını indirmek.
 //
-// NEDEN VAR: harita 375 MB ve tek parça. Üç güne Ohrid'e giden birinin
-// altı ülkenin tamamını indirmesi gerekiyordu. Çoğu kişi indirmiyor,
-// indirenin de telefonu doluyor.
+// NEDEN VAR: bütün bir bölgeyi indirmek 375 MB tutuyordu. Üç güne Ohrid'e
+// giden birinin altı ülkenin tamamını indirmesi gerekiyordu. Çoğu kişi
+// indirmiyor, indirenin de telefonu doluyor.
 //
 // NASIL ÇALIŞIYOR: .pmtiles biçimi bayt aralığı okumaya göre tasarlanmış —
-// dosyanın herhangi bir yerinden birkaç kilobayt istenebiliyor. GitHub'ın
-// ham dosya sunucusu bunu destekliyor (206 + `access-control-allow-origin: *`,
-// ölçüldü) ve basit `bytes=a-b` başlığı CORS ön-uçuşu gerektirmiyor.
+// dosyanın herhangi bir yerinden birkaç kilobayt istenebiliyor. Kaynak,
+// Protomaps'in OpenStreetMap'ten üretilmiş 134 GB'lık GEZEGEN dosyası
+// (data.source.coop). O sunucu hem `Range` isteğini hem de CORS'u açık
+// tutuyor (206 + `access-control-allow-origin: *`, ölçüldü), yani tarayıcı
+// dosyanın içinden istediği karoyu doğrudan çekebiliyor.
 //
-// Yani uygulama 375 MB'lık dosyanın içinden yalnızca istenen alanın
-// karolarını çekip cihaza yazabiliyor.
+// BUNUN ANLAMI: önceden harita önce benim tarafımdan "bölge" olarak
+// kesilip yayınlanmak zorundaydı; yayınlanmamış bir yere giden kişi
+// "bu bölgeyi iste" diyip beklemek zorunda kalıyordu. Artık öyle bir kapı
+// yok — dünyanın her yeri, kimseyi beklemeden, basınca iniyor.
 //
 // İKİ KAZANÇ:
-//   1. İnternet varken harita hiç indirilmeden çalışıyor.
+//   1. İnternet varken harita hiç indirilmeden her yerde çalışıyor.
 //   2. Çevrimdışı için yalnızca seçilen alan iniyor.
 
 /* global pmtiles */
@@ -24,14 +28,42 @@ const BOLGE_LISTESI = './bolgeler.json';
 const KARO_KLASOR = 'karo';
 const EN_FAZLA_KARO = 20000;      // Bunun üstü hem çok yavaş hem çok istek.
 const ORNEK_KARO = 20;            // Boyut tahmini için okunacak karo sayısı.
+const ES_ZAMANLI = 16;            // Aynı anda kaç karo isteği açık olacak.
+const ZAMAN_ASIMI = 20000;        // Tek bir aralık isteği bu kadar bekletebilir.
+
+/**
+ * Listeyi ES_ZAMANLI işçiyle geçer.
+ *
+ * Karoları teker teker istemek işe yaramıyordu: her isteğin kendi gidiş
+ * dönüşü var ve o süre boyunca hiçbir şey olmuyor. Ölçtük — sırayla 6 istek
+ * 7,4 saniye, aynı anda 24 istek 1,2 saniye. Yani bekleme ağın hızından
+ * değil, sıra beklemekten geliyordu. Sekiz işçi tarayıcının aynı sunucuya
+ * açtığı bağlantı sayısına yakın; daha fazlası hız katmıyor, sunucuyu
+ * gereksiz zorluyor.
+ */
+async function hepsineUygula(liste, isci) {
+  let sonraki = 0;
+  const calisanlar = Array.from(
+    { length: Math.min(ES_ZAMANLI, liste.length) },
+    async () => {
+      while (true) {
+        const i = sonraki++;
+        if (i >= liste.length) return;
+        await isci(liste[i], i);
+      }
+    });
+  await Promise.all(calisanlar);
+}
 
 // ---- Uzaktaki dosyayı tek bir dosya gibi göstermek -------------------------
 
 /**
- * Beş ayrı parçayı tek bir mantıksal dosya gibi okutan kaynak.
+ * Uzaktaki dosyayı bayt aralığıyla okuyan kaynak.
  *
- * Parçalar var çünkü git dosya başına 100 MB sınırı koyuyor. İstenen bayt
- * aralığı iki parçaya taşabiliyor; o durumda ikisinden de istenip birleşiyor.
+ * Gezegen dosyası tek parça, ama sınıf çok parçayı da okuyabiliyor: kaynak
+ * bir gün GitHub gibi dosya başına sınırı olan bir yere taşınırsa parçalara
+ * bölmek gerekir. İstenen aralık iki parçaya taşarsa ikisinden de istenip
+ * birleşiyor.
  */
 export class UzakKaynak {
   constructor(kok, parcalar) {
@@ -44,6 +76,44 @@ export class UzakKaynak {
 
   getKey() { return this.kok; }
 
+  /**
+   * Dosyanın bir aralığını getirir.
+   *
+   * ZAMAN AŞIMI: zamansız hâlinde takılan TEK bir istek bütün indirmeyi
+   * sonsuza kadar donduruyordu — ilerleme duruyor, hata çıkmıyor, iptal de
+   * edilemiyor. Yolda, otel wifi'sinde olacak şey tam olarak bu. Saat
+   * gövde okunana kadar işliyor: yalnızca başlıkları saymak yetmez,
+   * bağlantı veri ortasında da ölebiliyor.
+   *
+   * cache: 'no-store' BURADA HAYATİ. Bütün karolar aynı URL'den, yalnızca
+   * bayt aralığı değişerek isteniyor. Chrome aynı URL'ye giden eş zamanlı
+   * istekleri kendi HTTP önbelleği üzerinden SIRAYA sokuyor (önbellek
+   * kilidi), yani on altı işçi açsak da teker teker iniyordu. Ölçtük:
+   * önbellek açıkken saniyede 1,7 istek, no-store ile 18,7 — on bir kat.
+   * Kaybımız yok: dizinleri pmtiles zaten bellekte tutuyor, inen karolar
+   * da IndexedDB'ye yazılıyor.
+   */
+  async araligiIste(ad, a, b, deneme = 0) {
+    const kesici = new AbortController();
+    const saat = setTimeout(() => kesici.abort(), ZAMAN_ASIMI);
+    try {
+      const yanit = await fetch(`${this.kok}/${ad}`, {
+        headers: { Range: `bytes=${a}-${b}` },
+        cache: 'no-store',
+        signal: kesici.signal,
+      });
+      if (!yanit.ok) throw new Error(`aralık alınamadı (${yanit.status})`);
+      return new Uint8Array(await yanit.arrayBuffer());
+    } catch (hata) {
+      // Bir kez daha deneniyor. Takılan istek çoğu zaman ikincide düzeliyor;
+      // internet gerçekten yoksa ikinci deneme de hızlıca düşüyor.
+      if (deneme === 0 && navigator.onLine) return this.araligiIste(ad, a, b, 1);
+      throw hata;
+    } finally {
+      clearTimeout(saat);
+    }
+  }
+
   async getBytes(konum, uzunluk) {
     const son = Math.min(konum + uzunluk, this.toplam);
     const dilimler = [];
@@ -53,10 +123,7 @@ export class UzakKaynak {
       if (bit <= konum || bas >= son) continue;          // bu parça aralık dışı
       const a = Math.max(konum, bas) - bas;
       const b = Math.min(son, bit) - bas - 1;
-      const yanit = await fetch(`${this.kok}/${this.parcalar[i].ad}`,
-        { headers: { Range: `bytes=${a}-${b}` } });
-      if (!yanit.ok) throw new Error(`aralık alınamadı (${yanit.status})`);
-      dilimler.push(new Uint8Array(await yanit.arrayBuffer()));
+      dilimler.push(await this.araligiIste(this.parcalar[i].ad, a, b));
     }
     if (dilimler.length === 1) return { data: dilimler[0].buffer };
     const toplamBoyut = dilimler.reduce((t, d) => t + d.length, 0);
@@ -75,18 +142,31 @@ const acikBolgeler = new Map();       // kisa -> PMTiles
  * Uygulamayla birlikte geliyor, yani çevrimdışı da okunabiliyor: "burası
  * haritada var mı" sorusuna internet olmadan da cevap verilebilmeli.
  */
+let listeSozu = null;                 // oturum boyunca tek okuma
+
 export async function bolgeler() {
-  const kayitli = await veri.ayarOku('haritaBolgeleri', null);
-  try {
-    const y = await fetch(BOLGE_LISTESI, { cache: 'no-cache' });
-    if (y.ok) {
-      const d = await y.json();
-      await veri.ayarYaz('haritaBolgeleri', d.bolgeler);
-      return d.bolgeler;
-    }
-  } catch { /* çevrimdışı: kayıtlıyla devam */ }
-  return kayitli || [];
+  // Bir kez okunup saklanıyor. Saklanmadığı sürüm şunu yapıyordu: her karo
+  // için karoKaynagi -> bolgeBul -> bolgeler() zinciri işliyor ve her karoda
+  // bolgeler.json AĞDAN yeniden isteniyordu. 3000 karoluk bir alanda bu,
+  // indirmenin yanına 3000 gereksiz istek koyuyordu.
+  if (listeSozu) return listeSozu;
+  listeSozu = (async () => {
+    const kayitli = await veri.ayarOku('haritaBolgeleri', null);
+    try {
+      const y = await fetch(BOLGE_LISTESI, { cache: 'no-cache' });
+      if (y.ok) {
+        const d = await y.json();
+        await veri.ayarYaz('haritaBolgeleri', d.bolgeler);
+        return d.bolgeler;
+      }
+    } catch { /* çevrimdışı: kayıtlıyla devam */ }
+    return kayitli || [];
+  })();
+  return listeSozu;
 }
+
+/** Sınama içindir: listeyi yeniden okutur. */
+export function listeyiUnut() { listeSozu = null; acikBolgeler.clear(); }
 
 const noktaIcinde = (b, lat, lon) =>
   lon >= b.kutu.bati && lon <= b.kutu.dogu && lat >= b.kutu.guney && lat <= b.kutu.kuzey;
@@ -151,12 +231,13 @@ export function karoMerkezi(z, x, y) {
 }
 
 /**
- * Bu karo hangi bölgeden okunacak?
+ * Bu karo hangi kaynaktan okunacak?
  *
- * Alt yakınlıklarda (z0-5) bir karo bütün Avrupa'yı kaplıyor ve hiçbir
- * bölge kutusunun içine tam düşmüyor. O yüzden merkez eşleşmezse ilk
- * bölgeye düşüyoruz: uzaklaşınca boş ekran görmektense bir bölgenin
- * genel görünümünü göstermek doğru.
+ * Şu an tek kaynak var ve dünyayı kapsıyor, yani her karo eşleşiyor.
+ * Arama yine de duruyor: ileride ikinci bir kaynak eklenirse (asıl kaynak
+ * kapanırsa ya da bir bölge için daha ayrıntılı dosya konursa) doğru
+ * yere yönlendirmesi gereken yer burası. Eşleşme çıkmazsa ilk kaynağa
+ * düşüyor — boş ekran göstermektense bir şey göstermek doğru.
  */
 export async function karoKaynagi(z, x, y) {
   const [lat, lon] = karoMerkezi(z, x, y);
@@ -187,19 +268,22 @@ export async function alanTahmini(kutu, enFazlaZ) {
   // Kesirli adımla ilerlemek hem kutunun her yerine hem her yakınlığa değiyor.
   const havuz = hepsi;
   const adim = havuz.length / Math.min(ORNEK_KARO, havuz.length);
-  let toplam = 0, okunan = 0, dolu = 0;
+  const ornekler = [];
   for (let i = 0; i < ORNEK_KARO; i++) {
     const sira = Math.floor(i * adim);
     if (sira >= havuz.length) break;
-    const k = havuz[sira];
+    ornekler.push(havuz[sira]);
+  }
+  let toplam = 0, okunan = 0, dolu = 0;
+  await hepsineUygula(ornekler, async (k) => {
     try {
       const kaynak = await karoKaynagi(k.z, k.x, k.y);
-      if (!kaynak) continue;
+      if (!kaynak) return;
       const karo = await kaynak.getZxy(k.z, k.x, k.y);
       okunan++;
       if (karo) { toplam += karo.data.byteLength; dolu++; }
     } catch { /* tek karo okunamadıysa örneklem yeter */ }
-  }
+  });
   if (!okunan) return { karo: hepsi.length, agYok: true };
 
   // Boş karolar da sayılıyor: deniz ya da kapsam dışı alan yer kaplamıyor
@@ -229,26 +313,28 @@ export async function alanIndir(kutu, enFazlaZ, ilerleme) {
     throw new Error(`Alan çok büyük (${hepsi.length} karo). Daha küçük bir alan seç.`);
 
   const mevcut = new Set(await depo.listele(KARO_KLASOR));
-  let yazilan = 0, bayt = 0, atlanan = 0;
+  let yazilan = 0, bayt = 0, atlanan = 0, biten = 0;
 
-  for (let i = 0; i < hepsi.length; i++) {
-    const k = hepsi[i];
+  await hepsineUygula(hepsi, async (k) => {
     const ad = karoAdi(k.z, k.x, k.y);
-    if (mevcut.has(ad)) { atlanan++; ilerleme?.(i + 1, hepsi.length, bayt); continue; }
-    try {
-      const kaynak = await karoKaynagi(k.z, k.x, k.y);
-      const karo = kaynak ? await kaynak.getZxy(k.z, k.x, k.y) : null;
-      // Boş karo da yazılıyor: yoksa her açılışta yeniden sorulur ve
-      // çevrimdışıyken "eksik" sanılır. Sıfır baytlık dosya yer kaplamıyor.
-      const veriKarosu = karo ? new Uint8Array(karo.data) : new Uint8Array();
-      await depo.yaz(KARO_KLASOR, ad, new Blob([veriKarosu]));
-      yazilan++; bayt += veriKarosu.length;
-    } catch {
-      // Tek bir karo inmezse indirme durmuyor: 3000 karonun 2'si eksik
-      // olsa harita hâlâ kullanılır, durdurmak ise her şeyi çöpe atardı.
+    if (mevcut.has(ad)) {
+      atlanan++;
+    } else {
+      try {
+        const kaynak = await karoKaynagi(k.z, k.x, k.y);
+        const karo = kaynak ? await kaynak.getZxy(k.z, k.x, k.y) : null;
+        // Boş karo da yazılıyor: yoksa her açılışta yeniden sorulur ve
+        // çevrimdışıyken "eksik" sanılır. Sıfır baytlık dosya yer kaplamıyor.
+        const veriKarosu = karo ? new Uint8Array(karo.data) : new Uint8Array();
+        await depo.yaz(KARO_KLASOR, ad, new Blob([veriKarosu]));
+        yazilan++; bayt += veriKarosu.length;
+      } catch {
+        // Tek bir karo inmezse indirme durmuyor: 3000 karonun 2'si eksik
+        // olsa harita hâlâ kullanılır, durdurmak ise her şeyi çöpe atardı.
+      }
     }
-    ilerleme?.(i + 1, hepsi.length, bayt);
-  }
+    ilerleme?.(++biten, hepsi.length, bayt);
+  });
 
   const alanlar = await veri.ayarOku('haritaAlanlari', []);
   alanlar.push({ kutu, enFazlaZ, karo: hepsi.length, bayt, an: Date.now() });
@@ -309,28 +395,4 @@ export async function alanSil(sira) {
   }
   await veri.ayarYaz('haritaAlanlari', kalanlar);
   return bayt;
-}
-
-// ---- Kapsam dışı istekleri ------------------------------------------------
-
-/**
- * Seçilen kutunun tamamı yayınlanan bölgelerden biri tarafından kapsanıyor mu?
- *
- * Dört köşe de bakılıyor. Tek bir birleşik dikdörtgen kullanmıyoruz:
- * Balkanlar ile İstanbul'u tek kutuya sokmak, aradaki Ege'yi de
- * "kapsanıyor" saymak olurdu ve kişi boş harita indirirdi.
- */
-export async function kapsamIcinde(kutu) {
-  const hepsi = await bolgeler();
-  if (!hepsi.length) return true;      // liste yoksa engelleme
-  const koseler = [
-    [kutu.guney, kutu.bati], [kutu.guney, kutu.dogu],
-    [kutu.kuzey, kutu.bati], [kutu.kuzey, kutu.dogu],
-  ];
-  return koseler.every(([lat, lon]) => hepsi.some(b => noktaIcinde(b, lat, lon)));
-}
-
-/** Bölge adları — "hangi yerler var" diye soran ekran için. */
-export async function bolgeAdlari() {
-  return (await bolgeler()).map(b => b.ad);
 }

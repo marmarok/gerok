@@ -2,6 +2,21 @@
  "aciklama": "Her güncellemede ne eklendi, ne düzeldi, ne çıktı. En yeni en üstte. Bu dosya güncelleme kartında okunuyor; boş bırakılamaz, yayınlama betiği kontrol ediyor.",
  "surumler": [
   {
+   "sayi": 116,
+   "eklendi": [
+    "Harita artık DÜNYANIN HER YERİNDE indiriliyor. Önceden yalnızca önceden hazırlanmış bölgeler inebiliyordu; başka bir yere giden kişi “bu bölgeyi iste” deyip beklemek zorundaydı. O bekleme tamamen kalktı.",
+    "Alan indirme çubuğunda artık ne kadar süreceği de yazıyor, ve indirirken yüzde görünüyor."
+   ],
+   "duzeldi": [
+    "İndirme 11 kat hızlandı. Bir şehir merkezi (6,4 MB) 10 saniyede iniyor; eskiden aynı iş dakikalar sürüyordu. Sebebi ağ değil, tarayıcının aynı dosyaya giden istekleri kendi içinde sıraya sokmasıydı.",
+    "Takılan bir istek artık bütün indirmeyi dondurmuyor: 20 saniyede kesiliyor, bir kez daha deneniyor.",
+    "Uygulama harita listesini her karo için yeniden indiriyordu; artık bir kez okuyor."
+   ],
+   "cikti": [
+    "“Bu bölgeyi iste” penceresi ve gönderilen istek dosyası. Artık gereği yok."
+   ]
+  },
+  {
    "sayi": 115,
    "eklendi": [],
    "duzeldi": [

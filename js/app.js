@@ -5,7 +5,7 @@
 // Neden önbelleğin adına bakmıyoruz: yeni sürüm indiğinde önbellek adı değişiyor
 // ama ekrandaki kod hâlâ eski oluyor — uygulama kendini güncellenmiş sanıyordu.
 // Bu satır ekrandaki dosyanın içinde olduğu için yalan söyleyemiyor.
-const BU_SURUM = 'gerok-115-20260827-172057';
+const BU_SURUM = 'gerok-116-20260827-192946';
 
 import * as veri from './veri.js';
 import * as iz from './iz.js';
@@ -5462,6 +5462,25 @@ async function haritaAlaniSec() {
 
 
 /**
+ * "Ne kadar sürer?" — kaba ama dürüst.
+ *
+ * sureYaz kullanılmıyor: o ses/video için "0:03" biçiminde yazıyor ve
+ * indirme yanında kronometre gibi duruyor.
+ *
+ * Sayı ölçümden geliyor: Üsküp merkezi, sokak ayrıntısı, 188 karo /
+ * 6,4 MB, 10,3 saniye — saniyede 18 karo. Bölen bilerek 15 tutuldu:
+ * telefonun bağlantısı masaüstünden yavaş olur ve süreyi olduğundan
+ * kısa söylemek, uzun söylemekten kötü.
+ */
+function indirmeSuresi(karo) {
+  const sn = Math.ceil(karo / 15);
+  if (sn < 10) return 'birkaç saniye';
+  if (sn < 90) return `≈ ${Math.round(sn / 5) * 5} saniye`;
+  return `≈ ${Math.round(sn / 60)} dakika`;
+}
+
+
+/**
  * Tahmini yenile.
  *
  * Ağdan ~20 karo okuyor, yani birkaç saniye sürüyor. Her kaydırmada
@@ -5477,18 +5496,6 @@ function tahminiTazele() {
     if (!kutu) return;
     const z = ALAN_AYRINTI[alanAyrinti];
 
-    // Kapsam dışındayken düğmenin YAZISI değişiyor. Eskiden "Bu alanı indir"
-    // yazıyordu ve basınca "istek gönder" penceresi çıkıyordu — basan kişi
-    // indirme bekleyip istek ekranı görüyordu, bu bir sürpriz ve hayal
-    // kırıklığıydı. Düğme ne yapacağını basmadan önce söylüyor.
-    const dugme = $('#alanIndir');
-    if (!await haritaAlan.kapsamIcinde(kutu)) {
-      if (dugme) dugme.textContent = 'Bu bölgeyi iste';
-      yer.innerHTML = 'Burası indirilebilir bölgelerin dışında — ' +
-        'indirilecek veri henüz yayınlanmadı. İstersen istenebilir.';
-      return;
-    }
-    if (dugme) dugme.textContent = 'Bu alanı indir';
     const t = await haritaAlan.alanTahmini(kutu, z);
     if (t.cokBuyuk) {
       yer.textContent = `Alan çok büyük (${t.karo.toLocaleString('tr')} karo). ` +
@@ -5497,7 +5504,10 @@ function tahminiTazele() {
       yer.textContent = 'İnternet yok — alan indirmek için internet gerekiyor.';
     } else {
       // "≈" bilerek: örneklemeyle bulunuyor, kesin değil.
-      yer.textContent = `≈ ${boyutYaz(t.bayt)} · ${t.karo.toLocaleString('tr')} karo`;
+      // Süre de yazılıyor: basmadan önce "10 saniye mi, 5 dakika mı"
+      // bilinsin. Ölçülen hız saniyede ~20 karo.
+      yer.textContent = `≈ ${boyutYaz(t.bayt)} · ${t.karo.toLocaleString('tr')} karo` +
+        ` · ${indirmeSuresi(t.karo)}`;
     }
   }, 600);
 }
@@ -5508,8 +5518,6 @@ async function alaniIndir(kapat) {
   if (!kutu) return;
   const z = ALAN_AYRINTI[alanAyrinti];
 
-  if (!await haritaAlan.kapsamIcinde(kutu)) { bolgeIste(kutu); return; }
-
   const t = await haritaAlan.alanTahmini(kutu, z);
   if (t.cokBuyuk) {
     kayitBildir(`Alan çok büyük — ${t.karo.toLocaleString('tr')} karo. Yakınlaş.`, 'kotu');
@@ -5518,9 +5526,12 @@ async function alaniIndir(kapat) {
   kapat();
   kayitBildir('Alan iniyor…');
   try {
+    // Yüzde de yazılıyor: "312/2840" tek başına ne kadar kaldığını
+    // söylemiyor, insan oranı okumak istiyor.
     const r = await haritaAlan.alanIndir(kutu, z, (y, toplam, bayt) => {
-      if (y % 25 === 0 || y === toplam)
-        kayitBildir(`Alan iniyor… ${y}/${toplam} · ${boyutYaz(bayt)}`);
+      if (y % 10 === 0 || y === toplam)
+        kayitBildir(`Alan iniyor… %${Math.round(y / toplam * 100)}` +
+          ` · ${y}/${toplam} karo · ${boyutYaz(bayt)}`);
     });
     kayitBildir(`Alan indi ✓ · ${boyutYaz(r.bayt)} · ${r.yazilan} karo` +
       (r.atlanan ? ` · ${r.atlanan} zaten vardı` : ''), 'iyi');
@@ -5528,65 +5539,6 @@ async function alaniIndir(kapat) {
   } catch (hata) {
     kayitBildir('İnmedi: ' + hata.message, 'kotu');
   }
-}
-
-
-/**
- * Kapsam dışı bir alan seçildiğinde: bölgeyi istemek.
- *
- * Yayınlanan harita şimdilik Balkanlar. Başka bir yere gidecek biri burada
- * tıkanıyordu. Uygulama o alanı üretemez — harita 137 GB'lık bir kaynaktan
- * kesiliyor ve o kaynak tarayıcıya kapalı. Ama İSTEĞİ iletebilir: kutunun
- * koordinatları küçük bir dosyaya yazılıp Gerok'u yapana gönderiliyor,
- * o bölgeyi yayınlayınca herkeste görünür oluyor.
- *
- * Giden şey yalnızca dört sayı. Kayıtlar, gezi, isim gitmiyor.
- */
-async function bolgeIste(kutu) {
-  const yuvarla = (n) => Math.round(n * 100) / 100;
-  const istek = {
-    gerok: 'bolge-istegi', bicim: 1, t: Date.now(),
-    kutu: { bati: yuvarla(kutu.bati), dogu: yuvarla(kutu.dogu),
-            guney: yuvarla(kutu.guney), kuzey: yuvarla(kutu.kuzey) },
-    ayrinti: alanAyrinti,
-  };
-  const metin = JSON.stringify(istek, null, 1);
-
-  ortuAc(`
-    <div class="ortu-baslik">Bu alan haritada yok</div>
-    <div class="ortu-alt">Yayınlanan harita şu an Balkanlar’ı kapsıyor.
-      Baktığın yer onun dışında kalıyor.</div>
-    <div class="panel-not">İstersen bu alanı isteyebilirsin. Gönderilen şey
-      yalnızca <b>dört koordinat</b> — kayıtların, gezin ve adın gitmiyor.
-      Bölge hazırlanınca güncellemeyle herkese gelir.</div>
-    <details style="margin:14px 0">
-      <summary class="panel-not">Gönderilecek şeyin tamamı</summary>
-      <pre style="white-space:pre-wrap;font-size:12px">${kacis(metin)}</pre>
-    </details>
-    <button class="eylem-dugme birincil" id="blgGonder">Bu bölgeyi iste</button>
-    <button class="eylem-dugme" id="blgKapat">Vazgeç</button>
-  `);
-  $('#blgKapat').addEventListener('click', ortuKapat);
-  $('#blgGonder').addEventListener('click', async () => {
-    ortuKapat();
-    const ad = `gerok-bolge-istegi-${new Date().toISOString().slice(0, 10)}.json`;
-    const blob = new Blob([metin], { type: 'application/json' });
-    const dosya = new File([blob], ad, { type: 'application/json' });
-    try {
-      if (navigator.canShare?.({ files: [dosya] })) {
-        await navigator.share({ files: [dosya], title: 'Gerok bölge isteği' });
-      } else {
-        const u = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = u; a.download = ad; a.click();
-        setTimeout(() => URL.revokeObjectURL(u), 3000);
-      }
-      kayitBildir('İstek hazır — Gerok’u yapana gönder.', 'iyi');
-    } catch (hata) {
-      if (hata.name === 'AbortError') return;
-      kayitBildir('Gönderilemedi: ' + hata.message, 'kotu');
-    }
-  });
 }
 
 

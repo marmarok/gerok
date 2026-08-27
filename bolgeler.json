@@ -1,18 +1,14 @@
 {
- "aciklama": "Yayınlanan harita bölgeleri. Her bölge AYRI bir dosya: yenisini eklemek mevcutlara dokunmuyor ve kimseye yeniden indirtmiyor. Kapsam kutuları da ayrı kalıyor; birleşik tek dikdörtgen, aradaki boş alanları da kapsanıyor sayardı. Yeni bölge: bash arac/bolge-uret.sh",
+ "aciklama": "Haritanın okunduğu uzak kaynak. Tek girdi var ve dünyanın tamamını kapsıyor: Protomaps'in OpenStreetMap tabanlı gezegen dosyası, bayt aralığı okumaya açık ve CORS serbest. Bölge yayınlamak, bölge istemek diye bir şey yok — her yer indirilebilir. Kaynak bir gün kapanırsa buraya ikinci bir girdi eklenir; UzakKaynak birden fazla parçayı da okuyabiliyor.",
  "bicim": 1,
  "bolgeler": [
   {
-   "kisa": "balkanlar",
-   "ad": "Balkanlar",
-   "kok": "https://raw.githubusercontent.com/marmarok/gerok/harita-v1/harita",
-   "kutu": { "bati": 17.3, "guney": 40.7, "dogu": 22, "kuzey": 45.1 },
+   "kisa": "dunya",
+   "ad": "Dünya",
+   "kok": "https://data.source.coop/protomaps/openstreetmap",
+   "kutu": { "bati": -180, "guney": -85.06, "dogu": 180, "kuzey": 85.06 },
    "parcalar": [
-    { "ad": "parca-01.bin", "boyut": 75000000 },
-    { "ad": "parca-02.bin", "boyut": 75000000 },
-    { "ad": "parca-03.bin", "boyut": 75000000 },
-    { "ad": "parca-04.bin", "boyut": 75000000 },
-    { "ad": "parca-05.bin", "boyut": 74819701 }
+    { "ad": "v4.pmtiles", "boyut": 134812420554 }
    ]
   }
  ]
