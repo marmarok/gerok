@@ -5,7 +5,7 @@
 // Neden önbelleğin adına bakmıyoruz: yeni sürüm indiğinde önbellek adı değişiyor
 // ama ekrandaki kod hâlâ eski oluyor — uygulama kendini güncellenmiş sanıyordu.
 // Bu satır ekrandaki dosyanın içinde olduğu için yalan söyleyemiyor.
-const BU_SURUM = 'gerok-112-20260827-160434';
+const BU_SURUM = 'gerok-113-20260827-163245';
 
 import * as veri from './veri.js';
 import * as iz from './iz.js';
@@ -166,7 +166,7 @@ function bekciyiKur() {
     bildir: kayitBildir,
     rozetiTazele: bekciRozetiYaz,
     yedekAl: () => yedekAl(kayitBildir),
-    haritaIndir: haritaIndirmeSor,
+    haritaIndir: haritaAlaniSec,
     adSor,
     surumuAra,
     gunSonu: () => gunSonuAc(durum, tazele, yedekAlVeDogrula),
@@ -4209,7 +4209,7 @@ async function paneliCiz() {
       ic: `
         ${panelSatiri({ etiket: 'Bu telefon', deger: kacis(sahip.ad || '—') })}
         ${panelSatiri({ etiket: 'Adı değiştir', id: 'btnAd' })}
-        ${panelSatiri({ etiket: 'İndirilmiş harita', deger: '<span id="haritaDurum">bakılıyor…</span>' })}
+        ${panelSatiri({ etiket: 'Çevrimdışı harita', deger: '<span id="haritaDurum">bakılıyor…</span>' })}
         ${depo ? `
           ${panelSatiri({ etiket: 'Telefonda kullanılan', deger: boyutYaz(depo.kullanilan) })}
           ${panelSatiri({ etiket: "Gerok'a kalan yer", id: 'btnBosYer',
@@ -4219,7 +4219,7 @@ async function paneliCiz() {
         ` : ''}
         ${panelSatiri({ etiket: 'Harita alanı indir', id: 'btnHaritaAlan',
           deger: '<span id="alanDurum">bakılıyor…</span>' })}
-        ${panelSatiri({ etiket: 'Harita paketi indir', id: 'btnHarita' })}
+        <span id="tamHaritaSatir"></span>
         ${!depo?.kalici ? panelSatiri({ etiket: 'Kalıcı depolama iste', id: 'btnKalici' }) : ''}
 
         <div class="girdi-etiket">Renk</div>
@@ -4338,7 +4338,6 @@ async function paneliCiz() {
   $('#btnTurlar').addEventListener('click', turlariYonet);
   $('#btnDegisiklik').addEventListener('click', degisiklikleriGoster);
   $('#btnYeniTur').addEventListener('click', () => yeniTurSor());
-  $('#btnHarita').addEventListener('click', haritaIndirmeSor);
   $('#btnHaritaAlan').addEventListener('click', haritaAlaniSec);
   alanDurumunuYaz();
   $('#btnSurum').addEventListener('click', surumuAra);
@@ -4368,10 +4367,19 @@ async function paneliCiz() {
     paneliCiz();
   });
 
+  // Bu satır artık İNEN ALANLARI sayıyor. Eskiden tek bir 375 MB'lık dosya
+  // vardı ve "indirilmedi" demek "harita yok" demekti; artık internet varken
+  // harita zaten çalışıyor, inen alanlar yalnızca çevrimdışı için.
   const { haritaVarMi } = await import('./harita.js');
-  const varMi = await haritaVarMi();
+  const tam = await haritaVarMi().catch(() => 0);
+  const alanlar = await haritaAlan.yerelKaroDurumu();
   const e = $('#haritaDurum');
-  if (e) e.textContent = varMi ? `${boyutYaz(varMi)} · hazır` : 'indirilmedi';
+  if (e) {
+    const parcalar = [];
+    if (alanlar.karo) parcalar.push(`${boyutYaz(alanlar.bayt)} alan`);
+    if (tam) parcalar.push(`${boyutYaz(tam)} eski tam harita`);
+    e.textContent = parcalar.length ? parcalar.join(' · ') : 'çevrimdışı alan yok';
+  }
 }
 
 // --------------------------------------------------------------- diyaloglar -
@@ -4590,9 +4598,8 @@ async function isCalistir(anahtar, ag, kuyruk, { sessiz = false } = {}) {
     return;
   }
 
-  // Harita kendi akışını açıyor: indirme uzun sürüyor ve kendi ilerleme
-  // çubuğu var, kuyruğun içine sıkıştırmak doğru olmazdı.
-  if (anahtar === 'harita') { haritaIndirmeSor(); return; }
+  // Harita kendi akışını açıyor: önce alan seçiliyor, indirme ondan sonra.
+  if (anahtar === 'harita') { haritaAlaniSec(); return; }
 
   const yaz = (m) => { const e = $('#netIlerleme'); if (e) e.textContent = m; kayitBildir(m); };
   yaz(`${is.ad}…`);
@@ -5309,6 +5316,52 @@ async function alanDurumunuYaz() {
   yer.textContent = d.karo
     ? `${alanlar.length} alan · ${boyutYaz(d.bayt)}`
     : 'henüz alan inmedi';
+
+  // Eski usul TAM harita duruyorsa yer açmayı öner. Yeni kurulumlarda bu
+  // satır hiç görünmüyor — artık tam harita diye bir şey inmiyor.
+  const kap = $('#tamHaritaSatir');
+  if (!kap) return;
+  const { haritaVarMi } = await import('./harita.js');
+  const tam = await haritaVarMi().catch(() => 0);
+  if (!tam) { kap.innerHTML = ''; return; }
+  kap.innerHTML = panelSatiri({ etiket: 'Eski tam harita', id: 'btnTamHaritaSil',
+    deger: kacis(`${boyutYaz(tam)} · yer aç`) });
+  $('#btnTamHaritaSil').addEventListener('click', () => tamHaritayiSilSor(tam));
+}
+
+
+/**
+ * Eski tam haritayı silmeyi sormak.
+ *
+ * Silmeden önce ne kaybedileceği açıkça yazılıyor: internetsizken yalnızca
+ * indirilmiş alanlar kalacak. Yanlışlıkla basıp gezi ortasında haritasız
+ * kalmak, kazanılan 375 MB'dan çok daha pahalıya gelir.
+ */
+async function tamHaritayiSilSor(boyut) {
+  const d = await haritaAlan.yerelKaroDurumu();
+  ortuAc(`
+    <div class="ortu-baslik">Eski tam haritayı sil</div>
+    <div class="ortu-alt">Telefonunda altı ülkenin tamamı duruyor: ${kacis(boyutYaz(boyut))}.
+      Artık yalnızca ihtiyaç duyduğun alanlar iniyor, bu dosyaya gerek kalmadı.</div>
+    <div class="panel-not">Sildikten sonra <b>internetsizken</b> yalnızca indirdiğin alanlar
+      açılır. Şu an ${d.karo ? `${d.karo} karo (${kacis(boyutYaz(d.bayt))}) inmiş durumda`
+        : '<b>hiç alan inmemiş</b>'}. İnternet varken harita her yerde çalışmaya devam eder.</div>
+    <button class="eylem-dugme sil" id="thSil">Sil ve ${kacis(boyutYaz(boyut))} yer aç</button>
+    <button class="eylem-dugme" id="thVazgec">Vazgeç</button>
+  `);
+  $('#thVazgec').addEventListener('click', ortuKapat);
+  $('#thSil').addEventListener('click', async () => {
+    ortuKapat();
+    kayitBildir('Siliniyor…');
+    try {
+      const { tamHaritayiSil } = await import('./harita.js');
+      const s = await tamHaritayiSil();
+      kayitBildir(`${boyutYaz(s)} yer açıldı.`, 'iyi');
+      paneliCiz();
+    } catch (hata) {
+      kayitBildir('Silinemedi: ' + hata.message, 'kotu');
+    }
+  });
 }
 
 
@@ -5640,38 +5693,6 @@ function yeniTurSor() {
     if (eski) await gerok.turArsivle(eski.id, true);
     await gerok.turBaslat({ ad, baslangic: bas, gunSayisi });
     await turDegisti();
-  });
-}
-
-async function haritaIndirmeSor() {
-  const { haritaIndir } = await import('./harita.js');
-  ortuAc(`
-    <div class="ortu-baslik">Offline harita</div>
-    <div class="ortu-alt">357 MB, beş parça halinde iner. Altı ülkenin tamamı, sokak seviyesinde.
-    <b>Ev wifi'sinde indir</b> — yolda internet olmayacak.
-    Yarıda kesilirse sorun değil: <b>Tekrar dene</b> kaldığı yerden sürdürür.</div>
-    <div id="haritaIlerleme" class="panel-not">Hazır.</div>
-    <button class="eylem-dugme birincil" id="haritaBasla">İndir</button>
-  `);
-  $('#haritaBasla').addEventListener('click', async () => {
-    $('#haritaBasla').textContent = 'İndiriliyor…';
-    $('#haritaBasla').disabled = true;
-    try {
-      await haritaIndir((inen, toplam) => {
-        const e = $('#haritaIlerleme');
-        if (e) e.textContent = toplam
-          ? `${boyutYaz(inen)} / ${boyutYaz(toplam)} — %${Math.round(inen / toplam * 100)}`
-          : boyutYaz(inen);
-      });
-      ortuKapat();
-      kayitBildir('Harita indirildi. Artık internetsiz çalışır.', 'iyi');
-      paneliCiz();
-    } catch (hata) {
-      const e = $('#haritaIlerleme');
-      if (e) e.textContent = `Kesildi: ${hata.message} — inen parçalar duruyor, "Tekrar dene" kaldığı yerden sürdürür.`;
-      $('#haritaBasla').textContent = 'Tekrar dene';
-      $('#haritaBasla').disabled = false;
-    }
   });
 }
 

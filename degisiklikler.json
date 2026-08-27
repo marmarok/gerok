@@ -2,6 +2,19 @@
  "aciklama": "Her güncellemede ne eklendi, ne düzeldi, ne çıktı. En yeni en üstte. Bu dosya güncelleme kartında okunuyor; boş bırakılamaz, yayınlama betiği kontrol ediyor.",
  "surumler": [
   {
+   "sayi": 113,
+   "eklendi": [
+    "Gerok sekmesinde “Eski tam harita” satırı: telefonunda duran 375 MB’lık eski harita artık gereksiz, tek dokunuşla silip yer açabiliyorsun.",
+    "Her harita bölgesi ayrı bir dosya oldu. Yeni bir bölge eklemek mevcutlara dokunmuyor ve kimseye yeniden indirtmiyor."
+   ],
+   "duzeldi": [
+    "Kurulum sayfası hâlâ “357 MB haritayı evde indir” diyordu — artık alan seçmeyi anlatıyor."
+   ],
+   "cikti": [
+    "“Harita paketi indir” kaldırıldı. Uygulama artık hiçbir zaman haritanın tamamını indirmiyor; yalnızca senin seçtiğin alanlar iniyor."
+   ]
+  },
+  {
    "sayi": 112,
    "eklendi": [
     "Harita artık internet varken HİÇ İNDİRMEDEN çalışıyor. Uzaktaki dosyadan yalnızca ekranda görünen parça okunuyor.",

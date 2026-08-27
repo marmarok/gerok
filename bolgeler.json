@@ -1,0 +1,19 @@
+{
+ "aciklama": "Yayınlanan harita bölgeleri. Her bölge AYRI bir dosya: yenisini eklemek mevcutlara dokunmuyor ve kimseye yeniden indirtmiyor. Kapsam kutuları da ayrı kalıyor; birleşik tek dikdörtgen, aradaki boş alanları da kapsanıyor sayardı. Yeni bölge: bash arac/bolge-uret.sh",
+ "bicim": 1,
+ "bolgeler": [
+  {
+   "kisa": "balkanlar",
+   "ad": "Balkanlar",
+   "kok": "https://raw.githubusercontent.com/marmarok/gerok/harita-v1/harita",
+   "kutu": { "bati": 17.3, "guney": 40.7, "dogu": 22, "kuzey": 45.1 },
+   "parcalar": [
+    { "ad": "parca-01.bin", "boyut": 75000000 },
+    { "ad": "parca-02.bin", "boyut": 75000000 },
+    { "ad": "parca-03.bin", "boyut": 75000000 },
+    { "ad": "parca-04.bin", "boyut": 75000000 },
+    { "ad": "parca-05.bin", "boyut": 74819701 }
+   ]
+  }
+ ]
+}

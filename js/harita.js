@@ -48,7 +48,6 @@ async function haritaAdresiSec() {
   throw new Error('Parça listesi hiçbir adresten alınamadı');
 }
 
-const PMTILES_IMZASI = 'PMTiles';
 
 let harita = null;
 let kuruluyor = null;
@@ -91,6 +90,26 @@ async function haritaBlobu() {
   return new Blob(parcalar);
 }
 
+/**
+ * Eski usul inen TAM haritayı siler.
+ *
+ * Artık yalnızca ihtiyaç duyulan alanlar iniyor; 375 MB'lık dosya, gezisini
+ * bitirmiş telefonlarda boşuna yer kaplıyor. Karolar ayrı yerde duruyor,
+ * bu silme onlara dokunmuyor.
+ */
+export async function tamHaritayiSil() {
+  const bilgi = await parcaListesi();
+  let silinen = 0;
+  for (const parca of bilgi?.parcalar || []) {
+    silinen += await depo.boyut('harita', parca.ad);
+    await depo.sil('harita', parca.ad);
+  }
+  const { ayarYaz } = await import('./veri.js');
+  await ayarYaz('haritaParcalari', null);
+  pmt = null;
+  return silinen;
+}
+
 // Harita tamsa toplam boyutu, değilse 0 döner.
 export async function haritaVarMi() {
   const bilgi = await parcaListesi();
@@ -103,74 +122,6 @@ export async function haritaVarMi() {
     toplam += b;
   }
   return toplam;
-}
-
-export async function haritaIndir(ilerleme) {
-  const { ayarYaz } = await import('./veri.js');
-
-  const { bilgi } = await haritaAdresiSec();
-
-  // İndirme yarıda kesilirse tamamlanmış parçalar duruyor — onlar yeniden inmez.
-  // 357 MB'ın tek seferde inmesini şart koşmuyoruz: telefon uykuya dalsa,
-  // uygulama arka plana atılsa ya da wifi bir an kopsa kaldığı yerden devam eder.
-  await ayarYaz('haritaParcalari', null);
-
-  const eksikler = [];
-  let inen = 0;
-  for (const p of bilgi.parcalar) {
-    if (await depo.boyut('harita', p.ad) === p.boyut) {
-      inen += p.boyut;                 // bu parça zaten tam
-    } else {
-      await depo.sil('harita', p.ad);  // yarım kalmışsa at, baştan insin
-      eksikler.push(p);
-    }
-  }
-  ilerleme?.(inen, bilgi.toplamBoyut);
-
-  for (const parca of eksikler) {
-    const yanit = await fetch(`${HARITA_KLASORU}/${parca.ad}`);
-    if (!yanit.ok) throw new Error(`${parca.ad} inmedi (${yanit.status})`);
-
-    // Gövdeyi akış halinde okuyoruz: response.blob() büyük dosyalarda
-    // başarısız olabiliyor, ayrıca tek seferde 357 MB'ı belleğe almak
-    // telefonda zaten istenmeyen bir şey. Aynı anda en fazla bir parça tutuluyor.
-    const okuyucu = yanit.body.getReader();
-    const dilimler = [];
-    for (;;) {
-      const { done, value } = await okuyucu.read();
-      if (done) break;
-      dilimler.push(value);
-      ilerleme?.(inen + dilimler.reduce((t, d) => t + d.length, 0), bilgi.toplamBoyut);
-    }
-
-    const blob = new Blob(dilimler);
-    if (blob.size !== parca.boyut) {
-      throw new Error(`${parca.ad} eksik indi: ${blob.size} / ${parca.boyut}`);
-    }
-    await depo.yaz('harita', parca.ad, blob);
-    inen += blob.size;
-    ilerleme?.(inen, bilgi.toplamBoyut);
-  }
-
-  await ayarYaz('haritaParcalari', bilgi);
-
-  // Doğrulama: parçalar tam mı ve birleşince gerçekten pmtiles mi?
-  const birlesik = await haritaBlobu();
-  const imza = birlesik
-    ? new TextDecoder().decode(await birlesik.slice(0, 7).arrayBuffer())
-    : '';
-
-  if (!birlesik || birlesik.size !== bilgi.toplamBoyut || imza !== PMTILES_IMZASI) {
-    await ayarYaz('haritaParcalari', null);
-    for (const p of bilgi.parcalar) await depo.sil('harita', p.ad);
-    throw new Error(
-      !birlesik || birlesik.size !== bilgi.toplamBoyut
-        ? `Eksik yazıldı: ${birlesik?.size || 0} / ${bilgi.toplamBoyut} bayt`
-        : 'İnen dosya harita değil — indirme bozulmuş'
-    );
-  }
-
-  return birlesik.size;
 }
 
 // ---- Harita kurulumu ------------------------------------------------------
@@ -193,7 +144,7 @@ async function karoBul(z, x, y) {
     const k = await pmt.getZxy(z, x, y);
     if (k) return new Uint8Array(k.data);
   }
-  const uzak = await alan.uzakHarita();
+  const uzak = await alan.karoKaynagi(z, x, y);
   if (uzak) {
     try {
       const k = await uzak.getZxy(z, x, y);

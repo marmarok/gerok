@@ -20,7 +20,7 @@
 import * as depo from './depo.js';
 import * as veri from './veri.js';
 
-const KOK = 'https://raw.githubusercontent.com/marmarok/gerok/harita-v1/harita';
+const BOLGE_LISTESI = './bolgeler.json';
 const KARO_KLASOR = 'karo';
 const EN_FAZLA_KARO = 20000;      // Bunun üstü hem çok yavaş hem çok istek.
 const ORNEK_KARO = 20;            // Boyut tahmini için okunacak karo sayısı.
@@ -34,14 +34,15 @@ const ORNEK_KARO = 20;            // Boyut tahmini için okunacak karo sayısı.
  * aralığı iki parçaya taşabiliyor; o durumda ikisinden de istenip birleşiyor.
  */
 export class UzakKaynak {
-  constructor(parcalar) {
+  constructor(kok, parcalar) {
+    this.kok = kok;
     this.parcalar = parcalar;
     let t = 0;
     this.baslangiclar = parcalar.map(p => { const b = t; t += p.boyut; return b; });
     this.toplam = t;
   }
 
-  getKey() { return KOK; }
+  getKey() { return this.kok; }
 
   async getBytes(konum, uzunluk) {
     const son = Math.min(konum + uzunluk, this.toplam);
@@ -52,7 +53,7 @@ export class UzakKaynak {
       if (bit <= konum || bas >= son) continue;          // bu parça aralık dışı
       const a = Math.max(konum, bas) - bas;
       const b = Math.min(son, bit) - bas - 1;
-      const yanit = await fetch(`${KOK}/${this.parcalar[i].ad}`,
+      const yanit = await fetch(`${this.kok}/${this.parcalar[i].ad}`,
         { headers: { Range: `bytes=${a}-${b}` } });
       if (!yanit.ok) throw new Error(`aralık alınamadı (${yanit.status})`);
       dilimler.push(new Uint8Array(await yanit.arrayBuffer()));
@@ -66,22 +67,49 @@ export class UzakKaynak {
   }
 }
 
-let uzakPmt = null;
+const acikBolgeler = new Map();       // kisa -> PMTiles
 
-/** Uzaktaki haritayı açar. Ağ yoksa null döner — çağıran buna hazır olmalı. */
-export async function uzakHarita() {
-  if (uzakPmt) return uzakPmt;
+/**
+ * Yayınlanan bölgelerin listesi.
+ *
+ * Uygulamayla birlikte geliyor, yani çevrimdışı da okunabiliyor: "burası
+ * haritada var mı" sorusuna internet olmadan da cevap verilebilmeli.
+ */
+export async function bolgeler() {
+  const kayitli = await veri.ayarOku('haritaBolgeleri', null);
+  try {
+    const y = await fetch(BOLGE_LISTESI, { cache: 'no-cache' });
+    if (y.ok) {
+      const d = await y.json();
+      await veri.ayarYaz('haritaBolgeleri', d.bolgeler);
+      return d.bolgeler;
+    }
+  } catch { /* çevrimdışı: kayıtlıyla devam */ }
+  return kayitli || [];
+}
+
+const noktaIcinde = (b, lat, lon) =>
+  lon >= b.kutu.bati && lon <= b.kutu.dogu && lat >= b.kutu.guney && lat <= b.kutu.kuzey;
+
+/** Bu noktayı hangi bölge kapsıyor? Kapsamıyorsa null. */
+export async function bolgeBul(lat, lon) {
+  const hepsi = await bolgeler();
+  return hepsi.find(b => noktaIcinde(b, lat, lon)) || null;
+}
+
+/**
+ * Bir bölgenin uzaktaki dosyasını açar. Ağ yoksa null.
+ * Açılan bölgeler saklanıyor: her karo için başlık yeniden okunmasın.
+ */
+export async function uzakHarita(bolge = null) {
+  const b = bolge || (await bolgeler())[0];
+  if (!b) return null;
+  if (acikBolgeler.has(b.kisa)) return acikBolgeler.get(b.kisa);
   if (!navigator.onLine) return null;
   try {
-    let bilgi = await veri.ayarOku('haritaParcaListesi', null);
-    if (!bilgi) {
-      const y = await fetch(`${KOK}/parcalar.json`);
-      if (!y.ok) return null;
-      bilgi = await y.json();
-      await veri.ayarYaz('haritaParcaListesi', bilgi);
-    }
-    uzakPmt = new pmtiles.PMTiles(new UzakKaynak(bilgi.parcalar));
-    return uzakPmt;
+    const pmt = new pmtiles.PMTiles(new UzakKaynak(b.kok, b.parcalar));
+    acikBolgeler.set(b.kisa, pmt);
+    return pmt;
   } catch { return null; }
 }
 
@@ -113,6 +141,29 @@ export function karolar(kutu, enFazlaZ, enAzZ = 0) {
 
 const karoAdi = (z, x, y) => `${z}-${x}-${y}`;
 
+/** Bir karonun ortası — hangi bölgeye ait olduğunu bulmak için. */
+export function karoMerkezi(z, x, y) {
+  const n = 2 ** z;
+  const lon = (x + 0.5) / n * 360 - 180;
+  const m = Math.PI - 2 * Math.PI * (y + 0.5) / n;
+  const lat = 180 / Math.PI * Math.atan(0.5 * (Math.exp(m) - Math.exp(-m)));
+  return [lat, lon];
+}
+
+/**
+ * Bu karo hangi bölgeden okunacak?
+ *
+ * Alt yakınlıklarda (z0-5) bir karo bütün Avrupa'yı kaplıyor ve hiçbir
+ * bölge kutusunun içine tam düşmüyor. O yüzden merkez eşleşmezse ilk
+ * bölgeye düşüyoruz: uzaklaşınca boş ekran görmektense bir bölgenin
+ * genel görünümünü göstermek doğru.
+ */
+export async function karoKaynagi(z, x, y) {
+  const [lat, lon] = karoMerkezi(z, x, y);
+  const b = await bolgeBul(lat, lon);
+  return uzakHarita(b);
+}
+
 // ---- Tahmin ---------------------------------------------------------------
 
 /**
@@ -127,8 +178,7 @@ export async function alanTahmini(kutu, enFazlaZ) {
   if (hepsi.length > EN_FAZLA_KARO)
     return { karo: hepsi.length, cokBuyuk: true, sinir: EN_FAZLA_KARO };
 
-  const pmt = await uzakHarita();
-  if (!pmt) return { karo: hepsi.length, agYok: true };
+  if (!navigator.onLine) return { karo: hepsi.length, agYok: true };
 
   // Örnekler BÜTÜN listeye yayılıyor. Önce yalnızca en yakın seviyeden ve
   // baştan sırayla alıyordu; liste x'e göre sıralı olduğu için örnekler
@@ -143,7 +193,9 @@ export async function alanTahmini(kutu, enFazlaZ) {
     if (sira >= havuz.length) break;
     const k = havuz[sira];
     try {
-      const karo = await pmt.getZxy(k.z, k.x, k.y);
+      const kaynak = await karoKaynagi(k.z, k.x, k.y);
+      if (!kaynak) continue;
+      const karo = await kaynak.getZxy(k.z, k.x, k.y);
       okunan++;
       if (karo) { toplam += karo.data.byteLength; dolu++; }
     } catch { /* tek karo okunamadıysa örneklem yeter */ }
@@ -169,8 +221,8 @@ export async function alanTahmini(kutu, enFazlaZ) {
  * yalnızca eksik kalanlar iniyor.
  */
 export async function alanIndir(kutu, enFazlaZ, ilerleme) {
-  const pmt = await uzakHarita();
-  if (!pmt) throw new Error('İnternet yok — harita alanı internetliyken indirilir.');
+  if (!navigator.onLine)
+    throw new Error('İnternet yok — harita alanı internetliyken indirilir.');
 
   const hepsi = karolar(kutu, enFazlaZ);
   if (hepsi.length > EN_FAZLA_KARO)
@@ -184,7 +236,8 @@ export async function alanIndir(kutu, enFazlaZ, ilerleme) {
     const ad = karoAdi(k.z, k.x, k.y);
     if (mevcut.has(ad)) { atlanan++; ilerleme?.(i + 1, hepsi.length, bayt); continue; }
     try {
-      const karo = await pmt.getZxy(k.z, k.x, k.y);
+      const kaynak = await karoKaynagi(k.z, k.x, k.y);
+      const karo = kaynak ? await kaynak.getZxy(k.z, k.x, k.y) : null;
       // Boş karo da yazılıyor: yoksa her açılışta yeniden sorulur ve
       // çevrimdışıyken "eksik" sanılır. Sıfır baytlık dosya yer kaplamıyor.
       const veriKarosu = karo ? new Uint8Array(karo.data) : new Uint8Array();
@@ -228,26 +281,23 @@ export async function alanlariSil() {
 // ---- Kapsam dışı istekleri ------------------------------------------------
 
 /**
- * Yayınlanan harita hangi kutuyu kapsıyor? pmtiles başlığından okunuyor.
- * Kaydediliyor: çevrimdışıyken de "burası kapsam dışı" denebilsin.
+ * Seçilen kutunun tamamı yayınlanan bölgelerden biri tarafından kapsanıyor mu?
+ *
+ * Dört köşe de bakılıyor. Tek bir birleşik dikdörtgen kullanmıyoruz:
+ * Balkanlar ile İstanbul'u tek kutuya sokmak, aradaki Ege'yi de
+ * "kapsanıyor" saymak olurdu ve kişi boş harita indirirdi.
  */
-export async function kapsam() {
-  const kayitli = await veri.ayarOku('haritaKapsami', null);
-  if (kayitli) return kayitli;
-  const pmt = await uzakHarita();
-  if (!pmt) return null;
-  try {
-    const u = await pmt.getHeader();
-    const k = { bati: u.minLon, dogu: u.maxLon, guney: u.minLat, kuzey: u.maxLat };
-    await veri.ayarYaz('haritaKapsami', k);
-    return k;
-  } catch { return null; }
+export async function kapsamIcinde(kutu) {
+  const hepsi = await bolgeler();
+  if (!hepsi.length) return true;      // liste yoksa engelleme
+  const koseler = [
+    [kutu.guney, kutu.bati], [kutu.guney, kutu.dogu],
+    [kutu.kuzey, kutu.bati], [kutu.kuzey, kutu.dogu],
+  ];
+  return koseler.every(([lat, lon]) => hepsi.some(b => noktaIcinde(b, lat, lon)));
 }
 
-/** Seçilen kutu yayınlanan haritanın içinde mi? */
-export async function kapsamIcinde(kutu) {
-  const k = await kapsam();
-  if (!k) return true;                 // bilinmiyorsa engelleme
-  return kutu.bati >= k.bati && kutu.dogu <= k.dogu
-      && kutu.guney >= k.guney && kutu.kuzey <= k.kuzey;
+/** Bölge adları — "hangi yerler var" diye soran ekran için. */
+export async function bolgeAdlari() {
+  return (await bolgeler()).map(b => b.ad);
 }

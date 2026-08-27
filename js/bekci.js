@@ -519,7 +519,7 @@ export const ONARIMLAR = {
       return 'İndirme başlatıldı. Birkaç saniye sonra sınamayı tekrar çalıştır.';
     } },
   'yedek-al': { ad: 'Şimdi yedek al', async yap() { B.yedekAl(); return 'Yedek akışı açıldı.'; } },
-  'harita-indir': { ad: 'Harita paketini indir', async yap() { B.haritaIndir(); return 'Harita indirme açıldı.'; } },
+  'harita-indir': { ad: 'Harita alanı indir', async yap() { B.haritaIndir(); return 'Harita alanı seçme açıldı.'; } },
   'ad-koy': { ad: 'Telefonun adını koy', async yap() { B.adSor(); return 'Ad soruldu.'; } },
   'yer-ac': { ad: 'Yer açmanın yollarını göster', async yap() {
       return 'En büyük yer harita paketinde (yaklaşık 357 MB). Gerok → bu telefon → '
@@ -627,7 +627,7 @@ const KONULAR = [
          + 'Paket 357 MB ve internetsiz çalışabilmek için bir kez indiriliyor.<br><br>'
          + 'Gerok → bu telefon → <b>Harita paketi indir</b>. Ev wi-fi’sinde yap, '
          + 'yolda değil.',
-    eylem: { ad: 'Haritayı indir', yap: () => B.haritaIndir() } },
+    eylem: { ad: 'Harita alanı indir', yap: () => B.haritaIndir() } },
   { id: 'guncelleme', baslik: 'Nasıl güncellenir?',
     anahtar: ['güncelle', 'sürüm', 'yeni', 'versiyon', 'yenile'],
     cevap: 'Yeni sürüm çıkınca uygulama açılışta <b>soruyor</b>: ne kadar ineceğini '
