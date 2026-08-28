@@ -105,6 +105,39 @@ const KUR_ADRES = (tarih) =>
 const KUR_YEDEK = (tarih) =>
   `https://${tarih}.currency-api.pages.dev/v1/currencies/${KUR_TABAN}.json`;
 
+/**
+ * Yazılan para birimini ISO koduna çevirir.
+ *
+ * NEDEN GEREKLİ: harcama ekranındaki para birimi alanı SERBEST METİN —
+ * "MKD" yalnızca bir ipucu. İnsan doğal olarak "Euro" ve "TL" yazıyor,
+ * uygulama da harcama listesinde aynen öyle gösteriyor. Ama kur tablosunda
+ * kodlar "eur" ve "try". Yani uygulamanın kendi kabul ettiği yazımı kendi
+ * çeviricisi tanımıyordu: 25 harcamanın hiçbiri çevrilemiyor, üstüne
+ * "para birimi kodlarına bak" diyerek suçu kullanıcıya atıyordu.
+ *
+ * Belirsizler bilerek Balkan okumasıyla: "dinar" Sırbistan (RSD),
+ * "denar" Kuzey Makedonya (MKD). Tanımadığı bir şeyi UYDURMUYOR —
+ * çevrilemeyenlerin listesi kullanıcıya gösteriliyor.
+ */
+const PARA_TAKMA = {
+  eur: 'eur', euro: 'eur', avro: 'eur', '€': 'eur',
+  try: 'try', tl: 'try', 'tl.': 'try', '₺': 'try', lira: 'try',
+  'turk lirasi': 'try', 'türk lirası': 'try',
+  usd: 'usd', dolar: 'usd', dollar: 'usd', '$': 'usd',
+  mkd: 'mkd', denar: 'mkd', denari: 'mkd',
+  all: 'all', lek: 'all', leke: 'all', leku: 'all',
+  rsd: 'rsd', dinar: 'rsd', dinara: 'rsd',
+  bam: 'bam', km: 'bam', mark: 'bam', marka: 'bam',
+  bgn: 'bgn', lev: 'bgn', leva: 'bgn',
+  gbp: 'gbp', chf: 'chf', ron: 'ron', leu: 'ron',
+};
+
+export function paraKodu(ham) {
+  const t = String(ham || '').trim().toLowerCase()
+    .replace(/[.,]+$/, '');
+  return PARA_TAKMA[t] || (/^[a-z]{3}$/.test(t) ? t : null);
+}
+
 function tarihAnahtari(t) {
   const d = new Date(t);
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
@@ -147,18 +180,25 @@ export async function kurlariDuzelt(ilerleme = null) {
   }
 
   let i = 0;
+  // Atlananın SEBEBİ ayrı tutuluyor: "internet gitti" ile "bu kelimeyi
+  // tanımıyorum" bambaşka iki durum ve kullanıcıya farklı şey söylemeleri
+  // gerekiyor. Eskiden ikisi de tek bir "para birimi kodlarına bak"
+  // cümlesine çıkıyordu; ağ hatasında bu düpedüz yanlış yönlendirmeydi.
+  let agYok = 0;
+  const taninmayan = new Set();
+
   for (const [tarih, liste] of gunler) {
     ilerleme?.(++i, gunler.size);
     let tablo;
     try { tablo = await kurTablosu(tarih, onbellek); }
-    catch { atlanan += liste.length; continue; }
+    catch { agYok += liste.length; atlanan += liste.length; continue; }
 
     for (const k of liste) {
-      const kod = String(k.paraBirimi).trim().toLowerCase();
-      const oran = tablo[kod];
-      // Tanınmayan bir para birimi ("TL" yerine "lira" yazılmışsa) sessizce
-      // atlanıyor — uydurma bir kurla toplam vermek en kötüsü olurdu.
-      if (!oran) { atlanan++; continue; }
+      const kod = paraKodu(k.paraBirimi);
+      const oran = kod && tablo[kod];
+      // Tanınmayan bir para birimi sessizce atlanıyor — uydurma bir kurla
+      // toplam vermek en kötüsü olurdu — ama adı toplanıp söyleniyor.
+      if (!oran) { atlanan++; taninmayan.add(String(k.paraBirimi).trim()); continue; }
       const miktar = tutarSayi(k.tutar);
       if (!miktar) { atlanan++; continue; }
       await veri.kayitEkle({ ...k, euro: miktar / oran, kurTarihi: tarih, kurOrani: oran });
@@ -167,10 +207,15 @@ export async function kurlariDuzelt(ilerleme = null) {
   }
 
   await veri.ayarYaz('kurOnbellek', onbellek);
+  const kalanlar = [...taninmayan].slice(0, 4).join(', ');
   const mesaj = yapilan
     ? `${yapilan} harcamanın kuru düzeldi` +
-      (atlanan ? ` · ${atlanan} tanesi çevrilemedi` : '')
-    : 'Hiçbiri çevrilemedi — para birimi kodlarına bak (MKD, EUR, ALL gibi olmalı)';
+      (atlanan ? ` · ${atlanan} tanesi çevrilemedi${kalanlar ? ` (${kalanlar})` : ''}` : '')
+    : agYok === bekleyen.length
+      ? 'Kur listesi indirilemedi — internet yok ya da servise ulaşılamıyor. Sonra tekrar dene.'
+      : taninmayan.size
+        ? `Hiçbiri çevrilemedi — şu para birimlerini tanımadım: ${kalanlar}`
+        : 'Hiçbiri çevrilemedi — tutarlar okunamadı.';
   return { yapilan, atlanan, mesaj };
 }
 

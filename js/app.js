@@ -5,7 +5,7 @@
 // Neden önbelleğin adına bakmıyoruz: yeni sürüm indiğinde önbellek adı değişiyor
 // ama ekrandaki kod hâlâ eski oluyor — uygulama kendini güncellenmiş sanıyordu.
 // Bu satır ekrandaki dosyanın içinde olduğu için yalan söyleyemiyor.
-const BU_SURUM = 'gerok-117-20260828-003135';
+const BU_SURUM = 'gerok-118-20260828-135257';
 
 import * as veri from './veri.js';
 import * as iz from './iz.js';
@@ -4109,15 +4109,12 @@ async function paneliCiz() {
       (sinama.saglam ? 'okunabilir ✓' : 'eksik var')
     : 'sınanmadı';
 
-  // Arkadaşın adı ayrı bir ayar değil: gelen kayıtların sahibinden okunuyor.
-  // Paket alınmadan önce adı bilmenin yolu da yok zaten.
-  const arkadasAdi = durum.kayitlar.find(k =>
-    k.sahip && k.sahip !== sahip.id && k.sahipAd)?.sahipAd || '';
-  // Adı bilinmiyorsa "arkadaşına" diyor; "…'e" eki ancak gerçek bir ad varsa
-  // eklenebiliyor. ("Günü arkadaşına'e gönder" olmasın.)
-  const gonderEtiketi = arkadasAdi
-    ? `Günü ${kacis(arkadasAdi)}'e gönder`
-    : 'Günü arkadaşına gönder';
+  // Etiket bilerek KİŞİSİZ. Önceden gelen kayıtlardan arkadaşın adı okunup
+  // "Günü Berxik'e gönder" yazıyordu. İki sorunu vardı: uygulamayı kuran
+  // herkes bunu yanındaki kişiye gönderecek, o kişi de her gezide başkası
+  // olacak; ve ekranda duran bir isim, telefonu birine gösterdiğinde
+  // yanındakinin adını da göstermek demek.
+  const gonderEtiketi = 'Günü yol arkadaşına gönder';
 
   // Bağlantı kuyruğu: internet bulununca tamamlanacak işler.
   const ag = await baglanti.agVarMi();

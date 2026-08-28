@@ -131,10 +131,11 @@ function govde() {
 
 function dosyaGovde() {
   return `
-    <div class="ortu-alt">Bilgisayardan gelen gezi paketi (.gerok) ya da
-    programın düz metin hâli. Dosya yalnızca OKUNUYOR — bu adımda telefona
-    hiçbir şey yazılmıyor.</div>
-    <input type="file" id="shDosya" class="alan" accept=".gerok,.json,.txt,.md,text/plain">
+    <div class="ortu-alt">Tur programının <b>PDF</b>’i, bilgisayardan gelen
+    gezi paketi (.gerok) ya da düz metin. PDF ise yazısı kendiliğinden
+    okunuyor. Dosya yalnızca OKUNUYOR — bu adımda telefona hiçbir şey
+    yazılmıyor.</div>
+    <input type="file" id="shDosya" class="alan" accept=".gerok,.json,.txt,.md,.pdf,text/plain,application/pdf">
     ${d.dosyaAdi ? `<div class="sihirbaz-ozet">
       <div class="sihirbaz-satir"><span>Dosya</span><b>${kacis(d.dosyaAdi)}</b></div>
       <div class="sihirbaz-satir"><span>Tür</span><b>${d.duzMetin ? 'düz metin' : 'Gerok paketi'}</b></div>
@@ -316,6 +317,32 @@ async function dosyayiOku(dosya) {
   d.hata = '';
   d.paket = null;
   d.duzMetin = false;
+
+  // PDF ise önce metne çevriliyor, sonra aşağıdaki düz metin yoluna
+  // giriyor. Eskiden PDF'i kişinin kendisi açıp metni kopyalaması
+  // gerekiyordu; telefonda çoğu insan bunu yapmıyor ve program hiç
+  // yüklenmiyordu.
+  const pdf = await import('./pdf-metin.js');
+  if (await pdf.pdfMi(dosya)) {
+    try {
+      const satirlar = await pdf.pdfMetni(dosya);
+      if (!satirlar.length) {
+        d.hata = 'Bu PDF’in içinde yazı yok — sayfalar taranmış resim olabilir. ' +
+                 'Metni kopyalayıp düz metin olarak verebilirsin.';
+        return;
+      }
+      d.duzMetin = true;
+      d.metin = satirlar.join('\n');
+      d.satirlar = onsozuSustur(
+        satirlar.slice(0, 800).map(m => ({ metin: m, tur: tahmin(m) })));
+      metindenCikar();
+      return;
+    } catch (hata) {
+      d.hata = 'PDF okunamadı: ' + hata.message;
+      return;
+    }
+  }
+
   const metin = await dosya.text();
 
   try {
@@ -337,8 +364,8 @@ async function dosyayiOku(dosya) {
     if (/^\s*[[{]/.test(metin)) { d.hata = hata.message; return; }
     d.duzMetin = true;
     d.metin = metin;
-    d.satirlar = metin.split('\n').map(s => s.trim()).filter(Boolean)
-      .slice(0, 400).map(m => ({ metin: m, tur: tahmin(m) }));
+    d.satirlar = onsozuSustur(metin.split('\n').map(s => s.trim()).filter(Boolean)
+      .slice(0, 400).map(m => ({ metin: m, tur: tahmin(m) })));
     metindenCikar();
   }
 }
@@ -347,10 +374,54 @@ async function dosyayiOku(dosya) {
  * Satır ne olabilir? Sadece bir ilk tahmin — son sözü kullanıcı söylüyor.
  * "1. gün", "Gün 3", "3. GÜN" gibi satırlar gün başlığı sayılıyor.
  */
-function tahmin(m) {
-  if (/^(gün\s*\d+|\d+\.\s*gün)/i.test(m)) return 'gun';
+const GUN_BASLIGI = /^\s*(\d+\s*[.:)\-]?\s*gün|gün\s*[.:]?\s*\d+)/i;
+
+export function tahmin(m) {
+  // Kalıp genişletildi. Eskiden yalnızca "Gün 1" ve "1. gün" tanınıyordu;
+  // elimizdeki gerçek tur programı "1 Gün: İzmir'e Ulaşım" diye yazıyor ve
+  // noktasız olduğu için HİÇBİR gün başlığı bulunamıyordu — program
+  // yükleniyor ama içi boş çıkıyordu. Ölçtük: eski kalıp 0, yenisi 7 buldu.
+  if (GUN_BASLIGI.test(m)) return 'gun';
   if (m.length < 60 && !/[.!?]$/.test(m)) return 'durak';
   return 'not';
+}
+
+/**
+ * Gün başlığının içindeki durakları çıkarır.
+ *
+ * Tur programları günü şöyle yazıyor:
+ *   "3 Gün: Dalyan - Sultaniye Kaplıcaları - Çamur Banyosu - İztuzu Plajı"
+ * Yani o günün durakları başlığın İÇİNDE, tire ile ayrılmış duruyor.
+ * Bunu ayıklamazsak kişi 258 satırı tek tek işaretlemek zorunda kalıyor —
+ * yani iş ona kalıyor ki bütün mesele bunu ortadan kaldırmaktı.
+ *
+ * Ayıklanan parçalar makul uzunlukta olmalı: cümleye benzeyen bir şey
+ * durak adı değildir.
+ */
+export function baslikDuraklari(baslik) {
+  const iki = baslik.split(/:/);
+  if (iki.length < 2) return [];
+  return iki.slice(1).join(':').split(/\s+[-–—]\s+/)
+    .map(x => x.replace(/\s+/g, ' ').trim())
+    .filter(x => x.length >= 3 && x.length <= 60 && !/[.!?]$/.test(x));
+}
+
+/**
+ * İlk gün başlığından ÖNCEKİ satırları görmezden gelir.
+ *
+ * Tur programının başı kapak ve pazarlama: "X Çıkışlı 6 Gece 7 Gün Uçaklı
+ * Tur" gibi on-onbeş satır. Hepsi kısa ve noktasız
+ * olduğu için durak tahmin ediliyor, hepsi işaretli geliyordu ve kişi
+ * bunları tek tek çıkarmak zorunda kalıyordu — yani iş yine ona kalıyordu.
+ *
+ * Programın kendisi ilk "N Gün:" satırıyla başlıyor. Öncesi program değil.
+ * Kişi yine de isterse dokunup geri açabiliyor; burada yapılan yalnızca
+ * varsayılanı doğru yere koymak.
+ */
+export function onsozuSustur(satirlar) {
+  const ilkGun = satirlar.findIndex(s => s.tur === 'gun');
+  if (ilkGun <= 0) return satirlar;
+  return satirlar.map((s, i) => i < ilkGun ? { ...s, tur: 'bos' } : s);
 }
 
 /** İşaretlenen satırlardan gün/durak/not listelerini kurar. */
@@ -366,6 +437,11 @@ function metindenCikar() {
       gunNo = d.gunler.length + 1;
       d.gunler.push({ no: gunNo, baslik: s.metin });
       sonDurak = -1;
+      // Başlığın içindeki duraklar da alınıyor (bkz. baslikDuraklari).
+      for (const ad of baslikDuraklari(s.metin)) {
+        sonDurak = d.duraklar.length;
+        d.duraklar.push({ id: `s${sonDurak}`, ad, gun: gunNo, unutma: [] });
+      }
     } else if (s.tur === 'durak') {
       sonDurak = d.duraklar.length;
       d.duraklar.push({ id: `s${sonDurak}`, ad: s.metin, gun: gunNo, unutma: [] });

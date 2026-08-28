@@ -2,6 +2,24 @@
  "aciklama": "Her güncellemede ne eklendi, ne düzeldi, ne çıktı. En yeni en üstte. Bu dosya güncelleme kartında okunuyor; boş bırakılamaz, yayınlama betiği kontrol ediyor.",
  "surumler": [
   {
+   "sayi": 118,
+   "eklendi": [
+    "Tur programının PDF’i doğrudan yüklenebiliyor. Gezi → program dosyası yükle’de artık PDF de kabul ediliyor; yazısı kendiliğinden okunup günlere ve duraklara ayrılıyor. Önceden PDF’i açıp metni elle kopyalaman gerekiyordu.",
+    "Program yüklenirken günün başlığındaki duraklar da ayıklanıyor: “3 Gün: Dalyan - Sultaniye Kaplıcaları - İztuzu Plajı” satırından üç durak birden çıkıyor.",
+    "Harcamalarda “Euro”, “TL”, “lira”, “denar”, “dinar”, “KM” gibi normal yazımlar da tanınıyor. Kur düzeltme bunları artık çevirebiliyor."
+   ],
+   "duzeldi": [
+    "Kurları düzelt hiçbir şeyi çeviremiyordu. Sebebi: para birimi alanına “Euro” ve “TL” yazılıyor ama çevirici yalnızca “EUR”/“TRY” kodunu tanıyordu. Üstelik hata mesajı suçu sana atıyordu.",
+    "Kur listesi indirilemediğinde artık “internet yok” diyor; eskiden bu durumda da “para birimi kodlarına bak” yazıyordu ki yanlış yönlendirmeydi.",
+    "Gerok sekmesindeki bildirim sayısı günlerce aynı kalıyordu. Bekçinin sorduğu iki soru, konusu kendiliğinden çözüldüğünde geri çekilmiyordu; artık çekiliyor.",
+    "Program yüklerken gün başlıkları bulunamıyordu: “1 Gün:” biçimi tanınmıyordu, program yükleniyor ama içi boş çıkıyordu.",
+    "Programın kapak ve reklam satırları durak sanılıp işaretli geliyordu; artık ilk günden öncesi görmezden geliniyor."
+   ],
+   "cikti": [
+    "Eşitlemedeki “Günü … gönder” satırı artık kişi adı yazmıyor: “Günü yol arkadaşına gönder”. Herkes bunu yanındakine gönderiyor ve ekranda başkasının adı durmasın."
+   ]
+  },
+  {
    "sayi": 117,
    "eklendi": [
     "İlk açılışta kısa bir tanıtım turu var. Beş-altı adımda gerçek düğmelerin üstünü işaret ederek anlatıyor: sesli not, ortam sesi, haritayı yola çıkmadan indirmek, Yol Modu ve Gün Sonu. Gerok panelinden istediğin zaman baştan izlenebiliyor.",
