@@ -1,49 +1,94 @@
 {
  "bicim": 1,
- "zaman": "2026-08-29T01:29:30+03:00",
- "kadans": "saatlik",
- "durum": "iyi",
+ "zaman": "2026-08-29T01:35:22+03:00",
+ "kadans": "gunluk",
+ "durum": "bilinen",
  "sayilar": {
-  "kontrol": 5,
-  "sinama": 35,
-  "gecen": 5,
-  "bilinen": 0,
+  "kontrol": 104,
+  "sinama": 1707,
+  "gecen": 103,
+  "bilinen": 1,
   "sorun": 0,
-  "sure": 1.9,
-  "kosu": 120
+  "sure": 115.0,
+  "kosu": 121
  },
  "sorunlar": [],
- "bilinenler": [],
+ "bilinenler": [
+  {
+   "ad": "Math.min(...dizi) yığın taşması",
+   "not": "app.js:763; app.js:4962; gerok.js:447; sihirbaz.js:469; sihirbaz.js:470; sihirbaz.js:471 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
+  }
+ ],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 3,
-   "toplam": 3,
-   "sinama": 6
+   "gecen": 15,
+   "toplam": 15,
+   "sinama": 131
   },
   "bekci": {
+   "gecen": 9,
+   "toplam": 9,
+   "sinama": 81
+  },
+  "yedek": {
    "gecen": 1,
    "toplam": 1,
-   "sinama": 8
+   "sinama": 2
   },
   "koprü": {
    "gecen": 1,
    "toplam": 1,
-   "sinama": 21
+   "sinama": 23
+  },
+  "kod": {
+   "gecen": 10,
+   "toplam": 10,
+   "sinama": 516
+  },
+  "veri": {
+   "gecen": 2,
+   "toplam": 2,
+   "sinama": 9
+  },
+  "gizlilik": {
+   "gecen": 6,
+   "toplam": 6,
+   "sinama": 65
+  },
+  "bilgi": {
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 416
+  },
+  "sartname": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 410
+  },
+  "depolama": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 1
+  },
+  "davranis": {
+   "gecen": 53,
+   "toplam": 53,
+   "sinama": 53
   }
  },
  "derin": {
-  "kadans": "haftalik",
-  "zaman": "2026-08-27T16:38:08+03:00",
-  "kontrol": 103,
-  "sinama": 1685,
-  "gecen": 101,
+  "kadans": "gunluk",
+  "zaman": "2026-08-29T01:35:22+03:00",
+  "kontrol": 104,
+  "sinama": 1707,
+  "gecen": 103,
   "sorun": 0,
   "gruplar": {
    "yayin": {
     "gecen": 15,
     "toplam": 15,
-    "sinama": 120
+    "sinama": 131
    },
    "bekci": {
     "gecen": 9,
@@ -58,12 +103,12 @@
    "koprü": {
     "gecen": 1,
     "toplam": 1,
-    "sinama": 20
+    "sinama": 23
    },
    "kod": {
     "gecen": 10,
     "toplam": 10,
-    "sinama": 504
+    "sinama": 516
    },
    "veri": {
     "gecen": 2,
@@ -83,33 +128,21 @@
    "sartname": {
     "gecen": 1,
     "toplam": 1,
-    "sinama": 409
+    "sinama": 410
    },
    "depolama": {
-    "gecen": 4,
-    "toplam": 4,
-    "sinama": 4
-   },
-   "kaynak": {
-    "gecen": 5,
-    "toplam": 5,
-    "sinama": 11
+    "gecen": 1,
+    "toplam": 1,
+    "sinama": 1
    },
    "davranis": {
-    "gecen": 44,
-    "toplam": 44,
-    "sinama": 44
+    "gecen": 53,
+    "toplam": 53,
+    "sinama": 53
    }
   }
  },
  "mesajlar": [
-  {
-   "id": "e1ba20768e40",
-   "t": 1787653781191,
-   "onem": "iyi",
-   "baslik": "Söylediğim sorunlar kapandı",
-   "govde": "Hepsi geçti. 33/34 kontrol · 1035 ayrı sınama."
-  },
   {
    "id": "535e42487b82",
    "t": 1787653795200,
@@ -277,28 +310,16 @@
    "onem": "iyi",
    "baslik": "Söylediğim sorunlar kapandı",
    "govde": "Hepsi geçti. 101/103 kontrol · 1685 ayrı sınama."
-  }
- ],
- "bekleyen": [
-  {
-   "id": "07aefe2c63ed",
-   "soru": "“telefon_yedegi” kontrolü takılıyor ve kendim onaramadım. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu? (Ayrıntısı panoda duruyor.)",
-   "secenekler": [
-    "Bu bilinen bir durum",
-    "Gerçekten bozuk, bak",
-    "Yanlış alarm"
-   ]
   },
   {
-   "id": "d868c0613b0f",
-   "soru": "“Tarayıcı sınamaları” kontrolü takılıyor ve kendim onaramadım. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu? (Ayrıntısı panoda duruyor.)",
-   "secenekler": [
-    "Bu bilinen bir durum",
-    "Gerçekten bozuk, bak",
-    "Yanlış alarm"
-   ]
+   "id": "c5f7087c8303",
+   "t": 1787956522563,
+   "onem": "iyi",
+   "baslik": "Bekleyen sorular düştü",
+   "govde": "Sorduğum şeyler kendiliğinden çözülmüş; artık kırmızı kontrol yok. 2 soru kapandı, cevaplaman gereken bir şey kalmadı."
   }
  ],
+ "bekleyen": [],
  "telefonSinamasi": [
   "Sesli not bırak ve ÇAL — sesi duyuyor musun?",
   "Galeriden 3 fotoğraf ekle — çubuk akıyor mu, özet çıkıyor mu?",
@@ -308,12 +329,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-08-25T16:54:49+03:00",
-   "k": "gunluk",
-   "g": 85,
-   "n": 87
-  },
   {
    "t": "2026-08-26T13:47:55+03:00",
    "k": "saatlik",
@@ -547,6 +562,12 @@
    "k": "saatlik",
    "g": 5,
    "n": 5
+  },
+  {
+   "t": "2026-08-29T01:35:22+03:00",
+   "k": "gunluk",
+   "g": 103,
+   "n": 104
   }
  ]
 }
