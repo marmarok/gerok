@@ -1,229 +1,241 @@
 {
- "aciklama": "Her güncellemede ne eklendi, ne düzeldi, ne çıktı. En yeni en üstte. Bu dosya güncelleme kartında okunuyor; boş bırakılamaz, yayınlama betiği kontrol ediyor.",
- "surumler": [
-  {
-   "sayi": 119,
-   "eklendi": [
-    "Kürtçe (Kurmancî) dil desteği. Gerok → bu telefon → Dil'den geçiliyor; seçim telefonda kalıyor ve uygulama Kürtçe açılıyor. Arayüzün tamamı — düğmeler, uyarılar, Gün Sonu ve Gezi Sonu akışları, tanıtım turu, gezi bilgisi kartları — çevrildi.",
-    "Kürtçedeyken tarihler Kurmancî yazılıyor: “29ê tebaxa 2026an”, “Şemî”. Ay ve gün adları uygulamanın kendi listesinden geliyor — telefonun Kürtçe bilmesi gerekmiyor.",
-    "Gezi bilgisi kartlarına Kürtçe sorular da soruluyor: “çi tê xwarin”, “dîrok”, “çi tê dîtin” gibi.",
-    "Sınır geçişi Kürtçedeyken Kürtçe yazılıyor: “Em ketin Kosovayê”. Ülke adları da Kürtçe."
-   ],
-   "duzeldi": [
-    "Aramada Kürtçenin ê harfi boşluğa dönüyordu — “Nîsêbîn” yazan hiçbir şey bulamıyordu. Hem yer aramada hem gezi bilgisinde düzeldi.",
-    "Bir çeviri eksik kalırsa ekranda boşluk değil Türkçesi görünüyor; uygulama hiçbir durumda yarım yazıyla açılmıyor."
-   ],
-   "cikti": []
-  },
-  {
-   "sayi": 118,
-   "eklendi": [
-    "Tur programının PDF’i doğrudan yüklenebiliyor. Gezi → program dosyası yükle’de artık PDF de kabul ediliyor; yazısı kendiliğinden okunup günlere ve duraklara ayrılıyor. Önceden PDF’i açıp metni elle kopyalaman gerekiyordu.",
-    "Program yüklenirken günün başlığındaki duraklar da ayıklanıyor: “3 Gün: Dalyan - Sultaniye Kaplıcaları - İztuzu Plajı” satırından üç durak birden çıkıyor.",
-    "Harcamalarda “Euro”, “TL”, “lira”, “denar”, “dinar”, “KM” gibi normal yazımlar da tanınıyor. Kur düzeltme bunları artık çevirebiliyor."
-   ],
-   "duzeldi": [
-    "Kurları düzelt hiçbir şeyi çeviremiyordu. Sebebi: para birimi alanına “Euro” ve “TL” yazılıyor ama çevirici yalnızca “EUR”/“TRY” kodunu tanıyordu. Üstelik hata mesajı suçu sana atıyordu.",
-    "Kur listesi indirilemediğinde artık “internet yok” diyor; eskiden bu durumda da “para birimi kodlarına bak” yazıyordu ki yanlış yönlendirmeydi.",
-    "Gerok sekmesindeki bildirim sayısı günlerce aynı kalıyordu. Bekçinin sorduğu iki soru, konusu kendiliğinden çözüldüğünde geri çekilmiyordu; artık çekiliyor.",
-    "Program yüklerken gün başlıkları bulunamıyordu: “1 Gün:” biçimi tanınmıyordu, program yükleniyor ama içi boş çıkıyordu.",
-    "Programın kapak ve reklam satırları durak sanılıp işaretli geliyordu; artık ilk günden öncesi görmezden geliniyor."
-   ],
-   "cikti": [
-    "Eşitlemedeki “Günü … gönder” satırı artık kişi adı yazmıyor: “Günü yol arkadaşına gönder”. Herkes bunu yanındakine gönderiyor ve ekranda başkasının adı durmasın."
-   ]
-  },
-  {
-   "sayi": 117,
-   "eklendi": [
-    "İlk açılışta kısa bir tanıtım turu var. Beş-altı adımda gerçek düğmelerin üstünü işaret ederek anlatıyor: sesli not, ortam sesi, haritayı yola çıkmadan indirmek, Yol Modu ve Gün Sonu. Gerok panelinden istediğin zaman baştan izlenebiliyor.",
-    "“Gerok’u yapana yaz” diye bir kutu eklendi. Bir şey çalışmıyorsa ya da bir fikrin varsa doğrudan yazıyorsun; telefon numarası bilmeye gerek yok. Adını yazmak isteğe bağlı.",
-    "İnternet yokken yazılan mesaj kaybolmuyor: kuyrukta bekliyor, bağlanınca kendiliğinden gidiyor. Gönderdiklerinin kopyası telefonda duruyor."
-   ],
-   "duzeldi": [
-    "“Sorun bildir” artık gerçekten gönderiyor. Eskiden bir dosya üretip “bunu Gerok’u yapana ilet” diyordu; kimse o dosyayla uğraşmıyordu, yani hiçbir arıza bildirimi ulaşmıyordu.",
-    "Mesaj gönderirken yazılan ad ve açıklama kayboluyordu: pencere kapandıktan sonra okunduğu için boş gidiyordu, ekranda ise “gönderildi” yazıyordu. Sessiz bir veri kaybıydı, düzeltildi.",
-    "Tanıtım turu ilk açılışta “Adın ne?” ekranının üstüne biniyordu; artık sırayla çıkıyor."
-   ],
-   "cikti": []
-  },
-  {
-   "sayi": 116,
-   "eklendi": [
-    "Harita artık DÜNYANIN HER YERİNDE indiriliyor. Önceden yalnızca önceden hazırlanmış bölgeler inebiliyordu; başka bir yere giden kişi “bu bölgeyi iste” deyip beklemek zorundaydı. O bekleme tamamen kalktı.",
-    "Alan indirme çubuğunda artık ne kadar süreceği de yazıyor, ve indirirken yüzde görünüyor."
-   ],
-   "duzeldi": [
-    "İndirme 11 kat hızlandı. Bir şehir merkezi (6,4 MB) 10 saniyede iniyor; eskiden aynı iş dakikalar sürüyordu. Sebebi ağ değil, tarayıcının aynı dosyaya giden istekleri kendi içinde sıraya sokmasıydı.",
-    "Takılan bir istek artık bütün indirmeyi dondurmuyor: 20 saniyede kesiliyor, bir kez daha deneniyor.",
-    "Uygulama harita listesini her karo için yeniden indiriyordu; artık bir kez okuyor."
-   ],
-   "cikti": [
-    "“Bu bölgeyi iste” penceresi ve gönderilen istek dosyası. Artık gereği yok."
-   ]
-  },
-  {
-   "sayi": 115,
-   "eklendi": [],
-   "duzeldi": [
-    "ÖNEMLİ: Gündüz/Gece/Uydu arasında geçiş yapınca harita bomboş kalıyordu. Tam harita indirme kaldırılınca ortaya çıkan bir hataydı; yalnızca eski tam haritası OLMAYAN telefonlarda görülüyordu, yani yeni kuranlarda.",
-    "Uydu kipi artık hiçbir harita indirilmemiş olsa da çalışıyor — uydu görüntüsü zaten ayrı bir yerden geliyor, vektör haritaya bağlı değil."
-   ],
-   "cikti": []
-  },
-  {
-   "sayi": 114,
-   "eklendi": [
-    "“Harita alanı indir” satırı artık önce inen alanların listesini açıyor: hangi alan, ne kadar yer, ne zaman inmiş.",
-    "Her alanın yanında Sil düğmesi var. Üst üste binen alanlar birbirini bozmuyor — birini silmek diğerinin karolarına dokunmuyor.",
-    "Birden fazla alan varsa “Hepsini sil” çıkıyor."
-   ],
-   "duzeldi": [
-    "Kapsam dışı bir yere bakarken düğme “Bu alanı indir” diyordu ve basınca istek ekranı çıkıyordu. Artık düğme basmadan önce “Bu bölgeyi iste” yazıyor."
-   ],
-   "cikti": []
-  },
-  {
-   "sayi": 113,
-   "eklendi": [
-    "Gerok sekmesinde “Eski tam harita” satırı: telefonunda duran 375 MB’lık eski harita artık gereksiz, tek dokunuşla silip yer açabiliyorsun.",
-    "Her harita bölgesi ayrı bir dosya oldu. Yeni bir bölge eklemek mevcutlara dokunmuyor ve kimseye yeniden indirtmiyor."
-   ],
-   "duzeldi": [
-    "Kurulum sayfası hâlâ “357 MB haritayı evde indir” diyordu — artık alan seçmeyi anlatıyor."
-   ],
-   "cikti": [
-    "“Harita paketi indir” kaldırıldı. Uygulama artık hiçbir zaman haritanın tamamını indirmiyor; yalnızca senin seçtiğin alanlar iniyor."
-   ]
-  },
-  {
-   "sayi": 112,
-   "eklendi": [
-    "Harita artık internet varken HİÇ İNDİRMEDEN çalışıyor. Uzaktaki dosyadan yalnızca ekranda görünen parça okunuyor.",
-    "Gerok sekmesine “Harita alanı indir” eklendi. Haritada gideceğin yeri ekrana getir, “Bu alanı indir” de — yalnızca o alan iniyor.",
-    "İndirmeden önce ne kadar yer kaplayacağı yazıyor. Üsküp merkezi için ≈4 MB; eskiden tek seçenek 375 MB’ın tamamıydı.",
-    "“Sokak” ve “Yol” ayrıntısı: uzun bir güzergâh için sokak adları gerekmiyorsa alan çok daha küçük iniyor.",
-    "Zaten inmiş karolar tekrar inmiyor; alanı büyütmek baştan indirmek değil.",
-    "Haritanın kapsamadığı bir yere bakarsan uygulama bunu söylüyor ve o bölgeyi isteyebiliyorsun. İstekte yalnızca dört koordinat var."
-   ],
-   "duzeldi": [
-    "Harita ekranı, 375 MB inmeden bomboş bir ekrandı. Artık internet varken doluyor."
-   ],
-   "cikti": []
-  },
-  {
-   "sayi": 111,
-   "eklendi": [
-    "Gerok sekmesine “Kullanım sayıları” eklendi. Haftada bir kez birkaç sayı gidiyor: kaç kez açıldı, kaç kayıt var, hata çıktı mı, hangi sürüm, hangi telefon.",
-    "Satıra dokununca giden şeyin tamamı görünüyor ve tek dokunuşla kapatılabiliyor.",
-    "Telefonları ayırt etmek için kısa bir işaret gidiyor. Cihaz kimliğinin kendisi değil, geri çevrilemez özeti — gelen sayılarla kimsenin defteri eşleştirilemiyor.",
-    "Notlar, sesler, fotoğraflar, konum ve isim bu yoldan gitmiyor. Hata yazıları da gitmiyor; onlar yalnızca sen “Sorun bildir” deyip okuduğunda gidiyor."
-   ],
-   "duzeldi": [],
-   "cikti": []
-  },
-  {
-   "sayi": 110,
-   "eklendi": [
-    "Kara kutu: uygulama artık kendi hatalarını telefonda kaydediyor. Bugüne kadar bir şey kırıldığında o bilgi hiçbir yerde durmuyordu.",
-    "Gerok sekmesine “Sorun bildir” eklendi. Gönderilecek şeyin tamamı önce ekranda gösteriliyor; okuyup gönderiyorsun.",
-    "Bir hata olduysa uygulama ertesi gün bir kez kendisi soruyor — günde birden fazla sormuyor.",
-    "Raporda notların, seslerin ve fotoğrafların yok. Ama bir hata mesajı o an elindeki bir yazıyı alıntılamış olabilir; ekran bunu açıkça söylüyor ve göndermeden önce okumanı istiyor."
-   ],
-   "duzeldi": [],
-   "cikti": []
-  },
-  {
-   "sayi": 109,
-   "eklendi": [
-    "Gerok sekmesinde “Sürüm ve yardım” altına “Uygulamayı paylaş” eklendi. Arkadaşına uygulamanın bağlantısını gönderiyor; mesajın içinde “Safari’de aç, Ana Ekrana Ekle de” yazıyor — başka tarayıcıda kurulmuyor.",
-    "Paylaşılan şey yalnızca uygulamanın genel adresi. Gezi, kayıtlar, duraklar ve isimler bu bağlantıda yok; telefondan hiçbir şey çıkmıyor."
-   ],
-   "duzeldi": [],
-   "cikti": []
-  },
-  {
-   "sayi": 108,
-   "eklendi": [],
-   "duzeldi": [
-    "\"Yedeği sına\" 184'e kadar sayıp zaman çizgisine düşüyordu: telefonun belleği yetmiyordu. Artık dosyaları tek tek okuyor, sonucu yazıyor.",
-    "\"Yedeği sına\" satırı 17 Ağustos'ta donmuştu — her deneme sonuç yazılmadan çöktüğü için. Artık her denemede tazeleniyor.",
-    "Yedeği geri yükleme de aynı yüzden çöküyordu. Bu en ağırıydı: yedeğin var ama geri yükleyemiyordun. Artık 355 MB'lık yedek parça parça yükleniyor.",
-    "Arkadaş paketi alma ve yedek doğrulama da aynı şekilde parça parça okuyor.",
-    "Yarım kalmış bir yedek dosyası artık tanınıyor ve söyleniyor."
-   ],
-   "cikti": []
-  },
-  {
-   "sayi": 107,
-   "eklendi": [
-    "Her yedekten sonra doğrulama: dosyayı geri seçiyorsun, uygulama açıp sayıyor ve telefondakiyle karşılaştırıyor.",
-    "Gerok panelinde yedek satırı artık \"doğrulandı\" mı yoksa \"DOĞRULANMADI\" mı olduğunu yazıyor.",
-    "Mac'teki bekçi iCloud'daki yedeklerine bakıyor: yoksa, çok küçükse ya da 14 günden eskiyse haber veriyor."
-   ],
-   "duzeldi": [
-    "Yedek doğrulaması silinmiş kayıtları da sayıyordu; bir kez kayıt silmiş olsan her yedekte \"yedeğin eski\" derdi."
-   ],
-   "cikti": []
-  },
-  {
-   "sayi": 106,
-   "eklendi": [
-    "Yedek hatırlatıcısı artık Gün Sonu'ndan bağımsız: son yedekten sonra yeni kayıt varsa günde bir kez soruyor.",
-    "Gün Sonu'nun ilk adımında güvence yazıyor: hiçbir adım kayıt silmez, günü kapatmaz, istediğin yerde çıkabilirsin."
-   ],
-   "duzeldi": [
-    "\"Günü kapat\" ve \"Gün kapandı\" yazıları kaldırıldı — hiçbir şeyi kapatmadığı hâlde kapatıyormuş gibi okunuyordu.",
-    "Fotoğraf adımı \"Bugünü topla\" yerine \"Bugünden fotoğraf ekle\": seçilmeyenlerin galeride kaldığı açıkça yazıyor."
-   ],
-   "cikti": []
-  },
-  {
-   "sayi": 105,
-   "eklendi": [
-    "Güncelleme kartı artık ne eklendiğini, ne düzeldiğini ve ne çıkarıldığını yazıyor.",
-    "Gerok sekmesine \"Neler değişti\" eklendi — kartı kaçırsan da sonradan okuyabilirsin."
-   ],
-   "duzeldi": [],
-   "cikti": []
-  },
-  {
-   "sayi": 104,
-   "eklendi": [
-    "Son turu arşivlemeden önce uyarı: ekranların boşalacağı ve kayıtların duracağı önceden söyleniyor."
-   ],
-   "duzeldi": [
-    "Gezi arşivlenince zaman çizgisi \"Henüz bir gerok yüklenmedi\" diyordu; artık \"gezin arşivde, N kayıt duruyor\" yazıyor ve \"Geziye geri dön\" düğmesi çıkıyor."
-   ],
-   "cikti": []
-  },
-  {
-   "sayi": 103,
-   "eklendi": [
-    "Bekçi artık rehberinin hangi bölgeyi anlattığını biliyor."
-   ],
-   "duzeldi": [
-    "Ev, işyeri ve Türkiye içindeki duraklar \"bilmiyorum\" diye sayılmıyor — eksik değil, kapsam dışı."
-   ],
-   "cikti": []
-  },
-  {
-   "sayi": 102,
-   "eklendi": [
-    "Duraklar ekranı, ekleme anını kaçırmış duraklar için bir kez bilgi soruyor.",
-    "Bekçi durak listesinde bilmediklerini de sayıyor."
-   ],
-   "duzeldi": [],
-   "cikti": []
-  },
-  {
-   "sayi": 101,
-   "eklendi": [],
-   "duzeldi": [
-    "Durak eklerken bildirim çıkmıyor, liste tazelenmiyor ve bekçi soru sormuyordu — eski bir hata sessizce patlıyordu.",
-    "\"Gittik / Kaçırdık\" düğmeleri de aynı hata yüzünden bildirim vermiyordu."
-   ],
-   "cikti": []
-  }
- ]
+  "aciklama": "Her güncellemede ne eklendi, ne düzeldi, ne çıktı. En yeni en üstte. Bu dosya güncelleme kartında okunuyor; boş bırakılamaz, yayınlama betiği kontrol ediyor.",
+  "surumler": [
+    {
+      "sayi": 120,
+      "eklendi": [],
+      "duzeldi": [
+        "Kürtçe sözlük ana dili konuşan biri tarafından baştan sona okundu ve dokuz söz düzeltildi. En çok geçenler: “kayıt/kaydet” artık qeyd / Qeyd bike (tomar değil), “gezi” rêwîtî (geşt değil), “çevrimdışı” negirêdayî (bêînternet değil). Düğmelerde “Vazgeç” Dev jê berde, “Devam” Pêş de oldu.",
+        "Yer türlerinin Kürtçesi düzeldi: manastır manastîr, anıt bîrdarî, iskele keştîgeh, kale kela.",
+        "Kurmancî yazım hatası giderildi: î ile biten sözcük y’li ek alınca î kısalır — “rêwîtiya”, “rêwîtiyê” doğru yazımı kullanılıyor."
+      ],
+      "cikti": [
+        "Dil düğmesinin adı artık “Kurdî” — önceki “Kurmancî” yazısı kalktı."
+      ]
+    },
+    {
+      "sayi": 119,
+      "eklendi": [
+        "Kürtçe (Kurmancî) dil desteği. Gerok → bu telefon → Dil'den geçiliyor; seçim telefonda kalıyor ve uygulama Kürtçe açılıyor. Arayüzün tamamı — düğmeler, uyarılar, Gün Sonu ve Gezi Sonu akışları, tanıtım turu, gezi bilgisi kartları — çevrildi.",
+        "Kürtçedeyken tarihler Kurmancî yazılıyor: “29ê tebaxa 2026an”, “Şemî”. Ay ve gün adları uygulamanın kendi listesinden geliyor — telefonun Kürtçe bilmesi gerekmiyor.",
+        "Gezi bilgisi kartlarına Kürtçe sorular da soruluyor: “çi tê xwarin”, “dîrok”, “çi tê dîtin” gibi.",
+        "Sınır geçişi Kürtçedeyken Kürtçe yazılıyor: “Em ketin Kosovayê”. Ülke adları da Kürtçe."
+      ],
+      "duzeldi": [
+        "Aramada Kürtçenin ê harfi boşluğa dönüyordu — “Nîsêbîn” yazan hiçbir şey bulamıyordu. Hem yer aramada hem gezi bilgisinde düzeldi.",
+        "Bir çeviri eksik kalırsa ekranda boşluk değil Türkçesi görünüyor; uygulama hiçbir durumda yarım yazıyla açılmıyor."
+      ],
+      "cikti": []
+    },
+    {
+      "sayi": 118,
+      "eklendi": [
+        "Tur programının PDF’i doğrudan yüklenebiliyor. Gezi → program dosyası yükle’de artık PDF de kabul ediliyor; yazısı kendiliğinden okunup günlere ve duraklara ayrılıyor. Önceden PDF’i açıp metni elle kopyalaman gerekiyordu.",
+        "Program yüklenirken günün başlığındaki duraklar da ayıklanıyor: “3 Gün: Dalyan - Sultaniye Kaplıcaları - İztuzu Plajı” satırından üç durak birden çıkıyor.",
+        "Harcamalarda “Euro”, “TL”, “lira”, “denar”, “dinar”, “KM” gibi normal yazımlar da tanınıyor. Kur düzeltme bunları artık çevirebiliyor."
+      ],
+      "duzeldi": [
+        "Kurları düzelt hiçbir şeyi çeviremiyordu. Sebebi: para birimi alanına “Euro” ve “TL” yazılıyor ama çevirici yalnızca “EUR”/“TRY” kodunu tanıyordu. Üstelik hata mesajı suçu sana atıyordu.",
+        "Kur listesi indirilemediğinde artık “internet yok” diyor; eskiden bu durumda da “para birimi kodlarına bak” yazıyordu ki yanlış yönlendirmeydi.",
+        "Gerok sekmesindeki bildirim sayısı günlerce aynı kalıyordu. Bekçinin sorduğu iki soru, konusu kendiliğinden çözüldüğünde geri çekilmiyordu; artık çekiliyor.",
+        "Program yüklerken gün başlıkları bulunamıyordu: “1 Gün:” biçimi tanınmıyordu, program yükleniyor ama içi boş çıkıyordu.",
+        "Programın kapak ve reklam satırları durak sanılıp işaretli geliyordu; artık ilk günden öncesi görmezden geliniyor."
+      ],
+      "cikti": [
+        "Eşitlemedeki “Günü … gönder” satırı artık kişi adı yazmıyor: “Günü yol arkadaşına gönder”. Herkes bunu yanındakine gönderiyor ve ekranda başkasının adı durmasın."
+      ]
+    },
+    {
+      "sayi": 117,
+      "eklendi": [
+        "İlk açılışta kısa bir tanıtım turu var. Beş-altı adımda gerçek düğmelerin üstünü işaret ederek anlatıyor: sesli not, ortam sesi, haritayı yola çıkmadan indirmek, Yol Modu ve Gün Sonu. Gerok panelinden istediğin zaman baştan izlenebiliyor.",
+        "“Gerok’u yapana yaz” diye bir kutu eklendi. Bir şey çalışmıyorsa ya da bir fikrin varsa doğrudan yazıyorsun; telefon numarası bilmeye gerek yok. Adını yazmak isteğe bağlı.",
+        "İnternet yokken yazılan mesaj kaybolmuyor: kuyrukta bekliyor, bağlanınca kendiliğinden gidiyor. Gönderdiklerinin kopyası telefonda duruyor."
+      ],
+      "duzeldi": [
+        "“Sorun bildir” artık gerçekten gönderiyor. Eskiden bir dosya üretip “bunu Gerok’u yapana ilet” diyordu; kimse o dosyayla uğraşmıyordu, yani hiçbir arıza bildirimi ulaşmıyordu.",
+        "Mesaj gönderirken yazılan ad ve açıklama kayboluyordu: pencere kapandıktan sonra okunduğu için boş gidiyordu, ekranda ise “gönderildi” yazıyordu. Sessiz bir veri kaybıydı, düzeltildi.",
+        "Tanıtım turu ilk açılışta “Adın ne?” ekranının üstüne biniyordu; artık sırayla çıkıyor."
+      ],
+      "cikti": []
+    },
+    {
+      "sayi": 116,
+      "eklendi": [
+        "Harita artık DÜNYANIN HER YERİNDE indiriliyor. Önceden yalnızca önceden hazırlanmış bölgeler inebiliyordu; başka bir yere giden kişi “bu bölgeyi iste” deyip beklemek zorundaydı. O bekleme tamamen kalktı.",
+        "Alan indirme çubuğunda artık ne kadar süreceği de yazıyor, ve indirirken yüzde görünüyor."
+      ],
+      "duzeldi": [
+        "İndirme 11 kat hızlandı. Bir şehir merkezi (6,4 MB) 10 saniyede iniyor; eskiden aynı iş dakikalar sürüyordu. Sebebi ağ değil, tarayıcının aynı dosyaya giden istekleri kendi içinde sıraya sokmasıydı.",
+        "Takılan bir istek artık bütün indirmeyi dondurmuyor: 20 saniyede kesiliyor, bir kez daha deneniyor.",
+        "Uygulama harita listesini her karo için yeniden indiriyordu; artık bir kez okuyor."
+      ],
+      "cikti": [
+        "“Bu bölgeyi iste” penceresi ve gönderilen istek dosyası. Artık gereği yok."
+      ]
+    },
+    {
+      "sayi": 115,
+      "eklendi": [],
+      "duzeldi": [
+        "ÖNEMLİ: Gündüz/Gece/Uydu arasında geçiş yapınca harita bomboş kalıyordu. Tam harita indirme kaldırılınca ortaya çıkan bir hataydı; yalnızca eski tam haritası OLMAYAN telefonlarda görülüyordu, yani yeni kuranlarda.",
+        "Uydu kipi artık hiçbir harita indirilmemiş olsa da çalışıyor — uydu görüntüsü zaten ayrı bir yerden geliyor, vektör haritaya bağlı değil."
+      ],
+      "cikti": []
+    },
+    {
+      "sayi": 114,
+      "eklendi": [
+        "“Harita alanı indir” satırı artık önce inen alanların listesini açıyor: hangi alan, ne kadar yer, ne zaman inmiş.",
+        "Her alanın yanında Sil düğmesi var. Üst üste binen alanlar birbirini bozmuyor — birini silmek diğerinin karolarına dokunmuyor.",
+        "Birden fazla alan varsa “Hepsini sil” çıkıyor."
+      ],
+      "duzeldi": [
+        "Kapsam dışı bir yere bakarken düğme “Bu alanı indir” diyordu ve basınca istek ekranı çıkıyordu. Artık düğme basmadan önce “Bu bölgeyi iste” yazıyor."
+      ],
+      "cikti": []
+    },
+    {
+      "sayi": 113,
+      "eklendi": [
+        "Gerok sekmesinde “Eski tam harita” satırı: telefonunda duran 375 MB’lık eski harita artık gereksiz, tek dokunuşla silip yer açabiliyorsun.",
+        "Her harita bölgesi ayrı bir dosya oldu. Yeni bir bölge eklemek mevcutlara dokunmuyor ve kimseye yeniden indirtmiyor."
+      ],
+      "duzeldi": [
+        "Kurulum sayfası hâlâ “357 MB haritayı evde indir” diyordu — artık alan seçmeyi anlatıyor."
+      ],
+      "cikti": [
+        "“Harita paketi indir” kaldırıldı. Uygulama artık hiçbir zaman haritanın tamamını indirmiyor; yalnızca senin seçtiğin alanlar iniyor."
+      ]
+    },
+    {
+      "sayi": 112,
+      "eklendi": [
+        "Harita artık internet varken HİÇ İNDİRMEDEN çalışıyor. Uzaktaki dosyadan yalnızca ekranda görünen parça okunuyor.",
+        "Gerok sekmesine “Harita alanı indir” eklendi. Haritada gideceğin yeri ekrana getir, “Bu alanı indir” de — yalnızca o alan iniyor.",
+        "İndirmeden önce ne kadar yer kaplayacağı yazıyor. Üsküp merkezi için ≈4 MB; eskiden tek seçenek 375 MB’ın tamamıydı.",
+        "“Sokak” ve “Yol” ayrıntısı: uzun bir güzergâh için sokak adları gerekmiyorsa alan çok daha küçük iniyor.",
+        "Zaten inmiş karolar tekrar inmiyor; alanı büyütmek baştan indirmek değil.",
+        "Haritanın kapsamadığı bir yere bakarsan uygulama bunu söylüyor ve o bölgeyi isteyebiliyorsun. İstekte yalnızca dört koordinat var."
+      ],
+      "duzeldi": [
+        "Harita ekranı, 375 MB inmeden bomboş bir ekrandı. Artık internet varken doluyor."
+      ],
+      "cikti": []
+    },
+    {
+      "sayi": 111,
+      "eklendi": [
+        "Gerok sekmesine “Kullanım sayıları” eklendi. Haftada bir kez birkaç sayı gidiyor: kaç kez açıldı, kaç kayıt var, hata çıktı mı, hangi sürüm, hangi telefon.",
+        "Satıra dokununca giden şeyin tamamı görünüyor ve tek dokunuşla kapatılabiliyor.",
+        "Telefonları ayırt etmek için kısa bir işaret gidiyor. Cihaz kimliğinin kendisi değil, geri çevrilemez özeti — gelen sayılarla kimsenin defteri eşleştirilemiyor.",
+        "Notlar, sesler, fotoğraflar, konum ve isim bu yoldan gitmiyor. Hata yazıları da gitmiyor; onlar yalnızca sen “Sorun bildir” deyip okuduğunda gidiyor."
+      ],
+      "duzeldi": [],
+      "cikti": []
+    },
+    {
+      "sayi": 110,
+      "eklendi": [
+        "Kara kutu: uygulama artık kendi hatalarını telefonda kaydediyor. Bugüne kadar bir şey kırıldığında o bilgi hiçbir yerde durmuyordu.",
+        "Gerok sekmesine “Sorun bildir” eklendi. Gönderilecek şeyin tamamı önce ekranda gösteriliyor; okuyup gönderiyorsun.",
+        "Bir hata olduysa uygulama ertesi gün bir kez kendisi soruyor — günde birden fazla sormuyor.",
+        "Raporda notların, seslerin ve fotoğrafların yok. Ama bir hata mesajı o an elindeki bir yazıyı alıntılamış olabilir; ekran bunu açıkça söylüyor ve göndermeden önce okumanı istiyor."
+      ],
+      "duzeldi": [],
+      "cikti": []
+    },
+    {
+      "sayi": 109,
+      "eklendi": [
+        "Gerok sekmesinde “Sürüm ve yardım” altına “Uygulamayı paylaş” eklendi. Arkadaşına uygulamanın bağlantısını gönderiyor; mesajın içinde “Safari’de aç, Ana Ekrana Ekle de” yazıyor — başka tarayıcıda kurulmuyor.",
+        "Paylaşılan şey yalnızca uygulamanın genel adresi. Gezi, kayıtlar, duraklar ve isimler bu bağlantıda yok; telefondan hiçbir şey çıkmıyor."
+      ],
+      "duzeldi": [],
+      "cikti": []
+    },
+    {
+      "sayi": 108,
+      "eklendi": [],
+      "duzeldi": [
+        "\"Yedeği sına\" 184'e kadar sayıp zaman çizgisine düşüyordu: telefonun belleği yetmiyordu. Artık dosyaları tek tek okuyor, sonucu yazıyor.",
+        "\"Yedeği sına\" satırı 17 Ağustos'ta donmuştu — her deneme sonuç yazılmadan çöktüğü için. Artık her denemede tazeleniyor.",
+        "Yedeği geri yükleme de aynı yüzden çöküyordu. Bu en ağırıydı: yedeğin var ama geri yükleyemiyordun. Artık 355 MB'lık yedek parça parça yükleniyor.",
+        "Arkadaş paketi alma ve yedek doğrulama da aynı şekilde parça parça okuyor.",
+        "Yarım kalmış bir yedek dosyası artık tanınıyor ve söyleniyor."
+      ],
+      "cikti": []
+    },
+    {
+      "sayi": 107,
+      "eklendi": [
+        "Her yedekten sonra doğrulama: dosyayı geri seçiyorsun, uygulama açıp sayıyor ve telefondakiyle karşılaştırıyor.",
+        "Gerok panelinde yedek satırı artık \"doğrulandı\" mı yoksa \"DOĞRULANMADI\" mı olduğunu yazıyor.",
+        "Mac'teki bekçi iCloud'daki yedeklerine bakıyor: yoksa, çok küçükse ya da 14 günden eskiyse haber veriyor."
+      ],
+      "duzeldi": [
+        "Yedek doğrulaması silinmiş kayıtları da sayıyordu; bir kez kayıt silmiş olsan her yedekte \"yedeğin eski\" derdi."
+      ],
+      "cikti": []
+    },
+    {
+      "sayi": 106,
+      "eklendi": [
+        "Yedek hatırlatıcısı artık Gün Sonu'ndan bağımsız: son yedekten sonra yeni kayıt varsa günde bir kez soruyor.",
+        "Gün Sonu'nun ilk adımında güvence yazıyor: hiçbir adım kayıt silmez, günü kapatmaz, istediğin yerde çıkabilirsin."
+      ],
+      "duzeldi": [
+        "\"Günü kapat\" ve \"Gün kapandı\" yazıları kaldırıldı — hiçbir şeyi kapatmadığı hâlde kapatıyormuş gibi okunuyordu.",
+        "Fotoğraf adımı \"Bugünü topla\" yerine \"Bugünden fotoğraf ekle\": seçilmeyenlerin galeride kaldığı açıkça yazıyor."
+      ],
+      "cikti": []
+    },
+    {
+      "sayi": 105,
+      "eklendi": [
+        "Güncelleme kartı artık ne eklendiğini, ne düzeldiğini ve ne çıkarıldığını yazıyor.",
+        "Gerok sekmesine \"Neler değişti\" eklendi — kartı kaçırsan da sonradan okuyabilirsin."
+      ],
+      "duzeldi": [],
+      "cikti": []
+    },
+    {
+      "sayi": 104,
+      "eklendi": [
+        "Son turu arşivlemeden önce uyarı: ekranların boşalacağı ve kayıtların duracağı önceden söyleniyor."
+      ],
+      "duzeldi": [
+        "Gezi arşivlenince zaman çizgisi \"Henüz bir gerok yüklenmedi\" diyordu; artık \"gezin arşivde, N kayıt duruyor\" yazıyor ve \"Geziye geri dön\" düğmesi çıkıyor."
+      ],
+      "cikti": []
+    },
+    {
+      "sayi": 103,
+      "eklendi": [
+        "Bekçi artık rehberinin hangi bölgeyi anlattığını biliyor."
+      ],
+      "duzeldi": [
+        "Ev, işyeri ve Türkiye içindeki duraklar \"bilmiyorum\" diye sayılmıyor — eksik değil, kapsam dışı."
+      ],
+      "cikti": []
+    },
+    {
+      "sayi": 102,
+      "eklendi": [
+        "Duraklar ekranı, ekleme anını kaçırmış duraklar için bir kez bilgi soruyor.",
+        "Bekçi durak listesinde bilmediklerini de sayıyor."
+      ],
+      "duzeldi": [],
+      "cikti": []
+    },
+    {
+      "sayi": 101,
+      "eklendi": [],
+      "duzeldi": [
+        "Durak eklerken bildirim çıkmıyor, liste tazelenmiyor ve bekçi soru sormuyordu — eski bir hata sessizce patlıyordu.",
+        "\"Gittik / Kaçırdık\" düğmeleri de aynı hata yüzünden bildirim vermiyordu."
+      ],
+      "cikti": []
+    }
+  ]
 }

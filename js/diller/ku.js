@@ -16,6 +16,23 @@
 //   bulamıyor.
 // · Kurmancîde "ı" harfi yoktur; i ile î ayrı seslerdir. Türkçeden
 //   çeviride en sık yapılan hata budur.
+// · -î ile biten sözcük y'li ek alınca î kısalır: rêwîtî → rêwîtiya,
+//   rêwîtiyê, rêwîtiyan. "rêwîtîya" yazımı yanlıştır.
+//
+// 30 AĞUSTOS 2026 — ana dili konuşan biri 40 sözü baştan sona okudu.
+// Değişenler (sağdaki artık kullanılmıyor):
+//   kayıt/kaydet  qeyd, Qeyd bike   (tomar değil — isim de fiil de)
+//   gezi          rêwîtî            (geşt değil)
+//   çevrimdışı    negirêdayî        (bêînternet değil)
+//   Vazgeç        Dev jê berde      (Betal bike değil)
+//   Devam         Pêş de            (Berdewam değil)
+//   manastır      manastîr          (keşîşxane değil)
+//   anıt          bîrdarî           (peyker değil)
+//   iskele        keştîgeh          (bender değil)
+//   kale          kela              (kelhe değil)
+// Dil düğmesinin adı "Kurdî" (js/dil.js) — "Kurmancî" değil.
+// Doğrulanmış kalanlar: Albanya ve Xirwatistan Kürtçe Vikipedi'nin
+// kullandığı adlar; "kela" da öyle (Kela Mîrxizir, Kela Çimdîn).
 
 export const KU = {
 
@@ -56,7 +73,7 @@ export const KU = {
   '<b>Gerok</b> sekmesinden <b>Harita alanı indir</b> ile gideceğin yeri seç — ':
     'Ji beşa <b>Gerok</b>, bi <b>Devera nexşeyê daxîne</b> cihê ku tê de diçî hilbijêre — ',
   'yolda internet olmayabilir.': 'dibe ku di rê de înternet tune be.',
-  'çevrimdışı pmtiles': 'pmtiles a bêînternet',
+  'çevrimdışı pmtiles': 'pmtiles a negirêdayî',
   'İnternet yok — harita alanı internetliyken indirilir.':
     'Înternet tune — devera nexşeyê bi înternetê tê daxistin.',
   'Alan çok büyük ({0} karo). Daha küçük bir alan seç.':
@@ -65,11 +82,11 @@ export const KU = {
   // --------------------------------------------- rehber (tanıtım turu) ---
   'Gerok’a hoş geldin': 'Bi xêr hatî Gerokê',
   'Bu bir gezi defteri. İnternetsiz çalışır — yurtdışında şebeke yokken de yazar, ses kaydeder, haritayı gösterir. Sana en çok işe yarayacak üç şeyi göstereyim.':
-    'Ev rojnivîska geştê ye. Bêînternet dixebite — li derveyî welat jî, gava tora telefonê tune be, dinivîse, deng tomar dike, nexşeyê nîşan dide. Bila ez sê tiştên ku wê herî zêde bi kêrî te bên nîşanî te bidim.',
+    'Ev rojnivîska rêwîtiyê ye. Negirêdayî dixebite — li derveyî welat jî, gava tora telefonê tune be, dinivîse, deng qeyd dike, nexşeyê nîşan dide. Bila ez sê tiştên ku wê herî zêde bi kêrî te bên nîşanî te bidim.',
   'Konuş, yazma': 'Biaxive, nenivîse',
   'Yolda yazmak zor, konuşmak kolay. Dokun, anlat, bitir. Kaydın saatiyle birlikte haritadaki yerine kendiliğinden oturur.':
-    'Di rê de nivîsîn zehmet e, axaftin hêsan e. Bitikîne, bêje, biqedîne. Tomar bi saeta xwe re bi xwe li cihê xwe yê ser nexşeyê rûdine.',
-  'Bir de sesi kaydet': 'Dengê wî cihî jî tomar bike',
+    'Di rê de nivîsîn zehmet e, axaftin hêsan e. Bitikîne, bêje, biqedîne. Qeyd bi saeta xwe re bi xwe li cihê xwe yê ser nexşeyê rûdine.',
+  'Bir de sesi kaydet': 'Dengê wî cihî jî qeyd bike',
   'Çarşı, yağmur, ezan, tren. Fotoğraf herkeste var, o yerin nasıl duyulduğu kimsede yok. Yıllar sonra en çok bu vuruyor.':
     'Sûk, baran, bang, trên. Wêne li ba her kesî heye, lê dengê wî cihî li ba tu kesî tune. Piştî salan yê ku herî zêde dikeve dilê mirov ev e.',
   'Haritayı yola çıkmadan indir': 'Nexşeyê berî ku bikevî rê daxîne',
@@ -77,7 +94,7 @@ export const KU = {
     'Gava înternet hebe nexşe li her derê dixebite. Lê li derveyî welat, gava tor tune be, tenê deverên ku te BERÊ daxistine vedibin. Gerok → Devera nexşeyê daxîne, bajêr bîne ser ekranê, daxîne. Bajarek çend MB e û çend çirke ye.',
   'Yol Modu ve gidilen iz': 'Moda Rê û şopa rê',
   'Gittiğin yol ancak uygulama AÇIKKEN kaydedilir — telefon kilitliyken iOS buna izin vermiyor. Araçta telefonu şarja takıp Yol Modu’nu aç: ekran açık kalır, durağa yaklaşınca uyarır.':
-    'Riya ku tu diçî tenê gava sepan VEKIRÎ be tê tomarkirin — gava telefon kilît be iOS destûrê nade. Di erebeyê de telefonê bixe şarjê û Moda Rê veke: ekran vekirî dimîne, gava nêzîkî rawestgehê bibî te hişyar dike.',
+    'Riya ku tu diçî tenê gava sepan VEKIRÎ be tê qeydkirin — gava telefon kilît be iOS destûrê nade. Di erebeyê de telefonê bixe şarjê û Moda Rê veke: ekran vekirî dimîne, gava nêzîkî rawestgehê bibî te hişyar dike.',
   'Akşamları buraya uğra': 'Êvaran li vir binêre',
   'Gün Sonu bütün günü 90 saniyede toparlar ve yedeğini alır. Bir şey ters giderse ya da bir fikrin olursa, aynı ekrandaki “Gerok’u yapana yaz” ile doğrudan bana ulaşırsın.':
     'Dawiya Rojê hemû rojê di 90 çirkeyan de berhev dike û kopiya wê ya ewle digire. Heke tiştek şaş biçe an jî ramanek te hebe, li heman ekranê bi “Ji yê ku Gerok çêkiriye re binivîse” rasterast digihîjî min.',
@@ -90,20 +107,20 @@ export const KU = {
   'kapalı': 'girtî',
   'Zaman': 'Dem',
   'Harita': 'Nexşe',
-  'Kayıt': 'Tomar',
+  'Kayıt': 'Qeyd',
   'Duraklar': 'Rawestgeh',
   'Süzgeç': 'Parzûn',
   'Süzgeçler': 'Parzûn',
-  'kayıtlarda ara': 'di tomaran de bigere',
+  'kayıtlarda ara': 'di qeydan de bigere',
   'İşaretlediklerin': 'Yên te nîşankirî',
-  'İz kaydı': 'Tomara şopê',
+  'İz kaydı': 'Qeyda şopê',
   'Gündüz': 'Roj',
   'Gece': 'Şev',
   'Uydu': 'Peyk',
-  '© OpenStreetMap · çevrimdışı pmtiles': '© OpenStreetMap · pmtiles a bêînternet',
+  '© OpenStreetMap · çevrimdışı pmtiles': '© OpenStreetMap · pmtiles a negirêdayî',
   'Haritayı kaydır — durak ortadaki artının olduğu yere konacak.':
     'Nexşeyê bikişîne — rawestgeh wê li cihê xaça navîn were danîn.',
-  'Vazgeç': 'Betal bike',
+  'Vazgeç': 'Dev jê berde',
   'Buraya durak ekle': 'Li vir rawestgehekê zêde bike',
   'Haritayı kaydır ve yakınlaştır —': 'Nexşeyê bikişîne û nêzîk bike —',
   'ekranda gördüğün alan': 'devera ku li ser ekranê dibînî',
@@ -133,8 +150,8 @@ export const KU = {
   'Ekran açık kalır, durağa yaklaşınca uyarır':
     'Ekran vekirî dimîne, gava nêzîkî rawestgehê bibî hişyar dike',
   'Durdur': 'Rawestîne',
-  'Kaydediliyor…': 'Tê tomarkirin…',
-  '■ Durdur ve kaydet': '■ Biqedîne û tomar bike',
+  'Kaydediliyor…': 'Tê qeydkirin…',
+  '■ Durdur ve kaydet': '■ Biqedîne û qeyd bike',
   '⏸ Duraklat': '⏸ Bisekinîne',
   'Dil': 'Ziman',
   'Renk': 'Reng',
@@ -159,16 +176,16 @@ export const KU = {
   'Günler doğru mu?': 'Roj rast in?',
   'Hangi duraklar alınsın?': 'Kîjan rawestgeh werin girtin?',
   'Paket hazır': 'Pakêt amade ye',
-  'Yeni gezi olarak aç': 'Wek geşteke nû veke',
+  'Yeni gezi olarak aç': 'Wek rêwîtiyeke nû veke',
   'Dosyada durak yok. Gezi yine de açılır; durakları haritadan elle koyabilirsin.':
-    'Di pelî de rawestgeh tune. Geşt dîsa jî vedibe; tu dikarî rawestgehan bi destê xwe ji nexşeyê deynî.',
+    'Di pelî de rawestgeh tune. Rêwîtî dîsa jî vedibe; tu dikarî rawestgehan bi destê xwe ji nexşeyê deynî.',
   '{0}. gün': 'roja {0}an',
   'Programda durağa bağlı not yok.': 'Di bernameyê de nota bi rawestgehê ve girêdayî tune.',
   'Önce bir dosya seç': 'Pêşî pelekî hilbijêre',
   'Bu PDF’in içinde yazı yok — sayfalar taranmış resim olabilir. Metni kopyalayıp düz metin olarak verebilirsin.':
     'Di vê PDFê de nivîs tune — dibe ku rûpel bi tenê wêne bin. Tu dikarî nivîsê kopî bikî û wek nivîsa sade bidî.',
   'PDF okunamadı: {0}': 'PDF nehate xwendin: {0}',
-  'Yeni gezi açıldı · {0}': 'Geşteke nû vebû · {0}',
+  'Yeni gezi açıldı · {0}': 'Rêwîtiyeke nû vebû · {0}',
   'Alınamadı: {0}': 'Nehate girtin: {0}',
 
   // ----------------------------------- eşitleme ve yedek (esitleme.js) ---
@@ -183,21 +200,21 @@ export const KU = {
     'Ev pel nîvcî ye — bila yê ku şandiye ji nû ve bişîne.',
   'Dosyalar alınıyor… %{0}': 'Pel tên girtin… %{0}',
   '{0} kayıt da silinmiş, burada da silindi.':
-    '{0} tomar jî hatibûn jêbirin, li vir jî hatin jêbirin.',
+    '{0} qeyd jî hatibûn jêbirin, li vir jî hatin jêbirin.',
   '{0} kayıtta iki sürüm vardı — seninki tutuldu, diğeri kaydın içinde duruyor.':
-    'Di {0} tomaran de du guherto hebûn — ya te hate hiştin, ya din di nav tomarê de dimîne.',
+    'Di {0} qeydan de du guherto hebûn — ya te hate hiştin, ya din di nav qeydê de dimîne.',
   '{0} yeni durak rotaya eklendi.': '{0} rawestgehên nû li rê hatin zêdekirin.',
   '{0} durak notu geldi.': '{0} notên rawestgehê hatin.',
   'Bu paket "{0}" turuna ait — Gerok → Turları yönet\'ten o tura geçebilirsin.':
-    'Ev pakêt aîdî geşta "{0}" e — ji Gerok → Geştan bi rê ve bibe tu dikarî derbasî wê geştê bibî.',
+    'Ev pakêt aîdî rêwîtiya "{0}" e — ji Gerok → Rêwîtiyan bi rê ve bibe tu dikarî derbasî wê rêwîtiyê bibî.',
   'Arkadaşın': 'Hevalê te',
-  '{0} eklendi: {1} kayıt, {2} iz noktası.': '{0} hate zêdekirin: {1} tomar, {2} xalên şopê.',
+  '{0} eklendi: {1} kayıt, {2} iz noktası.': '{0} hate zêdekirin: {1} qeyd, {2} xalên şopê.',
   'Bu paket zaten alınmış — hiçbir şey yinelenmedi.':
     'Ev pakêt berê hatiye girtin — tu tişt dubare nebû.',
   'Yedek hazırlanıyor…': 'Kopiya ewle tê amadekirin…',
   'Yedek hazırlanıyor… {0}/{1}': 'Kopiya ewle tê amadekirin… {0}/{1}',
   'Yedek kaydedildi. "Dosyalar\'a Kaydet" seçtiysen iCloud\'a da gider.':
-    'Kopiya ewle hate tomarkirin. Ger te "Dosyalar\'a Kaydet" hilbijartibe wê here iCloudê jî.',
+    'Kopiya ewle hate qeydkirin. Ger te "Dosyalar\'a Kaydet" hilbijartibe wê here iCloudê jî.',
   'Yedek alınamadı: {0}': 'Kopiya ewle nehate girtin: {0}',
   'Bu bir Gerok yedeği değil ya da dosya yarım.':
     'Ev ne kopiyeke ewle ya Gerokê ye an jî pel nîvcî ye.',
@@ -209,13 +226,13 @@ export const KU = {
   'Bu dosya yarım — yazma tamamlanmamış.': 'Ev pel nîvcî ye — nivîsandin neqediyaye.',
   'Bu dosya bir Gerok yedeği değil.': 'Ev pel ne kopiyeke ewle ya Gerokê ye.',
   'Bu dosyada kayıt yok — hiçbir şey değiştirilmedi.':
-    'Di vî pelî de tomar tune — tu tişt nehate guhertin.',
+    'Di vî pelî de qeyd tune — tu tişt nehate guhertin.',
   'Vazgeçildi — hiçbir şey değişmedi.': 'Hate betalkirin — tu tişt neguherî.',
   'Dosyalar yazılıyor… %{0}': 'Pel tên nivîsandin… %{0}',
   'Geri yüklendi · {0} kayıt · {1} fazla kayıt silindi':
-    'Hate vegerandin · {0} tomar · {1} tomarên zêde hatin jêbirin',
-  ' · {0} silinmiş kayıt geri geldi': ' · {0} tomarên jêbirî vegeriyan',
-  '{0} yeni kayıt': '{0} tomarên nû',
+    'Hate vegerandin · {0} qeyd · {1} qeydên zêde hatin jêbirin',
+  ' · {0} silinmiş kayıt geri geldi': ' · {0} qeydên jêbirî vegeriyan',
+  '{0} yeni kayıt': '{0} qeydên nû',
   '{0} sesin yazısı': 'nivîsa {0} dengan',
   '{0} iz noktası': '{0} xalên şopê',
   'Birleştirildi · {0} eklendi': 'Hate yekkirin · {0} hate zêdekirin',
@@ -234,23 +251,23 @@ export const KU = {
   'Hiçbiri çevrilemedi — tutarlar okunamadı.':
     'Yek jî nehate wergerandin — hejmar nehatin xwendin.',
   'Konumu olan bütün kayıtların yer adı zaten yazılı.':
-    'Navê cihê hemû tomarên bi cih jixwe nivîsandî ye.',
-  '{0} kayda yer adı yazıldı': 'Navê cih li {0} tomaran hate nivîsandin',
+    'Navê cihê hemû qeydên bi cih jixwe nivîsandî ye.',
+  '{0} kayda yer adı yazıldı': 'Navê cih li {0} qeydan hate nivîsandin',
   ' · {0} tanesi çözülemedi': ' · {0} jê nehatin çareserkirin',
   'Hiçbir yer adı çözülemedi — bağlantı zayıf olabilir, sonra tekrar dene':
     'Tu navê cih nehate çareserkirin — dibe ku girêdan qels be, paşê dîsa biceribîne',
-  'manastır': 'keşîşxane',
+  'manastır': 'manastîr',
   'ibadet yeri': 'cihê îbadetê',
   'müze': 'mûze',
   'galeri': 'galerî',
   'gezilecek yer': 'cihê gerê',
   'seyir noktası': 'xala temaşeyê',
-  'kale': 'kelhe',
+  'kale': 'kela',
   'hisar': 'birc',
   'şehir kapısı': 'deriyê bajêr',
   'kalıntı': 'kavil',
   'antik yer': 'cihê kevnar',
-  'anıt': 'peyker',
+  'anıt': 'bîrdarî',
   'kilise': 'dêr',
   'cami': 'mizgeft',
   'şapel': 'dêrok',
@@ -261,19 +278,19 @@ export const KU = {
   'otel': 'otêl',
   'danışma': 'agahdarî',
   'eser': 'berhem',
-  'iskele': 'bender',
+  'iskele': 'keştîgeh',
   'kamp alanı': 'cihê kampê',
   'kaynak': 'kanî',
   'şelale': 'şirşir',
   'Bütün durakların bilgisi zaten getirilmiş.': 'Agahiya hemû rawestgehan jixwe hatiye anîn.',
   '{0} durak güncellendi': '{0} rawestgeh hatin rojanekirin',
-  ' · {0} durak için kayıt yok': ' · ji bo {0} rawestgehan tomar tune',
+  ' · {0} durak için kayıt yok': ' · ji bo {0} rawestgehan qeyd tune',
   'Bu duraklar için OpenStreetMap\'te açılış/ücret bilgisi yok. Uydurmuyoruz.':
     'Ji bo van rawestgehan di OpenStreetMapê de agahiya vebûn/heqî tune. Em ji ber xwe ve nabêjin.',
   'Kurları düzelt': 'Rêjeyên diravî rast bike',
   '{0} harcama · her biri kendi günündeki kurla': '{0} xerc · her yek bi rêjeya roja xwe',
-  'Konumsuz kayıtlara yer adı ver': 'Li tomarên bêcih navê cih binivîse',
-  '{0} kayıt · koordinat var, ad yok': '{0} tomar · koordînat hene, nav tune',
+  'Konumsuz kayıtlara yer adı ver': 'Li qeydên bêcih navê cih binivîse',
+  '{0} kayıt · koordinat var, ad yok': '{0} qeyd · koordînat hene, nav tune',
   'Duraklara açılış ve ücret bilgisi': 'Ji bo rawestgehan agahiya vebûn û heqî',
   '{0} durak · saat, ücret, kapalı gün': '{0} rawestgeh · saet, heqî, roja girtî',
   'Rotanın önündeki haritayı indir': 'Nexşeya pêşiya rê daxîne',
@@ -285,27 +302,27 @@ export const KU = {
   'Bugün ne oldu, sayılarla.': 'Îro çi bû, bi hejmaran.',
   'km yol': 'km rê',
   'fotoğraf': 'wêne',
-  'ses kaydı': 'tomara dengî',
-  'toplam kayıt': 'hemû tomar',
+  'ses kaydı': 'qeyda dengî',
+  'toplam kayıt': 'hemû qeyd',
   'Bugün geçtiğin sınır: {0}': 'Sînorê ku îro tê re derbas bûyî: {0}',
   'Buradaki hiçbir adım kayıt silmez, günü kapatmaz, hiçbir şeyi kesinleştirmez. İstediğin yerde çıkabilirsin; bugüne sonra da kayıt ekleyebilir, bu akışı tekrar açabilirsin.':
-    'Li vir tu gav tomarekê jê nabe, rojê nagire, tu tiştî bi dawî nake. Tu li ku derê bixwazî dikarî derkevî; tu dikarî paşê jî li îro tomaran zêde bikî û vî herikînî ji nû ve vekî.',
+    'Li vir tu gav qeydekê jê nabe, rojê nagire, tu tiştî bi dawî nake. Tu li ku derê bixwazî dikarî derkevî; tu dikarî paşê jî li îro qeydan zêde bikî û vî herikînî ji nû ve vekî.',
   'Şimdi değil': 'Niha na',
   'Bugünden aklında ne kaldı?': 'Ji îro çi di bîra te de ma?',
   'Sesli günlük. Bir dakika yeter.': 'Rojnivîska dengî. Deqeyek bes e.',
   'Dokun ve konuş. Bitince "Durdur ve kaydet".':
-    'Bitikîne û biaxive. Gava qediya "Biqedîne û tomar bike".',
+    'Bitikîne û biaxive. Gava qediya "Biqedîne û qeyd bike".',
   'Konuşmaya başla': 'Dest bi axaftinê bike',
   'Atla': 'Derbas bike',
-  'Devam': 'Berdewam',
+  'Devam': 'Pêş de',
   'Geri': 'Paş',
   'Bitir': 'Biqedîne',
   'Bugünden aklında ne kaldı? Bitince "Durdur ve kaydet".':
-    'Ji îro çi di bîra te de ma? Gava qediya "Biqedîne û tomar bike".',
+    'Ji îro çi di bîra te de ma? Gava qediya "Biqedîne û qeyd bike".',
   'Kaydedildi · {0} saniye. İstersen bir tane daha.':
-    'Hate tomarkirin · {0} çirke. Ger bixwazî yek din jî.',
+    'Hate qeydkirin · {0} çirke. Ger bixwazî yek din jî.',
   'Çok kısaydı.': 'Pir kurt bû.',
-  'Kaydedildi · {0} saniye.': 'Hate tomarkirin · {0} çirke.',
+  'Kaydedildi · {0} saniye.': 'Hate qeydkirin · {0} çirke.',
   'Bugünden fotoğraf ekle': 'Ji îro wêne zêde bike',
   'Galeriden seç, deftere eklensin. Manzara şart değil: oda, kahvaltı masası, otobüsün içi. Seçmediklerin galerinde olduğu gibi kalır — burada yapılan tek şey EKLEMEK.':
     'Ji galeriyê hilbijêre, bila li rojnivîskê were zêdekirin. Ne şert e ku dîmen be: ode, maseya taştê, hundirê otobusê. Yên ku te hilnebijartine wek xwe di galeriya te de dimînin — tiştê ku li vir tê kirin tenê ZÊDEKIRIN e.',
@@ -325,51 +342,51 @@ export const KU = {
   'Henüz hiç yedek alınmadı.': 'Hîn tu kopiya ewle nehatiye girtin.',
   'Yedek al': 'Kopiya ewle bigire',
   'Günümü arkadaşıma gönder': 'Roja min ji hevalê min re bişîne',
-  'Bitti · bugünün kayıtları yerinde': 'Qediya · tomarên îro li cihê xwe ne',
-  'Başlangıç kaydı': 'Tomara destpêkê',
+  'Bitti · bugünün kayıtları yerinde': 'Qediya · qeydên îro li cihê xwe ne',
+  'Başlangıç kaydı': 'Qeyda destpêkê',
   'Yola çıkmadan: kaç yaşındasın, hayatında ne var, bu geziden ne bekliyorsun? On yıl sonra anıları bir döneme oturtacak olan şey bu.':
-    'Berî ku bikevî rê: tu çend salî yî, di jiyana te de çi heye, tu ji vê geştê çi hêvî dikî? Tiştê ku wê piştî deh salan bîranînan li serdemekê rûne ev e.',
-  'Bitiş kaydı': 'Tomara dawiyê',
+    'Berî ku bikevî rê: tu çend salî yî, di jiyana te de çi heye, tu ji vê rêwîtiyê çi hêvî dikî? Tiştê ku wê piştî deh salan bîranînan li serdemekê rûne ev e.',
+  'Bitiş kaydı': 'Qeyda dawiyê',
   'Ne oldu, ne değişti, ne beklemiyordun?': 'Çi bû, çi guherî, tu li benda çi nebûyî?',
-  'Gezinin özeti': 'Kurteya geştê',
+  'Gezinin özeti': 'Kurteya rêwîtiyê',
   'Sayılarla.': 'Bi hejmaran.',
   'gün': 'roj',
-  'kayıt · {0} ses': 'tomar · {0} deng',
+  'kayıt · {0} ses': 'qeyd · {0} deng',
   'tanıştığın kişi': 'kesên ku te nas kirin',
   'Son sesli not. Hâlâ oradayken, dönüş yolunu beklerken: ne oldu, ne değişti, ne beklemiyordun?':
     'Nota dengî ya dawî. Hîn li wir î, li benda riya vegerê yî: çi bû, çi guherî, tu li benda çi nebûyî?',
   'Bitiş kaydı zaten alınmış. İstersen bir tane daha bırakabilirsin.':
-    'Tomara dawiyê jixwe hatiye girtin. Ger bixwazî tu dikarî yek din jî bihêlî.',
-  'Bitiş kaydını al': 'Tomara dawiyê bigire',
+    'Qeyda dawiyê jixwe hatiye girtin. Ger bixwazî tu dikarî yek din jî bihêlî.',
+  'Bitiş kaydını al': 'Qeyda dawiyê bigire',
   'Bitiş kaydı · bitince "Durdur ve kaydet"':
-    'Tomara dawiyê · gava qediya "Biqedîne û tomar bike"',
+    'Qeyda dawiyê · gava qediya "Biqedîne û qeyd bike"',
   'Bütün duraklara gidilmiş. Nadir olur.': 'Çûyîne hemû rawestgehan. Kêm caran dibe.',
   'Bu gezide durak listesi yok — kaçırılan bir şey de yok.':
-    'Di vê geştê de lîsteya rawestgehan tune — tiştek jî ji dest neçûye.',
+    'Di vê rêwîtiyê de lîsteya rawestgehan tune — tiştek jî ji dest neçûye.',
   'Gidilmeyen duraklar': 'Rawestgehên ku nehatine çûyîn',
   'Kaçırdıklarını bir yere yazalım — sonraki gezinin başlangıcı bu liste olur.':
-    'Bila em yên ku te ji dest dane li cihekî binivîsin — destpêka geşta bê ev lîste be.',
+    'Bila em yên ku te ji dest dane li cihekî binivîsin — destpêka rêwîtiya bê ev lîste be.',
   'günsüz': 'bêroj',
-  '“Bir sonraki gezi” listesine yaz': 'Li lîsteya “geşta bê” binivîse',
-  'Bir sonraki gezi — gidilmeyen duraklar:': 'Geşta bê — rawestgehên ku nehatine çûyîn:',
+  '“Bir sonraki gezi” listesine yaz': 'Li lîsteya “rêwîtiya bê” binivîse',
+  'Bir sonraki gezi — gidilmeyen duraklar:': 'Rêwîtiya bê — rawestgehên ku nehatine çûyîn:',
   '{0} durak zaman çizgisine yazıldı.': '{0} rawestgeh li xeta demê hatin nivîsandin.',
   'Kaçırdıkların “bir sonraki gezi” listesine yazıldı':
-    'Yên ku te ji dest dane li lîsteya “geşta bê” hatin nivîsandin',
+    'Yên ku te ji dest dane li lîsteya “rêwîtiya bê” hatin nivîsandin',
   'Mühürlü mektup': 'Nameya mohrkirî',
   'Kendine yaz, yıllar sonra açılsın. Şifre yok — o kadar yıl sonra kaybolacak tek şey parola olurdu. Kilit değil, söz.':
     'Ji xwe re binivîse, bila piştî salan veke. Şîfre tune — piştî ewqas salan tiştê ku wê winda bibe tenê şîfre bû. Ne kilît e, soz e.',
   'Yazılmış: {0}': 'Hatine nivîsandin: {0}',
   'Mektubu yaz': 'Nameyê binivîse',
-  'Geziyi kapat': 'Geştê bigire',
+  'Geziyi kapat': 'Rêwîtiyê bigire',
   'Önce son yedeği al, sonra arşive geçir. Kayıtlar telefonda kalır, hiçbir yere gönderilmez.':
-    'Pêşî kopiya ewle ya dawî bigire, paşê derbasî arşîvê bike. Tomar di telefonê de dimînin, li tu derê nayên şandin.',
+    'Pêşî kopiya ewle ya dawî bigire, paşê derbasî arşîvê bike. Qeyd di telefonê de dimînin, li tu derê nayên şandin.',
   'Henüz hiç yedek alınmadı. Kapatmadan önce al.':
     'Hîn tu kopiya ewle nehatiye girtin. Berî ku bigirî bigire.',
   'Son yedeği al': 'Kopiya ewle ya dawî bigire',
-  'Bütün geziyi arkadaşıma gönder': 'Tevahiya geştê ji hevalê min re bişîne',
+  'Bütün geziyi arkadaşıma gönder': 'Tevahiya rêwîtiyê ji hevalê min re bişîne',
   'Kapatınca gezi arşive geçer: yeni kayıt eklenmez, her şey okunur kalır. Gerok → gezi → Bütün geziler\'den geri açılabilir.':
-    'Gava bigirî geşt derbasî arşîvê dibe: tomarên nû nayên zêdekirin, her tişt xwendinbar dimîne. Ji Gerok → geşt → Hemû geşt dikare ji nû ve were vekirin.',
-  'Gezi kapandı · arşive geçti': 'Geşt hate girtin · derbasî arşîvê bû',
+    'Gava bigirî rêwîtî derbasî arşîvê dibe: qeydên nû nayên zêdekirin, her tişt xwendinbar dimîne. Ji Gerok → rêwîtî → Hemû rêwîtî dikare ji nû ve were vekirin.',
+  'Gezi kapandı · arşive geçti': 'Rêwîtî hate girtin · derbasî arşîvê bû',
   'beş yıl sonra': 'piştî pênc salan',
   'on yıl sonra': 'piştî deh salan',
   'yirmi yıl sonra': 'piştî bîst salan',
@@ -387,17 +404,17 @@ export const KU = {
   'Ya da yaz': 'An jî binivîse',
   'O gün bunu okuyan kişiye…': 'Ji kesê ku wê rojê vê dixwîne re…',
   'Mühürle': 'Mohr bike',
-  'Yazıyı kaydet': 'Nivîsê tomar bike',
-  '{0} · bitince "Durdur ve kaydet"': '{0} · gava qediya "Biqedîne û tomar bike"',
+  'Yazıyı kaydet': 'Nivîsê qeyd bike',
+  '{0} · bitince "Durdur ve kaydet"': '{0} · gava qediya "Biqedîne û qeyd bike"',
   'Mühürlendi.': 'Hate mohrkirin.',
-  'Yazı kaydedildi.': 'Nivîs hate tomarkirin.',
+  'Yazı kaydedildi.': 'Nivîs hate qeydkirin.',
   'Mühürlendi · {0} yılına': 'Hate mohrkirin · ji bo sala {0}an',
 
   // ------------------------------------------------------ uygulama — A ---
-  ' ({0} kayıt)': ' ({0} tomar)',
+  ' ({0} kayıt)': ' ({0} qeyd)',
   ' · doğrulandı{0}': ' · hate piştrastkirin{0}',
   ' · {0} zaten vardı': ' · {0} jixwe hebûn',
-  '"{0}" turundasın.': 'Tu di geşta "{0}" de yî.',
+  '"{0}" turundasın.': 'Tu di rêwîtiya "{0}" de yî.',
   '"{0}" yüklendi · {1} gün, {2} durak': '"{0}" hate barkirin · {1} roj, {2} rawestgeh',
   '(yalnızca rapor)': '(tenê rapor)',
   ', durağa yaklaşınca sesle uyaracak': ', gava nêzîkî rawestgehê bibî wê bi deng hişyar bike',
@@ -409,19 +426,19 @@ export const KU = {
   '30 saniye': '30 çirke',
   '7 günlük': '7 rojî',
   '<b>Bu dosya yarım.</b> Yazma tamamlanmamış — kaydetme sırasında iptal edilmiş ya da yer bitmiş olabilir. Yeniden yedek al.':
-    '<b>Ev pel nîvcî ye.</b> Nivîsandin neqediyaye — dibe ku di dema tomarkirinê de hatibe betalkirin an jî cih qediyabe. Ji nû ve kopiyeke ewle bigire.',
+    '<b>Ev pel nîvcî ye.</b> Nivîsandin neqediyaye — dibe ku di dema qeydkirinê de hatibe betalkirin an jî cih qediyabe. Ji nû ve kopiyeke ewle bigire.',
   '<b>Dikkat:</b> {0} kaydın sesi ya da görseli yedeğe girmemiş. Bu yedek eksik — yer açıp yeniden dene.':
-    '<b>Hay ji xwe hebe:</b> dengê an wêneyê {0} tomaran neketiye kopiyê. Ev kopî kêm e — cih veke û ji nû ve biceribîne.',
+    '<b>Hay ji xwe hebe:</b> dengê an wêneyê {0} qeydan neketiye kopiyê. Ev kopî kêm e — cih veke û ji nû ve biceribîne.',
   '<b>henüz gitmedi</b>': '<b>hîn neçûye</b>',
   '<b>hiç alan inmemiş</b>': '<b>tu dever nehatiye daxistin</b>',
   '<b>{0}</b> arşivde. {1} kayıt telefonunda duruyor — hiçbiri silinmedi.':
-    '<b>{0}</b> di arşîvê de ye. {1} tomar di telefona te de ne — yek jî nehate jêbirin.',
+    '<b>{0}</b> di arşîvê de ye. {1} qeyd di telefona te de ne — yek jî nehate jêbirin.',
   'Adı': 'Nav',
   'Adı değiştir': 'Navî biguhêre',
   'Adını değiştir': 'Navê wê biguhêre',
   'AirDrop · uzaktan': 'AirDrop · ji dûr',
   'AirDrop · yan yana': 'AirDrop · rex hev',
-  'Aktif tur yok.': 'Geşta çalak tune.',
+  'Aktif tur yok.': 'Rêwîtiya çalak tune.',
   'Alan indi ✓ · {0} · {1} karo': 'Dever daket ✓ · {0} · {1} parçe',
   'Alan iniyor… %{0} · {1}/{2} karo · {3}': 'Dever tê daxistin… %{0} · {1}/{2} parçe · {3}',
   'Alan silindi · {0} yer açıldı.': 'Dever hate jêbirin · {0} cih vebû.',
@@ -429,7 +446,7 @@ export const KU = {
     'Dever pir mezin e ({0} parçe). Nêzîk bibe an jî hûrgiliyê bike "Rê".',
   'Alan çok büyük — {0} karo. Yakınlaş.': 'Dever pir mezin e — {0} parçe. Nêzîk bibe.',
   'Alınamayan': 'Yên nehatî girtin',
-  'Arkadaşının kayıtları': 'Tomarên hevalê te',
+  'Arkadaşının kayıtları': 'Qeydên hevalê te',
   'Arşivle': 'Arşîv bike',
   'Ayarlar → Gerok → Konum → Uygulamayı kullanırken':
     'Ayarlar → Gerok → Konum → Uygulamayı kullanırken',
@@ -453,25 +470,25 @@ export const KU = {
   'Bekleyen bir şey yok.': 'Tiştekî li benda tune.',
   'Bilgi': 'Agahî',
   'Bir kayda <b>çift dokun</b> — yıldız çıkar, kayıt buraya düşer.':
-    'Li tomarekê <b>du caran bitikîne</b> — stêrk derdikeve, tomar tê vir.',
+    'Li qeydekê <b>du caran bitikîne</b> — stêrk derdikeve, qeyd tê vir.',
   'Bir şey ters giderse': 'Heke tiştek şaş biçe',
-  'Bitince Durdur ve kaydet.': 'Gava qediya Biqedîne û tomar bike.',
+  'Bitince Durdur ve kaydet.': 'Gava qediya Biqedîne û qeyd bike.',
   'Boş not kaydedilmiyor · silmek için “Sil”':
-    'Nota vala nayê tomarkirin · ji bo jêbirinê “Jê bibe”',
+    'Nota vala nayê qeydkirin · ji bo jêbirinê “Jê bibe”',
   'Bu bağlantıyı SAFARİ\\u2019de aç, sonra alttaki paylaş düğmesinden \\u201CAna Ekrana Ekle\\u201D de. Başka tarayıcıda kurulmuyor.':
     'Vê girêdanê di SAFARİ\\u2019yê de veke, paşê ji bişkoka parvekirinê ya jêr \\u201CAna Ekrana Ekle\\u201D bibêje. Di geroka din de nayê sazkirin.',
   'Bu güncellemede görünür bir değişiklik yok — içeride iyileştirme var.':
     'Di vê rojanekirinê de guhertineke xuyayî tune — di hundir de başkirin heye.',
   'Bu iş': 'Ev kar',
-  'Bu kayıtta ne söylendi?': 'Di vê tomarê de çi hate gotin?',
+  'Bu kayıtta ne söylendi?': 'Di vê qeydê de çi hate gotin?',
   'Bu ses henüz çevrilmedi. <b>Çevirme Mac\'te yapılıyor</b> — bedava, internetsiz, ses telefondan çıkmıyor. Bir sonraki arşivlemede kendiliğinden çevrilecek. Beklemek istemiyorsan aşağıya kendin yazabilirsin.':
-    'Ev deng hîn nehatiye veguhastin. <b>Veguhastin li ser Macê tê kirin</b> — belaş, bêînternet, deng ji telefonê dernakeve. Di arşîvkirina bê de bi xwe wê were veguhastin. Ger tu naxwazî bisekinî tu dikarî bi xwe li jêr binivîsî.',
+    'Ev deng hîn nehatiye veguhastin. <b>Veguhastin li ser Macê tê kirin</b> — belaş, negirêdayî, deng ji telefonê dernakeve. Di arşîvkirina bê de bi xwe wê were veguhastin. Ger tu naxwazî bisekinî tu dikarî bi xwe li jêr binivîsî.',
   'Bu sürümün notu yok.': 'Nota vê guhertoyê tune.',
-  'Bu süzgeçle kayıt yok.': 'Bi vê parzûnê tomar tune.',
+  'Bu süzgeçle kayıt yok.': 'Bi vê parzûnê qeyd tune.',
   'Bu telefon': 'Ev telefon',
-  'Bu tura geç': 'Derbasî vê geştê bibe',
+  'Bu tura geç': 'Derbasî vê rêwîtiyê bibe',
   'Bu yedek <b>eski</b>: içinde {0} kayıt var, telefonunda {1}. Yeni bir yedek al.':
-    'Ev kopî <b>kevn</b> e: di nav de {0} tomar hene, di telefona te de {1}. Kopiyeke nû bigire.',
+    'Ev kopî <b>kevn</b> e: di nav de {0} qeyd hene, di telefona te de {1}. Kopiyeke nû bigire.',
   'Bugün henüz sesli günlük yok': 'Îro hîn rojnivîska dengî tune',
   'Bugünden aklında ne kaldı? 90 saniye.': 'Ji îro çi di bîra te de ma? 90 çirke.',
   'Bulunamadı.': 'Nehate dîtin.',
@@ -479,14 +496,14 @@ export const KU = {
   'Burayı durak yap': 'Vir bike rawestgeh',
   'Burayı işaretle · konum bulunamadı': 'Li vir nîşan bike · cih nehate dîtin',
   'Burayı işaretle · {0}, {1}': 'Li vir nîşan bike · {0}, {1}',
-  'Bütün geziler': 'Hemû geşt',
+  'Bütün geziler': 'Hemû rêwîtî',
   'DOĞRULANMADI': 'NEHATE PIŞTRASTKIRIN',
   'Daha önce yazdıkların ({0})': 'Yên ku te berê nivîsandine ({0})',
   'Devam edince aynı dosyanın içinden sürer.': 'Gava berdewam bike di heman pelî de didome.',
   'Dikkat: kalıcı depolama açılmadı. Uygulamayı ANA EKRANDAKİ simgeden aç — Safari sekmesinden açarsan iOS verileri silebilir.':
     'Hay ji xwe hebe: cihgirtina mayînde venebû. Sepanê ji nîşana LI SER EKRANA SEREKE veke — ger ji beşa Safariyê vekî iOS dikare daneyan jê bibe.',
   'Dikkat: {0} kaydın ses/görsel dosyası okunamıyor. Yer açıp tekrar dene; olmuyorsa tamir kılavuzuna bak.':
-    'Hay ji xwe hebe: pelê deng/wêne yê {0} tomaran nayê xwendin. Cih veke û dîsa biceribîne; ger nebe li rêbera tamîrê binêre.',
+    'Hay ji xwe hebe: pelê deng/wêne yê {0} qeydan nayê xwendin. Cih veke û dîsa biceribîne; ger nebe li rêbera tamîrê binêre.',
   'Dosyalar indi bile. Tek yapılacak uygulamayı yenilemek — birkaç saniye.':
     'Pel jixwe daketine. Tiştê ku divê were kirin tenê nûkirina sepanê ye — çend çirke.',
   'Doğrulanamadı. Doğru dosyayı seçtiğinden emin ol.':
@@ -507,7 +524,7 @@ export const KU = {
     'Bişkok, beşa hilbijartî, girêdan. Rengê kaxizê naguhere. Ger tu vê vala bihêlî reng li gorî roja hefteyê bi xwe digere.',
   'Eklenenler': 'Yên hatine zêdekirin',
   'Çıkarılanlar': 'Yên hatine derxistin',
-  'Ekranı kapatma — kayıt kesilir.': 'Ekranê negire — tomar tê birîn.',
+  'Ekranı kapatma — kayıt kesilir.': 'Ekranê negire — qeyd tê birîn.',
   'Elle durduracağım': 'Ez ê bi destê xwe rawestînim',
   'Eski tam haritayı sil': 'Nexşeya kevn a tevahî jê bibe',
   'Fotoğraf küçültülüyor…': 'Wêne tê biçûkkirin…',
@@ -523,22 +540,22 @@ export const KU = {
   'Geri alındı': 'Hate vegerandin',
   'Gerok henüz başlamadı': 'Gerok hîn dest pê nekiriye',
   'Gerok internetsiz tam çalışır. Bağlantı yalnızca yukarıdaki işleri düzeltmek için kullanılır. Dışarı giden tek şey: para birimi kodları, kayıtların ve durakların koordinatları. Metin, ses, fotoğraf, isim — hiçbiri gitmiyor, hiçbir kaydın buluta yüklenmiyor.':
-    'Gerok bêînternet bi temamî dixebite. Girêdan tenê ji bo rastkirina karên jorîn tê bikaranîn. Tiştê ku derdikeve derve tenê ev e: kodên yekeyên diravî, koordînatên tomar û rawestgehan. Nivîs, deng, wêne, nav — yek jî naçe, tu tomara te li ewrê nayê barkirin.',
+    'Gerok negirêdayî bi temamî dixebite. Girêdan tenê ji bo rastkirina karên jorîn tê bikaranîn. Tiştê ku derdikeve derve tenê ev e: kodên yekeyên diravî, koordînatên qeyd û rawestgehan. Nivîs, deng, wêne, nav — yek jî naçe, tu qeyda te li ewrê nayê barkirin.',
   'Gerok paketi yüklenmedi': 'Pakêta Gerokê nehate barkirin',
   'Gerok paketi yüklenmedi.': 'Pakêta Gerokê nehate barkirin.',
   'Gerok tamamlandı': 'Gerok qediya',
   'Gerok — internetsiz çalışan gezi defteri.':
-    'Gerok — rojnivîska geştê ya ku bêînternet dixebite.',
+    'Gerok — rojnivîska rêwîtiyê ya ku negirêdayî dixebite.',
   'Gerok\'a ayrılan yer azaldı · harita paketini silebilirsin, videolar zaten galeride':
     'Cihê ku ji Gerokê re hatiye veqetandin kêm bû · tu dikarî pakêta nexşeyê jê bibî, vîdyo jixwe di galeriyê de ne',
   'Gerok\'a ayrılan yer azalıyor: {0} kaldı. Yedek al ve galeriden yer aç.':
     'Cihê ku ji Gerokê re hatiye veqetandin kêm dibe: {0} ma. Kopiyeke ewle bigire û ji galeriyê cih veke.',
   'Gerok\'a kalan yer': 'Cihê ku ji Gerokê re maye',
   'Gerok’u yapana yaz': 'Ji yê ku Gerok çêkiriye re binivîse',
-  'Gezi Sonu’nu başlat': 'Dawiya Geştê dest pê bike',
+  'Gezi Sonu’nu başlat': 'Dawiya Rêwîtiyê dest pê bike',
   'Gezinin başı ve sonu, bütün geziler, program dosyası.':
-    'Destpêk û dawiya geştê, hemû geşt, pelê bernameyê.',
-  'Geziye geri dön': 'Vegere geştê',
+    'Destpêk û dawiya rêwîtiyê, hemû rêwîtî, pelê bernameyê.',
+  'Geziye geri dön': 'Vegere rêwîtiyê',
   'Geçen sefer bir şey ters gitti. Aşağıdakini gönderirsen düzeltilebilir.':
     'Cara borî tiştek şaş çû. Ger tu ya jêrîn bişînî dikare were rastkirin.',
   'Giden şeyin tamamı': 'Tevahiya tiştê ku diçe',
@@ -556,7 +573,7 @@ export const KU = {
   'Gün Sonu': 'Dawiya Rojê',
   'Gün Sonu\'nu başlat': 'Dawiya Rojê dest pê bike',
   'Gün sayısını sonra değiştiremezsin ama sorun değil — süre bitse de kayıt almaya devam edebilirsin, "Gerok dışı" olarak yazılır.':
-    'Tu nikarî hejmara rojan paşê biguherînî lê ne pirsgirêk e — heke dem biqede jî tu dikarî tomarkirinê bidomînî, wek "Derveyî Gerokê" tê nivîsandin.',
+    'Tu nikarî hejmara rojan paşê biguherînî lê ne pirsgirêk e — heke dem biqede jî tu dikarî qeydkirinê bidomînî, wek "Derveyî Gerokê" tê nivîsandin.',
   'Gün {0}': 'Roja {0}an',
   'Güncellenemedi ({0}). İnternet varken tekrar dene.':
     'Nehate rojanekirin ({0}). Gava înternet hebe dîsa biceribîne.',
@@ -576,9 +593,9 @@ export const KU = {
   'Haritayı kaydır, sonra "Buraya durak ekle" de.':
     'Nexşeyê bikişîne, paşê "Li vir rawestgehekê zêde bike" bibêje.',
   'Henüz alan inmedi. İnternetsizken harita boş kalır.':
-    'Hîn dever nehatiye daxistin. Bêînternet nexşe vala dimîne.',
+    'Hîn dever nehatiye daxistin. Negirêdayî nexşe vala dimîne.',
   'Henüz bir gerok yüklenmedi — aşağıdaki kayıtlar duruyor. Paketi yükleyince ya da yeni tur başlatınca Gerok → Turlar\'dan tek düğmeyle o tura taşınırlar.':
-    'Hîn tu gerok nehatiye barkirin — tomarên jêrîn dimînin. Gava pakêtê bar bikî an geşteke nû dest pê bikî, ji Gerok → Geşt bi bişkokekê tenê derbasî wê geştê dibin.',
+    'Hîn tu gerok nehatiye barkirin — qeydên jêrîn dimînin. Gava pakêtê bar bikî an rêwîtiyeke nû dest pê bikî, ji Gerok → Rêwîtî bi bişkokekê tenê derbasî wê rêwîtiyê dibin.',
   'Henüz bir gerok yüklenmedi.<br>Gerok sekmesinden paketi yükle.':
     'Hîn tu gerok nehatiye barkirin.<br>Ji beşa Gerokê pakêtê bar bike.',
   'Henüz durak yok.<br>Haritadaki iğne düğmesine basıp kendi duraklarını koyabilirsin —<br>gerok paketi olmadan da çalışır.':
@@ -593,28 +610,28 @@ export const KU = {
 
   // ------------------------------------------------------ uygulama — B ---
   'KAYIT EDİLEMEDİ: ekran kapalıyken iOS kaydı kesmiş. Kayıt sırasında ekranı açık tut ya da Yol Modu\'nu aç — o ekranı söndürmüyor.':
-    'NEHATE TOMARKIRIN: gava ekran girtî bû iOSê tomar birî. Di dema tomarkirinê de ekranê vekirî bihêle an jî Moda Rê veke — ew ekranê venamirîne.',
+    'NEHATE QEYDKIRIN: gava ekran girtî bû iOSê qeyd birî. Di dema qeydkirinê de ekranê vekirî bihêle an jî Moda Rê veke — ew ekranê venamirîne.',
   'KAYIT EDİLEMEDİ: {0}. Telefonda yer kalmamış olabilir — Gerok sekmesinden yer durumuna bak, yedek al ve eski kayıtları temizle.':
-    'NEHATE TOMARKIRIN: {0}. Dibe ku di telefonê de cih nemabe — ji beşa Gerokê li rewşa cih binêre, kopiyeke ewle bigire û tomarên kevn paqij bike.',
+    'NEHATE QEYDKIRIN: {0}. Dibe ku di telefonê de cih nemabe — ji beşa Gerokê li rewşa cih binêre, kopiyeke ewle bigire û qeydên kevn paqij bike.',
   'KAYIT EDİLEMEDİ: {0}. Telefonda yer kalmamış olabilir.':
-    'NEHATE TOMARKIRIN: {0}. Dibe ku di telefonê de cih nemabe.',
+    'NEHATE QEYDKIRIN: {0}. Dibe ku di telefonê de cih nemabe.',
   'Kalıcı depolama açıldı.': 'Cihgirtina mayînde vebû.',
   'Kalıcı depolama iste': 'Cihgirtina mayînde bixwaze',
   'Kapalı — açmak için dokun': 'Girtî — ji bo vekirinê bitikîne',
   'Kara kutu henüz açılmadı.': 'Sindoqa reş hîn venebûye.',
-  'Kaydedildi · başlıksız': 'Hate tomarkirin · bêsernav',
-  'Kaydedildi · zaman çizgisine düştü': 'Hate tomarkirin · ket xeta demê',
-  'Kaydedildi · {0} {1}': 'Hate tomarkirin · {0} {1}',
-  'Kaydet': 'Tomar bike',
-  'Kayıt silindi': 'Tomar hate jêbirin',
+  'Kaydedildi · başlıksız': 'Hate qeydkirin · bêsernav',
+  'Kaydedildi · zaman çizgisine düştü': 'Hate qeydkirin · ket xeta demê',
+  'Kaydedildi · {0} {1}': 'Hate qeydkirin · {0} {1}',
+  'Kaydet': 'Qeyd bike',
+  'Kayıt silindi': 'Qeyd hate jêbirin',
   'Kayıtlı hata yok. Yine de sayıları gönderebilirsin.':
-    'Çewtiya tomarkirî tune. Dîsa jî tu dikarî hejmaran bişînî.',
+    'Çewtiya qeydkirî tune. Dîsa jî tu dikarî hejmaran bişînî.',
   'Kaç gün sürecek?': 'Wê çend rojan bidome?',
   'Konum alınamadı. Haritadan elle koyabilirsin.':
     'Cih nehate girtin. Tu dikarî ji nexşeyê bi destê xwe deynî.',
   'Konum alınıyor…': 'Cih tê girtin…',
   'Konum: {0}, {1}': 'Cih: {0}, {1}',
-  'Konuş — bitince "Durdur ve kaydet"': 'Biaxive — gava qediya "Biqedîne û tomar bike"',
+  'Konuş — bitince "Durdur ve kaydet"': 'Biaxive — gava qediya "Biqedîne û qeyd bike"',
   'Konuş. Ekranı kapatma.': 'Biaxive. Ekranê negire.',
   'Konuşma, sadece dinlet.': 'Neaxive, tenê bide guhdarkirin.',
   'Kullanım sayıları': 'Hejmarên bikaranînê',
@@ -652,7 +669,7 @@ export const KU = {
   'Senin düzelttiğin metin': 'Nivîsa ku te rast kiriye',
   'Ses dosyası bulunamadı.': 'Pelê dengî nehate dîtin.',
   'Ses kaydı sürüyor — önce onu bitir, sonra güncelle.':
-    'Tomara dengî berdewam e — pêşî wê biqedîne, paşê rojane bike.',
+    'Qeyda dengî berdewam e — pêşî wê biqedîne, paşê rojane bike.',
   'Ses çalınamadı: {0}': 'Deng nehate lêxistin: {0}',
   'Ses çözülerek çalınıyor · {0}': 'Deng bi veqetandinê tê lêxistin · {0}',
   'Sesin yazısı': 'Nivîsa dengî',
@@ -683,11 +700,11 @@ export const KU = {
     'Ne cihê vala yê telefonê ye — para ku geroka têvegerê ji Gerokê re veqetandiye. Ger telefon tije bibe iOS vê biçûk dike; cihê vala yê rastîn di Ayarlar → Genel → iPhone Saklama Alanı de nivîsandî ye.',
   'Telefonunda altı ülkenin tamamı duruyor: {0}. Artık yalnızca ihtiyaç duyduğun alanlar iniyor, bu dosyaya gerek kalmadı.':
     'Di telefona te de tevahiya şeş welatan heye: {0}. Niha tenê deverên ku hewceyî te ne tên daxistin, êdî hewcedariya vî pelî nema.',
-  'Tur başlamadan önce': 'Berî ku geşt dest pê bike',
-  'Tur beş saniye içinde silinecek': 'Geşt wê di nav pênc çirkeyan de were jêbirin',
-  'Tur silindi · {0} kayıt, {1} iz noktası.': 'Geşt hate jêbirin · {0} tomar, {1} xalên şopê.',
-  'Turlar': 'Geşt',
-  'Turun günlerinin dışında': 'Derveyî rojên geştê',
+  'Tur başlamadan önce': 'Berî ku rêwîtî dest pê bike',
+  'Tur beş saniye içinde silinecek': 'Rêwîtî wê di nav pênc çirkeyan de were jêbirin',
+  'Tur silindi · {0} kayıt, {1} iz noktası.': 'Rêwîtî hate jêbirin · {0} qeyd, {1} xalên şopê.',
+  'Turlar': 'Rêwîtî',
+  'Turun günlerinin dışında': 'Derveyî rojên rêwîtiyê',
   'Unutma listesi — her satıra bir şey': 'Lîsteya bîranînê — li her rêzikê tiştek',
   'Uydu görüntüsü internetten iniyor.': 'Dîmena peykê ji înternetê tê daxistin.',
   'Uydu için internet gerekiyor — şu an bağlantı yok, görüntü gelmez.':
@@ -701,14 +718,14 @@ export const KU = {
   'Yalnızca küçük işler · harita ve yedek wi-fi bekliyor':
     'Tenê karên biçûk · nexşe û kopiya ewle li benda wi-fiyê ne',
   'Yarım dosya boş çıktı, kaydedilecek ses yoktu.':
-    'Pelê nîvcî vala derket, dengê ku were tomarkirin tune bû.',
+    'Pelê nîvcî vala derket, dengê ku were qeydkirin tune bû.',
   'Yarım dosya okunamadı.': 'Pelê nîvcî nehate xwendin.',
-  'Yarım kayıt silindi': 'Tomara nîvcî hate jêbirin',
-  'Yarım kayıt siliniyor': 'Tomara nîvcî tê jêbirin',
-  'Yarım kayıt {0}\'e yerleştirildi.': 'Tomara nîvcî li {0}an hate danîn.',
+  'Yarım kayıt silindi': 'Qeyda nîvcî hate jêbirin',
+  'Yarım kayıt siliniyor': 'Qeyda nîvcî tê jêbirin',
+  'Yarım kayıt {0}\'e yerleştirildi.': 'Qeyda nîvcî li {0}an hate danîn.',
   'Yarım kayıt çalınamadı — yine de saklanabilir.':
-    'Tomara nîvcî nehate lêxistin — dîsa jî dikare were parastin.',
-  'Yazı kaydedildi · artık aranabilir': 'Nivîs hate tomarkirin · êdî lê tê gerîn',
+    'Qeyda nîvcî nehate lêxistin — dîsa jî dikare were parastin.',
+  'Yazı kaydedildi · artık aranabilir': 'Nivîs hate qeydkirin · êdî lê tê gerîn',
   'Yazı silindi': 'Nivîs hate jêbirin',
   'Yazılar': 'Nivîs',
   'Yazılar ve buradayım işaretleri': 'Nivîs û nîşanên “ez li vir im”',
@@ -717,16 +734,16 @@ export const KU = {
   'Yazıyı sil': 'Nivîsê jê bibe',
   'Yedek': 'Kopiya ewle',
   'Yedek doğrulandı · {0} kayıt, {1} dosya':
-    'Kopiya ewle hate piştrastkirin · {0} tomar, {1} pel',
+    'Kopiya ewle hate piştrastkirin · {0} qeyd, {1} pel',
   'Yedek sınanamadı: {0}': 'Kopiya ewle nehate ceribandin: {0}',
   'Yedek sınandı ✓ · {0} · {1} kayıt okunabiliyor':
-    'Kopiya ewle hate ceribandin ✓ · {0} · {1} tomar têne xwendin',
+    'Kopiya ewle hate ceribandin ✓ · {0} · {1} qeyd têne xwendin',
   'Yedek sınanıyor…': 'Kopiya ewle tê ceribandin…',
   'Yedek sınanıyor… {0}/{1} dosya': 'Kopiya ewle tê ceribandin… {0}/{1} pel',
   'Yedeği geri yükle': 'Kopiya ewle vegerîne',
   'Yedeği sına': 'Kopiya ewle biceribîne',
   'Yeni durak': 'Rawestgeheke nû',
-  'Yeni gezi başlat': 'Geşteke nû dest pê bike',
+  'Yeni gezi başlat': 'Rêwîtiyeke nû dest pê bike',
   'Yeni sürüm var mı?': 'Guhertoyeke nû heye?',
   'Yeni ülkeye girdin — zaman çizgisine işlendi.':
     'Tu ketî welatekî nû — li xeta demê hate nivîsandin.',
@@ -737,7 +754,7 @@ export const KU = {
     'Moda Rê vekirî ye lê deng venebû: hişyarî tenê li ser ekranê derdikeve.',
   'Yol Modu açık · ekran sönmeyecek': 'Moda Rê vekirî ye · ekran wê venemire',
   'Zaman çizgisi boş.<br>Kayıt sekmesinden ilk sesli notunu bırak,<br>ya da bir fotoğraf ekle.':
-    'Xeta demê vala ye.<br>Ji beşa Tomarê nota xwe ya dengî ya yekem bihêle,<br>an jî wêneyekê zêde bike.',
+    'Xeta demê vala ye.<br>Ji beşa Qeydê nota xwe ya dengî ya yekem bihêle,<br>an jî wêneyekê zêde bike.',
   'Zaman çizgisinde': 'Li xeta demê',
   'Zaten en son sürümdesin.': 'Tu jixwe di guhertoya dawî de yî.',
   'Zaten varsayılan · renk haftanın gününe göre dönüyor':
@@ -764,7 +781,7 @@ export const KU = {
   'birleştir · değiştir': 'yek bike · biguherîne',
   'bitti': 'qediya',
   'boş': 'vala',
-  'bu gezi': 'ev geşt',
+  'bu gezi': 'ev rêwîtî',
   'bu telefon': 'ev telefon',
   'eksik var': 'kêmasî heye',
   'evet': 'erê',
@@ -772,7 +789,7 @@ export const KU = {
   'ezan, müzik': 'bang, mûzîk',
   'eşitleme': 'hevberkirin',
   'fotoğraf ve video': 'wêne û vîdyo',
-  'gezi': 'geşt',
+  'gezi': 'rêwîtî',
   'gönderildi': 'hate şandin',
   'haftada bir gönderiliyor': 'hefteyê carekê tê şandin',
   'haftada bir · son {0}': 'hefteyê carekê · ya dawî {0}',
@@ -793,7 +810,7 @@ export const KU = {
   'konum: bulunamadı': 'cih: nehate dîtin',
   'konum: elle işaretlendi': 'cih: bi destan hate nîşankirin',
   'konum: fotoğrafın içinden': 'cih: ji nav wêneyê',
-  'konum: iz kaydından': 'cih: ji tomara şopê',
+  'konum: iz kaydından': 'cih: ji qeyda şopê',
   'konum: uydudan': 'cih: ji peykê',
   'kısa bir an': 'kêliyek kurt',
   'mobil veri': 'daneya mobîl',
@@ -804,7 +821,7 @@ export const KU = {
   'okunabilir ✓': 'tê xwendin ✓',
   'paketten': 'ji pakêtê',
   'puanın': 'puanê te',
-  'ses kayıtları': 'tomarên dengî',
+  'ses kayıtları': 'qeydên dengî',
   'sesli not, ortam sesi, günlük': 'nota dengî, dengê derdorê, rojnivîsk',
   'sürüm ve yardım': 'guherto û alîkarî',
   'sınanmadı': 'nehatiye ceribandin',
@@ -833,8 +850,8 @@ export const KU = {
   '{0} iş halledildi': '{0} kar hatin çareserkirin',
   '{0} kaldı': '{0} ma',
   '{0} karo ({1}) inmiş durumda': '{0} parçe ({1}) daketine',
-  '{0} kayıt': '{0} tomar',
-  '{0} kayıt bu tura taşındı.': '{0} tomar derbasî vê geştê bûn.',
+  '{0} kayıt': '{0} qeyd',
+  '{0} kayıt bu tura taşındı.': '{0} qeyd derbasî vê rêwîtiyê bûn.',
   '{0} kez': '{0} caran',
   '{0} km uçuş': '{0} km firîn',
   '{0} km · {1} nokta': '{0} km · {1} xal',
@@ -845,7 +862,7 @@ export const KU = {
   '{0} uzakta': '{0} dûr',
   '{0} yeni hata': '{0} çewtiyên nû',
   '{0} yeni kayıt · tek dosya, telefonda kalır':
-    '{0} tomarên nû · pelek tenê, di telefonê de dimîne',
+    '{0} qeydên nû · pelek tenê, di telefonê de dimîne',
   '{0} yeniden açıldı.': '{0} ji nû ve vebû.',
   '{0} yer açıldı.': '{0} cih vebû.',
   '{0} · bekleyen bir şey yok.': '{0} · tiştekî li benda tune.',
@@ -855,28 +872,28 @@ export const KU = {
   '{0} şey bekliyor — şimdi hallolabilir.':
     '{0} tişt li bendê ne — niha dikarin çareser bibin.',
   '{0} şey internet bekliyor. Otelde wi-fi bulunca tek dokunuşla hallolur; o zamana kadar her şey çevrimdışı çalışmaya devam eder.':
-    '{0} tişt li benda înternetê ne. Gava li otêlê wi-fi bibînî bi tikandinekê tenê çareser dibin; heta wê demê her tişt bêînternet dixebite.',
+    '{0} tişt li benda înternetê ne. Gava li otêlê wi-fi bibînî bi tikandinekê tenê çareser dibin; heta wê demê her tişt negirêdayî dixebite.',
   '{0} — haritayı ince ayarla, sonra "Buraya durak ekle".':
     '{0} — nexşeyê hûr saz bike, paşê "Li vir rawestgehekê zêde bike".',
   '{0} → Gün {1}': '{0} → Roja {1}an',
-  'Çevrimdışı harita': 'Nexşeya bêînternet',
+  'Çevrimdışı harita': 'Nexşeya negirêdayî',
   'Çift dokun · listenin başına dön': 'Du caran bitikîne · vegere serê lîsteyê',
   'Çift dokun · sayfanın başına dön': 'Du caran bitikîne · vegere serê rûpelê',
   'Çift dokun · sesli not başlat': 'Du caran bitikîne · nota dengî dest pê bike',
   'Çift dokun · tümünü göster': 'Du caran bitikîne · hemûyan nîşan bide',
-  'Çok kısaydı, kaydedilmedi.': 'Pir kurt bû, nehate tomarkirin.',
-  'Önce bir tur başlat.': 'Pêşî geştekê dest pê bike.',
+  'Çok kısaydı, kaydedilmedi.': 'Pir kurt bû, nehate qeydkirin.',
+  'Önce bir tur başlat.': 'Pêşî rêwîtiyekê dest pê bike.',
   'Önce bir şeyler yaz.': 'Pêşî tiştekî binivîse.',
   'Önizlemesi çıkmayan': 'Yên pêşdîtina wan derneket',
   'Üzerine basılabilecek şeylerin rengi': 'Rengê tiştên ku dikarin werin tikandin',
   'çarşı, sokak': 'sûk, kolan',
-  'çevrimdışı alan yok': 'devera bêînternet tune',
-  'çevrimdışı kurulum yok': 'sazkirina bêînternet tune',
+  'çevrimdışı alan yok': 'devera negirêdayî tune',
+  'çevrimdışı kurulum yok': 'sazkirina negirêdayî tune',
   'İndir ve güncelle': 'Daxîne û rojane bike',
   'İnmedi: {0}': 'Nedaket: {0}',
   'İnternet bulununca hallolacak': 'Gava înternet were dîtin wê çareser bibe',
   'İnternet kesildi · her şey çevrimdışı sürüyor':
-    'Înternet qut bû · her tişt bêînternet didome',
+    'Înternet qut bû · her tişt negirêdayî didome',
   'İnternet yok · bağlanınca hepsi kendiliğinden hallolur':
     'Înternet tune · gava girêdayî bibî hemû bi xwe çareser dibin',
   'İnternet yok · bağlanınca kendiliğinden hallolur':
@@ -891,19 +908,19 @@ export const KU = {
   'İnternette aranıyor…': 'Li înternetê tê gerîn…',
   'İnternetten inecek, sonra uygulama kendi kendine yenilenecek.':
     'Wê ji înternetê were daxistin, paşê sepan bi xwe nû dibe.',
-  'İz kaydı açıldı': 'Tomara şopê vebû',
-  'İz kaydı kapatıldı': 'Tomara şopê hate girtin',
+  'İz kaydı açıldı': 'Qeyda şopê vebû',
+  'İz kaydı kapatıldı': 'Qeyda şopê hate girtin',
   'Şelale, kahvaltı yeri, köprü…': 'Şirşir, cihê taştê, pir…',
   'Şimdi güncelle': 'Niha rojane bike',
   'Şimdiki hâl yedeklendi · sonra geri yükleyebilirsin':
     'Rewşa niha hate parastin · tu dikarî paşê vegerînî',
-  'Şu anki gezi': 'Geşta niha',
+  'Şu anki gezi': 'Rêwîtiya niha',
   'şu anki': 'ya niha',
   '≈ {0} dakika': '≈ {0} deqe',
   '≈ {0} saniye': '≈ {0} çirke',
   'Bulut yedeği hazırlanıyor… {0}/{1}': 'Kopiya ewle ya ewrê tê amadekirin… {0}/{1}',
   'Ekran kapalıyken kayıt kesilmiş, ses elde edilemedi':
-    'Gava ekran girtî bû tomar hate birîn, deng nehate girtin',
+    'Gava ekran girtî bû qeyd hate birîn, deng nehate girtin',
   'Ses dosyaya yazılamadı ({0})': 'Deng nehate nivîsandina pelî ({0})',
   'adsız dosya': 'pelê bênav',
   'depolama yanıt vermedi': 'cihgirtinê bersiv neda',
@@ -919,11 +936,11 @@ export const KU = {
   '+ not yaz': '+ notekê binivîse',
   ', {0} tanesi hariç': ', ji bilî {0} jê',
   '<b>"{0}"</b> arşive kaldırılacak. Kayıtları silinmiyor, istediğin an geri dönersin.':
-    '<b>"{0}"</b> wê here arşîvê. Tomarên wê nayên jêbirin, tu kengî bixwazî vedigerî.',
+    '<b>"{0}"</b> wê here arşîvê. Qeydên wê nayên jêbirin, tu kengî bixwazî vedigerî.',
   '<b>Bu son turun.</b> Arşivleyince zaman çizgisi, harita ve duraklar boşalacak — kayıtların yerinde duracak ve ekranda <b>Geziye geri dön</b> düğmesi çıkacak.':
-    '<b>Ev geşta te ya dawî ye.</b> Gava arşîv bikî xeta demê, nexşe û rawestgeh wê vala bibin — tomarên te li cihê xwe dimînin û li ser ekranê bişkoka <b>Vegere geştê</b> derdikeve.',
+    '<b>Ev rêwîtiya te ya dawî ye.</b> Gava arşîv bikî xeta demê, nexşe û rawestgeh wê vala bibin — qeydên te li cihê xwe dimînin û li ser ekranê bişkoka <b>Vegere rêwîtiyê</b> derdikeve.',
   '<b>{0} kayıt hiçbir tura bağlı değil.</b> Eski bir turdan kalmış olabilir. Şu anki tura taşıyabilirsin.':
-    '<b>{0} tomar bi tu geştê ve girêdayî nînin.</b> Dibe ku ji geşteke kevn mabin. Tu dikarî wan derbasî geşta niha bikî.',
+    '<b>{0} qeyd bi tu rêwîtiyê ve girêdayî nînin.</b> Dibe ku ji rêwîtiyeke kevn mabin. Tu dikarî wan derbasî rêwîtiya niha bikî.',
   '<b>{0} mesajın</b> internet bekliyor. Bağlanınca kendiliğinden gidecek.':
     '<b>{0} peyamên te</b> li benda înternetê ne. Gava girêdayî bibî bi xwe wê herin.',
   'Adın': 'Navê te',
@@ -948,9 +965,9 @@ export const KU = {
     'Rojnivîskeke vala vedibe. Tu rawestgehên xwe bi xwe ji nexşeyê datînî; ger pelê rêyeke amade hebe tu dikarî wê jî bar bikî.',
   'Bu durakla ilgili detay ister misin?': 'Tu li ser vê rawestgehê hûrgilî dixwazî?',
   'Bu gerokta henüz kayıt yok.<br>Alt şeritteki <span style="color:var(--vurgu)">Kayıt</span>\'a bas, bir sesli not bırak.<br>Yolda tek dokunuş yeter.':
-    'Di vê gerokê de hîn tomar tune.<br>Li <span style="color:var(--vurgu)">Tomar</span>a şerîta jêr bitikîne, notek dengî bihêle.<br>Di rê de tikandinek bes e.',
-  'Bu kayıt silinsin mi?': 'Ev tomar were jêbirin?',
-  'Bu tur tamamen silinsin mi?': 'Ev geşt bi temamî were jêbirin?',
+    'Di vê gerokê de hîn qeyd tune.<br>Li <span style="color:var(--vurgu)">Qeyd</span>a şerîta jêr bitikîne, notek dengî bihêle.<br>Di rê de tikandinek bes e.',
+  'Bu kayıt silinsin mi?': 'Ev qeyd were jêbirin?',
+  'Bu tur tamamen silinsin mi?': 'Ev rêwîtî bi temamî were jêbirin?',
   'Bugün olmaz': 'Îro na',
   'Burası hakkında bilgi': 'Agahî li ser vir',
   'Buraya gelince ne yapmalı? Kendi notun — akşam eşitlemesinde arkadaşının telefonuna da geçer.':
@@ -960,7 +977,7 @@ export const KU = {
   'Değiştir': 'Biguherîne',
   'Dinle': 'Guhdarî bike',
   'Dosyada <b>{0}</b> kayıt var. Telefonda şu an <b>{1}</b> kayıt duruyor.':
-    'Di pelî de <b>{0}</b> tomar hene. Di telefonê de niha <b>{1}</b> tomar hene.',
+    'Di pelî de <b>{0}</b> qeyd hene. Di telefonê de niha <b>{1}</b> qeyd hene.',
   'Dosyayı seç': 'Pelî hilbijêre',
   'Durak geri geldi': 'Rawestgeh vegeriya',
   'Durak silindi': 'Rawestgeh hate jêbirin',
@@ -971,11 +988,11 @@ export const KU = {
   'Gerek yok': 'Ne hewce ye',
   'Geri al': 'Vegerîne',
   'Geri yükleme birleştirme değil, değiştirme. Telefonda yedekte olmayan ne varsa silinir — yani yedek alındıktan sonra girdiğin her şey. Geriye tam olarak yedekteki <b>{0}</b> kayıt kalır. <b>Geri dönüşü yok.</b>':
-    'Vegerandin ne yekkirin e, guherandin e. Di telefonê de çi tune be di kopiyê de tê jêbirin — yanî her tiştê ku te piştî girtina kopiyê nivîsandiye. Bi tam <b>{0}</b> tomarên di kopiyê de dimînin. <b>Vegerandin tune.</b>',
+    'Vegerandin ne yekkirin e, guherandin e. Di telefonê de çi tune be di kopiyê de tê jêbirin — yanî her tiştê ku te piştî girtina kopiyê nivîsandiye. Bi tam <b>{0}</b> qeydên di kopiyê de dimînin. <b>Vegerandin tune.</b>',
   'Gerok’u yapana haftada bir kez birkaç sayı gidiyor: kaç kez açıldı, kaç kayıt var, hata çıktı mı, hangi sürüm ve hangi telefon. Hataların düzelmesi buna bakılarak oluyor.':
-    'Hefteyê carekê çend hejmar ji yê ku Gerok çêkiriye re diçin: çend caran vebû, çend tomar hene, çewtî derket an na, kîjan guherto û kîjan telefon. Rastkirina çewtiyan bi nêrîna van dibe.',
+    'Hefteyê carekê çend hejmar ji yê ku Gerok çêkiriye re diçin: çend caran vebû, çend qeyd hene, çewtî derket an na, kîjan guherto û kîjan telefon. Rastkirina çewtiyan bi nêrîna van dibe.',
   'Giden şey: yazdığın metin, yazdıysan adın, bir de sürüm ve telefon türü. <b>Notların, seslerin, fotoğrafların ve gezin gitmiyor.</b>':
-    'Tiştê ku diçe: nivîsa ku te nivîsandiye, ger te nivîsandibe navê te, û guherto û cureyê telefonê. <b>Not, deng, wêne û geşta te naçin.</b>',
+    'Tiştê ku diçe: nivîsa ku te nivîsandiye, ger te nivîsandibe navê te, û guherto û cureyê telefonê. <b>Not, deng, wêne û rêwîtiya te naçin.</b>',
   'Gitmedik': 'Em neçûn',
   'Gönder': 'Bişîne',
   'Gönderildi.': 'Hate şandin.',
@@ -986,19 +1003,19 @@ export const KU = {
   'Harcama ekle': 'Xerc zêde bike',
   'Harcamalar': 'Xerc',
   'Henüz harcama yok. Kayıt sekmesinden <b>Harcama</b> ile ekle — her biri saatiyle zaman çizgisine de düşer.':
-    'Hîn xerc tune. Ji beşa Tomarê bi <b>Xerc</b> zêde bike — her yek bi saeta xwe re dikeve xeta demê jî.',
+    'Hîn xerc tune. Ji beşa Qeydê bi <b>Xerc</b> zêde bike — her yek bi saeta xwe re dikeve xeta demê jî.',
   'Hepsini sil': 'Hemûyan jê bibe',
   'Her kaydın kime ait olduğu bununla yazılacak. İki telefonun kayıtları birleşince kimin ne söylediği belli olsun diye.':
-    'Bi vî awayî tê nivîsandin ku her tomar ya kê ye. Ji bo ku gava tomarên du telefonan werin yekkirin diyar be kê çi gotiye.',
+    'Bi vî awayî tê nivîsandin ku her qeyd ya kê ye. Ji bo ku gava qeydên du telefonan werin yekkirin diyar be kê çi gotiye.',
   'Kaldır': 'Rake',
-  'Karadeniz turu, Ege 2027…': 'Geşta Deryaya Reş, Ege 2027…',
+  'Karadeniz turu, Ege 2027…': 'Rêwîtiya Deryaya Reş, Ege 2027…',
   'Kayıtlar tutulur, yerleri boş kalır. Sonradan haritada elle işaretleyebilirsin.':
-    'Tomar tên girtin, cihên wan vala dimînin. Tu dikarî paşê li ser nexşeyê bi destan nîşan bikî.',
+    'Qeyd tên girtin, cihên wan vala dimînin. Tu dikarî paşê li ser nexşeyê bi destan nîşan bikî.',
   'Kayıtların, sesli notların, fotoğrafların ve izin <b>silinmez</b> — telefonda durur. Sadece ekranlardan çekilir, yeni turla karışmaz. İstediğin an geri dönebilirsin.':
-    'Tomar, notên dengî, wêne û şopa te <b>nayên jêbirin</b> — di telefonê de dimînin. Tenê ji ekranan tên vekişandin, bi geşta nû re tevlihev nabin. Tu kengî bixwazî dikarî vegerî.',
+    'Qeyd, notên dengî, wêne û şopa te <b>nayên jêbirin</b> — di telefonê de dimînin. Tenê ji ekranan tên vekişandin, bi rêwîtiya nû re tevlihev nabin. Tu kengî bixwazî dikarî vegerî.',
   'Konum izni yok': 'Destûra cih tune',
   'Konuşmayacaksın — o yerin nasıl duyulduğunu kaydediyorsun.':
-    'Tu nayê axaftin — tu tomar dikî ku ew cih çawa tê bihîstin.',
+    'Tu nayê axaftin — tu qeyd dikî ku ew cih çawa tê bihîstin.',
   'Listenin ucu — daha ileri gitmiyor.': 'Serê lîsteyê — pêştir naçe.',
   'Mikrofon izni': 'Destûra mîkrofonê',
   'Mikrofon izni yok': 'Destûra mîkrofonê tune',
@@ -1020,10 +1037,10 @@ export const KU = {
   'Ohrid, göl kıyısı': 'Ohrid, kêleka golê',
   'On yıl sonra adını hatırlamayacaksın.': 'Piştî deh salan tu navê wî nayê bîra te.',
   'Rotadan çıkar. Bu durakta yaptığın kayıtlar (ses, fotoğraf, not) silinmez — onlar yerinde kalır. Listenin en altındaki “Silinen duraklar”dan geri getirebilirsin.':
-    'Ji rê derdikeve. Tomarên ku te li vê rawestgehê kirine (deng, wêne, not) nayên jêbirin — ew li cihê xwe dimînin. Tu dikarî ji “Rawestgehên jêbirî” yên li binê lîsteyê wan vegerînî.',
+    'Ji rê derdikeve. Qeydên ku te li vê rawestgehê kirine (deng, wêne, not) nayên jêbirin — ew li cihê xwe dimînin. Tu dikarî ji “Rawestgehên jêbirî” yên li binê lîsteyê wan vegerînî.',
   'Sakla · {0}\'e koy': 'Biparêze · deyne {0}an',
   'Ses kaydı yapılamıyor. Yazı, fotoğraf ve harcama çalışmaya devam ediyor.':
-    'Tomara dengî nayê kirin. Nivîs, wêne û xerc dixebitin.',
+    'Qeyda dengî nayê kirin. Nivîs, wêne û xerc dixebitin.',
   'Ses konumu': 'Cihê dengî',
   'Silinemedi: {0}': 'Nehate jêbirin: {0}',
   'Silinen duraklar ({0})': 'Rawestgehên jêbirî ({0})',
@@ -1041,7 +1058,7 @@ export const KU = {
   'Tek tek ({0})': 'Yek bi yek ({0})',
   'Tekne sahibi, sabah 7 tavsiyesi': 'Xwediyê keştiyê, şîreta saet 7ê sibê',
   'Telefon, dosyanın nereye kaydedildiğini göremiyor — o yüzden "kaydedildi" yazısı bir <b>varsayım</b>. Az önce kaydettiğin dosyayı seç, açıp sayayım. Böylece yedeğin olduğunu <b>bilelim</b>.':
-    'Telefon nabîne ku pel li ku hatiye tomarkirin — loma nivîsa "hate tomarkirin" <b>texmînek</b> e. Pelê ku te hinekî berê tomar kir hilbijêre, bila ez vekim û bijmêrim. Bi vî awayî bila em <b>bizanin</b> ku kopiya te heye.',
+    'Telefon nabîne ku pel li ku hatiye qeydkirin — loma nivîsa "hate qeydkirin" <b>texmînek</b> e. Pelê ku te hinekî berê qeyd kir hilbijêre, bila ez vekim û bijmêrim. Bi vî awayî bila em <b>bizanin</b> ku kopiya te heye.',
   'Toplam': 'Giştî',
   'Toplam {0} karo · {1}': 'Bi giştî {0} parçe · {1}',
   'Toplam: <b>{0}</b> · {1}<br>Her harcama kendi günündeki gerçek kurla çevrildi{2}.':
@@ -1050,26 +1067,26 @@ export const KU = {
     'Giştî: <b>{0}</b><br>Yekeyên diravî cuda tên berhevkirin — ji bo yek giştiyê Girêdan → “Rêjeya xercan rast bike”.',
 
   // ------------------------------------------------------ uygulama — E ---
-  'Tur arşivlensin mi?': 'Geşt were arşîvkirin?',
-  'Turu başlat': 'Geştê dest pê bike',
+  'Tur arşivlensin mi?': 'Rêwîtî were arşîvkirin?',
+  'Turu başlat': 'Rêwîtiyê dest pê bike',
   'Turun <b>bütün kayıtları, sesli notları, fotoğraf önizlemeleri ve izi</b> telefondan gider.<br><br>Beş saniye "Geri al" düğmesi duracak; o geçtikten sonra <b>dönüşü yok</b>.<br><br>Yalnızca yer açmak istiyorsan <b>arşivle</b> yeter — o hiçbir şeyi silmiyor.':
-    '<b>Hemû tomar, notên dengî, pêşdîtinên wêneyan û şopa</b> geştê ji telefonê diçin.<br><br>Pênc çirkeyan bişkoka "Vegerîne" wê bimîne; piştî wê <b>vegerandin tune</b>.<br><br>Ger tu tenê dixwazî cih vekî <b>arşîvkirin</b> bes e — ew tu tiştî jê nabe.',
-  'Turun adı': 'Navê geştê',
+    '<b>Hemû qeyd, notên dengî, pêşdîtinên wêneyan û şopa</b> rêwîtiyê ji telefonê diçin.<br><br>Pênc çirkeyan bişkoka "Vegerîne" wê bimîne; piştî wê <b>vegerandin tune</b>.<br><br>Ger tu tenê dixwazî cih vekî <b>arşîvkirin</b> bes e — ew tu tiştî jê nabe.',
+  'Turun adı': 'Navê rêwîtiyê',
   'Yaklaşıyorsun · {0}': 'Tu nêzîk dibî · {0}',
   'Yakında böyle bir yer yok.': 'Li nêzîk cihekî wisa tune.',
   'Yalnızca işaretlediklerin': 'Tenê yên te nîşankirî',
-  'Yarım bir kayıt bulundu': 'Tomareke nîvcî hate dîtin',
+  'Yarım bir kayıt bulundu': 'Qeydeke nîvcî hate dîtin',
   'Yazılı not': 'Nota nivîskî',
   'Yedek okundu': 'Kopiya ewle hate xwendin',
   'Yedekte olmayan kayıtlar — sesleriyle birlikte — silinecek. Geriye yedekteki {0} kayıt kalacak. Bu işlem geri alınamaz. Emin misin?':
-    'Tomarên ku di kopiyê de nînin — bi dengên xwe re — wê werin jêbirin. {0} tomarên di kopiyê de wê bimînin. Ev kar nayê vegerandin. Tu bawer î?',
+    'Qeydên ku di kopiyê de nînin — bi dengên xwe re — wê werin jêbirin. {0} qeydên di kopiyê de wê bimînin. Ev kar nayê vegerandin. Tu bawer î?',
   'Yedektekiler eklenir. Telefondaki hiçbir şey silinmez — aynı kayıt iki kez eklenmez.':
-    'Yên di kopiyê de tên zêdekirin. Di telefonê de tu tişt nayê jêbirin — heman tomar du caran nayê zêdekirin.',
+    'Yên di kopiyê de tên zêdekirin. Di telefonê de tu tişt nayê jêbirin — heman qeyd du caran nayê zêdekirin.',
   'Yedeği doğrulayalım': 'Bila em kopiya ewle piştrast bikin',
   'Yeni alan indir': 'Devereke nû daxîne',
   'Yeni güncelleme var': 'Rojanekirineke nû heye',
-  'Yeni tur': 'Geşteke nû',
-  'Yeni tur başlat': 'Geşteke nû dest pê bike',
+  'Yeni tur': 'Rêwîtiyeke nû',
+  'Yeni tur başlat': 'Rêwîtiyeke nû dest pê bike',
   'Yer (isteğe bağlı)': 'Cih (bi dilê te)',
   'Yer azalıyor': 'Cih kêm dibe',
   'Yer açmak': 'Cih vekirin',
@@ -1084,22 +1101,22 @@ export const KU = {
   'internette ara': 'li înternetê bigere',
   'İnternette ara': 'Li înternetê bigere',
   'izin yok': 'destûr tune',
-  'kayıt yarıda kalmış': 'tomar nîvcî maye',
+  'kayıt yarıda kalmış': 'qeyd nîvcî maye',
   'makineden': 'ji makîneyê',
   'sokak': 'kolan',
   'yol': 'rê',
   'yukarıdakiyle birlikte çalışır': 'bi ya jorîn re bi hev re dixebite',
   '{0} boş yer kaldı. Uzun kayıt ve yedek için harita paketini silebilirsin — sonra yeniden indirilir.':
-    '{0} cihê vala ma. Ji bo tomara dirêj û kopiya ewle tu dikarî pakêta nexşeyê jê bibî — paşê dîsa tê daxistin.',
+    '{0} cihê vala ma. Ji bo qeyda dirêj û kopiya ewle tu dikarî pakêta nexşeyê jê bibî — paşê dîsa tê daxistin.',
   '{0} harcama': '{0} xerc',
-  '{0} kaydı bu tura taşı': '{0} tomaran derbasî vê geştê bike',
-  '{0} kayıt silinecek': '{0} tomar wê werin jêbirin',
+  '{0} kaydı bu tura taşı': '{0} qeydan derbasî vê rêwîtiyê bike',
+  '{0} kayıt silinecek': '{0} qeyd wê werin jêbirin',
   '{0} {1}\'de başlayan ses kaydı bitmeden uygulama kapanmış. Kaydedilen kısım duruyor.':
-    'Tomara dengî ya ku {0} di {1}an de dest pê kir neqediya, sepan hate girtin. Beşa ku hate tomarkirin dimîne.',
+    'Qeyda dengî ya ku {0} di {1}an de dest pê kir neqediya, sepan hate girtin. Beşa ku hate qeydkirin dimîne.',
   '{0} · bilgisini isteyeyim mi?': '{0} · ez agahiya wê bixwazim?',
   '{0} · yer aç': '{0} · cih veke',
   '{0} · {1} — saat değişmiyor.': '{0} · {1} — saet naguhere.',
-  'Çevrimdışı harita alanları': 'Deverên nexşeyê yên bêînternet',
+  'Çevrimdışı harita alanları': 'Deverên nexşeyê yên negirêdayî',
   'Önce yedek al': 'Pêşî kopiyeke ewle bigire',
   'Önce şimdiki hâli yedekle': 'Pêşî rewşa niha biparêze',
   'Örn. Tarçınlı tatlıyı saat kulesinin yanındaki dükkândan al.':
@@ -1114,11 +1131,11 @@ export const KU = {
   'İstersen ne olduğunu kendi cümlenle yaz (isteğe bağlı)':
     'Ger bixwazî bi hevoka xwe binivîse ka çi bû (bi dilê te)',
   'İzin ver': 'Destûrê bide',
-  'İşaret kaydedilemedi': 'Nîşan nehate tomarkirin',
+  'İşaret kaydedilemedi': 'Nîşan nehate qeydkirin',
   'Şu anki turun kayıtları ekranlarda görünür. Arşivdekiler telefonda durur, karışmaz; istediğin an geri dönebilirsin.':
-    'Tomarên geşta niha li ser ekranan xuya dibin. Yên di arşîvê de di telefonê de dimînin, tevlihev nabin; tu kengî bixwazî dikarî vegerî.',
+    'Qeydên rêwîtiya niha li ser ekranan xuya dibin. Yên di arşîvê de di telefonê de dimînin, tevlihev nabin; tu kengî bixwazî dikarî vegerî.',
   '≈ {0} · {1} karo · {2}': '≈ {0} · {1} parçe · {2}',
-  '▶ Devam et': '▶ Berdewam bike',
+  '▶ Devam et': '▶ Pêş de',
   'Not': 'Not',
   'Overpass sunucularının hiçbiri cevap vermedi': 'Tu ji rajekarên Overpassê bersiv neda',
   'kur tablosu boş geldi': 'tabloya rêjeyan vala hat',
@@ -1129,7 +1146,7 @@ export const KU = {
   'harita parçaları okunamadı': 'parçeyên nexşeyê nehatin xwendin',
   'Haftanın günü': 'Roja hefteyê',
   'Aşağıdaki gezi açılacak. Şu ana kadar telefonda hiçbir şey değişmedi — değişiklik bu düğmeyle oluyor.':
-    'Geşta jêrîn wê vebe. Heta niha di telefonê de tu tişt neguherî — guhertin bi vê bişkokê dibe.',
+    'Rêwîtiya jêrîn wê vebe. Heta niha di telefonê de tu tişt neguherî — guhertin bi vê bişkokê dibe.',
   'Başlıkları düzeltebilirsin. Bunlar zaman çizgisinde gün ayraçlarının üstünde yazacak.':
     'Tu dikarî sernavan rast bikî. Ev ê li xeta demê li ser veqetandekên rojan binivîsin.',
   'Bu JSON bir Gerok paketine benzemiyor.': 'Ev JSON naşibe pakêteke Gerokê.',
@@ -1140,7 +1157,7 @@ export const KU = {
   'NOT': 'NOT',
   'Dosya': 'Pel',
   'Tür': 'Cure',
-  'Gezi': 'Geşt',
+  'Gezi': 'Rêwîtî',
   'Gün': 'Roj',
   'Dosyada gün bulunamadı. Sorun değil — duraklar günsüz de alınabilir, sonra tek tek güne taşırsın.':
     'Di pelî de roj nehate dîtin. Ne pirsgirêk e — rawestgeh bêroj jî tên girtin, tu paşê yek bi yek diguhezînî rojan.',
@@ -1150,24 +1167,24 @@ export const KU = {
     'Notên "jibîrneke" yên bi rawestgehan ve girêdayî. Gava bigihîjî rawestgehê ev ê li ser ekranê derkevin.',
   'Gerok paketi': 'Pakêta Gerokê',
   'düz metin': 'nivîsa sade',
-  'Gezi açılınca harita indirmeyi hatırlat': 'Gava geşt vebe daxistina nexşeyê bîne bîra min',
+  'Gezi açılınca harita indirmeyi hatırlat': 'Gava rêwîtî vebe daxistina nexşeyê bîne bîra min',
   'Hepsini seç': 'Hemûyan hilbijêre',
   'Hiçbirini seçme': 'Yekê jî hilnebijêre',
   'Koordinatlı durak': 'Rawestgeha bi koordînat',
   'Seçtiğin durakların kapladığı alan. Harita paketi ev wi-fi\'sinde bir kez inip telefonda kalıyor — yolda internet gerekmiyor.':
     'Devera ku rawestgehên te hilbijartî digirin. Pakêta nexşeyê carekê bi wi-fiya malê dadikeve û di telefonê de dimîne — di rê de înternet ne hewce ye.',
   'Tur programının <b>PDF</b>’i, bilgisayardan gelen gezi paketi (.gerok) ya da düz metin. PDF ise yazısı kendiliğinden okunuyor. Dosya yalnızca OKUNUYOR — bu adımda telefona hiçbir şey yazılmıyor.':
-    '<b>PDF</b>a bernameya geştê, pakêta geştê ya ji komputerê (.gerok) an jî nivîsa sade. Ger PDF be nivîsa wê bi xwe tê xwendin. Pel tenê TÊ XWENDIN — di vê gavê de tu tişt li telefonê nayê nivîsandin.',
-  'Vazgeç, hiçbir şey eklemeden çık': 'Betal bike, bêyî ku tiştekî zêde bikî derkeve',
+    '<b>PDF</b>a bernameya rêwîtiyê, pakêta rêwîtiyê ya ji komputerê (.gerok) an jî nivîsa sade. Ger PDF be nivîsa wê bi xwe tê xwendin. Pel tenê TÊ XWENDIN — di vê gavê de tu tişt li telefonê nayê nivîsandin.',
+  'Vazgeç, hiçbir şey eklemeden çık': 'Dev jê berde, bêyî ku tiştekî zêde bikî derkeve',
   'istenmedi': 'nehate xwestin',
   'sonra indirilecek': 'paşê wê were daxistin',
   'Örn. sabah şehirden ayrılış': 'Mînak: sibê ji bajêr derketin',
   'İndirme burada başlamıyor: paket birkaç yüz megabayt olabiliyor ve mobil veriyle inmesi doğru olmaz. Gezi açıldıktan sonra Gerok → “Harita paketi indir”den, wi-fi\'deyken.':
-    'Daxistin li vir dest pê nake: pakêt dikare çend sed megabayt be û bi daneya mobîl daxistina wê ne rast e. Piştî ku geşt vebû, ji Gerok → “Pakêta nexşeyê daxîne”, gava li ser wi-fiyê bî.',
+    'Daxistin li vir dest pê nake: pakêt dikare çend sed megabayt be û bi daneya mobîl daxistina wê ne rast e. Piştî ku rêwîtî vebû, ji Gerok → “Pakêta nexşeyê daxîne”, gava li ser wi-fiyê bî.',
   'İşaretli olanlar alınacak. İstemediğin durağı şimdi çıkarmak, sonra tek tek silmekten kolay.':
     'Yên nîşankirî wê werin girtin. Derxistina rawestgeha ku tu naxwazî niha, ji jêbirina yek bi yek a paşê hêsantir e.',
   'Şu anki gezin arşive geçmiyor, duruyor — Gerok → “Bütün geziler”den aralarında geçebilirsin.':
-    'Geşta te ya niha naçe arşîvê, dimîne — ji Gerok → “Hemû geşt” tu dikarî di navbera wan de derbas bibî.',
+    'Rêwîtiya te ya niha naçe arşîvê, dimîne — ji Gerok → “Hemû rêwîtî” tu dikarî di navbera wan de derbas bibî.',
 
   // ------------------------------------------------------ sihirbaz son ---
   'Programdaki notlar': 'Notên di bernameyê de',

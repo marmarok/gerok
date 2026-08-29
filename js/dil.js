@@ -40,7 +40,7 @@ export function aktifDil() { return aktif; }
 
 export const DILLER = [
   { kod: 'tr', ad: 'Türkçe', kendi: 'Türkçe' },
-  { kod: 'ku', ad: 'Kürtçe (Kurmancî)', kendi: 'Kurmancî' }
+  { kod: 'ku', ad: 'Kürtçe (Kurdî)', kendi: 'Kurdî' }
 ];
 
 export function dilSec(kod) {
