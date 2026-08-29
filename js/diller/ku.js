@@ -949,7 +949,7 @@ export const KU = {
     '<b>{0} peyamên te</b> li benda înternetê ne. Gava girêdayî bibî bi xwe wê herin.',
   'Adın': 'Navê te',
   'Adın (istersen — boş bırakabilirsin)': 'Navê te (ger bixwazî — dikarî vala bihêlî)',
-  'Adın ne?': 'Navê te çi ye?',
+  'Adın ne?': 'Ez Gerok. Navê te çi ye?',
   'Alan iniyor…': 'Dever tê daxistin…',
   'Alınamayanlar:': 'Yên nehatin girtin:',
   'Ana ekrandaki simgeden açtıysan:<br><b>Ayarlar → Gerok → Mikrofon → İzin ver</b><br><br>Safari sekmesinden açtıysan:<br><b>Ayarlar → Safari → Mikrofon → İzin ver</b><br><br>İzni verdikten sonra uygulamayı tamamen kapat (kartı yukarı kaydır) ve yeniden aç. İzin, uygulama açıkken değişmiyor.':
