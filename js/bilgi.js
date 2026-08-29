@@ -17,6 +17,7 @@
  */
 
 import * as veri from './veri.js';
+import { ç } from './dil.js';
 
 const ADRES = 'https://raw.githubusercontent.com/marmarok/gerok/bekci/bilgi.json';
 
@@ -76,7 +77,10 @@ function sade(m) {
   // zorunda; bir kontrol her koşuda ikisini karşılaştırıyor.
   const harf = { 'ı': 'i', 'ğ': 'g', 'ü': 'u', 'ş': 's', 'ö': 'o', 'ç': 'c',
                  'â': 'a', 'î': 'i', 'û': 'u', 'đ': 'd', 'ć': 'c', 'č': 'c',
-                 'ž': 'z', 'š': 's', 'ë': 'e', 'á': 'a', 'é': 'e' };
+                 'ž': 'z', 'š': 's', 'ë': 'e', 'á': 'a', 'é': 'e',
+                 // ê Kurmancînin en sık harflerinden. Çizelgede yokken
+                 // boşluğa dönüyordu: "dîrok" aranırken "d rok" oluyordu.
+                 'ê': 'e' };
   x = x.replace(/[^a-z0-9 ]/g, (c) => harf[c] ?? ' ');
   return x.replace(/\s+/g, ' ').trim();
 }
@@ -164,15 +168,23 @@ export function yerAra(metin) {
 /** Cümlenin hangi bölümü sorduğu: yemek mi, alışveriş mi, tarih mi. */
 const BOLUM_ANAHTAR = {
   ye: ['ne yenir', 'yemek', 'ye', 'yenir', 'aç', 'lokanta', 'restoran', 'kahvaltı',
-       'iç', 'içecek', 'kahve', 'tatlı', 'mutfak', 'yiyecek'],
+       'iç', 'içecek', 'kahve', 'tatlı', 'mutfak', 'yiyecek',
+       'çi tê xwarin', 'xwarin', 'bixwe', 'xwaringeh', 'taştê', 'vexwarin',
+       'qehwe', 'şîranî'],
   al: ['ne alınır', 'alışveriş', 'al', 'alınır', 'hediye', 'hediyelik', 'satın',
-       'suvenir', 'çarşı', 'pazar', 'fiyat', 'ucuz', 'pahalı'],
-  gez: ['gez', 'görülecek', 'gezilecek', 'ne var', 'görmeli', 'yer', 'müze', 'gezi'],
+       'suvenir', 'çarşı', 'pazar', 'fiyat', 'ucuz', 'pahalı',
+       'çi tê kirîn', 'kirîn', 'bikire', 'diyarî', 'sûk', 'bazar', 'buha', 'erzan'],
+  gez: ['gez', 'görülecek', 'gezilecek', 'ne var', 'görmeli', 'yer', 'müze', 'gezi',
+        'çi tê dîtin', 'bibîne', 'bigere', 'mûze', 'çi heye'],
   gezgin: ['gezgin', 'yorum', 'tavsiye', 'öneri', 'ipucu', 'deneyim', 'tecrübe',
-           'diğerleri', 'başkaları', 'ne diyor'],
-  dikkat: ['dikkat', 'uyarı', 'tuzak', 'kandır', 'tehlike', 'sorun', 'riski'],
-  tarih: ['tarih', 'geçmiş', 'hikâye', 'hikaye', 'ne zaman', 'kim yaptı', 'kuruldu'],
-  turkiye: ['türkiye', 'kıyas', 'karşılaştır', 'tl', 'lira', 'bize göre'],
+           'diğerleri', 'başkaları', 'ne diyor',
+           'geştiyar', 'şîret', 'pêşniyar', 'tecrûbe', 'yên din', 'çi dibêjin'],
+  dikkat: ['dikkat', 'uyarı', 'tuzak', 'kandır', 'tehlike', 'sorun', 'riski',
+           'hişyarî', 'xeter', 'pirsgirêk', 'xapandin'],
+  tarih: ['tarih', 'geçmiş', 'hikâye', 'hikaye', 'ne zaman', 'kim yaptı', 'kuruldu',
+          'dîrok', 'çîrok', 'kengî', 'kê çêkiriye', 'borî'],
+  turkiye: ['türkiye', 'kıyas', 'karşılaştır', 'tl', 'lira', 'bize göre',
+            'tirkiye', 'berhevdan', 'li gorî me'],
 };
 
 export function bolumBul(metin) {
@@ -285,9 +297,9 @@ const satirlar = (liste, ciz) =>
   (liste || []).map(x => `<div class="bk-madde">${ciz(x)}</div>`).join('');
 
 export const BOLUM_ADI = {
-  gez: 'Ne görülür', ye: 'Ne yenir', al: 'Ne alınır',
-  gezgin: 'Gezginler ne diyor', dikkat: 'Dikkat', tarih: 'Tarihi',
-  turkiye: 'Türkiye’ye göre',
+  gez: ç`Ne görülür`, ye: ç`Ne yenir`, al: ç`Ne alınır`,
+  gezgin: ç`Gezginler ne diyor`, dikkat: ç`Dikkat`, tarih: ç`Tarihi`,
+  turkiye: ç`Türkiye’ye göre`,
 };
 
 /** Tek bölümün gövdesi. Boşsa null döner — boş başlık yazmıyoruz. */
@@ -328,17 +340,17 @@ export function ozetHtml(yer) {
 export function ulkeHtml(u) {
   if (!u) return null;
   return `<b>${kacis(u.ad)}</b><br><span class="bk-soluk">${kacis(u.baskent)}</span><br><br>`
-    + `<b>Para</b><br>${kacis(u.para.ad)} (${kacis(u.para.kod)}) · ${kacis(u.para.kur)}<br>`
+    + `<b>${ç`Para`}</b><br>${kacis(u.para.ad)} (${kacis(u.para.kod)}) · ${kacis(u.para.kur)}<br>`
     + `<span class="bk-soluk">${kacis(u.para.nakit)}</span><br><br>`
-    + `<b>Dil</b><br>${kacis(u.dil)}<br><br>`
-    + `<b>Birkaç kelime</b><br>`
+    + `<b>${ç`Dil`}</b><br>${kacis(u.dil)}<br><br>`
+    + `<b>${ç`Birkaç kelime`}</b><br>`
     + (u.sozler || []).map(([tr, ye]) => `${kacis(tr)} — <b>${kacis(ye)}</b>`).join('<br>')
-    + `<br><br><b>Ne kaça</b><br>`
+    + `<br><br><b>${ç`Ne kaça`}</b><br>`
     + (u.fiyat || []).map(([n, f]) => `${kacis(n)} <span class="bk-fiyat">${kacis(f)}</span>`).join('<br>')
-    + `<br><br><b>Türkiye’ye göre</b><br>${kacis(u.turkiye)}`
-    + ((u.dikkat || []).length ? `<br><br><b>Dikkat</b><br>${satirlar(u.dikkat, x => kacis(x))}` : '')
-    + (u.tuvalet ? `<br><b>Tuvalet</b> ${kacis(u.tuvalet)}` : '')
-    + (u.internet ? `<br><b>İnternet</b> ${kacis(u.internet)}` : '');
+    + `<br><br><b>${ç`Türkiye’ye göre`}</b><br>${kacis(u.turkiye)}`
+    + ((u.dikkat || []).length ? `<br><br><b>${ç`Dikkat`}</b><br>${satirlar(u.dikkat, x => kacis(x))}` : '')
+    + (u.tuvalet ? `<br><b>${ç`Tuvalet`}</b> ${kacis(u.tuvalet)}` : '')
+    + (u.internet ? `<br><b>${ç`İnternet`}</b> ${kacis(u.internet)}` : '');
 }
 
 /** Kartta gerçekten dolu olan bölümler — boş düğme göstermemek için. */

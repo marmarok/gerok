@@ -11,6 +11,7 @@
 // Değerler Claude Design'daki GEROK tasarımının SEMALAR tablosundan birebir.
 
 import { karistir, karsit } from './renk.js';
+import { ç } from './dil.js';
 
 export const SEMALAR = {
   'kahve': {
@@ -68,7 +69,7 @@ const DONGU = ['buz mavisi', 'açık yeşil', 'mürekkep', 'zeytin + tuğla',
 //
 // Geriye üç şey kaldı: haftanın yedi günü (sabit, değiştirilemez),
 // kâğıdın rengi (js/tema.js) ve vurgu rengi (aşağıda) — son ikisi sınırsız.
-export const SEMA_SECENEKLERI = [{ id: 'gun', ad: 'Haftanın günü' }];
+export const SEMA_SECENEKLERI = [{ id: 'gun', ad: ç`Haftanın günü` }];
 
 /**
  * Yedi günün vurgu renkleri, pazartesiden pazara, o anki temaya göre.

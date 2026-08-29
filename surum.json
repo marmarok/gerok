@@ -1,7 +1,7 @@
 {
- "surum": "gerok-118-20260828-135257",
- "sayi": 118,
- "tarih": "2026-08-28T13:52:57+03:00",
+ "surum": "gerok-119-20260829-203948",
+ "sayi": 119,
+ "tarih": "2026-08-29T20:39:48+03:00",
  "dosyalar": {
   "./index.html": {
    "boyut": 13014,
@@ -44,12 +44,12 @@
    "ozet": "55606fbc76dc232c"
   },
   "./js/app.js": {
-   "boyut": 260407,
-   "ozet": "2efa28688c36d984"
+   "boyut": 264020,
+   "ozet": "544866aca3200c3c"
   },
   "./js/sihirbaz.js": {
-   "boyut": 20294,
-   "ozet": "1ff258c1c17e9bd8"
+   "boyut": 20514,
+   "ozet": "ddb052687dff5f1a"
   },
   "./js/veri.js": {
    "boyut": 13886,
@@ -60,16 +60,16 @@
    "ozet": "4e03e234aad21843"
   },
   "./js/iz.js": {
-   "boyut": 6621,
-   "ozet": "6479865cbba9bc82"
+   "boyut": 6660,
+   "ozet": "dd04d02491b5db17"
   },
   "./js/gerok.js": {
-   "boyut": 28183,
-   "ozet": "325332d12ea89eaa"
+   "boyut": 28571,
+   "ozet": "43408c6c19191002"
   },
   "./js/kayit.js": {
-   "boyut": 28088,
-   "ozet": "d39023dbd5132b04"
+   "boyut": 28131,
+   "ozet": "6984c3a68c4d9be9"
   },
   "./js/tema.js": {
    "boyut": 3219,
@@ -80,36 +80,36 @@
    "ozet": "f696911843e197fc"
   },
   "./js/harita.js": {
-   "boyut": 29660,
-   "ozet": "f6dd9ab6f96d8e3c"
+   "boyut": 29708,
+   "ozet": "2473d3bcaf8681de"
   },
   "./js/harita-stil.js": {
-   "boyut": 12825,
-   "ozet": "5019183ad82ab1a4"
+   "boyut": 12863,
+   "ozet": "72fac1385674d867"
   },
   "./js/gunsonu.js": {
-   "boyut": 26288,
-   "ozet": "f7bd267989de5cd8"
+   "boyut": 26902,
+   "ozet": "14359eac8854d56c"
   },
   "./js/esitleme.js": {
-   "boyut": 35580,
-   "ozet": "52c9aa2f58f6e520"
+   "boyut": 35729,
+   "ozet": "ec28b9d3758f81dd"
   },
   "./js/yer-ara.js": {
-   "boyut": 4813,
-   "ozet": "59eba65638f5c177"
+   "boyut": 4970,
+   "ozet": "ab94e2b0a7565d24"
   },
   "./js/ikon.js": {
    "boyut": 7116,
    "ozet": "02940519aa941b1b"
   },
   "./js/sema.js": {
-   "boyut": 9718,
-   "ozet": "8788c4c0099ea0cf"
+   "boyut": 9751,
+   "ozet": "dc8eb045d3de7265"
   },
   "./js/baglanti.js": {
-   "boyut": 28245,
-   "ozet": "b554ff9b14007c3c"
+   "boyut": 28412,
+   "ozet": "dc8e2a574c1cf9d9"
   },
   "./js/bekci.js": {
    "boyut": 91120,
@@ -120,8 +120,16 @@
    "ozet": "b4172261cd04864c"
   },
   "./js/rehber.js": {
-   "boyut": 7885,
-   "ozet": "ae66ddc7eb9d17d5"
+   "boyut": 7760,
+   "ozet": "a3c8ee2cd0f5014b"
+  },
+  "./js/dil.js": {
+   "boyut": 7700,
+   "ozet": "37ae5a894ade0007"
+  },
+  "./js/diller/ku.js": {
+   "boyut": 81027,
+   "ozet": "15640a4879eb7d22"
   },
   "./vendor/pdf.worker.mjs": {
    "boyut": 1375838,
@@ -136,24 +144,24 @@
    "ozet": "c7e4c2eb61183aff"
   },
   "./js/harita-alan.js": {
-   "boyut": 15418,
-   "ozet": "b55a8af3ae4c8605"
+   "boyut": 15453,
+   "ozet": "e37262947793861c"
   },
   "./bolgeler.json": {
    "boyut": 684,
    "ozet": "297a5251d326f2be"
   },
   "./js/bilgi.js": {
-   "boyut": 14428,
-   "ozet": "2c3ab2b1403db0be"
+   "boyut": 15248,
+   "ozet": "abf45f9642ca4006"
   },
   "./veri-yerler.json": {
    "boyut": 289547,
    "ozet": "a84c0b4c139f4632"
   },
   "./degisiklikler.json": {
-   "boyut": 12060,
-   "ozet": "fbbf5cd084d504ba"
+   "boyut": 13156,
+   "ozet": "7b5db392acf64d12"
   },
   "./yazi/noto-regular/0-255.pbf": {
    "boyut": 76044,

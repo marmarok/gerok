@@ -13,6 +13,7 @@ import { aktifGerok, duraklar } from './gerok.js';
 import * as depo from './depo.js';
 import { stilUret, BOS_STIL, KIPLER } from './harita-stil.js';
 import * as alan from './harita-alan.js';
+import { ç } from './dil.js';
 
 export { KIPLER };
 
@@ -45,7 +46,7 @@ async function haritaAdresiSec() {
       }
     } catch { /* sonrakini dene */ }
   }
-  throw new Error('Parça listesi hiçbir adresten alınamadı');
+  throw new Error(ç`Parça listesi hiçbir adresten alınamadı`);
 }
 
 
@@ -204,7 +205,7 @@ export async function haritaKur() {
     if (boyut) {
       try {
         const dosya = await haritaBlobu();
-        if (!dosya) throw new Error('harita parçaları okunamadı');
+        if (!dosya) throw new Error(ç`harita parçaları okunamadı`);
         pmt = new pmtiles.PMTiles(new BlobKaynak(dosya, 'gerok-harita'));
         kaynakVar = true;
       } catch (hata) {
@@ -218,9 +219,9 @@ export async function haritaKur() {
       stil = stilUret(aktifKip);
       uyari?.classList.add('gizli');
     } else {
-      uyari.innerHTML = 'Harita için internet ya da indirilmiş bir alan gerekiyor.<br>' +
-        '<b>Gerok</b> sekmesinden <b>Harita alanı indir</b> ile gideceğin yeri seç — ' +
-        'yolda internet olmayabilir.';
+      uyari.innerHTML = ç`Harita için internet ya da indirilmiş bir alan gerekiyor.<br>` +
+        ç`<b>Gerok</b> sekmesinden <b>Harita alanı indir</b> ile gideceğin yeri seç — ` +
+        ç`yolda internet olmayabilir.`;
       uyari.classList.remove('gizli');
     }
 
@@ -280,7 +281,7 @@ function kaynakYazisiTazele() {
   if (!e) return;
   e.textContent = aktifKip === 'uydu'
     ? '© Esri, Maxar · © OpenStreetMap'
-    : '© OpenStreetMap · çevrimdışı pmtiles';
+    : `© OpenStreetMap · ${ç`çevrimdışı pmtiles`}`;
 }
 
 // Haritanın o an baktığı yer — "Google Haritalar'da aç" bunu kullanıyor.

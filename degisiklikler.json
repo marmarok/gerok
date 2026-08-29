@@ -2,6 +2,20 @@
  "aciklama": "Her güncellemede ne eklendi, ne düzeldi, ne çıktı. En yeni en üstte. Bu dosya güncelleme kartında okunuyor; boş bırakılamaz, yayınlama betiği kontrol ediyor.",
  "surumler": [
   {
+   "sayi": 119,
+   "eklendi": [
+    "Kürtçe (Kurmancî) dil desteği. Gerok → bu telefon → Dil'den geçiliyor; seçim telefonda kalıyor ve uygulama Kürtçe açılıyor. Arayüzün tamamı — düğmeler, uyarılar, Gün Sonu ve Gezi Sonu akışları, tanıtım turu, gezi bilgisi kartları — çevrildi.",
+    "Kürtçedeyken tarihler Kurmancî yazılıyor: “29ê tebaxa 2026an”, “Şemî”. Ay ve gün adları uygulamanın kendi listesinden geliyor — telefonun Kürtçe bilmesi gerekmiyor.",
+    "Gezi bilgisi kartlarına Kürtçe sorular da soruluyor: “çi tê xwarin”, “dîrok”, “çi tê dîtin” gibi.",
+    "Sınır geçişi Kürtçedeyken Kürtçe yazılıyor: “Em ketin Kosovayê”. Ülke adları da Kürtçe."
+   ],
+   "duzeldi": [
+    "Aramada Kürtçenin ê harfi boşluğa dönüyordu — “Nîsêbîn” yazan hiçbir şey bulamıyordu. Hem yer aramada hem gezi bilgisinde düzeldi.",
+    "Bir çeviri eksik kalırsa ekranda boşluk değil Türkçesi görünüyor; uygulama hiçbir durumda yarım yazıyla açılmıyor."
+   ],
+   "cikti": []
+  },
+  {
    "sayi": 118,
    "eklendi": [
     "Tur programının PDF’i doğrudan yüklenebiliyor. Gezi → program dosyası yükle’de artık PDF de kabul ediliyor; yazısı kendiliğinden okunup günlere ve duraklara ayrılıyor. Önceden PDF’i açıp metni elle kopyalaman gerekiyordu.",

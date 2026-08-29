@@ -5,6 +5,7 @@ import { kayitEkle, medyaYaz, medyaEkle, medyaSil, yeniKimlik, izGetir, izdenKon
          ayarYaz, ayarOku } from './veri.js';
 import { suAnkiKonum, mesafe } from './iz.js';
 import { gunNo, aktifGerok, yonelmeEki, duraklar } from './gerok.js';
+import { ç } from './dil.js';
 
 let sahip = { id: null, ad: null };
 export function sahipAyarla(s) { sahip = s; }
@@ -333,7 +334,7 @@ export async function sesBitir(tur = 'ses', ekler = {}) {
   // demektir. Sessizce "kaydedildi" demek en kötüsü olurdu — kullanıcı
   // kaydettiğini sanıp devam eder ve konuşulanlar kaybolur.
   if (!blob.size) {
-    const h = new Error('Ekran kapalıyken kayıt kesilmiş, ses elde edilemedi');
+    const h = new Error(ç`Ekran kapalıyken kayıt kesilmiş, ses elde edilemedi`);
     h.sesKesildi = true;
     throw h;
   }
@@ -351,10 +352,10 @@ export async function sesBitir(tur = 'ses', ekler = {}) {
     await Promise.race([
       medyaYaz(medyaId, blob),
       new Promise((_, hata) =>
-        setTimeout(() => hata(new Error('depolama yanıt vermedi')), 15000))
+        setTimeout(() => hata(new Error(ç`depolama yanıt vermedi`)), 15000))
     ]);
   } catch (h) {
-    const y = new Error(`Ses dosyaya yazılamadı (${h.message})`);
+    const y = new Error(ç`Ses dosyaya yazılamadı (${h.message})`);
     y.yazilamadi = true;
     throw y;
   }
@@ -454,7 +455,7 @@ export async function fiyatEkle(ne, tutar, paraBirimi, kategori = '') {
 export async function sinirEkle(ulkeKodu, ulkeAdi, zaman, lat, lon) {
   const k = await kayitKur('sinir', {
     t: zaman, lat, lon, konumKaynagi: 'gps',
-    metin: `${yonelmeEki(ulkeAdi)} girdik`,
+    metin: ç`${yonelmeEki(ulkeAdi)} girdik`,
     ulke: ulkeKodu
   });
   await kayitEkle(k);
@@ -734,7 +735,7 @@ export async function fotoAl(dosyalar, ilerleme = null, ekTur = null, iptalMi = 
       // önizlemesiz satır ekranda boş bir kutu gibi duruyor ve sorulan ilk soru
       // "fotoğraf gelmedi mi" oluyor. (Videolarda bu OLAĞAN: iOS geçerli
       // videodan da kare vermiyor.)
-      onizlemesiz.push(dosya.name || 'adsız dosya');
+      onizlemesiz.push(dosya.name || ç`adsız dosya`);
     }
 
     const kayit = await kayitKur(ekTur || (dosya.type.startsWith('video/') ? 'video' : 'foto'), {
@@ -752,7 +753,7 @@ export async function fotoAl(dosyalar, ilerleme = null, ekTur = null, iptalMi = 
     } catch (hata) {
       // Tek bir bozuk dosya bütün aktarımı öldürmesin — atla, geri kalanı al.
       console.warn('fotoğraf alınamadı:', dosya.name, hata);
-      basarisiz.push(dosya.name || 'adsız dosya');
+      basarisiz.push(dosya.name || ç`adsız dosya`);
     }
   }
 

@@ -23,6 +23,7 @@
 /* global pmtiles */
 import * as depo from './depo.js';
 import * as veri from './veri.js';
+import { ç } from './dil.js';
 
 const BOLGE_LISTESI = './bolgeler.json';
 const KARO_KLASOR = 'karo';
@@ -306,11 +307,11 @@ export async function alanTahmini(kutu, enFazlaZ) {
  */
 export async function alanIndir(kutu, enFazlaZ, ilerleme) {
   if (!navigator.onLine)
-    throw new Error('İnternet yok — harita alanı internetliyken indirilir.');
+    throw new Error(ç`İnternet yok — harita alanı internetliyken indirilir.`);
 
   const hepsi = karolar(kutu, enFazlaZ);
   if (hepsi.length > EN_FAZLA_KARO)
-    throw new Error(`Alan çok büyük (${hepsi.length} karo). Daha küçük bir alan seç.`);
+    throw new Error(ç`Alan çok büyük (${hepsi.length} karo). Daha küçük bir alan seç.`);
 
   const mevcut = new Set(await depo.listele(KARO_KLASOR));
   let yazilan = 0, bayt = 0, atlanan = 0, biten = 0;

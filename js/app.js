@@ -5,7 +5,7 @@
 // Neden önbelleğin adına bakmıyoruz: yeni sürüm indiğinde önbellek adı değişiyor
 // ama ekrandaki kod hâlâ eski oluyor — uygulama kendini güncellenmiş sanıyordu.
 // Bu satır ekrandaki dosyanın içinde olduğu için yalan söyleyemiyor.
-const BU_SURUM = 'gerok-118-20260828-135257';
+const BU_SURUM = 'gerok-119-20260829-203948';
 
 import * as veri from './veri.js';
 import * as iz from './iz.js';
@@ -29,6 +29,7 @@ import { ikon, ikonlariYerlestir } from './ikon.js';
 import * as bekci from './bekci.js';
 import * as kutu from './kutu.js';
 import * as rehber from './rehber.js';
+import { ç, dilBaslat, dilSec, aktifDil, tarihYaz, DILLER } from './dil.js';
 
 const $ = (s) => document.querySelector(s);
 const $$ = (s) => Array.from(document.querySelectorAll(s));
@@ -68,6 +69,9 @@ function semayiTazele(secim = semaSecimi()) {
 }
 
 async function baslat() {
+  // Dil her şeyden önce: index.html'in içindeki sabit yazılar uygulama
+  // kendi ekranlarını çizmeden çevrilmeli, yoksa bir an Türkçe çakıyor.
+  dilBaslat();
   temaBaslat();
   await veri.ac();
   // Kara kutu erken açılıyor: açılışın KENDİSİNDE çıkan hata da yakalansın.
@@ -245,7 +249,7 @@ async function paylasilanlariAl() {
   history.replaceState(null, '', adres.pathname + adres.search + adres.hash);
 
   if (sayi === 'hata' || !('caches' in window)) {
-    kayitBildir('Paylaşılan dosya okunamadı', 'kotu');
+    kayitBildir(ç`Paylaşılan dosya okunamadı`, 'kotu');
     return;
   }
 
@@ -278,9 +282,9 @@ async function paylasilanlariAl() {
  */
 function agDegisiminiIzle() {
   addEventListener('offline', () =>
-    kayitBildir('İnternet kesildi · her şey çevrimdışı sürüyor'));
+    kayitBildir(ç`İnternet kesildi · her şey çevrimdışı sürüyor`));
   addEventListener('online', () =>
-    kayitBildir('İnternet geri geldi', 'iyi'));
+    kayitBildir(ç`İnternet geri geldi`, 'iyi'));
 }
 
 // Depolama sağlığı — açılışta bir kez.
@@ -300,13 +304,11 @@ async function depolamaSagligi() {
     durum.depolama = d;
 
     if (!durum.kaliciDepolama) {
-      kayitBildir('Dikkat: kalıcı depolama açılmadı. Uygulamayı ANA EKRANDAKİ ' +
-        'simgeden aç — Safari sekmesinden açarsan iOS verileri silebilir.', 'kotu');
+      kayitBildir(ç`Dikkat: kalıcı depolama açılmadı. Uygulamayı ANA EKRANDAKİ simgeden aç — Safari sekmesinden açarsan iOS verileri silebilir.`, 'kotu');
       return;
     }
     if (d && d.kota && (d.kota - d.kullanilan) < AZ_YER_ESIGI) {
-      kayitBildir(`Gerok'a ayrılan yer azalıyor: ${boyutYaz(d.kota - d.kullanilan)} kaldı. ` +
-        'Yedek al ve galeriden yer aç.', 'kotu');
+      kayitBildir(ç`Gerok'a ayrılan yer azalıyor: ${boyutYaz(d.kota - d.kullanilan)} kaldı. Yedek al ve galeriden yer aç.`, 'kotu');
     }
   } catch { /* sorgulanamıyorsa sessiz geç, uygulama yine çalışır */ }
 }
@@ -397,11 +399,11 @@ const OGRET_SINIRI = 3;
 let ogretilen = null;
 
 async function kisayoluOgret(ad) {
-  const yazi = { zaman: 'Çift dokun · listenin başına dön',
-                 duraklar: 'Çift dokun · listenin başına dön',
-                 gerok: 'Çift dokun · sayfanın başına dön',
-                 harita: 'Çift dokun · tümünü göster',
-                 kayit: 'Çift dokun · sesli not başlat' }[ad];
+  const yazi = { zaman: ç`Çift dokun · listenin başına dön`,
+                 duraklar: ç`Çift dokun · listenin başına dön`,
+                 gerok: ç`Çift dokun · sayfanın başına dön`,
+                 harita: ç`Çift dokun · tümünü göster`,
+                 kayit: ç`Çift dokun · sesli not başlat` }[ad];
   if (!yazi) return;
 
   const kaydirici = { zaman: '#zamanListe', duraklar: '#ekran-duraklar', gerok: '#ekran-gerok' }[ad];
@@ -445,7 +447,7 @@ function sekmeKisayolu(ad) {
     // Yanlışlıkla başlarsa görünür bir "Vazgeç" var ve hiçbir şey yazılmıyor.
     if (kayit.sesKaydediyorMu()) return;
     titret(8);
-    sesKaydiBaslat('ses', { ipucu: 'Konuş. Ekranı kapatma.\nBitince Durdur ve kaydet.' });
+    sesKaydiBaslat('ses', { ipucu: ç`Konuş. Ekranı kapatma.` + '\n' + ç`Bitince Durdur ve kaydet.` });
     return;
   }
 
@@ -551,7 +553,7 @@ function ustBariYaz() {
   $('#ustBaslik').textContent = s ? s.ad : 'Gerok';
   $('#ustAlt').textContent = g
     ? gerok.gunBasligi(g)
-    : (s ? (gerok.gerokBittiMi() ? 'Gerok tamamlandı' : 'Gerok henüz başlamadı') : 'Gerok paketi yüklenmedi');
+    : (s ? (gerok.gerokBittiMi() ? ç`Gerok tamamlandı` : ç`Gerok henüz başlamadı`) : ç`Gerok paketi yüklenmedi`);
   ustGunPenceresi();
 }
 
@@ -637,18 +639,18 @@ function onizlemeAdresiniBirak(medyaId) {
 // listede yer bol, açıklayıcı olmak serbest — şeritte ise düğme uzayınca
 // arama kutusunu eziyor (375 piksellik ekranda 133'e kadar düştüğü ölçüldü).
 const SUZGECLER = [
-  { id: 'hepsi', ad: 'Hepsi', kisa: 'Süzgeç', dene: () => true },
-  { id: 'ses', ad: 'Sesler', kisa: 'Sesler', ipucu: 'sesli not, ortam sesi, günlük',
+  { id: 'hepsi', ad: ç`Hepsi`, kisa: ç`Süzgeç`, dene: () => true },
+  { id: 'ses', ad: ç`Sesler`, kisa: ç`Sesler`, ipucu: ç`sesli not, ortam sesi, günlük`,
     dene: (k) => ['ses', 'ortam', 'gunluk', 'baslangic', 'bitis', 'mektup'].includes(k.tur) },
-  { id: 'gorsel', ad: 'Fotoğraf ve video', kisa: 'Görseller', ipucu: 'sıradan kareler dahil',
+  { id: 'gorsel', ad: ç`Fotoğraf ve video`, kisa: ç`Görseller`, ipucu: ç`sıradan kareler dahil`,
     dene: (k) => ['foto', 'video', 'siradan'].includes(k.tur) },
-  { id: 'insanPara', ad: 'Harcama ve tanıştıklarımız', kisa: 'Harcama',
+  { id: 'insanPara', ad: ç`Harcama ve tanıştıklarımız`, kisa: ç`Harcama`,
     dene: (k) => ['kisi', 'fiyat'].includes(k.tur) },
-  { id: 'yaziIsaret', ad: 'Yazılar ve buradayım işaretleri', kisa: 'Yazılar',
+  { id: 'yaziIsaret', ad: ç`Yazılar ve buradayım işaretleri`, kisa: ç`Yazılar`,
     dene: (k) => ['yazi', 'isaret'].includes(k.tur) },
-  { id: 'sinir', ad: 'Sınır geçişleri', kisa: 'Sınırlar',
+  { id: 'sinir', ad: ç`Sınır geçişleri`, kisa: ç`Sınırlar`,
     dene: (k) => k.tur === 'sinir' },
-  { id: 'baskasi', ad: 'Arkadaşının kayıtları', kisa: 'Arkadaşın',
+  { id: 'baskasi', ad: ç`Arkadaşının kayıtları`, kisa: ç`Arkadaşın`,
     dene: (k) => k.sahip && k.sahip !== kayit.sahipAl().id }
 ];
 const suzgecBul = (id) => SUZGECLER.find(x => x.id === id) || SUZGECLER[0];
@@ -693,12 +695,12 @@ function zamanCizgisiCiz() {
   if (!s) arsivVarsaAnlat();
 
   if (!s && !durum.kayitlar.length) {
-    kap.innerHTML = bosDurum('harita', 'Henüz bir gerok yüklenmedi.<br>Gerok sekmesinden paketi yükle.');
+    kap.innerHTML = bosDurum('harita', ç`Henüz bir gerok yüklenmedi.<br>Gerok sekmesinden paketi yükle.`);
     return;
   }
   if (!durum.kayitlar.length) {
     kap.innerHTML = bosDurum('zamanBos',
-      'Zaman çizgisi boş.<br>Kayıt sekmesinden ilk sesli notunu bırak,<br>ya da bir fotoğraf ekle.');
+      ç`Zaman çizgisi boş.<br>Kayıt sekmesinden ilk sesli notunu bırak,<br>ya da bir fotoğraf ekle.`);
     return;
   }
 
@@ -716,16 +718,14 @@ function zamanCizgisiCiz() {
     kap.innerHTML = hicYok
       ? `<div class="bos-durum ilk">
           <div class="bos-halka"></div>
-          <div class="bos-yazi">Bu gerokta henüz kayıt yok.<br>
-          Alt şeritteki <span style="color:var(--vurgu)">Kayıt</span>'a bas,
-          bir sesli not bırak.<br>Yolda tek dokunuş yeter.</div>
+          <div class="bos-yazi">${ç`Bu gerokta henüz kayıt yok.<br>Alt şeritteki <span style="color:var(--vurgu)">Kayıt</span>'a bas, bir sesli not bırak.<br>Yolda tek dokunuş yeter.`}</div>
         </div>`
       : `<div class="bos-durum">
-          <div class="bos-yazi">Bu süzgeçle kayıt yok.<br>
+          <div class="bos-yazi">${ç`Bu süzgeçle kayıt yok.`}<br>
           <span style="color:var(--vurgu)">${kacis(sorgu ? `“${sorgu}”`
-            : (durum.sadeceIsaretli ? 'işaretlediklerin' : suzgec.ad.toLocaleLowerCase('tr')))}</span>
+            : (durum.sadeceIsaretli ? ç`işaretlediklerin` : suzgec.ad.toLocaleLowerCase('tr')))}</span>
           ${durum.sadeceIsaretli && !sorgu
-            ? '<br><br>Bir kayda <b>çift dokun</b> — yıldız çıkar, kayıt buraya düşer.'
+            ? `<br><br>${ç`Bir kayda <b>çift dokun</b> — yıldız çıkar, kayıt buraya düşer.`}`
             : ''}</div>
         </div>`;
     return;
@@ -766,9 +766,7 @@ function zamanCizgisiCiz() {
     .sort((a, b) => grupAni.get(b) - grupAni.get(a));
 
   // Paket yüklenmeden bırakılan kayıtlar kaybolmuş sanılmasın.
-  let html = s ? '' : `<div class="uyari-satir">Henüz bir gerok yüklenmedi —
-    aşağıdaki kayıtlar duruyor. Paketi yükleyince ya da yeni tur başlatınca
-    Gerok → Turlar'dan tek düğmeyle o tura taşınırlar.</div>`;
+  let html = s ? '' : `<div class="uyari-satir">${ç`Henüz bir gerok yüklenmedi — aşağıdaki kayıtlar duruyor. Paketi yükleyince ya da yeni tur başlatınca Gerok → Turlar'dan tek düğmeyle o tura taşınırlar.`}</div>`;
   const turBasi = s ? new Date(s.baslangic).getTime() : 0;
   const turSonu = s ? new Date(s.bitis).getTime() : 0;
 
@@ -793,8 +791,8 @@ function zamanCizgisiCiz() {
       gunAdi = gerok.tarihUzun(grupZamani);
       rozet = !s ? 'Tur yok'
         : grupZamani > turSonu ? 'Tur bittikten sonra'
-        : grupZamani < turBasi ? 'Tur başlamadan önce'
-        : 'Turun günlerinin dışında';
+        : grupZamani < turBasi ? ç`Tur başlamadan önce`
+        : ç`Turun günlerinin dışında`;
     }
 
     const bilgi = gunler
@@ -864,7 +862,7 @@ function zamanCizgisiCiz() {
       // yalnızca boyu değişiyor, böylece büyürken kırpışmıyor.
       b.classList.toggle('buyuk', buyuk);
       b.setAttribute('aria-expanded', String(buyuk));
-      b.setAttribute('aria-label', buyuk ? 'Fotoğrafı küçült' : 'Fotoğrafı büyüt');
+      b.setAttribute('aria-label', buyuk ? ç`Fotoğrafı küçült` : ç`Fotoğrafı büyüt`);
     });
   });
   ayrintiDugmeleriniBagla(kap);
@@ -991,7 +989,7 @@ async function isaretiDegistir(satir) {
   try {
     await veri.kayitEkle({ ...k, isaretli: acildi ? true : undefined });
   } catch {
-    kayitBildir('İşaret kaydedilemedi', 'kotu');
+    kayitBildir(ç`İşaret kaydedilemedi`, 'kotu');
   }
 }
 
@@ -1108,7 +1106,7 @@ function suzgecEtiketiYaz() {
   const dugme = $('#btnSuzgec'), etiket = $('#suzgecEtiket');
   if (!dugme || !etiket) return;
   const acik = durum.suzgec !== 'hepsi';
-  etiket.textContent = acik ? suzgecBul(durum.suzgec).kisa : 'Süzgeç';
+  etiket.textContent = acik ? suzgecBul(durum.suzgec).kisa : ç`Süzgeç`;
   dugme.classList.toggle('secili', acik);
   $('#btnIsaretli')?.classList.toggle('secili', !!durum.sadeceIsaretli);
 }
@@ -1131,15 +1129,15 @@ function suzgecListesiAc() {
   const isaretliSayi = durum.kayitlar.filter(isaretliMi).length;
 
   ortuAc(`
-    <div class="ortu-baslik">Süzgeç</div>
+    <div class="ortu-baslik">${ç`Süzgeç`}</div>
     <div class="suzgec-liste">${satirlar}</div>
     <button class="suzgec-satir yildizli ${durum.sadeceIsaretli ? 'secili' : ''}"
             id="ssIsaretli" ${isaretliSayi ? '' : 'disabled'}>
-      <span class="ss-ad">Yalnızca işaretlediklerin
-        <span class="ss-ipucu">yukarıdakiyle birlikte çalışır</span></span>
+      <span class="ss-ad">${ç`Yalnızca işaretlediklerin`}
+        <span class="ss-ipucu">${ç`yukarıdakiyle birlikte çalışır`}</span></span>
       <span class="ss-sayi">${isaretliSayi}</span>
     </button>
-    <button class="eylem-dugme" id="ssKapat">Kapat</button>
+    <button class="eylem-dugme" id="ssKapat">${ç`Kapat`}</button>
   `, true, 'suzgec');
 
   const uygula = () => {
@@ -1225,10 +1223,10 @@ function seridiKur(kaydirici, ustSerit = null, herAdimda = null) {
 // "burası gerçekten orası mıydı" diye sorulduğunda cevabı olan tek şey bu:
 // uydu ölçümü ile izden tahmin arasındaki fark birkaç yüz metre olabiliyor.
 const KONUM_KAYNAGI = {
-  gps: 'konum: uydudan',
-  iz: 'konum: iz kaydından',
-  exif: 'konum: fotoğrafın içinden',
-  elle: 'konum: elle işaretlendi'
+  gps: ç`konum: uydudan`,
+  iz: ç`konum: iz kaydından`,
+  exif: ç`konum: fotoğrafın içinden`,
+  elle: ç`konum: elle işaretlendi`
 };
 
 const SESLI_TURLER = ['ses', 'ortam', 'gunluk', 'baslangic', 'bitis', 'mektup'];
@@ -1281,8 +1279,8 @@ function kayitSatiri(k) {
   const yer = k.yerAdi
     ? `🌐 konum: ${kacis(k.yerAdi)}`
     : (k.lat != null && k.lon != null)
-      ? (KONUM_KAYNAGI[k.konumKaynagi] || 'konum: uydudan')
-      : 'konum: bulunamadı';
+      ? (KONUM_KAYNAGI[k.konumKaynagi] || ç`konum: uydudan`)
+      : ç`konum: bulunamadı`;
 
   const sesli = SESLI_TURLER.includes(k.tur);
   const gorsel = GORSEL_TURLER.includes(k.tur);
@@ -1310,7 +1308,7 @@ function kayitSatiri(k) {
     const dm = d.metin || d.baslik || '';
     if (!dm) continue;
     govde += `<div class="diger-surum">
-      <div class="diger-etiket">${kacis(d.kimden || 'arkadaşının')} sürümü</div>
+      <div class="diger-etiket">${ç`${kacis(d.kimden || ç`arkadaşının`)} sürümü`}</div>
       <div class="diger-metin">${kacis(dm)}</div>
     </div>`;
   }
@@ -1329,7 +1327,7 @@ function kayitSatiri(k) {
     // hangisinin insan sözü olduğunu bilmek isteyecek.
     const elle = k.yaziKaynagi === 'elle';
     govde += `<div class="cozum${acik ? ' acik' : ''}">
-      ${elle ? '' : '<span class="cozum-etiket">makineden</span>'}${kacis(kisa)}
+      ${elle ? '' : `<span class="cozum-etiket">${ç`makineden`}</span>`}${kacis(kisa)}
     </div>`;
   }
 
@@ -1337,7 +1335,7 @@ function kayitSatiri(k) {
     const cubuklar = dalgaCubuklari(k.id);
     govde += `<div class="ses-oynat">
       <button class="ses-tus" data-ses="${k.medyaId}" data-bicim="${kacis(k.bicim || '')}" data-sure="${k.sure || 0}">▶</button>
-      <div class="dalga" role="slider" aria-label="Ses konumu"
+      <div class="dalga" role="slider" aria-label="${ç`Ses konumu`}"
            aria-valuemin="0" aria-valuemax="1000" aria-valuenow="0">
         <div class="dalga-kat sonuk">${cubuklar}</div>
         <div class="dalga-kat dolu">${cubuklar}</div>
@@ -1353,7 +1351,7 @@ function kayitSatiri(k) {
     const buyuk = durum.acikKisiFotosu === k.id;
     govde += `<button class="kisi-foto${buyuk ? ' buyuk' : ''}"
       data-kisi-foto="${k.id}" data-onizleme="${k.medyaId}"
-      aria-label="${buyuk ? 'Fotoğrafı küçült' : 'Fotoğrafı büyüt'}"
+      aria-label="${buyuk ? ç`Fotoğrafı küçült` : ç`Fotoğrafı büyüt`}"
       aria-expanded="${buyuk}"></button>`;
   }
   if (k.medyaId && gorsel) {
@@ -1398,7 +1396,7 @@ function kayitSatiri(k) {
       ${turGoster ? `<span class="kayit-tur">${kacis(tur)}</span>` : ''}
       ${gorsel && metin ? `<span class="kayit-ust-baslik">${kacis(metin)}</span>` : ''}
       <span class="kayit-bosluk"></span>
-      ${k.isaretli ? '<span class="isaret-yildiz" aria-label="işaretli">★</span>' : ''}
+      ${k.isaretli ? `<span class="isaret-yildiz" aria-label="${ç`işaretli`}">★</span>` : ''}
       <span class="kayit-sahip">${kacis(k.sahipAd || 'bilinmeyen')}</span>
     </div>
     ${govde}
@@ -1430,7 +1428,7 @@ function ayrintiPaneli(k, { konumlu, basliklanabilir, gorsel = false, videoSure 
   // değil. O yüzden düğmelerin yanına, açılan panele indi.
   const fotoNotu = !gorsel ? ''
     : videoSure != null
-      ? `video · ${sureYaz(videoSure)} · önizleme, orijinali galeride`
+      ? ç`video · ${sureYaz(videoSure)} · önizleme, orijinali galeride`
       : 'önizleme · orijinali galeride';
 
   // Tek bir sarmalayıcı: panel açılıp kapanırken bu düğüm olduğu gibi
@@ -1439,14 +1437,14 @@ function ayrintiPaneli(k, { konumlu, basliklanabilir, gorsel = false, videoSure 
   return `<div class="ayrinti">
     ${fotoNotu ? `<div class="foto-not">${kacis(fotoNotu)}</div>` : ''}
     <div class="kayit-eylemler">
-      ${konumlu ? `<button class="satir-dugme" data-google="${k.lat},${k.lon}">Haritalar'da aç</button>` : ''}
-      ${gorsel ? `<button class="satir-dugme" data-galeri="${k.id}">Fotoğrafları aç</button>` : ''}
-      ${k.tur === 'yazi' ? `<button class="satir-dugme vurgulu" data-yazi-duzenle="${k.id}">Düzenle</button>` : ''}
+      ${konumlu ? `<button class="satir-dugme" data-google="${k.lat},${k.lon}">${ç`Haritalar'da aç`}</button>` : ''}
+      ${gorsel ? `<button class="satir-dugme" data-galeri="${k.id}">${ç`Fotoğrafları aç`}</button>` : ''}
+      ${k.tur === 'yazi' ? `<button class="satir-dugme vurgulu" data-yazi-duzenle="${k.id}">${ç`Düzenle`}</button>` : ''}
       ${SESLI_TURLER.includes(k.tur) ? `<button class="satir-dugme vurgulu" data-cozum="${k.id}">${
-        (k.yazi || '').trim() ? 'Yazıyı düzelt' : 'Yazıya çevir'}</button>` : ''}
+        (k.yazi || '').trim() ? ç`Yazıyı düzelt` : ç`Yazıya çevir`}</button>` : ''}
       ${basliklanabilir ? `<button class="satir-dugme vurgulu" data-baslik="${k.id}">${
-        k.baslik || k.metin ? 'Adını değiştir' : 'Başlık yaz'}</button>` : ''}
-      <button class="satir-dugme sil" data-sil="${k.id}">Sil</button>
+        k.baslik || k.metin ? ç`Adını değiştir` : ç`Başlık yaz`}</button>` : ''}
+      <button class="satir-dugme sil" data-sil="${k.id}">${ç`Sil`}</button>
     </div>
   </div>`;
 }
@@ -1478,8 +1476,7 @@ function ayrintiPaneli(k, { konumlu, basliklanabilir, gorsel = false, videoSure 
 function galeridenAc(kayitId) {
   const k = durum.kayitlar.find(x => x.id === kayitId);
   if (!k) return;
-  kayitBildir(`Fotoğraflar açılıyor · aslı ${gerok.tarihUzun(k.t)} ` +
-    `${gerok.saat(k.t)} hizasında`);
+  kayitBildir(ç`Fotoğraflar açılıyor · aslı ${gerok.tarihUzun(k.t)} ${gerok.saat(k.t)} hizasında`);
   // Konum ya da kimlik taşımayan, yalnızca uygulamayı öne getiren bir adres.
   const a = document.createElement('a');
   a.href = 'photos-redirect://';
@@ -1492,7 +1489,7 @@ function galeridenAc(kayitId) {
 // Google Haritalar: yorumlar ve fotoğraflar orada. İNTERNET İSTER — yolda
 // çalışmaz, otelin wifi'sinde çalışır.
 export function googleHaritalarAc({ lat, lon, ad = '', zoom = 15 }) {
-  kayitBildir('Google Haritalar’da açılıyor');
+  kayitBildir(ç`Google Haritalar’da açılıyor`);
   const adres = ad
     ? `https://www.google.com/maps/search/${encodeURIComponent(ad)}/@${lat},${lon},${zoom}z`
     : `https://www.google.com/maps/search/?api=1&query=${lat},${lon}`;
@@ -1517,13 +1514,11 @@ async function kaydiSil(id) {
   const tur = veri.TURLER[k.tur] || k.tur;
 
   ortuAc(`
-    <div class="ortu-baslik">Bu kayıt silinsin mi?</div>
-    <div class="ortu-alt">${kacis(tur)} · ${kacis(gerok.saat(k.t))}${k.metin ? ` · "${kacis(k.metin.slice(0, 60))}"` : ''}<br><br>
-    Beş saniye "Geri al" düğmesi duracak. O geçtikten sonra dönüşü yok:
-    ses dosyası da siliniyor ve arkadaşına paket gönderdiğinde onun
-    telefonundan da silinir.</div>
-    <button class="eylem-dugme birincil" id="silOnay">Sil</button>
-    <button class="eylem-dugme" id="silVazgec">Vazgeç</button>
+    <div class="ortu-baslik">${ç`Bu kayıt silinsin mi?`}</div>
+    <div class="ortu-alt">${kacis(ç(tur))} · ${kacis(gerok.saat(k.t))}${k.metin ? ` · "${kacis(k.metin.slice(0, 60))}"` : ''}<br><br>
+    ${ç`Beş saniye "Geri al" düğmesi duracak. O geçtikten sonra dönüşü yok: ses dosyası da siliniyor ve arkadaşına paket gönderdiğinde onun telefonundan da silinir.`}</div>
+    <button class="eylem-dugme birincil" id="silOnay">${ç`Sil`}</button>
+    <button class="eylem-dugme" id="silVazgec">${ç`Vazgeç`}</button>
   `);
 
   $('#silVazgec').addEventListener('click', ortuKapat);
@@ -1539,7 +1534,7 @@ async function kaydiSil(id) {
     zamanCizgisiCiz();
 
     let iptal = false;
-    geriAlinabilirBildir('Kayıt silindi', () => {
+    geriAlinabilirBildir(ç`Kayıt silindi`, () => {
       iptal = true;
       durum.kayitlar = eskiKayitlar;
       zamanCizgisiCiz();
@@ -1561,12 +1556,12 @@ function kayitBasligiSor(id) {
   durum.acikSatir = null;
 
   ortuAc(`
-    <div class="ortu-baslik">Bir satırla ne oldu?</div>
-    <div class="ortu-alt">Tek satır yeter — sonradan açmadan ne olduğunu anlamak için.</div>
+    <div class="ortu-baslik">${ç`Bir satırla ne oldu?`}</div>
+    <div class="ortu-alt">${ç`Tek satır yeter — sonradan açmadan ne olduğunu anlamak için.`}</div>
     <input class="girdi" id="kBaslik" value="${kacis(k.metin || '')}"
-           placeholder="ör. Ohrid gölünde akşam" autocomplete="off" enterkeyhint="done">
-    <button class="eylem-dugme birincil" id="kBaslikKaydet">Kaydet</button>
-    <button class="eylem-dugme" id="kBaslikVazgec">Vazgeç</button>
+           placeholder="${ç`ör. Ohrid gölünde akşam`}" autocomplete="off" enterkeyhint="done">
+    <button class="eylem-dugme birincil" id="kBaslikKaydet">${ç`Kaydet`}</button>
+    <button class="eylem-dugme" id="kBaslikVazgec">${ç`Vazgeç`}</button>
   `);
   setTimeout(() => $('#kBaslik')?.focus(), 120);
 
@@ -1574,7 +1569,7 @@ function kayitBasligiSor(id) {
     const m = $('#kBaslik').value.trim();
     ortuKapat();
     await veri.kayitEkle({ ...k, metin: m });
-    kayitBildir(m ? 'Başlık yazıldı.' : 'Başlık silindi.', 'iyi');
+    kayitBildir(m ? ç`Başlık yazıldı.` : ç`Başlık silindi.`, 'iyi');
     await tazele();
   };
   $('#kBaslikKaydet').addEventListener('click', kaydet);
@@ -1617,21 +1612,18 @@ function cozumSor(id) {
   const varOlan = (k.yazi || '').trim();
 
   ortuAc(`
-    <div class="ortu-baslik">${varOlan ? 'Sesin yazısı' : 'Yazıya çevir'}</div>
-    <div class="ortu-alt">${kacis(veri.TURLER[k.tur] || k.tur)} · ${
+    <div class="ortu-baslik">${varOlan ? ç`Sesin yazısı` : ç`Yazıya çevir`}</div>
+    <div class="ortu-alt">${kacis(ç(veri.TURLER[k.tur] || k.tur))} · ${
       kacis(gerok.tarihUzun(k.t))} ${kacis(gerok.saat(k.t))}${
       k.sure ? ` · ${sureYaz(k.sure)}` : ''}</div>
     ${varOlan ? `<div class="girdi-etiket">${k.yaziKaynagi === 'elle'
-        ? 'Senin düzelttiğin metin' : 'Makinenin duyduğu — yanlış duymuş olabilir'}</div>`
-      : `<div class="cozum-bilgi">Bu ses henüz çevrilmedi.
-        <b>Çevirme Mac'te yapılıyor</b> — bedava, internetsiz, ses telefondan
-        çıkmıyor. Bir sonraki arşivlemede kendiliğinden çevrilecek.
-        Beklemek istemiyorsan aşağıya kendin yazabilirsin.</div>`}
+        ? ç`Senin düzelttiğin metin` : ç`Makinenin duyduğu — yanlış duymuş olabilir`}</div>`
+      : `<div class="cozum-bilgi">${ç`Bu ses henüz çevrilmedi. <b>Çevirme Mac'te yapılıyor</b> — bedava, internetsiz, ses telefondan çıkmıyor. Bir sonraki arşivlemede kendiliğinden çevrilecek. Beklemek istemiyorsan aşağıya kendin yazabilirsin.`}</div>`}
     <textarea class="alan cozum-alan" id="cozumAlan" rows="8"
-      placeholder="Bu kayıtta ne söylendi?">${kacis(varOlan)}</textarea>
-    <button class="eylem-dugme birincil" id="cozumKaydet">Kaydet</button>
-    ${varOlan ? '<button class="eylem-dugme sil" id="cozumSil">Yazıyı sil</button>' : ''}
-    <button class="eylem-dugme" id="cozumVazgec">Vazgeç</button>
+      placeholder="${ç`Bu kayıtta ne söylendi?`}">${kacis(varOlan)}</textarea>
+    <button class="eylem-dugme birincil" id="cozumKaydet">${ç`Kaydet`}</button>
+    ${varOlan ? `<button class="eylem-dugme sil" id="cozumSil">${ç`Yazıyı sil`}</button>` : ''}
+    <button class="eylem-dugme" id="cozumVazgec">${ç`Vazgeç`}</button>
   `);
   setTimeout(() => $('#cozumAlan')?.focus(), 120);
 
@@ -1641,7 +1633,7 @@ function cozumSor(id) {
     // anlaşılıyor. İşaret paketle Mac'e gidiyor, orada önce bunlar çevriliyor.
     if (!varOlan && !k.cozumIsteniyor) {
       await veri.kayitEkle({ ...k, cozumIsteniyor: true });
-      kayitBildir('Sıraya alındı — bir sonraki arşivlemede çevrilecek', 'iyi');
+      kayitBildir(ç`Sıraya alındı — bir sonraki arşivlemede çevrilecek`, 'iyi');
       await tazele();
     }
   });
@@ -1650,7 +1642,7 @@ function cozumSor(id) {
     ortuKapat();
     const { yazi, yaziKaynagi, ...kalan } = k;
     await veri.kayitEkle(kalan);
-    kayitBildir('Yazı silindi');
+    kayitBildir(ç`Yazı silindi`);
     await tazele();
   });
 
@@ -1662,7 +1654,7 @@ function cozumSor(id) {
     // Elle yazılan metnin üstüne bir daha makine çıktısı YAZILMAMALI —
     // esitleme.js yalnızca boş alanı dolduruyor, bu da orada korunuyor.
     else await veri.kayitEkle({ ...k, yazi: m, yaziKaynagi: 'elle', cozumIsteniyor: undefined });
-    kayitBildir(m ? 'Yazı kaydedildi · artık aranabilir' : 'Yazı silindi', 'iyi');
+    kayitBildir(m ? ç`Yazı kaydedildi · artık aranabilir` : ç`Yazı silindi`, 'iyi');
     await tazele();
   });
 }
@@ -1673,14 +1665,14 @@ function yaziDuzenleSor(id) {
   durum.acikSatir = null;
 
   ortuAc(`
-    <div class="ortu-baslik">Notu düzenle</div>
-    <div class="ortu-alt">${gerok.tarihUzun(k.t)} · ${gerok.saat(k.t)} — saat değişmiyor.</div>
-    <div class="girdi-etiket">Not</div>
-    <textarea class="alan" id="yaziDuzAlan" placeholder="Ne oldu?">${kacis(k.metin || '')}</textarea>
-    <div class="girdi-etiket">Yer (isteğe bağlı)</div>
-    <input class="girdi" id="yaziDuzYer" value="${kacis(k.yerAdi || '')}" placeholder="Ohrid, göl kıyısı">
-    <button class="eylem-dugme birincil" id="yaziDuzKaydet">Kaydet</button>
-    <button class="eylem-dugme" id="yaziDuzVazgec">Vazgeç</button>
+    <div class="ortu-baslik">${ç`Notu düzenle`}</div>
+    <div class="ortu-alt">${ç`${gerok.tarihUzun(k.t)} · ${gerok.saat(k.t)} — saat değişmiyor.`}</div>
+    <div class="girdi-etiket">${ç`Not`}</div>
+    <textarea class="alan" id="yaziDuzAlan" placeholder="${ç`Ne oldu?`}">${kacis(k.metin || '')}</textarea>
+    <div class="girdi-etiket">${ç`Yer (isteğe bağlı)`}</div>
+    <input class="girdi" id="yaziDuzYer" value="${kacis(k.yerAdi || '')}" placeholder="${ç`Ohrid, göl kıyısı`}">
+    <button class="eylem-dugme birincil" id="yaziDuzKaydet">${ç`Kaydet`}</button>
+    <button class="eylem-dugme" id="yaziDuzVazgec">${ç`Vazgeç`}</button>
   `);
   setTimeout(() => $('#yaziDuzAlan')?.focus(), 120);
 
@@ -1688,7 +1680,7 @@ function yaziDuzenleSor(id) {
   $('#yaziDuzKaydet').addEventListener('click', async () => {
     const m = $('#yaziDuzAlan').value.trim();
     const yer = $('#yaziDuzYer').value.trim();
-    if (!m) { kayitBildir('Boş not kaydedilmiyor · silmek için “Sil”'); return; }
+    if (!m) { kayitBildir(ç`Boş not kaydedilmiyor · silmek için “Sil”`); return; }
     ortuKapat();
     const degisti = yer !== (k.yerAdi || '');
     await veri.kayitEkle({
@@ -1696,7 +1688,7 @@ function yaziDuzenleSor(id) {
       yerAdi: yer,
       yerKaynagi: degisti ? (yer ? 'elle' : null) : k.yerKaynagi
     });
-    kayitBildir('Not güncellendi', 'iyi');
+    kayitBildir(ç`Not güncellendi`, 'iyi');
     await tazele();
   });
 }
@@ -1793,7 +1785,7 @@ async function sesCal(medyaId, kap, bicim = '', kayitliSure = 0, baslaOrani = 0)
   calaniBirak();
 
   const url = await veri.medyaUrl(medyaId, bicim || null);
-  if (!url) { kayitBildir('Ses dosyası bulunamadı.', 'kotu'); return; }
+  if (!url) { kayitBildir(ç`Ses dosyası bulunamadı.`, 'kotu'); return; }
 
   const ikon = kap.querySelector('.ses-tus');
   const ortak = {
@@ -1845,7 +1837,7 @@ async function yedekYolaGec(medyaId, ortak, neden, baslaSaniye = 0) {
 
   try {
     const blob = await veri.medyaOku(medyaId);
-    if (!blob) throw new Error('dosya yok');
+    if (!blob) throw new Error(ç`dosya yok`);
     const ac = new (window.AudioContext || window.webkitAudioContext)();
     const tampon = await ac.decodeAudioData(await blob.arrayBuffer());
 
@@ -1854,13 +1846,13 @@ async function yedekYolaGec(medyaId, ortak, neden, baslaSaniye = 0) {
 
     ortak.ikon.textContent = '⏸';
     sayaciBasla(() => webAudioKonumu());
-    kayitBildir(`Ses çözülerek çalınıyor · ${sureYaz(tampon.duration)}`);
+    kayitBildir(ç`Ses çözülerek çalınıyor · ${sureYaz(tampon.duration)}`);
   } catch (hata) {
     URL.revokeObjectURL(ortak.url);
     ortak.ikon.textContent = '▶';
     if (ortak.sure) ortak.sure.textContent = `0:00 / ${sureYaz(ortak.kayitliSure)}`;
     calan = null;
-    kayitBildir(`Ses çalınamadı: ${hata.message}`, 'kotu');
+    kayitBildir(ç`Ses çalınamadı: ${hata.message}`, 'kotu');
   }
 }
 
@@ -1991,7 +1983,7 @@ async function sesAtla(hedefSaniye) {
 function kayitDugmeleriniKur() {
   sesDugmeleriniKur();
   $('#btnSes').addEventListener('click', () => sesKaydiBaslat('ses', {
-    ipucu: 'Konuş. Ekranı kapatma.\nBitince Durdur ve kaydet.'
+    ipucu: ç`Konuş. Ekranı kapatma.` + '\n' + ç`Bitince Durdur ve kaydet.`
   }));
   // Ortam sesi: konuşmadan, o yerin nasıl duyulduğu. Süre artık seçiliyor —
   // 30 saniye çarşı için yetiyordu ama ezan, yağmur, dalga için kısa kalıyordu.
@@ -2001,8 +1993,8 @@ function kayitDugmeleriniKur() {
   $('#btnIsaret').addEventListener('click', async () => {
     const y = await kayit.isaretEkle('');
     kayitBildir(y && Number.isFinite(y.lat)
-      ? `Burayı işaretle · ${y.lat.toFixed(2)}, ${y.lon.toFixed(2)}`
-      : 'Burayı işaretle · konum bulunamadı');
+      ? ç`Burayı işaretle · ${y.lat.toFixed(2)}, ${y.lon.toFixed(2)}`
+      : ç`Burayı işaretle · konum bulunamadı`);
     await tazele();
   });
   $('#btnKisi').addEventListener('click', kisiSor);
@@ -2046,8 +2038,8 @@ function haritaKipleriniKur() {
       haritaKipleriniIsaretle();
       if (d.dataset.kip === 'uydu') {
         kayitBildir(navigator.onLine
-          ? 'Uydu görüntüsü internetten iniyor.'
-          : 'Uydu için internet gerekiyor — şu an bağlantı yok, görüntü gelmez.',
+          ? ç`Uydu görüntüsü internetten iniyor.`
+          : ç`Uydu için internet gerekiyor — şu an bağlantı yok, görüntü gelmez.`,
           navigator.onLine ? 'iyi' : 'kotu');
       }
     });
@@ -2073,27 +2065,26 @@ async function yarimKayitSor() {
   if (!g) return;
 
   const sure = Math.max(0, (g.sonParca - g.baslangic) / 1000);
-  const ne = veri.TURLER[g.tur] || 'Sesli not';
+  const ne = ç(veri.TURLER[g.tur] || 'Sesli not');
 
   ortuAc(`
-    <div class="gs-sayac">kayıt yarıda kalmış</div>
-    <div class="ortu-baslik">Yarım bir kayıt bulundu</div>
-    <div class="ortu-alt">${kacis(gerok.tarihUzun(g.baslangic))} ${kacis(gerok.saat(g.baslangic))}'de
-    başlayan ses kaydı bitmeden uygulama kapanmış. Kaydedilen kısım duruyor.</div>
+    <div class="gs-sayac">${ç`kayıt yarıda kalmış`}</div>
+    <div class="ortu-baslik">${ç`Yarım bir kayıt bulundu`}</div>
+    <div class="ortu-alt">${ç`${kacis(gerok.tarihUzun(g.baslangic))} ${kacis(gerok.saat(g.baslangic))}'de başlayan ses kaydı bitmeden uygulama kapanmış. Kaydedilen kısım duruyor.`}</div>
     <div class="gs-liste-satir" style="display:flex;align-items:center;gap:12px">
       <span class="dugme-ikon" style="flex:none">${ikon('mikrofon', 22)}</span>
       <span style="flex:1;min-width:0">${kacis(ne)} · ${kacis(sureYaz(sure))}</span>
-      <button class="satir-dugme" id="yarimDinle">Dinle</button>
+      <button class="satir-dugme" id="yarimDinle">${ç`Dinle`}</button>
     </div>
-    <button class="eylem-dugme birincil" id="yarimSakla">Sakla · ${kacis(gerok.saat(g.baslangic))}'e koy</button>
-    <button class="eylem-dugme sil" id="yarimSil">Sil</button>
+    <button class="eylem-dugme birincil" id="yarimSakla">${ç`Sakla · ${kacis(gerok.saat(g.baslangic))}'e koy`}</button>
+    <button class="eylem-dugme sil" id="yarimSil">${ç`Sil`}</button>
   `, false, 'kurtarma');
 
   $('#yarimDinle').addEventListener('click', async () => {
     const url = await kayit.yarimKayitAdresi();
-    if (!url) { kayitBildir('Yarım dosya okunamadı.', 'kotu'); return; }
+    if (!url) { kayitBildir(ç`Yarım dosya okunamadı.`, 'kotu'); return; }
     const ses = new Audio(url);
-    ses.play().catch(() => kayitBildir('Yarım kayıt çalınamadı — yine de saklanabilir.', 'kotu'));
+    ses.play().catch(() => kayitBildir(ç`Yarım kayıt çalınamadı — yine de saklanabilir.`, 'kotu'));
   });
 
   $('#yarimSakla').addEventListener('click', async () => {
@@ -2101,8 +2092,8 @@ async function yarimKayitSor() {
     const k = await kayit.yarimKaydiSakla();
     await tazele();
     kayitBildir(k
-      ? `Yarım kayıt ${gerok.saat(k.t)}'e yerleştirildi.`
-      : 'Yarım dosya boş çıktı, kaydedilecek ses yoktu.', k ? 'iyi' : 'kotu');
+      ? ç`Yarım kayıt ${gerok.saat(k.t)}'e yerleştirildi.`
+      : ç`Yarım dosya boş çıktı, kaydedilecek ses yoktu.`, k ? 'iyi' : 'kotu');
   });
 
   $('#yarimSil').addEventListener('click', async () => {
@@ -2110,13 +2101,13 @@ async function yarimKayitSor() {
     // Silmek beş saniye bekletiliyor: yarım kayıt ekran kapandığı için
     // kurtarılmış tek kopya, geri getirilecek bir yeri yok.
     let iptal = false;
-    geriAlinabilirBildir('Yarım kayıt siliniyor', () => {
+    geriAlinabilirBildir(ç`Yarım kayıt siliniyor`, () => {
       iptal = true;
     });
     setTimeout(async () => {
       if (iptal) return;
       await kayit.yarimKaydiSil();
-      kayitBildir('Yarım kayıt silindi');
+      kayitBildir(ç`Yarım kayıt silindi`);
     }, GERI_AL_SURESI);
   });
 }
@@ -2140,28 +2131,25 @@ function kayitUyarilariniCiz() {
 
   if (durum.mikrofonRed) {
     html += `<div class="kayit-uyari izin">
-      <div class="uyari-ad">Mikrofon izni yok</div>
-      <div class="uyari-alt">Ses kaydı yapılamıyor. Yazı, fotoğraf ve harcama
-      çalışmaya devam ediyor.</div>
-      <button class="eylem-dugme birincil" id="uyariIzin">İzin ver</button>
+      <div class="uyari-ad">${ç`Mikrofon izni yok`}</div>
+      <div class="uyari-alt">${ç`Ses kaydı yapılamıyor. Yazı, fotoğraf ve harcama çalışmaya devam ediyor.`}</div>
+      <button class="eylem-dugme birincil" id="uyariIzin">${ç`İzin ver`}</button>
     </div>`;
   }
 
   if (durum.konumRed) {
     html += `<div class="kayit-uyari izin">
-      <div class="uyari-ad">Konum izni yok</div>
-      <div class="uyari-alt">Kayıtlar tutulur, yerleri boş kalır. Sonradan
-      haritada elle işaretleyebilirsin.</div>
-      <button class="eylem-dugme birincil" id="uyariKonum">İzin ver</button>
+      <div class="uyari-ad">${ç`Konum izni yok`}</div>
+      <div class="uyari-alt">${ç`Kayıtlar tutulur, yerleri boş kalır. Sonradan haritada elle işaretleyebilirsin.`}</div>
+      <button class="eylem-dugme birincil" id="uyariKonum">${ç`İzin ver`}</button>
     </div>`;
   }
 
   if (azYer) {
     html += `<div class="kayit-uyari depo">
-      <div class="uyari-ad">Yer azalıyor</div>
-      <div class="uyari-alt">${boyutYaz(bosYer)} boş yer kaldı. Uzun kayıt ve yedek
-      için harita paketini silebilirsin — sonra yeniden indirilir.</div>
-      <button class="eylem-dugme" id="uyariDepo">Nasıl yer açarım?</button>
+      <div class="uyari-ad">${ç`Yer azalıyor`}</div>
+      <div class="uyari-alt">${ç`${boyutYaz(bosYer)} boş yer kaldı. Uzun kayıt ve yedek için harita paketini silebilirsin — sonra yeniden indirilir.`}</div>
+      <button class="eylem-dugme" id="uyariDepo">${ç`Nasıl yer açarım?`}</button>
     </div>`;
   }
 
@@ -2174,31 +2162,22 @@ function kayitUyarilariniCiz() {
   };
 
   $('#uyariKonum')?.addEventListener('click', () =>
-    kayitBildir('Ayarlar → Gerok → Konum → Uygulamayı kullanırken'));
+    kayitBildir(ç`Ayarlar → Gerok → Konum → Uygulamayı kullanırken`));
 
   $('#uyariIzin')?.addEventListener('click', () => bilgiOrtu(`
-    <div class="ortu-baslik">Mikrofon izni</div>
+    <div class="ortu-baslik">${ç`Mikrofon izni`}</div>
     <div class="ortu-alt">
-      Ana ekrandaki simgeden açtıysan:<br>
-      <b>Ayarlar → Gerok → Mikrofon → İzin ver</b><br><br>
-      Safari sekmesinden açtıysan:<br>
-      <b>Ayarlar → Safari → Mikrofon → İzin ver</b><br><br>
-      İzni verdikten sonra uygulamayı tamamen kapat (kartı yukarı kaydır) ve
-      yeniden aç. İzin, uygulama açıkken değişmiyor.
+      ${ç`Ana ekrandaki simgeden açtıysan:<br><b>Ayarlar → Gerok → Mikrofon → İzin ver</b><br><br>Safari sekmesinden açtıysan:<br><b>Ayarlar → Safari → Mikrofon → İzin ver</b><br><br>İzni verdikten sonra uygulamayı tamamen kapat (kartı yukarı kaydır) ve yeniden aç. İzin, uygulama açıkken değişmiyor.`}
     </div>
-    <button class="eylem-dugme birincil" id="uyariKapat">Anladım</button>
+    <button class="eylem-dugme birincil" id="uyariKapat">${ç`Anladım`}</button>
   `));
 
   $('#uyariDepo')?.addEventListener('click', () => bilgiOrtu(`
-    <div class="ortu-baslik">Yer açmak</div>
+    <div class="ortu-baslik">${ç`Yer açmak`}</div>
     <div class="ortu-alt">
-      Sırayla:<br><br>
-      1 · Önce <b>yedek al</b> (Gerok → eşitleme). Silmeden önce her zaman yedek.<br>
-      2 · Harita paketini sil (Gerok → bu telefon). Sonra yeniden indirilebilir.<br>
-      3 · Videolar uygulamada değil <b>galeride</b> duruyor. Yeri onlar kaplıyorsa
-      Fotoğraflar uygulamasından temizle.
+      ${ç`Sırayla:<br><br>1 · Önce <b>yedek al</b> (Gerok → eşitleme). Silmeden önce her zaman yedek.<br>2 · Harita paketini sil (Gerok → bu telefon). Sonra yeniden indirilebilir.<br>3 · Videolar uygulamada değil <b>galeride</b> duruyor. Yeri onlar kaplıyorsa Fotoğraflar uygulamasından temizle.`}
     </div>
-    <button class="eylem-dugme birincil" id="uyariKapat">Anladım</button>
+    <button class="eylem-dugme birincil" id="uyariKapat">${ç`Anladım`}</button>
   `));
 }
 
@@ -2255,39 +2234,39 @@ function sesDuraklatDegistir() {
   const dugme = $('#sesDuraklat');
 
   if (kayit.sesDuraklandiMi()) {
-    if (!kayit.sesDevam()) { kayitBildir('Devam ettirilemedi.', 'kotu'); return; }
+    if (!kayit.sesDevam()) { kayitBildir(ç`Devam ettirilemedi.`, 'kotu'); return; }
     $('#sesKatman').classList.remove('durakli');
-    dugme.textContent = '⏸ Duraklat';
+    dugme.textContent = ç`⏸ Duraklat`;
     dugme.classList.remove('birincil');
     // Kayıt sürerken asıl eylem yine "Durdur ve kaydet".
     $('#sesDurdur').classList.add('birincil');
     $('#sesIpucu').textContent = o.ipucu;
     titret(12);
   } else {
-    if (!kayit.sesDuraklat()) { kayitBildir('Duraklatılamadı.', 'kotu'); return; }
+    if (!kayit.sesDuraklat()) { kayitBildir(ç`Duraklatılamadı.`, 'kotu'); return; }
     $('#sesKatman').classList.add('durakli');
-    dugme.textContent = '▶ Devam et';
+    dugme.textContent = ç`▶ Devam et`;
     dugme.classList.add('birincil');
     // Duraklıyken asıl eylem "Devam et". İki düğme birden vurgulu olunca
     // hangisine basılacağı bir anda anlaşılmıyordu (ekran görüntüsünde
     // ikisi de kahverengi çıktı) — tek vurgulu düğme kalsın.
     $('#sesDurdur').classList.remove('birincil');
-    $('#sesIpucu').textContent = 'Devam edince aynı dosyanın içinden sürer.';
+    $('#sesIpucu').textContent = ç`Devam edince aynı dosyanın içinden sürer.`;
     titret([8, 40, 8]);
   }
 }
 
 // tur: kaydın türü · sinir: saniye (0 = sınırsız) · ipucu: katmanda yazan satır
-export async function sesKaydiBaslat(tur, { sinir = 0, ipucu = 'Konuş — bitince "Durdur ve kaydet"', bittiginde = null, baslikSor = true, ekler = null } = {}) {
+export async function sesKaydiBaslat(tur, { sinir = 0, ipucu = ç`Konuş — bitince "Durdur ve kaydet"`, bittiginde = null, baslikSor = true, ekler = null } = {}) {
   if (sesOturum) return;
   const o = { tur, iptal: false, kapandi: false, sayac: null, bittiginde, baslikSor, ekler, ipucu };
   sesOturum = o;
 
   $('#sesKatman').classList.remove('gizli');
   $('#sesKatman').classList.remove('durakli');
-  $('#sesTuru').textContent = veri.TURLER[tur] || 'Kayıt';
+  $('#sesTuru').textContent = ç(veri.TURLER[tur] || 'Kayıt');
   $('#sesSure').textContent = sinir ? sureYaz(sinir) : '0:00';
-  $('#sesIpucu').textContent = 'Mikrofon açılıyor…';
+  $('#sesIpucu').textContent = ç`Mikrofon açılıyor…`;
   // İlerleme yayı yalnızca süresi belli kayıtlarda anlamlı.
   $('#sesIlerleme').classList.toggle('gizli', !sinir);
   $('#sesIlerleme').style.setProperty('--dolu', '0deg');
@@ -2297,7 +2276,7 @@ export async function sesKaydiBaslat(tur, { sinir = 0, ipucu = 'Konuş — bitin
   // Duraklatma her tarayıcıda yok; olmayan yerde düğmeyi hiç gösterme —
   // basınca hiçbir şey olmayan bir düğme, bozuk bir düğmedir.
   const durDugme = $('#sesDuraklat');
-  durDugme.textContent = '⏸ Duraklat';
+  durDugme.textContent = ç`⏸ Duraklat`;
   durDugme.classList.remove('birincil');
   durDugme.disabled = true;
   durDugme.classList.toggle('gizli', !kayit.sesDuraklatilabilirMi());
@@ -2320,8 +2299,8 @@ export async function sesKaydiBaslat(tur, { sinir = 0, ipucu = 'Konuş — bitin
     durum.mikrofonRed = izinYok;
     kayitUyarilariniCiz();
     kayitBildir(izinYok
-      ? 'Mikrofon izni yok · Ayarlar → Gerok → Mikrofon'
-      : `Mikrofon açılamadı: ${hata?.message || 'bilinmeyen sebep'}`, 'kotu');
+      ? ç`Mikrofon izni yok · Ayarlar → Gerok → Mikrofon`
+      : ç`Mikrofon açılamadı: ${hata?.message || ç`bilinmeyen sebep`}`, 'kotu');
     return;
   }
 
@@ -2334,7 +2313,7 @@ export async function sesKaydiBaslat(tur, { sinir = 0, ipucu = 'Konuş — bitin
 
   // Ekranın kendiliğinden sönmesini engelle: sönerse iOS kaydı kesiyor.
   const kilitli = await sesKilidiAl();
-  o.ipucu = kilitli ? ipucu : `${ipucu}\nEkranı kapatma — kayıt kesilir.`;
+  o.ipucu = kilitli ? ipucu : ipucu + '\n' + ç`Ekranı kapatma — kayıt kesilir.`;
   $('#sesIpucu').textContent = o.ipucu;
   $('#sesDurdur').disabled = false;
   $('#sesDuraklat').disabled = false;
@@ -2368,12 +2347,10 @@ export async function sesKaydiBitir() {
     // Üç ayrı sebep var ve yapılacak şey her birinde farklı — ayırt et.
     kayitBildir(
       hata.sesKesildi
-        ? 'KAYIT EDİLEMEDİ: ekran kapalıyken iOS kaydı kesmiş. Kayıt sırasında '
-          + 'ekranı açık tut ya da Yol Modu\'nu aç — o ekranı söndürmüyor.'
+        ? ç`KAYIT EDİLEMEDİ: ekran kapalıyken iOS kaydı kesmiş. Kayıt sırasında ekranı açık tut ya da Yol Modu'nu aç — o ekranı söndürmüyor.`
       : hata.yazilamadi
-        ? `KAYIT EDİLEMEDİ: ${hata.message}. Telefonda yer kalmamış olabilir — `
-          + 'Gerok sekmesinden yer durumuna bak, yedek al ve eski kayıtları temizle.'
-        : `KAYIT EDİLEMEDİ: ${hata.message}. Telefonda yer kalmamış olabilir.`,
+        ? ç`KAYIT EDİLEMEDİ: ${hata.message}. Telefonda yer kalmamış olabilir — Gerok sekmesinden yer durumuna bak, yedek al ve eski kayıtları temizle.`
+        : ç`KAYIT EDİLEMEDİ: ${hata.message}. Telefonda yer kalmamış olabilir.`,
       'kotu');
     await o.bittiginde?.(null);
     return;
@@ -2385,10 +2362,10 @@ export async function sesKaydiBitir() {
     // altına düşüyor ve aranıyordu.
     const nere = k.gun != null
       ? `Gün ${k.gun}`
-      : `zaman çizgisinin başında · ${gerok.tarihUzun(k.t)}`;
+      : ç`zaman çizgisinin başında · ${gerok.tarihUzun(k.t)}`;
     kayitBildir(`Kaydedildi · ${sureYaz(k.sure)} → ${nere}`, 'iyi');
     const d = $('#kayitDurum');
-    if (d) d.textContent = 'Kaydedildi · zaman çizgisine düştü';
+    if (d) d.textContent = ç`Kaydedildi · zaman çizgisine düştü`;
     titret([8, 40, 8]);
     await tazele();
     // Kaydın ne olduğunu şimdi sor. Gezide çıkan sorun: zaman çizgisinde
@@ -2396,7 +2373,7 @@ export async function sesKaydiBitir() {
     // için tek tek açmak gerekiyordu. Tek satır başlık bunu bitiriyor.
     if (o.baslikSor !== false) await sesBasligiSor(k);
   } else {
-    kayitBildir('Çok kısaydı, kaydedilmedi.');
+    kayitBildir(ç`Çok kısaydı, kaydedilmedi.`);
   }
   await o.bittiginde?.(k);
 }
@@ -2404,11 +2381,11 @@ export async function sesKaydiBitir() {
 // Ortam sesi süreleri. Son seçilen hatırlanıyor: aynı gezide genelde aynı
 // süre kullanılıyor, her seferinde seçtirmek gereksiz dokunuş olurdu.
 const ORTAM_SURELERI = [
-  { sn: 15,  ad: '15 saniye', alt: 'kısa bir an' },
-  { sn: 30,  ad: '30 saniye', alt: 'çarşı, sokak' },
-  { sn: 60,  ad: '1 dakika',  alt: 'ezan, müzik' },
-  { sn: 120, ad: '2 dakika',  alt: 'yağmur, dalga, tren' },
-  { sn: 0,   ad: 'Elle durduracağım', alt: 'ne kadar sürerse' }
+  { sn: 15,  ad: ç`15 saniye`, alt: ç`kısa bir an` },
+  { sn: 30,  ad: ç`30 saniye`, alt: ç`çarşı, sokak` },
+  { sn: 60,  ad: ç`1 dakika`,  alt: ç`ezan, müzik` },
+  { sn: 120, ad: ç`2 dakika`,  alt: ç`yağmur, dalga, tren` },
+  { sn: 0,   ad: ç`Elle durduracağım`, alt: ç`ne kadar sürerse` }
 ];
 
 async function ortamSuresiSor() {
@@ -2417,12 +2394,12 @@ async function ortamSuresiSor() {
   // gelmiyor — bu yüzden uyarı kaydın ÖNÜNDE, sonrasında değil.
   const d = await veri.depolamaDurumu();
   if (d?.kota && (d.kota - d.kullanilan) < AZ_YER_ESIGI) {
-    kayitBildir('Ortam sesi 2 dakikada ~24 MB · önce yer aç', 'kotu');
+    kayitBildir(ç`Ortam sesi 2 dakikada ~24 MB · önce yer aç`, 'kotu');
   }
   const son = await veri.ayarOku('ortamSuresi', 30);
   ortuAc(`
-    <div class="ortu-baslik">Ne kadar sürsün?</div>
-    <div class="ortu-alt">Konuşmayacaksın — o yerin nasıl duyulduğunu kaydediyorsun.</div>
+    <div class="ortu-baslik">${ç`Ne kadar sürsün?`}</div>
+    <div class="ortu-alt">${ç`Konuşmayacaksın — o yerin nasıl duyulduğunu kaydediyorsun.`}</div>
     ${ORTAM_SURELERI.map(s => `
       <button class="eylem-dugme ${s.sn === son ? 'birincil' : ''}" data-sn="${s.sn}">
         ${s.ad}<span class="yol-alt">${s.alt}</span>
@@ -2435,9 +2412,9 @@ async function ortamSuresiSor() {
       await veri.ayarYaz('ortamSuresi', sn);
       sesKaydiBaslat('ortam', {
         sinir: sn,
-        ipucu: sn
-          ? 'Telefonu sesin geldiği yöne çevir.\nKonuşma, sadece dinlet.'
-          : 'Telefonu sesin geldiği yöne çevir.\nBitince Durdur ve kaydet.'
+        ipucu: ç`Telefonu sesin geldiği yöne çevir.` + '\n' + (sn
+          ? ç`Konuşma, sadece dinlet.`
+          : ç`Bitince Durdur ve kaydet.`)
       });
     });
   });
@@ -2451,12 +2428,12 @@ async function ortamSuresiSor() {
 function sesBasligiSor(k) {
   return new Promise((bitti) => {
     ortuAc(`
-      <div class="ortu-baslik">Bir satırla ne oldu?</div>
-      <div class="ortu-alt">Tek satır yeter. Sonra açmadan ne olduğunu bilirsin.</div>
-      <input class="girdi" id="sesBaslik" placeholder="Ohrid'de rehberin anlattığı…"
+      <div class="ortu-baslik">${ç`Bir satırla ne oldu?`}</div>
+      <div class="ortu-alt">${ç`Tek satır yeter. Sonra açmadan ne olduğunu bilirsin.`}</div>
+      <input class="girdi" id="sesBaslik" placeholder="${ç`Ohrid'de rehberin anlattığı…`}"
              autocomplete="off" enterkeyhint="done">
-      <button class="eylem-dugme birincil" id="sesBaslikKaydet">Kaydet</button>
-      <button class="eylem-dugme" id="sesBaslikAtla">Atla</button>
+      <button class="eylem-dugme birincil" id="sesBaslikKaydet">${ç`Kaydet`}</button>
+      <button class="eylem-dugme" id="sesBaslikAtla">${ç`Atla`}</button>
     `);
     setTimeout(() => $('#sesBaslik')?.focus(), 120);
 
@@ -2468,8 +2445,8 @@ function sesBasligiSor(k) {
         await tazele();
       }
       kayitBildir(m
-        ? `Kaydedildi · ${gerok.tarihUzun(k.t)} ${gerok.saat(k.t)}`
-        : 'Kaydedildi · başlıksız', 'iyi');
+        ? ç`Kaydedildi · ${gerok.tarihUzun(k.t)} ${gerok.saat(k.t)}`
+        : ç`Kaydedildi · başlıksız`, 'iyi');
       bitti();
     };
     $('#sesBaslikKaydet').addEventListener('click', () => kapat(true));
@@ -2489,7 +2466,7 @@ function sesKaydiVazgec() {
   clearInterval(o.sayac);
   kayit.sesIptal();
   sesKatmaniKapat();
-  kayitBildir('Kayıt silindi');
+  kayitBildir(ç`Kayıt silindi`);
 }
 
 function sesDugmeleriniKur() {
@@ -2506,23 +2483,23 @@ async function fotograflariAl(dosyalar, tur = null) {
   const basladi = Date.now();
 
   ortuAc(`
-    <div class="ortu-baslik">Görseller alınıyor</div>
+    <div class="ortu-baslik">${ç`Görseller alınıyor`}</div>
     <div class="ilerleme-yol"><div class="ilerleme-dolu" id="fotoCubuk"></div></div>
     <div class="ilerleme-satir">
       <span id="fotoSayi">0 / ${toplam}</span>
       <span id="fotoKalan"></span>
     </div>
-    <div class="ilerleme-dosya" id="fotoDosya">başlıyor…</div>
+    <div class="ilerleme-dosya" id="fotoDosya">${ç`başlıyor…`}</div>
     <div class="panel-not">Orijinaller galeride kalıyor — buraya küçük bir önizleme,
     çekilme saati ve konum yazılıyor. Büyük fotoğraflarda her biri birkaç saniye
     sürebilir.</div>
-    <button class="eylem-dugme" id="fotoDurdur">Durdur</button>
+    <button class="eylem-dugme" id="fotoDurdur">${ç`Durdur`}</button>
   `, false);
 
   $('#fotoDurdur').addEventListener('click', () => {
     iptal = true;
     $('#fotoDurdur').disabled = true;
-    $('#fotoDosya').textContent = 'bu dosya bitince duracak…';
+    $('#fotoDosya').textContent = ç`bu dosya bitince duracak…`;
   });
 
   let eklenen = [];
@@ -2544,7 +2521,7 @@ async function fotograflariAl(dosyalar, tur = null) {
     }, tur, () => iptal) || [];
   } catch (hata) {
     ortuKapat();
-    kayitBildir(`Görseller alınamadı: ${hata.message}`, 'kotu');
+    kayitBildir(ç`Görseller alınamadı: ${hata.message}`, 'kotu');
     return;
   }
 
@@ -2554,10 +2531,10 @@ async function fotograflariAl(dosyalar, tur = null) {
 
 function kalanSureYaz(ms) {
   const sn = Math.round(ms / 1000);
-  if (sn < 5) return 'birazdan biter';
-  if (sn < 60) return `yaklaşık ${sn} saniye kaldı`;
+  if (sn < 5) return ç`birazdan biter`;
+  if (sn < 60) return ç`yaklaşık ${sn} saniye kaldı`;
   const dk = Math.round(sn / 60);
-  return `yaklaşık ${dk} dakika kaldı`;
+  return ç`yaklaşık ${dk} dakika kaldı`;
 }
 
 /**
@@ -2583,8 +2560,8 @@ function fotoOzetiAc(eklenen, istenen, iptal) {
 
   if (!liste.length) {
     ortuKapat();
-    kayitBildir(iptal ? 'Durduruldu, hiçbir şey eklenmedi.'
-      : `Hiçbir görsel eklenemedi (${istenen} dosya denendi).`, 'kotu');
+    kayitBildir(iptal ? ç`Durduruldu, hiçbir şey eklenmedi.`
+      : ç`Hiçbir görsel eklenemedi (${istenen} dosya denendi).`, 'kotu');
     return;
   }
 
@@ -2608,19 +2585,19 @@ function fotoOzetiAc(eklenen, istenen, iptal) {
     `<div class="ozet-satir ${sinif}"><span>${etiket}</span><span>${deger}</span></div>`;
 
   ortuAc(`
-    <div class="ortu-baslik">${liste.length} görsel eklendi</div>
-    ${iptal ? `<div class="ortu-alt">Sen durdurdun — ${istenen} dosyadan ${liste.length} tanesi alındı.</div>` : ''}
+    <div class="ortu-baslik">${ç`${liste.length} görsel eklendi`}</div>
+    ${iptal ? `<div class="ortu-alt">${ç`Sen durdurdun — ${istenen} dosyadan ${liste.length} tanesi alındı.`}</div>` : ''}
     <div class="ozet-kutu">
-      ${foto ? satir('Fotoğraf', foto) : ''}
-      ${video ? satir('Video', video) : ''}
-      ${liste.length - konumsuz ? satir('Yeri bulunan', liste.length - konumsuz) : ''}
-      ${konumsuz ? satir('Yeri bulunamayan', konumsuz, 'soluk') : ''}
-      ${resimsiz.length ? satir('Önizlemesi çıkmayan', resimsiz.length, 'soluk') : ''}
-      ${atlanan.length ? satir('Alınamayan', atlanan.length, 'kotu') : ''}
+      ${foto ? satir(ç`Fotoğraf`, foto) : ''}
+      ${video ? satir(ç`Video`, video) : ''}
+      ${liste.length - konumsuz ? satir(ç`Yeri bulunan`, liste.length - konumsuz) : ''}
+      ${konumsuz ? satir(ç`Yeri bulunamayan`, konumsuz, 'soluk') : ''}
+      ${resimsiz.length ? satir(ç`Önizlemesi çıkmayan`, resimsiz.length, 'soluk') : ''}
+      ${atlanan.length ? satir(ç`Alınamayan`, atlanan.length, 'kotu') : ''}
     </div>
     <div class="ozet-nereye">
-      <span class="ozet-etiket">Zaman çizgisinde</span>
-      ${kacis(nereye)} hizasına yerleşti
+      <span class="ozet-etiket">${ç`Zaman çizgisinde`}</span>
+      ${ç`${kacis(nereye)} hizasına yerleşti`}
       <span class="ozet-ipucu">Fotoğraflar eklendikleri saate değil, çekildikleri
       saate oturuyor — listede yukarıda olabilirler.</span>
     </div>
@@ -2628,13 +2605,12 @@ function fotoOzetiAc(eklenen, istenen, iptal) {
       fotoğrafta konum yok ve iz kaydı o saatte kapalıymış. Haritada elle
       iğneleyebilirsin.</div>` : ''}
     ${resimsiz.length ? `<div class="ozet-ipucu tek">${resimsiz.length} dosyanın
-      önizlemesi çıkmadı — zaman çizgisinde resimsiz görünecekler. Saatleri ve
-      yerleri duruyor, "Fotoğrafları aç" düğmesi galeride o ana götürüyor.</div>` : ''}
-    ${atlanan.length ? `<div class="ozet-ipucu tek kotu">Alınamayanlar:
+      ${ç`önizlemesi çıkmadı — zaman çizgisinde resimsiz görünecekler. Saatleri ve yerleri duruyor, "Fotoğrafları aç" düğmesi galeride o ana götürüyor.`}</div>` : ''}
+    ${atlanan.length ? `<div class="ozet-ipucu tek kotu">${ç`Alınamayanlar:`}
       ${kacis(atlanan.slice(0, 6).join(', '))}${atlanan.length > 6
-        ? ` ve ${atlanan.length - 6} tane daha` : ''}</div>` : ''}
-    <button class="eylem-dugme birincil" id="ozetGoster">Zaman çizgisinde göster</button>
-    <button class="eylem-dugme" id="ozetKapat">Tamam</button>
+        ? ç` ve ${atlanan.length - 6} tane daha` : ''}</div>` : ''}
+    <button class="eylem-dugme birincil" id="ozetGoster">${ç`Zaman çizgisinde göster`}</button>
+    <button class="eylem-dugme" id="ozetKapat">${ç`Tamam`}</button>
   `, true, 'ozet');
 
   $('#ozetKapat').addEventListener('click', ortuKapat);
@@ -2664,7 +2640,7 @@ function izDinle() {
   iz.dinle(async (olay) => {
     if (olay.tur === 'durum' || olay.tur === 'tasarruf') izRozetiYaz();
     if (olay.tur === 'hata') {
-      $('#izYazi').textContent = 'izin yok';
+      $('#izYazi').textContent = ç`izin yok`;
       $('#izRozet').classList.remove('acik');
       if (olay.kod === 1 && !durum.konumRed) {
         durum.konumRed = true;
@@ -2689,18 +2665,18 @@ function izRozetiYaz() {
   const calisiyor = iz.calisiyorMu();
   r.classList.toggle('acik', calisiyor && !iz.tasarruftaMi());
   r.classList.toggle('tasarruf', calisiyor && iz.tasarruftaMi());
-  $('#izYazi').textContent = !calisiyor ? 'kapalı'
-    : iz.tasarruftaMi() ? `tasarruf · ${durum.izNoktalari.length}`
+  $('#izYazi').textContent = !calisiyor ? ç`kapalı`
+    : iz.tasarruftaMi() ? ç`tasarruf · ${durum.izNoktalari.length}`
       : `${durum.izNoktalari.length}`;
 }
 
 function izRozetTikla() {
   if (iz.calisiyorMu()) {
     iz.dur();
-    kayitBildir('İz kaydı kapatıldı');
+    kayitBildir(ç`İz kaydı kapatıldı`);
   } else {
     iz.basla();
-    kayitBildir('İz kaydı açıldı');
+    kayitBildir(ç`İz kaydı açıldı`);
   }
   izRozetiYaz();
 }
@@ -2721,7 +2697,7 @@ async function ulkeKontrol(nokta) {
   try {
     if (onceki) {
       await kayit.sinirEkle(u.kod, u.ad, nokta.t, nokta.lat, nokta.lon);
-      bildirimGoster(`${u.bayrak} ${u.ad}`, 'Yeni ülkeye girdin — zaman çizgisine işlendi.');
+      bildirimGoster(`${u.bayrak} ${ç(u.ad)}`, ç`Yeni ülkeye girdin — zaman çizgisine işlendi.`);
       titret([10, 60, 10, 60, 10]);
       await tazele();
     }
@@ -2750,7 +2726,7 @@ async function ulkeKontrol(nokta) {
 // zaten durduğu yere, listenin sonuna küçük bir satır olarak kondu.
 function kendiNotlari(d, notEkle = false) {
   const ekle = notEkle
-    ? `<button class="not-ekle-satir" data-not-ekle="${d.id}">+ not yaz</button>` : '';
+    ? `<button class="not-ekle-satir" data-not-ekle="${d.id}">${ç`+ not yaz`}</button>` : '';
   if (!d.notlar?.length) return ekle;
   return `<ul class="unutma kendi">${d.notlar.map(n => `
     <li>
@@ -2759,7 +2735,7 @@ function kendiNotlari(d, notEkle = false) {
         ${n.sahipAd ? `<span class="not-kim">${kacis(n.sahipAd)}</span>` : ''}
       </div>
       <button class="not-sil" data-not-sil="${n.id}" data-not-durak="${d.id}"
-              title="Notu sil" aria-label="Notu sil">✕</button>
+              title="${ç`Notu sil`}" aria-label="${ç`Notu sil`}">✕</button>
     </li>`).join('')}</ul>${ekle}`;
 }
 
@@ -2786,7 +2762,7 @@ function yildizSatiri(d) {
     ${[1, 2, 3, 4, 5].map(n => `
       <button class="yildiz ${(d.puan || 0) >= n ? 'dolu' : ''}" data-puan="${n}"
               aria-label="${n} yıldız">★</button>`).join('')}
-    <span class="puan-yazi">${d.puan ? `${d.puan}/5` : 'puanın'}</span>
+    <span class="puan-yazi">${d.puan ? `${d.puan}/5` : ç`puanın`}</span>
   </div>`;
 }
 
@@ -2796,12 +2772,11 @@ function durakNotuSor(id, sonra = null) {
   if (!d) return;
   ortuAc(`
     <div class="ortu-baslik">${kacis(d.ad)}</div>
-    <div class="ortu-alt">Buraya gelince ne yapmalı? Kendi notun — akşam
-    eşitlemesinde arkadaşının telefonuna da geçer.</div>
+    <div class="ortu-alt">${ç`Buraya gelince ne yapmalı? Kendi notun — akşam eşitlemesinde arkadaşının telefonuna da geçer.`}</div>
     <textarea class="alan" id="durakNot"
-      placeholder="Örn. Tarçınlı tatlıyı saat kulesinin yanındaki dükkândan al."></textarea>
-    <button class="eylem-dugme birincil" id="durakNotKaydet">Kaydet</button>
-    <button class="eylem-dugme" id="durakNotVaz">Vazgeç</button>
+      placeholder="${ç`Örn. Tarçınlı tatlıyı saat kulesinin yanındaki dükkândan al.`}"></textarea>
+    <button class="eylem-dugme birincil" id="durakNotKaydet">${ç`Kaydet`}</button>
+    <button class="eylem-dugme" id="durakNotVaz">${ç`Vazgeç`}</button>
   `);
   setTimeout(() => $('#durakNot')?.focus(), 120);
   $('#durakNotVaz').addEventListener('click', () => { ortuKapat(); sonra?.(); });
@@ -2810,7 +2785,7 @@ function durakNotuSor(id, sonra = null) {
     ortuKapat();
     if (m) {
       await gerok.durakNotEkle(id, m, kayit.sahipAl().ad || '');
-      kayitBildir('Not eklendi.', 'iyi');
+      kayitBildir(ç`Not eklendi.`, 'iyi');
       await tazele();
     }
     sonra?.();
@@ -2832,7 +2807,7 @@ function durakNotVePuanKur(kap, sonra = null) {
     b.addEventListener('click', async () => {
       const durakId = b.dataset.notDurak, notId = b.dataset.notSil;
       await gerok.durakNotSil(durakId, notId);
-      geriAlinabilirBildir('Not silindi', async () => {
+      geriAlinabilirBildir(ç`Not silindi`, async () => {
         await gerok.durakNotGeriAl(durakId, notId);
         await tazele();
         sonra?.();
@@ -2867,9 +2842,8 @@ function duraklariCiz() {
 
   if (!liste.length) {
     kap.innerHTML = bosDurum('yolBos',
-      'Henüz durak yok.<br>Haritadaki iğne düğmesine basıp kendi duraklarını koyabilirsin —' +
-      '<br>gerok paketi olmadan da çalışır.') +
-      `<div class="daha-eski"><button class="eylem-dugme birincil" id="durakEkleBos">Haritadan durak ekle</button></div>`;
+      ç`Henüz durak yok.<br>Haritadaki iğne düğmesine basıp kendi duraklarını koyabilirsin —<br>gerok paketi olmadan da çalışır.`) +
+      `<div class="daha-eski"><button class="eylem-dugme birincil" id="durakEkleBos">${ç`Haritadan durak ekle`}</button></div>`;
     $('#durakEkleBos').addEventListener('click', haritadanDurakEkle);
     return;
   }
@@ -2878,8 +2852,8 @@ function duraklariCiz() {
 
   // Gün gün başlıklar — rota da zaten gün gün renkleniyor.
   let html = `<div class="durak-ekle-satir">
-    <button class="eylem-dugme" id="durakEkleHarita">Haritadan durak koy</button>
-    <button class="eylem-dugme" id="durakEkleBurada">Burayı durak yap</button>
+    <button class="eylem-dugme" id="durakEkleHarita">${ç`Haritadan durak koy`}</button>
+    <button class="eylem-dugme" id="durakEkleBurada">${ç`Burayı durak yap`}</button>
   </div>`;
 
   let sonGun = Symbol('yok');
@@ -2888,7 +2862,7 @@ function duraklariCiz() {
       sonGun = d.gun;
       const gunBilgi = s?.gunler?.find(g => g.no === d.gun);
       html += `<div class="gun-basligi">
-        <div class="gun-no">${d.gun == null ? 'Günsüz' : `Gün ${d.gun}`}${bugun && d.gun === bugun.no ? ' · BUGÜN' : ''}</div>
+        <div class="gun-no">${d.gun == null ? ç`Günsüz` : ç`Gün ${d.gun}`}${bugun && d.gun === bugun.no ? ' · ' + ç`BUGÜN` : ''}</div>
         ${gunBilgi ? `<div class="gun-ad">${kacis(gunBilgi.baslik)}</div>` : ''}
       </div>`;
     }
@@ -2902,14 +2876,14 @@ function duraklariCiz() {
       <div class="durak-ust">
         <div class="durak-ad"><span class="durak-no">${i + 1}</span>${kacis(d.ad)}</div>
         <div class="durak-sira">
-          <button class="sira-dugme" data-tasi="-1" title="Yukarı">↑</button>
-          <button class="sira-dugme" data-tasi="1" title="Aşağı">↓</button>
+          <button class="sira-dugme" data-tasi="-1" title="${ç`Yukarı`}">↑</button>
+          <button class="sira-dugme" data-tasi="1" title="${ç`Aşağı`}">↓</button>
         </div>
       </div>
-      ${uzaklik != null ? `<div class="durak-uzaklik">${uzaklikYaz(uzaklik)} uzakta${kendi ? ' · kendi durağın' : ''}${d.gunTasindi ? ' · başka güne taşındı' : ''}</div>`
-                        : (kendi || d.gunTasindi) ? `<div class="durak-uzaklik">${kendi ? 'kendi durağın' : ''}${kendi && d.gunTasindi ? ' · ' : ''}${d.gunTasindi ? 'başka güne taşındı' : ''}</div>` : ''}
+      ${uzaklik != null ? `<div class="durak-uzaklik">${ç`${uzaklikYaz(uzaklik)} uzakta`}${kendi ? ' · ' + ç`kendi durağın` : ''}${d.gunTasindi ? ' · ' + ç`başka güne taşındı` : ''}</div>`
+                        : (kendi || d.gunTasindi) ? `<div class="durak-uzaklik">${kendi ? ç`kendi durağın` : ''}${kendi && d.gunTasindi ? ' · ' : ''}${d.gunTasindi ? ç`başka güne taşındı` : ''}</div>` : ''}
       ${d.osmBilgi && d.osmBilgi !== '\u2014'
-        ? `<div class="durak-osm" title="OpenStreetMap'ten geldi">${kacis(d.osmBilgi)}</div>` : ''}
+        ? `<div class="durak-osm" title="${ç`OpenStreetMap'ten geldi`}">${kacis(d.osmBilgi)}</div>` : ''}
       <div class="durak-govde">
         <div class="durak-liste">
           ${d.unutma?.length ? `<ul class="unutma">${d.unutma.map((u, ui) => {
@@ -2928,11 +2902,11 @@ function duraklariCiz() {
       </div>
       <div class="durak-dugmeler">
         <button class="kucuk-dugme gidis-dugme ${dur === 'gidildi' ? 'gidildi' : 'gidilmedi'}"
-                data-gidis="${d.id}">${dur === 'gidildi' ? 'Gittik' : 'Gitmedik'}</button>
-        <button class="kucuk-dugme" data-duzenle="${d.id}">Düzenle</button>
-        <button class="kucuk-dugme sil" data-durak-sil="${d.id}">Sil</button>
+                data-gidis="${d.id}">${dur === 'gidildi' ? ç`Gittik` : ç`Gitmedik`}</button>
+        <button class="kucuk-dugme" data-duzenle="${d.id}">${ç`Düzenle`}</button>
+        <button class="kucuk-dugme sil" data-durak-sil="${d.id}">${ç`Sil`}</button>
         <button class="kucuk-dugme g-dugme" data-durak-google="${d.id}"
-                title="Google Haritalar'da aç" aria-label="Google Haritalar'da aç">G</button>
+                title="${ç`Google Haritalar'da aç`}" aria-label="${ç`Google Haritalar'da aç`}">G</button>
       </div>
     </div>`;
   });
@@ -2942,9 +2916,9 @@ function duraklariCiz() {
   const silinmis = gerok.silinmisDuraklar();
   if (silinmis.length) {
     html += `<div class="silinmis-alan">
-      <div class="silinmis-baslik">Silinen duraklar (${silinmis.length})</div>
+      <div class="silinmis-baslik">${ç`Silinen duraklar (${silinmis.length})`}</div>
       ${silinmis.map(d => `<button class="silinmis-satir" data-durak-geri="${d.id}">
-        <span>${kacis(d.ad)}</span><span class="geri-getir">geri getir</span></button>`).join('')}
+        <span>${kacis(d.ad)}</span><span class="geri-getir">${ç`geri getir`}</span></button>`).join('')}
     </div>`;
   }
 
@@ -2986,7 +2960,7 @@ function duraklariCiz() {
     d.addEventListener('click', async (e) => {
       const id = e.target.closest('[data-durak]').dataset.durak;
       const sonuc = await gerok.durakTasi(id, +d.dataset.tasi);
-      if (!sonuc) { kayitBildir('Listenin ucu — daha ileri gitmiyor.'); return; }
+      if (!sonuc) { kayitBildir(ç`Listenin ucu — daha ileri gitmiyor.`); return; }
       await tazele();
       // Gün değişimi sessiz geçmemeli: durak listede tek satır kaydı ama
       // aslında programın başka bir gününe geçti.
@@ -2994,7 +2968,7 @@ function duraklariCiz() {
         const d2 = gerok.durakBul(id);
         // Ek yerine ok: "Gün 2'ye" ile "Gün 3'e" ayrı ekler istiyor,
         // sayıdan doğru eki üretmek bu bildirim için gereğinden karmaşık.
-        kayitBildir(`${d2?.ad || 'Durak'} → Gün ${sonuc.yeniGun}`, 'iyi');
+        kayitBildir(ç`${d2?.ad || ç`Durak`} → Gün ${sonuc.yeniGun}`, 'iyi');
       }
     });
   });
@@ -3020,7 +2994,7 @@ function duraklariCiz() {
   kap.querySelectorAll('[data-durak-geri]').forEach(b => {
     b.addEventListener('click', async () => {
       await gerok.durakGeriGetir(b.dataset.durakGeri);
-      kayitBildir('Durak geri geldi', 'iyi');
+      kayitBildir(ç`Durak geri geldi`, 'iyi');
       await tazele();
     });
   });
@@ -3109,11 +3083,11 @@ function notlariHtml(n) {
     ? `<div class="gnc-bolum ${sinif}"><div class="gnc-baslik">${baslik}</div>`
       + `<ul>${liste.map(x => `<li>${kacis(x)}</li>`).join('')}</ul></div>`
     : '';
-  const html = bolum('Eklenenler', 'gnc-ekle', n.eklendi)
-             + bolum('Düzelenler', 'gnc-duzel', n.duzeldi)
-             + bolum('Çıkarılanlar', 'gnc-cikar', n.cikti);
-  return html || '<div class="gnc-bolum"><div class="gnc-baslik">Bu güncellemede '
-       + 'görünür bir değişiklik yok — içeride iyileştirme var.</div></div>';
+  const html = bolum(ç`Eklenenler`, 'gnc-ekle', n.eklendi)
+             + bolum(ç`Düzelenler`, 'gnc-duzel', n.duzeldi)
+             + bolum(ç`Çıkarılanlar`, 'gnc-cikar', n.cikti);
+  return html || `<div class="gnc-bolum"><div class="gnc-baslik">${
+    ç`Bu güncellemede görünür bir değişiklik yok — içeride iyileştirme var.`}</div></div>`;
 }
 
 // Telefondaki önbellekte duran baytların özeti. Sunucudaki listeyle
@@ -3176,19 +3150,19 @@ function guncellemeKarti(bilgi) {
   const boyut = baytYaz(bilgi.degisen?.bayt);
   const sayi = bilgi.degisen?.sayi;
   ortuAc(`
-    <div class="ortu-baslik">Yeni güncelleme var</div>
+    <div class="ortu-baslik">${ç`Yeni güncelleme var`}</div>
     <div class="ortu-alt">${surumOku(bilgi.surum)}</div>
     <div class="guncelleme-boyut">
       <span>${boyut || '—'}</span>
-      ${sayi ? `<span class="guncelleme-alt">${sayi} dosya yenilendi</span>` : ''}
+      ${sayi ? `<span class="guncelleme-alt">${ç`${sayi} dosya yenilendi`}</span>` : ''}
     </div>
     ${notlariHtml(bilgi.notlar)}
     <div class="guncelleme-not">${bilgi.indi
-      ? 'Dosyalar indi bile. Tek yapılacak uygulamayı yenilemek — birkaç saniye.'
-      : 'İnternetten inecek, sonra uygulama kendi kendine yenilenecek.'}</div>
+      ? ç`Dosyalar indi bile. Tek yapılacak uygulamayı yenilemek — birkaç saniye.`
+      : ç`İnternetten inecek, sonra uygulama kendi kendine yenilenecek.`}</div>
     <button class="eylem-dugme birincil" id="gncEvet">${bilgi.indi
-      ? 'Şimdi güncelle' : 'İndir ve güncelle'}</button>
-    <button class="eylem-dugme" id="gncHayir">Sonra</button>
+      ? ç`Şimdi güncelle` : ç`İndir ve güncelle`}</button>
+    <button class="eylem-dugme" id="gncHayir">${ç`Sonra`}</button>
   `, true, 'guncelleme');
 
   $('#gncHayir').addEventListener('click', async () => {
@@ -3202,7 +3176,7 @@ function guncellemeKarti(bilgi) {
 
 async function guncellemeyiUygula(bilgi) {
   if (kayit.sesKaydediyorMu()) {
-    kayitBildir('Ses kaydı sürüyor — önce onu bitir, sonra güncelle.', 'kotu');
+    kayitBildir(ç`Ses kaydı sürüyor — önce onu bitir, sonra güncelle.`, 'kotu');
     return;
   }
 
@@ -3213,7 +3187,7 @@ async function guncellemeyiUygula(bilgi) {
 
   try {
     const kurulum = await navigator.serviceWorker?.getRegistration();
-    if (!kurulum) throw new Error('çevrimdışı kurulum yok');
+    if (!kurulum) throw new Error(ç`çevrimdışı kurulum yok`);
 
     // Sayfa, yeni servis worker devreye girdiği anda yenileniyor. Yenilemeyi
     // burada bekletmek şart: erken yenilersek eski dosyalar tekrar yüklenir.
@@ -3235,10 +3209,10 @@ async function guncellemeyiUygula(bilgi) {
       if (await calisanSurumOnbellegi() === bilgi.surum) { location.reload(); return; }
       await new Promise(r => setTimeout(r, 800));
     }
-    if (!yenilendi) throw new Error('indirme tamamlanmadı');
+    if (!yenilendi) throw new Error(ç`indirme tamamlanmadı`);
   } catch (h) {
-    kayitBildir(`Güncellenemedi (${h.message}). İnternet varken tekrar dene.`, 'kotu');
-    if (tus) { tus.disabled = false; yaz(bilgi.indi ? 'Şimdi güncelle' : 'İndir ve güncelle'); }
+    kayitBildir(ç`Güncellenemedi (${h.message}). İnternet varken tekrar dene.`, 'kotu');
+    if (tus) { tus.disabled = false; yaz(bilgi.indi ? ç`Şimdi güncelle` : ç`İndir ve güncelle`); }
   }
 }
 
@@ -3288,16 +3262,16 @@ async function guncellemeYokla({ gecikme = 4000 } = {}) {
 // "Yeni sürüm var mı?" düğmesi — açılıştaki sessiz yoklamanın elle çağrılan hâli.
 async function surumuAra() {
   const tus = $('#btnSurum');
-  if (tus) { tus.disabled = true; tus.textContent = 'Bakılıyor…'; }
+  if (tus) { tus.disabled = true; tus.textContent = ç`Bakılıyor…`; }
   try {
     const bilgi = await guncellemeBak();
     if (bilgi) guncellemeKarti(bilgi);
-    else if (!navigator.onLine) kayitBildir('İnternet yok — bakılamadı.', 'kotu');
-    else kayitBildir('Zaten en son sürümdesin.', 'iyi');
+    else if (!navigator.onLine) kayitBildir(ç`İnternet yok — bakılamadı.`, 'kotu');
+    else kayitBildir(ç`Zaten en son sürümdesin.`, 'iyi');
   } catch (h) {
-    kayitBildir(`Bakılamadı (${h.message}). İnternet varken dene.`, 'kotu');
+    kayitBildir(ç`Bakılamadı (${h.message}). İnternet varken dene.`, 'kotu');
   }
-  if (tus) { tus.disabled = false; tus.textContent = 'Yeni sürüm var mı?'; }
+  if (tus) { tus.disabled = false; tus.textContent = ç`Yeni sürüm var mı?`; }
   surumuYaz();
 }
 
@@ -3351,17 +3325,17 @@ async function aramaYap(sorgu) {
   const sonuc = await yerAra.ara(sorgu, { merkez });
 
   if (!sonuc.length) {
-    yer.innerHTML = `<div class="arama-bos">Yakında böyle bir yer yok.
-      <button class="kucuk-dugme" id="aramaInternet">İnternette ara</button></div>`;
+    yer.innerHTML = `<div class="arama-bos">${ç`Yakında böyle bir yer yok.`}
+      <button class="kucuk-dugme" id="aramaInternet">${ç`İnternette ara`}</button></div>`;
   } else {
     yer.innerHTML = sonuc.map((s, i) => `
       <button class="arama-satiri" data-i="${i}">
         <span>${kacis(s.ad)}</span>
         <span class="yer-alt">${kacis(s.alt)}</span>
       </button>`).join('')
-      + `<div class="arama-bos">Aradığın burada yoksa
-         <button class="kucuk-dugme" id="aramaInternet">internette ara</button>
-         (wifi gerekir).</div>`;
+      + `<div class="arama-bos">${ç`Aradığın burada yoksa`}
+         <button class="kucuk-dugme" id="aramaInternet">${ç`internette ara`}</button>
+         ${ç`(wifi gerekir).`}</div>`;
   }
 
   $$('#aramaSonuc .arama-satiri').forEach(d => {
@@ -3372,11 +3346,11 @@ async function aramaYap(sorgu) {
 
 async function internetAramasi(sorgu) {
   const yer = $('#aramaSonuc');
-  yer.innerHTML = '<div class="arama-bos">İnternette aranıyor…</div>';
+  yer.innerHTML = `<div class="arama-bos">${ç`İnternette aranıyor…`}</div>`;
   try {
     const sonuc = await yerAra.internetteAra(sorgu);
     if (!sonuc.length) {
-      yer.innerHTML = '<div class="arama-bos">Bulunamadı.</div>';
+      yer.innerHTML = `<div class="arama-bos">${ç`Bulunamadı.`}</div>`;
       return;
     }
     yer.innerHTML = sonuc.map((s, i) => `
@@ -3403,28 +3377,28 @@ function yereGit(s) {
 
   konumaGit({ lat: s.lat, lon: s.lon }, 13);
   durakKoymaKipi(true);
-  kayitBildir(`${s.ad} — haritayı ince ayarla, sonra "Buraya durak ekle".`, 'iyi');
+  kayitBildir(ç`${s.ad} — haritayı ince ayarla, sonra "Buraya durak ekle".`, 'iyi');
 }
 
 function haritadanDurakEkle() {
   ekranAc('harita');
   haritaKur().then(() => {
     durakKoymaKipi(true);
-    kayitBildir('Haritayı kaydır, sonra "Buraya durak ekle" de.');
+    kayitBildir(ç`Haritayı kaydır, sonra "Buraya durak ekle" de.`);
   });
 }
 
 async function buradanDurakEkle() {
-  kayitBildir('Konum alınıyor…');
+  kayitBildir(ç`Konum alınıyor…`);
   const k = await iz.suAnkiKonum();
-  if (!k) { kayitBildir('Konum alınamadı. Haritadan elle koyabilirsin.', 'kotu'); return; }
+  if (!k) { kayitBildir(ç`Konum alınamadı. Haritadan elle koyabilirsin.`, 'kotu'); return; }
   durakSor({ lat: k.lat, lon: k.lon, buradan: true });
 }
 
 function durakNoktasiOnayla() {
   const m = haritaMerkezi();
   durakKoymaKipi(false);
-  if (!m) { kayitBildir('Harita henüz hazır değil.', 'kotu'); return; }
+  if (!m) { kayitBildir(ç`Harita henüz hazır değil.`, 'kotu'); return; }
   durakSor({ lat: m.lat, lon: m.lon });
 }
 
@@ -3442,26 +3416,25 @@ function durakSor({ lat, lon, mevcut = null, buradan = false }) {
   const secilenGun = d ? d.gun : (gerok.bugununGunu()?.no ?? null);
 
   ortuAc(`
-    <div class="ortu-baslik">${d ? 'Durağı düzenle' : 'Yeni durak'}</div>
-    <div class="ortu-alt">Haritada rotaya eklenecek ve sıradaki yerini alacak.
-    Akşam paket gönderdiğinde arkadaşının telefonuna da geçer.</div>
+    <div class="ortu-baslik">${d ? ç`Durağı düzenle` : ç`Yeni durak`}</div>
+    <div class="ortu-alt">${ç`Haritada rotaya eklenecek ve sıradaki yerini alacak. Akşam paket gönderdiğinde arkadaşının telefonuna da geçer.`}</div>
 
-    <div class="girdi-etiket">Adı</div>
-    <input class="girdi" id="durakAd" placeholder="Şelale, kahvaltı yeri, köprü…" value="${kacis(d?.ad || '')}">
+    <div class="girdi-etiket">${ç`Adı`}</div>
+    <input class="girdi" id="durakAd" placeholder="${ç`Şelale, kahvaltı yeri, köprü…`}" value="${kacis(d?.ad || '')}">
 
-    <div class="girdi-etiket">Hangi gün?</div>
+    <div class="girdi-etiket">${ç`Hangi gün?`}</div>
     <div class="secenekler" id="durakGun">
       ${gunSecenekleri().map(g =>
         `<button class="kucuk-dugme ${g.no === secilenGun ? 'secili' : ''}" data-gun="${g.no}">${g.ad}</button>`).join('')}
-      <button class="kucuk-dugme ${secilenGun == null ? 'secili' : ''}" data-gun="">Günsüz</button>
+      <button class="kucuk-dugme ${secilenGun == null ? 'secili' : ''}" data-gun="">${ç`Günsüz`}</button>
     </div>
 
-    <div class="girdi-etiket">Unutma listesi — her satıra bir şey</div>
-    <textarea class="alan" id="durakUnutma" placeholder="Fotoğraf çek&#10;Su al&#10;Giriş ücreti var mı?">${kacis((d?.unutma || []).join('\n'))}</textarea>
+    <div class="girdi-etiket">${ç`Unutma listesi — her satıra bir şey`}</div>
+    <textarea class="alan" id="durakUnutma" placeholder="${ç`Fotoğraf çek`}&#10;${ç`Su al`}&#10;${ç`Giriş ücreti var mı?`}">${kacis((d?.unutma || []).join('\n'))}</textarea>
 
-    <div class="panel-not">Konum: ${(+enlem).toFixed(5)}, ${(+boylam).toFixed(5)}</div>
-    <button class="eylem-dugme birincil" id="durakKaydet">${d ? 'Kaydet' : 'Durağı ekle'}</button>
-    <button class="eylem-dugme" id="durakVaz">Vazgeç</button>
+    <div class="panel-not">${ç`Konum: ${(+enlem).toFixed(5)}, ${(+boylam).toFixed(5)}`}</div>
+    <button class="eylem-dugme birincil" id="durakKaydet">${d ? ç`Kaydet` : ç`Durağı ekle`}</button>
+    <button class="eylem-dugme" id="durakVaz">${ç`Vazgeç`}</button>
   `);
 
   setTimeout(() => $('#durakAd').focus(), 120);
@@ -3484,7 +3457,7 @@ function durakSor({ lat, lon, mevcut = null, buradan = false }) {
 
     if (d) {
       await gerok.durakDuzenle(d.id, { ad, gun, unutma });
-      kayitBildir('Durak güncellendi.', 'iyi');
+      kayitBildir(ç`Durak güncellendi.`, 'iyi');
     } else {
       // `durum.duraklar` diye bir alan HİÇ OLMADI; buradaki okuma her durak
       // eklemede sessizce patlıyordu. Sonucu görünmezdi ama ağırdı: durak
@@ -3495,8 +3468,8 @@ function durakSor({ lat, lon, mevcut = null, buradan = false }) {
       // Nereden geldiğini söylemek işe yarıyor: "Burayı durak yap"a basınca
       // konumun gerçekten alındığı ancak bu cümleyle anlaşılıyor.
       kayitBildir(buradan
-        ? 'Bulunduğun yer durak yapıldı'
-        : `Durak eklendi · ${gerok.duraklar().length}. sıra`, 'iyi');
+        ? ç`Bulunduğun yer durak yapıldı`
+        : ç`Durak eklendi · ${gerok.duraklar().length}. sıra`, 'iyi');
       // Mac'teki bekçi telefondan eklenen durağı hiç görmüyor. Kartı yoksa
       // bunu ancak buradan haber verebiliyoruz. Dönen kaydı kullanıyoruz;
       // ada göre aramak, aynı adlı iki durakta yanlış olanı bulurdu.
@@ -3511,12 +3484,10 @@ function durakSilSor(id) {
   const d = gerok.durakBul(id);
   if (!d) return;
   ortuAc(`
-    <div class="ortu-baslik">"${kacis(d.ad)}" silinsin mi?</div>
-    <div class="ortu-alt">Rotadan çıkar. Bu durakta yaptığın kayıtlar (ses, fotoğraf, not)
-    silinmez — onlar yerinde kalır. Listenin en altındaki “Silinen duraklar”dan
-    geri getirebilirsin.</div>
-    <button class="eylem-dugme birincil" id="durakSilOnay">Sil</button>
-    <button class="eylem-dugme" id="durakSilVaz">Vazgeç</button>
+    <div class="ortu-baslik">${ç`"${kacis(d.ad)}" silinsin mi?`}</div>
+    <div class="ortu-alt">${ç`Rotadan çıkar. Bu durakta yaptığın kayıtlar (ses, fotoğraf, not) silinmez — onlar yerinde kalır. Listenin en altındaki “Silinen duraklar”dan geri getirebilirsin.`}</div>
+    <button class="eylem-dugme birincil" id="durakSilOnay">${ç`Sil`}</button>
+    <button class="eylem-dugme" id="durakSilVaz">${ç`Vazgeç`}</button>
   `);
   $('#durakSilVaz').addEventListener('click', ortuKapat);
   $('#durakSilOnay').addEventListener('click', async () => {
@@ -3524,7 +3495,7 @@ function durakSilSor(id) {
     await gerok.durakYokEt(id);
     // Silme katman olarak yazıldığı için geri alması ucuz: beş saniyelik
     // düğme hemen burada, listenin altındaki "Silinen duraklar" da yerinde.
-    geriAlinabilirBildir('Durak silindi', async () => {
+    geriAlinabilirBildir(ç`Durak silindi`, async () => {
       await gerok.durakGeriGetir(id);
       await tazele();
       if (durum.ekran === 'harita') haritaGuncelle(durum.kayitlar, durum.izNoktalari);
@@ -3562,21 +3533,21 @@ function durakKartiAc(id, { uc = false } = {}) {
       </button>
     </div>
     <div class="ortu-baslik"><span class="durak-no">${sira}</span>${kacis(d.ad)}</div>
-    <div class="ortu-alt">${d.gun == null ? 'Günsüz' : `Gün ${d.gun}`}${uzaklik != null ? ` · ${uzaklikYaz(uzaklik)} uzakta` : ''}${d.kaynak === 'kendi' ? ' · kendi durağın' : ''}</div>
+    <div class="ortu-alt">${d.gun == null ? ç`Günsüz` : ç`Gün ${d.gun}`}${uzaklik != null ? ' · ' + ç`${uzaklikYaz(uzaklik)} uzakta` : ''}${d.kaynak === 'kendi' ? ' · ' + ç`kendi durağın` : ''}</div>
     ${d.unutma?.length ? `<ul class="unutma">${d.unutma.map(u => `<li>${kacis(u)}</li>`).join('')}</ul>` : ''}
     ${kendiNotlari(d)}
     ${yildizSatiri(d)}
     <div class="durak-dugmeler">
-      <button class="kucuk-dugme ${dur === 'gidildi' ? 'secili' : ''}" id="kartGidildi">Gittik</button>
-      <button class="kucuk-dugme ${dur === 'kacirildi' ? 'secili' : ''}" id="kartKacirildi">Kaçırdık</button>
-      <button class="kucuk-dugme" data-not-ekle="${d.id}">Not yaz</button>
-      <button class="kucuk-dugme" id="kartBilgi" hidden>Bilgi</button>
+      <button class="kucuk-dugme ${dur === 'gidildi' ? 'secili' : ''}" id="kartGidildi">${ç`Gittik`}</button>
+      <button class="kucuk-dugme ${dur === 'kacirildi' ? 'secili' : ''}" id="kartKacirildi">${ç`Kaçırdık`}</button>
+      <button class="kucuk-dugme" data-not-ekle="${d.id}">${ç`Not yaz`}</button>
+      <button class="kucuk-dugme" id="kartBilgi" hidden>${ç`Bilgi`}</button>
       <button class="kucuk-dugme g-dugme" id="kartGoogle"
-              title="Google Haritalar'da aç" aria-label="Google Haritalar'da aç">G</button>
+              title="${ç`Google Haritalar'da aç`}" aria-label="${ç`Google Haritalar'da aç`}">G</button>
     </div>
-    ${d.kaynak === 'kendi' ? '<button class="eylem-dugme" id="kartDuzenle">Düzenle</button>' : ''}
-    ${d.kaynak === 'kendi' ? '<button class="eylem-dugme sil" id="kartSil">Sil</button>' : ''}
-    <button class="eylem-dugme" id="kartKapat">Kapat</button>
+    ${d.kaynak === 'kendi' ? `<button class="eylem-dugme" id="kartDuzenle">${ç`Düzenle`}</button>` : ''}
+    ${d.kaynak === 'kendi' ? `<button class="eylem-dugme sil" id="kartSil">${ç`Sil`}</button>` : ''}
+    <button class="eylem-dugme" id="kartKapat">${ç`Kapat`}</button>
   `, true, 'durak');
 
   // Not ve puan haritadaki kartta da çalışsın: durak listesine gidip aynı
@@ -3619,7 +3590,7 @@ function durakKartiAc(id, { uc = false } = {}) {
       // Aynı hata buradaydı: "Gittik" işareti yazılıyor, ama bildirim ve
       // `tazele()` patlayan bu satır yüzünden hiç çalışmıyordu.
       const d = gerok.durakBul(id);
-      if (!kaldir && d) kayitBildir(`${d.ad} · ${deger === 'gidildi' ? 'gittik' : 'kaçırdık'}`, 'iyi');
+      if (!kaldir && d) kayitBildir(`${d.ad} · ${deger === 'gidildi' ? ç`gittik` : ç`kaçırdık`}`, 'iyi');
       await tazele();
     });
   }
@@ -3640,18 +3611,18 @@ function yaklasmaKontrol(lat, lon) {
 function yaklasmaUyarisi(durak, uzaklik) {
   titret([200, 100, 200, 100, 200]);
   uyariSesi();
-  bildirimGoster(durak.ad, `${uzaklikYaz(uzaklik)} kaldı`);
+  bildirimGoster(durak.ad, ç`${uzaklikYaz(uzaklik)} kaldı`);
 
   ortuAc(`
     <div class="panel uyari-kart">
-      <div class="uyari-baslik">Yaklaşıyorsun · ${uzaklikYaz(uzaklik)}</div>
+      <div class="uyari-baslik">${ç`Yaklaşıyorsun · ${uzaklikYaz(uzaklik)}`}</div>
       <div class="ortu-baslik" style="margin-top:8px">${kacis(durak.ad)}</div>
       ${durak.unutma?.length
         ? `<ul class="unutma">${durak.unutma.map(u => `<li>${kacis(u)}</li>`).join('')}</ul>`
-        : '<div class="ortu-alt">Not yok.</div>'}
+        : `<div class="ortu-alt">${ç`Not yok.`}</div>`}
     </div>
-    <button class="eylem-dugme" id="uyariBilgi" hidden>Burası hakkında bilgi</button>
-    <button class="eylem-dugme birincil" id="uyariTamam">Tamam</button>
+    <button class="eylem-dugme" id="uyariBilgi" hidden>${ç`Burası hakkında bilgi`}</button>
+    <button class="eylem-dugme birincil" id="uyariTamam">${ç`Tamam`}</button>
   `);
   $('#uyariTamam').addEventListener('click', ortuKapat);
   // Kart varsa düğme açılıyor; yoksa hiç görünmüyor — basınca "bilgim yok"
@@ -3696,12 +3667,10 @@ async function yedekAlVeDogrula() {
   if (!d.alindi) return;                 // iptal edilmiş, sorma
 
   ortuAc(`
-    <div class="ortu-baslik">Yedeği doğrulayalım</div>
-    <div class="ortu-alt">Telefon, dosyanın nereye kaydedildiğini göremiyor —
-    o yüzden "kaydedildi" yazısı bir <b>varsayım</b>. Az önce kaydettiğin
-    dosyayı seç, açıp sayayım. Böylece yedeğin olduğunu <b>bilelim</b>.</div>
-    <button class="eylem-dugme birincil" id="ydgSec">Dosyayı seç</button>
-    <button class="eylem-dugme" id="ydgAtla">Şimdi değil</button>
+    <div class="ortu-baslik">${ç`Yedeği doğrulayalım`}</div>
+    <div class="ortu-alt">${ç`Telefon, dosyanın nereye kaydedildiğini göremiyor — o yüzden "kaydedildi" yazısı bir <b>varsayım</b>. Az önce kaydettiğin dosyayı seç, açıp sayayım. Böylece yedeğin olduğunu <b>bilelim</b>.`}</div>
+    <button class="eylem-dugme birincil" id="ydgSec">${ç`Dosyayı seç`}</button>
+    <button class="eylem-dugme" id="ydgAtla">${ç`Şimdi değil`}</button>
     <div id="ydgDurum" class="panel-not"></div>
   `);
   $('#ydgAtla').addEventListener('click', ortuKapat);
@@ -3711,19 +3680,16 @@ async function yedekAlVeDogrula() {
       if (!s) return;
       if (s.dogru) {
         ortuKapat();
-        kayitBildir(`Yedek doğrulandı · ${s.kayit} kayıt, ${s.medya} dosya`, 'iyi');
+        kayitBildir(ç`Yedek doğrulandı · ${s.kayit} kayıt, ${s.medya} dosya`, 'iyi');
         tazele();
       } else if (s.tam === false) {
-        yaz('<b>Bu dosya yarım.</b> Yazma tamamlanmamış — kaydetme sırasında '
-          + 'iptal edilmiş ya da yer bitmiş olabilir. Yeniden yedek al.');
+        yaz(ç`<b>Bu dosya yarım.</b> Yazma tamamlanmamış — kaydetme sırasında iptal edilmiş ya da yer bitmiş olabilir. Yeniden yedek al.`);
       } else if (s.eksik) {
-        yaz(`<b>Dikkat:</b> ${s.eksik} kaydın sesi ya da görseli yedeğe girmemiş. `
-          + 'Bu yedek eksik — yer açıp yeniden dene.');
+        yaz(ç`<b>Dikkat:</b> ${s.eksik} kaydın sesi ya da görseli yedeğe girmemiş. Bu yedek eksik — yer açıp yeniden dene.`);
       } else if (s.kayit != null && s.kayit < s.canliKayit) {
-        yaz(`Bu yedek <b>eski</b>: içinde ${s.kayit} kayıt var, telefonunda `
-          + `${s.canliKayit}. Yeni bir yedek al.`);
+        yaz(ç`Bu yedek <b>eski</b>: içinde ${s.kayit} kayıt var, telefonunda ${s.canliKayit}. Yeni bir yedek al.`);
       } else {
-        yaz('Doğrulanamadı. Doğru dosyayı seçtiğinden emin ol.');
+        yaz(ç`Doğrulanamadı. Doğru dosyayı seçtiğinden emin ol.`);
       }
     });
   });
@@ -3747,13 +3713,13 @@ async function yedekHatirlat() {
   kutu.className = 'on-sezi';
   kutu.innerHTML = `
     <div class="on-sezi-yazi">
-      <div class="on-sezi-ust">Yedek</div>
-      <div class="on-sezi-ad">${yedek ? 'Son yedekten beri' : 'Henüz hiç yedek yok'}</div>
-      <div class="on-sezi-alt">${yeni} yeni kayıt · tek dosya, telefonda kalır</div>
+      <div class="on-sezi-ust">${ç`Yedek`}</div>
+      <div class="on-sezi-ad">${yedek ? ç`Son yedekten beri` : ç`Henüz hiç yedek yok`}</div>
+      <div class="on-sezi-alt">${ç`${yeni} yeni kayıt · tek dosya, telefonda kalır`}</div>
     </div>
     <div class="on-sezi-dugmeler">
-      <button class="kucuk-dugme birincil" id="yedekSimdi">Yedek al</button>
-      <button class="kucuk-dugme" id="yedekSonra">Bugün olmaz</button>
+      <button class="kucuk-dugme birincil" id="yedekSimdi">${ç`Yedek al`}</button>
+      <button class="kucuk-dugme" id="yedekSonra">${ç`Bugün olmaz`}</button>
     </div>`;
   document.body.appendChild(kutu);
   const kapat = () => kutu.remove();
@@ -3774,13 +3740,13 @@ async function bilgiEksikSor(duraklar, secenek = {}) {
   kutu.className = 'on-sezi';
   kutu.innerHTML = `
     <div class="on-sezi-yazi">
-      <div class="on-sezi-ust">Bekçi</div>
+      <div class="on-sezi-ust">${ç`Bekçi`}</div>
       <div class="on-sezi-ad">${kacis(s.baslik)}</div>
-      <div class="on-sezi-alt">${kacis(s.ad)} · bilgisini isteyeyim mi?</div>
+      <div class="on-sezi-alt">${ç`${kacis(s.ad)} · bilgisini isteyeyim mi?`}</div>
     </div>
     <div class="on-sezi-dugmeler">
-      <button class="kucuk-dugme birincil" id="onSeziEvet">İste</button>
-      <button class="kucuk-dugme" id="onSeziHayir">Gerek yok</button>
+      <button class="kucuk-dugme birincil" id="onSeziEvet">${ç`İste`}</button>
+      <button class="kucuk-dugme" id="onSeziHayir">${ç`Gerek yok`}</button>
     </div>`;
   document.body.appendChild(kutu);
   const kapat = () => kutu.remove();
@@ -3819,13 +3785,13 @@ async function onSeziSor(durak, uzaklik) {
   kutu.className = 'on-sezi';
   kutu.innerHTML = `
     <div class="on-sezi-yazi">
-      <div class="on-sezi-ust">Sıradaki · ${uzaklikYaz(uzaklik)}</div>
+      <div class="on-sezi-ust">${ç`Sıradaki · ${uzaklikYaz(uzaklik)}`}</div>
       <div class="on-sezi-ad">${kacis(durak.ad)}</div>
-      <div class="on-sezi-alt">Bu durakla ilgili detay ister misin?</div>
+      <div class="on-sezi-alt">${ç`Bu durakla ilgili detay ister misin?`}</div>
     </div>
     <div class="on-sezi-dugmeler">
-      <button class="kucuk-dugme birincil" id="onSeziEvet">Anlat</button>
-      <button class="kucuk-dugme" id="onSeziHayir">Şimdi değil</button>
+      <button class="kucuk-dugme birincil" id="onSeziEvet">${ç`Anlat`}</button>
+      <button class="kucuk-dugme" id="onSeziHayir">${ç`Şimdi değil`}</button>
     </div>`;
   document.body.appendChild(kutu);
   const kapat = () => kutu.remove();
@@ -3940,7 +3906,7 @@ function uyariSesi() {
 async function yolModuDegistir() {
   durum.yolModu = !durum.yolModu;
   $('#btnYolModu').classList.toggle('acik', durum.yolModu);
-  $('#btnYolModu .yol-durum').textContent = durum.yolModu ? 'açık' : 'kapalı';
+  $('#btnYolModu .yol-durum').textContent = durum.yolModu ? ç`açık` : ç`kapalı`;
 
   if (durum.yolModu) {
     iz.basla();
@@ -3951,16 +3917,16 @@ async function yolModuDegistir() {
       durum.uyanikKilit?.addEventListener('release', () => { durum.uyanikKilit = null; });
     } catch { /* Wake Lock yoksa ekran normal davranır */ }
     $('#btnYolModu .yol-alt').textContent =
-      (durum.uyanikKilit ? 'Açık — ekran sönmeyecek' : 'Açık') +
-      (sesVar ? ', durağa yaklaşınca sesle uyaracak' : ', uyarı ekranda çıkacak (ses açılamadı)');
+      (durum.uyanikKilit ? ç`Açık — ekran sönmeyecek` : ç`Açık`) +
+      (sesVar ? ç`, durağa yaklaşınca sesle uyaracak` : ç`, uyarı ekranda çıkacak (ses açılamadı)`);
     kayitBildir(sesVar
-      ? 'Yol Modu açık · ekran sönmeyecek'
-      : 'Yol Modu açık ama ses açılamadı: uyarı yalnızca ekranda çıkar.', sesVar ? 'iyi' : 'orta');
+      ? ç`Yol Modu açık · ekran sönmeyecek`
+      : ç`Yol Modu açık ama ses açılamadı: uyarı yalnızca ekranda çıkar.`, sesVar ? 'iyi' : 'orta');
   } else {
     durum.uyanikKilit?.release();
     durum.uyanikKilit = null;
     sesDuzenegiKapat();
-    $('#btnYolModu .yol-alt').textContent = 'Ekran açık kalır, durağa yaklaşınca uyarır';
+    $('#btnYolModu .yol-alt').textContent = ç`Ekran açık kalır, durağa yaklaşınca uyarır`;
   }
 }
 
@@ -3982,11 +3948,11 @@ let acikPanel = null;
 // yapılmadığı da bu satırda söyleniyor.
 function baglantiDurumu(ag, kip) {
   const mobil = kip === 'mobil' || kip === 'mobilTam';
-  if (!ag) return mobil ? 'mobil veri var · izin bekliyor' : 'internet yok';
-  if (!mobil) return 'wi-fi · bağlı';
+  if (!ag) return mobil ? ç`mobil veri var · izin bekliyor` : ç`internet yok`;
+  if (!mobil) return ç`wi-fi · bağlı`;
   return baglanti.KIPLER[kip]?.buyukIsler
-    ? 'mobil veri · izin verildi'
-    : 'mobil veri · yalnızca küçük işler';
+    ? ç`mobil veri · izin verildi`
+    : ç`mobil veri · yalnızca küçük işler`;
 }
 
 function panelSatiri({ etiket, deger = '', id = '', rozet = '' }) {
@@ -4044,7 +4010,7 @@ function bekciSatiri() {
   return `<button class="bekci-satir" id="btnBekci">
     <span class="bk-nokta ${o.sinif}"></span>
     <span class="bekci-yazi">
-      <b>Bekçi</b>
+      <b>${ç`Bekçi`}</b>
       <div class="bekci-durum ${o.sinif === 'kotu' ? 'kotu' : o.sinif === 'akil' ? 'akil' : ''}">${kacis(o.yazi)}</div>
     </span>
     <span class="bekci-ok">›</span>
@@ -4094,27 +4060,27 @@ async function paneliCiz() {
   const dogruMu = ydg.dogrulandi && yedek && ydg.dogrulandi >= yedek;
   const yedekYazi = yedek
     ? gerok.tarihUzun(yedek) + ' ' + gerok.saat(yedek)
-      + (dogruMu ? ` · doğrulandı${ydg.sayi ? ` (${ydg.sayi} kayıt)` : ''}`
-                 : ' · DOĞRULANMADI')
-    : 'hiç alınmadı';
+      + (dogruMu ? ç` · doğrulandı${ydg.sayi ? ç` (${ydg.sayi} kayıt)` : ''}`
+                 : ' · ' + ç`DOĞRULANMADI`)
+    : ç`hiç alınmadı`;
 
   const bulut = await veri.ayarOku('sonBulut', null);
   const bulutYazi = bulut
     ? gerok.tarihUzun(bulut) + ' ' + gerok.saat(bulut)
-    : 'hiç yüklenmedi';
+    : ç`hiç yüklenmedi`;
 
   const sinama = await veri.ayarOku('sonSinama', null);
   const sinamaYazi = sinama
     ? `${gerok.tarihUzun(sinama.an)} ${gerok.saat(sinama.an)} · ` +
-      (sinama.saglam ? 'okunabilir ✓' : 'eksik var')
-    : 'sınanmadı';
+      (sinama.saglam ? ç`okunabilir ✓` : ç`eksik var`)
+    : ç`sınanmadı`;
 
   // Etiket bilerek KİŞİSİZ. Önceden gelen kayıtlardan arkadaşın adı okunup
   // "Günü Berxik'e gönder" yazıyordu. İki sorunu vardı: uygulamayı kuran
   // herkes bunu yanındaki kişiye gönderecek, o kişi de her gezide başkası
   // olacak; ve ekranda duran bir isim, telefonu birine gösterdiğinde
   // yanındakinin adını da göstermek demek.
-  const gonderEtiketi = 'Günü yol arkadaşına gönder';
+  const gonderEtiketi = ç`Günü yol arkadaşına gönder`;
 
   // Bağlantı kuyruğu: internet bulununca tamamlanacak işler.
   const ag = await baglanti.agVarMi();
@@ -4122,176 +4088,180 @@ async function paneliCiz() {
 
   $('#gerokPanel').innerHTML = `
     <div class="panel">
-      <div class="panel-baslik">bu gezi</div>
+      <div class="panel-baslik">${ç`bu gezi`}</div>
       ${s ? `
         <div class="panel-satir"><span class="etiket">Gerok</span><span class="deger">${kacis(s.ad)}</span></div>
-        <div class="panel-satir"><span class="etiket">Kayıt</span>
+        <div class="panel-satir"><span class="etiket">${ç`Kayıt`}</span>
           <span class="deger sayi-izgara">
-            <span title="yazı, işaret, sınır"><i data-ikon="kalem" data-ikon-boy="14"></i>${yaziSayi}</span>
-            <span title="ses kayıtları"><i data-ikon="dalga" data-ikon-boy="14"></i>${sesSayi}</span>
-            <span title="fotoğraf ve video"><i data-ikon="gorsel" data-ikon-boy="14"></i>${gorselSayi}</span>
-            <span title="tanıştığınız kişiler"><i data-ikon="kisi" data-ikon-boy="14"></i>${kisiSayi}</span>
+            <span title="${ç`yazı, işaret, sınır`}"><i data-ikon="kalem" data-ikon-boy="14"></i>${yaziSayi}</span>
+            <span title="${ç`ses kayıtları`}"><i data-ikon="dalga" data-ikon-boy="14"></i>${sesSayi}</span>
+            <span title="${ç`fotoğraf ve video`}"><i data-ikon="gorsel" data-ikon-boy="14"></i>${gorselSayi}</span>
+            <span title="${ç`tanıştığınız kişiler`}"><i data-ikon="kisi" data-ikon-boy="14"></i>${kisiSayi}</span>
           </span></div>
         ${s.karayoluKm ? `
-        <div class="panel-satir"><span class="etiket">Yol</span>
+        <div class="panel-satir"><span class="etiket">${ç`Yol`}</span>
           <span class="deger">${Math.round(s.karayoluKm).toLocaleString('tr-TR')} km${
-            s.ucusKm ? ` · ${Math.round(s.ucusKm).toLocaleString('tr-TR')} km uçuş` : ''}</span></div>
-        <div class="panel-satir"><span class="etiket">İz kaydı</span>
-          <span class="deger">${km.toFixed(1)} km · ${durum.izNoktalari.length} nokta</span></div>`
+            s.ucusKm ? ' · ' + ç`${Math.round(s.ucusKm).toLocaleString('tr-TR')} km uçuş` : ''}</span></div>
+        <div class="panel-satir"><span class="etiket">${ç`İz kaydı`}</span>
+          <span class="deger">${ç`${km.toFixed(1)} km · ${durum.izNoktalari.length} nokta`}</span></div>`
         : `
-        <div class="panel-satir"><span class="etiket">İz kaydı</span>
-          <span class="deger">${km.toFixed(1)} km · ${durum.izNoktalari.length} nokta</span></div>`}
-        <div class="panel-satir harcama-ust"><span class="etiket">Harcama</span>
+        <div class="panel-satir"><span class="etiket">${ç`İz kaydı`}</span>
+          <span class="deger">${ç`${km.toFixed(1)} km · ${durum.izNoktalari.length} nokta`}</span></div>`}
+        <div class="panel-satir harcama-ust"><span class="etiket">${ç`Harcama`}</span>
           <span class="deger">
             <span>${harcamaEuro ? euroYaz(harcamaEuro) : (harcamalar.length ? tutarYaz(paralar) : '—')}</span>
-            <button class="satir-dugme" id="btnHarcamaListe">Döküm</button>
+            <button class="satir-dugme" id="btnHarcamaListe">${ç`Döküm`}</button>
           </span></div>
         <div class="panel-not kucuk">${harcamaEuro
           ? (harcamaEuro.eksik
               // Kur işi bitmemiş: hangi tarihin kuruyla hesaplandığını söylemek
               // şart. Yoksa toplam kesin bir sayı gibi duruyor, oysa değil.
-              ? `Son bilinen kurla: ${gerok.tarihUzun(harcamaEuro.sonKurAni || Date.now())}. ` +
-                'İnternete bağlanınca günlük kurlarla yeniden hesaplanır.'
-              : 'Her harcama kendi günündeki kurla hesaplandı.') +
-            `<br>Para birimlerine göre: ${tutarYaz(paralar)}`
-          : 'Para birimleri ayrı toplanıyor. Tek toplam için Bağlantı → ' +
-            '“Harcamaların kurunu düzelt”.'}</div>
-      ` : '<div class="panel-not">Gerok paketi yüklenmedi.</div>'}
-      <button class="eylem-dugme birincil${gunSonuGerek ? ' nabiz' : ''}" id="btnGunSonu">Gün Sonu'nu başlat</button>
-      ${gunSonuGerek ? '<div class="panel-uyari-yazi">Bugün henüz sesli günlük yok</div>' : ''}
+              ? ç`Son bilinen kurla: ${gerok.tarihUzun(harcamaEuro.sonKurAni || Date.now())}. İnternete bağlanınca günlük kurlarla yeniden hesaplanır.`
+              : ç`Her harcama kendi günündeki kurla hesaplandı.`) +
+            '<br>' + ç`Para birimlerine göre: ${tutarYaz(paralar)}`
+          : ç`Para birimleri ayrı toplanıyor. Tek toplam için Bağlantı → “Harcamaların kurunu düzelt”.`}</div>
+      ` : `<div class="panel-not">${ç`Gerok paketi yüklenmedi.`}</div>`}
+      <button class="eylem-dugme birincil${gunSonuGerek ? ' nabiz' : ''}" id="btnGunSonu">${ç`Gün Sonu'nu başlat`}</button>
+      ${gunSonuGerek ? `<div class="panel-uyari-yazi">${ç`Bugün henüz sesli günlük yok`}</div>` : ''}
     </div>
 
     ${bekciSatiri()}
 
     ${panelKur({
-      ad: 'bağlantı',
+      ad: ç`bağlantı`,
       uyari: kuyruk.bekleyenToplam > 0,
       ic: `
         <div class="net-durum">
           <span class="net-led${ag ? ' acik' : ''}"></span>
           <span class="net-yazi">${kacis(baglantiDurumu(ag, kuyruk.kip))}</span>
           <span class="net-kipler">
-            ${[['wifi', 'wi-fi'], ['mobil', 'mobil veri']].map(([id, ad]) =>
+            ${[['wifi', ç`wi-fi`], ['mobil', ç`mobil veri`]].map(([id, ad]) =>
               `<button class="kucuk-dugme${(kuyruk.kip === id || (id === 'mobil' && kuyruk.kip === 'mobilTam')) ? ' secili' : ''}" data-veri-kipi="${id}">${ad}</button>`).join('')}
           </span>
         </div>
 
         ${kuyruk.bekleyenToplam
           ? `<div class="net-oneri${ag ? ' acik' : ''}">${ag
-              ? `${kuyruk.bekleyenToplam} şey bekliyor — şimdi hallolabilir.`
-              : `${kuyruk.bekleyenToplam} şey internet bekliyor. Otelde wi-fi bulunca tek dokunuşla hallolur; o zamana kadar her şey çevrimdışı çalışmaya devam eder.`}</div>`
-          : '<div class="net-oneri">Bekleyen bir şey yok.</div>'}
+              ? ç`${kuyruk.bekleyenToplam} şey bekliyor — şimdi hallolabilir.`
+              : ç`${kuyruk.bekleyenToplam} şey internet bekliyor. Otelde wi-fi bulunca tek dokunuşla hallolur; o zamana kadar her şey çevrimdışı çalışmaya devam eder.`}</div>`
+          : `<div class="net-oneri">${ç`Bekleyen bir şey yok.`}</div>`}
 
         <div class="is-liste">
           ${kuyruk.satirlar.map(i => `
             <button class="is-satir${i.sayi ? '' : ' bitti'}" data-is="${i.k}">
               <span class="is-sol">
                 <span class="is-ad">${kacis(i.ad)}</span>
-                <span class="is-not">${kacis(i.not)}${i.sayi ? ` · ${i.sayi} tane` : ''}</span>
+                <span class="is-not">${kacis(i.not)}${i.sayi ? ' · ' + ç`${i.sayi} tane` : ''}</span>
               </span>
               <span class="is-durum${i.engelli ? ' engelli' : (i.sayi ? (ag ? ' hazir' : '') : ' bitti')}">
-                ${!i.sayi ? 'bitti' : i.engelli ? 'wi-fi bekler' : ag ? 'hallet' : 'bekliyor'}
+                ${!i.sayi ? ç`bitti` : i.engelli ? ç`wi-fi bekler` : ag ? ç`hallet` : ç`bekliyor`}
               </span>
             </button>`).join('')}
         </div>
 
         <button class="eylem-dugme${ag && kuyruk.bekleyenToplam ? ' birincil' : ''}" id="btnHepsiniHallet"
           ${kuyruk.bekleyenToplam ? '' : 'disabled'}>
-          ${ag ? 'Hepsini şimdi hallet' : 'İnternet bulununca hallolacak'}
+          ${ag ? ç`Hepsini şimdi hallet` : ç`İnternet bulununca hallolacak`}
         </button>
         <div id="netIlerleme" class="panel-not"></div>`,
-      not: 'Gerok internetsiz tam çalışır. Bağlantı yalnızca yukarıdaki işleri ' +
-           'düzeltmek için kullanılır. Dışarı giden tek şey: para birimi kodları, ' +
-           'kayıtların ve durakların koordinatları. Metin, ses, fotoğraf, isim — ' +
-           'hiçbiri gitmiyor, hiçbir kaydın buluta yüklenmiyor.'
+      not: ç`Gerok internetsiz tam çalışır. Bağlantı yalnızca yukarıdaki işleri düzeltmek için kullanılır. Dışarı giden tek şey: para birimi kodları, kayıtların ve durakların koordinatları. Metin, ses, fotoğraf, isim — hiçbiri gitmiyor, hiçbir kaydın buluta yüklenmiyor.`
     })}
 
     ${panelKur({
-      ad: 'eşitleme',
+      ad: ç`eşitleme`,
       uyari: yedekEski,
       ic: `
         ${panelSatiri({ etiket: gonderEtiketi,
-          deger: ag ? 'AirDrop · uzaktan' : 'AirDrop · yan yana', id: 'btnGonder' })}
-        ${panelSatiri({ etiket: 'Gelen paketi al', id: 'btnAl' })}
-        ${panelSatiri({ etiket: 'Yedek al', deger: kacis(yedekYazi), id: 'btnYedek' })}
-        ${panelSatiri({ etiket: 'iCloud ve Drive’ı güncelle', deger: kacis(bulutYazi), id: 'btnBulut' })}
-        ${panelSatiri({ etiket: 'Yedeği sına', deger: kacis(sinamaYazi), id: 'btnYedekSina' })}
-        ${panelSatiri({ etiket: 'Yedeği geri yükle', deger: 'birleştir · değiştir', id: 'btnGeriYukle' })}`,
+          deger: ag ? ç`AirDrop · uzaktan` : ç`AirDrop · yan yana`, id: 'btnGonder' })}
+        ${panelSatiri({ etiket: ç`Gelen paketi al`, id: 'btnAl' })}
+        ${panelSatiri({ etiket: ç`Yedek al`, deger: kacis(yedekYazi), id: 'btnYedek' })}
+        ${panelSatiri({ etiket: ç`iCloud ve Drive’ı güncelle`, deger: kacis(bulutYazi), id: 'btnBulut' })}
+        ${panelSatiri({ etiket: ç`Yedeği sına`, deger: kacis(sinamaYazi), id: 'btnYedekSina' })}
+        ${panelSatiri({ etiket: ç`Yedeği geri yükle`, deger: ç`birleştir · değiştir`, id: 'btnGeriYukle' })}`,
       not: ag
-        ? 'Bağlıyken gün paketi uzaktan da gidebilir — yine dosya olarak, hesapsız.'
-        : 'Sunucu yok, hesap yok. Şu an iki telefon yan yana olmalı; internet ' +
-          'varsa uzaktan da gönderilebilir.'
+        ? ç`Bağlıyken gün paketi uzaktan da gidebilir — yine dosya olarak, hesapsız.`
+        : ç`Sunucu yok, hesap yok. Şu an iki telefon yan yana olmalı; internet varsa uzaktan da gönderilebilir.`
     })}
 
     ${panelKur({
-      ad: 'bu telefon',
+      ad: ç`bu telefon`,
       uyari: azYer,
       ic: `
-        ${panelSatiri({ etiket: 'Bu telefon', deger: kacis(sahip.ad || '—') })}
-        ${panelSatiri({ etiket: 'Adı değiştir', id: 'btnAd' })}
-        ${panelSatiri({ etiket: 'Çevrimdışı harita', deger: '<span id="haritaDurum">bakılıyor…</span>' })}
+        ${panelSatiri({ etiket: ç`Bu telefon`, deger: kacis(sahip.ad || '—') })}
+        ${panelSatiri({ etiket: ç`Adı değiştir`, id: 'btnAd' })}
+        ${panelSatiri({ etiket: ç`Çevrimdışı harita`, deger: `<span id="haritaDurum">${ç`bakılıyor…`}</span>` })}
         ${depo ? `
-          ${panelSatiri({ etiket: 'Telefonda kullanılan', deger: boyutYaz(depo.kullanilan) })}
-          ${panelSatiri({ etiket: "Gerok'a kalan yer", id: 'btnBosYer',
-            deger: (depo.kota ? boyutYaz(depo.kota - depo.kullanilan) : '—') + (azYer ? ' · az' : ''),
+          ${panelSatiri({ etiket: ç`Telefonda kullanılan`, deger: boyutYaz(depo.kullanilan) })}
+          ${panelSatiri({ etiket: ç`Gerok'a kalan yer`, id: 'btnBosYer',
+            deger: (depo.kota ? boyutYaz(depo.kota - depo.kullanilan) : '—') + (azYer ? ' · ' + ç`az` : ''),
             rozet: azYer ? '!' : '' })}
-          ${panelSatiri({ etiket: 'Veri kalıcı korunuyor', deger: depo.kalici ? 'evet' : 'hayır' })}
+          ${panelSatiri({ etiket: ç`Veri kalıcı korunuyor`, deger: depo.kalici ? ç`evet` : ç`hayır` })}
         ` : ''}
-        ${panelSatiri({ etiket: 'Harita alanı indir', id: 'btnHaritaAlan',
-          deger: '<span id="alanDurum">bakılıyor…</span>' })}
+        ${panelSatiri({ etiket: ç`Harita alanı indir`, id: 'btnHaritaAlan',
+          deger: `<span id="alanDurum">${ç`bakılıyor…`}</span>` })}
         <span id="tamHaritaSatir"></span>
-        ${!depo?.kalici ? panelSatiri({ etiket: 'Kalıcı depolama iste', id: 'btnKalici' }) : ''}
+        ${!depo?.kalici ? panelSatiri({ etiket: ç`Kalıcı depolama iste`, id: 'btnKalici' }) : ''}
 
-        <div class="girdi-etiket">Renk</div>
+        <div class="girdi-etiket">${ç`Dil`}</div>
+        <div class="net-kipler dil-secim">
+          ${DILLER.map(d => `<button class="kucuk-dugme${
+            d.kod === aktifDil() ? ' secili' : ''}" data-dil="${d.kod}">${kacis(d.kendi)}</button>`).join('')}
+        </div>
+
+        <div class="girdi-etiket">${ç`Renk`}</div>
         ${renkUclusu()}`,
-      not: 'Görünüm, ad, indirilmiş harita ve yer.'
+      not: ç`Görünüm, ad, indirilmiş harita ve yer.`
     })}
 
     ${panelKur({
-      ad: 'gezi',
+      ad: ç`gezi`,
       ic: `
-        ${panelSatiri({ etiket: 'Başlangıç kaydı', id: 'btnBaslangic',
-          deger: ozelVarMi.baslangic ? 'alındı' : 'boş' })}
-        ${panelSatiri({ etiket: 'Bitiş kaydı',
-          deger: ozelVarMi.bitis ? 'alındı' : 'boş' })}
-        ${panelSatiri({ etiket: 'Mühürlü mektup', id: 'btnMektup',
+        ${panelSatiri({ etiket: ç`Başlangıç kaydı`, id: 'btnBaslangic',
+          deger: ozelVarMi.baslangic ? ç`alındı` : ç`boş` })}
+        ${panelSatiri({ etiket: ç`Bitiş kaydı`,
+          deger: ozelVarMi.bitis ? ç`alındı` : ç`boş` })}
+        ${panelSatiri({ etiket: ç`Mühürlü mektup`, id: 'btnMektup',
           deger: mektupYillari.length
-            ? `${mektupYillari.length} mektup · ${kacis(mektupYillari.join(', '))}`
-            : 'yok' })}
-        ${panelSatiri({ etiket: 'Şu anki gezi', deger: s ? kacis(s.ad) : 'yok' })}
-        ${panelSatiri({ etiket: 'Bütün geziler', id: 'btnTurlar' })}
-        ${panelSatiri({ etiket: 'Yeni gezi başlat', id: 'btnYeniTur' })}
-        ${panelSatiri({ etiket: 'Program dosyası yükle', id: 'btnPaket', deger: 'PDF · .gerok' })}
-        ${panelSatiri({ etiket: 'Paketi dışa ver', id: 'btnDisaVer', deger: '.gerok' })}
+            ? ç`${mektupYillari.length} mektup · ${kacis(mektupYillari.join(', '))}`
+            : ç`yok` })}
+        ${panelSatiri({ etiket: ç`Şu anki gezi`, deger: s ? kacis(s.ad) : ç`yok` })}
+        ${panelSatiri({ etiket: ç`Bütün geziler`, id: 'btnTurlar' })}
+        ${panelSatiri({ etiket: ç`Yeni gezi başlat`, id: 'btnYeniTur' })}
+        ${panelSatiri({ etiket: ç`Program dosyası yükle`, id: 'btnPaket', deger: 'PDF · .gerok' })}
+        ${panelSatiri({ etiket: ç`Paketi dışa ver`, id: 'btnDisaVer', deger: '.gerok' })}
 
         <div class="cift-izgara">
-          <button class="kucuk-dugme" id="btnGeziSonu">Gezi Sonu’nu başlat</button>
-          <button class="kucuk-dugme" id="btnMektupYaz">Mühürlü mektup yaz</button>
+          <button class="kucuk-dugme" id="btnGeziSonu">${ç`Gezi Sonu’nu başlat`}</button>
+          <button class="kucuk-dugme" id="btnMektupYaz">${ç`Mühürlü mektup yaz`}</button>
         </div>`,
-      not: 'Gezinin başı ve sonu, bütün geziler, program dosyası.'
+      not: ç`Gezinin başı ve sonu, bütün geziler, program dosyası.`
     })}
 
     ${panelKur({
-      ad: 'sürüm ve yardım',
+      ad: ç`sürüm ve yardım`,
       ic: `
-        ${panelSatiri({ etiket: 'Telefondaki sürüm', id: 'btnSurum',
-          deger: '<span id="surumYazi">bakılıyor…</span>' })}
-        ${panelSatiri({ etiket: 'Neler değişti', id: 'btnDegisiklik' })}
-        ${panelSatiri({ etiket: 'Telefonu sına', id: 'btnSinama' })}
-        ${panelSatiri({ etiket: 'Nasıl kullanılır', id: 'btnKurulum' })}
-        ${panelSatiri({ etiket: 'Tanıtım turunu göster', id: 'btnRehber',
-          deger: 'baştan gezdir' })}
-        ${panelSatiri({ etiket: 'Uygulamayı paylaş', id: 'btnPaylas',
-          deger: 'arkadaşına gönder' })}
-        ${panelSatiri({ etiket: 'Bir şey ters giderse', id: 'btnTamir',
-          deger: 'tamir kılavuzu' })}
-        ${panelSatiri({ etiket: 'Gerok’u yapana yaz', id: 'btnBanaYaz',
-          deger: '<span id="mesajYazi">bir şey sor ya da söyle</span>' })}
-        ${panelSatiri({ etiket: 'Sorun bildir', id: 'btnSorunBildir',
+        ${panelSatiri({ etiket: ç`Telefondaki sürüm`, id: 'btnSurum',
+          deger: `<span id="surumYazi">${ç`bakılıyor…`}</span>` })}
+        ${panelSatiri({ etiket: ç`Neler değişti`, id: 'btnDegisiklik' })}
+        ${panelSatiri({ etiket: ç`Telefonu sına`, id: 'btnSinama' })}
+        ${panelSatiri({ etiket: ç`Nasıl kullanılır`, id: 'btnKurulum',
+          // Kurulum ve tamir kılavuzları ayrı HTML sayfaları; henüz
+          // çevrilmediler. Kürtçe arayüzdeki biri boşuna dokunmasın diye
+          // satırda yazıyor. Türkçede bu not görünmüyor.
+          deger: aktifDil() === 'ku' ? ç`şimdilik Türkçe` : '' })}
+        ${panelSatiri({ etiket: ç`Tanıtım turunu göster`, id: 'btnRehber',
+          deger: ç`baştan gezdir` })}
+        ${panelSatiri({ etiket: ç`Uygulamayı paylaş`, id: 'btnPaylas',
+          deger: ç`arkadaşına gönder` })}
+        ${panelSatiri({ etiket: ç`Bir şey ters giderse`, id: 'btnTamir',
+          deger: aktifDil() === 'ku' ? ç`tamir kılavuzu · şimdilik Türkçe` : ç`tamir kılavuzu` })}
+        ${panelSatiri({ etiket: ç`Gerok’u yapana yaz`, id: 'btnBanaYaz',
+          deger: `<span id="mesajYazi">${ç`bir şey sor ya da söyle`}</span>` })}
+        ${panelSatiri({ etiket: ç`Sorun bildir`, id: 'btnSorunBildir',
           deger: kacis(kutuOzetYazi()) })}
-        ${panelSatiri({ etiket: 'Kullanım sayıları', id: 'btnIstatistik',
-          deger: '<span id="istatistikYazi">bakılıyor…</span>' })}`,
-      not: 'Sürüm bilgisi, sınama ve tamir kılavuzu.'
+        ${panelSatiri({ etiket: ç`Kullanım sayıları`, id: 'btnIstatistik',
+          deger: `<span id="istatistikYazi">${ç`bakılıyor…`}</span>` })}`,
+      not: ç`Sürüm bilgisi, sınama ve tamir kılavuzu.`
     })}
   `;
 
@@ -4319,10 +4289,8 @@ async function paneliCiz() {
   // Bu satır sık yanlış anlaşılıyor: telefonun boş alanı DEĞİL, tarayıcının
   // Gerok'a ayırdığı pay. Dokununca aradaki fark söyleniyor.
   $('#btnBosYer')?.addEventListener('click', () => kayitBildir(azYer
-    ? "Gerok'a ayrılan yer azaldı · harita paketini silebilirsin, videolar zaten galeride"
-    : "Telefonun boş alanı değil — tarayıcının Gerok'a ayırdığı pay. " +
-      'Telefon dolarsa iOS bunu küçültür; gerçek boş alan Ayarlar → Genel → ' +
-      'iPhone Saklama Alanı’nda yazıyor.'));
+    ? ç`Gerok'a ayrılan yer azaldı · harita paketini silebilirsin, videolar zaten galeride`
+    : ç`Telefonun boş alanı değil — tarayıcının Gerok'a ayırdığı pay. Telefon dolarsa iOS bunu küçültür; gerçek boş alan Ayarlar → Genel → iPhone Saklama Alanı’nda yazıyor.`));
 
   $('#btnBekci')?.addEventListener('click', () => bekci.bekciAc());
   $('#btnHarcamaListe')?.addEventListener('click', harcamaDokumuAc);
@@ -4341,6 +4309,13 @@ async function paneliCiz() {
   $('#btnYedekSina').addEventListener('click', yedegiSina);
   $('#btnGeriYukle').addEventListener('click', () =>
     yedektenGeriYukle(kayitBildir, tazele, geriYuklemeOnayi));
+  // Dil değişince sayfa yeniden yükleniyor: ekranların bir kısmı açılışta
+  // bir kez çiziliyor, tek tek yeniden çizdirmek yerine baştan yüklemek hem
+  // kesin hem de çevrimdışı uygulamada göz açıp kapayana kadar sürüyor.
+  $$('#gerokPanel [data-dil]').forEach(d => {
+    d.addEventListener('click', () => { if (dilSec(d.dataset.dil)) location.reload(); });
+  });
+
   $('#btnAd').addEventListener('click', adSor);
   $('#btnBaslangic').addEventListener('click', () => baslangicKaydiAc(tazele));
   $('#btnGeziSonu').addEventListener('click', () => geziSonuAc(durum, tazele));
@@ -4388,7 +4363,7 @@ async function paneliCiz() {
   $('#btnTamir').addEventListener('click', () => window.open('./tamir.html', '_blank'));
   $('#btnKalici')?.addEventListener('click', async () => {
     const s = await veri.kaliciDepolamaIste();
-    kayitBildir(s.kalici ? 'Kalıcı depolama açıldı.' : 'iOS şimdilik vermedi — yedek almayı ihmal etme.',
+    kayitBildir(s.kalici ? ç`Kalıcı depolama açıldı.` : ç`iOS şimdilik vermedi — yedek almayı ihmal etme.`,
       s.kalici ? 'iyi' : 'kotu');
     paneliCiz();
   });
@@ -4404,7 +4379,7 @@ async function paneliCiz() {
     const parcalar = [];
     if (alanlar.karo) parcalar.push(`${boyutYaz(alanlar.bayt)} alan`);
     if (tam) parcalar.push(`${boyutYaz(tam)} eski tam harita`);
-    e.textContent = parcalar.length ? parcalar.join(' · ') : 'çevrimdışı alan yok';
+    e.textContent = parcalar.length ? parcalar.join(' · ') : ç`çevrimdışı alan yok`;
   }
 }
 
@@ -4412,11 +4387,10 @@ async function paneliCiz() {
 
 function adSor() {
   ortuAc(`
-    <div class="ortu-baslik">Adın ne?</div>
-    <div class="ortu-alt">Her kaydın kime ait olduğu bununla yazılacak.
-    İki telefonun kayıtları birleşince kimin ne söylediği belli olsun diye.</div>
-    <input class="girdi" id="adGirdi" placeholder="Adın" autocomplete="off" enterkeyhint="done">
-    <button class="eylem-dugme birincil" id="adKaydet">Kaydet</button>
+    <div class="ortu-baslik">${ç`Adın ne?`}</div>
+    <div class="ortu-alt">${ç`Her kaydın kime ait olduğu bununla yazılacak. İki telefonun kayıtları birleşince kimin ne söylediği belli olsun diye.`}</div>
+    <input class="girdi" id="adGirdi" placeholder="${ç`Adın`}" autocomplete="off" enterkeyhint="done">
+    <button class="eylem-dugme birincil" id="adKaydet">${ç`Kaydet`}</button>
   `, false);
 
   const girdi = $('#adGirdi');
@@ -4448,13 +4422,13 @@ function kaydedildiMetni(t = Date.now()) {
 
 function yaziSor() {
   ortuAc(`
-    <div class="ortu-baslik">Yazılı not</div>
-    <div class="ortu-alt">Defterin sayfasına bir satır.</div>
-    <div class="girdi-etiket">Not</div>
-    <textarea class="alan" id="yaziAlan" placeholder="Ne oldu?"></textarea>
-    <div class="girdi-etiket">Yer (isteğe bağlı)</div>
-    <input class="girdi" id="yaziYer" placeholder="Ohrid, göl kıyısı">
-    <button class="eylem-dugme birincil" id="yaziKaydet">Kaydet</button>
+    <div class="ortu-baslik">${ç`Yazılı not`}</div>
+    <div class="ortu-alt">${ç`Defterin sayfasına bir satır.`}</div>
+    <div class="girdi-etiket">${ç`Not`}</div>
+    <textarea class="alan" id="yaziAlan" placeholder="${ç`Ne oldu?`}"></textarea>
+    <div class="girdi-etiket">${ç`Yer (isteğe bağlı)`}</div>
+    <input class="girdi" id="yaziYer" placeholder="${ç`Ohrid, göl kıyısı`}">
+    <button class="eylem-dugme birincil" id="yaziKaydet">${ç`Kaydet`}</button>
   `);
   setTimeout(() => $('#yaziAlan').focus(), 120);
   $('#yaziKaydet').addEventListener('click', async () => {
@@ -4467,22 +4441,22 @@ function yaziSor() {
 
 function kisiSor() {
   ortuAc(`
-    <div class="ortu-baslik">Tanıştık</div>
-    <div class="ortu-alt">On yıl sonra adını hatırlamayacaksın.</div>
-    <div class="girdi-etiket">Adı</div>
+    <div class="ortu-baslik">${ç`Tanıştık`}</div>
+    <div class="ortu-alt">${ç`On yıl sonra adını hatırlamayacaksın.`}</div>
+    <div class="girdi-etiket">${ç`Adı`}</div>
     <input class="girdi" id="kisiAd" placeholder="Goran">
-    <div class="girdi-etiket">Tek satır not</div>
-    <input class="girdi" id="kisiNot" placeholder="Tekne sahibi, sabah 7 tavsiyesi">
+    <div class="girdi-etiket">${ç`Tek satır not`}</div>
+    <input class="girdi" id="kisiNot" placeholder="${ç`Tekne sahibi, sabah 7 tavsiyesi`}">
 
-    <div class="girdi-etiket">Fotoğraf (isteğe bağlı)</div>
-    <button class="eylem-dugme" id="kisiFotoSec">Fotoğraf seç</button>
+    <div class="girdi-etiket">${ç`Fotoğraf (isteğe bağlı)`}</div>
+    <button class="eylem-dugme" id="kisiFotoSec">${ç`Fotoğraf seç`}</button>
     <div class="kisi-secim" id="kisiSecim" hidden>
       <img id="kisiOnizleme" alt="">
-      <button class="kucuk-dugme sil" id="kisiFotoKaldir">Kaldır</button>
+      <button class="kucuk-dugme sil" id="kisiFotoKaldir">${ç`Kaldır`}</button>
     </div>
     <input type="file" id="kisiFotoGirdi" accept="image/*" hidden>
 
-    <button class="eylem-dugme birincil" id="kisiKaydet">Kaydet</button>
+    <button class="eylem-dugme birincil" id="kisiKaydet">${ç`Kaydet`}</button>
   `);
   setTimeout(() => $('#kisiAd').focus(), 120);
 
@@ -4504,14 +4478,14 @@ function kisiSor() {
     onizlemeAdres = URL.createObjectURL(d);
     $('#kisiOnizleme').src = onizlemeAdres;
     $('#kisiSecim').hidden = false;
-    $('#kisiFotoSec').textContent = 'Başka fotoğraf seç';
+    $('#kisiFotoSec').textContent = ç`Başka fotoğraf seç`;
   });
   $('#kisiFotoKaldir').addEventListener('click', () => {
     secilenDosya = null;
     onizlemeyiBirak();
     $('#kisiSecim').hidden = true;
     $('#kisiFotoGirdi').value = '';
-    $('#kisiFotoSec').textContent = 'Fotoğraf seç';
+    $('#kisiFotoSec').textContent = ç`Fotoğraf seç`;
   });
 
   $('#kisiKaydet').addEventListener('click', async () => {
@@ -4519,7 +4493,7 @@ function kisiSor() {
     const dosya = secilenDosya;
     onizlemeyiBirak();
     ortuKapat();
-    if (dosya) kayitBildir('Fotoğraf küçültülüyor…');
+    if (dosya) kayitBildir(ç`Fotoğraf küçültülüyor…`);
     if (await kayit.kisiEkle(ad, not, dosya)) {
       kayitBildir(kaydedildiMetni(), 'iyi');
       await tazele();
@@ -4588,7 +4562,7 @@ function baglantiPaneliniKur(ag, kuyruk) {
       const mobildeyiz = kuyruk.kip === 'mobil' || kuyruk.kip === 'mobilTam';
       if (kip === 'mobil' && !mobildeyiz) { mobilVeriSor(); return; }
       await baglanti.veriKipiYaz(kip);
-      kayitBildir(kip === 'wifi' ? 'Wi-fi bulundu' : 'Yalnızca küçük işler · harita ve yedek wi-fi bekliyor', 'iyi');
+      kayitBildir(kip === 'wifi' ? ç`Wi-fi bulundu` : ç`Yalnızca küçük işler · harita ve yedek wi-fi bekliyor`, 'iyi');
       paneliCiz();
     });
   });
@@ -4599,7 +4573,7 @@ function baglantiPaneliniKur(ag, kuyruk) {
 
   $('#btnHepsiniHallet')?.addEventListener('click', async () => {
     if (!ag) {
-      kayitBildir('İnternet yok · bağlanınca hepsi kendiliğinden hallolur', 'kotu');
+      kayitBildir(ç`İnternet yok · bağlanınca hepsi kendiliğinden hallolur`, 'kotu');
       return;
     }
     let yapilan = 0;
@@ -4608,7 +4582,7 @@ function baglantiPaneliniKur(ag, kuyruk) {
       await isCalistir(i.k, ag, kuyruk, { sessiz: true });
       yapilan++;
     }
-    kayitBildir(`${yapilan} iş halledildi`, 'iyi');
+    kayitBildir(ç`${yapilan} iş halledildi`, 'iyi');
     paneliCiz();
   });
 }
@@ -4617,13 +4591,13 @@ async function isCalistir(anahtar, ag, kuyruk, { sessiz = false } = {}) {
   const is = kuyruk.satirlar.find(x => x.k === anahtar);
   if (!is) return;
 
-  if (!is.sayi) { if (!sessiz) kayitBildir(`${is.ad} · bekleyen bir şey yok.`); return; }
+  if (!is.sayi) { if (!sessiz) kayitBildir(ç`${is.ad} · bekleyen bir şey yok.`); return; }
   if (!ag) {
-    if (!sessiz) kayitBildir('İnternet yok · bağlanınca kendiliğinden hallolur', 'kotu');
+    if (!sessiz) kayitBildir(ç`İnternet yok · bağlanınca kendiliğinden hallolur`, 'kotu');
     return;
   }
   if (is.engelli) {
-    if (!sessiz) kayitBildir(`${is.boyutYazi || 'Bu iş'} · mobil veride indirilmiyor, wi-fi bekliyor`, 'kotu');
+    if (!sessiz) kayitBildir(ç`${is.boyutYazi || ç`Bu iş`} · mobil veride indirilmiyor, wi-fi bekliyor`, 'kotu');
     return;
   }
 
@@ -4639,7 +4613,7 @@ async function isCalistir(anahtar, ag, kuyruk, { sessiz = false } = {}) {
     await tazele();
     if (!sessiz) paneliCiz();
   } catch (hata) {
-    kayitBildir(`${is.ad} olmadı: ${hata.message}`, 'kotu');
+    kayitBildir(ç`${is.ad} olmadı: ${hata.message}`, 'kotu');
   }
 }
 
@@ -4664,13 +4638,13 @@ function mobilVeriSor() {
   $('#mobilKucuk').addEventListener('click', async () => {
     ortuKapat();
     await baglanti.veriKipiYaz('mobil');
-    kayitBildir('Yalnızca küçük işler · harita ve yedek wi-fi bekliyor', 'iyi');
+    kayitBildir(ç`Yalnızca küçük işler · harita ve yedek wi-fi bekliyor`, 'iyi');
     paneliCiz();
   });
   $('#mobilHepsi').addEventListener('click', async () => {
     ortuKapat();
     await baglanti.veriKipiYaz('mobilTam');
-    kayitBildir('Mobil veriye izin verildi · bu bağlantı boyunca', 'iyi');
+    kayitBildir(ç`Mobil veriye izin verildi · bu bağlantı boyunca`, 'iyi');
     paneliCiz();
   });
   $('#mobilVazgec').addEventListener('click', ortuKapat);
@@ -4698,13 +4672,13 @@ function renkSecicisiAc({ baslik, alt, baslangic, ozelMi, uygula, sifirla, sifir
   $('#renkTamam').addEventListener('click', () => {
     uygula(girdi.value);
     ortuKapat();
-    kayitBildir('Renk değişti', 'iyi');
+    kayitBildir(ç`Renk değişti`, 'iyi');
     paneliCiz();
   });
   $('#renkSifirla')?.addEventListener('click', () => {
     sifirla();
     ortuKapat();
-    kayitBildir('Renk eski hâline döndü', 'iyi');
+    kayitBildir(ç`Renk eski hâline döndü`, 'iyi');
     paneliCiz();
   });
   $('#renkVazgec').addEventListener('click', () => {
@@ -4748,12 +4722,12 @@ function renkUclusu() {
   const kagit = kagitSecimi();
   const ozel = ozelVurgu();
   const daireler = [
-    { id: 'btnGunRengi', ad: '7 günlük', acik: !kagit && !ozel,
+    { id: 'btnGunRengi', ad: ç`7 günlük`, acik: !kagit && !ozel,
       // Yedi günün rengi tek daireye sığmıyor; koni biçiminde yedisi birden.
       ornek: gunHalkasi() },
-    { id: 'btnKagitRenk', ad: 'Zemin', acik: !!kagit,
+    { id: 'btnKagitRenk', ad: ç`Zemin`, acik: !!kagit,
       ornek: kagit || 'var(--zemin)' },
-    { id: 'btnVurguRenk', ad: 'Düğmeler', acik: !!ozel,
+    { id: 'btnVurguRenk', ad: ç`Düğmeler`, acik: !!ozel,
       ornek: 'var(--vurgu)' }
   ];
   return `<div class="renk-uclu">
@@ -4775,39 +4749,36 @@ function renkDugmeleriniKur() {
   $('#btnGunRengi')?.addEventListener('click', () => {
     const kagitVar = !!kagitSecimi(), vurguVar = !!ozelVurgu();
     if (!kagitVar && !vurguVar) {
-      kayitBildir('Zaten varsayılan · renk haftanın gününe göre dönüyor');
+      kayitBildir(ç`Zaten varsayılan · renk haftanın gününe göre dönüyor`);
       return;
     }
     if (kagitVar) kagitSil();
     if (vurguVar) ozelVurguSil(geziGunuNo());
     semayiTazele();
     titret(10);
-    kayitBildir('Varsayılana dönüldü · renk haftanın gününe göre dönüyor', 'iyi');
+    kayitBildir(ç`Varsayılana dönüldü · renk haftanın gününe göre dönüyor`, 'iyi');
     paneliCiz();
   });
 
   $('#btnKagitRenk')?.addEventListener('click', () => renkSecicisiAc({
-    baslik: 'Kâğıdın rengi',
-    alt: 'Zeminin rengi. Açık bir renk seçersen gündüz kipi, koyu bir renk ' +
-      'seçersen gece kipi kendiliğinden açılır — yazılar ve çizgiler bu ' +
-      'renkten türetilir.',
+    baslik: ç`Kâğıdın rengi`,
+    alt: ç`Zeminin rengi. Açık bir renk seçersen gündüz kipi, koyu bir renk seçersen gece kipi kendiliğinden açılır — yazılar ve çizgiler bu renkten türetilir.`,
     baslangic: varsayilanKagit(),
     ozelMi: !!kagitSecimi(),
     uygula: (h) => { kagitSec(h); semayiTazele(); },
     sifirla: () => { kagitSil(); semayiTazele(); },
-    sifirlaYazi: 'Telefonun ayarına dön'
+    sifirlaYazi: ç`Telefonun ayarına dön`
   }));
 
   $('#btnVurguRenk')?.addEventListener('click', () => renkSecicisiAc({
-    baslik: 'Üzerine basılabilecek şeylerin rengi',
-    alt: 'Düğmeler, seçili sekme, bağlantılar. Kâğıdın rengi değişmez. ' +
-      'Bunu boş bırakırsan renk haftanın gününe göre kendiliğinden döner.',
+    baslik: ç`Üzerine basılabilecek şeylerin rengi`,
+    alt: ç`Düğmeler, seçili sekme, bağlantılar. Kâğıdın rengi değişmez. Bunu boş bırakırsan renk haftanın gününe göre kendiliğinden döner.`,
     baslangic: ozelVurgu() ||
       getComputedStyle(document.documentElement).getPropertyValue('--vurgu').trim() || '#d29346',
     ozelMi: !!ozelVurgu(),
     uygula: (h) => ozelVurguSec(h, geziGunuNo()),
     sifirla: () => ozelVurguSil(geziGunuNo()),
-    sifirlaYazi: 'Haftanın gününe dön'
+    sifirlaYazi: ç`Haftanın gününe dön`
   }));
 }
 
@@ -4822,18 +4793,14 @@ function geriYuklemeOnayi({ gelen, mevcut, ad }) {
     const bitir = (d) => { if (!verildi) { verildi = true; ortuKapat(); cevap(d); } };
 
     ortuAc(`
-      <div class="ortu-baslik">Yedek okundu</div>
+      <div class="ortu-baslik">${ç`Yedek okundu`}</div>
       <div class="ortu-alt">${kacis(ad)}<br>
-        Dosyada <b>${gelen}</b> kayıt var. Telefonda şu an <b>${mevcut}</b> kayıt duruyor.</div>
-      <button class="eylem-dugme birincil" id="gyBirlestir">Birleştir</button>
-      <div class="panel-not kucuk">Yedektekiler eklenir. Telefondaki hiçbir şey
-      silinmez — aynı kayıt iki kez eklenmez.</div>
-      <button class="eylem-dugme sil" id="gyDegistir">Değiştir</button>
-      <div class="panel-not kucuk">Geri yükleme birleştirme değil, değiştirme.
-      Telefonda yedekte olmayan ne varsa silinir — yani yedek alındıktan sonra
-      girdiğin her şey. Geriye tam olarak yedekteki <b>${gelen}</b> kayıt kalır.
-      <b>Geri dönüşü yok.</b></div>
-      <button class="eylem-dugme" id="gyVaz">Vazgeç</button>
+        ${ç`Dosyada <b>${gelen}</b> kayıt var. Telefonda şu an <b>${mevcut}</b> kayıt duruyor.`}</div>
+      <button class="eylem-dugme birincil" id="gyBirlestir">${ç`Birleştir`}</button>
+      <div class="panel-not kucuk">${ç`Yedektekiler eklenir. Telefondaki hiçbir şey silinmez — aynı kayıt iki kez eklenmez.`}</div>
+      <button class="eylem-dugme sil" id="gyDegistir">${ç`Değiştir`}</button>
+      <div class="panel-not kucuk">${ç`Geri yükleme birleştirme değil, değiştirme. Telefonda yedekte olmayan ne varsa silinir — yani yedek alındıktan sonra girdiğin her şey. Geriye tam olarak yedekteki <b>${gelen}</b> kayıt kalır. <b>Geri dönüşü yok.</b>`}</div>
+      <button class="eylem-dugme" id="gyVaz">${ç`Vazgeç`}</button>
     `, true, 'geriyukle');
 
     $('#gyBirlestir').addEventListener('click', () => bitir('birlestir'));
@@ -4842,20 +4809,18 @@ function geriYuklemeOnayi({ gelen, mevcut, ad }) {
       // İkinci kapı. Silinecek sayı burada bir kez daha yazıyor: ilk ekranda
       // "Değiştir"e alışkanlıkla basmak mümkün, bunda değil.
       ortuAc(`
-        <div class="ortu-baslik">${Math.max(0, mevcut - gelen)} kayıt silinecek</div>
-        <div class="ortu-alt">Yedekte olmayan kayıtlar — sesleriyle birlikte —
-          silinecek. Geriye yedekteki ${gelen} kayıt kalacak. Bu işlem geri
-          alınamaz. Emin misin?</div>
-        <button class="eylem-dugme" id="gyOnceYedek">Önce şimdiki hâli yedekle</button>
-        <button class="eylem-dugme sil" id="gyEminim">Evet, sil ve yedeği yükle</button>
-        <button class="eylem-dugme birincil" id="gyVaz2">Vazgeç</button>
+        <div class="ortu-baslik">${ç`${Math.max(0, mevcut - gelen)} kayıt silinecek`}</div>
+        <div class="ortu-alt">${ç`Yedekte olmayan kayıtlar — sesleriyle birlikte — silinecek. Geriye yedekteki ${gelen} kayıt kalacak. Bu işlem geri alınamaz. Emin misin?`}</div>
+        <button class="eylem-dugme" id="gyOnceYedek">${ç`Önce şimdiki hâli yedekle`}</button>
+        <button class="eylem-dugme sil" id="gyEminim">${ç`Evet, sil ve yedeği yükle`}</button>
+        <button class="eylem-dugme birincil" id="gyVaz2">${ç`Vazgeç`}</button>
       `, true, 'geriyukle');
       // Kaybolacak olan şeyin bir kopyası alınmadan silinmesi için hiçbir
       // sebep yok. Bu düğme geri yüklemeyi iptal ETMİYOR — dosya inince
       // pencere olduğu yerde duruyor, karar hâlâ verilmemiş oluyor.
       $('#gyOnceYedek').addEventListener('click', async () => {
         await yedekAl(kayitBildir);
-        kayitBildir('Şimdiki hâl yedeklendi · sonra geri yükleyebilirsin', 'iyi');
+        kayitBildir(ç`Şimdiki hâl yedeklendi · sonra geri yükleyebilirsin`, 'iyi');
       });
       $('#gyEminim').addEventListener('click', () => bitir('degistir'));
       $('#gyVaz2').addEventListener('click', () => bitir(null));
@@ -4869,24 +4834,22 @@ function geriYuklemeOnayi({ gelen, mevcut, ad }) {
 // ama içi bozuk. Bu ancak geri yüklemeye çalıştığın gün — yani her şeyin
 // kaybolduğu gün — anlaşılıyor. Bu düğme o günü öne çekiyor.
 async function yedegiSina() {
-  kayitBildir('Yedek sınanıyor…');
+  kayitBildir(ç`Yedek sınanıyor…`);
   try {
     const r = await yedekSina((y, t) => {
-      if (t > 3) kayitBildir(`Yedek sınanıyor… ${y}/${t} dosya`);
+      if (t > 3) kayitBildir(ç`Yedek sınanıyor… ${y}/${t} dosya`);
     });
     if (r.saglam) {
       await veri.ayarYaz('sonSinama', { an: Date.now(), saglam: true });
-      kayitBildir(`Yedek sınandı ✓ · ${boyutYaz(r.boyut)} · ` +
-        `${r.kayitSayi} kayıt okunabiliyor`, 'iyi');
+      kayitBildir(ç`Yedek sınandı ✓ · ${boyutYaz(r.boyut)} · ${r.kayitSayi} kayıt okunabiliyor`, 'iyi');
       paneliCiz();
     } else {
       await veri.ayarYaz('sonSinama', { an: Date.now(), saglam: false });
-      kayitBildir(`Dikkat: ${r.eksik} kaydın ses/görsel dosyası okunamıyor. ` +
-        'Yer açıp tekrar dene; olmuyorsa tamir kılavuzuna bak.', 'kotu');
+      kayitBildir(ç`Dikkat: ${r.eksik} kaydın ses/görsel dosyası okunamıyor. Yer açıp tekrar dene; olmuyorsa tamir kılavuzuna bak.`, 'kotu');
       paneliCiz();          // sonuç kötü de olsa satır TAZELENMELİ
     }
   } catch (hata) {
-    kayitBildir(`Yedek sınanamadı: ${hata.message}`, 'kotu');
+    kayitBildir(ç`Yedek sınanamadı: ${hata.message}`, 'kotu');
   }
 }
 
@@ -4970,29 +4933,28 @@ function euroYaz(e) {
 function harcamalarPaneli() {
   const { hepsi, paralar } = harcamalariTopla();
   if (!hepsi.length) {
-    return `<div class="panel-not">Henüz harcama yok. Kayıt sekmesinden
-      <b>Harcama</b> ile ekle — her biri saatiyle zaman çizgisine de düşer.</div>
-      <button class="eylem-dugme" id="btnHarcamaEkle">Harcama ekle</button>`;
+    return `<div class="panel-not">${ç`Henüz harcama yok. Kayıt sekmesinden <b>Harcama</b> ile ekle — her biri saatiyle zaman çizgisine de düşer.`}</div>
+      <button class="eylem-dugme" id="btnHarcamaEkle">${ç`Harcama ekle`}</button>`;
   }
   return `
-    <div class="panel-satir"><span class="etiket">Toplam</span>
+    <div class="panel-satir"><span class="etiket">${ç`Toplam`}</span>
       <span class="deger">${tutarYaz(paralar)}</span></div>
-    <div class="panel-satir"><span class="etiket">Kayıt</span>
-      <span class="deger">${hepsi.length} harcama</span></div>
-    <button class="eylem-dugme" id="btnHarcamaListe">Dökümü gör</button>
-    <button class="eylem-dugme" id="btnHarcamaEkle">Harcama ekle</button>`;
+    <div class="panel-satir"><span class="etiket">${ç`Kayıt`}</span>
+      <span class="deger">${ç`${hepsi.length} harcama`}</span></div>
+    <button class="eylem-dugme" id="btnHarcamaListe">${ç`Dökümü gör`}</button>
+    <button class="eylem-dugme" id="btnHarcamaEkle">${ç`Harcama ekle`}</button>`;
 }
 
 function harcamaDokumuAc() {
-  kayitBildir('Döküm açılıyor · gün gün, tür tür');
+  kayitBildir(ç`Döküm açılıyor · gün gün, tür tür`);
   const { hepsi, paralar, kategoriler, gunler } = harcamalariTopla();
   const euro = euroToplami(hepsi);
   const s = gerok.aktifGerok();
 
   const gunAdi = (g) => {
-    if (g === 'disi') return 'Gerok dışı';
+    if (g === 'disi') return ç`Gerok dışı`;
     const gun = s?.gunler?.find(x => x.no === g);
-    return gun ? `Gün ${g} · ${gun.baslik}` : `Gün ${g}`;
+    return gun ? ç`Gün ${g} · ${gun.baslik}` : ç`Gün ${g}`;
   };
 
   const gunSirali = Array.from(gunler.keys()).sort((a, b) => {
@@ -5002,24 +4964,22 @@ function harcamaDokumuAc() {
   });
 
   ortuAc(`
-    <div class="ortu-baslik">Harcamalar</div>
+    <div class="ortu-baslik">${ç`Harcamalar`}</div>
     <div class="ortu-alt">${euro
-      ? `Toplam: <b>${euroYaz(euro)}</b> · ${tutarYaz(paralar)}<br>
-         Her harcama kendi günündeki gerçek kurla çevrildi${euro.eksik ? `, ${euro.eksik} tanesi hariç` : ''}.`
-      : `Toplam: <b>${tutarYaz(paralar)}</b><br>
-         Para birimleri ayrı toplanıyor — tek toplam için Bağlantı → “Harcamaların kurunu düzelt”.`}</div>
+      ? ç`Toplam: <b>${euroYaz(euro)}</b> · ${tutarYaz(paralar)}<br>Her harcama kendi günündeki gerçek kurla çevrildi${euro.eksik ? ç`, ${euro.eksik} tanesi hariç` : ''}.`
+      : ç`Toplam: <b>${tutarYaz(paralar)}</b><br>Para birimleri ayrı toplanıyor — tek toplam için Bağlantı → “Harcamaların kurunu düzelt”.`}</div>
 
-    <div class="girdi-etiket">Kategoriye göre</div>
+    <div class="girdi-etiket">${ç`Kategoriye göre`}</div>
     ${Array.from(kategoriler.entries()).map(([kat, p]) =>
-      `<div class="panel-satir"><span class="etiket">${kacis(kat)}</span>
+      `<div class="panel-satir"><span class="etiket">${kacis(ç(kat))}</span>
         <span class="deger">${tutarYaz(p)}</span></div>`).join('')}
 
-    <div class="girdi-etiket" style="margin-top:16px">Güne göre</div>
+    <div class="girdi-etiket" style="margin-top:16px">${ç`Güne göre`}</div>
     ${gunSirali.map(g =>
       `<div class="panel-satir"><span class="etiket">${kacis(gunAdi(g))}</span>
         <span class="deger">${tutarYaz(gunler.get(g))}</span></div>`).join('')}
 
-    <div class="girdi-etiket" style="margin-top:16px">Tek tek (${hepsi.length})</div>
+    <div class="girdi-etiket" style="margin-top:16px">${ç`Tek tek (${hepsi.length})`}</div>
     <div class="harcama-liste">
       ${hepsi.slice().reverse().map(k => `
         <div class="harcama-satir">
@@ -5033,7 +4993,7 @@ function harcamaDokumuAc() {
               : ''}</div>
         </div>`).join('')}
     </div>
-    <button class="eylem-dugme" id="harcamaKapat">Kapat</button>
+    <button class="eylem-dugme" id="harcamaKapat">${ç`Kapat`}</button>
   `);
   $('#harcamaKapat').addEventListener('click', ortuKapat);
 }
@@ -5061,11 +5021,11 @@ function turTarihi(t) {
   const bit = new Date(t.bitis).getTime();
   if (!Number.isFinite(bas)) return '';
   const g = Math.max(1, Math.round((bit - bas) / 86400_000));
-  return `${new Date(bas).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })} · ${g} gün`;
+  return ç`${tarihYaz(bas, 'uzun')} · ${g} gün`;
 }
 
 async function turlariYonet() {
-  ortuAc('<div class="ortu-baslik">Turlar</div><div class="ortu-alt">yükleniyor…</div>');
+  ortuAc(`<div class="ortu-baslik">${ç`Turlar`}</div><div class="ortu-alt">${ç`yükleniyor…`}</div>`);
   const { ozetler, oksuz } = await turOzetleri();
   const aktifId = gerok.aktifGerok()?.id ?? null;
 
@@ -5073,39 +5033,37 @@ async function turlariYonet() {
     <div class="tur-kart ${tur.id === aktifId ? 'aktif' : ''} ${tur.arsiv ? 'arsiv' : ''}">
       <div class="tur-ust">
         <div class="tur-ad">${kacis(tur.ad)}</div>
-        <div class="tur-rozet">${tur.id === aktifId ? 'şu anki' : tur.arsiv ? 'arşiv' : ''}</div>
+        <div class="tur-rozet">${tur.id === aktifId ? ç`şu anki` : tur.arsiv ? ç`arşiv` : ''}</div>
       </div>
-      <div class="tur-alt">${kacis(turTarihi(tur))} · ${kayitSayisi} kayıt${tur.kendiKurulmus ? '' : ' · paketten'}</div>
+      <div class="tur-alt">${kacis(turTarihi(tur))} · ${ç`${kayitSayisi} kayıt`}${tur.kendiKurulmus ? '' : ' · ' + ç`paketten`}</div>
       <div class="durak-dugmeler">
         ${tur.id === aktifId
-          ? `<button class="kucuk-dugme" data-arsivle="${tur.id}">Arşivle</button>`
-          : `<button class="kucuk-dugme secili" data-gec="${tur.id}">Bu tura geç</button>
-             <button class="kucuk-dugme sil" data-tursil="${tur.id}">Sil</button>`}
+          ? `<button class="kucuk-dugme" data-arsivle="${tur.id}">${ç`Arşivle`}</button>`
+          : `<button class="kucuk-dugme secili" data-gec="${tur.id}">${ç`Bu tura geç`}</button>
+             <button class="kucuk-dugme sil" data-tursil="${tur.id}">${ç`Sil`}</button>`}
       </div>
     </div>`;
 
   ortuAc(`
-    <div class="ortu-baslik">Turlar</div>
-    <div class="ortu-alt">Şu anki turun kayıtları ekranlarda görünür. Arşivdekiler
-    telefonda durur, karışmaz; istediğin an geri dönebilirsin.</div>
+    <div class="ortu-baslik">${ç`Turlar`}</div>
+    <div class="ortu-alt">${ç`Şu anki turun kayıtları ekranlarda görünür. Arşivdekiler telefonda durur, karışmaz; istediğin an geri dönebilirsin.`}</div>
     ${ozetler.map(kart).join('')}
     ${oksuz.length ? `
       <div class="panel-not" style="margin-top:14px">
-        <b>${oksuz.length} kayıt hiçbir tura bağlı değil.</b> Eski bir turdan kalmış
-        olabilir. Şu anki tura taşıyabilirsin.</div>
-      <button class="eylem-dugme" id="oksuzTasi">${oksuz.length} kaydı bu tura taşı</button>` : ''}
-    <button class="eylem-dugme birincil" id="turYeni">Yeni tur başlat</button>
-    <button class="eylem-dugme" id="turKapat">Kapat</button>
+        ${ç`<b>${oksuz.length} kayıt hiçbir tura bağlı değil.</b> Eski bir turdan kalmış olabilir. Şu anki tura taşıyabilirsin.`}</div>
+      <button class="eylem-dugme" id="oksuzTasi">${ç`${oksuz.length} kaydı bu tura taşı`}</button>` : ''}
+    <button class="eylem-dugme birincil" id="turYeni">${ç`Yeni tur başlat`}</button>
+    <button class="eylem-dugme" id="turKapat">${ç`Kapat`}</button>
   `);
 
   $('#turKapat').addEventListener('click', ortuKapat);
   $('#turYeni').addEventListener('click', () => yeniTurSor());
 
   $('#oksuzTasi')?.addEventListener('click', async () => {
-    if (!aktifId) { kayitBildir('Önce bir tur başlat.', 'kotu'); return; }
+    if (!aktifId) { kayitBildir(ç`Önce bir tur başlat.`, 'kotu'); return; }
     ortuKapat();
     const n = await veri.kayitlariTuraTasi(oksuz, aktifId);
-    kayitBildir(`${n} kayıt bu tura taşındı.`, 'iyi');
+    kayitBildir(ç`${n} kayıt bu tura taşındı.`, 'iyi');
     await tazele();
   });
 
@@ -5129,7 +5087,7 @@ async function turDegisti() {
   await veri.ayarYaz('uyarilmisDuraklar', []);
   await tazele();
   if (durum.ekran === 'harita') haritaGuncelle(durum.kayitlar, durum.izNoktalari);
-  kayitBildir(yeni ? `"${yeni.ad}" turundasın.` : 'Aktif tur yok.', 'iyi');
+  kayitBildir(yeni ? ç`"${yeni.ad}" turundasın.` : ç`Aktif tur yok.`, 'iyi');
 }
 
 
@@ -5156,11 +5114,11 @@ async function yerelHaritaMB() {
 async function istatistikSatiriniYaz() {
   const yer = $('#istatistikYazi');
   if (!yer) return;
-  if (!await kutu.istatistikAcikMi()) { yer.textContent = 'kapalı'; return; }
+  if (!await kutu.istatistikAcikMi()) { yer.textContent = ç`kapalı`; return; }
   const son = await kutu.sonIstatistikZamani();
   yer.textContent = son
-    ? `haftada bir · son ${gerok.tarihUzun(son)}`
-    : 'haftada bir gönderiliyor';
+    ? ç`haftada bir · son ${gerok.tarihUzun(son)}`
+    : ç`haftada bir gönderiliyor`;
 }
 
 
@@ -5178,27 +5136,23 @@ async function istatistikAyariniSor() {
   const acik = await kutu.istatistikAcikMi();
   const o = kutu.sayacOzeti();
   ortuAc(`
-    <div class="ortu-baslik">Kullanım sayıları</div>
-    <div class="ortu-alt">Gerok’u yapana haftada bir kez birkaç sayı gidiyor:
-      kaç kez açıldı, kaç kayıt var, hata çıktı mı, hangi sürüm ve hangi telefon.
-      Hataların düzelmesi buna bakılarak oluyor.</div>
-    <div class="panel-not">Notların, seslerin, fotoğrafların, konumun ve adın
-      <b>gitmiyor</b>. Hata yazıları da bu yoldan gitmiyor — onlar yalnızca sen
-      “Sorun bildir” deyip okuduğunda gidiyor.</div>
+    <div class="ortu-baslik">${ç`Kullanım sayıları`}</div>
+    <div class="ortu-alt">${ç`Gerok’u yapana haftada bir kez birkaç sayı gidiyor: kaç kez açıldı, kaç kayıt var, hata çıktı mı, hangi sürüm ve hangi telefon. Hataların düzelmesi buna bakılarak oluyor.`}</div>
+    <div class="panel-not">${ç`Notların, seslerin, fotoğrafların, konumun ve adın <b>gitmiyor</b>. Hata yazıları da bu yoldan gitmiyor — onlar yalnızca sen “Sorun bildir” deyip okuduğunda gidiyor.`}</div>
     <details style="margin:14px 0">
-      <summary class="panel-not">Giden şeyin tamamı</summary>
+      <summary class="panel-not">${ç`Giden şeyin tamamı`}</summary>
       <pre style="white-space:pre-wrap;word-break:break-word;font-size:12px;
         max-height:200px;overflow:auto">${kacis(JSON.stringify(o, null, 1))}</pre>
     </details>
     <button class="eylem-dugme ${acik ? '' : 'birincil'}" id="istAc">
-      ${acik ? 'Açık — kapatmak için dokun' : 'Kapalı — açmak için dokun'}</button>
-    <button class="eylem-dugme" id="istKapat">Kapat</button>
+      ${acik ? ç`Açık — kapatmak için dokun` : ç`Kapalı — açmak için dokun`}</button>
+    <button class="eylem-dugme" id="istKapat">${ç`Kapat`}</button>
   `);
   $('#istKapat').addEventListener('click', ortuKapat);
   $('#istAc').addEventListener('click', async () => {
     await kutu.istatistikAyarla(!acik);
     ortuKapat();
-    kayitBildir(acik ? 'Sayı gönderimi kapatıldı.' : 'Sayı gönderimi açıldı.', 'iyi');
+    kayitBildir(acik ? ç`Sayı gönderimi kapatıldı.` : ç`Sayı gönderimi açıldı.`, 'iyi');
     paneliCiz();
   });
 }
@@ -5246,8 +5200,8 @@ function kutuOzetYazi() {
   const o = kutu.sayacOzeti();
   if (!o) return '';
   const yeni = kutu.bildirilmeyenHatalar().length;
-  if (yeni) return `${yeni} yeni hata`;
-  return o.sayaclar.hata ? 'hata yok · sayılar hazır' : 'her şey yolunda';
+  if (yeni) return ç`${yeni} yeni hata`;
+  return o.sayaclar.hata ? ç`hata yok · sayılar hazır` : ç`her şey yolunda`;
 }
 
 
@@ -5264,7 +5218,7 @@ function kutuOzetYazi() {
  */
 async function sorunBildir(otomatikSoruldu = false) {
   const r = kutu.tamRapor();
-  if (!r) { kayitBildir('Kara kutu henüz açılmadı.', 'kotu'); return; }
+  if (!r) { kayitBildir(ç`Kara kutu henüz açılmadı.`, 'kotu'); return; }
   r.kullanim = await canliSayilar();
 
   const metin = JSON.stringify(r, null, 1);
@@ -5272,31 +5226,29 @@ async function sorunBildir(otomatikSoruldu = false) {
     ? r.hatalar.slice(-8).reverse().map(h => `
         <div class="gs-liste-satir">
           <div>${kacis(h.ne)}</div>
-          <div class="panel-not">${kacis(h.yer || 'yer bilinmiyor')}
-            ${h.kac > 1 ? ` · ${h.kac} kez` : ''} · ${kacis(h.ne_zaman)}</div>
+          <div class="panel-not">${kacis(h.yer || ç`yer bilinmiyor`)}
+            ${h.kac > 1 ? ' · ' + ç`${h.kac} kez` : ''} · ${kacis(h.ne_zaman)}</div>
         </div>`).join('')
-    : '<div class="panel-not">Kayıtlı hata yok. Yine de sayıları gönderebilirsin.</div>';
+    : `<div class="panel-not">${ç`Kayıtlı hata yok. Yine de sayıları gönderebilirsin.`}</div>`;
 
   ortuAc(`
-    <div class="ortu-baslik">Sorun bildir</div>
+    <div class="ortu-baslik">${ç`Sorun bildir`}</div>
     <div class="ortu-alt">${otomatikSoruldu
-      ? 'Geçen sefer bir şey ters gitti. Aşağıdakini gönderirsen düzeltilebilir.'
-      : 'Gönderilecek şeyin tamamı aşağıda.'}
-      Notların, seslerin ve fotoğrafların gönderilmiyor.
-      <b>Ama bir hata mesajı, o an elindeki bir yazıyı alıntılamış olabilir.</b>
-      Aşağıyı oku; göndermek istemediğin bir şey varsa gönderme.</div>
+      ? ç`Geçen sefer bir şey ters gitti. Aşağıdakini gönderirsen düzeltilebilir.`
+      : ç`Gönderilecek şeyin tamamı aşağıda.`}
+      ${ç`Notların, seslerin ve fotoğrafların gönderilmiyor. <b>Ama bir hata mesajı, o an elindeki bir yazıyı alıntılamış olabilir.</b> Aşağıyı oku; göndermek istemediğin bir şey varsa gönderme.`}</div>
     <div class="panel-not">${kacis(r.surum)} · ${kacis(r.telefon)} ·
-      ${r.gun} gün · ${r.sayaclar.acilis || 0} açılış</div>
+      ${ç`${r.gun} gün · ${r.sayaclar.acilis || 0} açılış`}</div>
     ${satirlar}
     <details style="margin:14px 0">
-      <summary class="panel-not">Ham hali (gönderilecek dosyanın aynısı)</summary>
+      <summary class="panel-not">${ç`Ham hali (gönderilecek dosyanın aynısı)`}</summary>
       <pre style="white-space:pre-wrap;word-break:break-word;font-size:12px;
         max-height:220px;overflow:auto">${kacis(metin)}</pre>
     </details>
     <textarea class="girdi" id="sbNot" rows="3"
-      placeholder="İstersen ne olduğunu kendi cümlenle yaz (isteğe bağlı)"></textarea>
-    <button class="eylem-dugme birincil" id="sbGonder">Gönder</button>
-    <button class="eylem-dugme" id="sbSonra">Şimdi değil</button>
+      placeholder="${ç`İstersen ne olduğunu kendi cümlenle yaz (isteğe bağlı)`}"></textarea>
+    <button class="eylem-dugme birincil" id="sbGonder">${ç`Gönder`}</button>
+    <button class="eylem-dugme" id="sbSonra">${ç`Şimdi değil`}</button>
   `);
 
   $('#sbSonra').addEventListener('click', async () => {
@@ -5318,11 +5270,11 @@ async function sorunBildir(otomatikSoruldu = false) {
       const sonuc = await kutu.mesajGonder({ mesaj: ekNot, rapor: r });
       await kutu.bildirildiIsaretle();
       kayitBildir(sonuc === 'kuyrukta'
-        ? 'İnternet yok — rapor kuyruğa alındı, bağlanınca kendiliğinden gidecek.'
-        : 'Rapor gönderildi ✓', 'iyi');
+        ? ç`İnternet yok — rapor kuyruğa alındı, bağlanınca kendiliğinden gidecek.`
+        : ç`Rapor gönderildi ✓`, 'iyi');
       paneliCiz();
     } catch (hata) {
-      kayitBildir('Gönderilemedi: ' + hata.message, 'kotu');
+      kayitBildir(ç`Gönderilemedi: ${hata.message}`, 'kotu');
     }
   });
 }
@@ -5350,24 +5302,23 @@ async function inenAlanlariGoster() {
           <span style="flex:1;min-width:0">
             ${kacis(boyutYaz(a.bayt || 0))} · ${a.karo} karo
             <div class="panel-not">${kacis(orta)} ·
-              ${a.enFazlaZ >= 14 ? 'sokak' : 'yol'} ·
+              ${a.enFazlaZ >= 14 ? ç`sokak` : ç`yol`} ·
               ${kacis(gerok.tarihUzun(a.an))}</div>
           </span>
-          <button class="satir-dugme" data-alan-sil="${i}">Sil</button>
+          <button class="satir-dugme" data-alan-sil="${i}">${ç`Sil`}</button>
         </div>`;
       }).join('')
-    : '<div class="panel-not">Henüz alan inmedi. İnternetsizken harita boş kalır.</div>';
+    : `<div class="panel-not">${ç`Henüz alan inmedi. İnternetsizken harita boş kalır.`}</div>`;
 
   ortuAc(`
-    <div class="ortu-baslik">Çevrimdışı harita alanları</div>
-    <div class="ortu-alt">İnternet yokken yalnızca buradaki alanlar açılır.
-      İnternet varken harita her yerde çalışır.</div>
-    <div class="panel-not">Toplam ${d.karo} karo · ${kacis(boyutYaz(d.bayt))}</div>
+    <div class="ortu-baslik">${ç`Çevrimdışı harita alanları`}</div>
+    <div class="ortu-alt">${ç`İnternet yokken yalnızca buradaki alanlar açılır. İnternet varken harita her yerde çalışır.`}</div>
+    <div class="panel-not">${ç`Toplam ${d.karo} karo · ${kacis(boyutYaz(d.bayt))}`}</div>
     ${satirlar}
-    <button class="eylem-dugme birincil" id="alYeni">Yeni alan indir</button>
+    <button class="eylem-dugme birincil" id="alYeni">${ç`Yeni alan indir`}</button>
     ${alanlar.length > 1
-      ? '<button class="eylem-dugme sil" id="alHepsi">Hepsini sil</button>' : ''}
-    <button class="eylem-dugme" id="alKapat">Kapat</button>
+      ? `<button class="eylem-dugme sil" id="alHepsi">${ç`Hepsini sil`}</button>` : ''}
+    <button class="eylem-dugme" id="alKapat">${ç`Kapat`}</button>
   `);
 
   $('#alKapat').addEventListener('click', ortuKapat);
@@ -5376,15 +5327,15 @@ async function inenAlanlariGoster() {
   $('#alHepsi')?.addEventListener('click', async () => {
     ortuKapat();
     const b = await haritaAlan.alanlariSil();
-    kayitBildir(`${boyutYaz(b)} yer açıldı.`, 'iyi');
+    kayitBildir(ç`${boyutYaz(b)} yer açıldı.`, 'iyi');
     paneliCiz();
   });
 
   $$('[data-alan-sil]').forEach(d2 => d2.addEventListener('click', async () => {
     const i = +d2.dataset.alanSil;
-    d2.disabled = true; d2.textContent = 'siliniyor…';
+    d2.disabled = true; d2.textContent = ç`siliniyor…`;
     const b = await haritaAlan.alanSil(i);
-    kayitBildir(`Alan silindi · ${boyutYaz(b)} yer açıldı.`, 'iyi');
+    kayitBildir(ç`Alan silindi · ${boyutYaz(b)} yer açıldı.`, 'iyi');
     paneliCiz();
     inenAlanlariGoster();
   }));
@@ -5405,7 +5356,7 @@ async function alanDurumunuYaz() {
   const alanlar = await haritaAlan.inenAlanlar();
   yer.textContent = d.karo
     ? `${alanlar.length} alan · ${boyutYaz(d.bayt)}`
-    : 'henüz alan inmedi';
+    : ç`henüz alan inmedi`;
 
   // Eski usul TAM harita duruyorsa yer açmayı öner. Yeni kurulumlarda bu
   // satır hiç görünmüyor — artık tam harita diye bir şey inmiyor.
@@ -5414,8 +5365,8 @@ async function alanDurumunuYaz() {
   const { haritaVarMi } = await import('./harita.js');
   const tam = await haritaVarMi().catch(() => 0);
   if (!tam) { kap.innerHTML = ''; return; }
-  kap.innerHTML = panelSatiri({ etiket: 'Eski tam harita', id: 'btnTamHaritaSil',
-    deger: kacis(`${boyutYaz(tam)} · yer aç`) });
+  kap.innerHTML = panelSatiri({ etiket: ç`Eski tam harita`, id: 'btnTamHaritaSil',
+    deger: kacis(ç`${boyutYaz(tam)} · yer aç`) });
   $('#btnTamHaritaSil').addEventListener('click', () => tamHaritayiSilSor(tam));
 }
 
@@ -5430,26 +5381,23 @@ async function alanDurumunuYaz() {
 async function tamHaritayiSilSor(boyut) {
   const d = await haritaAlan.yerelKaroDurumu();
   ortuAc(`
-    <div class="ortu-baslik">Eski tam haritayı sil</div>
-    <div class="ortu-alt">Telefonunda altı ülkenin tamamı duruyor: ${kacis(boyutYaz(boyut))}.
-      Artık yalnızca ihtiyaç duyduğun alanlar iniyor, bu dosyaya gerek kalmadı.</div>
-    <div class="panel-not">Sildikten sonra <b>internetsizken</b> yalnızca indirdiğin alanlar
-      açılır. Şu an ${d.karo ? `${d.karo} karo (${kacis(boyutYaz(d.bayt))}) inmiş durumda`
-        : '<b>hiç alan inmemiş</b>'}. İnternet varken harita her yerde çalışmaya devam eder.</div>
-    <button class="eylem-dugme sil" id="thSil">Sil ve ${kacis(boyutYaz(boyut))} yer aç</button>
-    <button class="eylem-dugme" id="thVazgec">Vazgeç</button>
+    <div class="ortu-baslik">${ç`Eski tam haritayı sil`}</div>
+    <div class="ortu-alt">${ç`Telefonunda altı ülkenin tamamı duruyor: ${kacis(boyutYaz(boyut))}. Artık yalnızca ihtiyaç duyduğun alanlar iniyor, bu dosyaya gerek kalmadı.`}</div>
+    <div class="panel-not">${ç`Sildikten sonra <b>internetsizken</b> yalnızca indirdiğin alanlar açılır. Şu an ${d.karo ? ç`${d.karo} karo (${kacis(boyutYaz(d.bayt))}) inmiş durumda` : ç`<b>hiç alan inmemiş</b>`}. İnternet varken harita her yerde çalışmaya devam eder.`}</div>
+    <button class="eylem-dugme sil" id="thSil">${ç`Sil ve ${kacis(boyutYaz(boyut))} yer aç`}</button>
+    <button class="eylem-dugme" id="thVazgec">${ç`Vazgeç`}</button>
   `);
   $('#thVazgec').addEventListener('click', ortuKapat);
   $('#thSil').addEventListener('click', async () => {
     ortuKapat();
-    kayitBildir('Siliniyor…');
+    kayitBildir(ç`Siliniyor…`);
     try {
       const { tamHaritayiSil } = await import('./harita.js');
       const s = await tamHaritayiSil();
-      kayitBildir(`${boyutYaz(s)} yer açıldı.`, 'iyi');
+      kayitBildir(ç`${boyutYaz(s)} yer açıldı.`, 'iyi');
       paneliCiz();
     } catch (hata) {
-      kayitBildir('Silinemedi: ' + hata.message, 'kotu');
+      kayitBildir(ç`Silinemedi: ${hata.message}`, 'kotu');
     }
   });
 }
@@ -5467,7 +5415,7 @@ async function haritaAlaniSec() {
   await haritaKur();
   const bar = $('#haritaAlanBar');
   bar.classList.remove('gizli');
-  $('#alanAyrinti').textContent = alanAyrinti === 'sokak' ? 'Sokak' : 'Yol';
+  $('#alanAyrinti').textContent = alanAyrinti === 'sokak' ? ç`Sokak` : ç`Yol`;
 
   const kapat = () => {
     bar.classList.add('gizli');
@@ -5479,7 +5427,7 @@ async function haritaAlaniSec() {
 
   $('#alanAyrinti').onclick = () => {
     alanAyrinti = alanAyrinti === 'sokak' ? 'yol' : 'sokak';
-    $('#alanAyrinti').textContent = alanAyrinti === 'sokak' ? 'Sokak' : 'Yol';
+    $('#alanAyrinti').textContent = alanAyrinti === 'sokak' ? ç`Sokak` : ç`Yol`;
     tahminiTazele();
   };
 
@@ -5503,9 +5451,9 @@ async function haritaAlaniSec() {
  */
 function indirmeSuresi(karo) {
   const sn = Math.ceil(karo / 15);
-  if (sn < 10) return 'birkaç saniye';
-  if (sn < 90) return `≈ ${Math.round(sn / 5) * 5} saniye`;
-  return `≈ ${Math.round(sn / 60)} dakika`;
+  if (sn < 10) return ç`birkaç saniye`;
+  if (sn < 90) return ç`≈ ${Math.round(sn / 5) * 5} saniye`;
+  return ç`≈ ${Math.round(sn / 60)} dakika`;
 }
 
 
@@ -5519,7 +5467,7 @@ function tahminiTazele() {
   const yer = $('#alanTahmin');
   if (!yer) return;
   clearTimeout(alanTahminZaman);
-  yer.textContent = 'hesaplanıyor…';
+  yer.textContent = ç`hesaplanıyor…`;
   alanTahminZaman = setTimeout(async () => {
     const kutu = gorunenKutu();
     if (!kutu) return;
@@ -5527,16 +5475,14 @@ function tahminiTazele() {
 
     const t = await haritaAlan.alanTahmini(kutu, z);
     if (t.cokBuyuk) {
-      yer.textContent = `Alan çok büyük (${t.karo.toLocaleString('tr')} karo). ` +
-        `Yakınlaş ya da ayrıntıyı "Yol" yap.`;
+      yer.textContent = ç`Alan çok büyük (${t.karo.toLocaleString('tr')} karo). Yakınlaş ya da ayrıntıyı "Yol" yap.`;
     } else if (t.agYok) {
-      yer.textContent = 'İnternet yok — alan indirmek için internet gerekiyor.';
+      yer.textContent = ç`İnternet yok — alan indirmek için internet gerekiyor.`;
     } else {
       // "≈" bilerek: örneklemeyle bulunuyor, kesin değil.
       // Süre de yazılıyor: basmadan önce "10 saniye mi, 5 dakika mı"
       // bilinsin. Ölçülen hız saniyede ~20 karo.
-      yer.textContent = `≈ ${boyutYaz(t.bayt)} · ${t.karo.toLocaleString('tr')} karo` +
-        ` · ${indirmeSuresi(t.karo)}`;
+      yer.textContent = ç`≈ ${boyutYaz(t.bayt)} · ${t.karo.toLocaleString('tr')} karo · ${indirmeSuresi(t.karo)}`;
     }
   }, 600);
 }
@@ -5549,24 +5495,23 @@ async function alaniIndir(kapat) {
 
   const t = await haritaAlan.alanTahmini(kutu, z);
   if (t.cokBuyuk) {
-    kayitBildir(`Alan çok büyük — ${t.karo.toLocaleString('tr')} karo. Yakınlaş.`, 'kotu');
+    kayitBildir(ç`Alan çok büyük — ${t.karo.toLocaleString('tr')} karo. Yakınlaş.`, 'kotu');
     return;
   }
   kapat();
-  kayitBildir('Alan iniyor…');
+  kayitBildir(ç`Alan iniyor…`);
   try {
     // Yüzde de yazılıyor: "312/2840" tek başına ne kadar kaldığını
     // söylemiyor, insan oranı okumak istiyor.
     const r = await haritaAlan.alanIndir(kutu, z, (y, toplam, bayt) => {
       if (y % 10 === 0 || y === toplam)
-        kayitBildir(`Alan iniyor… %${Math.round(y / toplam * 100)}` +
-          ` · ${y}/${toplam} karo · ${boyutYaz(bayt)}`);
+        kayitBildir(ç`Alan iniyor… %${Math.round(y / toplam * 100)} · ${y}/${toplam} karo · ${boyutYaz(bayt)}`);
     });
-    kayitBildir(`Alan indi ✓ · ${boyutYaz(r.bayt)} · ${r.yazilan} karo` +
-      (r.atlanan ? ` · ${r.atlanan} zaten vardı` : ''), 'iyi');
+    kayitBildir(ç`Alan indi ✓ · ${boyutYaz(r.bayt)} · ${r.yazilan} karo` +
+      (r.atlanan ? ç` · ${r.atlanan} zaten vardı` : ''), 'iyi');
     paneliCiz();
   } catch (hata) {
-    kayitBildir('İnmedi: ' + hata.message, 'kotu');
+    kayitBildir(ç`İnmedi: ${hata.message}`, 'kotu');
   }
 }
 
@@ -5592,31 +5537,27 @@ async function banaYaz() {
 
   const gecmisYazi = gecmis.length ? `
     <details style="margin:14px 0">
-      <summary class="panel-not">Daha önce yazdıkların (${gecmis.length})</summary>
+      <summary class="panel-not">${ç`Daha önce yazdıkların (${gecmis.length})`}</summary>
       ${gecmis.map(m => `
         <div class="gs-liste-satir">
-          <div>${kacis(m.mesaj || '(yalnızca rapor)')}</div>
+          <div>${kacis(m.mesaj || ç`(yalnızca rapor)`)}</div>
           <div class="panel-not">${kacis(gerok.tarihUzun(m.an))}
-            ${m.durum === 'kuyrukta' ? ' · <b>henüz gitmedi</b>' : ' · gönderildi'}</div>
+            ${m.durum === 'kuyrukta' ? ' · ' + ç`<b>henüz gitmedi</b>` : ' · ' + ç`gönderildi`}</div>
         </div>`).join('')}
     </details>` : '';
 
   ortuAc(`
-    <div class="ortu-baslik">Gerok’u yapana yaz</div>
-    <div class="ortu-alt">Bir şey çalışmıyorsa, bir şey eksikse ya da bir
-      fikrin varsa buraya yaz. Doğrudan bana gelir.</div>
-    ${bekleyen ? `<div class="panel-not"><b>${bekleyen} mesajın</b> internet
-      bekliyor. Bağlanınca kendiliğinden gidecek.</div>` : ''}
+    <div class="ortu-baslik">${ç`Gerok’u yapana yaz`}</div>
+    <div class="ortu-alt">${ç`Bir şey çalışmıyorsa, bir şey eksikse ya da bir fikrin varsa buraya yaz. Doğrudan bana gelir.`}</div>
+    ${bekleyen ? `<div class="panel-not">${ç`<b>${bekleyen} mesajın</b> internet bekliyor. Bağlanınca kendiliğinden gidecek.`}</div>` : ''}
     <textarea class="girdi" id="byMetin" rows="5"
-      placeholder="Ne oldu? Ne olsun isterdin?"></textarea>
+      placeholder="${ç`Ne oldu? Ne olsun isterdin?`}"></textarea>
     <input class="girdi" id="byKim" maxlength="60"
-      placeholder="Adın (istersen — boş bırakabilirsin)">
-    <div class="panel-not">Giden şey: yazdığın metin, yazdıysan adın, bir de
-      sürüm ve telefon türü. <b>Notların, seslerin, fotoğrafların ve gezin
-      gitmiyor.</b></div>
+      placeholder="${ç`Adın (istersen — boş bırakabilirsin)`}">
+    <div class="panel-not">${ç`Giden şey: yazdığın metin, yazdıysan adın, bir de sürüm ve telefon türü. <b>Notların, seslerin, fotoğrafların ve gezin gitmiyor.</b>`}</div>
     ${gecmisYazi}
-    <button class="eylem-dugme birincil" id="byGonder">Gönder</button>
-    <button class="eylem-dugme" id="byKapat">Vazgeç</button>
+    <button class="eylem-dugme birincil" id="byGonder">${ç`Gönder`}</button>
+    <button class="eylem-dugme" id="byKapat">${ç`Vazgeç`}</button>
   `);
 
   $('#byKapat').addEventListener('click', ortuKapat);
@@ -5626,16 +5567,16 @@ async function banaYaz() {
     // gitmiyordu. (Aynı tuzağa bu projede daha önce de düşüldü.)
     const metin = $('#byMetin').value.trim();
     const kim = $('#byKim').value.trim();
-    if (!metin) { kayitBildir('Önce bir şeyler yaz.', 'kotu'); return; }
+    if (!metin) { kayitBildir(ç`Önce bir şeyler yaz.`, 'kotu'); return; }
     ortuKapat();
     try {
       const sonuc = await kutu.mesajGonder({ mesaj: metin, kim });
       kayitBildir(sonuc === 'kuyrukta'
-        ? 'İnternet yok — mesajın kuyrukta, bağlanınca gidecek.'
-        : 'Gönderildi ✓ Kopyası Gerok’ta duruyor.', 'iyi');
+        ? ç`İnternet yok — mesajın kuyrukta, bağlanınca gidecek.`
+        : ç`Gönderildi ✓ Kopyası Gerok’ta duruyor.`, 'iyi');
       paneliCiz();
     } catch (hata) {
-      kayitBildir('Gönderilemedi: ' + hata.message, 'kotu');
+      kayitBildir(ç`Gönderilemedi: ${hata.message}`, 'kotu');
     }
   });
 }
@@ -5656,24 +5597,23 @@ async function banaYaz() {
 async function uygulamayiPaylas() {
   const adres = new URL('./', location.href).href;
   const metin =
-    'Gerok — internetsiz çalışan gezi defteri.\n\n' +
-    'Bu bağlantıyı SAFARİ\u2019de aç, sonra alttaki paylaş düğmesinden ' +
-    '\u201CAna Ekrana Ekle\u201D de. Başka tarayıcıda kurulmuyor.\n\n' +
-    'Ayrıntılı kurulum: ' + new URL('./kurulum.html', location.href).href;
+    ç`Gerok — internetsiz çalışan gezi defteri.` + '\n\n' +
+    ç`Bu bağlantıyı SAFARİ\u2019de aç, sonra alttaki paylaş düğmesinden \u201CAna Ekrana Ekle\u201D de. Başka tarayıcıda kurulmuyor.` + '\n\n' +
+    ç`Ayrıntılı kurulum: ` + new URL('./kurulum.html', location.href).href;
 
   try {
     if (navigator.share) {
       await navigator.share({ title: 'Gerok', text: metin, url: adres });
-      kayitBildir('Gönderildi.', 'iyi');
+      kayitBildir(ç`Gönderildi.`, 'iyi');
       return;
     }
     // Paylaşım yoksa panoya düş: bağlantı hiç olmazsa elde kalsın.
     await navigator.clipboard.writeText(metin + '\n\n' + adres);
-    kayitBildir('Bağlantı kopyalandı — yapıştırıp gönder.', 'iyi');
+    kayitBildir(ç`Bağlantı kopyalandı — yapıştırıp gönder.`, 'iyi');
   } catch (hata) {
     // Paylaş sayfasından vazgeçmek hata değil, karar.
     if (hata.name === 'AbortError') return;
-    kayitBildir('Paylaşılamadı: ' + hata.message, 'kotu');
+    kayitBildir(ç`Paylaşılamadı: ${hata.message}`, 'kotu');
   }
 }
 
@@ -5688,11 +5628,11 @@ async function uygulamayiPaylas() {
 async function degisiklikleriGoster() {
   const n = await degisiklikNotlari(BU_SURUM, { agdan: false });
   ortuAc(`
-    <div class="ortu-baslik">Neler değişti</div>
+    <div class="ortu-baslik">${ç`Neler değişti`}</div>
     <div class="ortu-alt">${surumOku(BU_SURUM)}</div>
     ${n ? notlariHtml(n)
-        : '<div class="panel-not">Bu sürümün notu yok.</div>'}
-    <button class="eylem-dugme" id="dgsKapat">Kapat</button>
+        : `<div class="panel-not">${ç`Bu sürümün notu yok.`}</div>`}
+    <button class="eylem-dugme" id="dgsKapat">${ç`Kapat`}</button>
   `);
   $('#dgsKapat').addEventListener('click', ortuKapat);
 }
@@ -5702,18 +5642,13 @@ async function turArsivleSor(id) {
   // gerekiyor: sonradan görünce insan haklı olarak "veriler gitti" sanıyor.
   const kalan = (await gerok.turlar()).filter(t => !t.arsiv && t.id !== id).length;
   ortuAc(`
-    <div class="ortu-baslik">Tur arşivlensin mi?</div>
-    ${kalan ? '' : `<div class="panel-not"><b>Bu son turun.</b> Arşivleyince zaman
-    çizgisi, harita ve duraklar boşalacak — kayıtların yerinde duracak ve
-    ekranda <b>Geziye geri dön</b> düğmesi çıkacak.</div>`}
-    <div class="ortu-alt">Kayıtların, sesli notların, fotoğrafların ve izin
-    <b>silinmez</b> — telefonda durur. Sadece ekranlardan çekilir, yeni turla
-    karışmaz. İstediğin an geri dönebilirsin.</div>
-    <div class="panel-not">Yine de önce yedek almak en doğrusu: yedek dosyası
-    telefondan bağımsız durur.</div>
-    <button class="eylem-dugme" id="arsivYedek">Önce yedek al</button>
-    <button class="eylem-dugme birincil" id="arsivOnay">Arşivle</button>
-    <button class="eylem-dugme" id="arsivVaz">Vazgeç</button>
+    <div class="ortu-baslik">${ç`Tur arşivlensin mi?`}</div>
+    ${kalan ? '' : `<div class="panel-not">${ç`<b>Bu son turun.</b> Arşivleyince zaman çizgisi, harita ve duraklar boşalacak — kayıtların yerinde duracak ve ekranda <b>Geziye geri dön</b> düğmesi çıkacak.`}</div>`}
+    <div class="ortu-alt">${ç`Kayıtların, sesli notların, fotoğrafların ve izin <b>silinmez</b> — telefonda durur. Sadece ekranlardan çekilir, yeni turla karışmaz. İstediğin an geri dönebilirsin.`}</div>
+    <div class="panel-not">${ç`Yine de önce yedek almak en doğrusu: yedek dosyası telefondan bağımsız durur.`}</div>
+    <button class="eylem-dugme" id="arsivYedek">${ç`Önce yedek al`}</button>
+    <button class="eylem-dugme birincil" id="arsivOnay">${ç`Arşivle`}</button>
+    <button class="eylem-dugme" id="arsivVaz">${ç`Vazgeç`}</button>
   `);
   $('#arsivVaz').addEventListener('click', ortuKapat);
   $('#arsivYedek').addEventListener('click', () => yedekAl(kayitBildir));
@@ -5726,15 +5661,11 @@ async function turArsivleSor(id) {
 
 function turSilSor(id) {
   ortuAc(`
-    <div class="ortu-baslik">Bu tur tamamen silinsin mi?</div>
-    <div class="ortu-alt">Turun <b>bütün kayıtları, sesli notları, fotoğraf
-    önizlemeleri ve izi</b> telefondan gider.<br><br>
-    Beş saniye "Geri al" düğmesi duracak; o geçtikten sonra <b>dönüşü
-    yok</b>.<br><br>
-    Yalnızca yer açmak istiyorsan <b>arşivle</b> yeter — o hiçbir şeyi silmiyor.</div>
-    <button class="eylem-dugme" id="silYedek">Önce yedek al</button>
-    <button class="eylem-dugme" id="silOnayla">Anladım, sil</button>
-    <button class="eylem-dugme birincil" id="silVazgec2">Vazgeç</button>
+    <div class="ortu-baslik">${ç`Bu tur tamamen silinsin mi?`}</div>
+    <div class="ortu-alt">${ç`Turun <b>bütün kayıtları, sesli notları, fotoğraf önizlemeleri ve izi</b> telefondan gider.<br><br>Beş saniye "Geri al" düğmesi duracak; o geçtikten sonra <b>dönüşü yok</b>.<br><br>Yalnızca yer açmak istiyorsan <b>arşivle</b> yeter — o hiçbir şeyi silmiyor.`}</div>
+    <button class="eylem-dugme" id="silYedek">${ç`Önce yedek al`}</button>
+    <button class="eylem-dugme" id="silOnayla">${ç`Anladım, sil`}</button>
+    <button class="eylem-dugme birincil" id="silVazgec2">${ç`Vazgeç`}</button>
   `);
   $('#silVazgec2').addEventListener('click', ortuKapat);
   $('#silYedek').addEventListener('click', () => yedekAl(kayitBildir));
@@ -5746,14 +5677,14 @@ function turSilSor(id) {
     // silme beş saniye BEKLETİLİYOR. Geri al'a basılırsa hiçbir şey olmuyor,
     // çünkü henüz hiçbir şey yapılmadı.
     let iptal = false;
-    geriAlinabilirBildir('Tur beş saniye içinde silinecek', () => {
+    geriAlinabilirBildir(ç`Tur beş saniye içinde silinecek`, () => {
       iptal = true;
     });
 
     setTimeout(async () => {
       if (iptal) return;
       const s = await gerok.turSil(id);
-      kayitBildir(`Tur silindi · ${s.silinenKayit} kayıt, ${s.silinenIz} iz noktası.`, 'kotu');
+      kayitBildir(ç`Tur silindi · ${s.silinenKayit} kayıt, ${s.silinenIz} iz noktası.`, 'kotu');
       await turDegisti();
     }, GERI_AL_SURESI);
   });
@@ -5761,33 +5692,32 @@ function turSilSor(id) {
 
 function yeniTurSor() {
   const bugun = new Date();
-  const tarihYaz = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  // <input type="date"> yalnızca ISO biçimi kabul ediyor; bu yüzden dilden
+  // bağımsız. Adı `tarihYaz` idi ve dil.js'ten geleni gölgeliyordu.
+  const isoGun = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
   const aktifVar = !!gerok.aktifGerok();
 
   ortuAc(`
-    <div class="ortu-baslik">Yeni tur</div>
-    <div class="ortu-alt">Boş bir defter açılır. Duraklarını haritadan kendin
-    koyarsın; hazır bir rota dosyan varsa onu da yükleyebilirsin.</div>
+    <div class="ortu-baslik">${ç`Yeni tur`}</div>
+    <div class="ortu-alt">${ç`Boş bir defter açılır. Duraklarını haritadan kendin koyarsın; hazır bir rota dosyan varsa onu da yükleyebilirsin.`}</div>
 
-    <div class="girdi-etiket">Turun adı</div>
-    <input class="girdi" id="turAd" placeholder="Karadeniz turu, Ege 2027…">
+    <div class="girdi-etiket">${ç`Turun adı`}</div>
+    <input class="girdi" id="turAd" placeholder="${ç`Karadeniz turu, Ege 2027…`}">
 
-    <div class="girdi-etiket">Ne zaman başlıyor?</div>
-    <input class="girdi" id="turBas" type="date" value="${tarihYaz(bugun)}">
+    <div class="girdi-etiket">${ç`Ne zaman başlıyor?`}</div>
+    <input class="girdi" id="turBas" type="date" value="${isoGun(bugun)}">
 
-    <div class="girdi-etiket">Kaç gün sürecek?</div>
+    <div class="girdi-etiket">${ç`Kaç gün sürecek?`}</div>
     <div class="secenekler" id="turGun">
       ${[3, 5, 7, 10, 14, 21, 30].map(g =>
-        `<button class="kucuk-dugme ${g === 7 ? 'secili' : ''}" data-gun="${g}">${g} gün</button>`).join('')}
+        `<button class="kucuk-dugme ${g === 7 ? 'secili' : ''}" data-gun="${g}">${ç`${g} gün`}</button>`).join('')}
     </div>
-    <div class="panel-not">Gün sayısını sonra değiştiremezsin ama sorun değil —
-    süre bitse de kayıt almaya devam edebilirsin, "Gerok dışı" olarak yazılır.</div>
+    <div class="panel-not">${ç`Gün sayısını sonra değiştiremezsin ama sorun değil — süre bitse de kayıt almaya devam edebilirsin, "Gerok dışı" olarak yazılır.`}</div>
 
-    ${aktifVar ? `<div class="panel-not"><b>"${kacis(gerok.aktifGerok().ad)}"</b> arşive
-      kaldırılacak. Kayıtları silinmiyor, istediğin an geri dönersin.</div>` : ''}
+    ${aktifVar ? `<div class="panel-not">${ç`<b>"${kacis(gerok.aktifGerok().ad)}"</b> arşive kaldırılacak. Kayıtları silinmiyor, istediğin an geri dönersin.`}</div>` : ''}
 
-    <button class="eylem-dugme birincil" id="turKur">Turu başlat</button>
-    <button class="eylem-dugme" id="turVaz">Vazgeç</button>
+    <button class="eylem-dugme birincil" id="turKur">${ç`Turu başlat`}</button>
+    <button class="eylem-dugme" id="turVaz">${ç`Vazgeç`}</button>
   `);
 
   setTimeout(() => $('#turAd').focus(), 120);
@@ -5823,7 +5753,7 @@ $('#dosyaSecici').addEventListener('change', async (e) => {
     const s = await gerok.paketYukle(await dosya.text());
     iz.gerokAyarla(s.id);
     gosterilenSayi = SAYFA_ADIMI;
-    kayitBildir(`"${s.ad}" yüklendi · ${s.gunler.length} gün, ${s.duraklar.length} durak`, 'iyi');
+    kayitBildir(ç`"${s.ad}" yüklendi · ${s.gunler.length} gün, ${s.duraklar.length} durak`, 'iyi');
     // Yeni bir tur geldi: rehberde karşılığı olmayan durakları sor.
     setTimeout(() => bilgiEksikSor(gerok.duraklar(), { paket: true }), 1500);
     setTimeout(yedekHatirlat, 6000);
@@ -5844,7 +5774,7 @@ function gunSonuHatirlatmasiKur() {
     if (await veri.ayarOku('gunSonuHatirlatildi') === bugun) return;
     if (!gerok.bugununGunu()) return;
     await veri.ayarYaz('gunSonuHatirlatildi', bugun);
-    bildirimGoster('Gün Sonu', 'Bugünden aklında ne kaldı? 90 saniye.');
+    bildirimGoster(ç`Gün Sonu`, ç`Bugünden aklında ne kaldı? 90 saniye.`);
     titret([100, 80, 100]);
   };
   bak();
@@ -5929,7 +5859,7 @@ export function geriAlinabilirBildir(mesaj, geriAl) {
   if (!t) { geriAl?.(); return; }
 
   t.innerHTML = `<span class="bildirim-yazi"></span>
-    <button class="bildirim-geri">Geri al</button>`;
+    <button class="bildirim-geri">${ç`Geri al`}</button>`;
   t.querySelector('.bildirim-yazi').textContent = mesaj;
   t.className = 'bildirim geri-alinabilir';
   clearTimeout(t._sayac);
@@ -5943,7 +5873,7 @@ export function geriAlinabilirBildir(mesaj, geriAl) {
     clearTimeout(t._sayac);
     kapat();
     // Geri alma da sessiz olmuyor: geri alındığını söyleyen kendi bildirimi var.
-    try { await geriAl?.(); } finally { kayitBildir('Geri alındı'); }
+    try { await geriAl?.(); } finally { kayitBildir(ç`Geri alındı`); }
   });
   t._sayac = setTimeout(kapat, GERI_AL_SURESI - 200);
 }
@@ -5961,8 +5891,8 @@ function calmaSeridiYaz(gecen, toplam) {
   serit.classList.remove('gizli');
   const k = durum.kayitlar.find(x => x.medyaId === calan.medyaId);
   const ad = k
-    ? `${veri.TURLER[k.tur] || k.tur} · ${gerok.saat(k.t)}${k.metin ? ` · ${k.metin.slice(0, 40)}` : ''}`
-    : 'ses kaydı';
+    ? `${ç(veri.TURLER[k.tur] || k.tur)} · ${gerok.saat(k.t)}${k.metin ? ` · ${k.metin.slice(0, 40)}` : ''}`
+    : ç`ses kaydı`;
   $('#calmaAd').textContent = ad;
   $('#calmaSure').textContent = sureYaz(gecen);
   $('#calmaDolgu').style.width =
@@ -6037,10 +5967,9 @@ async function arsivVarsaAnlat() {
   if (kap.querySelector('#arsivDon')) return;        // zaten yazılmış
 
   const son = arsiv[0];
-  const yazi = `<b>${kacis(son.ad)}</b> arşivde. `
-    + `${kayit} kayıt telefonunda duruyor — hiçbiri silinmedi.`;
+  const yazi = ç`<b>${kacis(son.ad)}</b> arşivde. ${kayit} kayıt telefonunda duruyor — hiçbiri silinmedi.`;
   const dugme = `<div class="bos-eylem"><button class="eylem-dugme birincil"`
-    + ` id="arsivDon">Geziye geri dön</button></div>`;
+    + ` id="arsivDon">${ç`Geziye geri dön`}</button></div>`;
 
   // Aşağıdaki "Henüz bir gerok yüklenmedi" uyarısı arşiv varken ARTIK DOĞRU
   // DEĞİL: gerok var, arşivde. İki satır yan yana durursa hangisine
@@ -6059,7 +5988,7 @@ async function arsivVarsaAnlat() {
   $('#arsivDon').addEventListener('click', async () => {
     await gerok.turSec(son.id);
     await turDegisti();
-    kayitBildir(`${son.ad} yeniden açıldı.`, 'iyi');
+    kayitBildir(ç`${son.ad} yeniden açıldı.`, 'iyi');
   });
 }
 

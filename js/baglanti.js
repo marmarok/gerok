@@ -17,6 +17,7 @@
 
 import * as veri from './veri.js';
 import * as gerok from './gerok.js';
+import { ç } from './dil.js';
 
 // ---- Bağlantı durumu ------------------------------------------------------
 
@@ -150,7 +151,7 @@ async function kurTablosu(tarih, onbellek) {
   try { j = await jsonAl(KUR_ADRES(tarih)); }
   catch { j = await jsonAl(KUR_YEDEK(tarih)); }
   const tablo = j?.[KUR_TABAN];
-  if (!tablo) throw new Error('kur tablosu boş geldi');
+  if (!tablo) throw new Error(ç`kur tablosu boş geldi`);
   onbellek[tarih] = tablo;
   return tablo;
 }
@@ -165,7 +166,7 @@ export async function kurBekleyenler() {
 
 export async function kurlariDuzelt(ilerleme = null) {
   const bekleyen = await kurBekleyenler();
-  if (!bekleyen.length) return { yapilan: 0, mesaj: 'Bütün harcamaların kuru zaten yazılı.' };
+  if (!bekleyen.length) return { yapilan: 0, mesaj: ç`Bütün harcamaların kuru zaten yazılı.` };
 
   const onbellek = await veri.ayarOku('kurOnbellek', {});
   const { tutarSayi } = await import('./app.js');
@@ -209,13 +210,13 @@ export async function kurlariDuzelt(ilerleme = null) {
   await veri.ayarYaz('kurOnbellek', onbellek);
   const kalanlar = [...taninmayan].slice(0, 4).join(', ');
   const mesaj = yapilan
-    ? `${yapilan} harcamanın kuru düzeldi` +
-      (atlanan ? ` · ${atlanan} tanesi çevrilemedi${kalanlar ? ` (${kalanlar})` : ''}` : '')
+    ? ç`${yapilan} harcamanın kuru düzeldi` +
+      (atlanan ? ç` · ${atlanan} tanesi çevrilemedi${kalanlar ? ` (${kalanlar})` : ''}` : '')
     : agYok === bekleyen.length
-      ? 'Kur listesi indirilemedi — internet yok ya da servise ulaşılamıyor. Sonra tekrar dene.'
+      ? ç`Kur listesi indirilemedi — internet yok ya da servise ulaşılamıyor. Sonra tekrar dene.`
       : taninmayan.size
-        ? `Hiçbiri çevrilemedi — şu para birimlerini tanımadım: ${kalanlar}`
-        : 'Hiçbiri çevrilemedi — tutarlar okunamadı.';
+        ? ç`Hiçbiri çevrilemedi — şu para birimlerini tanımadım: ${kalanlar}`
+        : ç`Hiçbiri çevrilemedi — tutarlar okunamadı.`;
   return { yapilan, atlanan, mesaj };
 }
 
@@ -253,7 +254,7 @@ function yerAdiSadelestir(j) {
 
 export async function yerAdlariniGetir(ilerleme = null) {
   const bekleyen = await yerBekleyenler();
-  if (!bekleyen.length) return { yapilan: 0, mesaj: 'Konumu olan bütün kayıtların yer adı zaten yazılı.' };
+  if (!bekleyen.length) return { yapilan: 0, mesaj: ç`Konumu olan bütün kayıtların yer adı zaten yazılı.` };
 
   // Aynı noktaya birden çok kayıt düşmüş olabilir — 100 metrelik kutuya
   // yuvarlayıp bir kez soruyoruz. 40 kayıt için 40 istek yerine 6 istek.
@@ -288,8 +289,8 @@ export async function yerAdlariniGetir(ilerleme = null) {
   const mesaj = yapilan === 1 && sonAd
     ? sonAd
     : yapilan
-      ? `${yapilan} kayda yer adı yazıldı${atlanan ? ` · ${atlanan} tanesi çözülemedi` : ''}`
-      : 'Hiçbir yer adı çözülemedi — bağlantı zayıf olabilir, sonra tekrar dene';
+      ? ç`${yapilan} kayda yer adı yazıldı` + (atlanan ? ç` · ${atlanan} tanesi çözülemedi` : '')
+      : ç`Hiçbir yer adı çözülemedi — bağlantı zayıf olabilir, sonra tekrar dene`;
   return { yapilan, atlanan, mesaj };
 }
 
@@ -326,19 +327,19 @@ async function overpassSor(sorgu) {
       });
     } catch (h) { sonHata = h; }
   }
-  throw sonHata || new Error('Overpass sunucularının hiçbiri cevap vermedi');
+  throw sonHata || new Error(ç`Overpass sunucularının hiçbiri cevap vermedi`);
 }
 
 // OSM etiketlerinden tek satır insan cümlesi.
 const TUR_ADI = {
-  monastery: 'manastır', place_of_worship: 'ibadet yeri', museum: 'müze',
-  gallery: 'galeri', attraction: 'gezilecek yer', viewpoint: 'seyir noktası',
-  castle: 'kale', fort: 'hisar', city_gate: 'şehir kapısı', ruins: 'kalıntı',
-  archaeological_site: 'antik yer', memorial: 'anıt', monument: 'anıt',
-  church: 'kilise', mosque: 'cami', chapel: 'şapel', tomb: 'türbe',
-  theatre: 'tiyatro', restaurant: 'lokanta', cafe: 'kahve', hotel: 'otel',
-  information: 'danışma', artwork: 'eser', ferry_terminal: 'iskele',
-  camp_site: 'kamp alanı', spring: 'kaynak', waterfall: 'şelale'
+  monastery: ç`manastır`, place_of_worship: ç`ibadet yeri`, museum: ç`müze`,
+  gallery: ç`galeri`, attraction: ç`gezilecek yer`, viewpoint: ç`seyir noktası`,
+  castle: ç`kale`, fort: ç`hisar`, city_gate: ç`şehir kapısı`, ruins: ç`kalıntı`,
+  archaeological_site: ç`antik yer`, memorial: ç`anıt`, monument: ç`anıt`,
+  church: ç`kilise`, mosque: ç`cami`, chapel: ç`şapel`, tomb: ç`türbe`,
+  theatre: ç`tiyatro`, restaurant: ç`lokanta`, cafe: ç`kahve`, hotel: ç`otel`,
+  information: ç`danışma`, artwork: ç`eser`, ferry_terminal: ç`iskele`,
+  camp_site: ç`kamp alanı`, spring: ç`kaynak`, waterfall: ç`şelale`
 };
 
 // Yalnızca TÜR bilmek işe yaramıyor: bir durağın altında "anıt" yazması
@@ -392,6 +393,7 @@ function adSadele(s) {
     .normalize('NFD').replace(/[̀-ͯ]/g, '')     // aksanları at
     .replace(/[ıİ]/g, 'i').replace(/[şŞ]/g, 's').replace(/[ğĞ]/g, 'g')
     .replace(/[çÇ]/g, 'c').replace(/[üÜ]/g, 'u').replace(/[öÖ]/g, 'o')
+    .replace(/[êÊ]/g, 'e')
     .replace(/[^a-z0-9]+/g, ' ').trim();
 }
 
@@ -517,7 +519,7 @@ const OBEK = 12;                  // tek sorguda kaç durak
 
 export async function durakBilgileriniGetir(ilerleme = null) {
   const bekleyen = durakBekleyenler();
-  if (!bekleyen.length) return { yapilan: 0, mesaj: 'Bütün durakların bilgisi zaten getirilmiş.' };
+  if (!bekleyen.length) return { yapilan: 0, mesaj: ç`Bütün durakların bilgisi zaten getirilmiş.` };
 
   // Her durak için ayrı istek atmak çok yavaştı: dört durak bir dakikayı
   // geçiyordu, otuz duraklık bir gezide on dakika sürerdi. Overpass birden
@@ -573,8 +575,8 @@ export async function durakBilgileriniGetir(ilerleme = null) {
   }
 
   const mesaj = yapilan
-    ? `${yapilan} durak güncellendi${bossuz ? ` · ${bossuz} durak için kayıt yok` : ''}`
-    : 'Bu duraklar için OpenStreetMap\'te açılış/ücret bilgisi yok. Uydurmuyoruz.';
+    ? ç`${yapilan} durak güncellendi` + (bossuz ? ç` · ${bossuz} durak için kayıt yok` : '')
+    : ç`Bu duraklar için OpenStreetMap'te açılış/ücret bilgisi yok. Uydurmuyoruz.`;
   return { yapilan, bossuz, mesaj };
 }
 
@@ -593,35 +595,35 @@ export async function haritaBekliyorMu() {
 export const ISLER = [
   {
     k: 'kur',
-    ad: 'Kurları düzelt',
-    notYaz: (n) => `${n} harcama · her biri kendi günündeki kurla`,
+    ad: ç`Kurları düzelt`,
+    notYaz: (n) => ç`${n} harcama · her biri kendi günündeki kurla`,
     buyuk: false,
     bekleyen: async () => (await kurBekleyenler()).length,
     calistir: kurlariDuzelt
   },
   {
     k: 'yer',
-    ad: 'Konumsuz kayıtlara yer adı ver',
-    notYaz: (n) => `${n} kayıt · koordinat var, ad yok`,
+    ad: ç`Konumsuz kayıtlara yer adı ver`,
+    notYaz: (n) => ç`${n} kayıt · koordinat var, ad yok`,
     buyuk: false,
     bekleyen: async () => (await yerBekleyenler()).length,
     calistir: yerAdlariniGetir
   },
   {
     k: 'durak',
-    ad: 'Duraklara açılış ve ücret bilgisi',
-    notYaz: (n) => `${n} durak · saat, ücret, kapalı gün`,
+    ad: ç`Duraklara açılış ve ücret bilgisi`,
+    notYaz: (n) => ç`${n} durak · saat, ücret, kapalı gün`,
     buyuk: false,
     bekleyen: async () => durakBekleyenler().length,
     calistir: durakBilgileriniGetir
   },
   {
     k: 'harita',
-    ad: 'Rotanın önündeki haritayı indir',
-    notYaz: () => 'Rotanın kalanı · wi-fi bekler',
+    ad: ç`Rotanın önündeki haritayı indir`,
+    notYaz: () => ç`Rotanın kalanı · wi-fi bekler`,
     // Mobil veride reddedilirken boyutu söyleyebilmek için: "Bu iş" demek
     // yerine kaç megabayt olduğunu söylüyor.
-    boyutYazi: 'Harita paketi',
+    boyutYazi: ç`Harita paketi`,
     buyuk: true,
     bekleyen: async () => (await haritaBekliyorMu()) ? 1 : 0,
     calistir: null            // arayüz kendi indirme akışını açıyor

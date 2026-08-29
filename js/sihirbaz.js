@@ -19,6 +19,7 @@
 
 import * as gerok from './gerok.js';
 import * as veri from './veri.js';
+import { ç } from './dil.js';
 
 // `kacis` app.js'te de var ama oradan almak döngüsel içe aktarma yapardı
 // (app.js bu dosyayı alıyor). Üç satırlık bir işlev için buna değmez.
@@ -26,13 +27,13 @@ const kacis = (s) => String(s ?? '').replace(/[&<>"']/g,
   (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
 const ADIMLAR = {
-  dosya:    { baslik: 'Hangi dosyayı okuyayım?' },
-  isaret:   { baslik: 'Satırları parmakla işaretle' },
-  gunler:   { baslik: 'Günler doğru mu?' },
-  duraklar: { baslik: 'Hangi duraklar alınsın?' },
-  oneriler: { baslik: 'Programdaki notlar' },
-  harita:   { baslik: 'İndirilecek harita paketleri' },
-  ozet:     { baslik: 'Paket hazır' }
+  dosya:    { baslik: ç`Hangi dosyayı okuyayım?` },
+  isaret:   { baslik: ç`Satırları parmakla işaretle` },
+  gunler:   { baslik: ç`Günler doğru mu?` },
+  duraklar: { baslik: ç`Hangi duraklar alınsın?` },
+  oneriler: { baslik: ç`Programdaki notlar` },
+  harita:   { baslik: ç`İndirilecek harita paketleri` },
+  ozet:     { baslik: ç`Paket hazır` }
 };
 
 // Sihirbazın belleği. Hiçbiri kalıcı değil — pencere kapanınca gidiyor.
@@ -74,10 +75,10 @@ function ciz() {
       <div class="ortu-baslik">${a.baslik}</div>
       ${govde()}
       <div class="sihirbaz-alt">
-        ${no > 1 ? '<button class="eylem-dugme" id="shGeri">Geri</button>' : ''}
+        ${no > 1 ? `<button class="eylem-dugme" id="shGeri">${ç`Geri`}</button>` : ''}
         ${ileriDugmesi()}
       </div>
-      <button class="eylem-dugme" id="shVaz">Vazgeç, hiçbir şey eklemeden çık</button>
+      <button class="eylem-dugme" id="shVaz">${ç`Vazgeç, hiçbir şey eklemeden çık`}</button>
     </div>
   `, false, 'paket');
 
@@ -105,13 +106,13 @@ function ileri() {
 
 function ileriDugmesi() {
   if (d.adim === 'ozet') {
-    return '<button class="eylem-dugme birincil" id="shBitir">Yeni gezi olarak aç</button>';
+    return `<button class="eylem-dugme birincil" id="shBitir">${ç`Yeni gezi olarak aç`}</button>`;
   }
   // Düğme sönük ama TIKLANABİLİR kalıyor: karartılmış bir düğmeye basıp
   // hiçbir şey olmaması, neden olmadığını da söylemiyor. Basılınca sebebi
   // yazıyor.
   const hazir = d.adim !== 'dosya' || !!d.paket || d.duzMetin;
-  return `<button class="eylem-dugme birincil${hazir ? '' : ' sonuk'}" id="shIleri">Devam</button>`;
+  return `<button class="eylem-dugme birincil${hazir ? '' : ' sonuk'}" id="shIleri">${ç`Devam`}</button>`;
 }
 
 // --- Adımların gövdeleri ---------------------------------------------------
@@ -131,28 +132,23 @@ function govde() {
 
 function dosyaGovde() {
   return `
-    <div class="ortu-alt">Tur programının <b>PDF</b>’i, bilgisayardan gelen
-    gezi paketi (.gerok) ya da düz metin. PDF ise yazısı kendiliğinden
-    okunuyor. Dosya yalnızca OKUNUYOR — bu adımda telefona hiçbir şey
-    yazılmıyor.</div>
+    <div class="ortu-alt">${ç`Tur programının <b>PDF</b>’i, bilgisayardan gelen gezi paketi (.gerok) ya da düz metin. PDF ise yazısı kendiliğinden okunuyor. Dosya yalnızca OKUNUYOR — bu adımda telefona hiçbir şey yazılmıyor.`}</div>
     <input type="file" id="shDosya" class="alan" accept=".gerok,.json,.txt,.md,.pdf,text/plain,application/pdf">
     ${d.dosyaAdi ? `<div class="sihirbaz-ozet">
-      <div class="sihirbaz-satir"><span>Dosya</span><b>${kacis(d.dosyaAdi)}</b></div>
-      <div class="sihirbaz-satir"><span>Tür</span><b>${d.duzMetin ? 'düz metin' : 'Gerok paketi'}</b></div>
-      ${d.paket ? `<div class="sihirbaz-satir"><span>Gezi</span><b>${kacis(d.paket.gerok?.ad || '—')}</b></div>` : ''}
+      <div class="sihirbaz-satir"><span>${ç`Dosya`}</span><b>${kacis(d.dosyaAdi)}</b></div>
+      <div class="sihirbaz-satir"><span>${ç`Tür`}</span><b>${d.duzMetin ? ç`düz metin` : ç`Gerok paketi`}</b></div>
+      ${d.paket ? `<div class="sihirbaz-satir"><span>${ç`Gezi`}</span><b>${kacis(d.paket.gerok?.ad || '—')}</b></div>` : ''}
     </div>` : ''}
     ${d.hata ? `<div class="sihirbaz-hata">${kacis(d.hata)}</div>` : ''}`;
 }
 
 function isaretGovde() {
   return `
-    <div class="ortu-alt">Bu düz bir metin. Hangi satır ne, uygulamanın
-    bilmesi mümkün değil — sen söyle. Satıra her dokunuşta sırayla değişir:
-    <b>gün başlığı</b> → <b>durak</b> → <b>not</b> → boş.</div>
+    <div class="ortu-alt">${ç`Bu düz bir metin. Hangi satır ne, uygulamanın bilmesi mümkün değil — sen söyle. Satıra her dokunuşta sırayla değişir: <b>gün başlığı</b> → <b>durak</b> → <b>not</b> → boş.`}</div>
     <div class="sihirbaz-satirlar">
       ${d.satirlar.map((s, i) => `
         <button class="isaret-satir ${s.tur || ''}" data-satir="${i}">
-          <span class="isaret-etiket">${{ gun: 'GÜN', durak: 'DURAK', not: 'NOT' }[s.tur] || '—'}</span>
+          <span class="isaret-etiket">${{ gun: ç`GÜN`, durak: ç`DURAK`, not: ç`NOT` }[s.tur] || '—'}</span>
           <span class="isaret-yazi">${kacis(s.metin)}</span>
         </button>`).join('')}
     </div>`;
@@ -160,48 +156,44 @@ function isaretGovde() {
 
 function gunlerGovde() {
   if (!d.gunler.length) {
-    return `<div class="ortu-alt">Dosyada gün bulunamadı. Sorun değil —
-    duraklar günsüz de alınabilir, sonra tek tek güne taşırsın.</div>`;
+    return `<div class="ortu-alt">${ç`Dosyada gün bulunamadı. Sorun değil — duraklar günsüz de alınabilir, sonra tek tek güne taşırsın.`}</div>`;
   }
   return `
-    <div class="ortu-alt">Başlıkları düzeltebilirsin. Bunlar zaman çizgisinde
-    gün ayraçlarının üstünde yazacak.</div>
+    <div class="ortu-alt">${ç`Başlıkları düzeltebilirsin. Bunlar zaman çizgisinde gün ayraçlarının üstünde yazacak.`}</div>
     ${d.gunler.map((g, i) => `
       <div class="sihirbaz-gun">
-        <span class="sihirbaz-gunno">Gün ${g.no ?? i + 1}</span>
+        <span class="sihirbaz-gunno">${ç`Gün ${g.no ?? i + 1}`}</span>
         <input class="alan tek" data-gun="${i}" value="${kacis(g.baslik || '')}"
-               placeholder="Örn. sabah şehirden ayrılış">
+               placeholder="${ç`Örn. sabah şehirden ayrılış`}">
       </div>`).join('')}`;
 }
 
 function duraklarGovde() {
   if (!d.duraklar.length) {
-    return '<div class="ortu-alt">Dosyada durak yok. Gezi yine de açılır; durakları haritadan elle koyabilirsin.</div>';
+    return `<div class="ortu-alt">${ç`Dosyada durak yok. Gezi yine de açılır; durakları haritadan elle koyabilirsin.`}</div>`;
   }
   return `
-    <div class="ortu-alt">İşaretli olanlar alınacak. İstemediğin durağı
-    şimdi çıkarmak, sonra tek tek silmekten kolay.</div>
+    <div class="ortu-alt">${ç`İşaretli olanlar alınacak. İstemediğin durağı şimdi çıkarmak, sonra tek tek silmekten kolay.`}</div>
     <div class="sihirbaz-secim">
       ${d.duraklar.map((s, i) => `
         <button class="sec-satir ${d.seciliDurak.has(i) ? 'secili' : ''}" data-durak="${i}">
           <span class="tik-kutu">${d.seciliDurak.has(i) ? '✓' : ''}</span>
           <span class="sec-yazi">${kacis(s.ad)}
-            ${s.gun != null ? `<i>${s.gun}. gün</i>` : ''}</span>
+            ${s.gun != null ? `<i>${ç`${s.gun}. gün`}</i>` : ''}</span>
         </button>`).join('')}
     </div>
     <div class="sihirbaz-alt-satir">
-      <button class="kucuk-dugme" id="shHepsi">Hepsini seç</button>
-      <button class="kucuk-dugme" id="shHicbiri">Hiçbirini seçme</button>
+      <button class="kucuk-dugme" id="shHepsi">${ç`Hepsini seç`}</button>
+      <button class="kucuk-dugme" id="shHicbiri">${ç`Hiçbirini seçme`}</button>
     </div>`;
 }
 
 function onerilerGovde() {
   if (!d.oneriler.length) {
-    return '<div class="ortu-alt">Programda durağa bağlı not yok.</div>';
+    return `<div class="ortu-alt">${ç`Programda durağa bağlı not yok.`}</div>`;
   }
   return `
-    <div class="ortu-alt">Duraklara bağlı "unutma" notları. Durağa varınca
-    ekrana bunlar düşecek.</div>
+    <div class="ortu-alt">${ç`Duraklara bağlı "unutma" notları. Durağa varınca ekrana bunlar düşecek.`}</div>
     <div class="sihirbaz-secim">
       ${d.oneriler.map((o, i) => `
         <button class="sec-satir ${d.seciliOneri.has(i) ? 'secili' : ''}" data-oneri="${i}">
@@ -215,21 +207,17 @@ function haritaGovde() {
   const k = kutu();
   const secili = [...d.seciliDurak].map(i => d.duraklar[i]).filter(s => s.lat != null);
   return `
-    <div class="ortu-alt">Seçtiğin durakların kapladığı alan. Harita paketi
-    ev wi-fi'sinde bir kez inip telefonda kalıyor — yolda internet
-    gerekmiyor.</div>
+    <div class="ortu-alt">${ç`Seçtiğin durakların kapladığı alan. Harita paketi ev wi-fi'sinde bir kez inip telefonda kalıyor — yolda internet gerekmiyor.`}</div>
     <div class="sihirbaz-ozet">
-      <div class="sihirbaz-satir"><span>Koordinatlı durak</span><b>${secili.length}</b></div>
-      ${k ? `<div class="sihirbaz-satir"><span>Kuzey–güney</span><b>${k.kmY} km</b></div>
-      <div class="sihirbaz-satir"><span>Doğu–batı</span><b>${k.kmX} km</b></div>` : ''}
+      <div class="sihirbaz-satir"><span>${ç`Koordinatlı durak`}</span><b>${secili.length}</b></div>
+      ${k ? `<div class="sihirbaz-satir"><span>${ç`Kuzey–güney`}</span><b>${k.kmY} km</b></div>
+      <div class="sihirbaz-satir"><span>${ç`Doğu–batı`}</span><b>${k.kmX} km</b></div>` : ''}
     </div>
     <button class="sec-satir ${d.haritaIste ? 'secili' : ''}" id="shHaritaIste">
       <span class="tik-kutu">${d.haritaIste ? '✓' : ''}</span>
-      <span class="sec-yazi">Gezi açılınca harita indirmeyi hatırlat</span>
+      <span class="sec-yazi">${ç`Gezi açılınca harita indirmeyi hatırlat`}</span>
     </button>
-    <div class="panel-not kucuk">İndirme burada başlamıyor: paket birkaç yüz
-    megabayt olabiliyor ve mobil veriyle inmesi doğru olmaz. Gezi açıldıktan
-    sonra Gerok → “Harita paketi indir”den, wi-fi'deyken.</div>`;
+    <div class="panel-not kucuk">${ç`İndirme burada başlamıyor: paket birkaç yüz megabayt olabiliyor ve mobil veriyle inmesi doğru olmaz. Gezi açıldıktan sonra Gerok → “Harita paketi indir”den, wi-fi'deyken.`}</div>`;
 }
 
 function ozetGovde() {
@@ -237,17 +225,15 @@ function ozetGovde() {
   const durakSayi = d.seciliDurak.size;
   const oneriSayi = d.seciliOneri.size;
   return `
-    <div class="ortu-alt">Aşağıdaki gezi açılacak. Şu ana kadar telefonda
-    hiçbir şey değişmedi — değişiklik bu düğmeyle oluyor.</div>
+    <div class="ortu-alt">${ç`Aşağıdaki gezi açılacak. Şu ana kadar telefonda hiçbir şey değişmedi — değişiklik bu düğmeyle oluyor.`}</div>
     <div class="sihirbaz-ozet">
-      <div class="sihirbaz-satir"><span>Gezi</span><b>${kacis(geziAdi())}</b></div>
-      <div class="sihirbaz-satir"><span>Gün</span><b>${gunSayi}</b></div>
-      <div class="sihirbaz-satir"><span>Durak</span><b>${durakSayi}</b></div>
-      <div class="sihirbaz-satir"><span>Not</span><b>${oneriSayi}</b></div>
-      <div class="sihirbaz-satir"><span>Harita</span><b>${d.haritaIste ? 'sonra indirilecek' : 'istenmedi'}</b></div>
+      <div class="sihirbaz-satir"><span>${ç`Gezi`}</span><b>${kacis(geziAdi())}</b></div>
+      <div class="sihirbaz-satir"><span>${ç`Gün`}</span><b>${gunSayi}</b></div>
+      <div class="sihirbaz-satir"><span>${ç`Durak`}</span><b>${durakSayi}</b></div>
+      <div class="sihirbaz-satir"><span>${ç`Not`}</span><b>${oneriSayi}</b></div>
+      <div class="sihirbaz-satir"><span>${ç`Harita`}</span><b>${d.haritaIste ? ç`sonra indirilecek` : ç`istenmedi`}</b></div>
     </div>
-    <div class="panel-not kucuk">Şu anki gezin arşive geçmiyor, duruyor —
-    Gerok → “Bütün geziler”den aralarında geçebilirsin.</div>`;
+    <div class="panel-not kucuk">${ç`Şu anki gezin arşive geçmiyor, duruyor — Gerok → “Bütün geziler”den aralarında geçebilirsin.`}</div>`;
 }
 
 // --- Olaylar ---------------------------------------------------------------
@@ -255,7 +241,7 @@ function ozetGovde() {
 function bagla() {
   document.getElementById('shIleri')?.addEventListener('click', () => {
     if (d.adim === 'dosya' && !d.paket && !d.duzMetin) {
-      d.araclar.bildir('Önce bir dosya seç');
+      d.araclar.bildir(ç`Önce bir dosya seç`);
       return;
     }
     ileri();
@@ -327,8 +313,7 @@ async function dosyayiOku(dosya) {
     try {
       const satirlar = await pdf.pdfMetni(dosya);
       if (!satirlar.length) {
-        d.hata = 'Bu PDF’in içinde yazı yok — sayfalar taranmış resim olabilir. ' +
-                 'Metni kopyalayıp düz metin olarak verebilirsin.';
+        d.hata = ç`Bu PDF’in içinde yazı yok — sayfalar taranmış resim olabilir. Metni kopyalayıp düz metin olarak verebilirsin.`;
         return;
       }
       d.duzMetin = true;
@@ -338,7 +323,7 @@ async function dosyayiOku(dosya) {
       metindenCikar();
       return;
     } catch (hata) {
-      d.hata = 'PDF okunamadı: ' + hata.message;
+      d.hata = ç`PDF okunamadı: ${hata.message}`;
       return;
     }
   }
@@ -348,7 +333,7 @@ async function dosyayiOku(dosya) {
   try {
     const p = JSON.parse(metin);
     if (!p.gerok?.id || !Array.isArray(p.gunler)) {
-      throw new Error('Bu JSON bir Gerok paketine benzemiyor.');
+      throw new Error(ç`Bu JSON bir Gerok paketine benzemiyor.`);
     }
     d.paket = p;
     d.gunler = (p.gunler || []).map(g => ({ ...g }));
@@ -510,11 +495,11 @@ async function bitir() {
     // o bayrak çıkarıyor.
     await veri.ayarYaz('haritaHatirlat', haritaIste ? s.id : null);
     kapat();
-    bildir(`Yeni gezi açıldı · ${kisaAd(s.ad)}`, 'iyi');
+    bildir(ç`Yeni gezi açıldı · ${kisaAd(s.ad)}`, 'iyi');
     await tazele?.();
   } catch (hata) {
     d.hata = hata.message;
-    d.araclar.bildir(`Alınamadı: ${hata.message}`, 'kotu');
+    d.araclar.bildir(ç`Alınamadı: ${hata.message}`, 'kotu');
   }
 }
 

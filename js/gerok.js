@@ -5,6 +5,7 @@
 import { gerokYaz, gerokOku, geroklar, gerokSil, turunKayitlariniSil, izSil,
          ayarYaz, ayarOku, yeniKimlik } from './veri.js';
 import { mesafe } from './iz.js';
+import { ç, tarihYaz, aktifDil } from './dil.js';
 
 let aktif = null;
 
@@ -184,10 +185,10 @@ export async function paketYukle(metin) {
   try {
     paket = typeof metin === 'string' ? JSON.parse(metin) : metin;
   } catch {
-    throw new Error('Dosya okunamadı — geçerli bir Gerok paketi değil.');
+    throw new Error(ç`Dosya okunamadı — geçerli bir Gerok paketi değil.`);
   }
   if (!paket.gerok?.id || !Array.isArray(paket.gunler)) {
-    throw new Error('Bu dosya bir Gerok paketine benzemiyor.');
+    throw new Error(ç`Bu dosya bir Gerok paketine benzemiyor.`);
   }
 
   const kayit = {
@@ -319,7 +320,7 @@ export async function durakEkle({ ad, lat, lon, gun = null, unutma = [] }) {
   const durak = {
     id: yeniKimlik('d'),
     gerokId: aktif?.id ?? null,
-    ad: String(ad || '').trim() || 'Adsız durak',
+    ad: String(ad || '').trim() || ç`Adsız durak`,
     lat, lon,
     gun: gun ?? bugununGunu()?.no ?? null,
     unutma: unutma.filter(Boolean),
@@ -700,12 +701,21 @@ export function ulkeBul(lat, lon, gerok = aktif) {
 
 export function ulkeAdi(kod) {
   const u = ULKE_KUTULARI.find(x => x.kod === kod);
-  return u ? `${u.bayrak} ${u.ad}` : kod;
+  return u ? `${u.bayrak} ${ç(u.ad)}` : kod;
 }
 
-// Türkçe yönelme eki: "Bosna-Hersek'e", "Kosova'ya", "Sırbistan'a".
+// Yönelme eki: "Bosna-Hersek'e", "Kosova'ya", "Sırbistan'a".
 // Zaman çizgisinde on yıl duracak bir cümle — eki doğru koyalım.
+//
+// Kurmancîde yönelme eki yok; ülke adı çekim (oblique) hâline giriyor:
+// "Em ketin Kosovayê", "Em ketin Serbistanê". Ünlüyle biten adlarda araya
+// y giriyor. Ülkeler dişil sayıldığı için ek her zaman -ê.
 export function yonelmeEki(ad) {
+  if (aktifDil() === 'ku') {
+    const kuAd = ç(ad);
+    const son = (kuAd[kuAd.length - 1] || '').toLowerCase();
+    return kuAd + ('aeêiîouû'.includes(son) ? 'yê' : 'ê');
+  }
   const kalin = 'aıouâûAIOUÂÛ';
   const ince = 'eiöüîEİÖÜÎ';
   const unluler = kalin + ince;
@@ -727,11 +737,9 @@ export function saat(zaman) {
 }
 
 export function tarihUzun(zaman) {
-  return new Date(zaman).toLocaleDateString('tr-TR', {
-    day: 'numeric', month: 'long', weekday: 'long'
-  });
+  return tarihYaz(zaman, 'gun');
 }
 
 export function gunBasligi(g) {
-  return g ? `Gün ${g.no} · ${g.baslik}` : 'Gerok dışı';
+  return g ? ç`Gün ${g.no} · ${g.baslik}` : ç`Gerok dışı`;
 }

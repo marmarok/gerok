@@ -20,6 +20,7 @@
 // kadar tekrar açılabiliyor: ihtiyaç duyan kişi çoğu zaman 3. gün otobüste.
 
 import * as veri from './veri.js';
+import { ç } from './dil.js';
 
 const ANAHTAR = 'rehberGosterildi';
 const KENAR = 10;              // İşaret çerçevesinin hedeften taşma payı.
@@ -41,44 +42,33 @@ function adimListesi() {
   return [
     {
       ekran: 'zaman', hedef: null,
-      baslik: 'Gerok’a hoş geldin',
-      metin: 'Bu bir gezi defteri. İnternetsiz çalışır — yurtdışında ' +
-             'şebeke yokken de yazar, ses kaydeder, haritayı gösterir. ' +
-             'Sana en çok işe yarayacak üç şeyi göstereyim.',
+      baslik: ç`Gerok’a hoş geldin`,
+      metin: ç`Bu bir gezi defteri. İnternetsiz çalışır — yurtdışında şebeke yokken de yazar, ses kaydeder, haritayı gösterir. Sana en çok işe yarayacak üç şeyi göstereyim.`,
     },
     {
       ekran: 'kayit', hedef: '#btnSes',
-      baslik: 'Konuş, yazma',
-      metin: 'Yolda yazmak zor, konuşmak kolay. Dokun, anlat, bitir. ' +
-             'Kaydın saatiyle birlikte haritadaki yerine kendiliğinden oturur.',
+      baslik: ç`Konuş, yazma`,
+      metin: ç`Yolda yazmak zor, konuşmak kolay. Dokun, anlat, bitir. Kaydın saatiyle birlikte haritadaki yerine kendiliğinden oturur.`,
     },
     {
       ekran: 'kayit', hedef: '#btnOrtam',
-      baslik: 'Bir de sesi kaydet',
-      metin: 'Çarşı, yağmur, ezan, tren. Fotoğraf herkeste var, o yerin ' +
-             'nasıl duyulduğu kimsede yok. Yıllar sonra en çok bu vuruyor.',
+      baslik: ç`Bir de sesi kaydet`,
+      metin: ç`Çarşı, yağmur, ezan, tren. Fotoğraf herkeste var, o yerin nasıl duyulduğu kimsede yok. Yıllar sonra en çok bu vuruyor.`,
     },
     {
       ekran: 'harita', hedef: '.sekme[data-ekran="harita"]',
-      baslik: 'Haritayı yola çıkmadan indir',
-      metin: 'İnternet varken harita her yerde çalışır. Ama yurtdışında ' +
-             'şebeke yoksa yalnızca ÖNCEDEN indirdiğin alanlar açılır. ' +
-             'Gerok → Harita alanı indir, şehri ekrana getir, indir. ' +
-             'Bir şehir birkaç MB ve birkaç saniye.',
+      baslik: ç`Haritayı yola çıkmadan indir`,
+      metin: ç`İnternet varken harita her yerde çalışır. Ama yurtdışında şebeke yoksa yalnızca ÖNCEDEN indirdiğin alanlar açılır. Gerok → Harita alanı indir, şehri ekrana getir, indir. Bir şehir birkaç MB ve birkaç saniye.`,
     },
     {
       ekran: 'duraklar', hedef: '#btnYolModu',
-      baslik: 'Yol Modu ve gidilen iz',
-      metin: 'Gittiğin yol ancak uygulama AÇIKKEN kaydedilir — telefon ' +
-             'kilitliyken iOS buna izin vermiyor. Araçta telefonu şarja ' +
-             'takıp Yol Modu’nu aç: ekran açık kalır, durağa yaklaşınca uyarır.',
+      baslik: ç`Yol Modu ve gidilen iz`,
+      metin: ç`Gittiğin yol ancak uygulama AÇIKKEN kaydedilir — telefon kilitliyken iOS buna izin vermiyor. Araçta telefonu şarja takıp Yol Modu’nu aç: ekran açık kalır, durağa yaklaşınca uyarır.`,
     },
     {
       ekran: 'gerok', hedef: '.sekme[data-ekran="gerok"]',
-      baslik: 'Akşamları buraya uğra',
-      metin: 'Gün Sonu bütün günü 90 saniyede toparlar ve yedeğini alır. ' +
-             'Bir şey ters giderse ya da bir fikrin olursa, aynı ekrandaki ' +
-             '“Gerok’u yapana yaz” ile doğrudan bana ulaşırsın.',
+      baslik: ç`Akşamları buraya uğra`,
+      metin: ç`Gün Sonu bütün günü 90 saniyede toparlar ve yedeğini alır. Bir şey ters giderse ya da bir fikrin olursa, aynı ekrandaki “Gerok’u yapana yaz” ile doğrudan bana ulaşırsın.`,
     },
   ];
 }
@@ -95,8 +85,8 @@ function katYap() {
       <div class="rehber-baslik" id="rehberBaslik"></div>
       <div class="rehber-metin" id="rehberMetin"></div>
       <div class="rehber-dugmeler">
-        <button class="rehber-gec" id="rehberGec">Geç</button>
-        <button class="rehber-ileri" id="rehberIleri">İleri</button>
+        <button class="rehber-gec" id="rehberGec">${ç`Geç`}</button>
+        <button class="rehber-ileri" id="rehberIleri">${ç`İleri`}</button>
       </div>
     </div>`;
   document.body.appendChild(k);
@@ -156,7 +146,7 @@ async function ciz() {
   kat.querySelector('#rehberBaslik').textContent = adim.baslik;
   kat.querySelector('#rehberMetin').textContent = adim.metin;
   kat.querySelector('#rehberIleri').textContent =
-    sira === adimlar.length - 1 ? 'Başla' : 'İleri';
+    sira === adimlar.length - 1 ? ç`Başla` : ç`İleri`;
 
   yerlestir(adim);
 }

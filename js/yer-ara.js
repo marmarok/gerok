@@ -37,14 +37,17 @@ async function yerleriYukle() {
 const HARFLER = {
   'ç': 'c', 'ğ': 'g', 'ı': 'i', 'ö': 'o', 'ş': 's', 'ü': 'u', 'İ': 'i', 'I': 'i',
   'â': 'a', 'î': 'i', 'û': 'u', 'é': 'e', 'è': 'e', 'ë': 'e', 'á': 'a', 'à': 'a',
-  'ć': 'c', 'č': 'c', 'đ': 'd', 'š': 's', 'ž': 'z', 'ñ': 'n', 'ó': 'o', 'ô': 'o'
+  'ć': 'c', 'č': 'c', 'đ': 'd', 'š': 's', 'ž': 'z', 'ñ': 'n', 'ó': 'o', 'ô': 'o',
+  // Kurmancî: ê çizelgede yokken boşluğa dönüyor ve aranan ad ikiye
+  // bölünüyordu — Kürtçe yazan hiçbir şey bulamıyordu.
+  'ê': 'e'
 };
 
 export function sadelestir(s) {
   return String(s || '')
     .replace(/[İI]/g, 'i')
     .toLowerCase()
-    .replace(/[çğıöşüâîûéèëáàćčđšžñóô]/g, (h) => HARFLER[h] || h)
+    .replace(/[çğıöşüâîûêéèëáàćčđšžñóô]/g, (h) => HARFLER[h] || h)
     .replace(/[^a-z0-9 ]/g, ' ')
     .replace(/\s+/g, ' ')
     .trim();

@@ -5,6 +5,7 @@
 // Fotoğraf ve videoların ORİJİNALLERİ pakete girmiyor — onlar galeride duruyor.
 
 import * as veri from './veri.js';
+import { ç } from './dil.js';
 import { aktifGerok, ozelDurakListesi, siraDuzeniAl, ozelDuraklariBirlestir,
          gunDuzeniAl, gunDuzeniBirlestir, durakDuzeniAl, durakDuzeniBirlestir,
          durakNotlariAl, durakNotlariBirlestir,
@@ -195,7 +196,7 @@ const farkliMi = (a, b) => imza(a) !== imza(b);
  * o günkü hâline döndür" dediğinde mezar taşı kaybeder.
  */
 export async function paketBirlestir(paket, { mezarlariYoksay = false } = {}) {
-  if (!paket?.paketSurum) throw new Error('Bu dosya bir Gerok paketi değil.');
+  if (!paket?.paketSurum) throw new Error(ç`Bu dosya bir Gerok paketi değil.`);
 
   // Paket bizde hiç olmayan bir tura aitse turu da kuruyoruz — yoksa gelen
   // kayıtlar hiçbir ekranda görünmezdi. Aktif tur DEĞİŞTİRİLMİYOR: kimsenin
@@ -337,12 +338,12 @@ export async function paketBirlestir(paket, { mezarlariYoksay = false } = {}) {
 // ---- Gönderme (AirDrop) ---------------------------------------------------
 
 export async function paketGonder(bildir, sadeceGun = null) {
-  bildir?.('Paket hazırlanıyor…');
+  bildir?.(ç`Paket hazırlanıyor…`);
   try {
     const kisi = await veri.ayarOku('kullaniciAdi');
     const blob = await paketBlobu({
       sadeceGun,
-      ilerleme: (y, t) => { if (t > 3) bildir?.(`Paket hazırlanıyor… ${y}/${t}`); }
+      ilerleme: (y, t) => { if (t > 3) bildir?.(ç`Paket hazırlanıyor… ${y}/${t}`); }
     });
     const ad = `gerok-${kisi || 'ben'}-${tarihEtiketi()}.gerok.json`;
     const dosya = new File([blob], ad, { type: 'application/json' });
@@ -350,7 +351,7 @@ export async function paketGonder(bildir, sadeceGun = null) {
     // iOS'ta paylaş sayfası açılır; oradan AirDrop seçiliyor.
     if (navigator.canShare?.({ files: [dosya] })) {
       await navigator.share({ files: [dosya], title: 'Gerok paketi' });
-      bildir?.('Gönderildi. Karşı taraf "Gelen paketi al" desin.', 'iyi');
+      bildir?.(ç`Gönderildi. Karşı taraf "Gelen paketi al" desin.`, 'iyi');
       return;
     }
 
@@ -361,7 +362,7 @@ export async function paketGonder(bildir, sadeceGun = null) {
     setTimeout(() => URL.revokeObjectURL(url), 3000);
     // "İndirildi" tek başına eksik: dosyanın ne olduğu ve bundan sonra ne
     // olacağı söylenmezse, kullanıcı gönderme işinin bittiğini sanıyor.
-    bildir?.('Gün paketi hazır · arkadaşın yakınken AirDrop ile gidecek', 'iyi');
+    bildir?.(ç`Gün paketi hazır · arkadaşın yakınken AirDrop ile gidecek`, 'iyi');
   } catch (hata) {
     if (hata.name === 'AbortError') { bildir?.('Gönderme iptal edildi.'); return; }
     bildir?.(`Gönderilemedi: ${hata.message}`, 'kotu');
@@ -381,35 +382,36 @@ export function paketAl(bildir, tazele) {
       // Arkadaş paketi küçük olmalı ama yanlışlıkla tam yedek seçilebiliyor;
       // aynı akan okuyucu ikisini de kaldırıyor.
       const { govde: paket, tam } = await paketiAkit(dosya);
-      if (!tam) throw new Error('Bu dosya yarım — gönderen yeniden göndersin.');
+      if (!tam) throw new Error(ç`Bu dosya yarım — gönderen yeniden göndersin.`);
       const s = await paketBirlestir(paket);
       let yeniMedya = 0;
       await paketiAkit(dosya, {
-        ilerleme: (y, t) => bildir?.(`Dosyalar alınıyor… %${Math.round(y / t * 100)}`),
+        ilerleme: (y, t) => bildir?.(ç`Dosyalar alınıyor… %${Math.round(y / t * 100)}`),
         medya: async (id, tur, b64) => {
           if (await veri.medyaOku(id)) return;
           await veri.medyaYaz(id, base64Coz(b64, tur));
           yeniMedya++;
         }
       });
-      const silNotu = s.silinen ? ` ${s.silinen} kayıt da silinmiş, burada da silindi.` : '';
+      const silNotu = s.silinen ? ' ' + ç`${s.silinen} kayıt da silinmiş, burada da silindi.` : '';
       const cakismaNotu = s.cakisan
-        ? ` ${s.cakisan} kayıtta iki sürüm vardı — seninki tutuldu, diğeri kaydın içinde duruyor.`
+        ? ' ' + ç`${s.cakisan} kayıtta iki sürüm vardı — seninki tutuldu, diğeri kaydın içinde duruyor.`
         : '';
-      const durakNotu = s.yeniDurak ? ` ${s.yeniDurak} yeni durak rotaya eklendi.` : '';
-      const notNotu = s.yeniNot ? ` ${s.yeniNot} durak notu geldi.` : '';
+      const durakNotu = s.yeniDurak ? ' ' + ç`${s.yeniDurak} yeni durak rotaya eklendi.` : '';
+      const notNotu = s.yeniNot ? ' ' + ç`${s.yeniNot} durak notu geldi.` : '';
       const turNotu = s.yeniTur
-        ? ` Bu paket "${s.yeniTur}" turuna ait — Gerok → Turları yönet'ten o tura geçebilirsin.`
+        ? ' ' + ç`Bu paket "${s.yeniTur}" turuna ait — Gerok → Turları yönet'ten o tura geçebilirsin.`
         : '';
       bildir?.(
         s.yeniKayit || s.yeniIz || s.yeniDurak || s.yeniNot || s.yeniTur || s.cakisan
-          ? `${s.kisi || 'Arkadaşın'} eklendi: ${s.yeniKayit} kayıt, ${s.yeniIz} iz noktası.${durakNotu}${notNotu}${silNotu}${cakismaNotu}${turNotu}`
-          : `Bu paket zaten alınmış — hiçbir şey yinelenmedi.${silNotu}`,
+          ? ç`${s.kisi || ç`Arkadaşın`} eklendi: ${s.yeniKayit} kayıt, ${s.yeniIz} iz noktası.` +
+            `${durakNotu}${notNotu}${silNotu}${cakismaNotu}${turNotu}`
+          : ç`Bu paket zaten alınmış — hiçbir şey yinelenmedi.` + silNotu,
         'iyi'
       );
       await tazele?.();
     } catch (hata) {
-      bildir?.(`Alınamadı: ${hata.message}`, 'kotu');
+      bildir?.(ç`Alınamadı: ${hata.message}`, 'kotu');
     }
   });
 
@@ -421,18 +423,18 @@ export function paketAl(bildir, tazele) {
 // Uygulama silinse bile veri dursun diye. Tek kopya bırakılmıyor.
 
 export async function yedekAl(bildir) {
-  bildir?.('Yedek hazırlanıyor…');
+  bildir?.(ç`Yedek hazırlanıyor…`);
   try {
     const blob = await paketBlobu({
       tumTurlar: true,
-      ilerleme: (y, t) => { if (t > 3) bildir?.(`Yedek hazırlanıyor… ${y}/${t}`); }
+      ilerleme: (y, t) => { if (t > 3) bildir?.(ç`Yedek hazırlanıyor… ${y}/${t}`); }
     });
     const ad = `gerok-yedek-${tarihEtiketi()}.gerok.json`;
     const dosya = new File([blob], ad, { type: 'application/json' });
 
     if (navigator.canShare?.({ files: [dosya] })) {
       await navigator.share({ files: [dosya], title: 'Gerok yedeği' });
-      bildir?.('Yedek kaydedildi. "Dosyalar\'a Kaydet" seçtiysen iCloud\'a da gider.', 'iyi');
+      bildir?.(ç`Yedek kaydedildi. "Dosyalar'a Kaydet" seçtiysen iCloud'a da gider.`, 'iyi');
     } else {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -445,7 +447,7 @@ export async function yedekAl(bildir) {
     await veri.ayarYaz('sonYedek', Date.now());
   } catch (hata) {
     if (hata.name === 'AbortError') { bildir?.('Yedek iptal edildi.'); return; }
-    bildir?.(`Yedek alınamadı: ${hata.message}`, 'kotu');
+    bildir?.(ç`Yedek alınamadı: ${hata.message}`, 'kotu');
   }
 }
 
@@ -560,7 +562,7 @@ async function yedegiTara(dosya, ilerleme = null) {
     if (boy >= dosya.size) break;
     boy *= 2;
   }
-  if (!govde) throw new Error('Bu bir Gerok yedeği değil ya da dosya yarım.');
+  if (!govde) throw new Error(ç`Bu bir Gerok yedeği değil ya da dosya yarım.`);
 
   // 2. Son: dosya `}}` ile bitmiyorsa yazma yarım kalmış demektir.
   const kuyruk = await dosya.slice(Math.max(0, dosya.size - 64)).text();
@@ -605,7 +607,7 @@ export function yedegiDogrula(bildir, bitti) {
       const { govde, tam, bulunan } = await yedegiTara(dosya, (y, t) => {
         bildir?.(`Yedek okunuyor… %${Math.round(y / t * 100)}`);
       });
-      if (!govde?.paketSurum) throw new Error('Bu bir Gerok yedeği değil.');
+      if (!govde?.paketSurum) throw new Error(ç`Bu bir Gerok yedeği değil.`);
 
       const kayit = (govde.kayitlar || []).length;
       const iz = (govde.iz || []).length;
@@ -627,7 +629,7 @@ export function yedegiDogrula(bildir, bitti) {
       bitti?.({ dogru, tam, kayit, canliKayit, medya: bulunan.size, iz, eksik,
                 ad: dosya.name, boyut: dosya.size });
     } catch (hata) {
-      bildir?.(`Yedek okunamadı: ${hata.message}`, 'kotu');
+      bildir?.(ç`Yedek okunamadı: ${hata.message}`, 'kotu');
       bitti?.({ dogru: false, hata: hata.message });
     }
   });
@@ -660,18 +662,18 @@ export async function sonYedekZamani() {
  * biçimde — aynı klasöre birikiyorlar, üst üste yazmıyorlar.
  */
 export async function bulutaYukle(bildir) {
-  bildir?.('Bulut yedeği hazırlanıyor…');
+  bildir?.(ç`Bulut yedeği hazırlanıyor…`);
   try {
     const blob = await paketBlobu({
       tumTurlar: true,
-      ilerleme: (y, t) => { if (t > 3) bildir?.(`Bulut yedeği hazırlanıyor… ${y}/${t}`); }
+      ilerleme: (y, t) => { if (t > 3) bildir?.(ç`Bulut yedeği hazırlanıyor… ${y}/${t}`); }
     });
     const ad = `gerok-yedek-${tarihEtiketi()}.gerok.json`;
     const dosya = new File([blob], ad, { type: 'application/json' });
 
     if (navigator.canShare?.({ files: [dosya] })) {
       await navigator.share({ files: [dosya], title: 'Gerok yedeği' });
-      bildir?.('Yüklendi · “Dosyalar’a Kaydet” ya da Drive seçtiysen bulutta', 'iyi');
+      bildir?.(ç`Yüklendi · “Dosyalar’a Kaydet” ya da Drive seçtiysen bulutta`, 'iyi');
     } else {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -718,18 +720,18 @@ export function yedektenGeriYukle(bildir, tazele, onayla) {
       // Gövde önce okunuyor, medya SONRA ve tek tek: 355 MB'lık bir yedeği
       // tek seferde belleğe almak telefonu öldürüyordu.
       const { govde: paket, tam } = await paketiAkit(dosya);
-      if (!tam) throw new Error('Bu dosya yarım — yazma tamamlanmamış.');
+      if (!tam) throw new Error(ç`Bu dosya yarım — yazma tamamlanmamış.`);
       // Doğrulama ONAYDAN ÖNCE: kullanıcıya "2 kaydın silinecek" diye
       // sorup sonra "bu dosya okunamadı" demek olmaz.
-      if (!paket?.paketSurum) throw new Error('Bu dosya bir Gerok yedeği değil.');
+      if (!paket?.paketSurum) throw new Error(ç`Bu dosya bir Gerok yedeği değil.`);
       const gelen = (paket.kayitlar || []).length;
       if (!gelen && !(paket.duraklar || []).length) {
-        bildir?.('Bu dosyada kayıt yok — hiçbir şey değiştirilmedi.', 'kotu');
+        bildir?.(ç`Bu dosyada kayıt yok — hiçbir şey değiştirilmedi.`, 'kotu');
         return;
       }
       const mevcut = (await veri.tumKayitlar()).length;
       const onay = await onayla({ gelen, mevcut, ad: dosya.name });
-      if (!onay) { bildir?.('Vazgeçildi — hiçbir şey değişmedi.'); return; }
+      if (!onay) { bildir?.(ç`Vazgeçildi — hiçbir şey değişmedi.`); return; }
 
       const s = await paketBirlestir(paket, { mezarlariYoksay: onay === 'degistir' });
 
@@ -737,7 +739,7 @@ export function yedektenGeriYukle(bildir, tazele, onayla) {
       // düşüyor. Böylece 355 MB'lık yedek 8 MB'lık tamponla geri yükleniyor.
       let yeniMedya = 0;
       await paketiAkit(dosya, {
-        ilerleme: (y, t) => bildir?.(`Dosyalar yazılıyor… %${Math.round(y / t * 100)}`),
+        ilerleme: (y, t) => bildir?.(ç`Dosyalar yazılıyor… %${Math.round(y / t * 100)}`),
         medya: async (id, tur, b64) => {
           if (await veri.medyaOku(id)) return;
           await veri.medyaYaz(id, base64Coz(b64, tur));
@@ -751,22 +753,22 @@ export function yedektenGeriYukle(bildir, tazele, onayla) {
         const silinen = await veri.disindakileriSil(kalacak, kalacakIz);
         // Geri gelen silinmişler ayrıca söyleniyor: "silmiştim, geri geldi mi"
         // sorusunun cevabı bu satır.
-        bildir?.(`Geri yüklendi · ${kalacak.size} kayıt · ${silinen} fazla kayıt silindi`
-          + (s.dirilen ? ` · ${s.dirilen} silinmiş kayıt geri geldi` : ''), 'iyi');
+        bildir?.(ç`Geri yüklendi · ${kalacak.size} kayıt · ${silinen} fazla kayıt silindi`
+          + (s.dirilen ? ç` · ${s.dirilen} silinmiş kayıt geri geldi` : ''), 'iyi');
       } else {
         // Çözüm yaması yeni kayıt getirmiyor; "0 yeni kayıt" demek
         // "hiçbir şey olmadı" gibi okunuyordu.
         const parcalar = [];
-        if (s.yeniKayit) parcalar.push(`${s.yeniKayit} yeni kayıt`);
-        if (s.yeniCozum) parcalar.push(`${s.yeniCozum} sesin yazısı`);
-        if (s.yeniIz) parcalar.push(`${s.yeniIz} iz noktası`);
+        if (s.yeniKayit) parcalar.push(ç`${s.yeniKayit} yeni kayıt`);
+        if (s.yeniCozum) parcalar.push(ç`${s.yeniCozum} sesin yazısı`);
+        if (s.yeniIz) parcalar.push(ç`${s.yeniIz} iz noktası`);
         bildir?.(parcalar.length
-          ? `Birleştirildi · ${parcalar.join(' · ')} eklendi`
-          : 'Paket alındı · eklenecek yeni bir şey yoktu', 'iyi');
+          ? ç`Birleştirildi · ${parcalar.join(' · ')} eklendi`
+          : ç`Paket alındı · eklenecek yeni bir şey yoktu`, 'iyi');
       }
       await tazele?.();
     } catch (hata) {
-      bildir?.(`Geri yüklenemedi: ${hata.message}`, 'kotu');
+      bildir?.(ç`Geri yüklenemedi: ${hata.message}`, 'kotu');
     }
   });
 

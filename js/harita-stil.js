@@ -9,6 +9,8 @@
 // genişletilmiş (č ć š ž đ ğ ş), Yunan ve Kiril aralıkları var — Balkanlar'da
 // tabelalar hem Latin hem Kiril.
 
+import { ç } from './dil.js';
+
 const YAZI = 'yazi/{fontstack}/{range}.pbf';
 
 // Tabelada ne yazıyorsa haritada da o yazsın. Ama "Москва" tek başına bir şey
@@ -241,9 +243,9 @@ function zeminKatmanlari(r) {
 // ---- Dışa açılan ----------------------------------------------------------
 
 export const KIPLER = [
-  { id: 'gunduz', ad: 'Gündüz', internet: false },
-  { id: 'gece', ad: 'Gece', internet: false },
-  { id: 'uydu', ad: 'Uydu', internet: true }
+  { id: 'gunduz', ad: ç`Gündüz`, internet: false },
+  { id: 'gece', ad: ç`Gece`, internet: false },
+  { id: 'uydu', ad: ç`Uydu`, internet: true }
 ];
 
 // Harita indirilmeden önce gösterilen boş zemin.

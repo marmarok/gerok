@@ -9,6 +9,7 @@
 // fotoğrafın çekilme saatini ize eşleştirerek yerini buluyoruz.
 
 import { izEkle, yeniKimlik } from './veri.js';
+import { ç } from './dil.js';
 
 const NORMAL_ARALIK = 30_000;      // 30 saniye
 const TASARRUF_ARALIK = 120_000;   // pil %20'nin altındayken 2 dakika
@@ -103,9 +104,9 @@ function noktaGeldi(konum) {
 
 function hataGeldi(hata) {
   const mesajlar = {
-    1: 'Konum izni verilmemiş. Ayarlar → Safari → Konum bölümünden izin ver.',
-    2: 'Konum alınamıyor. Açık havada birkaç saniye bekle.',
-    3: 'Konum zaman aşımına uğradı.'
+    1: ç`Konum izni verilmemiş. Ayarlar → Safari → Konum bölümünden izin ver.`,
+    2: ç`Konum alınamıyor. Açık havada birkaç saniye bekle.`,
+    3: ç`Konum zaman aşımına uğradı.`
   };
   haberVer({ tur: 'hata', kod: hata.code, mesaj: mesajlar[hata.code] || hata.message });
 }
@@ -116,7 +117,7 @@ export function tasarruftaMi() { return tasarrufModu; }
 export async function basla() {
   if (izleyici !== null) return true;
   if (!navigator.geolocation) {
-    haberVer({ tur: 'hata', mesaj: 'Bu cihazda konum desteği yok.' });
+    haberVer({ tur: 'hata', mesaj: ç`Bu cihazda konum desteği yok.` });
     return false;
   }
 
