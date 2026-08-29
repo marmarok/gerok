@@ -1,35 +1,73 @@
 {
  "bicim": 1,
- "zaman": "2026-08-29T23:16:26+03:00",
- "kadans": "saatlik",
- "durum": "iyi",
+ "zaman": "2026-08-29T23:35:35+03:00",
+ "kadans": "6saat",
+ "durum": "sorun",
  "sayilar": {
-  "kontrol": 5,
-  "sinama": 37,
-  "gecen": 5,
-  "bilinen": 0,
-  "sorun": 0,
-  "sure": 1.2,
-  "kosu": 135
+  "kontrol": 36,
+  "sinama": 2093,
+  "gecen": 34,
+  "bilinen": 1,
+  "sorun": 1,
+  "sure": 10.3,
+  "kosu": 136
  },
- "sorunlar": [],
- "bilinenler": [],
+ "sorunlar": [
+  {
+   "ad": "Kurucu iki yerde aynı",
+   "onem": "yuksek",
+   "oyku": "bilgi",
+   "not": "daldaki nüsha Mac'tekinden farklı — yayın kuralları ayrışmış",
+   "onarilabilir": false
+  }
+ ],
+ "bilinenler": [
+  {
+   "ad": "Math.min(...dizi) yığın taşması",
+   "not": "app.js:763; app.js:4925; gerok.js:448; sihirbaz.js:454; sihirbaz.js:455; sihirbaz.js:456 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
+  }
+ ],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 3,
-   "toplam": 3,
-   "sinama": 6
+   "gecen": 10,
+   "toplam": 10,
+   "sinama": 92
   },
   "bekci": {
+   "gecen": 4,
+   "toplam": 4,
+   "sinama": 16
+  },
+  "yedek": {
    "gecen": 1,
    "toplam": 1,
-   "sinama": 8
+   "sinama": 2
   },
   "koprü": {
    "gecen": 1,
    "toplam": 1,
    "sinama": 23
+  },
+  "kod": {
+   "gecen": 9,
+   "toplam": 9,
+   "sinama": 1472
+  },
+  "veri": {
+   "gecen": 2,
+   "toplam": 2,
+   "sinama": 9
+  },
+  "gizlilik": {
+   "gecen": 4,
+   "toplam": 4,
+   "sinama": 63
+  },
+  "bilgi": {
+   "gecen": 4,
+   "toplam": 5,
+   "sinama": 416
   }
  },
  "derin": {
@@ -98,13 +136,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "535e42487b82",
-   "t": 1787653795200,
-   "onem": "bilgi",
-   "baslik": "Yedek artık doğrulanıyor",
-   "govde": "Her yedekten sonra dosyayı geri seçmeni isteyeceğim; açıp sayacağım ve telefonundakiyle karşılaştıracağım. Panelde \"doğrulandı\" mı yoksa \"DOĞRULANMADI\" mı yazacak. Ayrıca Mac artık iCloud'daki yedeklerine kendiliğinden bakıyor — bu sabahki 355 MB'lık yedeğini gördü. Sürüm gerok-107."
-  },
   {
    "id": "657b7b039339",
    "t": 1787663046736,
@@ -272,9 +303,26 @@
    "onem": "iyi",
    "baslik": "Bekleyen sorular düştü",
    "govde": "Sorduğum şeyler kendiliğinden çözülmüş; artık kırmızı kontrol yok. 2 soru kapandı, cevaplaman gereken bir şey kalmadı."
+  },
+  {
+   "id": "a6ff2b961b24",
+   "t": 1788035735009,
+   "onem": "sorun",
+   "baslik": "1 sorun buldum",
+   "govde": "• [yuksek] Kurucu iki yerde aynı\n   daldaki nüsha Mac'tekinden farklı — yayın kuralları ayrışmış"
   }
  ],
- "bekleyen": [],
+ "bekleyen": [
+  {
+   "id": "4fbbd1694d81",
+   "soru": "“Kurucu iki yerde aynı” kontrolü takılıyor ve kendim onaramadım. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu? (Ayrıntısı panoda duruyor.)",
+   "secenekler": [
+    "Bu bilinen bir durum",
+    "Gerçekten bozuk, bak",
+    "Yanlış alarm"
+   ]
+  }
+ ],
  "telefonSinamasi": [
   "Sesli not bırak ve ÇAL — sesi duyuyor musun?",
   "Galeriden 3 fotoğraf ekle — çubuk akıyor mu, özet çıkıyor mu?",
@@ -284,12 +332,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-08-27T01:04:28+03:00",
-   "k": "gunluk",
-   "g": 85,
-   "n": 87
-  },
   {
    "t": "2026-08-27T01:09:32+03:00",
    "k": "6saat",
@@ -523,6 +565,12 @@
    "k": "saatlik",
    "g": 5,
    "n": 5
+  },
+  {
+   "t": "2026-08-29T23:35:35+03:00",
+   "k": "6saat",
+   "g": 34,
+   "n": 36
   }
  ]
 }
