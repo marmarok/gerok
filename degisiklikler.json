@@ -2,6 +2,14 @@
   "aciklama": "Her güncellemede ne eklendi, ne düzeldi, ne çıktı. En yeni en üstte. Bu dosya güncelleme kartında okunuyor; boş bırakılamaz, yayınlama betiği kontrol ediyor.",
   "surumler": [
     {
+      "sayi": 124,
+      "eklendi": [],
+      "duzeldi": [
+        "Haritadaki “seyir noktası” yer türü Kürtçede artık “cihê temaşeyê”. Kürtçe yer türlerinin tamamı böylece kontrolden geçmiş oldu."
+      ],
+      "cikti": []
+    },
+    {
       "sayi": 123,
       "eklendi": [],
       "duzeldi": [

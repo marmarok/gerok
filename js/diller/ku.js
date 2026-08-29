@@ -37,6 +37,9 @@
 // Dil düğmesinin adı "Kurdî" (js/dil.js) — "Kurmancî" değil.
 // Doğrulanmış kalanlar: Albanya ve Xirwatistan Kürtçe Vikipedi'nin
 // kullandığı adlar; "kela" da öyle (Kela Mîrxizir, Kela Çimdîn).
+// Yer türlerinin hepsi ana dili konuşan biri tarafından onaylandı:
+// şapel dêrok, şelale şirşir doğruymuş; seyir noktası "xala temaşeyê"
+// değil "cihê temaşeyê" oldu.
 
 export const KU = {
 
@@ -265,7 +268,7 @@ export const KU = {
   'müze': 'mûze',
   'galeri': 'galerî',
   'gezilecek yer': 'cihê gerê',
-  'seyir noktası': 'xala temaşeyê',
+  'seyir noktası': 'cihê temaşeyê',
   'kale': 'kela',
   'hisar': 'birc',
   'şehir kapısı': 'deriyê bajêr',
