@@ -1,73 +1,35 @@
 {
  "bicim": 1,
- "zaman": "2026-08-29T23:35:35+03:00",
- "kadans": "6saat",
- "durum": "sorun",
+ "zaman": "2026-08-30T00:21:31+03:00",
+ "kadans": "saatlik",
+ "durum": "iyi",
  "sayilar": {
-  "kontrol": 36,
-  "sinama": 2093,
-  "gecen": 34,
-  "bilinen": 1,
-  "sorun": 1,
-  "sure": 10.3,
-  "kosu": 136
+  "kontrol": 5,
+  "sinama": 37,
+  "gecen": 5,
+  "bilinen": 0,
+  "sorun": 0,
+  "sure": 0.7,
+  "kosu": 137
  },
- "sorunlar": [
-  {
-   "ad": "Kurucu iki yerde aynı",
-   "onem": "yuksek",
-   "oyku": "bilgi",
-   "not": "daldaki nüsha Mac'tekinden farklı — yayın kuralları ayrışmış",
-   "onarilabilir": false
-  }
- ],
- "bilinenler": [
-  {
-   "ad": "Math.min(...dizi) yığın taşması",
-   "not": "app.js:763; app.js:4925; gerok.js:448; sihirbaz.js:454; sihirbaz.js:455; sihirbaz.js:456 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
-  }
- ],
+ "sorunlar": [],
+ "bilinenler": [],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 10,
-   "toplam": 10,
-   "sinama": 92
+   "gecen": 3,
+   "toplam": 3,
+   "sinama": 6
   },
   "bekci": {
-   "gecen": 4,
-   "toplam": 4,
-   "sinama": 16
-  },
-  "yedek": {
    "gecen": 1,
    "toplam": 1,
-   "sinama": 2
+   "sinama": 8
   },
   "koprü": {
    "gecen": 1,
    "toplam": 1,
    "sinama": 23
-  },
-  "kod": {
-   "gecen": 9,
-   "toplam": 9,
-   "sinama": 1472
-  },
-  "veri": {
-   "gecen": 2,
-   "toplam": 2,
-   "sinama": 9
-  },
-  "gizlilik": {
-   "gecen": 4,
-   "toplam": 4,
-   "sinama": 63
-  },
-  "bilgi": {
-   "gecen": 4,
-   "toplam": 5,
-   "sinama": 416
   }
  },
  "derin": {
@@ -136,13 +98,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "657b7b039339",
-   "t": 1787663046736,
-   "onem": "sorun",
-   "baslik": "1 sorun buldum",
-   "govde": "• [yuksek] Telefon yedeği duruyor\n   hiç yedek dosyası yok — telefonda tek kopya var"
-  },
   {
    "id": "8a9da94d8e32",
    "t": 1787663686264,
@@ -310,6 +265,13 @@
    "onem": "sorun",
    "baslik": "1 sorun buldum",
    "govde": "• [yuksek] Kurucu iki yerde aynı\n   daldaki nüsha Mac'tekinden farklı — yayın kuralları ayrışmış"
+  },
+  {
+   "id": "6087d2b53f0c",
+   "t": 1788038491138,
+   "onem": "iyi",
+   "baslik": "Söylediğim sorunlar kapandı",
+   "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
   }
  ],
  "bekleyen": [
@@ -332,12 +294,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-08-27T01:09:32+03:00",
-   "k": "6saat",
-   "g": 34,
-   "n": 35
-  },
   {
    "t": "2026-08-27T01:13:22+03:00",
    "k": "gunluk",
@@ -571,6 +527,12 @@
    "k": "6saat",
    "g": 34,
    "n": 36
+  },
+  {
+   "t": "2026-08-30T00:21:31+03:00",
+   "k": "saatlik",
+   "g": 5,
+   "n": 5
   }
  ]
 }
