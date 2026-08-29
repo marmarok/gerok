@@ -30,6 +30,8 @@
 //   anıt          bîrdarî           (peyker değil)
 //   iskele        keştîgeh          (bender değil)
 //   kale          kela              (kelhe değil)
+//   Gezginler     Gerok             (geştiyar değil — "gerok" zaten
+//                                   gezgin demek, uygulamanın adı da o)
 // "çevrimdışı" bir ara negirêdayî yapıldı, 30 Ağustos'ta
 // bêînternet'e geri döndürüldü. Değiştirmeden önce sor.
 // Dil düğmesinin adı "Kurdî" (js/dil.js) — "Kurmancî" değil.
@@ -162,7 +164,7 @@ export const KU = {
   'Ne görülür': 'Çi tê dîtin',
   'Ne yenir': 'Çi tê xwarin',
   'Ne alınır': 'Çi tê kirîn',
-  'Gezginler ne diyor': 'Geştiyar çi dibêjin',
+  'Gezginler ne diyor': 'Gerok çi dibêjin',
   'Dikkat': 'Hay ji xwe hebe',
   'Tarihi': 'Dîroka wê',
   'Türkiye’ye göre': 'Li gorî Tirkiyeyê',
