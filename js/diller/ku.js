@@ -23,13 +23,15 @@
 // Değişenler (sağdaki artık kullanılmıyor):
 //   kayıt/kaydet  qeyd, Qeyd bike   (tomar değil — isim de fiil de)
 //   gezi          rêwîtî            (geşt değil)
-//   çevrimdışı    negirêdayî        (bêînternet değil)
 //   Vazgeç        Dev jê berde      (Betal bike değil)
 //   Devam         Pêş de            (Berdewam değil)
+//   ▶ Devam et    ▶ Bidomîne        (emir kipi gerekiyor)
 //   manastır      manastîr          (keşîşxane değil)
 //   anıt          bîrdarî           (peyker değil)
 //   iskele        keştîgeh          (bender değil)
 //   kale          kela              (kelhe değil)
+// "çevrimdışı" bir ara negirêdayî yapıldı, 30 Ağustos'ta
+// bêînternet'e geri döndürüldü. Değiştirmeden önce sor.
 // Dil düğmesinin adı "Kurdî" (js/dil.js) — "Kurmancî" değil.
 // Doğrulanmış kalanlar: Albanya ve Xirwatistan Kürtçe Vikipedi'nin
 // kullandığı adlar; "kela" da öyle (Kela Mîrxizir, Kela Çimdîn).
@@ -73,7 +75,7 @@ export const KU = {
   '<b>Gerok</b> sekmesinden <b>Harita alanı indir</b> ile gideceğin yeri seç — ':
     'Ji beşa <b>Gerok</b>, bi <b>Devera nexşeyê daxîne</b> cihê ku tê de diçî hilbijêre — ',
   'yolda internet olmayabilir.': 'dibe ku di rê de înternet tune be.',
-  'çevrimdışı pmtiles': 'pmtiles a negirêdayî',
+  'çevrimdışı pmtiles': 'pmtiles a bêînternet',
   'İnternet yok — harita alanı internetliyken indirilir.':
     'Înternet tune — devera nexşeyê bi înternetê tê daxistin.',
   'Alan çok büyük ({0} karo). Daha küçük bir alan seç.':
@@ -82,7 +84,7 @@ export const KU = {
   // --------------------------------------------- rehber (tanıtım turu) ---
   'Gerok’a hoş geldin': 'Bi xêr hatî Gerokê',
   'Bu bir gezi defteri. İnternetsiz çalışır — yurtdışında şebeke yokken de yazar, ses kaydeder, haritayı gösterir. Sana en çok işe yarayacak üç şeyi göstereyim.':
-    'Ev rojnivîska rêwîtiyê ye. Negirêdayî dixebite — li derveyî welat jî, gava tora telefonê tune be, dinivîse, deng qeyd dike, nexşeyê nîşan dide. Bila ez sê tiştên ku wê herî zêde bi kêrî te bên nîşanî te bidim.',
+    'Ev rojnivîska rêwîtiyê ye. Bêînternet dixebite — li derveyî welat jî, gava tora telefonê tune be, dinivîse, deng qeyd dike, nexşeyê nîşan dide. Bila ez sê tiştên ku wê herî zêde bi kêrî te bên nîşanî te bidim.',
   'Konuş, yazma': 'Biaxive, nenivîse',
   'Yolda yazmak zor, konuşmak kolay. Dokun, anlat, bitir. Kaydın saatiyle birlikte haritadaki yerine kendiliğinden oturur.':
     'Di rê de nivîsîn zehmet e, axaftin hêsan e. Bitikîne, bêje, biqedîne. Qeyd bi saeta xwe re bi xwe li cihê xwe yê ser nexşeyê rûdine.',
@@ -117,7 +119,7 @@ export const KU = {
   'Gündüz': 'Roj',
   'Gece': 'Şev',
   'Uydu': 'Peyk',
-  '© OpenStreetMap · çevrimdışı pmtiles': '© OpenStreetMap · pmtiles a negirêdayî',
+  '© OpenStreetMap · çevrimdışı pmtiles': '© OpenStreetMap · pmtiles a bêînternet',
   'Haritayı kaydır — durak ortadaki artının olduğu yere konacak.':
     'Nexşeyê bikişîne — rawestgeh wê li cihê xaça navîn were danîn.',
   'Vazgeç': 'Dev jê berde',
@@ -482,7 +484,7 @@ export const KU = {
   'Bu iş': 'Ev kar',
   'Bu kayıtta ne söylendi?': 'Di vê qeydê de çi hate gotin?',
   'Bu ses henüz çevrilmedi. <b>Çevirme Mac\'te yapılıyor</b> — bedava, internetsiz, ses telefondan çıkmıyor. Bir sonraki arşivlemede kendiliğinden çevrilecek. Beklemek istemiyorsan aşağıya kendin yazabilirsin.':
-    'Ev deng hîn nehatiye veguhastin. <b>Veguhastin li ser Macê tê kirin</b> — belaş, negirêdayî, deng ji telefonê dernakeve. Di arşîvkirina bê de bi xwe wê were veguhastin. Ger tu naxwazî bisekinî tu dikarî bi xwe li jêr binivîsî.',
+    'Ev deng hîn nehatiye veguhastin. <b>Veguhastin li ser Macê tê kirin</b> — belaş, bêînternet, deng ji telefonê dernakeve. Di arşîvkirina bê de bi xwe wê were veguhastin. Ger tu naxwazî bisekinî tu dikarî bi xwe li jêr binivîsî.',
   'Bu sürümün notu yok.': 'Nota vê guhertoyê tune.',
   'Bu süzgeçle kayıt yok.': 'Bi vê parzûnê qeyd tune.',
   'Bu telefon': 'Ev telefon',
@@ -540,12 +542,12 @@ export const KU = {
   'Geri alındı': 'Hate vegerandin',
   'Gerok henüz başlamadı': 'Gerok hîn dest pê nekiriye',
   'Gerok internetsiz tam çalışır. Bağlantı yalnızca yukarıdaki işleri düzeltmek için kullanılır. Dışarı giden tek şey: para birimi kodları, kayıtların ve durakların koordinatları. Metin, ses, fotoğraf, isim — hiçbiri gitmiyor, hiçbir kaydın buluta yüklenmiyor.':
-    'Gerok negirêdayî bi temamî dixebite. Girêdan tenê ji bo rastkirina karên jorîn tê bikaranîn. Tiştê ku derdikeve derve tenê ev e: kodên yekeyên diravî, koordînatên qeyd û rawestgehan. Nivîs, deng, wêne, nav — yek jî naçe, tu qeyda te li ewrê nayê barkirin.',
+    'Gerok bêînternet bi temamî dixebite. Girêdan tenê ji bo rastkirina karên jorîn tê bikaranîn. Tiştê ku derdikeve derve tenê ev e: kodên yekeyên diravî, koordînatên qeyd û rawestgehan. Nivîs, deng, wêne, nav — yek jî naçe, tu qeyda te li ewrê nayê barkirin.',
   'Gerok paketi yüklenmedi': 'Pakêta Gerokê nehate barkirin',
   'Gerok paketi yüklenmedi.': 'Pakêta Gerokê nehate barkirin.',
   'Gerok tamamlandı': 'Gerok qediya',
   'Gerok — internetsiz çalışan gezi defteri.':
-    'Gerok — rojnivîska rêwîtiyê ya ku negirêdayî dixebite.',
+    'Gerok — rojnivîska rêwîtiyê ya ku bêînternet dixebite.',
   'Gerok\'a ayrılan yer azaldı · harita paketini silebilirsin, videolar zaten galeride':
     'Cihê ku ji Gerokê re hatiye veqetandin kêm bû · tu dikarî pakêta nexşeyê jê bibî, vîdyo jixwe di galeriyê de ne',
   'Gerok\'a ayrılan yer azalıyor: {0} kaldı. Yedek al ve galeriden yer aç.':
@@ -593,7 +595,7 @@ export const KU = {
   'Haritayı kaydır, sonra "Buraya durak ekle" de.':
     'Nexşeyê bikişîne, paşê "Li vir rawestgehekê zêde bike" bibêje.',
   'Henüz alan inmedi. İnternetsizken harita boş kalır.':
-    'Hîn dever nehatiye daxistin. Negirêdayî nexşe vala dimîne.',
+    'Hîn dever nehatiye daxistin. Bêînternet nexşe vala dimîne.',
   'Henüz bir gerok yüklenmedi — aşağıdaki kayıtlar duruyor. Paketi yükleyince ya da yeni tur başlatınca Gerok → Turlar\'dan tek düğmeyle o tura taşınırlar.':
     'Hîn tu gerok nehatiye barkirin — qeydên jêrîn dimînin. Gava pakêtê bar bikî an rêwîtiyeke nû dest pê bikî, ji Gerok → Rêwîtî bi bişkokekê tenê derbasî wê rêwîtiyê dibin.',
   'Henüz bir gerok yüklenmedi.<br>Gerok sekmesinden paketi yükle.':
@@ -872,11 +874,11 @@ export const KU = {
   '{0} şey bekliyor — şimdi hallolabilir.':
     '{0} tişt li bendê ne — niha dikarin çareser bibin.',
   '{0} şey internet bekliyor. Otelde wi-fi bulunca tek dokunuşla hallolur; o zamana kadar her şey çevrimdışı çalışmaya devam eder.':
-    '{0} tişt li benda înternetê ne. Gava li otêlê wi-fi bibînî bi tikandinekê tenê çareser dibin; heta wê demê her tişt negirêdayî dixebite.',
+    '{0} tişt li benda înternetê ne. Gava li otêlê wi-fi bibînî bi tikandinekê tenê çareser dibin; heta wê demê her tişt bêînternet dixebite.',
   '{0} — haritayı ince ayarla, sonra "Buraya durak ekle".':
     '{0} — nexşeyê hûr saz bike, paşê "Li vir rawestgehekê zêde bike".',
   '{0} → Gün {1}': '{0} → Roja {1}an',
-  'Çevrimdışı harita': 'Nexşeya negirêdayî',
+  'Çevrimdışı harita': 'Nexşeya bêînternet',
   'Çift dokun · listenin başına dön': 'Du caran bitikîne · vegere serê lîsteyê',
   'Çift dokun · sayfanın başına dön': 'Du caran bitikîne · vegere serê rûpelê',
   'Çift dokun · sesli not başlat': 'Du caran bitikîne · nota dengî dest pê bike',
@@ -887,13 +889,13 @@ export const KU = {
   'Önizlemesi çıkmayan': 'Yên pêşdîtina wan derneket',
   'Üzerine basılabilecek şeylerin rengi': 'Rengê tiştên ku dikarin werin tikandin',
   'çarşı, sokak': 'sûk, kolan',
-  'çevrimdışı alan yok': 'devera negirêdayî tune',
-  'çevrimdışı kurulum yok': 'sazkirina negirêdayî tune',
+  'çevrimdışı alan yok': 'devera bêînternet tune',
+  'çevrimdışı kurulum yok': 'sazkirina bêînternet tune',
   'İndir ve güncelle': 'Daxîne û rojane bike',
   'İnmedi: {0}': 'Nedaket: {0}',
   'İnternet bulununca hallolacak': 'Gava înternet were dîtin wê çareser bibe',
   'İnternet kesildi · her şey çevrimdışı sürüyor':
-    'Înternet qut bû · her tişt negirêdayî didome',
+    'Înternet qut bû · her tişt bêînternet didome',
   'İnternet yok · bağlanınca hepsi kendiliğinden hallolur':
     'Înternet tune · gava girêdayî bibî hemû bi xwe çareser dibin',
   'İnternet yok · bağlanınca kendiliğinden hallolur':
@@ -1116,7 +1118,7 @@ export const KU = {
   '{0} · bilgisini isteyeyim mi?': '{0} · ez agahiya wê bixwazim?',
   '{0} · yer aç': '{0} · cih veke',
   '{0} · {1} — saat değişmiyor.': '{0} · {1} — saet naguhere.',
-  'Çevrimdışı harita alanları': 'Deverên nexşeyê yên negirêdayî',
+  'Çevrimdışı harita alanları': 'Deverên nexşeyê yên bêînternet',
   'Önce yedek al': 'Pêşî kopiyeke ewle bigire',
   'Önce şimdiki hâli yedekle': 'Pêşî rewşa niha biparêze',
   'Örn. Tarçınlı tatlıyı saat kulesinin yanındaki dükkândan al.':
@@ -1135,7 +1137,7 @@ export const KU = {
   'Şu anki turun kayıtları ekranlarda görünür. Arşivdekiler telefonda durur, karışmaz; istediğin an geri dönebilirsin.':
     'Qeydên rêwîtiya niha li ser ekranan xuya dibin. Yên di arşîvê de di telefonê de dimînin, tevlihev nabin; tu kengî bixwazî dikarî vegerî.',
   '≈ {0} · {1} karo · {2}': '≈ {0} · {1} parçe · {2}',
-  '▶ Devam et': '▶ Pêş de',
+  '▶ Devam et': '▶ Bidomîne',
   'Not': 'Not',
   'Overpass sunucularının hiçbiri cevap vermedi': 'Tu ji rajekarên Overpassê bersiv neda',
   'kur tablosu boş geldi': 'tabloya rêjeyan vala hat',

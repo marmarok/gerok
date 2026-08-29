@@ -2,6 +2,15 @@
   "aciklama": "Her güncellemede ne eklendi, ne düzeldi, ne çıktı. En yeni en üstte. Bu dosya güncelleme kartında okunuyor; boş bırakılamaz, yayınlama betiği kontrol ediyor.",
   "surumler": [
     {
+      "sayi": 121,
+      "eklendi": [],
+      "duzeldi": [
+        "Kürtçede “çevrimdışı” yeniden bêînternet oldu — bir önceki güncellemede negirêdayî yapılmıştı, geri alındı.",
+        "Ses kaydını sürdüren “▶ Devam et” düğmesi Kürtçede artık “▶ Bidomîne” diyor. Öncesinde emir kipi olmayan bir söz duruyordu."
+      ],
+      "cikti": []
+    },
+    {
       "sayi": 120,
       "eklendi": [],
       "duzeldi": [

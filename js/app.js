@@ -5,7 +5,7 @@
 // Neden önbelleğin adına bakmıyoruz: yeni sürüm indiğinde önbellek adı değişiyor
 // ama ekrandaki kod hâlâ eski oluyor — uygulama kendini güncellenmiş sanıyordu.
 // Bu satır ekrandaki dosyanın içinde olduğu için yalan söyleyemiyor.
-const BU_SURUM = 'gerok-120-20260829-235140';
+const BU_SURUM = 'gerok-121-20260830-000130';
 
 import * as veri from './veri.js';
 import * as iz from './iz.js';
