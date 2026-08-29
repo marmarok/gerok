@@ -5,7 +5,7 @@
 // Neden önbelleğin adına bakmıyoruz: yeni sürüm indiğinde önbellek adı değişiyor
 // ama ekrandaki kod hâlâ eski oluyor — uygulama kendini güncellenmiş sanıyordu.
 // Bu satır ekrandaki dosyanın içinde olduğu için yalan söyleyemiyor.
-const BU_SURUM = 'gerok-124-20260830-002133';
+const BU_SURUM = 'gerok-125-20260830-004858';
 
 import * as veri from './veri.js';
 import * as iz from './iz.js';
@@ -3064,16 +3064,58 @@ function surumSayisi(surum) {
   return m ? Number(m[1]) : null;
 }
 
-async function degisiklikNotlari(surum, { agdan = true } = {}) {
-  const sayi = surumSayisi(surum);
-  if (sayi == null) return null;
+/** Bütün sürüm notları, yeniden eskiye. Boş dizi = okunamadı. */
+async function degisiklikDosyasi({ agdan = true } = {}) {
   try {
     const yol = agdan ? `${DEGISIKLIK_LISTESI}?t=${Date.now()}` : DEGISIKLIK_LISTESI;
     const yanit = await fetch(yol, agdan ? { cache: 'no-store' } : undefined);
-    if (!yanit.ok) return null;
+    if (!yanit.ok) return [];
     const d = await yanit.json();
-    return (d.surumler || []).find(x => x.sayi === sayi) || null;
-  } catch { return null; }        // internet yoksa kart notsuz çıkar, susmaz
+    return (d.surumler || [])
+      .filter(x => Number.isFinite(x.sayi))
+      .sort((a, b) => b.sayi - a.sayi);
+  } catch { return []; }          // internet yoksa kart notsuz çıkar, susmaz
+}
+
+async function degisiklikNotlari(surum, { agdan = true } = {}) {
+  const sayi = surumSayisi(surum);
+  if (sayi == null) return null;
+  return (await degisiklikDosyasi({ agdan })).find(x => x.sayi === sayi) || null;
+}
+
+/**
+ * İki sürüm ARASINDAKİ bütün notlar, yeniden eskiye.
+ *
+ * Neden gerekti: telefon birkaç sürüm geride kalabiliyor. Kart yalnızca en son
+ * sürümün notunu gösterdiği sürece arada olan biten hiç görünmüyordu — 30
+ * Ağustos'ta beş sürüm birikti ve kullanıcı en küçük değişikliği görüp en
+ * büyüğünü göremeyecekti.
+ */
+async function degisiklikNotlariAralik(yeniSurum, eskiSurum) {
+  const yeni = surumSayisi(yeniSurum);
+  const eski = surumSayisi(eskiSurum);
+  if (yeni == null) return [];
+  return (await degisiklikDosyasi())
+    .filter(x => x.sayi <= yeni && (eski == null || x.sayi > eski));
+}
+
+/** "2026-08-30" → "30.08.2026". Tarih yoksa boş. */
+function tarihKisa(t) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(t || '');
+  return m ? `${m[3]}.${m[2]}.${m[1]}` : '';
+}
+
+/** Tek sürümün bloğu: başlık + notlar. */
+function surumBloguHtml(n, simdiki = false) {
+  const tarih = tarihKisa(n.tarih);
+  return `<div class="gnc-surum">
+    <div class="gnc-surum-basi">
+      <span class="gnc-surum-no">#${n.sayi}</span>
+      ${tarih ? `<span class="gnc-surum-tarih">${tarih}</span>` : ''}
+      ${simdiki ? `<span class="gnc-simdiki">${ç`şu an sendeki`}</span>` : ''}
+    </div>
+    ${notlariHtml(n)}
+  </div>`;
 }
 
 /** Kart ve panel aynı listeyi çizsin diye tek yerde. */
@@ -3137,7 +3179,7 @@ async function guncellemeBak() {
     ...liste,
     indi: adlar.includes(liste.surum),   // dosyalar zaten inmiş mi
     degisen: await degisenBoyut(liste),
-    notlar: await degisiklikNotlari(liste.surum)
+    notlar: await degisiklikNotlariAralik(liste.surum, BU_SURUM)
   };
 }
 
@@ -3156,7 +3198,11 @@ function guncellemeKarti(bilgi) {
       <span>${boyut || '—'}</span>
       ${sayi ? `<span class="guncelleme-alt">${ç`${sayi} dosya yenilendi`}</span>` : ''}
     </div>
-    ${notlariHtml(bilgi.notlar)}
+    ${Array.isArray(bilgi.notlar)
+      ? (bilgi.notlar.length > 1
+          ? bilgi.notlar.map(n => surumBloguHtml(n)).join('')
+          : notlariHtml(bilgi.notlar[0]))
+      : notlariHtml(bilgi.notlar)}
     <div class="guncelleme-not">${bilgi.indi
       ? ç`Dosyalar indi bile. Tek yapılacak uygulamayı yenilemek — birkaç saniye.`
       : ç`İnternetten inecek, sonra uygulama kendi kendine yenilenecek.`}</div>
@@ -5625,13 +5671,27 @@ async function uygulamayiPaylas() {
  * kalırsa kaybolmuş oluyor. Burada ağdan DEĞİL, telefondaki dosyadan okunuyor:
  * internetsizken de açılıyor.
  */
+/**
+ * Bütün sürüm geçmişi, yeniden eskiye.
+ *
+ * Önce yalnızca o anki sürümün notu görünüyordu. Uygulamanın sürekli
+ * geliştiği — arkasında emek olduğu — hiçbir yerde görünmüyordu. Liste
+ * ağdan değil önbellekten okunuyor: internetsizken de açılmalı.
+ */
 async function degisiklikleriGoster() {
-  const n = await degisiklikNotlari(BU_SURUM, { agdan: false });
+  const hepsi = await degisiklikDosyasi({ agdan: false });
+  const buSayi = surumSayisi(BU_SURUM);
+  const enEski = hepsi.length ? tarihKisa(hepsi[hepsi.length - 1].tarih) : '';
   ortuAc(`
     <div class="ortu-baslik">${ç`Neler değişti`}</div>
     <div class="ortu-alt">${surumOku(BU_SURUM)}</div>
-    ${n ? notlariHtml(n)
-        : `<div class="panel-not">${ç`Bu sürümün notu yok.`}</div>`}
+    ${hepsi.length && enEski
+      ? `<div class="gnc-ozet">${ç`${hepsi.length} güncelleme · ${enEski} tarihinden beri`}</div>`
+      : ''}
+    ${hepsi.length
+      ? `<div class="gnc-gecmis">${
+          hepsi.map(n => surumBloguHtml(n, n.sayi === buSayi)).join('')}</div>`
+      : `<div class="panel-not">${ç`Sürüm notu bulunamadı.`}</div>`}
     <button class="eylem-dugme" id="dgsKapat">${ç`Kapat`}</button>
   `);
   $('#dgsKapat').addEventListener('click', ortuKapat);

@@ -1848,6 +1848,24 @@ body:has(.ses-katman:not(.gizli)) .bildirim {
 .gnc-ekle .gnc-baslik { color: var(--iyi, #2e7d5b); }
 .gnc-cikar .gnc-baslik { color: var(--kotu, #b3402f); }
 
+/* Sürüm geçmişi. Tek tek sürümler ince bir çizgiyle ayrılıyor: liste uzun
+   olduğu için nerede bittiği belli olmalı. Panelin kendisi zaten kayıyor
+   (.ortu max-height: 88dvh), burada ikinci bir kaydırma kutusu YOK — iç içe
+   iki kaydırma telefonda parmağı hangisinin yakalayacağını belirsizleştirir. */
+.gnc-ozet { font-size: 12.5px; color: var(--cok-soluk); text-align: left;
+  margin: 10px 0 0; padding-bottom: 12px; border-bottom: 1px solid var(--cizgi); }
+.gnc-surum { border-top: 1px solid var(--cizgi); padding-top: 12px; margin-top: 16px; }
+/* İlk sürüm özet satırının hemen altında: çizgiyi özet zaten çiziyor,
+   ikincisi çift çizgi olurdu. */
+.gnc-surum:first-child { border-top: 0; padding-top: 0; margin-top: 16px; }
+.gnc-surum-basi { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.gnc-surum-no { font-size: 14.5px; font-weight: 600; color: var(--yazi); }
+.gnc-surum-tarih { font-size: 12px; color: var(--cok-soluk); }
+.gnc-simdiki { font-size: 10.5px; letter-spacing: .03em; padding: 2px 8px;
+  border-radius: 999px; border: 1px solid var(--iyi, #2e7d5b);
+  color: var(--iyi, #2e7d5b); white-space: nowrap; }
+.gnc-surum .gnc-bolum { margin: 8px 0; }
+
 /* ---------- İlk açılış rehberi ----------
    Karartma tek bir elemanla yapılıyor: işaret çerçevesinin devasa bir
    box-shadow'u ekranın geri kalanını kaplıyor. Böylece hedefin üstü

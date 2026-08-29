@@ -2,7 +2,19 @@
   "aciklama": "Her güncellemede ne eklendi, ne düzeldi, ne çıktı. En yeni en üstte. Bu dosya güncelleme kartında okunuyor; boş bırakılamaz, yayınlama betiği kontrol ediyor.",
   "surumler": [
     {
+      "sayi": 125,
+      "tarih": "2026-08-30",
+      "eklendi": [
+        "Gerok → sürüm ve yardım → “Neler değişti” artık bütün geçmişi gösteriyor: her güncelleme numarası, tarihi ve o gün ne değiştiği alt alta. Şu an telefonunda olan sürüm işaretli."
+      ],
+      "duzeldi": [
+        "Güncelleme kartı birkaç sürüm birikmişse hepsinin notunu gösteriyor. Önceden yalnızca en son sürümün notu görünüyordu; arada olan biten hiç görünmüyordu."
+      ],
+      "cikti": []
+    },
+    {
       "sayi": 124,
+      "tarih": "2026-08-30",
       "eklendi": [],
       "duzeldi": [
         "Haritadaki “seyir noktası” yer türü Kürtçede artık “cihê temaşeyê”. Kürtçe yer türlerinin tamamı böylece kontrolden geçmiş oldu."
@@ -11,6 +23,7 @@
     },
     {
       "sayi": 123,
+      "tarih": "2026-08-30",
       "eklendi": [],
       "duzeldi": [
         "İlk açılışta ad soran ekran Kürtçede artık kendini tanıtıyor: “Ez Gerok. Navê te çi ye?”"
@@ -19,6 +32,7 @@
     },
     {
       "sayi": 122,
+      "tarih": "2026-08-30",
       "eklendi": [],
       "duzeldi": [
         "Gezi bilgisi kartlarındaki “Gezginler ne diyor” başlığı Kürtçede artık “Gerok çi dibêjin” — “gerok” zaten gezgin demek, uygulamanın adı da oradan geliyor."
@@ -27,6 +41,7 @@
     },
     {
       "sayi": 121,
+      "tarih": "2026-08-30",
       "eklendi": [],
       "duzeldi": [
         "Kürtçede “çevrimdışı” yeniden bêînternet oldu — bir önceki güncellemede negirêdayî yapılmıştı, geri alındı.",
@@ -36,6 +51,7 @@
     },
     {
       "sayi": 120,
+      "tarih": "2026-08-29",
       "eklendi": [],
       "duzeldi": [
         "Kürtçe sözlük ana dili konuşan biri tarafından baştan sona okundu ve dokuz söz düzeltildi. En çok geçenler: “kayıt/kaydet” artık qeyd / Qeyd bike (tomar değil), “gezi” rêwîtî (geşt değil), “çevrimdışı” negirêdayî (bêînternet değil). Düğmelerde “Vazgeç” Dev jê berde, “Devam” Pêş de oldu.",
@@ -48,6 +64,7 @@
     },
     {
       "sayi": 119,
+      "tarih": "2026-08-29",
       "eklendi": [
         "Kürtçe (Kurmancî) dil desteği. Gerok → bu telefon → Dil'den geçiliyor; seçim telefonda kalıyor ve uygulama Kürtçe açılıyor. Arayüzün tamamı — düğmeler, uyarılar, Gün Sonu ve Gezi Sonu akışları, tanıtım turu, gezi bilgisi kartları — çevrildi.",
         "Kürtçedeyken tarihler Kurmancî yazılıyor: “29ê tebaxa 2026an”, “Şemî”. Ay ve gün adları uygulamanın kendi listesinden geliyor — telefonun Kürtçe bilmesi gerekmiyor.",
@@ -62,6 +79,7 @@
     },
     {
       "sayi": 118,
+      "tarih": "2026-08-28",
       "eklendi": [
         "Tur programının PDF’i doğrudan yüklenebiliyor. Gezi → program dosyası yükle’de artık PDF de kabul ediliyor; yazısı kendiliğinden okunup günlere ve duraklara ayrılıyor. Önceden PDF’i açıp metni elle kopyalaman gerekiyordu.",
         "Program yüklenirken günün başlığındaki duraklar da ayıklanıyor: “3 Gün: Dalyan - Sultaniye Kaplıcaları - İztuzu Plajı” satırından üç durak birden çıkıyor.",
@@ -80,6 +98,7 @@
     },
     {
       "sayi": 117,
+      "tarih": "2026-08-28",
       "eklendi": [
         "İlk açılışta kısa bir tanıtım turu var. Beş-altı adımda gerçek düğmelerin üstünü işaret ederek anlatıyor: sesli not, ortam sesi, haritayı yola çıkmadan indirmek, Yol Modu ve Gün Sonu. Gerok panelinden istediğin zaman baştan izlenebiliyor.",
         "“Gerok’u yapana yaz” diye bir kutu eklendi. Bir şey çalışmıyorsa ya da bir fikrin varsa doğrudan yazıyorsun; telefon numarası bilmeye gerek yok. Adını yazmak isteğe bağlı.",
@@ -94,6 +113,7 @@
     },
     {
       "sayi": 116,
+      "tarih": "2026-08-27",
       "eklendi": [
         "Harita artık DÜNYANIN HER YERİNDE indiriliyor. Önceden yalnızca önceden hazırlanmış bölgeler inebiliyordu; başka bir yere giden kişi “bu bölgeyi iste” deyip beklemek zorundaydı. O bekleme tamamen kalktı.",
         "Alan indirme çubuğunda artık ne kadar süreceği de yazıyor, ve indirirken yüzde görünüyor."
@@ -109,6 +129,7 @@
     },
     {
       "sayi": 115,
+      "tarih": "2026-08-27",
       "eklendi": [],
       "duzeldi": [
         "ÖNEMLİ: Gündüz/Gece/Uydu arasında geçiş yapınca harita bomboş kalıyordu. Tam harita indirme kaldırılınca ortaya çıkan bir hataydı; yalnızca eski tam haritası OLMAYAN telefonlarda görülüyordu, yani yeni kuranlarda.",
@@ -118,6 +139,7 @@
     },
     {
       "sayi": 114,
+      "tarih": "2026-08-27",
       "eklendi": [
         "“Harita alanı indir” satırı artık önce inen alanların listesini açıyor: hangi alan, ne kadar yer, ne zaman inmiş.",
         "Her alanın yanında Sil düğmesi var. Üst üste binen alanlar birbirini bozmuyor — birini silmek diğerinin karolarına dokunmuyor.",
@@ -130,6 +152,7 @@
     },
     {
       "sayi": 113,
+      "tarih": "2026-08-27",
       "eklendi": [
         "Gerok sekmesinde “Eski tam harita” satırı: telefonunda duran 375 MB’lık eski harita artık gereksiz, tek dokunuşla silip yer açabiliyorsun.",
         "Her harita bölgesi ayrı bir dosya oldu. Yeni bir bölge eklemek mevcutlara dokunmuyor ve kimseye yeniden indirtmiyor."
@@ -143,6 +166,7 @@
     },
     {
       "sayi": 112,
+      "tarih": "2026-08-27",
       "eklendi": [
         "Harita artık internet varken HİÇ İNDİRMEDEN çalışıyor. Uzaktaki dosyadan yalnızca ekranda görünen parça okunuyor.",
         "Gerok sekmesine “Harita alanı indir” eklendi. Haritada gideceğin yeri ekrana getir, “Bu alanı indir” de — yalnızca o alan iniyor.",
@@ -158,6 +182,7 @@
     },
     {
       "sayi": 111,
+      "tarih": "2026-08-27",
       "eklendi": [
         "Gerok sekmesine “Kullanım sayıları” eklendi. Haftada bir kez birkaç sayı gidiyor: kaç kez açıldı, kaç kayıt var, hata çıktı mı, hangi sürüm, hangi telefon.",
         "Satıra dokununca giden şeyin tamamı görünüyor ve tek dokunuşla kapatılabiliyor.",
@@ -169,6 +194,7 @@
     },
     {
       "sayi": 110,
+      "tarih": "2026-08-27",
       "eklendi": [
         "Kara kutu: uygulama artık kendi hatalarını telefonda kaydediyor. Bugüne kadar bir şey kırıldığında o bilgi hiçbir yerde durmuyordu.",
         "Gerok sekmesine “Sorun bildir” eklendi. Gönderilecek şeyin tamamı önce ekranda gösteriliyor; okuyup gönderiyorsun.",
@@ -180,6 +206,7 @@
     },
     {
       "sayi": 109,
+      "tarih": "2026-08-27",
       "eklendi": [
         "Gerok sekmesinde “Sürüm ve yardım” altına “Uygulamayı paylaş” eklendi. Arkadaşına uygulamanın bağlantısını gönderiyor; mesajın içinde “Safari’de aç, Ana Ekrana Ekle de” yazıyor — başka tarayıcıda kurulmuyor.",
         "Paylaşılan şey yalnızca uygulamanın genel adresi. Gezi, kayıtlar, duraklar ve isimler bu bağlantıda yok; telefondan hiçbir şey çıkmıyor."
@@ -189,6 +216,7 @@
     },
     {
       "sayi": 108,
+      "tarih": "2026-08-25",
       "eklendi": [],
       "duzeldi": [
         "\"Yedeği sına\" 184'e kadar sayıp zaman çizgisine düşüyordu: telefonun belleği yetmiyordu. Artık dosyaları tek tek okuyor, sonucu yazıyor.",
@@ -201,6 +229,7 @@
     },
     {
       "sayi": 107,
+      "tarih": "2026-08-25",
       "eklendi": [
         "Her yedekten sonra doğrulama: dosyayı geri seçiyorsun, uygulama açıp sayıyor ve telefondakiyle karşılaştırıyor.",
         "Gerok panelinde yedek satırı artık \"doğrulandı\" mı yoksa \"DOĞRULANMADI\" mı olduğunu yazıyor.",
@@ -213,6 +242,7 @@
     },
     {
       "sayi": 106,
+      "tarih": "2026-08-25",
       "eklendi": [
         "Yedek hatırlatıcısı artık Gün Sonu'ndan bağımsız: son yedekten sonra yeni kayıt varsa günde bir kez soruyor.",
         "Gün Sonu'nun ilk adımında güvence yazıyor: hiçbir adım kayıt silmez, günü kapatmaz, istediğin yerde çıkabilirsin."
@@ -225,6 +255,7 @@
     },
     {
       "sayi": 105,
+      "tarih": "2026-08-25",
       "eklendi": [
         "Güncelleme kartı artık ne eklendiğini, ne düzeldiğini ve ne çıkarıldığını yazıyor.",
         "Gerok sekmesine \"Neler değişti\" eklendi — kartı kaçırsan da sonradan okuyabilirsin."
@@ -234,6 +265,7 @@
     },
     {
       "sayi": 104,
+      "tarih": "2026-08-25",
       "eklendi": [
         "Son turu arşivlemeden önce uyarı: ekranların boşalacağı ve kayıtların duracağı önceden söyleniyor."
       ],
@@ -244,6 +276,7 @@
     },
     {
       "sayi": 103,
+      "tarih": "2026-08-25",
       "eklendi": [
         "Bekçi artık rehberinin hangi bölgeyi anlattığını biliyor."
       ],
@@ -254,6 +287,7 @@
     },
     {
       "sayi": 102,
+      "tarih": "2026-08-23",
       "eklendi": [
         "Duraklar ekranı, ekleme anını kaçırmış duraklar için bir kez bilgi soruyor.",
         "Bekçi durak listesinde bilmediklerini de sayıyor."
@@ -263,6 +297,7 @@
     },
     {
       "sayi": 101,
+      "tarih": "2026-08-23",
       "eklendi": [],
       "duzeldi": [
         "Durak eklerken bildirim çıkmıyor, liste tazelenmiyor ve bekçi soru sormuyordu — eski bir hata sessizce patlıyordu.",

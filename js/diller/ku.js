@@ -491,6 +491,9 @@ export const KU = {
   'Bu ses henüz çevrilmedi. <b>Çevirme Mac\'te yapılıyor</b> — bedava, internetsiz, ses telefondan çıkmıyor. Bir sonraki arşivlemede kendiliğinden çevrilecek. Beklemek istemiyorsan aşağıya kendin yazabilirsin.':
     'Ev deng hîn nehatiye veguhastin. <b>Veguhastin li ser Macê tê kirin</b> — belaş, bêînternet, deng ji telefonê dernakeve. Di arşîvkirina bê de bi xwe wê were veguhastin. Ger tu naxwazî bisekinî tu dikarî bi xwe li jêr binivîsî.',
   'Bu sürümün notu yok.': 'Nota vê guhertoyê tune.',
+  'Sürüm notu bulunamadı.': 'Nota guhertoyê nehate dîtin.',
+  '{0} güncelleme · {1} tarihinden beri': '{0} rojanekirin · ji {1} ve',
+  'şu an sendeki': 'niha li te',
   'Bu süzgeçle kayıt yok.': 'Bi vê parzûnê qeyd tune.',
   'Bu telefon': 'Ev telefon',
   'Bu tura geç': 'Derbasî vê rêwîtiyê bibe',
