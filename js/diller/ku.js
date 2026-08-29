@@ -30,6 +30,10 @@
 //   anıt          bîrdarî           (peyker değil)
 //   iskele        keştîgeh          (bender değil)
 //   kale          kela              (kelhe değil)
+//   Burayı işaretle  Vir nîşan bike  (Li vir nîşan bike değil)
+//   Tanıştık      Me hev nas kir    (Em hev nas kirin değil)
+//   tutar         hejmar            (mîqdar değil — ödünç söz istenmedi)
+//   ulaşım        rê                (hatûçû/veguhastin değil)
 //   Gezginler     Gerok             (geştiyar değil — "gerok" zaten
 //                                   gezgin demek, uygulamanın adı da o)
 // "çevrimdışı" bir ara negirêdayî yapıldı, 30 Ağustos'ta
@@ -149,8 +153,8 @@ export const KU = {
   'Süresini sen seç · konuşma, sadece dinlet':
     'Dema wê tu hilbijêre · neaxive, tenê bide guhdarkirin',
   'Yazı': 'Nivîs',
-  'Burayı işaretle': 'Li vir nîşan bike',
-  'Tanıştık': 'Em hev nas kirin',
+  'Burayı işaretle': 'Vir nîşan bike',
+  'Tanıştık': 'Me hev nas kir',
   'Harcama': 'Xerc',
   'Fotoğraf ekle': 'Wêne zêde bike',
   'Yol Modu': 'Moda Rê',
@@ -504,8 +508,8 @@ export const KU = {
   'Bulunamadı.': 'Nehate dîtin.',
   'Bulunduğun yer durak yapıldı': 'Cihê ku tu lê yî bû rawestgeh',
   'Burayı durak yap': 'Vir bike rawestgeh',
-  'Burayı işaretle · konum bulunamadı': 'Li vir nîşan bike · cih nehate dîtin',
-  'Burayı işaretle · {0}, {1}': 'Li vir nîşan bike · {0}, {1}',
+  'Burayı işaretle · konum bulunamadı': 'Vir nîşan bike · cih nehate dîtin',
+  'Burayı işaretle · {0}, {1}': 'Vir nîşan bike · {0}, {1}',
   'Bütün geziler': 'Hemû rêwîtî',
   'DOĞRULANMADI': 'NEHATE PIŞTRASTKIRIN',
   'Daha önce yazdıkların ({0})': 'Yên ku te berê nivîsandine ({0})',
@@ -1210,5 +1214,22 @@ export const KU = {
   'Akşam günlüğü': 'Rojnivîska êvarê',
   'Sıradan kare': 'Kareya asayî',
   'Sınır geçişi': 'Derbasbûna sînor',
+
+  // -------------------------------------------------- harcama paneli ---
+  // 30 Ağustos 2026: bu panel hiç ç ile sarılmamıştı, Kürtçede olduğu gibi
+  // Türkçe görünüyordu. "para birimi = yekeya diravî" ve "cuda cuda tên
+  // berhevkirin" sözlükte zaten vardı, onlara uyduruldu.
+  'Ne alındı': 'Çi hate kirîn',
+  'Tutar ve para birimi': 'Hejmar û yekeya diravî',
+  'Tutar ve para birimi ayrı ayrı toplanır.':
+    'Hejmar û yekeyên diravî cuda cuda tên berhevkirin.',
+  'Kategori': 'Kategorî',
+  'Öğle yemeği': 'Firavîn',
+  'yemek': 'xwarin',
+  'ulaşım': 'rê',
+  'konaklama': 'mayîn',
+  'giriş/müze': 'ketin/mûze',
+  'alışveriş': 'kirîn',
+  'diğer': 'yên din',
 
 };

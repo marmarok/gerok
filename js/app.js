@@ -5,7 +5,7 @@
 // Neden önbelleğin adına bakmıyoruz: yeni sürüm indiğinde önbellek adı değişiyor
 // ama ekrandaki kod hâlâ eski oluyor — uygulama kendini güncellenmiş sanıyordu.
 // Bu satır ekrandaki dosyanın içinde olduğu için yalan söyleyemiyor.
-const BU_SURUM = 'gerok-125-20260830-004858';
+const BU_SURUM = 'gerok-126-20260830-020000';
 
 import * as veri from './veri.js';
 import * as iz from './iz.js';
@@ -666,7 +666,8 @@ function aranabilirMetin(k) {
           // `yazi` = ses kaydının yazıya çevrilmiş hâli. Aramanın asıl kazancı
           // bu: "Ohrid'de ne demiştik" sorusunun cevabı kaydın İÇİNDE.
           k.yazi,
-          k.kategori, k.sahipAd, veri.TURLER[k.tur] || k.tur]
+          k.kategori, k.sahipAd, veri.TURLER[k.tur] || k.tur,
+          ç(veri.TURLER[k.tur] || k.tur), k.kategori && ç(k.kategori)]
     .filter(Boolean).join(' ').toLocaleLowerCase('tr');
 }
 
@@ -789,8 +790,8 @@ function zamanCizgisiCiz() {
       // Turun dışında kalan gün. Rozet ne olduğunu söylüyor: "Gerok dışı"
       // hiçbir şey anlatmıyordu, kaydın kaybolduğu izlenimini veriyordu.
       gunAdi = gerok.tarihUzun(grupZamani);
-      rozet = !s ? 'Tur yok'
-        : grupZamani > turSonu ? 'Tur bittikten sonra'
+      rozet = !s ? ç`Tur yok`
+        : grupZamani > turSonu ? ç`Tur bittikten sonra`
         : grupZamani < turBasi ? ç`Tur başlamadan önce`
         : ç`Turun günlerinin dışında`;
     }
@@ -1258,7 +1259,8 @@ function dalgaCubuklari(id) {
 // tek cümle olunca deftere yazılmış gibi.
 function kayitCumlesi(k) {
   if (k.tur === 'fiyat') {
-    return [k.metin, [k.tutar, k.paraBirimi].filter(Boolean).join(' '), k.kategori]
+    return [k.metin, [k.tutar, k.paraBirimi].filter(Boolean).join(' '),
+            k.kategori && ç(k.kategori)]
       .filter(Boolean).join(' · ');
   }
   // `k.ad` DEĞİL `k.metin`: tanışma kaydında ad `metin` alanına yazılıyor
@@ -1271,7 +1273,7 @@ function kayitCumlesi(k) {
 }
 
 function kayitSatiri(k) {
-  const tur = veri.TURLER[k.tur] || k.tur;
+  const tur = ç(veri.TURLER[k.tur] || k.tur);
   // Yer adı çözülmüşse koordinatın NEREDEN geldiğini söylemenin anlamı
   // kalmıyor — adın kendisi daha çok şey anlatıyor. Küre işareti yalnızca
   // burada çıkıyor. Ad elle de yazılmış olabilir; kullanıcı için ikisi de
@@ -4553,21 +4555,24 @@ function fiyatSor() {
   const sonPara = durum.sonParaBirimi || '';
 
   ortuAc(`
-    <div class="ortu-baslik">Harcama</div>
-    <div class="ortu-alt">Tutar ve para birimi ayrı ayrı toplanır.</div>
-    <div class="girdi-etiket">Ne alındı</div>
-    <input class="girdi" id="fiyatNe" placeholder="Öğle yemeği">
-    <div class="girdi-etiket">Tutar ve para birimi</div>
+    <div class="ortu-baslik">${ç`Harcama`}</div>
+    <div class="ortu-alt">${ç`Tutar ve para birimi ayrı ayrı toplanır.`}</div>
+    <div class="girdi-etiket">${ç`Ne alındı`}</div>
+    <input class="girdi" id="fiyatNe" placeholder="${kacis(ç`Öğle yemeği`)}">
+    <div class="girdi-etiket">${ç`Tutar ve para birimi`}</div>
     <div class="girdi-cift">
       <input class="girdi" id="fiyatTutar" placeholder="480" inputmode="decimal">
       <input class="girdi" id="fiyatPara" placeholder="MKD" value="${kacis(sonPara)}">
     </div>
-    <div class="girdi-etiket">Kategori</div>
+    <div class="girdi-etiket">${ç`Kategori`}</div>
     <div class="secenekler" id="fiyatKategori">
       ${kayit.HARCAMA_KATEGORILERI.map((k, i) =>
-        `<button class="kucuk-dugme ${i === 0 ? 'secili' : ''}" data-kategori="${kacis(k)}">${kacis(k)}</button>`).join('')}
+        // data-kategori TÜRKÇE kalıyor: o kaydın içine yazılan VERİ. Ekranda
+        // görünen ad çevriliyor, saklanan değer değil — yoksa dil değişince
+        // eski kayıtların kategorisi tanınmaz olur.
+        `<button class="kucuk-dugme ${i === 0 ? 'secili' : ''}" data-kategori="${kacis(k)}">${kacis(ç(k))}</button>`).join('')}
     </div>
-    <button class="eylem-dugme birincil" id="fiyatKaydet">Kaydet</button>
+    <button class="eylem-dugme birincil" id="fiyatKaydet">${ç`Kaydet`}</button>
   `);
   setTimeout(() => $('#fiyatNe').focus(), 120);
 

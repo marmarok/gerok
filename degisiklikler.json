@@ -2,6 +2,18 @@
   "aciklama": "Her güncellemede ne eklendi, ne düzeldi, ne çıktı. En yeni en üstte. Bu dosya güncelleme kartında okunuyor; boş bırakılamaz, yayınlama betiği kontrol ediyor.",
   "surumler": [
     {
+      "sayi": 126,
+      "tarih": "2026-08-30",
+      "eklendi": [],
+      "duzeldi": [
+        "Kürtçedeyken Türkçe kalan ekranlar düzeldi. Harcama penceresinin tamamı — başlıklar, “Ne alındı”, kategoriler — artık Kürtçe. Zaman çizgisindeki kayıt türleri de öyle: “Mühürlü mektup”, “Buradayım”, “Bitiş kaydı” gibi etiketler Kürtçe yazılıyor.",
+        "Gün başlıklarındaki “Tur yok” ve “Tur bittikten sonra” yazıları Kürtçeye çevrildi; dördünden ikisi çevrilmeden kalmıştı.",
+        "“Burayı işaretle” artık “Vir nîşan bike”, “Tanıştık” artık “Me hev nas kir”.",
+        "Kürtçedeyken arama, kayıt türünün hem Türkçesini hem Kürtçesini buluyor. Öncesinde Kürtçe yazan aradığını bulamıyordu."
+      ],
+      "cikti": []
+    },
+    {
       "sayi": 125,
       "tarih": "2026-08-30",
       "eklendi": [
