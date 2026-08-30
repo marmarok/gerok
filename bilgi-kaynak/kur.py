@@ -158,6 +158,9 @@ def _sade(m):
         "ı": "i", "ğ": "g", "ü": "u", "ş": "s", "ö": "o", "ç": "c",
         "â": "a", "î": "i", "û": "u", "đ": "d", "ć": "c", "č": "c",
         "ž": "z", "š": "s", "ë": "e", "á": "a", "é": "e",
+        # ê Kurmancînin en sık harflerinden. Çizelgede yokken boşluğa
+        # dönüyordu: "dîrok" aranırken "d rok" oluyordu.
+        "ê": "e",
     })
     m = str(m or "").replace("İ", "i").replace("I", "ı").lower().translate(HARF)
     return re.sub(r"\s+", " ", re.sub(r"[^a-z0-9 ]+", " ", m)).strip()
