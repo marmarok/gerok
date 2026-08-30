@@ -398,5 +398,53 @@
   "kisa": "Bir gezinin tamamı: günleri, durakları, kayıtları.",
   "uzun": "Uygulamanın adı da bu. Her gezi ayrı bir Gerok; defterler birbirine karışmıyor. Kürtçede 'gezgin, dolaşan' anlamına gelir.",
   "oyku": "uygulama"
+ },
+ "manastır": {
+  "kisa": "Hristiyan keşiş ya da rahibelerin topluca yaşadığı, ibadet ettiği yapı.",
+  "uzun": "Osmanlı'daki tekkenin Hristiyan Ortodoks karşılığı sayılabilir: kilise, keşiş hücreleri, avlu ve çoğu zaman bir kütüphane bir arada bulunur. Balkanlardaki Ortodoks manastırları — Deçani, Peć Patrikhanesi, Gračanica, Cetinje — hem dinî merkez hem de yüzyıllarca hüküm sürmüş hanedanların mezar yeri olmuş.",
+  "oyku": "balkan",
+  "ilgili": [
+   "tekke",
+   "türbe"
+  ]
+ },
+ "KFOR": {
+  "kisa": "1999'dan beri Kosova'da görevli NATO barış gücü.",
+  "uzun": "Kosova Savaşı'nın ardından 1999'da kurulan çok uluslu askerî güç; başlangıçta binlerce askerle geldi, bugün sayısı çok azalmış durumda. Sırp Ortodoks manastırları gibi hassas noktalarda hâlâ nöbet tutuyor; Deçani Manastırı'nın girişindeki kontrol noktası bunlardan biri.",
+  "oyku": "balkan",
+  "ilgili": [
+   "manastır"
+  ]
+ },
+ "via ferrata": {
+  "kisa": "Kayaya sabitlenmiş demir basamak ve halatlarla yapılan güvenlikli tırmanış.",
+  "uzun": "İtalyanca 'demir yol' demek. Dağcılık deneyimi gerektirmiyor: tırmanan kişi bir emniyet kemeriyle sabit halata bağlı kalıyor. Rugova Kanyonu'ndaki rotalar bu teknikle 2010'larda kuruldu ve rehber eşliğinde, kiralık ekipmanla yapılıyor.",
+  "oyku": "balkan"
+ },
+ "pršut": {
+  "kisa": "Açık havada tuzlanıp tütsülenerek kurutulmuş domuz jambonu.",
+  "uzun": "Balkanların İtalyan prosciutto'suna karşılığı. Sırbistan'da Zlatibor, Karadağ'da Njeguši köyü kendi pršut'uyla ünlü; ikisi de dağ havasında aylarca kurutuluyor. İnce dilimlenip kaymak ve peynirle birlikte tabakta sunuluyor.",
+  "oyku": "balkan",
+  "ilgili": [
+   "kajmak"
+  ]
+ },
+ "kulen": {
+  "kisa": "Kırmızı biberle baharatlanmış, sert kurutulmuş Voyvodina sucuğu.",
+  "uzun": "Domuz etinden yapılır, kırmızı tatlı biber ve sarımsakla baharatlanıp aylarca kurutulur. Voyvodina ve komşu Hırvatistan'ın Slavonya bölgesinin ortak geleneği; ince dilimlenip kendi başına ya da ekmekle yeniyor.",
+  "oyku": "balkan"
+ },
+ "bermet": {
+  "kisa": "Sremski Karlovci kasabasına özgü, baharatlı tatlı bir tahkim edilmiş şarap.",
+  "uzun": "Kırmızı üzüm şarabına adaçayı, tarçın, karanfil gibi baharatlar ve bal katılarak yapılır; geçmişte Avusturya-Macaristan sarayına bile gönderildiği anlatılır. Yalnızca Sremski Karlovci'de üretiliyor, başka hiçbir yerde aynı isimle bulunmuyor.",
+  "oyku": "balkan"
+ },
+ "gibanica": {
+  "kisa": "Katmanlı yufka ve peynirle yapılan Sırp kahvaltılık böreği.",
+  "uzun": "Yufka katları arasına peynir ve yumurta karışımı dökülüp fırınlanır; burekten farkı doldurulmuş rulo değil, tepside katman katman pişmesi. Sabah kahvaltısının klasiklerinden.",
+  "oyku": "balkan",
+  "ilgili": [
+   "burek"
+  ]
  }
 }

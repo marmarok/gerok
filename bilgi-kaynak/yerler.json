@@ -888,43 +888,77 @@
   "eslesme": [
    "novi sad"
   ],
-  "ozet": "Tuna kıyısında, Petrovaradin Kalesi'yle bilinen Voyvodina başkenti.",
-  "neden": "Belgrad'dan 80 km. Avusturya-Macaristan mimarisi baskın; Belgrad'dan daha düzenli ve sakin.",
-  "tarih": "Petrovaradin Kalesi 18. yy Avusturya işi; 'Tuna'nın Cebelitarık'ı' denir.",
+  "ozet": "Tuna kıyısında, Petrovaradin Kalesi ve tersine işleyen saat kulesiyle bilinen, yazın EXIT Festivali'ne ev sahipliği yapan Voyvodina başkenti.",
+  "neden": "Petrovaradin Kalesi, Habsburg İmparatorluğu'nun en güçlü kalesi sayılırdı ve 'Tuna'nın Cebelitarık'ı' lakabını buradan alır — Tuna kıyısındaki kayalık burnun üstüne kurulmuş, altında kilometrelerce tünel var. Kalenin saat kulesindeki tuhaflık şehrin simgesi olmuş: küçük ibre saati, büyük ibre dakikayı gösteriyor, yani alışılanın tersi — Tuna'daki gemicilerin saati uzaktan da rahat okuyabilmesi için, göze ilk çarpan büyük ibreye önemli olan saat verilmiş. Kale her Temmuz'da EXIT Festivali'nin sahnesi oluyor; surlar ve hendekler onlarca sahneye dönüşüyor ve Avrupa'nın büyük yaz festivallerinden biri sayılıyor.",
+  "tarih": "Kale arazisinde Roma döneminden beri tahkimat var; 13. yüzyılda Sistersiyen keşişleri genişletti, 1526'da Osmanlı, 1687'de Habsburglar aldı. Bugünkü yıldız biçimli kale I. Leopold döneminde 1692'de başlayıp aralıklarla 1780'e kadar, yaklaşık 88 yılda inşa edildi; yoğun dönemlerde günde onlarca işçinin öldüğü anlatılır. EXIT Festivali ilk kez 2000'de bir öğrenci protestosu olarak başladı, zamanla kaleyi kullanan uluslararası bir müzik festivaline dönüştü.",
   "gez": [
    {
-    "ad": "Petrovaradin Kalesi",
-    "not": "Saat kulesi tersine çalışıyor — akrep dakikayı gösteriyor.",
+    "ad": "Petrovaradin Kalesi ve saat kulesi",
+    "not": "Giriş ücretsiz; tersine işleyen saat kulesine yakından bak.",
     "sure": "1 saat"
    },
    {
+    "ad": "Yer altı tünelleri",
+    "not": "Yaklaşık 16 km'lik ağın küçük bir bölümü Şehir Müzesi turuyla geziliyor.",
+    "sure": "45 dk",
+    "fiyat": "Müze bileti ~300 RSD"
+   },
+   {
     "ad": "Dunavska sokağı",
-    "not": "",
+    "not": "Yaya caddesi, kafeler ve butikler.",
     "sure": "30 dk"
    }
   ],
   "ye": [
    {
-    "ad": "Voyvodina mutfağı",
-    "ne": "Macar etkisi, paprika ağırlıklı.",
-    "fiyat": "700–1200 RSD",
+    "ad": "Riblja çorba",
+    "ne": "Tuna ve Tisa nehirlerinin balığından yapılan, biberli balık çorbası.",
+    "fiyat": "400–700 RSD",
+    "not": "Voyvodina'ya özgü."
+   },
+   {
+    "ad": "Kulen",
+    "ne": "Kırmızı biberli, sert kurutulmuş Voyvodina sucuğu.",
+    "fiyat": "Tabak 500–900 RSD",
+    "not": "Bazı yerlerde pizza üstünde bile kullanılıyor."
+   },
+   {
+    "ad": "Gibanica",
+    "ne": "Katmanlı yufka ve peynirle yapılan kahvaltılık börek.",
+    "fiyat": "150–300 RSD",
     "not": ""
    }
   ],
   "al": [
    {
-    "ad": "Şarap",
-    "ne": "Fruška Gora bağları.",
+    "ad": "Fruška Gora şarabı",
+    "ne": "Novi Sad'a 20 dakika mesafedeki bağlardan.",
     "fiyat": "600–2000 RSD",
-    "dikkat": "Bavula."
+    "dikkat": "Bavula; el bagajına sıvı olarak giremez."
+   },
+   {
+    "ad": "Bermet",
+    "ne": "Sremski Karlovci kasabasına özgü, baharatlı ve tatlı bir tahkim edilmiş şarap.",
+    "fiyat": "800–2500 RSD",
+    "dikkat": "Başka hiçbir yerde bulunmayan, bölgeye özgü bir ürün; bavula."
    }
   ],
   "gezgin": [
-   "Belgrad'dan günübirlik yapılabilir."
+   "Belgrad'dan tren en hızlı ve genelde en ucuz seçenek; yolculuk yaklaşık 1 saat sürüyor.",
+   "Temmuz'da EXIT Festivali varsa şehirdeki konaklama fiyatları birkaç katına çıkıyor; festival dışı bir tarih daha sakin ve ucuz bir ziyaret demek.",
+   "Kale girişi ücretsiz ama yer altı tünelleri yalnız Şehir Müzesi turuyla geziliyor, kendi başına inilemiyor.",
+   "Fruška Gora bağlarına turlar Dunavska civarından kalkıyor; kendi aracınla gitmek de kolay, bağlar 20 dakika mesafede.",
+   "Sremski Karlovci küçük ve yürüyerek gezilebiliyor; Novi Sad'dan yarım günlük bir ek gezi olarak eklenebilir."
   ],
-  "dikkat": [],
-  "turkiye": "Belgrad'dan ucuz.",
-  "terim": []
+  "dikkat": [
+   "Haziran ayı yağışlı geçebiliyor, yürüyüş planı yaparken hava durumuna bak."
+  ],
+  "turkiye": "Belgrad'dan ucuz; şarap ve kulen gibi mahalli ürünler Türkiye'de bulunmayan lezzetler.",
+  "terim": [
+   "kulen",
+   "bermet",
+   "gibanica"
+  ]
  },
  {
   "id": "nis",
@@ -3164,48 +3198,72 @@
    "ipek",
    "peć"
   ],
-  "ozet": "Rugova Kanyonu'nun ağzında, patrikhanesi ve çarşısıyla bilinen şehir.",
-  "neden": "Peć Patrikhanesi Sırp Ortodoks Kilisesi'nin tarihî merkezi ve UNESCO listesinde. Rugova Kanyonu doğa yürüyüşü için Kosova'nın en iyisi.",
-  "tarih": "Osmanlı'da İpek. Çarşı hâlâ çalışıyor.",
+  "ozet": "Rugova Kanyonu'nun ağzında, Sırp Ortodoks kilisesinin tarihî merkezi Peć Patrikhanesi ve çalışan Osmanlı çarşısıyla bilinen şehir.",
+  "neden": "Peja iki farklı dünyanın kesiştiği yer. Şehrin hemen batısında, Rugova Kanyonu'na girmeden 2 km önce Peć Patrikhanesi duruyor: dört kubbeli kilisenin art arda eklenerek büyüdüğü, yüzyıllarca Sırp Ortodoks Kilisesi'nin merkezi olmuş bir manastır kompleksi. Şehrin içindeyse Osmanlı çarşısı hâlâ nefes alıyor — 1999'da yakılan dükkânların çoğu aslına uygun yeniden yapıldı ve demirci, terzi gibi birkaç eski zanaat ayakta. İkisi arasında yarım saatlik bir yürüyüş var ama iki dünya birbirinden bu kadar farklı olabiliyor.",
+  "tarih": "Patrikhane 13. yüzyılda kuruldu; 1557'de Sırp Patrikliği burada yeniden tesis edildi ve 1766'ya kadar kilisenin resmî merkezi oldu, bugün de törensel makam olarak kullanılıyor. 2006'da Dečani ve Gračanica manastırlarıyla birlikte UNESCO'nun 'Kosova'daki Ortaçağ Anıtları' listesine ve aynı anda 'tehlike altındaki miras' listesine girdi. Şehrin Osmanlı dönemindeki adı İpek'ti; çarşı 1943'te İtalyan işgal kuvvetlerince, 1999'da da savaşta yakıldı ve her seferinde yeniden kuruldu.",
   "gez": [
    {
     "ad": "Peć Patrikhanesi",
-    "not": "13. yy freskleri.",
+    "not": "13. yüzyıl freskleri; şehir merkezinden yaklaşık 2 km, yürüyerek ya da taksiyle.",
     "sure": "45 dk"
    },
    {
     "ad": "Eski Çarşı",
-    "not": "",
+    "not": "Yeniden kurulmuş ama hâlâ çalışan birkaç zanaat dükkânı var.",
     "sure": "45 dk"
    },
    {
-    "ad": "Rugova Kanyonu",
-    "not": "",
+    "ad": "Rugova Kanyonu girişi",
+    "not": "Şehrin hemen batısında; yarım günlük bir gezi için ayrı zaman ayır.",
     "sure": "yarım gün"
    }
   ],
   "ye": [
    {
-    "ad": "Ev yemeği",
-    "ne": "",
+    "ad": "Ev yemeği (byrek, flija)",
+    "ne": "Küçük lokantalarda, aile işletmesi tarzında.",
     "fiyat": "4–8 €",
     "not": ""
+   },
+   {
+    "ad": "Qebapa (ızgara köfte)",
+    "ne": "Somun ekmek ve soğanla, Kosova'nın kendi ćevapi'si.",
+    "fiyat": "3–5 €",
+    "not": "Ucuz ve hızlı, öğle arası için iyi."
    }
   ],
   "al": [
    {
     "ad": "Deri ve dokuma",
-    "ne": "Çarşıda.",
+    "ne": "Çarşıda birkaç dükkânda.",
     "fiyat": "10–50 €",
-    "dikkat": ""
+    "dikkat": "El işi ile fabrika üretimini ayırmak zor, dikişe yakından bak."
+   },
+   {
+    "ad": "Bal ve reçel",
+    "ne": "Rugova bölgesinin dağ balı.",
+    "fiyat": "5–12 €",
+    "dikkat": "Cam kavanoz; bavula koy, el bagajına giremez."
    }
   ],
-  "gezgin": [],
-  "dikkat": [],
-  "turkiye": "Ucuz.",
+  "gezgin": [
+   "Patrikhaneye girerken pasaport ya da kimlik isteniyor, girişte bırakılıp çıkışta geri alınıyor.",
+   "Kadınların omuz ve dizleri kapalı olmalı; başörtüsü orada zorunlu değil ama takmak isteyenler için hazır bulunuyor.",
+   "Patrikhane ile Dečani Manastırı'nı (15 km güneyde) karıştırma — ikisi ayrı yerler, ikisinin de kendi kontrol noktası var.",
+   "Ziyaret saatleri sabit değil, bazı günler öğleden önce kapalı kalabiliyor; şehirden çıkmadan telefonla ya da otelde teyit etmek boşa gitmeyi önlüyor.",
+   "Taksiler taksimetre kullanmıyor, binmeden fiyatı söyletmek gerekiyor."
+  ],
+  "dikkat": [
+   "Patrikhane çevresinde fotoğraf çekimi kısıtlı olabiliyor, girişte uyarı varsa uy.",
+   "Çarşı yeniden yapılmış olduğu için 'orijinal Osmanlı' beklentisiyle gitme, çoğu bina yeni."
+  ],
+  "turkiye": "Yemek Kosova'nın genelinde olduğu gibi Türkiye'ye yakın fiyatta, kahve daha ucuz. Deri ve dokuma Türkiye'dekiyle benzer ya da biraz altında.",
   "terim": [
    "çarşı",
-   "UNESCO Dünya Mirası"
+   "UNESCO Dünya Mirası",
+   "manastır",
+   "flia",
+   "byrek"
   ]
  },
  {
@@ -3220,42 +3278,67 @@
    "yakova",
    "đakovica"
   ],
-  "ozet": "Balkanların en uzun eski çarşılarından birine sahip şehir.",
-  "neden": "Çarşı (Çarshia e Madhe) 1999'da yakıldı ve aslına uygun yeniden kuruldu; bugün ahşap dükkânlarıyla ayakta.",
-  "tarih": "16. yüzyıldan beri ticaret merkezi. Hadum Camii 1594.",
+  "ozet": "1999'da neredeyse tamamen yakılıp aslına uygun yeniden kurulan, Balkanların en büyük Osmanlı çarşılarından birine sahip şehir.",
+  "neden": "Çarşı (Çarshia e Madhe) 16. yüzyıldan beri bölgenin ticaret merkeziydi ve yaklaşık 500 ahşap dükkânla Güneydoğu Avrupa'nın en büyük tarihî çarşılarından sayılırdı. 1999'da savaşta 400'den fazla dükkân yakıldı; savaş sonrası bağışlar ve uluslararası yardımla aslına uygun yeniden kuruldu, ama onarım hâlâ tam bitmiş değil — bugün de restorasyon bekleyen düzinelerce bina var. Yine de dükkânları gezip semerci, boru ustası, ahşap kutu yapımcısı gibi birkaç eski zanaatı iş başında görmek mümkün.",
+  "tarih": "Çarşının kökeni 16. yüzyıla dayanıyor. Ortasındaki Hadum Camii 1594–95'te Hadum Süleyman Efendi tarafından yaptırıldı; 1999'da caminin bitişiğindeki külliye ve yüzyıllarca eski el yazması eser barındıran kütüphanesi tamamen yandı, yalnızca caminin kendisi ve minaresi ayakta kaldı. Cami 2005'te, kütüphane binası ise 2016'da yeniden hizmete açıldı.",
   "gez": [
    {
-    "ad": "Büyük Çarşı",
-    "not": "",
+    "ad": "Büyük Çarşı (Çarshia e Madhe)",
+    "not": "Yeniden kurulmuş ahşap dükkânlar; birkaç eski zanaat hâlâ çalışıyor.",
     "sure": "1 saat"
    },
    {
     "ad": "Hadum Camii",
-    "not": "",
+    "not": "1594 yapımı; 1999'da hasar gördü, 2005'te onarıldı.",
+    "sure": "20 dk"
+   },
+   {
+    "ad": "Geleneksel kule evler (kulla)",
+    "not": "Taş kule evlerden biri çarşı yakınında ziyarete açık.",
     "sure": "20 dk"
    }
   ],
   "ye": [
    {
     "ad": "Çarşı lokantaları",
-    "ne": "",
+    "ne": "Qebapa ve qyfte (köfte), pitalka ekmeğiyle.",
     "fiyat": "3–7 €",
+    "not": "Kaymak (kajmak) eşliğinde yeniyor."
+   },
+   {
+    "ad": "Kahvaltı tabağı",
+    "ne": "Peynir, bal, reçel ve taze ekmekle geniş bir sofra; çoğu pansiyon sunuyor.",
+    "fiyat": "4–6 €",
     "not": ""
    }
   ],
   "al": [
    {
-    "ad": "El işi",
-    "ne": "",
-    "fiyat": "—",
+    "ad": "Semerci ve deri işi",
+    "ne": "Çarşıdaki az sayıda kalan geleneksel atölyeler.",
+    "fiyat": "10–40 €",
+    "dikkat": "Gerçek atölye ürünü ile ithal malı ayırt etmek için üretim yerini sor."
+   },
+   {
+    "ad": "El işi ahşap kutu",
+    "ne": "Çarşının eski zanaatlarından biri.",
+    "fiyat": "5–25 €",
     "dikkat": ""
    }
   ],
-  "gezgin": [],
-  "dikkat": [],
-  "turkiye": "Ucuz.",
+  "gezgin": [
+   "Çarşının tamamı restore edilmiş değil; bazı sokaklarda hâlâ iskele ve kapalı dükkân görebilirsin, bu bir eksiklik değil sürecin bir parçası.",
+   "Yerel turizm ofisinden ayarlanan kısa yürüyüş turu, kule evler ve tekkeyi de kapsıyor; kendi başına gezmekten daha fazlasını gösteriyor.",
+   "Genç yerliler İngilizce konuşuyor, yaşlı esnafla iletişim işaretle ya da birkaç Arnavutça kelimeyle daha kolay.",
+   "Şehir Priştine ve Prizren kadar turistik değil; bu da fiyatların daha gerçekçi kalması demek."
+  ],
+  "dikkat": [
+   "Çarşının bazı köşeleri hâlâ inşaat hâlinde; akşam ışık az, gündüz gezmek daha iyi."
+  ],
+  "turkiye": "Kosova'nın geneli gibi ucuz; Priştine'den bile daha ucuz kalıyor.",
   "terim": [
-   "çarşı"
+   "çarşı",
+   "kajmak"
   ]
  },
  {
@@ -3644,5 +3727,282 @@
   "dikkat": [],
   "turkiye": "Ohrid'e göre ucuz.",
   "terim": []
+ },
+ {
+  "id": "decani-manastiri",
+  "ad": "Deçani Manastırı (Visoki Dečani)",
+  "ulke": "XK",
+  "lat": 42.5469,
+  "lon": 20.2661,
+  "yaricap": 1200,
+  "eslesme": [
+   "deçani",
+   "dečani",
+   "visoki dečani",
+   "deçani manastırı",
+   "dečani manastırı"
+  ],
+  "ozet": "Balkanların en büyük ortaçağ kilisesi; İtalyan taş ustalarının elinden çıkmış cephesi ve binlerce fresk sahnesiyle bilinen, kurucusu bir kralın türbesi olan Sırp Ortodoks manastırı.",
+  "neden": "Dıştan bakınca bir kilise değil, İtalyan bir katedral gibi duruyor: yapıyı bir Fransisken keşiş olan Kotorlu Vita yönetmiş ve duvarları kırmızı-mor, sarı ve oniks renkli mermer bloklarla örmüş — Balkan Ortodoks mimarisiyle Adriyatik taş işçiliğinin bu kadar iç içe geçtiği başka bir yapı yok. İçeri girince bambaşka bir şey karşılıyor: 1.000'den fazla fresk sahnesi 4.000 metrekareden geniş bir alanı kaplıyor ve Bizans resim sanatının Balkanlardaki en zengin, en iyi korunmuş örneklerinden sayılıyor. Kilisenin ortasında kurucusu Kral III. Stefan Dečanski'nin mermer lahdi duruyor; manastır aynı zamanda onun türbesi.",
+  "tarih": "İnşaata 1327'de Kral III. Stefan Dečanski'nin emriyle başlandı. Kral 1331'de öldü, yapı yarım kalmış hâliyle oğlu Stefan Dušan tarafından 1335'e kadar tamamlandı; duvar resimleri ise 1350'ye kadar sürdü. 2004'te, Peć Patrikhanesi, Gračanica Manastırı ve Prizren'deki Meryem Ana Kilisesi'yle birlikte UNESCO'nun 'Kosova'daki Ortaçağ Anıtları' listesine girdi; bu dört yapı 2006'dan beri bölgenin siyasi durumu gerekçesiyle aynı zamanda 'tehlike altındaki miras' listesinde de yer alıyor.",
+  "gez": [
+   {
+    "ad": "Kilise iç mekânı ve freskler",
+    "not": "1.000'den fazla sahne; içerisi loş, gözün alışması birkaç dakika alıyor.",
+    "sure": "30–40 dk"
+   },
+   {
+    "ad": "III. Stefan Dečanski'nin lahdi",
+    "not": "Kilisenin ortasında, kurucu kralın mermer mezarı.",
+    "sure": "10 dk"
+   },
+   {
+    "ad": "Manastır avlusu ve surlar",
+    "not": "Keşişlerin günlük yaşamının sürdüğü sade avlu.",
+    "sure": "15 dk"
+   }
+  ],
+  "ye": [
+   {
+    "ad": "Deçan kasabası lokantaları",
+    "ne": "Manastırda yiyecek satılmıyor; en yakın seçenek yaklaşık 2 km ötedeki kasaba merkezi.",
+    "fiyat": "4–8 €",
+    "not": "Manastır içinde büfe ya da kafe yok, susuz kalma."
+   }
+  ],
+  "al": [
+   {
+    "ad": "Yok",
+    "ne": "Manastırda satış yapılan bir yer yok.",
+    "fiyat": "—",
+    "dikkat": "Alışveriş için gelinecek yer değil."
+   }
+  ],
+  "gezgin": [
+   "Girişte bir kontrol noktasında kimlik ya da pasaport isteniyor ve çıkışta geri veriliyor; yanında taşımayı unutma.",
+   "2026 itibarıyla bu noktada yıllardır görev yapan KFOR askerlerinin yanına Kosova polisi de eklenmiş durumda; kontrolü kimin yaptığı zamanla değişebilir, telaşlanma.",
+   "Kadınların omuz ve dizleri kapalı olmalı, başörtüsü genelde girişte veriliyor; erkeklerin şort giymemesi öneriliyor.",
+   "İçeride fotoğraf çekimi güne göre değişebiliyor — kimse söylemeden çekmeye başlama, girişte sor.",
+   "Giriş ücretsiz ve bağış kutusu var; bazen bir keşiş gönüllü eşlik ediyor ama bu garanti değil, gelmezse kendi başına gezilir."
+  ],
+  "dikkat": [
+   "Bölge siyasi olarak hassas; Sırp-Arnavut gerginliğine dair yorumdan kaçınmak gerekiyor.",
+   "Manastır aktif bir ibadet yeri; ayin sırasında sessiz kalınmalı."
+  ],
+  "turkiye": "Giriş ücretsiz, bu yüzden Türkiye'deki benzer ücretli ziyaret yerlerinden ucuz kalıyor; kasabada yemek Kosova ortalamasında, yani Türkiye'ye yakın.",
+  "terim": [
+   "manastır",
+   "KFOR",
+   "UNESCO Dünya Mirası"
+  ]
+ },
+ {
+  "id": "rugova-kanyonu",
+  "ad": "Rugova Kanyonu",
+  "ulke": "XK",
+  "lat": 42.6922,
+  "lon": 20.1686,
+  "yaricap": 6000,
+  "eslesme": [
+   "rugova",
+   "rugova kanyonu",
+   "rugova gorge",
+   "rugova canyon"
+  ],
+  "ozet": "Peja'nın hemen batısında, Kartal Dağları'na doğru uzanan, Avrupa'nın en uzun ve en derin kanyonlarından biri.",
+  "neden": "Peja'nın batı ucundan başlayıp Karadağ sınırına doğru tırmanan yol, bu rotanın en çarpıcı sürüşlerinden biri: kanyon 25 kilometre boyunca kâh daralıyor kâh açılıyor, duvarları yer yer 1.000 metreye yaklaşıyor. Yol asfalt ve araçla gidiliyor ama asıl deneyim durup yürümekte — birkaç noktada nehir üstünde gerilmiş bir zipline ve tırmanma deneyimi gerektirmeyen via ferrata rotaları kurulmuş, ikisi de rehber ve ekipmanla yapılıyor.",
+  "tarih": "Kanyon, Prokletije (Kartal Dağları) sıradağının kireçtaşı arazisinde binlerce yıllık akarsu aşındırmasıyla oluştu. Bölge 1999 sonrası doğa turizmine açıldı; zipline ve via ferrata hatları 2010'ların ortasında İtalyan teknik desteğiyle kuruldu.",
+  "gez": [
+   {
+    "ad": "Kanyon yolu",
+    "not": "Peja'dan başlayıp Karadağ sınırına yaklaşan asfalt yol; kendi aracınla ya da turla gidiliyor.",
+    "sure": "yarım gün"
+   },
+   {
+    "ad": "Zipline",
+    "not": "Nehir üstünde yaklaşık 640 metre, tek seferde 1 dakika sürüyor.",
+    "sure": "15 dk",
+    "fiyat": "~10 €"
+   },
+   {
+    "ad": "Via ferrata",
+    "not": "Sertifikalı rehber ve ekipmanla; önceden tırmanma deneyimi gerekmiyor, 10 yaş üstüne açık.",
+    "sure": "2–3 saat",
+    "fiyat": "Kişi başı 15–30 €, grup büyüklüğüne göre değişiyor"
+   }
+  ],
+  "ye": [
+   {
+    "ad": "Kanyon girişi kafeleri",
+    "ne": "Peja çıkışında birkaç yol kenarı lokanta ve kafe.",
+    "fiyat": "4–8 €",
+    "not": "Kanyonun içinde yiyecek satan yer yok, su ve atıştırmalık yanında taşı."
+   }
+  ],
+  "al": [
+   {
+    "ad": "Yok",
+    "ne": "Doğa alanı, alışveriş noktası yok.",
+    "fiyat": "—",
+    "dikkat": ""
+   }
+  ],
+  "gezgin": [
+   "Zipline ve via ferrata için en az bir gün öncesinden rezervasyon gerekiyor; yaz sezonunda gün içi boş yer bulmak zor.",
+   "Fiyat kişi sayısına göre değişiyor — grup ne kadar büyükse kişi başı o kadar ucuzluyor, rezervasyonda netleştir.",
+   "Kanyon yolu dar ve virajlı; kışın kar ve buzla kapanabiliyor, gitmeden yol durumunu sor.",
+   "Kartal Dağları'nın Karadağ ve Arnavutluk'a uzanan yüksek kesimlerinde eski mayın uyarı tabelaları var — işaretli patikadan çıkma."
+  ],
+  "dikkat": [
+   "Hava kanyon içinde hızlı değişiyor, katmanlı giyin.",
+   "Nehre yakın zeminler kaygan."
+  ],
+  "turkiye": "Zipline ve via ferrata fiyatları Türkiye'deki benzer aktivitelere göre ucuz kalıyor.",
+  "terim": [
+   "via ferrata"
+  ]
+ },
+ {
+  "id": "zlatibor",
+  "ad": "Zlatibor",
+  "ulke": "RS",
+  "lat": 43.7264,
+  "lon": 19.7,
+  "yaricap": 12000,
+  "eslesme": [
+   "zlatibor"
+  ],
+  "ozet": "Batı Sırbistan'ın en sevilen dağ tatil beldesi; göl kıyısı, geleneksel köy müzesi ve sekiz rakamı çizerek tırmanan tarihî treniyle bilinir.",
+  "neden": "Zlatibor, denize kıyısı olmayan Sırbistan'ın dağ tatili demek. Şehrin ortasındaki yapay göl çevresinde kafeler ve yürüyüş yolu var, kalabalık burada toplanıyor. Asıl özgün taraf biraz dışarıda: Sirogojno köyünde 19. yüzyıldan kalma dağ evleri yıkılmaktan kurtarılıp bir açık hava müzesinde bir araya toplanmış; Mokra Gora'daki Şargan Sekizi treni ise düz gidip mesafe kazanmak yerine sekiz rakamı çizerek dağa tırmanan, tünel ve viyadüklerle dolu bir dar hatlı demiryolu.",
+  "tarih": "Bölge 19. yüzyılda dağ havası ve süt ürünleriyle tanınan bir yayla köyüydü. Şargan Sekizi, Avusturya-Macaristan döneminde kurulan dar hatlı demiryolu ağının bir parçasıydı; hat sonradan kapandı ve turistik amaçla yeniden işletmeye açıldı, bugün müze-tren olarak sefer yapıyor.",
+  "gez": [
+   {
+    "ad": "Zlatibor Gölü çevresi",
+    "not": "Kafeler, tekne kiralama, akşamüstü yürüyüşü.",
+    "sure": "1 saat"
+   },
+   {
+    "ad": "Sirogojno Açık Hava Müzesi",
+    "not": "Kasabadan yaklaşık 15 km; toplanmış geleneksel dağ evleri.",
+    "sure": "1–1,5 saat",
+    "fiyat": "Birkaç yüz dinar"
+   },
+   {
+    "ad": "Şargan Sekizi treni (Mokra Gora)",
+    "not": "Kasabadan yaklaşık 30 km; sekiz rakamı çizerek tırmanan dar hatlı tren, tünellerden geçiyor.",
+    "sure": "2 saat",
+    "fiyat": "Yetişkin ~1.500 RSD, çocuk (6–14) ~750 RSD"
+   }
+  ],
+  "ye": [
+   {
+    "ad": "Komplet lepinja",
+    "ne": "Yayvan ekmeğin içine kaymak, yumurta ve istenirse pršut (tütsülenmiş jambon) doldurulmuş dağ kahvaltısı.",
+    "fiyat": "500–600 RSD",
+    "not": "Pršutlusu düz olandan biraz pahalı."
+   },
+   {
+    "ad": "Zlatiborski pršut",
+    "ne": "Bölgeye özgü, açık havada tütsülenerek kurutulmuş jambon.",
+    "fiyat": "Tabak 700–1.200 RSD",
+    "not": "Ekim'de kendi festivali (Pršutijada) var."
+   }
+  ],
+  "al": [
+   {
+    "ad": "Pršut ve kaşkaval peyniri",
+    "ne": "Vakumlu paket hâlinde satılıyor, yola dayanıklı.",
+    "fiyat": "1.500–3.000 RSD/kg",
+    "dikkat": "Et ürünü olduğu için bazı ülkelere girişte gümrük kısıtı olabilir, Türkiye'ye getirirken kontrol et."
+   },
+   {
+    "ad": "Kaymak",
+    "ne": "Kavanozda satılan taze dağ kaymağı.",
+    "fiyat": "300–600 RSD",
+    "dikkat": "Soğuk zincir gerektirir, sıcakta uzun taşıma önerilmez."
+   }
+  ],
+  "gezgin": [
+   "Restoran fiyatları son yıllarda hızla arttı; kişi başı ortalama hesap 1.500–3.000 RSD arasında, merkez meydana ne kadar yakınsa o kadar pahalı.",
+   "Şargan Sekizi bilet fiyatları senede birkaç kez güncelleniyor ve yaz aylarında bilet tükeniyor; önceden internetten almak gerekiyor.",
+   "Tren yolculuğunun yarıya yakını tünellerde geçiyor — manzara beklentisini buna göre ayarla, tren meraklısı değilsen hayal kırıklığı olabiliyor.",
+   "Belgrad'dan otobüsle yaklaşık 3–3,5 saat; seferler sık, biletini önceden almana gerek yok."
+  ],
+  "dikkat": [
+   "Zlatibor 1.000 metre yükseklikte; yazın bile akşamları serinliyor, yanında bir mont bulundur."
+  ],
+  "turkiye": "Konaklama ve genel yeme-içme Türkiye'nin orta ölçekli dağ tatil yerlerine yakın; pršut ve kaymak gibi mahalli ürünler Türkiye'de bulunmayan bir lezzet.",
+  "terim": [
+   "kajmak",
+   "pršut"
+  ]
+ },
+ {
+  "id": "cetinje",
+  "ad": "Cetinje",
+  "ulke": "ME",
+  "lat": 42.3931,
+  "lon": 18.9238,
+  "yaricap": 4000,
+  "eslesme": [
+   "cetinje"
+  ],
+  "ozet": "Karadağ'ın 1918'e kadarki başkenti; Lovćen Dağı eteğinde, manastırı ve eski yabancı elçilik binalarıyla bilinen küçük şehir.",
+  "neden": "Cetinje bir zamanlar bağımsız Karadağ Krallığı'nın başkentiydi ve bunun izleri hâlâ sokaklarda duruyor: küçücük bir kasaba merkezinde, dönemin büyük güçlerinin -Rusya, Avusturya-Macaristan, Fransa, Osmanlı- inşa ettirdiği neoklasik elçilik binaları yan yana sıralanıyor. Cetinje Manastırı'nda ise Hristiyanlığın en önemli emanetlerinden biri korunuyor: Vaftizci Yahya'nın sağ eli. Emanet yüzyıllarca İstanbul'da, sonra Malta Şövalyeleri'nde, ardından Rus çarlarında kalmış, 1952'de bugünkü yerine getirilmiş.",
+  "tarih": "1482'de Zeta Prensi İvan Crnojević, başkentini bugünkü Cetinje'nin bulunduğu vadiye taşıdı; 1484'te manastırın temeli atıldı. 1493'te kurulan Crnojević Matbaası, Güney Slavları arasındaki ilk devlet matbaasıydı ve 1494'te ilk kitabını bastı. 1697'den itibaren Petrović-Njegoš hanedanı yönetimindeki Cetinje, hem Karadağ Ortodoks Kilisesi'nin hem de bağımsız Karadağ Krallığı'nın merkezi oldu; başkentlik 1918'e kadar sürdü, bugün de ülkenin 'eski başkenti' unvanını taşıyor.",
+  "gez": [
+   {
+    "ad": "Cetinje Manastırı",
+    "not": "Vaftizci Yahya'nın eli ve Gerçek Haç'tan bir parça burada.",
+    "sure": "30–40 dk"
+   },
+   {
+    "ad": "Eski elçilik binaları",
+    "not": "Kasaba merkezinde yan yana; bugün müze, okul ya da kültür merkezi olarak kullanılıyor.",
+    "sure": "30 dk"
+   },
+   {
+    "ad": "Karadağ Ulusal Müzesi",
+    "not": "Birkaç ayrı binaya yayılmış; kraliyet tarihi bölümü öne çıkıyor.",
+    "sure": "1 saat",
+    "fiyat": "3–8 €"
+   }
+  ],
+  "ye": [
+   {
+    "ad": "Kasaba lokantaları",
+    "ne": "Karadağ ev yemekleri, ızgara ve Njeguši jambonu.",
+    "fiyat": "8–15 €",
+    "not": "Kotor ve Budva'ya göre belirgin ucuz."
+   },
+   {
+    "ad": "Njeguši jambonu ve peyniri",
+    "ne": "Yakın köy Njeguši'den, tütsülenmiş domuz jambonu ve sert peynir.",
+    "fiyat": "Tabak 6–10 €",
+    "not": "Bölgenin en tanınmış ürünü."
+   }
+  ],
+  "al": [
+   {
+    "ad": "İkona ve el işi",
+    "ne": "Manastır çevresindeki küçük dükkânlarda.",
+    "fiyat": "5–40 €",
+    "dikkat": "Manastırın kendi ürettiği ile dışarıdan gelen turistik kopyayı karıştırma; sorması yeterli."
+   }
+  ],
+  "gezgin": [
+   "Kotor ya da Budva'dan günübirlik kolayca yapılıyor; iki şehirle birleştirip tek günde gezenler çok.",
+   "Kotor'dan çıkan meşhur 25 virajlı dağ yolu (Kotor Serpantini) haritada kısa görünüyor ama tur otobüsleri yüzünden yavaş ilerliyor; sollama yeri yok, sabırlı ol.",
+   "Manastıra girerken omuz ve dizler kapalı olmalı; diğer Ortodoks manastırlarında olduğu gibi kadınlara başörtüsü isteniyor.",
+   "Müze giriş ücretleri binaya göre değişiyor, tek bilet hepsini kapsamıyor — hangi binaları göreceğine göre gişede sor."
+  ],
+  "dikkat": [
+   "Kasaba küçük ve sakin; akşam kapanan yer çok, geceyi Kotor ya da Budva'da geçirmek daha pratik."
+  ],
+  "turkiye": "Kotor ve Budva'ya göre belirgin ucuz; müze giriş ücretleri Türkiye'deki benzer müzelerle yakın.",
+  "terim": [
+   "manastır",
+   "pršut"
+  ]
  }
 ]
