@@ -1,16 +1,16 @@
 {
  "bicim": 1,
- "zaman": "2026-08-30T11:33:13+03:00",
+ "zaman": "2026-08-30T11:35:16+03:00",
  "kadans": "gunluk",
  "durum": "sorun",
  "sayilar": {
   "kontrol": 109,
-  "sinama": 2752,
+  "sinama": 2751,
   "gecen": 107,
   "bilinen": 1,
   "sorun": 1,
-  "sure": 108.6,
-  "kosu": 142
+  "sure": 110.8,
+  "kosu": 143
  },
  "sorunlar": [
   {
@@ -37,7 +37,7 @@
   "bekci": {
    "gecen": 9,
    "toplam": 9,
-   "sinama": 83
+   "sinama": 82
   },
   "yedek": {
    "gecen": 1,
@@ -87,9 +87,9 @@
  },
  "derin": {
   "kadans": "gunluk",
-  "zaman": "2026-08-30T11:33:13+03:00",
+  "zaman": "2026-08-30T11:35:16+03:00",
   "kontrol": 109,
-  "sinama": 2752,
+  "sinama": 2751,
   "gecen": 107,
   "sorun": 1,
   "gruplar": {
@@ -101,7 +101,7 @@
    "bekci": {
     "gecen": 9,
     "toplam": 9,
-    "sinama": 83
+    "sinama": 82
    },
    "yedek": {
     "gecen": 1,
@@ -348,12 +348,6 @@
  ],
  "gecmis": [
   {
-   "t": "2026-08-27T03:24:52+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
-  {
    "t": "2026-08-27T12:50:11+03:00",
    "k": "saatlik",
    "g": 5,
@@ -583,6 +577,12 @@
   },
   {
    "t": "2026-08-30T11:33:13+03:00",
+   "k": "gunluk",
+   "g": 107,
+   "n": 109
+  },
+  {
+   "t": "2026-08-30T11:35:16+03:00",
    "k": "gunluk",
    "g": 107,
    "n": 109
