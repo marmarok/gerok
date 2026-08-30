@@ -1,26 +1,18 @@
 {
  "bicim": 1,
- "zaman": "2026-08-30T11:40:03+03:00",
+ "zaman": "2026-08-30T11:42:52+03:00",
  "kadans": "gunluk",
- "durum": "sorun",
+ "durum": "bilinen",
  "sayilar": {
   "kontrol": 109,
-  "sinama": 2751,
-  "gecen": 107,
+  "sinama": 2752,
+  "gecen": 108,
   "bilinen": 1,
-  "sorun": 1,
-  "sure": 113.8,
-  "kosu": 145
+  "sorun": 0,
+  "sure": 113.4,
+  "kosu": 146
  },
- "sorunlar": [
-  {
-   "ad": "Yayınlanmamış değişiklik yok",
-   "onem": "orta",
-   "oyku": "yayin",
-   "not": "2 dosya: s/diller/ku.js, surum.json",
-   "onarilabilir": false
-  }
- ],
+ "sorunlar": [],
  "bilinenler": [
   {
    "ad": "Math.min(...dizi) yığın taşması",
@@ -30,9 +22,9 @@
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 14,
+   "gecen": 15,
    "toplam": 15,
-   "sinama": 143
+   "sinama": 144
   },
   "bekci": {
    "gecen": 9,
@@ -87,16 +79,16 @@
  },
  "derin": {
   "kadans": "gunluk",
-  "zaman": "2026-08-30T11:40:03+03:00",
+  "zaman": "2026-08-30T11:42:52+03:00",
   "kontrol": 109,
-  "sinama": 2751,
-  "gecen": 107,
-  "sorun": 1,
+  "sinama": 2752,
+  "gecen": 108,
+  "sorun": 0,
   "gruplar": {
    "yayin": {
-    "gecen": 14,
+    "gecen": 15,
     "toplam": 15,
-    "sinama": 143
+    "sinama": 144
    },
    "bekci": {
     "gecen": 9,
@@ -151,13 +143,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "17d8782d1ab9",
-   "t": 1787664610753,
-   "onem": "sorun",
-   "baslik": "2 sorun buldum",
-   "govde": "• [kritik] Zamanlayıcı ayakta\n   saatlik: son koşu 1 ile bitti · alti: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`\n• [yuksek] iCloud köprüsü okunabiliyor\n   izin yok — telefondan gelen emirler SESSİZCE düşüyor. Sistem Ayarları → Gizlilik → Tam Disk Erişimi → /usr/bin/python3"
-  },
   {
    "id": "aa4a1b791eb1",
    "t": 1787665238165,
@@ -325,6 +310,13 @@
    "onem": "sorun",
    "baslik": "1 sorun buldum",
    "govde": "• [orta] Yayınlanmamış değişiklik yok\n   2 dosya: s/diller/ku.js, surum.json"
+  },
+  {
+   "id": "b76ba10f9528",
+   "t": 1788079372690,
+   "onem": "iyi",
+   "baslik": "Söylediğim sorunlar kapandı",
+   "govde": "Hepsi geçti. 108/109 kontrol · 2752 ayrı sınama."
   }
  ],
  "bekleyen": [],
@@ -337,12 +329,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-08-27T13:55:15+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
   {
    "t": "2026-08-27T16:06:37+03:00",
    "k": "haftalik",
@@ -575,6 +561,12 @@
    "t": "2026-08-30T11:40:03+03:00",
    "k": "gunluk",
    "g": 107,
+   "n": 109
+  },
+  {
+   "t": "2026-08-30T11:42:52+03:00",
+   "k": "gunluk",
+   "g": 108,
    "n": 109
   }
  ]
