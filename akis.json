@@ -1,6 +1,6 @@
 {
  "bicim": 1,
- "zaman": "2026-08-30T11:35:16+03:00",
+ "zaman": "2026-08-30T11:38:02+03:00",
  "kadans": "gunluk",
  "durum": "sorun",
  "sayilar": {
@@ -9,15 +9,15 @@
   "gecen": 107,
   "bilinen": 1,
   "sorun": 1,
-  "sure": 110.8,
-  "kosu": 143
+  "sure": 110.9,
+  "kosu": 144
  },
  "sorunlar": [
   {
-   "ad": "Kurmancî sözlüğü tam",
-   "onem": "yuksek",
-   "oyku": "kod",
-   "not": "2 çeviri eksik: ['app.js: Tur bittikten sonra', 'app.js: Tur yok']",
+   "ad": "Yayınlanmamış değişiklik yok",
+   "onem": "orta",
+   "oyku": "yayin",
+   "not": "1 dosya: s/diller/ku.js",
    "onarilabilir": false
   }
  ],
@@ -27,10 +27,12 @@
    "not": "app.js:764; app.js:4976; gerok.js:448; sihirbaz.js:454; sihirbaz.js:455; sihirbaz.js:456 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
   }
  ],
- "onarilan": [],
+ "onarilan": [
+  "surum.json diskle uyuşuyor: ✓ surum.json yazıldı — 61 dosya, 5721 KB, sürüm gerok-126-20260830-020000"
+ ],
  "gruplar": {
   "yayin": {
-   "gecen": 15,
+   "gecen": 14,
    "toplam": 15,
    "sinama": 143
   },
@@ -50,7 +52,7 @@
    "sinama": 23
   },
   "kod": {
-   "gecen": 10,
+   "gecen": 11,
    "toplam": 11,
    "sinama": 1497
   },
@@ -87,14 +89,14 @@
  },
  "derin": {
   "kadans": "gunluk",
-  "zaman": "2026-08-30T11:35:16+03:00",
+  "zaman": "2026-08-30T11:38:02+03:00",
   "kontrol": 109,
   "sinama": 2751,
   "gecen": 107,
   "sorun": 1,
   "gruplar": {
    "yayin": {
-    "gecen": 15,
+    "gecen": 14,
     "toplam": 15,
     "sinama": 143
    },
@@ -114,7 +116,7 @@
     "sinama": 23
    },
    "kod": {
-    "gecen": 10,
+    "gecen": 11,
     "toplam": 11,
     "sinama": 1497
    },
@@ -151,20 +153,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "1df220fa3d16",
-   "t": 1787663787017,
-   "onem": "sorun",
-   "baslik": "2 sorun buldum",
-   "govde": "• [kritik] Zamanlayıcı ayakta\n   alti: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`\n• [yuksek] telefon_yedegi\n   kontrol çöktü: [Errno 1] Operation not permitted: '~/Library/Mobile Documents/com~apple~CloudDocs/Gerok'"
-  },
-  {
-   "id": "a919ef377dfc",
-   "t": 1787664248847,
-   "onem": "sorun",
-   "baslik": "1 sorun buldum",
-   "govde": "• [kritik] Zamanlayıcı ayakta\n   alti: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`"
-  },
   {
    "id": "b74695851f8a",
    "t": 1787664591950,
@@ -325,19 +313,23 @@
    "onem": "sorun",
    "baslik": "1 sorun buldum",
    "govde": "• [yuksek] Kurmancî sözlüğü tam\n   2 çeviri eksik: ['app.js: Tur bittikten sonra', 'app.js: Tur yok']"
-  }
- ],
- "bekleyen": [
+  },
   {
-   "id": "473e45bb7c46",
-   "soru": "“Kurmancî sözlüğü tam” kontrolü takılıyor ve kendim onaramadım. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu? (Ayrıntısı panoda duruyor.)",
-   "secenekler": [
-    "Bu bilinen bir durum",
-    "Gerçekten bozuk, bak",
-    "Yanlış alarm"
-   ]
+   "id": "e05dac70e16f",
+   "t": 1788079082437,
+   "onem": "iyi",
+   "baslik": "1 şey onardım",
+   "govde": "• surum.json diskle uyuşuyor: ✓ surum.json yazıldı — 61 dosya, 5721 KB, sürüm gerok-126-20260830-020000\n\nHepsini onardıktan sonra kontrolü yeniden koştum; “onardım” demeden önce onardığımı gördüm."
+  },
+  {
+   "id": "bc7aeb94b928",
+   "t": 1788079082438,
+   "onem": "sorun",
+   "baslik": "1 sorun buldum",
+   "govde": "• [orta] Yayınlanmamış değişiklik yok\n   1 dosya: s/diller/ku.js"
   }
  ],
+ "bekleyen": [],
  "telefonSinamasi": [
   "Sesli not bırak ve ÇAL — sesi duyuyor musun?",
   "Galeriden 3 fotoğraf ekle — çubuk akıyor mu, özet çıkıyor mu?",
@@ -347,12 +339,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-08-27T12:50:11+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
   {
    "t": "2026-08-27T12:50:22+03:00",
    "k": "6saat",
@@ -583,6 +569,12 @@
   },
   {
    "t": "2026-08-30T11:35:16+03:00",
+   "k": "gunluk",
+   "g": 107,
+   "n": 109
+  },
+  {
+   "t": "2026-08-30T11:38:02+03:00",
    "k": "gunluk",
    "g": 107,
    "n": 109
