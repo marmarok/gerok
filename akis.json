@@ -1,80 +1,35 @@
 {
  "bicim": 1,
- "zaman": "2026-08-30T11:42:52+03:00",
- "kadans": "gunluk",
- "durum": "bilinen",
+ "zaman": "2026-08-30T11:43:26+03:00",
+ "kadans": "saatlik",
+ "durum": "iyi",
  "sayilar": {
-  "kontrol": 109,
-  "sinama": 2752,
-  "gecen": 108,
-  "bilinen": 1,
+  "kontrol": 5,
+  "sinama": 37,
+  "gecen": 5,
+  "bilinen": 0,
   "sorun": 0,
-  "sure": 113.4,
-  "kosu": 146
+  "sure": 0.9,
+  "kosu": 147
  },
  "sorunlar": [],
- "bilinenler": [
-  {
-   "ad": "Math.min(...dizi) yığın taşması",
-   "not": "app.js:764; app.js:4976; gerok.js:448; sihirbaz.js:454; sihirbaz.js:455; sihirbaz.js:456 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
-  }
- ],
+ "bilinenler": [],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 15,
-   "toplam": 15,
-   "sinama": 144
+   "gecen": 3,
+   "toplam": 3,
+   "sinama": 6
   },
   "bekci": {
-   "gecen": 9,
-   "toplam": 9,
-   "sinama": 82
-  },
-  "yedek": {
    "gecen": 1,
    "toplam": 1,
-   "sinama": 2
+   "sinama": 8
   },
   "koprü": {
    "gecen": 1,
    "toplam": 1,
    "sinama": 23
-  },
-  "kod": {
-   "gecen": 11,
-   "toplam": 11,
-   "sinama": 1497
-  },
-  "veri": {
-   "gecen": 2,
-   "toplam": 2,
-   "sinama": 9
-  },
-  "gizlilik": {
-   "gecen": 6,
-   "toplam": 6,
-   "sinama": 69
-  },
-  "bilgi": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 458
-  },
-  "sartname": {
-   "gecen": 1,
-   "toplam": 1,
-   "sinama": 410
-  },
-  "depolama": {
-   "gecen": 1,
-   "toplam": 1,
-   "sinama": 1
-  },
-  "davranis": {
-   "gecen": 57,
-   "toplam": 57,
-   "sinama": 57
   }
  },
  "derin": {
@@ -143,13 +98,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "aa4a1b791eb1",
-   "t": 1787665238165,
-   "onem": "uyari",
-   "baslik": "Mac izin bekliyor — senin bir dokunuşun gerek",
-   "govde": "Zamanlanmış bekçi iCloud klasörünü okuyamıyor (macOS gizlilik izni). İki sonucu var: 1) yedeklerini göremiyorum, 2) telefondan \"Claude'a ilet\" dediğinde emir dosyası sessizce düşüyor olabilir. Çözüm: Sistem Ayarları → Gizlilik ve Güvenlik → Tam Disk Erişimi → + → Cmd+Shift+G → /usr/bin/python3 ekle ve aç."
-  },
   {
    "id": "21a26fbee31c",
    "t": 1787666089787,
@@ -317,6 +265,13 @@
    "onem": "iyi",
    "baslik": "Söylediğim sorunlar kapandı",
    "govde": "Hepsi geçti. 108/109 kontrol · 2752 ayrı sınama."
+  },
+  {
+   "id": "9bb7c688001d",
+   "t": 1788079405724,
+   "onem": "iyi",
+   "baslik": "İki sorunu düzelttim",
+   "govde": "Kurmancîde iki gün etiketi (\"Tur yok\", \"Tur bittikten sonra\") bir önceki güncellemede unutulmuştu, hâlâ Türkçeydi — şimdi Kürtçe. Ayrıca gezi rehberinin dal ile Mac arasındaki senkron sorunu (ê harfi düzeltmesi hiç dala gitmemişti) giderildi. Sürüm 127 yayında, bekçi temiz."
   }
  ],
  "bekleyen": [],
@@ -329,12 +284,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-08-27T16:06:37+03:00",
-   "k": "haftalik",
-   "g": 100,
-   "n": 102
-  },
   {
    "t": "2026-08-27T16:14:45+03:00",
    "k": "saatlik",
@@ -568,6 +517,12 @@
    "k": "gunluk",
    "g": 108,
    "n": 109
+  },
+  {
+   "t": "2026-08-30T11:43:26+03:00",
+   "k": "saatlik",
+   "g": 5,
+   "n": 5
   }
  ]
 }
