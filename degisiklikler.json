@@ -2,6 +2,15 @@
   "aciklama": "Her güncellemede ne eklendi, ne düzeldi, ne çıktı. En yeni en üstte. Bu dosya güncelleme kartında okunuyor; boş bırakılamaz, yayınlama betiği kontrol ediyor.",
   "surumler": [
     {
+      "sayi": 127,
+      "tarih": "2026-08-30",
+      "eklendi": [],
+      "duzeldi": [
+        "Bir önceki güncellemede iki yazı unutulmuştu: gün başlıklarındaki “Tur yok” ve “Tur bittikten sonra” hâlâ Türkçe kalıyordu. Şimdi ikisi de Kürtçe."
+      ],
+      "cikti": []
+    },
+    {
       "sayi": 126,
       "tarih": "2026-08-30",
       "eklendi": [],
