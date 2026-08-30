@@ -1,6 +1,6 @@
 {
  "bicim": 1,
- "zaman": "2026-08-30T11:38:02+03:00",
+ "zaman": "2026-08-30T11:40:03+03:00",
  "kadans": "gunluk",
  "durum": "sorun",
  "sayilar": {
@@ -9,15 +9,15 @@
   "gecen": 107,
   "bilinen": 1,
   "sorun": 1,
-  "sure": 110.9,
-  "kosu": 144
+  "sure": 113.8,
+  "kosu": 145
  },
  "sorunlar": [
   {
    "ad": "Yayınlanmamış değişiklik yok",
    "onem": "orta",
    "oyku": "yayin",
-   "not": "1 dosya: s/diller/ku.js",
+   "not": "2 dosya: s/diller/ku.js, surum.json",
    "onarilabilir": false
   }
  ],
@@ -27,9 +27,7 @@
    "not": "app.js:764; app.js:4976; gerok.js:448; sihirbaz.js:454; sihirbaz.js:455; sihirbaz.js:456 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
   }
  ],
- "onarilan": [
-  "surum.json diskle uyuşuyor: ✓ surum.json yazıldı — 61 dosya, 5721 KB, sürüm gerok-126-20260830-020000"
- ],
+ "onarilan": [],
  "gruplar": {
   "yayin": {
    "gecen": 14,
@@ -89,7 +87,7 @@
  },
  "derin": {
   "kadans": "gunluk",
-  "zaman": "2026-08-30T11:38:02+03:00",
+  "zaman": "2026-08-30T11:40:03+03:00",
   "kontrol": 109,
   "sinama": 2751,
   "gecen": 107,
@@ -153,13 +151,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "b74695851f8a",
-   "t": 1787664591950,
-   "onem": "sorun",
-   "baslik": "1 sorun buldum",
-   "govde": "• [kritik] Zamanlayıcı ayakta\n   saatlik: son koşu 1 ile bitti · alti: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`"
-  },
   {
    "id": "17d8782d1ab9",
    "t": 1787664610753,
@@ -327,6 +318,13 @@
    "onem": "sorun",
    "baslik": "1 sorun buldum",
    "govde": "• [orta] Yayınlanmamış değişiklik yok\n   1 dosya: s/diller/ku.js"
+  },
+  {
+   "id": "56379096ef59",
+   "t": 1788079203839,
+   "onem": "sorun",
+   "baslik": "1 sorun buldum",
+   "govde": "• [orta] Yayınlanmamış değişiklik yok\n   2 dosya: s/diller/ku.js, surum.json"
   }
  ],
  "bekleyen": [],
@@ -339,12 +337,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-08-27T12:50:22+03:00",
-   "k": "6saat",
-   "g": 34,
-   "n": 35
-  },
   {
    "t": "2026-08-27T13:55:15+03:00",
    "k": "saatlik",
@@ -575,6 +567,12 @@
   },
   {
    "t": "2026-08-30T11:38:02+03:00",
+   "k": "gunluk",
+   "g": 107,
+   "n": 109
+  },
+  {
+   "t": "2026-08-30T11:40:03+03:00",
    "k": "gunluk",
    "g": 107,
    "n": 109
