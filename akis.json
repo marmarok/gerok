@@ -1,54 +1,114 @@
 {
  "bicim": 1,
- "zaman": "2026-08-30T11:25:56+03:00",
- "kadans": "saatlik",
- "durum": "iyi",
+ "zaman": "2026-08-30T11:28:47+03:00",
+ "kadans": "gunluk",
+ "durum": "sorun",
  "sayilar": {
-  "kontrol": 5,
-  "sinama": 37,
-  "gecen": 5,
-  "bilinen": 0,
-  "sorun": 0,
-  "sure": 1.0,
-  "kosu": 140
+  "kontrol": 109,
+  "sinama": 2751,
+  "gecen": 106,
+  "bilinen": 1,
+  "sorun": 2,
+  "sure": 119.9,
+  "kosu": 141
  },
- "sorunlar": [],
- "bilinenler": [],
+ "sorunlar": [
+  {
+   "ad": "Kurmancî sözlüğü tam",
+   "onem": "yuksek",
+   "oyku": "kod",
+   "not": "2 çeviri eksik: ['app.js: Tur bittikten sonra', 'app.js: Tur yok']",
+   "onarilabilir": false
+  },
+  {
+   "ad": "Kurucu iki yerde aynı",
+   "onem": "yuksek",
+   "oyku": "bilgi",
+   "not": "daldaki nüsha Mac'tekinden farklı — yayın kuralları ayrışmış",
+   "onarilabilir": false
+  }
+ ],
+ "bilinenler": [
+  {
+   "ad": "Math.min(...dizi) yığın taşması",
+   "not": "app.js:764; app.js:4976; gerok.js:448; sihirbaz.js:454; sihirbaz.js:455; sihirbaz.js:456 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
+  }
+ ],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 3,
-   "toplam": 3,
-   "sinama": 6
+   "gecen": 15,
+   "toplam": 15,
+   "sinama": 143
   },
   "bekci": {
+   "gecen": 9,
+   "toplam": 9,
+   "sinama": 82
+  },
+  "yedek": {
    "gecen": 1,
    "toplam": 1,
-   "sinama": 8
+   "sinama": 2
   },
   "koprü": {
    "gecen": 1,
    "toplam": 1,
    "sinama": 23
+  },
+  "kod": {
+   "gecen": 10,
+   "toplam": 11,
+   "sinama": 1497
+  },
+  "veri": {
+   "gecen": 2,
+   "toplam": 2,
+   "sinama": 9
+  },
+  "gizlilik": {
+   "gecen": 6,
+   "toplam": 6,
+   "sinama": 69
+  },
+  "bilgi": {
+   "gecen": 4,
+   "toplam": 5,
+   "sinama": 458
+  },
+  "sartname": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 410
+  },
+  "depolama": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 1
+  },
+  "davranis": {
+   "gecen": 57,
+   "toplam": 57,
+   "sinama": 57
   }
  },
  "derin": {
   "kadans": "gunluk",
-  "zaman": "2026-08-29T01:35:22+03:00",
-  "kontrol": 104,
-  "sinama": 1707,
-  "gecen": 103,
-  "sorun": 0,
+  "zaman": "2026-08-30T11:28:47+03:00",
+  "kontrol": 109,
+  "sinama": 2751,
+  "gecen": 106,
+  "sorun": 2,
   "gruplar": {
    "yayin": {
     "gecen": 15,
     "toplam": 15,
-    "sinama": 131
+    "sinama": 143
    },
    "bekci": {
     "gecen": 9,
     "toplam": 9,
-    "sinama": 81
+    "sinama": 82
    },
    "yedek": {
     "gecen": 1,
@@ -62,8 +122,8 @@
    },
    "kod": {
     "gecen": 10,
-    "toplam": 10,
-    "sinama": 516
+    "toplam": 11,
+    "sinama": 1497
    },
    "veri": {
     "gecen": 2,
@@ -73,12 +133,12 @@
    "gizlilik": {
     "gecen": 6,
     "toplam": 6,
-    "sinama": 65
+    "sinama": 69
    },
    "bilgi": {
-    "gecen": 5,
+    "gecen": 4,
     "toplam": 5,
-    "sinama": 416
+    "sinama": 458
    },
    "sartname": {
     "gecen": 1,
@@ -91,20 +151,13 @@
     "sinama": 1
    },
    "davranis": {
-    "gecen": 53,
-    "toplam": 53,
-    "sinama": 53
+    "gecen": 57,
+    "toplam": 57,
+    "sinama": 57
    }
   }
  },
  "mesajlar": [
-  {
-   "id": "8a9da94d8e32",
-   "t": 1787663686264,
-   "onem": "bilgi",
-   "baslik": "O iki soruyu boşuna sordum",
-   "govde": "İkisi de gerçek sorun değildi, benim kontrollerimin hatasıydı. \"Canlı dosyalar\" GitHub yeni sürümü dünyaya dağıtırken bakıyordu — artık bekleyip tekrar soruyor. \"Telefon yedeği\" ise iCloud'un dosya adlandırmasını bilmiyordu; iki yedeğin de yerinde. Cevap vermene gerek yok."
-  },
   {
    "id": "503e74a1e846",
    "t": 1787663764041,
@@ -272,12 +325,28 @@
    "onem": "iyi",
    "baslik": "Söylediğim sorunlar kapandı",
    "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
+  },
+  {
+   "id": "8dde610b822f",
+   "t": 1788078527463,
+   "onem": "sorun",
+   "baslik": "2 sorun buldum",
+   "govde": "• [yuksek] Kurmancî sözlüğü tam\n   2 çeviri eksik: ['app.js: Tur bittikten sonra', 'app.js: Tur yok']\n• [yuksek] Kurucu iki yerde aynı\n   daldaki nüsha Mac'tekinden farklı — yayın kuralları ayrışmış"
   }
  ],
  "bekleyen": [
   {
    "id": "4fbbd1694d81",
    "soru": "“Kurucu iki yerde aynı” kontrolü takılıyor ve kendim onaramadım. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu? (Ayrıntısı panoda duruyor.)",
+   "secenekler": [
+    "Bu bilinen bir durum",
+    "Gerçekten bozuk, bak",
+    "Yanlış alarm"
+   ]
+  },
+  {
+   "id": "473e45bb7c46",
+   "soru": "“Kurmancî sözlüğü tam” kontrolü takılıyor ve kendim onaramadım. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu? (Ayrıntısı panoda duruyor.)",
    "secenekler": [
     "Bu bilinen bir durum",
     "Gerçekten bozuk, bak",
@@ -294,12 +363,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-08-27T02:19:47+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
   {
    "t": "2026-08-27T02:41:56+03:00",
    "k": "6saat",
@@ -533,6 +596,12 @@
    "k": "saatlik",
    "g": 5,
    "n": 5
+  },
+  {
+   "t": "2026-08-30T11:28:47+03:00",
+   "k": "gunluk",
+   "g": 106,
+   "n": 109
   }
  ]
 }
