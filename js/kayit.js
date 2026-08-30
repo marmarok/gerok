@@ -12,12 +12,17 @@ export function sahipAyarla(s) { sahip = s; }
 export function sahipAl() { return sahip; }
 
 // Ortak alanları dolduran tek kapı — her kayıt aynı biçimde çıksın diye.
-async function kayitKur(tur, ekler = {}) {
+// `canliKonum: false` — telefonun ŞU ANKİ konumunu kayda yazma.
+// Sebep: dışarıdan eklenen dosyada (WhatsApp'tan gelen fotoğraf, eski bir ses
+// dosyası) konum yoktur. Oraya bulunduğun yeri yazmak kaydı yanlış bir yere
+// çakılıyor — üstelik "konumsuz" olduğu da anlaşılmıyor, kullanıcıya
+// sorulamıyor. Az önce çekilmiş fotoğrafta ise şu anki konum DOĞRU.
+async function kayitKur(tur, ekler = {}, { canliKonum = true } = {}) {
   const t = ekler.t || Date.now();
   let lat = ekler.lat ?? null, lon = ekler.lon ?? null;
   let konumKaynagi = ekler.konumKaynagi ?? null;
 
-  if (lat == null) {
+  if (lat == null && canliKonum) {
     const k = await suAnkiKonum(8000);
     if (k) { lat = k.lat; lon = k.lon; konumKaynagi = 'gps'; }
   }
@@ -686,10 +691,19 @@ let onizlemesiz = [];
 // iOS de boyamayı erteliyor. Belirtisi tam olarak şuydu: ekran uzun süre
 // kımıldamıyor, sonra sayaç bir anda "18 / 39"da beliriyor ve iş bitiyor.
 // Sayaç aslında her dosyada güncelleniyordu; görünmüyordu.
-const kareBekle = () => new Promise(r =>
-  (typeof requestAnimationFrame === 'function'
-    ? requestAnimationFrame(() => requestAnimationFrame(r))
-    : setTimeout(r, 0)));
+//
+// DİKKAT — sekme arka plandayken requestAnimationFrame HİÇ çalışmıyor.
+// Telefonu cebe koyan ya da başka uygulamaya geçen biri için aktarım orada
+// donuyordu: geri dönene kadar tek dosya bile eklenmiyordu. Ekran görünmüyorsa
+// boyamayı beklemenin zaten anlamı yok; ayrıca rAF gelmezse diye kısa bir
+// süre sonra kendiliğinden devam ediyor.
+const kareBekle = () => new Promise(r => {
+  let bitti = false;
+  const bit = () => { if (bitti) return; bitti = true; r(); };
+  if (typeof requestAnimationFrame !== 'function' || document.hidden) return bit();
+  requestAnimationFrame(() => requestAnimationFrame(bit));
+  setTimeout(bit, 300);
+});
 
 /**
  * Galeriden seçilen dosyaları zaman çizgisine ekler.
@@ -715,6 +729,10 @@ export async function fotoAl(dosyalar, ilerleme = null, ekTur = null, iptalMi = 
     const exif = await exifOku(dosya);
     // Sıralama: EXIF çekim saati > dosyanın kendi tarihi.
     const t = exif.t || dosya.lastModified || Date.now();
+    // EXIF'te çekim saati yoksa elimizdeki tarih bir TAHMİN: WhatsApp'tan
+    // gelen fotoğrafta `lastModified` indirme anıdır, çekim anı değil.
+    // İşaretliyoruz ki sonradan kullanıcıya sorulabilsin.
+    const zamanKaynagi = exif.t ? 'exif' : 'dosya';
 
     let lat = exif.lat ?? null, lon = exif.lon ?? null;
     let konumKaynagi = lat != null ? 'exif' : null;
@@ -738,8 +756,12 @@ export async function fotoAl(dosyalar, ilerleme = null, ekTur = null, iptalMi = 
       onizlemesiz.push(dosya.name || ç`adsız dosya`);
     }
 
+    // Dosya az önce oluştuysa kamerayla YENİ çekilmiştir; o zaman telefonun
+    // şu anki konumu doğrudur. Eski bir dosyaysa değildir.
+    const yeniCekilmis = Date.now() - (dosya.lastModified || 0) < 5 * 60 * 1000;
+
     const kayit = await kayitKur(ekTur || (dosya.type.startsWith('video/') ? 'video' : 'foto'), {
-      t, lat, lon, konumKaynagi,
+      t, lat, lon, konumKaynagi, zamanKaynagi,
       medyaId,
       dosyaAdi: dosya.name,
       dosyaBoyut: dosya.size,
@@ -747,7 +769,7 @@ export async function fotoAl(dosyalar, ilerleme = null, ekTur = null, iptalMi = 
       en: onizleme?.en,
       boy: onizleme?.boy,
       videoSure: onizleme?.sure
-    });
+    }, { canliKonum: yeniCekilmis });
     await kayitEkle(kayit);
     eklenenler.push(kayit);
     } catch (hata) {
@@ -759,6 +781,120 @@ export async function fotoAl(dosyalar, ilerleme = null, ekTur = null, iptalMi = 
 
   ilerleme?.(liste.length, liste.length);
   return eklenenler;
+}
+
+/**
+ * Ses dosyasının uzunluğu. Tarayıcı bazen `Infinity` veriyor (akış olarak
+ * gördüğü dosyalarda); o zaman süreyi bilmiyoruz demek ve 0 dönüyoruz —
+ * yanlış bir sayı yazmaktansa hiç yazmamak doğru.
+ */
+function sesSuresiOku(dosya) {
+  return new Promise((tamam) => {
+    const url = URL.createObjectURL(dosya);
+    const a = new Audio();
+    let bitti = false;
+    const bitir = (sn) => {
+      if (bitti) return;
+      bitti = true;
+      URL.revokeObjectURL(url);
+      tamam(Number.isFinite(sn) && sn > 0 ? sn : 0);
+    };
+    a.addEventListener('loadedmetadata', () => bitir(a.duration));
+    a.addEventListener('error', () => bitir(0));
+    setTimeout(() => bitir(0), 6000);   // bozuk dosya aktarımı kilitlemesin
+    a.preload = 'metadata';
+    a.src = url;
+  });
+}
+
+/**
+ * Telefonda zaten duran ses dosyalarını deftere ekler.
+ *
+ * Fotoğraf aktarımının aynısı, iki farkla: önizleme yok, ve tarih dosyanın
+ * kendi tarihinden geliyor — ses dosyalarında EXIF gibi bir çekim damgası
+ * yok. O yüzden `zamanKaynagi` her zaman 'dosya': tarih bir tahmin ve
+ * kullanıcıya sorulabilir.
+ */
+export async function sesDosyasiAl(dosyalar, ilerleme = null, iptalMi = null) {
+  const iz = await izGetir(aktifGerok()?.id ?? null);
+  const eklenenler = [];
+  const liste = Array.from(dosyalar);
+  basarisiz = [];
+
+  for (let i = 0; i < liste.length; i++) {
+    const dosya = liste[i];
+    if (iptalMi?.()) break;
+    ilerleme?.(i, liste.length, dosya.name || '');
+    await kareBekle();
+    try {
+      const t = dosya.lastModified || Date.now();
+      let lat = null, lon = null, konumKaynagi = null;
+      const bulunan = izdenKonum(iz, t);
+      if (bulunan) { lat = bulunan.lat; lon = bulunan.lon; konumKaynagi = 'iz'; }
+
+      const medyaId = yeniKimlik('m');
+      await medyaYaz(medyaId, dosya);
+
+      const kayit = await kayitKur('ses', {
+        t, lat, lon, konumKaynagi, zamanKaynagi: 'dosya',
+        medyaId,
+        bicim: dosya.type || 'audio/mp4',
+        sure: await sesSuresiOku(dosya),
+        disaridan: true,          // uygulamada kaydedilmedi, dışarıdan geldi
+        dosyaAdi: dosya.name,
+        dosyaBoyut: dosya.size
+      }, { canliKonum: false });
+      await kayitEkle(kayit);
+      eklenenler.push(kayit);
+    } catch (hata) {
+      console.warn('ses dosyası alınamadı:', dosya.name, hata);
+      basarisiz.push(dosya.name || ç`adsız dosya`);
+    }
+  }
+
+  ilerleme?.(liste.length, liste.length);
+  return eklenenler;
+}
+
+/**
+ * Aktarılan kayıtlardan tarihi TAHMİN olan ya da konumu hiç olmayanlar.
+ * Arayüz bunları kullanıcıya sorup tamamlamayı öneriyor — zorunlu değil.
+ */
+export function bilgisiEksikler(kayitlar) {
+  return (kayitlar || []).filter(k =>
+    k.zamanKaynagi === 'dosya' || k.lat == null);
+}
+
+/**
+ * Eksik bilgiyi yazar. İkisi de İSTEĞE BAĞLI: yalnızca verilen alan
+ * yazılıyor, verilmeyene dokunulmuyor.
+ *
+ * Tarih değişince kaydın GÜNÜ de değişmeli — gün numarası saatten
+ * hesaplanıyor, yoksa kayıt eski gününde asılı kalır.
+ */
+export async function bilgiTamamla(kayitlar, { t = null, yerAdi = '' } = {}) {
+  const ad = (yerAdi || '').trim();
+  if (t == null && !ad) return 0;
+  let sayi = 0;
+  for (const k of kayitlar || []) {
+    const yeni = { ...k };
+    if (t != null && k.zamanKaynagi === 'dosya') {
+      // Saati koruyoruz: kullanıcı GÜNÜ söylüyor, dosyanın saati elde
+      // kalan tek ipucu. Gün doğru olunca defterdeki yeri de doğru oluyor.
+      const eski = new Date(k.t);
+      const d = new Date(t);
+      d.setHours(eski.getHours(), eski.getMinutes(), eski.getSeconds(), 0);
+      yeni.t = d.getTime();
+      yeni.gun = gunNo(yeni.t);
+      yeni.zamanKaynagi = 'elle';
+    }
+    if (ad && k.lat == null) {
+      yeni.yerAdi = ad;
+      delete yeni.yerKaynagi;   // elle yazılan ad: adres çözümü üstüne yazmasın
+    }
+    if (yeni.t !== k.t || yeni.yerAdi !== k.yerAdi) { await kayitEkle(yeni); sayi++; }
+  }
+  return sayi;
 }
 
 // Son aktarımda atlanan dosyalar — arayüz bunu kullanıcıya söylüyor.

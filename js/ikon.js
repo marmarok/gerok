@@ -54,6 +54,9 @@ const CIZIMLER = {
   dalga: '<path d="M2.8 9.6c1.6-2.6 3.1-2.6 4.6 0s3.1 2.6 4.6 0 3.1-2.6 4.6 0 3.1 2.6 4.6 0"/>'
        + '<path d="M2.8 15.4c1.6-2.6 3.1-2.6 4.6 0s3.1 2.6 4.6 0 3.1-2.6 4.6 0 3.1 2.6 4.6 0"/>',
 
+  sesPeli: '<path d="M9 18V5.5l10-2V16"/>'
+         + '<circle cx="6.6" cy="18" r="2.4"/><circle cx="16.6" cy="16" r="2.4"/>',
+
   kalem: '<path d="M4 20.1l.9-3.9L16.4 4.7a2.05 2.05 0 0 1 2.9 2.9L7.9 19.2Z"/>'
        + '<path d="M14.6 6.5l2.9 2.9"/>',
 
@@ -110,6 +113,7 @@ const EMOJILER = {
   saat: '📖', harita: '🗺️', arti: '＋', raptiye: '📍', ayarlar: '☰',
   mikrofon: '🎙️', dalga: '🎧', kalem: '✏️', nisan: '🎯', kisi: '🤝',
   fis: '🧾', gorsel: '🖼️', buyutec: '🔍', genislet: '⤢', yildiz: '⭐',
+  sesPeli: '🎵',
   zamanBos: '📖', yolBos: '🗺️'
 };
 const EMOJI = true;

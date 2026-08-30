@@ -1138,7 +1138,7 @@ export const KU = {
   'Önce şimdiki hâli yedekle': 'Pêşî rewşa niha biparêze',
   'Örn. Tarçınlı tatlıyı saat kulesinin yanındaki dükkândan al.':
     'Mînak: şîraniya bi darçîn ji dikana li kêleka birca saetê bikire.',
-  'önizlemesi çıkmadı — zaman çizgisinde resimsiz görünecekler. Saatleri ve yerleri duruyor, "Fotoğrafları aç" düğmesi galeride o ana götürüyor.':
+  'dosyanın önizlemesi çıkmadı — zaman çizgisinde resimsiz görünecekler. Saatleri ve yerleri duruyor, "Fotoğrafları aç" düğmesi galeride o ana götürüyor.':
     'pêşdîtina wan derneket — li xeta demê wê bêwêne xuya bikin. Saet û cihên wan dimînin, bişkoka "Wêneyan veke" te di galeriyê de dibe wê kêliyê.',
   'ör. Ohrid gölünde akşam': 'mînak: êvar li gola Ohridê',
   'İnternet geri geldi': 'Înternet vegeriya',
@@ -1247,5 +1247,35 @@ export const KU = {
   '{0} sınama · hepsi yolunda · {1}': '{0} ceribandin · her tişt baş e · {1}',
   '{0} dk önce': '{0} xulek berê',
   '{0} gün önce': '{0} roj berê',
+
+  // ------------------------------- ses dosyası ekleme · eksik bilgi ---
+  'Ses dosyası ekle': 'Pelê dengî zêde bike',
+  'Ses dosyaları alınıyor': 'Pelên dengî têne wergirtin',
+  'Ses dosyasının kendisi deftere kopyalanıyor — kaynaktan silsen de burada kalır. Dosyalarda çekim saati bulunmadığı için tarih dosyanın kendi tarihinden alınıyor; sonra sana sorulacak.':
+    'Pelê dengî bi xwe li rojnivîskê tê kopîkirin — heke tu ji cihê wî jê bibî jî li vir dimîne. Ji ber ku di pelan de saeta qeydkirinê tune, dîrok ji dîroka pelê bi xwe tê wergirtin; paşê wê ji te were pirsîn.',
+  'Ses dosyaları alınamadı: {0}': 'Pelên dengî nehatin wergirtin: {0}',
+  'Hiçbir ses dosyası eklenemedi ({0} dosya denendi).':
+    'Tu pelê dengî nehate zêdekirin ({0} pel hatin ceribandin).',
+  '{0} ses dosyası eklendi': '{0} pelên dengî hatin zêdekirin',
+  ' · {0} tanesi alınamadı': ' · {0} jê nehatin wergirtin',
+
+  'Ne zaman ve nerede?': 'Kengî û li ku?',
+  '{0} kayıtta çekim tarihi ya da konum yok — WhatsApp\'tan gelen dosyalarda bunlar silinmiş olur.':
+    'Di {0} qeydan de dîroka kişandinê an cih tune — di pelên ku bi WhatsAppê tên de ev tên jêbirin.',
+  '{0} kayıtta çekim tarihi yok; şimdilik dosyanın kendi tarihi yazılı.':
+    'Di {0} qeydan de dîroka kişandinê tune; niha dîroka pelê bi xwe nivîsandî ye.',
+  '{0} kayıtta konum yok.': 'Di {0} qeydan de cih tune.',
+  'İstersen boş bırak — hiçbir şey bozulmaz, sonra da yazabilirsin.':
+    'Ger tu bixwazî vala bihêle — tu tişt xerab nabe, tu dikarî paşê jî binivîsî.',
+  'Neredeydi?': 'Li ku bû?',
+  'Yaz': 'Binivîse',
+  '{0} kayıt güncellendi': '{0} qeyd hatin nûkirin',
+
+  'Orijinaller galeride kalıyor — buraya küçük bir önizleme, çekilme saati ve konum yazılıyor. Büyük fotoğraflarda her biri birkaç saniye sürebilir.':
+    'Yên resen di galeriyê de dimînin — li vir pêşdîtineke biçûk, saeta kişandinê û cih tê nivîsandin. Di wêneyên mezin de her yek dikare çend çirkeyan bidome.',
+  'Fotoğraflar eklendikleri saate değil, çekildikleri saate oturuyor — listede yukarıda olabilirler.':
+    'Wêne ne li saeta ku hatine zêdekirin, li saeta ku hatine kişandin rûdinin — dibe ku di lîsteyê de li jor bin.',
+  '{0} görselin yeri bulunamadı: fotoğrafta konum yok ve iz kaydı o saatte kapalıymış. Haritada elle iğneleyebilirsin.':
+    'Cihê {0} wêneyan nehate dîtin: di wêneyê de cih tune û qeyda şopê wê saetê girtî bûye. Tu dikarî li ser nexşeyê bi destê xwe nîşan bikî.',
 
 };

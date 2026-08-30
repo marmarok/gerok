@@ -5,7 +5,7 @@
 // Neden önbelleğin adına bakmıyoruz: yeni sürüm indiğinde önbellek adı değişiyor
 // ama ekrandaki kod hâlâ eski oluyor — uygulama kendini güncellenmiş sanıyordu.
 // Bu satır ekrandaki dosyanın içinde olduğu için yalan söyleyemiyor.
-const BU_SURUM = 'gerok-128-20260830-121739';
+const BU_SURUM = 'gerok-129-20260830-210145';
 
 import * as veri from './veri.js';
 import * as iz from './iz.js';
@@ -2009,6 +2009,14 @@ function kayitDugmeleriniKur() {
     e.target.value = '';
   });
 
+  $('#btnSesDosya').addEventListener('click', () => $('#sesSecici').click());
+
+  $('#sesSecici').addEventListener('change', async (e) => {
+    if (!e.target.files.length) return;
+    await sesDosyalariniAl(e.target.files);
+    e.target.value = '';
+  });
+
   $('#btnYolModu').addEventListener('click', yolModuDegistir);
 
   // Durak koyma
@@ -2492,9 +2500,7 @@ async function fotograflariAl(dosyalar, tur = null) {
       <span id="fotoKalan"></span>
     </div>
     <div class="ilerleme-dosya" id="fotoDosya">${ç`başlıyor…`}</div>
-    <div class="panel-not">Orijinaller galeride kalıyor — buraya küçük bir önizleme,
-    çekilme saati ve konum yazılıyor. Büyük fotoğraflarda her biri birkaç saniye
-    sürebilir.</div>
+    <div class="panel-not">${ç`Orijinaller galeride kalıyor — buraya küçük bir önizleme, çekilme saati ve konum yazılıyor. Büyük fotoğraflarda her biri birkaç saniye sürebilir.`}</div>
     <button class="eylem-dugme" id="fotoDurdur">${ç`Durdur`}</button>
   `, false);
 
@@ -2552,6 +2558,113 @@ function kalanSureYaz(ms) {
  * aşağıya bakan kişi "gelmedi" sanıyor. Gerçek kayıtlarda fark 12 dakika ile
  * 22 saat arasında değişiyordu.
  */
+/**
+ * Telefonda duran ses dosyalarını deftere ekler. Fotoğraf aktarımının aynısı,
+ * daha sade: önizleme üretilmiyor, o yüzden hızlı.
+ */
+async function sesDosyalariniAl(dosyalar) {
+  const toplam = Array.from(dosyalar).length;
+  if (!toplam) return;
+  let iptal = false;
+
+  ortuAc(`
+    <div class="ortu-baslik">${ç`Ses dosyaları alınıyor`}</div>
+    <div class="ilerleme-yol"><div class="ilerleme-dolu" id="sesCubuk"></div></div>
+    <div class="ilerleme-satir"><span id="sesSayi">0 / ${toplam}</span></div>
+    <div class="ilerleme-dosya" id="sesDosyaAd">${ç`başlıyor…`}</div>
+    <div class="panel-not">${ç`Ses dosyasının kendisi deftere kopyalanıyor — kaynaktan silsen de burada kalır. Dosyalarda çekim saati bulunmadığı için tarih dosyanın kendi tarihinden alınıyor; sonra sana sorulacak.`}</div>
+    <button class="eylem-dugme" id="sesDurdur">${ç`Durdur`}</button>
+  `, false);
+
+  $('#sesDurdur').addEventListener('click', () => {
+    iptal = true;
+    $('#sesDurdur').disabled = true;
+  });
+
+  let eklenen = [];
+  try {
+    eklenen = await kayit.sesDosyasiAl(dosyalar, (yapilan, hepsi, ad) => {
+      const c = $('#sesCubuk'); if (c) c.style.width = `${Math.round(yapilan / hepsi * 100)}%`;
+      const n = $('#sesSayi'); if (n) n.textContent = `${yapilan} / ${hepsi}`;
+      const d = $('#sesDosyaAd'); if (d && !iptal) d.textContent = ad || '…';
+    }, () => iptal) || [];
+  } catch (hata) {
+    ortuKapat();
+    kayitBildir(ç`Ses dosyaları alınamadı: ${hata.message}`, 'kotu');
+    return;
+  }
+
+  await tazele();
+  const atlanan = kayit.sonBasarisizlar();
+  if (!eklenen.length) {
+    ortuKapat();
+    kayitBildir(ç`Hiçbir ses dosyası eklenemedi (${toplam} dosya denendi).`, 'kotu');
+    return;
+  }
+  kayitBildir(ç`${eklenen.length} ses dosyası eklendi` +
+    (atlanan.length ? ç` · ${atlanan.length} tanesi alınamadı` : ''), 'iyi');
+  eksikBilgiSor(eklenen);
+}
+
+/**
+ * Tarihi ya da yeri olmayan kayıtlar için tek bir soru. CEVAP İSTEĞE BAĞLI —
+ * "Geç" düğmesi her zaman duruyor ve boş bırakmak bir şeyi bozmuyor.
+ *
+ * Neden gerekli: WhatsApp'tan gelen fotoğrafta çekim saati de konum da
+ * silinmiş oluyor. Elimizde kalan dosyanın indirilme tarihi — yani yanlış
+ * bir sayı. Bunu sessizce doğruymuş gibi yazmak, on yıl sonra güvenilecek
+ * tek şeyi bozar. Sormak, uydurmaktan iyidir.
+ *
+ * Saat DEĞİŞTİRİLMİYOR, yalnızca gün: kullanıcının bildiği şey gündür.
+ */
+function eksikBilgiSor(kayitlar, sonra = null) {
+  const eksik = kayit.bilgisiEksikler(kayitlar || []);
+  const bitir = () => { ortuKapat(); sonra?.(); };
+  if (!eksik.length) return bitir();
+
+  const tarihsiz = eksik.filter(k => k.zamanKaynagi === 'dosya').length;
+  const yersiz = eksik.filter(k => k.lat == null).length;
+
+  // Varsayılan tarih: eldeki en eski kaydın günü. Kullanıcı çoğu zaman
+  // bunu birkaç gün geri alacak, sıfırdan yazmayacak.
+  const enEski = eksik.reduce((a, k) => Math.min(a, k.t), Infinity);
+  const g = new Date(Number.isFinite(enEski) ? enEski : Date.now());
+  const iso = `${g.getFullYear()}-${String(g.getMonth() + 1).padStart(2, '0')}-${String(g.getDate()).padStart(2, '0')}`;
+
+  ortuAc(`
+    <div class="ortu-baslik">${ç`Ne zaman ve nerede?`}</div>
+    <div class="ortu-alt">${
+      tarihsiz && yersiz
+        ? ç`${eksik.length} kayıtta çekim tarihi ya da konum yok — WhatsApp'tan gelen dosyalarda bunlar silinmiş olur.`
+        : tarihsiz
+          ? ç`${tarihsiz} kayıtta çekim tarihi yok; şimdilik dosyanın kendi tarihi yazılı.`
+          : ç`${yersiz} kayıtta konum yok.`
+    }</div>
+    <div class="panel-not">${ç`İstersen boş bırak — hiçbir şey bozulmaz, sonra da yazabilirsin.`}</div>
+    ${tarihsiz ? `<div class="girdi-etiket">${ç`Hangi gün?`}</div>
+      <input class="girdi" type="date" id="ebTarih" value="${iso}">` : ''}
+    ${yersiz ? `<div class="girdi-etiket">${ç`Neredeydi?`}</div>
+      <input class="girdi" type="text" id="ebYer" placeholder="${kacis(ç`Ohrid, göl kıyısı`)}">` : ''}
+    <button class="eylem-dugme birincil" id="ebYaz">${ç`Yaz`}</button>
+    <button class="eylem-dugme" id="ebGec">${ç`Geç`}</button>
+  `, true, 'eksikbilgi');
+
+  $('#ebGec').addEventListener('click', bitir);
+  $('#ebYaz').addEventListener('click', async () => {
+    const tarihAlan = $('#ebTarih');
+    const yerAlan = $('#ebYer');
+    // Tarih alanına dokunulmadıysa yazmıyoruz: varsayılan değer bir tahmindi,
+    // onaylanmadan gerçekmiş gibi kaydedilmemeli.
+    const t = (tarihAlan && tarihAlan.value && tarihAlan.value !== iso)
+      ? new Date(`${tarihAlan.value}T12:00:00`).getTime() : null;
+    const yer = yerAlan ? yerAlan.value : '';
+    const sayi = await kayit.bilgiTamamla(eksik, { t, yerAdi: yer });
+    bitir();
+    await tazele();
+    if (sayi) kayitBildir(ç`${sayi} kayıt güncellendi`, 'iyi');
+  });
+}
+
 function fotoOzetiAc(eklenen, istenen, iptal) {
   const atlanan = kayit.sonBasarisizlar();
   // Videoların önizlemesi zaten alınamıyor (iOS geçerli videodan da kare
@@ -2600,14 +2713,11 @@ function fotoOzetiAc(eklenen, istenen, iptal) {
     <div class="ozet-nereye">
       <span class="ozet-etiket">${ç`Zaman çizgisinde`}</span>
       ${ç`${kacis(nereye)} hizasına yerleşti`}
-      <span class="ozet-ipucu">Fotoğraflar eklendikleri saate değil, çekildikleri
-      saate oturuyor — listede yukarıda olabilirler.</span>
+      <span class="ozet-ipucu">${ç`Fotoğraflar eklendikleri saate değil, çekildikleri saate oturuyor — listede yukarıda olabilirler.`}</span>
     </div>
-    ${konumsuz ? `<div class="ozet-ipucu tek">${konumsuz} görselin yeri bulunamadı:
-      fotoğrafta konum yok ve iz kaydı o saatte kapalıymış. Haritada elle
-      iğneleyebilirsin.</div>` : ''}
-    ${resimsiz.length ? `<div class="ozet-ipucu tek">${resimsiz.length} dosyanın
-      ${ç`önizlemesi çıkmadı — zaman çizgisinde resimsiz görünecekler. Saatleri ve yerleri duruyor, "Fotoğrafları aç" düğmesi galeride o ana götürüyor.`}</div>` : ''}
+    ${konumsuz ? `<div class="ozet-ipucu tek">${ç`${konumsuz} görselin yeri bulunamadı: fotoğrafta konum yok ve iz kaydı o saatte kapalıymış. Haritada elle iğneleyebilirsin.`}</div>` : ''}
+    ${resimsiz.length ? `<div class="ozet-ipucu tek">${resimsiz.length}
+      ${ç`dosyanın önizlemesi çıkmadı — zaman çizgisinde resimsiz görünecekler. Saatleri ve yerleri duruyor, "Fotoğrafları aç" düğmesi galeride o ana götürüyor.`}</div>` : ''}
     ${atlanan.length ? `<div class="ozet-ipucu tek kotu">${ç`Alınamayanlar:`}
       ${kacis(atlanan.slice(0, 6).join(', '))}${atlanan.length > 6
         ? ç` ve ${atlanan.length - 6} tane daha` : ''}</div>` : ''}
@@ -2615,11 +2725,9 @@ function fotoOzetiAc(eklenen, istenen, iptal) {
     <button class="eylem-dugme" id="ozetKapat">${ç`Tamam`}</button>
   `, true, 'ozet');
 
-  $('#ozetKapat').addEventListener('click', ortuKapat);
+  $('#ozetKapat').addEventListener('click', () => eksikBilgiSor(liste));
   $('#ozetGoster').addEventListener('click', () => {
-    ortuKapat();
-    ekranAc('zaman');
-    fotografaGit(ilk.id);
+    eksikBilgiSor(liste, () => { ekranAc('zaman'); fotografaGit(ilk.id); });
   });
 }
 

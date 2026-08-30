@@ -4,7 +4,7 @@
 
 // DİKKAT: her yayında bu sürüm değişmeli, yoksa telefonlar eski dosyaları
 // önbellekten sunmaya devam eder. arac/yayinla.sh bunu kendiliğinden günceller.
-const SURUM = 'gerok-128-20260830-121739';
+const SURUM = 'gerok-129-20260830-210145';
 
 const DOSYALAR = [
   './',

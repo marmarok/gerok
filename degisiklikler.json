@@ -2,6 +2,20 @@
   "aciklama": "Her güncellemede ne eklendi, ne düzeldi, ne çıktı. En yeni en üstte. Bu dosya güncelleme kartında okunuyor; boş bırakılamaz, yayınlama betiği kontrol ediyor.",
   "surumler": [
     {
+      "sayi": 129,
+      "tarih": "2026-08-30",
+      "eklendi": [
+        "Telefonda zaten duran ses dosyalarını deftere ekleyebilirsin: Kayıt → “Ses dosyası ekle”. Dosyanın kendisi deftere kopyalanıyor — kaynaktan silsen de kayıt burada kalır.",
+        "Tarihi ya da yeri olmayan dosyalar eklenince tek bir soru soruluyor: hangi gün, neredeydi. Cevap vermek ZORUNLU DEĞİL — “Geç” dersen hiçbir şey değişmez, sonra da yazabilirsin."
+      ],
+      "duzeldi": [
+        "Eski bir fotoğraf (örneğin WhatsApp’tan gelen) eklenirken artık bulunduğun yerin koordinatı kayda yazılmıyor. Yazılıyordu ve fotoğraf yanlış bir yere iğneleniyordu; üstelik yeri olmadığı da anlaşılmıyordu. Az önce çekilmiş fotoğrafta şu anki konum yazılmaya devam ediyor.",
+        "Aktarım sırasında telefonu cebine koyduğunda ya da başka uygulamaya geçtiğinde aktarım donuyordu — ekran görünmediği sürece tek dosya bile eklenmiyordu. Artık arka planda da sürüyor.",
+        "Fotoğraf aktarım ve özet pencerelerinde Türkçe kalan yazılar Kürtçeye çevrildi."
+      ],
+      "cikti": []
+    },
+    {
       "sayi": 128,
       "tarih": "2026-08-30",
       "eklendi": [
