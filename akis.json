@@ -1,35 +1,65 @@
 {
  "bicim": 1,
- "zaman": "2026-08-30T11:43:26+03:00",
- "kadans": "saatlik",
- "durum": "iyi",
+ "zaman": "2026-08-30T14:03:58+03:00",
+ "kadans": "6saat",
+ "durum": "bilinen",
  "sayilar": {
-  "kontrol": 5,
-  "sinama": 37,
-  "gecen": 5,
-  "bilinen": 0,
+  "kontrol": 36,
+  "sinama": 2167,
+  "gecen": 35,
+  "bilinen": 1,
   "sorun": 0,
-  "sure": 0.9,
-  "kosu": 147
+  "sure": 13.6,
+  "kosu": 149
  },
  "sorunlar": [],
- "bilinenler": [],
+ "bilinenler": [
+  {
+   "ad": "Math.min(...dizi) yığın taşması",
+   "not": "app.js:764; app.js:4976; gerok.js:448; sihirbaz.js:454; sihirbaz.js:455; sihirbaz.js:456 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
+  }
+ ],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 3,
-   "toplam": 3,
-   "sinama": 6
+   "gecen": 10,
+   "toplam": 10,
+   "sinama": 101
   },
   "bekci": {
+   "gecen": 4,
+   "toplam": 4,
+   "sinama": 16
+  },
+  "yedek": {
    "gecen": 1,
    "toplam": 1,
-   "sinama": 8
+   "sinama": 2
   },
   "koprü": {
    "gecen": 1,
    "toplam": 1,
    "sinama": 23
+  },
+  "kod": {
+   "gecen": 9,
+   "toplam": 9,
+   "sinama": 1491
+  },
+  "veri": {
+   "gecen": 2,
+   "toplam": 2,
+   "sinama": 9
+  },
+  "gizlilik": {
+   "gecen": 4,
+   "toplam": 4,
+   "sinama": 67
+  },
+  "bilgi": {
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 458
   }
  },
  "derin": {
@@ -98,20 +128,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "21a26fbee31c",
-   "t": 1787666089787,
-   "onem": "sorun",
-   "baslik": "1 sorun buldum",
-   "govde": "• [kritik] Zamanlayıcı ayakta\n   saatlik: son koşu 1 ile bitti · alti: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`"
-  },
-  {
-   "id": "630dc8427806",
-   "t": 1787666104361,
-   "onem": "bilgi",
-   "baslik": "Yedeği sına ve geri yükleme düzeldi",
-   "govde": "184'te çökmesinin sebebi bulundu: telefonun belleği yetmiyordu, hepsini tek seferde okuyordu. Daha kötüsü: YEDEĞİ GERİ YÜKLEME de aynı yüzden çöküyordu — yedeğin vardı ama geri yükleyemezdin. Senin 355 MB'lık gerçek yedeğinle sınadım: 239 kayıt, 184 dosya, 3,5 saniye. Sürüm gerok-108."
-  },
   {
    "id": "c27b9543924b",
    "t": 1787741275411,
@@ -272,6 +288,20 @@
    "onem": "iyi",
    "baslik": "İki sorunu düzelttim",
    "govde": "Kurmancîde iki gün etiketi (\"Tur yok\", \"Tur bittikten sonra\") bir önceki güncellemede unutulmuştu, hâlâ Türkçeydi — şimdi Kürtçe. Ayrıca gezi rehberinin dal ile Mac arasındaki senkron sorunu (ê harfi düzeltmesi hiç dala gitmemişti) giderildi. Sürüm 127 yayında, bekçi temiz."
+  },
+  {
+   "id": "cc907831693e",
+   "t": 1788082272610,
+   "onem": "sorun",
+   "baslik": "2 sorun buldum",
+   "govde": "• [kritik] Canlı site ayakta\n   URLError: <urlopen error [Errno 51] Network is unreachable>\n• [kritik] Canlı index.html açılıyor\n   <urlopen error [Errno 51] Network is unreachable>"
+  },
+  {
+   "id": "75f359cc57c2",
+   "t": 1788087838772,
+   "onem": "iyi",
+   "baslik": "Söylediğim sorunlar kapandı",
+   "govde": "Hepsi geçti. 35/36 kontrol · 2167 ayrı sınama."
   }
  ],
  "bekleyen": [],
@@ -284,18 +314,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-08-27T16:14:45+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
-  {
-   "t": "2026-08-27T16:35:45+03:00",
-   "k": "haftalik",
-   "g": 100,
-   "n": 103
-  },
   {
    "t": "2026-08-27T16:38:08+03:00",
    "k": "haftalik",
@@ -523,6 +541,18 @@
    "k": "saatlik",
    "g": 5,
    "n": 5
+  },
+  {
+   "t": "2026-08-30T12:31:12+03:00",
+   "k": "saatlik",
+   "g": 3,
+   "n": 5
+  },
+  {
+   "t": "2026-08-30T14:03:58+03:00",
+   "k": "6saat",
+   "g": 35,
+   "n": 36
   }
  ]
 }
