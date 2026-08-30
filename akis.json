@@ -1,16 +1,16 @@
 {
  "bicim": 1,
- "zaman": "2026-08-30T11:28:47+03:00",
+ "zaman": "2026-08-30T11:33:13+03:00",
  "kadans": "gunluk",
  "durum": "sorun",
  "sayilar": {
   "kontrol": 109,
-  "sinama": 2751,
-  "gecen": 106,
+  "sinama": 2752,
+  "gecen": 107,
   "bilinen": 1,
-  "sorun": 2,
-  "sure": 119.9,
-  "kosu": 141
+  "sorun": 1,
+  "sure": 108.6,
+  "kosu": 142
  },
  "sorunlar": [
   {
@@ -18,13 +18,6 @@
    "onem": "yuksek",
    "oyku": "kod",
    "not": "2 çeviri eksik: ['app.js: Tur bittikten sonra', 'app.js: Tur yok']",
-   "onarilabilir": false
-  },
-  {
-   "ad": "Kurucu iki yerde aynı",
-   "onem": "yuksek",
-   "oyku": "bilgi",
-   "not": "daldaki nüsha Mac'tekinden farklı — yayın kuralları ayrışmış",
    "onarilabilir": false
   }
  ],
@@ -44,7 +37,7 @@
   "bekci": {
    "gecen": 9,
    "toplam": 9,
-   "sinama": 82
+   "sinama": 83
   },
   "yedek": {
    "gecen": 1,
@@ -72,7 +65,7 @@
    "sinama": 69
   },
   "bilgi": {
-   "gecen": 4,
+   "gecen": 5,
    "toplam": 5,
    "sinama": 458
   },
@@ -94,11 +87,11 @@
  },
  "derin": {
   "kadans": "gunluk",
-  "zaman": "2026-08-30T11:28:47+03:00",
+  "zaman": "2026-08-30T11:33:13+03:00",
   "kontrol": 109,
-  "sinama": 2751,
-  "gecen": 106,
-  "sorun": 2,
+  "sinama": 2752,
+  "gecen": 107,
+  "sorun": 1,
   "gruplar": {
    "yayin": {
     "gecen": 15,
@@ -108,7 +101,7 @@
    "bekci": {
     "gecen": 9,
     "toplam": 9,
-    "sinama": 82
+    "sinama": 83
    },
    "yedek": {
     "gecen": 1,
@@ -136,7 +129,7 @@
     "sinama": 69
    },
    "bilgi": {
-    "gecen": 4,
+    "gecen": 5,
     "toplam": 5,
     "sinama": 458
    },
@@ -158,13 +151,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "503e74a1e846",
-   "t": 1787663764041,
-   "onem": "sorun",
-   "baslik": "1 sorun buldum",
-   "govde": "• [kritik] Zamanlayıcı ayakta\n   alti: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`"
-  },
   {
    "id": "1df220fa3d16",
    "t": 1787663787017,
@@ -332,18 +318,16 @@
    "onem": "sorun",
    "baslik": "2 sorun buldum",
    "govde": "• [yuksek] Kurmancî sözlüğü tam\n   2 çeviri eksik: ['app.js: Tur bittikten sonra', 'app.js: Tur yok']\n• [yuksek] Kurucu iki yerde aynı\n   daldaki nüsha Mac'tekinden farklı — yayın kuralları ayrışmış"
+  },
+  {
+   "id": "c5e639a8f0d8",
+   "t": 1788078796433,
+   "onem": "sorun",
+   "baslik": "1 sorun buldum",
+   "govde": "• [yuksek] Kurmancî sözlüğü tam\n   2 çeviri eksik: ['app.js: Tur bittikten sonra', 'app.js: Tur yok']"
   }
  ],
  "bekleyen": [
-  {
-   "id": "4fbbd1694d81",
-   "soru": "“Kurucu iki yerde aynı” kontrolü takılıyor ve kendim onaramadım. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu? (Ayrıntısı panoda duruyor.)",
-   "secenekler": [
-    "Bu bilinen bir durum",
-    "Gerçekten bozuk, bak",
-    "Yanlış alarm"
-   ]
-  },
   {
    "id": "473e45bb7c46",
    "soru": "“Kurmancî sözlüğü tam” kontrolü takılıyor ve kendim onaramadım. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu? (Ayrıntısı panoda duruyor.)",
@@ -363,12 +347,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-08-27T02:41:56+03:00",
-   "k": "6saat",
-   "g": 34,
-   "n": 35
-  },
   {
    "t": "2026-08-27T03:24:52+03:00",
    "k": "saatlik",
@@ -601,6 +579,12 @@
    "t": "2026-08-30T11:28:47+03:00",
    "k": "gunluk",
    "g": 106,
+   "n": 109
+  },
+  {
+   "t": "2026-08-30T11:33:13+03:00",
+   "k": "gunluk",
+   "g": 107,
    "n": 109
   }
  ]
