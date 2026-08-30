@@ -5,7 +5,7 @@
 // Neden önbelleğin adına bakmıyoruz: yeni sürüm indiğinde önbellek adı değişiyor
 // ama ekrandaki kod hâlâ eski oluyor — uygulama kendini güncellenmiş sanıyordu.
 // Bu satır ekrandaki dosyanın içinde olduğu için yalan söyleyemiyor.
-const BU_SURUM = 'gerok-127-20260830-114042';
+const BU_SURUM = 'gerok-128-20260830-121739';
 
 import * as veri from './veri.js';
 import * as iz from './iz.js';
@@ -1279,7 +1279,7 @@ function kayitSatiri(k) {
   // burada çıkıyor. Ad elle de yazılmış olabilir; kullanıcı için ikisi de
   // aynı şey: yerin adı.
   const yer = k.yerAdi
-    ? `🌐 konum: ${kacis(k.yerAdi)}`
+    ? `🌐 ${ç`konum: ${kacis(k.yerAdi)}`}`
     : (k.lat != null && k.lon != null)
       ? (KONUM_KAYNAGI[k.konumKaynagi] || ç`konum: uydudan`)
       : ç`konum: bulunamadı`;

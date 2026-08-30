@@ -17,7 +17,7 @@
 
 import * as veri from './veri.js';
 import * as gerok from './gerok.js';
-import { ç } from './dil.js';
+import { ç, aktifDil } from './dil.js';
 
 // ---- Bağlantı durumu ------------------------------------------------------
 
@@ -228,9 +228,13 @@ export async function kurlariDuzelt(ilerleme = null) {
 // Kaynak: Nominatim (OpenStreetMap). Saniyede bir istek kuralı var, ona
 // uyuluyor. Giden tek şey koordinat.
 
+// Yer adı ARAYÜZÜN DİLİNDE isteniyor. Nominatim'in `accept-language`i
+// OpenStreetMap'teki `name:ku` etiketini kullanıyor: Kürtçedeyken İdil
+// "Hezex", Şırnak "Şirnex" geliyor. Kürtçe adı olmayan yer kendi adıyla
+// kalıyor — liste tutmuyoruz, tek tek yazmıyoruz.
 const YER_ADRES = (lat, lon) =>
   `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}` +
-  `&zoom=16&accept-language=tr`;
+  `&zoom=16&accept-language=${aktifDil()}`;
 
 export async function yerBekleyenler() {
   const turId = gerok.aktifGerok()?.id ?? null;
@@ -238,8 +242,14 @@ export async function yerBekleyenler() {
   // `yerKaynagi: 'durak'` olanlar da bekleyen sayılıyor: o ad yakındaki
   // durağın adı — internetsizken yazılmış bir tahmin. Gerçek adres gelince
   // üstüne yazılıyor. Elle yazılan adlara (yerKaynagi yok) dokunulmuyor.
+  // Adres BAŞKA BİR DİLDE çözülmüşse yeniden sorulacak: dili değiştiren
+  // kişi eski kayıtlarında da kendi dilini görmeli. Adın hangi dilde
+  // geldiği `yerDili`de duruyor; alanı olmayan eski kayıtlar Türkçe
+  // sayılıyor, çünkü o zamanlar tek dil oydu.
+  const dil = aktifDil();
   return kayitlar.filter(k => k.lat != null && k.lon != null &&
-    (!k.yerAdi || k.yerKaynagi === 'durak'));
+    (!k.yerAdi || k.yerKaynagi === 'durak' ||
+     (k.yerKaynagi === 'adres' && (k.yerDili || 'tr') !== dil)));
 }
 
 // Nominatim'in uzun adresinden okunur bir satır çıkarıyor:
@@ -279,7 +289,7 @@ export async function yerAdlariniGetir(ilerleme = null) {
     await bekle(1100);
     if (!ad) { continue; }
     for (const k of liste) {
-      await veri.kayitEkle({ ...k, yerAdi: ad, yerKaynagi: 'adres' });
+      await veri.kayitEkle({ ...k, yerAdi: ad, yerKaynagi: 'adres', yerDili: aktifDil() });
       yapilan++; sonAd = ad;
     }
   }
@@ -603,8 +613,11 @@ export const ISLER = [
   },
   {
     k: 'yer',
-    ad: ç`Konumsuz kayıtlara yer adı ver`,
-    notYaz: (n) => ç`${n} kayıt · koordinat var, ad yok`,
+    // Ad "konumsuz" demiyor artık: bu iş yalnızca adı olmayanları değil,
+    // adı BAŞKA DİLDE yazılmış olanları da kapsıyor. Dili değiştiren kişi
+    // burada bekleyen bir sayı görüp tek dokunuşla hepsini yeniliyor.
+    ad: ç`Yer adlarını tamamla`,
+    notYaz: (n) => ç`${n} kayıt · yer adı bekliyor`,
     buyuk: false,
     bekleyen: async () => (await yerBekleyenler()).length,
     calistir: yerAdlariniGetir

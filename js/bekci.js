@@ -20,6 +20,10 @@
  */
 
 import * as veri from './veri.js';
+// Bekçi panelinin 512 yazısı bilerek Türkçe. Ama ozet() ve zamanFarki()
+// Gerok EKRANINDA görünüyor — Türkçe bilmeyen biri o satırı okuyamaz.
+// O yüzden yalnızca bu ikisi çevriliyor.
+import { ç } from './dil.js';
 import * as depo from './depo.js';
 import * as bilgi from './bilgi.js';
 
@@ -90,29 +94,29 @@ export async function rozetDurumu() {
 
 /** Panelde tek satırlık özet. */
 export function ozet() {
-  if (!akis) return { yazi: 'daha bakılmadı', sinif: '' };
+  if (!akis) return { yazi: ç`daha bakılmadı`, sinif: '' };
   const s = akis.sayilar || {};
   const yas = zamanFarki(akis.zaman);
-  if (akis.durum === 'sorun') return { yazi: `${s.sorun} sorun · ${yas}`, sinif: 'kotu' };
+  if (akis.durum === 'sorun') return { yazi: ç`${s.sorun} sorun · ${yas}`, sinif: 'kotu' };
   if (akilAcikMi()) {
     const dd = akis.derin;
-    return { yazi: `akıl açık · ${(dd?.sinama || s.sinama).toLocaleString('tr-TR')} sınama · ${yas}`,
+    return { yazi: ç`akıl açık · ${(dd?.sinama || s.sinama).toLocaleString('tr-TR')} sınama · ${yas}`,
              sinif: 'akil' };
   }
   // Büyük sayı en son GENİŞ koşudan; "ne zaman baktı" en son koşudan. Saatlik
   // koşunun 14 sınamasını yazmak "bekçi 14 şeye bakıyor" demek olurdu.
   const d = akis.derin;
-  return { yazi: `${(d?.sinama || s.sinama || s.toplam).toLocaleString('tr-TR')} sınama · hepsi yolunda · ${yas}`,
+  return { yazi: ç`${(d?.sinama || s.sinama || s.toplam).toLocaleString('tr-TR')} sınama · hepsi yolunda · ${yas}`,
            sinif: 'iyi' };
 }
 
 function zamanFarki(iso) {
   if (!iso) return '';
   const dk = Math.round((Date.now() - new Date(iso).getTime()) / 60000);
-  if (dk < 2) return 'az önce';
-  if (dk < 60) return `${dk} dk önce`;
-  if (dk < 48 * 60) return `${Math.round(dk / 60)} saat önce`;
-  return `${Math.round(dk / 1440)} gün önce`;
+  if (dk < 2) return ç`az önce`;
+  if (dk < 60) return ç`${dk} dk önce`;
+  if (dk < 48 * 60) return ç`${Math.round(dk / 60)} saat önce`;
+  return ç`${Math.round(dk / 1440)} gün önce`;
 }
 
 // ------------------------------------------------------------- sınamalar ---

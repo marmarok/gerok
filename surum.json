@@ -1,7 +1,7 @@
 {
- "surum": "gerok-127-20260830-114042",
- "sayi": 127,
- "tarih": "2026-08-30T11:40:43+03:00",
+ "surum": "gerok-128-20260830-121739",
+ "sayi": 128,
+ "tarih": "2026-08-30T12:17:39+03:00",
  "dosyalar": {
   "./index.html": {
    "boyut": 13014,
@@ -44,8 +44,8 @@
    "ozet": "55606fbc76dc232c"
   },
   "./js/app.js": {
-   "boyut": 266802,
-   "ozet": "7ed6693dc0c37a70"
+   "boyut": 266809,
+   "ozet": "1d181d1100c1a92e"
   },
   "./js/sihirbaz.js": {
    "boyut": 20514,
@@ -108,12 +108,12 @@
    "ozet": "dc8eb045d3de7265"
   },
   "./js/baglanti.js": {
-   "boyut": 28412,
-   "ozet": "dc8e2a574c1cf9d9"
+   "boyut": 29344,
+   "ozet": "1975d63deada1ad4"
   },
   "./js/bekci.js": {
-   "boyut": 91120,
-   "ozet": "7cc1bd3acf505bd5"
+   "boyut": 91370,
+   "ozet": "b59484f743564ba5"
   },
   "./js/kutu.js": {
    "boyut": 12669,
@@ -128,8 +128,8 @@
    "ozet": "47d713963818f2dc"
   },
   "./js/diller/ku.js": {
-   "boyut": 83937,
-   "ozet": "959245512337d709"
+   "boyut": 84710,
+   "ozet": "c4902a9908b10c75"
   },
   "./vendor/pdf.worker.mjs": {
    "boyut": 1375838,
@@ -160,8 +160,8 @@
    "ozet": "a84c0b4c139f4632"
   },
   "./degisiklikler.json": {
-   "boyut": 18266,
-   "ozet": "ce82c4f8cab9dd4c"
+   "boyut": 19286,
+   "ozet": "8b40146e22fca1fe"
   },
   "./yazi/noto-regular/0-255.pbf": {
    "boyut": 76044,

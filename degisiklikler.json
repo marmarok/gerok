@@ -2,6 +2,20 @@
   "aciklama": "Her güncellemede ne eklendi, ne düzeldi, ne çıktı. En yeni en üstte. Bu dosya güncelleme kartında okunuyor; boş bırakılamaz, yayınlama betiği kontrol ediyor.",
   "surumler": [
     {
+      "sayi": 128,
+      "tarih": "2026-08-30",
+      "eklendi": [
+        "Kürtçedeyken yer adları da Kürtçe geliyor: İdil “Hezex”, Şırnak “Şirnex”, Türkiye “Tirkiye”. Ad listesi tutulmuyor — harita kaynağından o dilde isteniyor, Kürtçe adı olan her yer kendiliğinden Kürtçe yazılıyor.",
+        "Dili değiştirince eski kayıtların yer adları da yenilenebiliyor: Gerok → Bağlantı → “Yer adlarını tamamla” kaç kayıt beklediğini yazıyor, tek dokunuşla hepsi yeni dile geçiyor."
+      ],
+      "duzeldi": [
+        "Kayıtların altındaki “konum:” yazısı Kürtçede “Cih:” oldu; öncesinde çevrilmemişti.",
+        "Gün başlığındaki “Tur bittikten sonra” artık “Piştî Gerê”.",
+        "Gerok ekranındaki Nobedar satırı Kürtçe yazılıyor: “2.752 ceribandin · her tişt baş e · 32 xulek berê”. Bakım panelinin geri kalanı Türkçe kalmaya devam ediyor — o ekranda görünmüyor."
+      ],
+      "cikti": []
+    },
+    {
       "sayi": 127,
       "tarih": "2026-08-30",
       "eklendi": [],

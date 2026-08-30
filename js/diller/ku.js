@@ -716,7 +716,7 @@ export const KU = {
     'Di telefona te de tevahiya şeş welatan heye: {0}. Niha tenê deverên ku hewceyî te ne tên daxistin, êdî hewcedariya vî pelî nema.',
   'Tur başlamadan önce': 'Berî ku rêwîtî dest pê bike',
   'Tur beş saniye içinde silinecek': 'Rêwîtî wê di nav pênc çirkeyan de were jêbirin',
-  'Tur bittikten sonra': 'Piştî ku rêwîtî qediya',
+  'Tur bittikten sonra': 'Piştî Gerê',
   'Tur silindi · {0} kayıt, {1} iz noktası.': 'Rêwîtî hate jêbirin · {0} qeyd, {1} xalên şopê.',
   'Tur yok': 'Rêwîtî tune',
   'Turlar': 'Rêwîtî',
@@ -823,11 +823,12 @@ export const KU = {
   'işaretlediklerin': 'yên te nîşankirî',
   'işaretli': 'nîşankirî',
   'kendi durağın': 'rawestgeha te ya xwe',
-  'konum: bulunamadı': 'cih: nehate dîtin',
-  'konum: elle işaretlendi': 'cih: bi destan hate nîşankirin',
-  'konum: fotoğrafın içinden': 'cih: ji nav wêneyê',
-  'konum: iz kaydından': 'cih: ji qeyda şopê',
-  'konum: uydudan': 'cih: ji peykê',
+  'konum: bulunamadı': 'Cih: nehate dîtin',
+  'konum: elle işaretlendi': 'Cih: bi destan hate nîşankirin',
+  'konum: fotoğrafın içinden': 'Cih: ji nav wêneyê',
+  'konum: iz kaydından': 'Cih: ji qeyda şopê',
+  'konum: uydudan': 'Cih: ji peykê',
+  'konum: {0}': 'Cih: {0}',
   'kısa bir an': 'kêliyek kurt',
   'mobil veri': 'daneya mobîl',
   'mobil veri var · izin bekliyor': 'daneya mobîl heye · li benda destûrê ye',
@@ -1233,5 +1234,18 @@ export const KU = {
   'giriş/müze': 'ketin/mûze',
   'alışveriş': 'kirîn',
   'diğer': 'yên din',
+
+  // ------------------------------------------ bekçinin özet satırı ---
+  // Bekçi panelinin geri kalanı Türkçe (bakım yazısı), ama BU satır
+  // Gerok ekranında görünüyor. sınama = ceribandin, sorun = pirsgirêk;
+  // "az önce" ve "{0} saat önce" sözlükte zaten vardı.
+  'Yer adlarını tamamla': 'Navên cihan temam bike',
+  '{0} kayıt · yer adı bekliyor': '{0} qeyd · li benda navê cih e',
+  'daha bakılmadı': 'hê nehatiye ceribandin',
+  '{0} sorun · {1}': '{0} pirsgirêk · {1}',
+  'akıl açık · {0} sınama · {1}': 'aqil vekirî · {0} ceribandin · {1}',
+  '{0} sınama · hepsi yolunda · {1}': '{0} ceribandin · her tişt baş e · {1}',
+  '{0} dk önce': '{0} xulek berê',
+  '{0} gün önce': '{0} roj berê',
 
 };
