@@ -1,44 +1,97 @@
 {
  "bicim": 1,
- "zaman": "2026-09-01T16:38:14+03:00",
- "kadans": "saatlik",
- "durum": "iyi",
+ "zaman": "2026-09-01T16:39:12+03:00",
+ "kadans": "gunluk",
+ "durum": "sorun",
  "sayilar": {
-  "kontrol": 5,
-  "sinama": 37,
-  "gecen": 5,
-  "bilinen": 0,
-  "sorun": 0,
-  "sure": 0.9,
-  "kosu": 177
+  "kontrol": 54,
+  "sinama": 2743,
+  "gecen": 52,
+  "bilinen": 1,
+  "sorun": 1,
+  "sure": 58.2,
+  "kosu": 178
  },
- "sorunlar": [],
- "bilinenler": [],
+ "sorunlar": [
+  {
+   "ad": "Tarayıcı sınamaları",
+   "onem": "kritik",
+   "oyku": "davranis",
+   "not": "file://~/gerok/bekci/tarayici.mjs:66\n  throw new Error('Chrome açılmadı');\n        ^\n\nError: Chrome açılmadı\n    at chromeBaslat (file://~/gerok/bekci/tarayici.mjs:66:9)\n    at async file://~/gerok/bekci/tarayici.mjs:2261:19\n\nNode.js v26.5.",
+   "onarilabilir": false
+  }
+ ],
+ "bilinenler": [
+  {
+   "ad": "Math.min(...dizi) yığın taşması",
+   "not": "app.js:764; app.js:5084; gerok.js:448; sihirbaz.js:454; sihirbaz.js:455; sihirbaz.js:456 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
+  }
+ ],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 3,
-   "toplam": 3,
-   "sinama": 6
+   "gecen": 15,
+   "toplam": 15,
+   "sinama": 146
   },
   "bekci": {
+   "gecen": 9,
+   "toplam": 9,
+   "sinama": 83
+  },
+  "yedek": {
    "gecen": 1,
    "toplam": 1,
-   "sinama": 8
+   "sinama": 2
   },
   "koprü": {
    "gecen": 1,
    "toplam": 1,
    "sinama": 23
+  },
+  "kod": {
+   "gecen": 11,
+   "toplam": 11,
+   "sinama": 1535
+  },
+  "veri": {
+   "gecen": 2,
+   "toplam": 2,
+   "sinama": 9
+  },
+  "gizlilik": {
+   "gecen": 7,
+   "toplam": 7,
+   "sinama": 76
+  },
+  "bilgi": {
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 458
+  },
+  "sartname": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 409
+  },
+  "depolama": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 1
+  },
+  "davranis": {
+   "gecen": 0,
+   "toplam": 1,
+   "sinama": 1
   }
  },
  "derin": {
   "kadans": "gunluk",
-  "zaman": "2026-09-01T09:00:00+03:00",
-  "kontrol": 110,
-  "sinama": 2799,
-  "gecen": 109,
-  "sorun": 0,
+  "zaman": "2026-09-01T16:39:12+03:00",
+  "kontrol": 54,
+  "sinama": 2743,
+  "gecen": 52,
+  "sorun": 1,
   "gruplar": {
    "yayin": {
     "gecen": 15,
@@ -91,20 +144,13 @@
     "sinama": 1
    },
    "davranis": {
-    "gecen": 57,
-    "toplam": 57,
-    "sinama": 57
+    "gecen": 0,
+    "toplam": 1,
+    "sinama": 1
    }
   }
  },
  "mesajlar": [
-  {
-   "id": "c27b9543924b",
-   "t": 1787741275411,
-   "onem": "sorun",
-   "baslik": "4 sorun buldum",
-   "govde": "• [kritik] Canlı site ayakta\n   URLError: <urlopen error [Errno 8] nodename nor servname provided, or not known>\n• [kritik] Canlı index.html açılıyor\n   <urlopen error [Errno 8] nodename nor servname provided, or not known>\n• [kritik] Zamanlayıcı ayakta\n   saatlik: son koşu 1 ile bitti · alti: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`\n• [yuksek] iCloud köprüsü okunabiliyor\n   izin yok — telefondan gelen emirler SESSİZCE düşüyor. Sistem Ayarları → Gizlilik → Tam Disk Erişimi → /usr/bin/python3"
-  },
   {
    "id": "d9b80368ab1f",
    "t": 1787766280152,
@@ -272,9 +318,26 @@
    "onem": "iyi",
    "baslik": "Söylediğim sorunlar kapandı",
    "govde": "Hepsi geçti. 35/36 kontrol · 2167 ayrı sınama."
+  },
+  {
+   "id": "36727ca5ca6b",
+   "t": 1788269954192,
+   "onem": "sorun",
+   "baslik": "1 sorun buldum",
+   "govde": "Uygulamanın internet tarayıcısı üzerinde doğru çalışıp çalışmadığını test eden sistemde bir aksaklık yaşandı ve Chrome tarayıcısı başlatılamadı. Bu durum \"tarayici.mjs\" isimli dosyanın 66. satırındaki bir hatadan kaynaklanıyor; ancak tarayıcının neden açılmadığının sebebi şu an için belli değil. Bilgisayarınızda Chrome tarayıcısının yüklü ve güncel olduğundan emin olup testi yeniden çalıştırmayı deneyebilirsiniz.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [kritik] Tarayıcı sınamaları\n   file://~/gerok/bekci/tarayici.mjs:66\n  throw new Error('Chrome açılmadı');\n        ^\n\nError: Chrome açılmadı\n    at chromeBaslat (file://~/gerok/bekci/tarayici.mjs:66"
   }
  ],
- "bekleyen": [],
+ "bekleyen": [
+  {
+   "id": "1fc593a608f0",
+   "soru": "“Tarayıcı sınamaları” kontrolü takılıyor ve kendim onaramadım. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu? (Ayrıntısı panoda duruyor.)",
+   "secenekler": [
+    "Bu bilinen bir durum",
+    "Gerçekten bozuk, bak",
+    "Yanlış alarm"
+   ]
+  }
+ ],
  "telefonSinamasi": [
   "Sesli not bırak ve ÇAL — sesi duyuyor musun?",
   "Galeriden 3 fotoğraf ekle — çubuk akıyor mu, özet çıkıyor mu?",
@@ -284,12 +347,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-08-30T01:26:36+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
   {
    "t": "2026-08-30T02:31:39+03:00",
    "k": "saatlik",
@@ -523,6 +580,12 @@
    "k": "saatlik",
    "g": 5,
    "n": 5
+  },
+  {
+   "t": "2026-09-01T16:39:12+03:00",
+   "k": "gunluk",
+   "g": 52,
+   "n": 54
   }
  ]
 }
