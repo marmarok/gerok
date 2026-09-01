@@ -1,33 +1,35 @@
 {
  "bicim": 1,
- "zaman": "2026-09-01T08:53:18+03:00",
+ "zaman": "2026-09-01T08:53:41+03:00",
  "kadans": "saatlik",
- "durum": "sorun",
+ "durum": "iyi",
  "sayilar": {
-  "kontrol": 1,
-  "sinama": 1,
-  "gecen": 0,
+  "kontrol": 5,
+  "sinama": 37,
+  "gecen": 5,
   "bilinen": 0,
-  "sorun": 1,
-  "sure": 0.0,
-  "kosu": 168
+  "sorun": 0,
+  "sure": 0.3,
+  "kosu": 169
  },
- "sorunlar": [
-  {
-   "ad": "Canlı site güncel",
-   "onem": "kritik",
-   "oyku": "yayin",
-   "not": "yerel HEAD 3 commit ileride, GitHub Pages hâlâ gerok-126 sunuyor (beklenen gerok-129)",
-   "onarilabilir": false
-  }
- ],
+ "sorunlar": [],
  "bilinenler": [],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 0,
+   "gecen": 3,
+   "toplam": 3,
+   "sinama": 6
+  },
+  "bekci": {
+   "gecen": 1,
    "toplam": 1,
-   "sinama": 1
+   "sinama": 8
+  },
+  "koprü": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 23
   }
  },
  "derin": {
@@ -95,7 +97,183 @@
    }
   }
  },
- "mesajlar": [],
+ "mesajlar": [
+  {
+   "id": "c27b9543924b",
+   "t": 1787741275411,
+   "onem": "sorun",
+   "baslik": "4 sorun buldum",
+   "govde": "• [kritik] Canlı site ayakta\n   URLError: <urlopen error [Errno 8] nodename nor servname provided, or not known>\n• [kritik] Canlı index.html açılıyor\n   <urlopen error [Errno 8] nodename nor servname provided, or not known>\n• [kritik] Zamanlayıcı ayakta\n   saatlik: son koşu 1 ile bitti · alti: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`\n• [yuksek] iCloud köprüsü okunabiliyor\n   izin yok — telefondan gelen emirler SESSİZCE düşüyor. Sistem Ayarları → Gizlilik → Tam Disk Erişimi → /usr/bin/python3"
+  },
+  {
+   "id": "d9b80368ab1f",
+   "t": 1787766280152,
+   "onem": "sorun",
+   "baslik": "1 sorun buldum",
+   "govde": "• [kritik] Zamanlayıcı ayakta\n   saatlik: son koşu 1 ile bitti · alti: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`"
+  },
+  {
+   "id": "fdedf87049c1",
+   "t": 1787766446716,
+   "onem": "sorun",
+   "baslik": "1 sorun buldum",
+   "govde": "• [kritik] Zamanlayıcı ayakta\n   alti: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`"
+  },
+  {
+   "id": "c0b8ff9b4a2a",
+   "t": 1787766491584,
+   "onem": "sorun",
+   "baslik": "1 sorun buldum",
+   "govde": "• [kritik] Zamanlayıcı ayakta\n   saatlik: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`"
+  },
+  {
+   "id": "309679f13955",
+   "t": 1787766739268,
+   "onem": "iyi",
+   "baslik": "Söylediğim sorunlar kapandı",
+   "govde": "Hepsi geçti. 5/5 kontrol · 34 ayrı sınama."
+  },
+  {
+   "id": "57a9a20d52c9",
+   "t": 1787767401279,
+   "onem": "sorun",
+   "baslik": "2 sorun buldum",
+   "govde": "• [kritik] Zamanlayıcı ayakta\n   saatlik: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`\n• [kritik] Tarayıcı sınamaları\n   zaman aşımı (900 sn)"
+  },
+  {
+   "id": "612d592e82e0",
+   "t": 1787767661020,
+   "onem": "iyi",
+   "baslik": "Söylediğim sorunlar kapandı",
+   "govde": "Hepsi geçti. 93/95 kontrol · 1639 ayrı sınama."
+  },
+  {
+   "id": "f7b4e5adeaa0",
+   "t": 1787781868942,
+   "onem": "iyi",
+   "baslik": "1 şey onardım",
+   "govde": "• surum.json diskle uyuşuyor: ✓ surum.json yazıldı — 52 dosya, 3849 KB, sürüm gerok-108-20260825-165302\n\nHepsini onardıktan sonra kontrolü yeniden koştum; “onardım” demeden önce onardığımı gördüm."
+  },
+  {
+   "id": "a94919924df5",
+   "t": 1787781868943,
+   "onem": "sorun",
+   "baslik": "1 sorun buldum",
+   "govde": "• [orta] Yayınlanmamış değişiklik yok\n   1 dosya: s/app.js"
+  },
+  {
+   "id": "921113424862",
+   "t": 1787782172636,
+   "onem": "iyi",
+   "baslik": "Söylediğim sorunlar kapandı",
+   "govde": "Hepsi geçti. 34/35 kontrol · 1059 ayrı sınama."
+  },
+  {
+   "id": "0423c769af29",
+   "t": 1787782539711,
+   "onem": "iyi",
+   "baslik": "İki geçici kesinti onarıldı",
+   "govde": "Bu gece bekçi iki kırmızı gördü: canlı site/iCloud kontrolleri ve tarayıcı testleri. İkisini de araştırdım — gerçek arıza değil, Mac'in kısa bakım uykusu sırasında ağ birkaç saniyeliğine kesiliyor ve iki kontrol koşusu üst üste düşünce paylaştıkları test sunucusunu birbirinden çalıyorlardı. İkisine de kalıcı düzeltme yaptım: ağ/iCloud kontrolleri artık kısa aralıklarla 3 kez deniyor, tarayıcı testleri artık sıraya giriyor. Şimdi her şey yeşil, senin yapman gereken bir şey yok."
+  },
+  {
+   "id": "557641a0e8d8",
+   "t": 1787837745509,
+   "onem": "sorun",
+   "baslik": "1 sorun buldum",
+   "govde": "• [orta] Şartname maddeleri\n   408/410 — gerileme"
+  },
+  {
+   "id": "2fb8adbf6788",
+   "t": 1787837888368,
+   "onem": "iyi",
+   "baslik": "Söylediğim sorunlar kapandı",
+   "govde": "Hepsi geçti. 101/103 kontrol · 1685 ayrı sınama."
+  },
+  {
+   "id": "c5f7087c8303",
+   "t": 1787956522563,
+   "onem": "iyi",
+   "baslik": "Bekleyen sorular düştü",
+   "govde": "Sorduğum şeyler kendiliğinden çözülmüş; artık kırmızı kontrol yok. 2 soru kapandı, cevaplaman gereken bir şey kalmadı."
+  },
+  {
+   "id": "a6ff2b961b24",
+   "t": 1788035735009,
+   "onem": "sorun",
+   "baslik": "1 sorun buldum",
+   "govde": "• [yuksek] Kurucu iki yerde aynı\n   daldaki nüsha Mac'tekinden farklı — yayın kuralları ayrışmış"
+  },
+  {
+   "id": "6087d2b53f0c",
+   "t": 1788038491138,
+   "onem": "iyi",
+   "baslik": "Söylediğim sorunlar kapandı",
+   "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
+  },
+  {
+   "id": "8dde610b822f",
+   "t": 1788078527463,
+   "onem": "sorun",
+   "baslik": "2 sorun buldum",
+   "govde": "• [yuksek] Kurmancî sözlüğü tam\n   2 çeviri eksik: ['app.js: Tur bittikten sonra', 'app.js: Tur yok']\n• [yuksek] Kurucu iki yerde aynı\n   daldaki nüsha Mac'tekinden farklı — yayın kuralları ayrışmış"
+  },
+  {
+   "id": "c5e639a8f0d8",
+   "t": 1788078796433,
+   "onem": "sorun",
+   "baslik": "1 sorun buldum",
+   "govde": "• [yuksek] Kurmancî sözlüğü tam\n   2 çeviri eksik: ['app.js: Tur bittikten sonra', 'app.js: Tur yok']"
+  },
+  {
+   "id": "e05dac70e16f",
+   "t": 1788079082437,
+   "onem": "iyi",
+   "baslik": "1 şey onardım",
+   "govde": "• surum.json diskle uyuşuyor: ✓ surum.json yazıldı — 61 dosya, 5721 KB, sürüm gerok-126-20260830-020000\n\nHepsini onardıktan sonra kontrolü yeniden koştum; “onardım” demeden önce onardığımı gördüm."
+  },
+  {
+   "id": "bc7aeb94b928",
+   "t": 1788079082438,
+   "onem": "sorun",
+   "baslik": "1 sorun buldum",
+   "govde": "• [orta] Yayınlanmamış değişiklik yok\n   1 dosya: s/diller/ku.js"
+  },
+  {
+   "id": "56379096ef59",
+   "t": 1788079203839,
+   "onem": "sorun",
+   "baslik": "1 sorun buldum",
+   "govde": "• [orta] Yayınlanmamış değişiklik yok\n   2 dosya: s/diller/ku.js, surum.json"
+  },
+  {
+   "id": "b76ba10f9528",
+   "t": 1788079372690,
+   "onem": "iyi",
+   "baslik": "Söylediğim sorunlar kapandı",
+   "govde": "Hepsi geçti. 108/109 kontrol · 2752 ayrı sınama."
+  },
+  {
+   "id": "9bb7c688001d",
+   "t": 1788079405724,
+   "onem": "iyi",
+   "baslik": "İki sorunu düzelttim",
+   "govde": "Kurmancîde iki gün etiketi (\"Tur yok\", \"Tur bittikten sonra\") bir önceki güncellemede unutulmuştu, hâlâ Türkçeydi — şimdi Kürtçe. Ayrıca gezi rehberinin dal ile Mac arasındaki senkron sorunu (ê harfi düzeltmesi hiç dala gitmemişti) giderildi. Sürüm 127 yayında, bekçi temiz."
+  },
+  {
+   "id": "cc907831693e",
+   "t": 1788082272610,
+   "onem": "sorun",
+   "baslik": "2 sorun buldum",
+   "govde": "• [kritik] Canlı site ayakta\n   URLError: <urlopen error [Errno 51] Network is unreachable>\n• [kritik] Canlı index.html açılıyor\n   <urlopen error [Errno 51] Network is unreachable>"
+  },
+  {
+   "id": "75f359cc57c2",
+   "t": 1788087838772,
+   "onem": "iyi",
+   "baslik": "Söylediğim sorunlar kapandı",
+   "govde": "Hepsi geçti. 35/36 kontrol · 2167 ayrı sınama."
+  }
+ ],
  "bekleyen": [],
  "telefonSinamasi": [
   "Sesli not bırak ve ÇAL — sesi duyuyor musun?",
@@ -106,12 +284,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-08-29T15:14:43+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
   {
    "t": "2026-08-29T16:20:34+03:00",
    "k": "saatlik",
@@ -345,6 +517,12 @@
    "k": "saatlik",
    "g": 0,
    "n": 1
+  },
+  {
+   "t": "2026-09-01T08:53:41+03:00",
+   "k": "saatlik",
+   "g": 5,
+   "n": 5
   }
  ]
 }
