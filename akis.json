@@ -1,80 +1,35 @@
 {
  "bicim": 1,
- "zaman": "2026-09-03T10:23:08+03:00",
- "kadans": "gunluk",
- "durum": "bilinen",
+ "zaman": "2026-09-03T10:24:20+03:00",
+ "kadans": "saatlik",
+ "durum": "iyi",
  "sayilar": {
-  "kontrol": 110,
-  "sinama": 2799,
-  "gecen": 109,
-  "bilinen": 1,
+  "kontrol": 5,
+  "sinama": 37,
+  "gecen": 5,
+  "bilinen": 0,
   "sorun": 0,
-  "sure": 107.1,
-  "kosu": 190
+  "sure": 0.4,
+  "kosu": 191
  },
  "sorunlar": [],
- "bilinenler": [
-  {
-   "ad": "Math.min(...dizi) yığın taşması",
-   "not": "app.js:764; app.js:5084; gerok.js:448; sihirbaz.js:454; sihirbaz.js:455; sihirbaz.js:456 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
-  }
- ],
+ "bilinenler": [],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 15,
-   "toplam": 15,
-   "sinama": 146
+   "gecen": 3,
+   "toplam": 3,
+   "sinama": 6
   },
   "bekci": {
-   "gecen": 9,
-   "toplam": 9,
-   "sinama": 83
-  },
-  "yedek": {
    "gecen": 1,
    "toplam": 1,
-   "sinama": 2
+   "sinama": 8
   },
   "koprü": {
    "gecen": 1,
    "toplam": 1,
    "sinama": 23
-  },
-  "kod": {
-   "gecen": 11,
-   "toplam": 11,
-   "sinama": 1535
-  },
-  "veri": {
-   "gecen": 2,
-   "toplam": 2,
-   "sinama": 9
-  },
-  "gizlilik": {
-   "gecen": 7,
-   "toplam": 7,
-   "sinama": 76
-  },
-  "bilgi": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 458
-  },
-  "sartname": {
-   "gecen": 1,
-   "toplam": 1,
-   "sinama": 409
-  },
-  "depolama": {
-   "gecen": 1,
-   "toplam": 1,
-   "sinama": 1
-  },
-  "davranis": {
-   "gecen": 57,
-   "toplam": 57,
-   "sinama": 57
   }
  },
  "derin": {
@@ -143,13 +98,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "612d592e82e0",
-   "t": 1787767661020,
-   "onem": "iyi",
-   "baslik": "Söylediğim sorunlar kapandı",
-   "govde": "Hepsi geçti. 93/95 kontrol · 1639 ayrı sınama."
-  },
   {
    "id": "f7b4e5adeaa0",
    "t": 1787781868942,
@@ -317,6 +265,13 @@
    "onem": "iyi",
    "baslik": "Bekleyen sorular düştü",
    "govde": "Sorduğum şeyler kendiliğinden çözülmüş; artık kırmızı kontrol yok. 1 soru kapandı, cevaplaman gereken bir şey kalmadı."
+  },
+  {
+   "id": "a53e00440e4e",
+   "t": 1788420260124,
+   "onem": "iyi",
+   "baslik": "Gece geçti, sorun düzeldi",
+   "govde": "Bir kırmızı vardı: Chrome bir gün açılmakta zorlandı, bir de 6 saatlik iş 1,6 gündür koşmamıştı (Mac uzun süre kapalıydı). İkisini de kontrol ettim — şimdi ikisi de temiz. Kodda değişiklik yapmadım, gerek yoktu."
   }
  ],
  "bekleyen": [],
@@ -329,12 +284,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-08-30T15:10:13+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
   {
    "t": "2026-08-30T21:13:17+03:00",
    "k": "saatlik",
@@ -568,6 +517,12 @@
    "k": "gunluk",
    "g": 109,
    "n": 110
+  },
+  {
+   "t": "2026-09-03T10:24:20+03:00",
+   "k": "saatlik",
+   "g": 5,
+   "n": 5
   }
  ]
 }
