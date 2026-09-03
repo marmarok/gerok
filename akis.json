@@ -1,26 +1,18 @@
 {
  "bicim": 1,
- "zaman": "2026-09-03T10:21:23+03:00",
- "kadans": "6saat",
- "durum": "sorun",
+ "zaman": "2026-09-03T10:23:08+03:00",
+ "kadans": "gunluk",
+ "durum": "bilinen",
  "sayilar": {
-  "kontrol": 37,
-  "sinama": 2202,
-  "gecen": 35,
+  "kontrol": 110,
+  "sinama": 2799,
+  "gecen": 109,
   "bilinen": 1,
-  "sorun": 1,
-  "sure": 12.4,
-  "kosu": 189
+  "sorun": 0,
+  "sure": 107.1,
+  "kosu": 190
  },
- "sorunlar": [
-  {
-   "ad": "Koşular taze",
-   "onem": "yuksek",
-   "oyku": "bekci",
-   "not": "6saat: 1.6 gündür koşmadı",
-   "onarilabilir": false
-  }
- ],
+ "sorunlar": [],
  "bilinenler": [
   {
    "ad": "Math.min(...dizi) yığın taşması",
@@ -30,14 +22,14 @@
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 10,
-   "toplam": 10,
-   "sinama": 102
+   "gecen": 15,
+   "toplam": 15,
+   "sinama": 146
   },
   "bekci": {
-   "gecen": 3,
-   "toplam": 4,
-   "sinama": 16
+   "gecen": 9,
+   "toplam": 9,
+   "sinama": 83
   },
   "yedek": {
    "gecen": 1,
@@ -50,9 +42,9 @@
    "sinama": 23
   },
   "kod": {
-   "gecen": 9,
-   "toplam": 9,
-   "sinama": 1518
+   "gecen": 11,
+   "toplam": 11,
+   "sinama": 1535
   },
   "veri": {
    "gecen": 2,
@@ -60,23 +52,38 @@
    "sinama": 9
   },
   "gizlilik": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 74
+   "gecen": 7,
+   "toplam": 7,
+   "sinama": 76
   },
   "bilgi": {
    "gecen": 5,
    "toplam": 5,
    "sinama": 458
+  },
+  "sartname": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 409
+  },
+  "depolama": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 1
+  },
+  "davranis": {
+   "gecen": 57,
+   "toplam": 57,
+   "sinama": 57
   }
  },
  "derin": {
   "kadans": "gunluk",
-  "zaman": "2026-09-03T10:19:39+03:00",
+  "zaman": "2026-09-03T10:23:08+03:00",
   "kontrol": 110,
   "sinama": 2799,
-  "gecen": 108,
-  "sorun": 1,
+  "gecen": 109,
+  "sorun": 0,
   "gruplar": {
    "yayin": {
     "gecen": 15,
@@ -84,7 +91,7 @@
     "sinama": 146
    },
    "bekci": {
-    "gecen": 8,
+    "gecen": 9,
     "toplam": 9,
     "sinama": 83
    },
@@ -136,20 +143,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "309679f13955",
-   "t": 1787766739268,
-   "onem": "iyi",
-   "baslik": "Söylediğim sorunlar kapandı",
-   "govde": "Hepsi geçti. 5/5 kontrol · 34 ayrı sınama."
-  },
-  {
-   "id": "57a9a20d52c9",
-   "t": 1787767401279,
-   "onem": "sorun",
-   "baslik": "2 sorun buldum",
-   "govde": "• [kritik] Zamanlayıcı ayakta\n   saatlik: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`\n• [kritik] Tarayıcı sınamaları\n   zaman aşımı (900 sn)"
-  },
   {
    "id": "612d592e82e0",
    "t": 1787767661020,
@@ -310,28 +303,23 @@
    "onem": "sorun",
    "baslik": "1 sorun buldum",
    "govde": "Uygulamanın arka plandaki düzenli veri güncelleme kontrolleri (koşular) en son 1.6 gün önce yapılmış, yani sistem bir süredir güncellenmemiş. Bu durumun nedeni henüz belli değil. Uygulamanın sunucu ayarlarını kontrol edip bu otomatik güncellemelerin yeniden çalışmasını sağlamanız gerekiyor.\n\n— bunu yazan yapay zekâ (google (önbellek)); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Koşular taze\n   6saat: 1.6 gündür koşmadı"
-  }
- ],
- "bekleyen": [
-  {
-   "id": "1fc593a608f0",
-   "soru": "“Tarayıcı sınamaları” kontrolü takılıyor ve kendim onaramadım. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu? (Ayrıntısı panoda duruyor.)",
-   "secenekler": [
-    "Bu bilinen bir durum",
-    "Gerçekten bozuk, bak",
-    "Yanlış alarm"
-   ]
   },
   {
-   "id": "b863695d146d",
-   "soru": "“Koşular taze” kontrolü takılıyor ve kendim onaramadım. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu? (Ayrıntısı panoda duruyor.)",
-   "secenekler": [
-    "Bu bilinen bir durum",
-    "Gerçekten bozuk, bak",
-    "Yanlış alarm"
-   ]
+   "id": "431b61a31c45",
+   "t": 1788420188768,
+   "onem": "iyi",
+   "baslik": "Söylediğim sorunlar kapandı",
+   "govde": "Hepsi geçti. 109/110 kontrol · 2799 ayrı sınama."
+  },
+  {
+   "id": "9724063d6ef0",
+   "t": 1788420188878,
+   "onem": "iyi",
+   "baslik": "Bekleyen sorular düştü",
+   "govde": "Sorduğum şeyler kendiliğinden çözülmüş; artık kırmızı kontrol yok. 1 soru kapandı, cevaplaman gereken bir şey kalmadı."
   }
  ],
+ "bekleyen": [],
  "telefonSinamasi": [
   "Sesli not bırak ve ÇAL — sesi duyuyor musun?",
   "Galeriden 3 fotoğraf ekle — çubuk akıyor mu, özet çıkıyor mu?",
@@ -341,12 +329,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-08-30T14:05:09+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
   {
    "t": "2026-08-30T15:10:13+03:00",
    "k": "saatlik",
@@ -580,6 +562,12 @@
    "k": "6saat",
    "g": 35,
    "n": 37
+  },
+  {
+   "t": "2026-09-03T10:23:08+03:00",
+   "k": "gunluk",
+   "g": 109,
+   "n": 110
   }
  ]
 }
