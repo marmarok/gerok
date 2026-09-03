@@ -1,6 +1,6 @@
 {
  "bicim": 1,
- "zaman": "2026-09-03T10:17:37+03:00",
+ "zaman": "2026-09-03T10:19:39+03:00",
  "kadans": "gunluk",
  "durum": "sorun",
  "sayilar": {
@@ -9,8 +9,8 @@
   "gecen": 108,
   "bilinen": 1,
   "sorun": 1,
-  "sure": 110.3,
-  "kosu": 187
+  "sure": 109.5,
+  "kosu": 188
  },
  "sorunlar": [
   {
@@ -87,7 +87,7 @@
  },
  "derin": {
   "kadans": "gunluk",
-  "zaman": "2026-09-03T10:17:37+03:00",
+  "zaman": "2026-09-03T10:19:39+03:00",
   "kontrol": 110,
   "sinama": 2799,
   "gecen": 108,
@@ -151,13 +151,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "c0b8ff9b4a2a",
-   "t": 1787766491584,
-   "onem": "sorun",
-   "baslik": "1 sorun buldum",
-   "govde": "• [kritik] Zamanlayıcı ayakta\n   saatlik: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`"
-  },
   {
    "id": "309679f13955",
    "t": 1787766739268,
@@ -325,6 +318,13 @@
    "onem": "sorun",
    "baslik": "1 sorun buldum",
    "govde": "Uygulamanın arka plandaki düzenli veri güncelleme kontrolleri (koşular) en son 1.6 gün önce yapılmış, yani sistem bir süredir güncellenmemiş. Bu durumun nedeni henüz belli değil. Uygulamanın sunucu ayarlarını kontrol edip bu otomatik güncellemelerin yeniden çalışmasını sağlamanız gerekiyor.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Koşular taze\n   6saat: 1.6 gündür koşmadı"
+  },
+  {
+   "id": "baf72fe4f900",
+   "t": 1788419979383,
+   "onem": "sorun",
+   "baslik": "1 sorun buldum",
+   "govde": "Uygulamanın arka plandaki düzenli veri güncelleme kontrolleri (koşular) en son 1.6 gün önce yapılmış, yani sistem bir süredir güncellenmemiş. Bu durumun nedeni henüz belli değil. Uygulamanın sunucu ayarlarını kontrol edip bu otomatik güncellemelerin yeniden çalışmasını sağlamanız gerekiyor.\n\n— bunu yazan yapay zekâ (google (önbellek)); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Koşular taze\n   6saat: 1.6 gündür koşmadı"
   }
  ],
  "bekleyen": [
@@ -356,12 +356,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-08-30T12:31:12+03:00",
-   "k": "saatlik",
-   "g": 3,
-   "n": 5
-  },
   {
    "t": "2026-08-30T14:03:58+03:00",
    "k": "6saat",
@@ -592,6 +586,12 @@
   },
   {
    "t": "2026-09-03T10:17:37+03:00",
+   "k": "gunluk",
+   "g": 108,
+   "n": 110
+  },
+  {
+   "t": "2026-09-03T10:19:39+03:00",
    "k": "gunluk",
    "g": 108,
    "n": 110
