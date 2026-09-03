@@ -1,43 +1,96 @@
 {
  "bicim": 1,
- "zaman": "2026-09-03T09:41:52+03:00",
- "kadans": "saatlik",
- "durum": "iyi",
+ "zaman": "2026-09-03T10:17:37+03:00",
+ "kadans": "gunluk",
+ "durum": "sorun",
  "sayilar": {
-  "kontrol": 5,
-  "sinama": 37,
-  "gecen": 5,
-  "bilinen": 0,
-  "sorun": 0,
-  "sure": 0.9,
-  "kosu": 186
+  "kontrol": 110,
+  "sinama": 2799,
+  "gecen": 108,
+  "bilinen": 1,
+  "sorun": 1,
+  "sure": 110.3,
+  "kosu": 187
  },
- "sorunlar": [],
- "bilinenler": [],
+ "sorunlar": [
+  {
+   "ad": "Koşular taze",
+   "onem": "yuksek",
+   "oyku": "bekci",
+   "not": "6saat: 1.6 gündür koşmadı",
+   "onarilabilir": false
+  }
+ ],
+ "bilinenler": [
+  {
+   "ad": "Math.min(...dizi) yığın taşması",
+   "not": "app.js:764; app.js:5084; gerok.js:448; sihirbaz.js:454; sihirbaz.js:455; sihirbaz.js:456 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
+  }
+ ],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 3,
-   "toplam": 3,
-   "sinama": 6
+   "gecen": 15,
+   "toplam": 15,
+   "sinama": 146
   },
   "bekci": {
+   "gecen": 8,
+   "toplam": 9,
+   "sinama": 83
+  },
+  "yedek": {
    "gecen": 1,
    "toplam": 1,
-   "sinama": 8
+   "sinama": 2
   },
   "koprü": {
    "gecen": 1,
    "toplam": 1,
    "sinama": 23
+  },
+  "kod": {
+   "gecen": 11,
+   "toplam": 11,
+   "sinama": 1535
+  },
+  "veri": {
+   "gecen": 2,
+   "toplam": 2,
+   "sinama": 9
+  },
+  "gizlilik": {
+   "gecen": 7,
+   "toplam": 7,
+   "sinama": 76
+  },
+  "bilgi": {
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 458
+  },
+  "sartname": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 409
+  },
+  "depolama": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 1
+  },
+  "davranis": {
+   "gecen": 57,
+   "toplam": 57,
+   "sinama": 57
   }
  },
  "derin": {
   "kadans": "gunluk",
-  "zaman": "2026-09-01T16:39:12+03:00",
-  "kontrol": 54,
-  "sinama": 2743,
-  "gecen": 52,
+  "zaman": "2026-09-03T10:17:37+03:00",
+  "kontrol": 110,
+  "sinama": 2799,
+  "gecen": 108,
   "sorun": 1,
   "gruplar": {
    "yayin": {
@@ -46,7 +99,7 @@
     "sinama": 146
    },
    "bekci": {
-    "gecen": 9,
+    "gecen": 8,
     "toplam": 9,
     "sinama": 83
    },
@@ -91,20 +144,13 @@
     "sinama": 1
    },
    "davranis": {
-    "gecen": 0,
-    "toplam": 1,
-    "sinama": 1
+    "gecen": 57,
+    "toplam": 57,
+    "sinama": 57
    }
   }
  },
  "mesajlar": [
-  {
-   "id": "fdedf87049c1",
-   "t": 1787766446716,
-   "onem": "sorun",
-   "baslik": "1 sorun buldum",
-   "govde": "• [kritik] Zamanlayıcı ayakta\n   alti: son koşu 1 ile bitti — `bash ~/gerok/bekci/kur.sh`"
-  },
   {
    "id": "c0b8ff9b4a2a",
    "t": 1787766491584,
@@ -272,12 +318,28 @@
    "onem": "iyi",
    "baslik": "Söylediğim sorunlar kapandı",
    "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
+  },
+  {
+   "id": "545e4d38c1d2",
+   "t": 1788419858809,
+   "onem": "sorun",
+   "baslik": "1 sorun buldum",
+   "govde": "Uygulamanın arka plandaki düzenli veri güncelleme kontrolleri (koşular) en son 1.6 gün önce yapılmış, yani sistem bir süredir güncellenmemiş. Bu durumun nedeni henüz belli değil. Uygulamanın sunucu ayarlarını kontrol edip bu otomatik güncellemelerin yeniden çalışmasını sağlamanız gerekiyor.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Koşular taze\n   6saat: 1.6 gündür koşmadı"
   }
  ],
  "bekleyen": [
   {
    "id": "1fc593a608f0",
    "soru": "“Tarayıcı sınamaları” kontrolü takılıyor ve kendim onaramadım. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu? (Ayrıntısı panoda duruyor.)",
+   "secenekler": [
+    "Bu bilinen bir durum",
+    "Gerçekten bozuk, bak",
+    "Yanlış alarm"
+   ]
+  },
+  {
+   "id": "b863695d146d",
+   "soru": "“Koşular taze” kontrolü takılıyor ve kendim onaramadım. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu? (Ayrıntısı panoda duruyor.)",
    "secenekler": [
     "Bu bilinen bir durum",
     "Gerçekten bozuk, bak",
@@ -294,12 +356,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-08-30T11:43:26+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
   {
    "t": "2026-08-30T12:31:12+03:00",
    "k": "saatlik",
@@ -533,6 +589,12 @@
    "k": "saatlik",
    "g": 5,
    "n": 5
+  },
+  {
+   "t": "2026-09-03T10:17:37+03:00",
+   "k": "gunluk",
+   "g": 108,
+   "n": 110
   }
  ]
 }
