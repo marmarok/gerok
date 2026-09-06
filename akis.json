@@ -1,65 +1,35 @@
 {
  "bicim": 1,
- "zaman": "2026-09-07T00:46:25+03:00",
- "kadans": "6saat",
- "durum": "bilinen",
+ "zaman": "2026-09-07T01:06:26+03:00",
+ "kadans": "saatlik",
+ "durum": "iyi",
  "sayilar": {
-  "kontrol": 37,
-  "sinama": 2241,
-  "gecen": 36,
-  "bilinen": 1,
+  "kontrol": 5,
+  "sinama": 37,
+  "gecen": 5,
+  "bilinen": 0,
   "sorun": 0,
-  "sure": 12.7,
-  "kosu": 230
+  "sure": 1.3,
+  "kosu": 231
  },
  "sorunlar": [],
- "bilinenler": [
-  {
-   "ad": "Math.min(...dizi) yığın taşması",
-   "not": "app.js:764; app.js:5084; gerok.js:448; sihirbaz.js:454; sihirbaz.js:455; sihirbaz.js:456 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
-  }
- ],
+ "bilinenler": [],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 10,
-   "toplam": 10,
-   "sinama": 102
+   "gecen": 3,
+   "toplam": 3,
+   "sinama": 6
   },
   "bekci": {
-   "gecen": 4,
-   "toplam": 4,
-   "sinama": 16
-  },
-  "yedek": {
    "gecen": 1,
    "toplam": 1,
-   "sinama": 2
+   "sinama": 8
   },
   "koprü": {
    "gecen": 1,
    "toplam": 1,
    "sinama": 23
-  },
-  "kod": {
-   "gecen": 9,
-   "toplam": 9,
-   "sinama": 1518
-  },
-  "veri": {
-   "gecen": 2,
-   "toplam": 2,
-   "sinama": 9
-  },
-  "gizlilik": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 79
-  },
-  "bilgi": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 492
   }
  },
  "derin": {
@@ -315,12 +285,6 @@
  ],
  "gecmis": [
   {
-   "t": "2026-09-03T10:24:20+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
-  {
    "t": "2026-09-03T11:09:15+03:00",
    "k": "saatlik",
    "g": 5,
@@ -553,6 +517,12 @@
    "k": "6saat",
    "g": 36,
    "n": 37
+  },
+  {
+   "t": "2026-09-07T01:06:26+03:00",
+   "k": "saatlik",
+   "g": 5,
+   "n": 5
   }
  ]
 }
