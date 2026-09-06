@@ -446,5 +446,38 @@
   "ilgili": [
    "burek"
   ]
+ },
+ "karst": {
+  "kisa": "Kireçtaşı arazinin suyla yavaşça eriyerek oluşturduğu yer şekli: mağara, kaynak, dolin.",
+  "uzun": "Kireçtaşı yer altı sularıyla çözülünce mağaralar, güçlü kaynaklar ve yer yer çöküntü çukurları oluşuyor. Vevçani'nin bol sulu kaynakları ile Miruşa vadisindeki mağaralar bu sürecin sonucu. Adını Slovenya'daki Kras bölgesinden alır.",
+  "oyku": "balkan"
+ },
+ "Vasilica": {
+  "kisa": "Jülyen takvimine göre kutlanan eski yılbaşı gecesi, 13–14 Ocak.",
+  "uzun": "Gregoryen takvim kabul edilmeden önceki yılbaşı tarihidir; Sırbistan, Kuzey Makedonya ve Karadağ'ın bazı bölgelerinde hâlâ kutlanıyor. Vevçani'de bu gece köylüler korkunç maskeler takıp eski yılı 'kovan' bir karnaval düzenliyor.",
+  "oyku": "balkan"
+ },
+ "toprak piramidi": {
+  "kisa": "Farklı sertlikte toprak tabakalarının erozyonla aşınıp geride bıraktığı sivri, şapkalı sütun.",
+  "uzun": "Üstteki sert kaya parçası altındaki yumuşak toprağı yağmurdan koruduğu için sütun ayakta kalabiliyor; şapka düşünce birkaç yıl içinde sütun da eriyip gidiyor. Sırbistan'daki Đavolja Varoš'ta 200'den fazla sütun bu şekilde oluştu.",
+  "oyku": "balkan"
+ },
+ "kulla": {
+  "kisa": "Taş temelli, dar pencereli, savunma amaçlı yapılmış Arnavut kule evi.",
+  "uzun": "Alt kat ahır ve depo, üst katlar yaşam alanıdır; kalın taş duvarlar hem soğuktan hem eski kabile kavgalarından korurdu. Gjirokastra ve Berat'ın taş çatılı evleri bu geleneğin en iyi korunmuş örnekleri.",
+  "oyku": "balkan",
+  "ilgili": [
+   "konak"
+  ]
+ },
+ "qifqi": {
+  "kisa": "Pirinç, yumurta ve kuru naneyle yapılan, kızarmış top şeklinde Arnavut yemeği.",
+  "uzun": "Sığ bir tavada kızartılır, genelde yoğurtla servis edilir. Arnavutluk'un başka hiçbir şehrinde bu kadar yaygın değildir; Gjirokastra'nın imza yemeği sayılır.",
+  "oyku": "balkan"
+ },
+ "biyosfer rezervi": {
+  "kisa": "UNESCO'nun insan ile doğanın birlikte sürdürülebilir yaşadığı örnek bölgelere verdiği koruma statüsü.",
+  "uzun": "Dünya Mirası'ndan farkı şu: bölgede tarım, turizm ve yerleşim gibi insan faaliyetleri sürdürülebilir kullanım şartıyla devam eder. Tara Nehri Havzası 1977'de bu statüyü kazanan ilk Balkan bölgelerinden biri oldu.",
+  "oyku": "balkan"
  }
 }

@@ -541,49 +541,79 @@
    "manastır"
   ],
   "ozet": "Konsoloslar şehri; geniş yaya caddesi ve Heraklea antik kenti.",
-  "neden": "Osmanlı döneminde onlarca ülkenin konsolosluğu buradaydı, şehre 'konsoloslar şehri' denirdi. Mustafa Kemal askerî idadîyi burada okudu. Şirok Sokak denen geniş yaya caddesi hâlâ şehrin salonu gibi.",
-  "tarih": "Antik Heraklea Lyncestis MÖ 4. yüzyılda kuruldu; mozaikleri Balkanların en iyilerinden.",
+  "neden": "Osmanlı döneminde onlarca ülkenin konsolosluğu buradaydı, şehre 'konsoloslar şehri' denirdi; bugün hâlâ o dönemden kalma özenli cepheli konsolosluk binaları Şirok Sokak'ın iki yanında duruyor. Mustafa Kemal 1899–1902 arasında burada askerî idadîde okudu, şehir onun için bir dönüm noktası oldu. Şirok Sokak denen geniş yaya caddesi hâlâ şehrin salonu gibi: sabahtan akşama kadar oturulan kafeleriyle Bitola'nın günlük hayatı burada geçiyor. Şehrin dışındaki Heraklea Lyncestis antik kenti ise Roma ve erken Hristiyanlık dönemine ait, Balkanların en iyi korunmuş taban mozaiklerinden bazılarını barındırıyor.",
+  "tarih": "Antik Heraklea Lyncestis, Makedon kralı II. Filip tarafından MÖ 4. yüzyılda kuruldu ve Roma döneminde Via Egnatia üzerindeki önemli bir durak oldu; erken Hristiyanlık dönemi bazilikasının mozaikleri 5.–6. yüzyıla tarihleniyor. Şehir Osmanlı döneminde Rumeli eyaletinin merkezi oldu ve 19. yüzyılda on ikiden fazla ülke burada konsolosluk açtı. 1912'de Balkan Savaşları sırasında Osmanlı'dan çıktı.",
   "gez": [
    {
     "ad": "Heraklea antik kenti",
-    "not": "Erken Hristiyan mozaikleri.",
+    "not": "Erken Hristiyan bazilikasının mozaikleri kısmen üstü kapalı sergileniyor.",
     "sure": "1 saat",
     "fiyat": "120 MKD"
    },
    {
     "ad": "Şirok Sokak",
-    "not": "Yaya caddesi, kafeler.",
+    "not": "Yaya caddesi; eski konsolosluk binalarının çoğu bugün banka ya da kültür merkezi.",
     "sure": "40 dk"
    },
    {
     "ad": "Eski Çarşı ve Saat Kulesi",
-    "not": "",
+    "not": "16. yüzyıldan kalma, hâlâ küçük esnafın çalıştığı sokaklar.",
     "sure": "30 dk"
+   },
+   {
+    "ad": "Yeni Camii (Nova Džamija)",
+    "not": "Bugün sanat galerisi olarak kullanılıyor.",
+    "sure": "15 dk"
    }
   ],
   "ye": [
    {
     "ad": "Kafe kahvesi",
-    "ne": "Şirok Sokak'ta oturmak şehrin âdeti.",
+    "ne": "Şirok Sokak'ta oturmak şehrin âdeti; öğleden sonra masalar dolar.",
     "fiyat": "70–120 MKD",
+    "not": ""
+   },
+   {
+    "ad": "Tavče gravče",
+    "ne": "Toprak sahanda fırınlanmış fasulye, Makedonya'nın millî yemeği.",
+    "fiyat": "150–250 MKD",
+    "not": "Bitola lokantalarında Üsküp'e göre biraz daha ucuz."
+   },
+   {
+    "ad": "Ajvar ve peynir tabağı",
+    "ne": "Mezelik olarak sunuluyor.",
+    "fiyat": "100–180 MKD",
     "not": ""
    }
   ],
   "al": [
    {
-    "ad": "El işi",
+    "ad": "El işi dantel ve nakış",
     "ne": "Çarşıda az sayıda tezgâh.",
-    "fiyat": "—",
-    "dikkat": ""
+    "fiyat": "200–600 MKD",
+    "dikkat": "Makine işiyle karışıyor; ilmiklerin düzensiz olması el işinin işareti."
+   },
+   {
+    "ad": "Ajvar kavanozu",
+    "ne": "Yerel üreticilerden, ev yapımı.",
+    "fiyat": "150–250 MKD",
+    "dikkat": "Sıvı sayılıyor, el bagajına girmiyor; bavula konmalı."
    }
   ],
   "gezgin": [
-   "Heraklea gölgesiz; şapka gerekiyor."
+   "Heraklea'da gölge yok; öğlen saatlerinde gitmek yorucu oluyor, sabah erken ya da akşamüstü tercih edilmeli.",
+   "Şirok Sokak'ta kahve içmenin bedeli merkeze yakınlıkla artıyor; bir sokak içeri girince fiyat düşüyor.",
+   "Mustafa Kemal'in okuduğu askerî idadî binası bugün müze değil, sadece dışarıdan görülebiliyor; içeri girmeyi bekleyenler hayal kırıklığına uğrayabilir.",
+   "Üsküp'ten Bitola'ya tren hem otobüsten ucuz hem manzaralı ama günde birkaç sefer var; saatleri önceden kontrol edilmeli."
   ],
-  "dikkat": [],
-  "turkiye": "Ucuz.",
+  "dikkat": [
+   "Kışın Pelagonya Ovası'nın sisi şehre çöküyor, bazı günler öğleye kadar kalkmıyor.",
+   "Heraklea'daki mozaiklerin bir kısmı hava koşullarına karşı örtülü; hangi bölümün açık olduğu mevsime göre değişiyor."
+  ],
+  "turkiye": "Ucuz. Yemek ve kahve İstanbul'un yarısı fiyatına yakın; el işi dantel Türkiye'dekine göre daha ucuz.",
   "terim": [
-   "çarşı"
+   "çarşı",
+   "UNESCO Dünya Mirası"
   ]
  },
  {
@@ -1811,47 +1841,80 @@
    "travnik"
   ],
   "ozet": "Bosna vezirlerinin 150 yıl oturduğu şehir; Ivo Andrić'in doğduğu yer.",
-  "neden": "Renkli boyalı Alaca Camii ve kale. Nobel ödüllü 'Travnik Günlüğü' burada geçiyor.",
-  "tarih": "1699–1850 arası Bosna eyalet merkeziydi.",
+  "neden": "Travnik 1699'dan 1850'ye kadar Bosna eyaletinin başkentiydi ve bu yüzden küçük bir şehre göre şaşırtıcı derecede gösterişli yapıları var: rengârenk boyalı Alaca Camii, kalenin içindeki vezir mezarları, taş konaklar. Nobel ödüllü yazar Ivo Andrić burada doğdu ve 'Travnik Günlüğü' romanında şehri Napolyon savaşları döneminde Fransız ve Avusturya konsoloslarının kıskançlıkla izlediği bir vezir sarayı olarak anlatır — roman kurgu ama şehrin o dönemki önemi gerçek. Kale burçlarından bakınca dar vadiye sıkışmış, minareleriyle noktalanmış bir silüet görülüyor.",
+  "tarih": "Ortaçağ Bosna krallarının kalesi 15. yüzyılda Osmanlı eline geçti. 1699'da Karlofça Antlaşması'yla Bosna'nın büyük kısmı elden çıkınca eyalet merkezi Saraybosna'dan Travnik'e taşındı ve şehir 1850'ye kadar vezirlerin oturduğu yer oldu; bu dönemde 77 vezir sırayla görev yaptı. Şehrin simgesi Alaca Camii (Şarena Camii) 16. yüzyıl sonunda yapıldı, 1757'de Vezir Ćamil Ahmed Paşa'nın emriyle altında 27 dükkânlı bir çarşıyla yeniden inşa edildi; 1815 yangınından sonra Sulejman Paşa Skopljak tarafından bugünkü renkli cephesiyle onarıldı.",
   "gez": [
    {
     "ad": "Travnik Kalesi",
-    "not": "",
-    "sure": "45 dk"
+    "not": "Ortaçağdan kalma burçlar; kule merdivenleri dar ve eğik.",
+    "sure": "45 dk",
+    "fiyat": "4 BAM"
    },
    {
-    "ad": "Alaca Camii",
-    "not": "",
+    "ad": "Alaca Camii (Şarena Camii)",
+    "not": "Cephesindeki geometrik renkli boyalar Bosna'da eşi az bulunan bir işçilik.",
     "sure": "15 dk"
+   },
+   {
+    "ad": "Plava Voda (Mavi Su) parkı",
+    "not": "Lašva Nehri'nin buz gibi kaynağı; kıyısında gölgeli çay bahçeleri sıralanıyor.",
+    "sure": "30 dk"
+   },
+   {
+    "ad": "Ivo Andrić Müzesi",
+    "not": "Yazarın doğduğu evin yakınında küçük bir sergi.",
+    "sure": "20 dk",
+    "fiyat": "2 BAM"
    }
   ],
   "ye": [
    {
     "ad": "Travnik peyniri",
-    "ne": "Salamura koyun peyniri, coğrafi işaretli.",
+    "ne": "Salamura koyun peyniri, coğrafi işaretli; Bosna'nın en tanınmış peyniri.",
     "fiyat": "12–20 BAM/kg",
-    "not": ""
+    "not": "Pazardaki üreticiden alınan taze olanı marketten çok daha iyi."
    },
    {
     "ad": "Ćevapi",
-    "ne": "",
+    "ne": "Plava Voda kıyısındaki lokantaların standardı.",
     "fiyat": "8–12 BAM",
     "not": ""
+   },
+   {
+    "ad": "Klepe",
+    "ne": "Küçük mantı, sarımsaklı yoğurtla.",
+    "fiyat": "8–10 BAM",
+    "not": "Bosna'nın bu bölgesinde yaygın, Saraybosna'da daha az bulunuyor."
    }
   ],
   "al": [
    {
     "ad": "Travnik peyniri",
-    "ne": "",
-    "fiyat": "12–20 BAM",
-    "dikkat": "Vakumlanmışı bavula girer."
+    "ne": "Vakumlanmış, seyahate dayanıklı.",
+    "fiyat": "12–20 BAM/kg",
+    "dikkat": "Vakumlanmışı bavula girer; açık satılanı sıvı sayılmasa da uçakta koku yapabilir."
+   },
+   {
+    "ad": "Bakır cezve ve el işi",
+    "ne": "Kale eteğindeki birkaç küçük dükkânda.",
+    "fiyat": "20–40 BAM",
+    "dikkat": "Çeşit Saraybosna'daki kadar geniş değil; asıl bakırcı çarşısı Saraybosna'da."
    }
   ],
-  "gezgin": [],
-  "dikkat": [],
-  "turkiye": "Ucuz.",
+  "gezgin": [
+   "Kale burçlarına çıkan merdivenler dar ve nemde kayganlaşıyor; tek yönlü geçitlerde grup varsa sıra bekleniyor.",
+   "Plava Voda'daki çay bahçeleri öğleden sonra yerel halkla doluyor; masa bulmak için erken gitmek gerekiyor.",
+   "Travnik peynirini pazar günü sabah pazarından almak, hafta içi marketten almaktan hem taze hem ucuz çıkıyor.",
+   "Saraybosna-Travnik otobüs yolu Bosna'nın en manzaralı hatlarından; pencere kenarı koltuk tercih edilmeli."
+  ],
+  "dikkat": [
+   "Şehir dar bir vadide olduğu için kışın sis ve hava kirliliği birikiyor.",
+   "Kale gece kapalı; ışıklandırma dışarıdan izlemeye yetecek kadar."
+  ],
+  "turkiye": "Ucuz. Peynir Türkiye'deki benzer salamura peynirlerden daha ucuz ve coğrafi işaretli olduğu için kalitesi garanti.",
   "terim": [
-   "çarşı"
+   "çarşı",
+   "medrese"
   ]
  },
  {
@@ -2278,37 +2341,74 @@
   "lon": 18.5375,
   "yaricap": 4000,
   "eslesme": [
-   "herceg novi"
+   "herceg novi",
+   "castelnuovo"
   ],
-  "ozet": "Körfezin girişinde, basamaklı sokaklarıyla bilinen şehir.",
-  "neden": "Kotor'a göre sakin. Saat kulesi, Kanlı Kule ve deniz kenarı yürüyüş yolu (Pet Danica) 7 km.",
-  "tarih": "1382'de Bosna kralı kurdu; Osmanlı, Venedik ve Avusturya elinde kaldı.",
+  "ozet": "Körfezin girişinde, basamaklı sokaklarıyla bilinen, dört ayrı egemenlikten kale taşıyan şehir.",
+  "neden": "Herceg Novi, Kotor Körfezi'nin ağzında dik bir yamaca kurulmuş ve bu yüzden şehir merkezi düz değil, yüzlerce basamaktan oluşuyor. Kotor'a göre çok daha sakin ve daha az turistik; sahile inen Pet Danica yürüyüş yolu 7 km boyunca kayalık koylardan geçiyor. Şehrin kısa ama yoğun tarihi kalelerinde okunuyor: Bosna kralının kurduğu şehri sırayla Osmanlı, Venedik ve Avusturya aldı, her biri kendi kalesini bıraktı — Osmanlı'nın Kanlı Kule'si tepede, Venedik'in Forte Mare'si limanın hemen üstünde. Şubat sonunda düzenlenen Mimoza Karnavalı, körfezdeki kış aylarının en renkli anı.",
+  "tarih": "Şehir 1382'de Bosna Krallığı hükümdarı I. Tvrtko Kotromanić tarafından kuruldu ve 'Sveti Stefan' adıyla aynı yıl içinde inşa edildi; sonradan 'Novi' (Yeni) adı yerleşti. 1482'de Osmanlı aldı ve iki yüzyıl elinde tuttu, bu dönemde tepeye Kanlı Kule'yi (Kanli Kula) yaptı. 1687'de Venedik ele geçirdi ve limanın hemen üstüne Forte Mare'yi (Deniz Kalesi) inşa etti. 1797'den sonra sırasıyla Avusturya, Fransa ve yeniden Avusturya'nın eline geçti; 20. yüzyılda Yugoslavya'ya katıldı.",
   "gez": [
    {
     "ad": "Eski şehir ve saat kulesi",
-    "not": "Merdiven çok.",
+    "not": "Merdiven çok; araba giremiyor.",
     "sure": "1 saat"
    },
    {
+    "ad": "Kanlı Kule (Kanli Kula)",
+    "not": "Osmanlı yapımı tepe kalesi; yazın açık hava konser mekânı oluyor.",
+    "sure": "30 dk",
+    "fiyat": "2 €"
+   },
+   {
+    "ad": "Forte Mare",
+    "not": "Venedik kalesi, limana bakan burç; içinde küçük bir sinema/etkinlik alanı var.",
+    "sure": "20 dk"
+   },
+   {
     "ad": "Pet Danica yürüyüş yolu",
-    "not": "",
-    "sure": "—"
+    "not": "Deniz kıyısı boyunca kayalık koylara iniyor.",
+    "sure": "1,5–2 saat (tamamı)"
    }
   ],
   "ye": [
    {
     "ad": "Deniz ürünü",
-    "ne": "",
+    "ne": "Izgara balık ve midye, körfezin kendi ürünü.",
     "fiyat": "12–20 €",
-    "not": "Kotor'dan ucuz."
+    "not": "Kotor'dan ucuz; liman kıyısındaki lokantalar biraz daha pahalı."
+   },
+   {
+    "ad": "Njeguški pršut ve kajmak tabağı",
+    "ne": "Dağdan gelen kurutulmuş jambon ve kaymak, mezelik.",
+    "fiyat": "8–12 €",
+    "not": ""
    }
   ],
-  "al": [],
-  "gezgin": [
-   "Şehir dik; merdiven çok."
+  "al": [
+   {
+    "ad": "Mimoza sabunu ve kozmetiği",
+    "ne": "Şehrin şubat çiçeği mimozadan yapılan el yapımı ürünler.",
+    "fiyat": "5–10 €",
+    "dikkat": "Yalnızca karnaval öncesi ve sonrası dönemde bol; yaz aylarında az bulunuyor."
+   },
+   {
+    "ad": "Zeytinyağı",
+    "ne": "Boka Körfezi'nin kendi zeytinliklerinden.",
+    "fiyat": "10–15 €/500 ml",
+    "dikkat": "Sıvı, el bagajına girmiyor; şişe sızdırmaz poşetle sarılmalı."
+   }
   ],
-  "dikkat": [],
-  "turkiye": "Kotor'dan ucuz.",
+  "gezgin": [
+   "Şehir çok dik; deniz kenarından eski şehre çıkan yüzlerce basamak var, dizlerde sorun olan biri için Kotor'dan daha yorucu.",
+   "Pet Danica'da öğle güneşi çok sert; gölge neredeyse yok, sabah ya da akşamüzeri yürünmeli.",
+   "Kotor'a göre otel ve yemek fiyatları belirgin ucuz; körfezi görüp Kotor'un kalabalığından kaçmak isteyenler burada kalıyor.",
+   "Şubat sonundaki Mimoza Karnavalı'na denk gelen turistler şehri bomboş değil, tam tersine en canlı hâlinde görüyor."
+  ],
+  "dikkat": [
+   "Sahilde uzun kumsal yok; çoğu plaj çakıl ya da beton platform, deniz ayakkabısı işe yarıyor.",
+   "Otopark eski şehir içinde neredeyse yok; araçla gelenler aşağıda bırakıp yürüyerek çıkıyor."
+  ],
+  "turkiye": "Kotor'dan ucuz, Türkiye'nin turistik sahil kasabalarıyla benzer bantta. Zeytinyağı Türkiye'den pahalı.",
   "terim": [
    "eski şehir"
   ]
@@ -4003,6 +4103,418 @@
   "terim": [
    "manastır",
    "pršut"
+  ]
+ },
+ {
+  "id": "vevcani",
+  "ad": "Vevçani",
+  "ulke": "MK",
+  "lat": 41.2403,
+  "lon": 20.5931,
+  "yaricap": 3000,
+  "eslesme": [
+   "vevcani",
+   "vevçani",
+   "vevčani",
+   "vevcani kaynakları"
+  ],
+  "ozet": "Ohrid Gölü'ne 14 km uzaklıkta, bol sulu karst kaynakları ve kendini şakayla 'cumhuriyet' ilan eden köylüleriyle tanınan dağ köyü.",
+  "neden": "Vevçani'yi özel yapan iki şey var: suyu ve inadı. Köyün üstündeki Jablanica Dağı'ndan çıkan onlarca karst kaynağı küçük bir kanyonda birikip şelaleler ve göletler oluşturuyor; su o kadar bol ki köy asırlardır değirmenlerini bu suyla döndürüyor. İkinci şey ise direniş: 1987'de Yugoslav rejimi köyün suyunu komşu Struga'ya aktarmak isteyince köylüler karşı çıktı, 1991'de Yugoslavya dağılırken de bu direnişi şakaya çevirip kendi 'Vevçani Cumhuriyeti'ni ilan ettiler — bayrağı, arması ve alay amaçlı pasaportu bile var. Ocak ortasındaki Vasilica gecesinde köylüler korkunç maskeler takıp eski yıla veda ediyor; UNESCO bu geleneği somut olmayan kültürel miras listesine aldı.",
+  "tarih": "Köyün MÖ 2. yüzyıla kadar giden bir yerleşim geçmişi var; bugünkü köy 6.–8. yüzyıllar arasında kuruldu. 1987'de Yugoslav yönetimi su kaynaklarını Struga'ya aktarmaya kalkışınca köylüler direndi; bu direniş 1991'de Yugoslavya'nın dağılmasıyla aynı yıla denk gelince 'Vevçani Cumhuriyeti'nin şakayla ilanına dönüştü. Karnaval geleneği 1400 yıldan uzun süredir Jülyen takvimiyle her 13–14 Ocak'ta sürüyor.",
+  "gez": [
+   {
+    "ad": "Vevçani Kaynakları ve Kanyonu",
+    "not": "Girişten şelalelere kadar inen kısa bir patika.",
+    "sure": "1 saat",
+    "fiyat": "100 MKD"
+   },
+   {
+    "ad": "Eski su değirmenleri",
+    "not": "Kaynağın hemen yanında, hâlâ çalışır durumda.",
+    "sure": "15 dk"
+   },
+   {
+    "ad": "Sveti Nikola Kilisesi",
+    "not": "1876 tarihli, köyün merkez kilisesi.",
+    "sure": "20 dk"
+   },
+   {
+    "ad": "Sveti Spas Manastırı",
+    "not": "Köyün 1300 m üstünde; yaya ya da araçla çıkılıyor, manzarası göl ve ovayı kapsıyor.",
+    "sure": "2 saat (gidiş-dönüş)"
+   }
+  ],
+  "ye": [
+   {
+    "ad": "Alabalık ızgara",
+    "ne": "Kaynak suyunda yetişen taze alabalık, köy lokantalarının standardı.",
+    "fiyat": "350–500 MKD",
+    "not": "Kaynağa en yakın lokantalar biraz pahalı; köy içine 200 m girince fiyat düşüyor."
+   },
+   {
+    "ad": "Tavče gravče",
+    "ne": "Toprak sahanda fırınlanmış fasulye.",
+    "fiyat": "150–250 MKD",
+    "not": ""
+   }
+  ],
+  "al": [
+   {
+    "ad": "Ev yapımı reçel ve rakı",
+    "ne": "Köylülerin kendi bahçesinden.",
+    "fiyat": "150–300 MKD",
+    "dikkat": "Rakı sıvı, el bagajına girmiyor; şişeyi bavula koymak gerekiyor."
+   },
+   {
+    "ad": "Karnaval maskesi kopyası",
+    "ne": "Gerçek karnaval maskeleri satılık değil ama küçük hediyelik kopyaları var.",
+    "fiyat": "200–500 MKD",
+    "dikkat": "Yalnızca Ocak'taki karnaval döneminde bol; yaz aylarında dükkânlarda az bulunuyor."
+   }
+  ],
+  "gezgin": [
+   "Struga'dan taksiyle 20–25 dakika; kendi aracın yoksa taksiyi bekletip dönüş için fiyatı baştan konuşmak gerekiyor.",
+   "Kaynağın hemen dibindeki teras kalabalık olur; 200–300 m yukarı, değirmenlerin olduğu kısımdan bakmak hem sakin hem daha iyi manzara veriyor.",
+   "Karnaval yalnızca 13–14 Ocak gecesi yaşanıyor; yazın gidenler yalnızca boş sokakları ve suyu görüyor, maskeli geleneği kaçırıyor.",
+   "Sveti Spas'a çıkan yol dik ve işaretsiz; net bir haritası olmayan yalnız gitmemeli."
+  ],
+  "dikkat": [
+   "Köy Ohrid turlarının çoğunda yok; ayrı gitmek ya da özel araç tutmak gerekiyor.",
+   "Kaynak suyu çok soğuk; yüzmek için değil, fotoğraf ve yürüyüş için gidiliyor."
+  ],
+  "turkiye": "Yemek ve hediyelik Türkiye'den ucuz; alabalık göl kenarı restoranlarının yarı fiyatına yakın.",
+  "terim": [
+   "karst",
+   "Vasilica"
+  ]
+ },
+ {
+  "id": "davolja-varos",
+  "ad": "Đavolja Varoš (Şeytan Şehri)",
+  "ulke": "RS",
+  "lat": 42.9925,
+  "lon": 21.4072,
+  "yaricap": 2500,
+  "eslesme": [
+   "đavolja varoš",
+   "davolja varos",
+   "şeytan şehri",
+   "devil's town",
+   "seytan sehri"
+  ],
+  "ozet": "Toprak erozyonunun 200'ü aşkın taş 'kule' yarattığı, iki asitli pınarıyla bilinen doğal harika.",
+  "neden": "Đavolja Varoš'ta 200'ü aşkın taş sütun yükseliyor, boyları 2 ile 15 metre arasında değişiyor ve her birinin tepesinde daha sert bir kayadan 'şapka' duruyor — o şapka altındaki yumuşak toprağı yağmurdan koruduğu için sütun ayakta kalabiliyor, şapka düşünce birkaç yıl içinde sütun da eriyip gidiyor. Yerel efsaneye göre bu sütunlar taşlaşmış bir düğün alayı: kardeşler arası bir evliliğe kızan şeytan bütün düğünü taşa çevirmiş. 2007'de 'Doğanın Yeni 7 Harikası' yarışmasında kaya oluşumları kategorisinde dünya birincisi oldu. Hemen yakınında iki pınar var: biri (Đavolja Voda) pH'ı 1,5'e kadar düşen bir asit, öbürü (Crveno Vrelo) demirden kızıla boyanmış — ikisi de içilmiyor.",
+  "tarih": "Sütunlar, volkanik kül ve tüf tabakalarının binlerce yıllık yağmur erozyonuyla farklı hızlarda aşınmasıyla oluştu. Alan 1959'da 3 hektarlık bir doğal nadirlik olarak koruma altına alındı, 1981'de 26 hektara, 1988'de 64,6 hektara genişletildi; 1993'te 'ulusal önemde doğal varlık' ilan edildi. 2002'de UNESCO'nun geçici (tentative) Dünya Mirası listesine alındı ama bugüne kadar kalıcı listeye giremedi.",
+  "gez": [
+   {
+    "ad": "Taş kule yürüyüş parkuru",
+    "not": "Ziyaretçi merkezinden sütunlara kadar hazırlanmış, yaklaşık 900 m'lik patika.",
+    "sure": "1–1,5 saat",
+    "fiyat": "350 RSD"
+   },
+   {
+    "ad": "İki asitli pınar",
+    "not": "Đavolja Voda ve Crveno Vrelo; parkurun üstünde yan yana.",
+    "sure": "20 dk"
+   },
+   {
+    "ad": "Ziyaretçi merkezi",
+    "not": "Oluşumun nasıl meydana geldiğini anlatan küçük bir sergi.",
+    "sure": "15 dk"
+   }
+  ],
+  "ye": [
+   {
+    "ad": "Kuršumlija lokantaları",
+    "ne": "Alan içinde yemek yeri yok; en yakın lokantalar 27 km'deki Kuršumlija'da.",
+    "fiyat": "500–900 RSD",
+    "not": "Gitmeden ya da dönerken yemek planlanmalı, çevrede büfe bile yok."
+   },
+   {
+    "ad": "Şişe su ve atıştırmalık",
+    "ne": "Ziyaretçi merkezindeki küçük büfe.",
+    "fiyat": "100–200 RSD",
+    "not": "Seçenek az; kendi suyunu getirmek daha garanti."
+   }
+  ],
+  "al": [
+   {
+    "ad": "Taş kule figürlü hediyelik",
+    "ne": "Ziyaretçi merkezindeki küçük dükkânda magnet, kartpostal.",
+    "fiyat": "150–400 RSD",
+    "dikkat": "Alanın kendisinden taş ya da toprak almak yasak, para cezası var."
+   }
+  ],
+  "gezgin": [
+   "Niş'ten özel araçla ya da turla gitmek neredeyse şart; toplu taşıma çok sınırlı ve son 900 metre zaten yürünüyor.",
+   "Kızıl pınarın suyu fotoğraf için renkli ama İKİSİ DE İÇİLMEZ; dokunduktan sonra elini yıkamadan bir şey yeme.",
+   "Öğlen saatlerinde otobüs turları yığılıyor; sabah erken gitmek hem sıcaktan hem kalabalıktan kurtarıyor.",
+   "Patika taş ve toprak, yağmurdan sonra kayganlaşıyor; düz taban ayakkabı öneriliyor.",
+   "Niş çıkışlı turların çoğu Niş Kalesi ya da Sićevo Kanyonu ile birleştiriliyor; tek başına gidiş günü uzun tutuyor."
+  ],
+  "dikkat": [
+   "Yaz ortası öğlen saatlerinde alanda gölge yok, sıcak çarpması riski var; şapka ve su şart.",
+   "Bölge kırsal ve ıssız; telefon çekimi zayıflayabiliyor."
+  ],
+  "turkiye": "Giriş ücreti (yaklaşık 3 €) Türkiye'deki benzer doğa parklarından ucuz; gidiş yolundaki kasabalarda yemek Türkiye'yle yakın fiyatta.",
+  "terim": [
+   "toprak piramidi"
+  ]
+ },
+ {
+  "id": "tara-kanyonu",
+  "ad": "Tara Kanyonu",
+  "ulke": "ME",
+  "lat": 43.1504,
+  "lon": 19.2952,
+  "yaricap": 12000,
+  "eslesme": [
+   "tara kanyonu",
+   "tara canyon",
+   "durdjevica tara koprusu",
+   "tara nehri",
+   "đurđevića tara"
+  ],
+  "ozet": "Kıtasal Avrupa'nın en derin kanyonu; buz gibi turkuaz Tara Nehri'nin aktığı, rafting ve zipline'ıyla bilinen vadi.",
+  "neden": "Tara Nehri, Durmitor'un buzul göllerinden çıkıp kireçtaşı dağların arasında yer yer 1300 metreye varan bir yarık açmış — kıtasal Avrupa'nın en derin kanyonu. Su eriyen kardan geldiği için yazın bile buz gibi soğuk ve turkuaz-yeşil; bu renk kireçtaşından süzülen suyun berraklığından geliyor. Vadinin ortasındaki Đurđevića Tara Köprüsü hem mimari hem tarih açısından ayrı bir durak: 1940'ta tamamlandığında Avrupa'nın en büyük betonarme kemerli köprüsüydü, iki yıl sonra kendi mühendislerinden biri tarafından ortadan patlatıldı. Bugün köprüden bakmak, kanyonun üstünde zipline'la uçmak ya da aşağıda rafting yapmak üç ayrı deneyim sunuyor.",
+  "tarih": "Köprü 1937–1940 arasında Mijat Trojanović'in tasarımıyla yapıldı; 365 metre uzunluğunda, yol kotu nehirden 172 metre yüksekte. 1942'de Yugoslav partizanları, Alman-İtalyan ilerleyişini kesmek için köprünün mühendislerinden Lazar Jauković'ün yardımıyla orta kemeri patlattı; Jauković İtalyanlarca yakalanıp aynı yılın ağustosunda kendi köprüsünün kalıntıları üzerinde idam edildi, köprü 1946'da onarıldı. Kanyon 1977'de UNESCO'nun Tara Nehri Havzası Biyosfer Rezervi'ne katıldı, bir yıl sonra genişletilen Durmitor Millî Parkı'nın parçası oldu; park 1980'de UNESCO Dünya Mirası listesine girdi.",
+  "gez": [
+   {
+    "ad": "Đurđevića Tara Köprüsü",
+    "not": "Yürüyüş yolundan köprünün ortasına çıkılıp doğrudan 172 m aşağı bakılabiliyor.",
+    "sure": "30 dk"
+   },
+   {
+    "ad": "Zipline",
+    "not": "İki hat var: 1 km'yi aşan hızlı 'Extreme', daha kısa ve ailelik 'Red Rock'.",
+    "sure": "1 saat",
+    "fiyat": "Extreme 25 €, Red Rock 10 €"
+   },
+   {
+    "ad": "Rafting",
+    "not": "Nisan-Ekim arası çalışıyor; başlangıç noktası köprüye yakın.",
+    "sure": "Yarım gün ya da tam gün",
+    "fiyat": "Yarım gün 60–80 €, tam gün 120–150 €"
+   },
+   {
+    "ad": "Ćurevac manzara noktası",
+    "not": "Kanyonun en geniş göründüğü seyir terası, ahşap platform.",
+    "sure": "20 dk"
+   }
+  ],
+  "ye": [
+   {
+    "ad": "Jagnjetina ispod sača",
+    "ne": "Kor ateşinde saç altında pişirilen kuzu, Durmitor bölgesinin klasiği.",
+    "fiyat": "12–18 €",
+    "not": "Genelde önceden sipariş gerekiyor, saatler alıyor."
+   },
+   {
+    "ad": "Kačamak",
+    "ne": "Kaymak ve peynirle karıştırılan mısır lapası.",
+    "fiyat": "6–9 €",
+    "not": "Dağ evlerinin standart kahvaltılık ya da akşam yemeği."
+   },
+   {
+    "ad": "Njeguški pršut ve kajmak",
+    "ne": "Kurutulmuş jambon ve tuzlu kaymak tabağı.",
+    "fiyat": "8–12 €",
+    "not": ""
+   }
+  ],
+  "al": [
+   {
+    "ad": "Kuru mantar ve orman meyveleri",
+    "ne": "Durmitor'un ormanlarından toplanan, kavanozda ya da kurutulmuş.",
+    "fiyat": "5–10 €",
+    "dikkat": "Kurutulmuş mantar bagaja girer, reçel ve bal sıvı sayılır, el bagajına girmez."
+   },
+   {
+    "ad": "Yün çorap ve kazak",
+    "ne": "Žabljak'taki köy pazarında el örgüsü.",
+    "fiyat": "10–25 €",
+    "dikkat": "Fabrika işiyle karışıyor; ilmiklerin düzensizliği el işinin işareti."
+   }
+  ],
+  "gezgin": [
+   "Rafting fiyatı tur şirketine ve grup büyüklüğüne göre değişiyor; birkaç şirketten fiyat almadan ilk teklife razı olmamak gerekiyor.",
+   "Köprüden bakış ücretsiz ama zipline ve rafting ayrı ayrı ödeniyor; ikisini birden yapan turlar biraz indirimli oluyor.",
+   "Yaz öğlen saatlerinde köprüde otobüs turları birikip fotoğraf sırası uzuyor; sabah erken ya da gün batımına yakın gitmek daha rahat.",
+   "Su çok soğuk; rafting olmadan kanyonda kendi başına yüzmeye kalkmak riskli, akıntı güçlü.",
+   "Kasım-Nisan arası kar nedeniyle bazı yollar ve aktiviteler kapanıyor; kış ziyaretinde önceden aktivite durumu sorulmalı."
+  ],
+  "dikkat": [
+   "Bölge yüksek rakımlı; yazın bile akşamları hava hızla soğuyor, yanında bir mont bulundurmak gerekiyor.",
+   "Zipline ve rafting için yaş ve kilo sınırı var, rezervasyon öncesi kontrol edilmeli."
+  ],
+  "turkiye": "Rafting ve zipline Türkiye'deki benzer aktivitelerden pahalıca; yemek Žabljak'ta Kotor kıyısına göre ucuz.",
+  "terim": [
+   "biyosfer rezervi",
+   "pršut"
+  ]
+ },
+ {
+  "id": "gjirokastra",
+  "ad": "Gjirokastra (Ergiri)",
+  "ulke": "AL",
+  "lat": 40.0756,
+  "lon": 20.1386,
+  "yaricap": 6000,
+  "eslesme": [
+   "gjirokastra",
+   "gjirokaster",
+   "ergiri",
+   "yergökastro",
+   "taş şehir"
+  ],
+  "ozet": "Dik yamaca kurulmuş, gri taş çatılı evleriyle bilinen, UNESCO'nun 'taş şehir' dediği Osmanlı kasabası.",
+  "neden": "Gjirokastra'yı yamaçtan aşağı bakınca gören şey aynı gri taşın yüzlerce kez tekrarı: evlerin duvarları da çatıları da bölgeye özgü kayrak taşından. Bu evler 'kulla' denen kule tipinde — alt kat ahır ve depo, üst katlar kalın taş duvarlı yaşam alanı — ve savunma amacıyla tasarlanmış. Kaledeki en ilginç köşe Soğuk Savaş'tan kalma bir ABD casus uçağı ve komünist dönemin siyasi mahkûmlarının tutulduğu hücreler; şehrin kendisi de hem diktatör Enver Hoca'nın hem yazar İsmail Kadare'nin doğduğu yer olarak iki karşıt hikâyeyi birden taşıyor. Çarşının dar taş sokaklarında kızarmış pirinç topları 'qifqi' gibi başka hiçbir Arnavut şehrinde bu kadar yaygın olmayan bir mutfak da duruyor.",
+  "tarih": "Kentin ilk surları 12. yüzyılda yükselmeye başladı. 1417'de Osmanlı eline geçti; kale bugünkü büyük hâlini 18.–19. yüzyılda Yanyalı Ali Paşa döneminde aldı, aynı dönemde saat kulesi eklendi. Çarşı 17. yüzyılda kuruldu, 19. yüzyıldaki büyük bir yangından sonra yeniden inşa edildi. Komünist dönemin lideri Enver Hoca 1908'de, yazar İsmail Kadare 1936'da burada doğdu. UNESCO kenti 2005'te Dünya Mirası listesine aldı.",
+  "gez": [
+   {
+    "ad": "Gjirokastra Kalesi",
+    "not": "Zindanlar, silah müzesi ve II. Dünya Savaşı sonrası kalma bir ABD uçağı var.",
+    "sure": "1,5 saat",
+    "fiyat": "400 lek (kale), silah müzesi +200 lek"
+   },
+   {
+    "ad": "Eski Çarşı",
+    "not": "Taş kaldırımlı, dükkânların bir kısmı hâlâ el işi satıyor.",
+    "sure": "1 saat"
+   },
+   {
+    "ad": "İsmail Kadare Evi",
+    "not": "Yazarın doğduğu kulla tipi ev, müzeye çevrilmiş.",
+    "sure": "30 dk",
+    "fiyat": "200 lek"
+   },
+   {
+    "ad": "Etnografya Müzesi",
+    "not": "Enver Hoca'nın doğduğu evin yerinde, geleneksel kulla iç düzenini gösteriyor.",
+    "sure": "30 dk",
+    "fiyat": "200 lek"
+   }
+  ],
+  "ye": [
+   {
+    "ad": "Qifqi",
+    "ne": "Pirinç, yumurta ve kuru nane ile yapılan, yalnızca Gjirokastra'ya özgü kızarmış toplar.",
+    "fiyat": "300–500 lek",
+    "not": "Başka şehirde bulmak zor; şehrin imza yemeği sayılıyor."
+   },
+   {
+    "ad": "Oshaf",
+    "ne": "Kuru meyve kompostosu, tatlı olarak.",
+    "fiyat": "200–300 lek",
+    "not": ""
+   },
+   {
+    "ad": "Byrek",
+    "ne": "Kahvaltıda yaygın.",
+    "fiyat": "100–200 lek",
+    "not": ""
+   }
+  ],
+  "al": [
+   {
+    "ad": "Yün çorap ve kilim",
+    "ne": "Çarşıda el örgüsü.",
+    "fiyat": "500–1500 lek",
+    "dikkat": "Makine işiyle karışıyor; dokusu düzensiz olan gerçek el işi sayılıyor."
+   },
+   {
+    "ad": "Rakia (üzüm ya da dut)",
+    "ne": "Bölge evlerinin kendi damıttığı sert içki.",
+    "fiyat": "500–800 lek/şişe",
+    "dikkat": "Sıvı, el bagajına girmiyor."
+   }
+  ],
+  "gezgin": [
+   "Kale ve çarşı arasındaki taş kaldırımlar çok dik ve cilalı; yağmurda kaygan oluyor, düz taban ayakkabı şart.",
+   "Kaledeki ABD uçağının hikâyesini rehbersiz gidenler kaçırıyor; girişte anlatım isteyin ya da önceden okuyun.",
+   "Şehir Sarandë ya da Berat'tan gelen günübirlikçilerle öğlen doluyor; sabah ya da akşamüstü ışığı hem serin hem daha az kalabalık.",
+   "Otoparklar eski şehrin dışında; araçla gelenler aşağıda bırakıp yukarı yürüyor ya da küçük servis araçlarını kullanıyor."
+  ],
+  "dikkat": [
+   "Kasım-Mart arası taş sokaklar buzlanabiliyor.",
+   "Kart geçen yer merkezde arttı ama çarşı içindeki küçük dükkânlar hâlâ nakit istiyor."
+  ],
+  "turkiye": "Yemek ve konaklama Türkiye'den ucuz; el işi yün ürünler benzer ya da biraz ucuz.",
+  "terim": [
+   "kulla",
+   "qifqi",
+   "UNESCO Dünya Mirası"
+  ]
+ },
+ {
+  "id": "mirusha-selaleleri",
+  "ad": "Mirusha Şelaleleri",
+  "ulke": "XK",
+  "lat": 42.524,
+  "lon": 20.583,
+  "yaricap": 4000,
+  "eslesme": [
+   "mirusha selaleleri",
+   "mirusha waterfalls",
+   "miruşa şelaleleri",
+   "mirusha parkı",
+   "ujëvarat e mirushës"
+  ],
+  "ozet": "Miruşa Deresi'nin 10 kilometrelik bir vadide art arda oluşturduğu 13 gölet ve şelaleden oluşan doğa parkı.",
+  "neden": "Miruşa Deresi, Kosova'nın ortasında dar bir kireçtaşı vadi boyunca art arda 13 doğal gölet ve şelale oluşturmuş; her gölet küçük bir çağlayanla bir sonrakine bağlanıyor. Vadinin duvarlarında mağaralar var, bazılarına yalnızca suyun altından dalarak girilebiliyor — yerel gençlerin yaz eğlencesi bu. Yabancı turist rotalarında neredeyse hiç yer almıyor; burayı dolduran çoğunlukla hafta sonu gelen Kosovalı aileler ve gençler, bu da yeri hem sakin hem daha 'gerçek' kılıyor.",
+  "tarih": "Vadi ilk kez 1975'te koruma altına alındı; 1982'de üç belediyeye (Klina, Malişevo, Rahovec) yayılan 'bölgesel park' statüsü kazandı. Miruşa Deresi'nin akışı ayrıca 1983'te 'doğal anıt' olarak ayrıca korumaya alındı.",
+  "gez": [
+   {
+    "ad": "Şelale ve göletler boyunca yürüyüş",
+    "not": "Girişten ilk birkaç gölete kadar düz, ilerisi taşlık ve dar.",
+    "sure": "1,5–2 saat"
+   },
+   {
+    "ad": "Göletlerde yüzme",
+    "not": "Su soğuk ama yazın kalabalık dolduruyor; en derin gölet gençlerin atlama noktası.",
+    "sure": "—"
+   },
+   {
+    "ad": "Yarı su altı mağaralar",
+    "not": "Bazılarına giriş yalnızca kısa bir dalışla mümkün; rehbersiz denenmemeli.",
+    "sure": "—"
+   }
+  ],
+  "ye": [
+   {
+    "ad": "Park girişindeki büfeler",
+    "ne": "Izgara mısır, ayran, basit sandviç.",
+    "fiyat": "1–3 €",
+    "not": "Vadi içinde yemek yeri yok, girişte hazırlıklı olmak gerekiyor."
+   },
+   {
+    "ad": "Piknik",
+    "ne": "Çoğu ziyaretçi kendi yemeğini getiriyor.",
+    "fiyat": "—",
+    "not": "Gölet kenarlarında piknik alanları var."
+   }
+  ],
+  "al": [
+   {
+    "ad": "Yöresel bal ve reçel",
+    "ne": "Klina çevresindeki köylülerin sattığı.",
+    "fiyat": "3–6 €",
+    "dikkat": "Sıvı/yarı sıvı sayılıyor, el bagajına girmiyor."
+   }
+  ],
+  "gezgin": [
+   "Priştine'den özel araçla yaklaşık 1,5 saat; toplu taşımayla ulaşmak zor, dolmuş sık değil — grup halinde taksi tutmak yaygın çözüm.",
+   "Yaz hafta sonları öğleden sonra çok kalabalık oluyor; sabah erken gitmek hem göletleri boş bulmayı hem daha temiz su görmeyi sağlıyor.",
+   "Mağaralara girmek isteyenler yerel bir rehber bulmalı; işaretli güvenlik ekipmanı ya da görevli yok.",
+   "Vadi boyunca telefon çekimi zayıf; buluşma ve dönüş saati önceden netleştirilmeli."
+  ],
+  "dikkat": [
+   "Cankurtaran yok; göletlerde yüzmek tamamen kişisel sorumluluk.",
+   "Yağmurdan sonra su seviyesi hızla yükselebiliyor, taşlar kayganlaşıyor."
+  ],
+  "turkiye": "Yiyecek-içecek ve ulaşım Türkiye'den ucuz; benzer bir doğa parkına göre çok daha az işletilmiş, bu da hem avantaj hem dezavantaj.",
+  "terim": [
+   "karst"
   ]
  }
 ]
