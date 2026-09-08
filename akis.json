@@ -1,44 +1,97 @@
 {
  "bicim": 1,
- "zaman": "2026-09-08T22:56:10+03:00",
- "kadans": "saatlik",
- "durum": "iyi",
+ "zaman": "2026-09-08T23:59:49+03:00",
+ "kadans": "gunluk",
+ "durum": "sorun",
  "sayilar": {
-  "kontrol": 5,
-  "sinama": 37,
-  "gecen": 5,
-  "bilinen": 0,
-  "sorun": 0,
-  "sure": 0.8,
-  "kosu": 259
+  "kontrol": 110,
+  "sinama": 2838,
+  "gecen": 108,
+  "bilinen": 1,
+  "sorun": 1,
+  "sure": 119.5,
+  "kosu": 260
  },
- "sorunlar": [],
- "bilinenler": [],
+ "sorunlar": [
+  {
+   "ad": "Diskte yer var",
+   "onem": "yuksek",
+   "oyku": "depolama",
+   "not": "4.6 GB boş",
+   "onarilabilir": false
+  }
+ ],
+ "bilinenler": [
+  {
+   "ad": "Math.min(...dizi) yığın taşması",
+   "not": "app.js:764; app.js:5084; gerok.js:448; sihirbaz.js:454; sihirbaz.js:455; sihirbaz.js:456 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
+  }
+ ],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 3,
-   "toplam": 3,
-   "sinama": 6
+   "gecen": 15,
+   "toplam": 15,
+   "sinama": 146
   },
   "bekci": {
+   "gecen": 9,
+   "toplam": 9,
+   "sinama": 83
+  },
+  "yedek": {
    "gecen": 1,
    "toplam": 1,
-   "sinama": 8
+   "sinama": 2
   },
   "koprü": {
    "gecen": 1,
    "toplam": 1,
    "sinama": 23
+  },
+  "kod": {
+   "gecen": 11,
+   "toplam": 11,
+   "sinama": 1535
+  },
+  "veri": {
+   "gecen": 2,
+   "toplam": 2,
+   "sinama": 9
+  },
+  "gizlilik": {
+   "gecen": 7,
+   "toplam": 7,
+   "sinama": 81
+  },
+  "bilgi": {
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 492
+  },
+  "sartname": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 409
+  },
+  "depolama": {
+   "gecen": 0,
+   "toplam": 1,
+   "sinama": 1
+  },
+  "davranis": {
+   "gecen": 57,
+   "toplam": 57,
+   "sinama": 57
   }
  },
  "derin": {
   "kadans": "gunluk",
-  "zaman": "2026-09-07T02:29:58+03:00",
+  "zaman": "2026-09-08T23:59:49+03:00",
   "kontrol": 110,
   "sinama": 2838,
-  "gecen": 109,
-  "sorun": 0,
+  "gecen": 108,
+  "sorun": 1,
   "gruplar": {
    "yayin": {
     "gecen": 15,
@@ -86,7 +139,7 @@
     "sinama": 409
    },
    "depolama": {
-    "gecen": 1,
+    "gecen": 0,
     "toplam": 1,
     "sinama": 1
    },
@@ -98,13 +151,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "921113424862",
-   "t": 1787782172636,
-   "onem": "iyi",
-   "baslik": "Söylediğim sorunlar kapandı",
-   "govde": "Hepsi geçti. 34/35 kontrol · 1059 ayrı sınama."
-  },
   {
    "id": "0423c769af29",
    "t": 1787782539711,
@@ -272,9 +318,26 @@
    "onem": "iyi",
    "baslik": "Söylediğim sorunlar kapandı",
    "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
+  },
+  {
+   "id": "f6e4ab0d3daa",
+   "t": 1788901199330,
+   "onem": "sorun",
+   "baslik": "1 sorun buldum",
+   "govde": "Uygulamanızın kayıtlı olduğu sunucuda disk alanı tükenmek üzere ve şu an sadece 4.6 GB boş yer kalmış. Sisteminizin sorunsuz çalışmaya devam etmesi için gereksiz dosyaları silerek veya disk kapasitesini artırarak acilen yer açmanız gerekiyor. Bu durum şu an için bir çöküşe sebep olmasa da önlem almazsanız uygulamanız yeni veri kaydedemeyebilir.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Diskte yer var\n   4.6 GB boş"
   }
  ],
- "bekleyen": [],
+ "bekleyen": [
+  {
+   "id": "be125fd2b347",
+   "soru": "“Diskte yer var” kontrolü takılıyor ve kendim onaramadım. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu? (Ayrıntısı panoda duruyor.)",
+   "secenekler": [
+    "Bu bilinen bir durum",
+    "Gerçekten bozuk, bak",
+    "Yanlış alarm"
+   ]
+  }
+ ],
  "telefonSinamasi": [
   "Sesli not bırak ve ÇAL — sesi duyuyor musun?",
   "Galeriden 3 fotoğraf ekle — çubuk akıyor mu, özet çıkıyor mu?",
@@ -284,12 +347,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-09-06T03:38:25+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
   {
    "t": "2026-09-06T13:08:18+03:00",
    "k": "saatlik",
@@ -523,6 +580,12 @@
    "k": "saatlik",
    "g": 5,
    "n": 5
+  },
+  {
+   "t": "2026-09-08T23:59:49+03:00",
+   "k": "gunluk",
+   "g": 108,
+   "n": 110
   }
  ]
 }
