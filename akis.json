@@ -1,88 +1,35 @@
 {
  "bicim": 1,
- "zaman": "2026-09-08T23:59:49+03:00",
- "kadans": "gunluk",
- "durum": "sorun",
+ "zaman": "2026-09-09T00:01:14+03:00",
+ "kadans": "saatlik",
+ "durum": "iyi",
  "sayilar": {
-  "kontrol": 110,
-  "sinama": 2838,
-  "gecen": 108,
-  "bilinen": 1,
-  "sorun": 1,
-  "sure": 119.5,
-  "kosu": 260
+  "kontrol": 5,
+  "sinama": 37,
+  "gecen": 5,
+  "bilinen": 0,
+  "sorun": 0,
+  "sure": 0.5,
+  "kosu": 261
  },
- "sorunlar": [
-  {
-   "ad": "Diskte yer var",
-   "onem": "yuksek",
-   "oyku": "depolama",
-   "not": "4.6 GB boş",
-   "onarilabilir": false
-  }
- ],
- "bilinenler": [
-  {
-   "ad": "Math.min(...dizi) yığın taşması",
-   "not": "app.js:764; app.js:5084; gerok.js:448; sihirbaz.js:454; sihirbaz.js:455; sihirbaz.js:456 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
-  }
- ],
+ "sorunlar": [],
+ "bilinenler": [],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 15,
-   "toplam": 15,
-   "sinama": 146
+   "gecen": 3,
+   "toplam": 3,
+   "sinama": 6
   },
   "bekci": {
-   "gecen": 9,
-   "toplam": 9,
-   "sinama": 83
-  },
-  "yedek": {
    "gecen": 1,
    "toplam": 1,
-   "sinama": 2
+   "sinama": 8
   },
   "koprü": {
    "gecen": 1,
    "toplam": 1,
    "sinama": 23
-  },
-  "kod": {
-   "gecen": 11,
-   "toplam": 11,
-   "sinama": 1535
-  },
-  "veri": {
-   "gecen": 2,
-   "toplam": 2,
-   "sinama": 9
-  },
-  "gizlilik": {
-   "gecen": 7,
-   "toplam": 7,
-   "sinama": 81
-  },
-  "bilgi": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 492
-  },
-  "sartname": {
-   "gecen": 1,
-   "toplam": 1,
-   "sinama": 409
-  },
-  "depolama": {
-   "gecen": 0,
-   "toplam": 1,
-   "sinama": 1
-  },
-  "davranis": {
-   "gecen": 57,
-   "toplam": 57,
-   "sinama": 57
   }
  },
  "derin": {
@@ -151,13 +98,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "0423c769af29",
-   "t": 1787782539711,
-   "onem": "iyi",
-   "baslik": "İki geçici kesinti onarıldı",
-   "govde": "Bu gece bekçi iki kırmızı gördü: canlı site/iCloud kontrolleri ve tarayıcı testleri. İkisini de araştırdım — gerçek arıza değil, Mac'in kısa bakım uykusu sırasında ağ birkaç saniyeliğine kesiliyor ve iki kontrol koşusu üst üste düşünce paylaştıkları test sunucusunu birbirinden çalıyorlardı. İkisine de kalıcı düzeltme yaptım: ağ/iCloud kontrolleri artık kısa aralıklarla 3 kez deniyor, tarayıcı testleri artık sıraya giriyor. Şimdi her şey yeşil, senin yapman gereken bir şey yok."
-  },
   {
    "id": "557641a0e8d8",
    "t": 1787837745509,
@@ -325,6 +265,13 @@
    "onem": "sorun",
    "baslik": "1 sorun buldum",
    "govde": "Uygulamanızın kayıtlı olduğu sunucuda disk alanı tükenmek üzere ve şu an sadece 4.6 GB boş yer kalmış. Sisteminizin sorunsuz çalışmaya devam etmesi için gereksiz dosyaları silerek veya disk kapasitesini artırarak acilen yer açmanız gerekiyor. Bu durum şu an için bir çöküşe sebep olmasa da önlem almazsanız uygulamanız yeni veri kaydedemeyebilir.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Diskte yer var\n   4.6 GB boş"
+  },
+  {
+   "id": "d4453749b00f",
+   "t": 1788901274637,
+   "onem": "iyi",
+   "baslik": "Söylediğim sorunlar kapandı",
+   "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
   }
  ],
  "bekleyen": [
@@ -347,12 +294,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-09-06T13:08:18+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
   {
    "t": "2026-09-06T14:13:37+03:00",
    "k": "saatlik",
@@ -586,6 +527,12 @@
    "k": "gunluk",
    "g": 108,
    "n": 110
+  },
+  {
+   "t": "2026-09-09T00:01:14+03:00",
+   "k": "saatlik",
+   "g": 5,
+   "n": 5
   }
  ]
 }
