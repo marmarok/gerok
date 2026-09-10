@@ -1,73 +1,35 @@
 {
  "bicim": 1,
- "zaman": "2026-09-11T02:01:13+03:00",
- "kadans": "6saat",
- "durum": "sorun",
+ "zaman": "2026-09-11T02:44:56+03:00",
+ "kadans": "saatlik",
+ "durum": "iyi",
  "sayilar": {
-  "kontrol": 37,
-  "sinama": 2241,
-  "gecen": 35,
-  "bilinen": 1,
-  "sorun": 1,
-  "sure": 14.9,
-  "kosu": 278
+  "kontrol": 5,
+  "sinama": 37,
+  "gecen": 5,
+  "bilinen": 0,
+  "sorun": 0,
+  "sure": 0.8,
+  "kosu": 279
  },
- "sorunlar": [
-  {
-   "ad": "Koşular taze",
-   "onem": "yuksek",
-   "oyku": "bekci",
-   "not": "haftalik: 14.4 gündür koşmadı",
-   "onarilabilir": false
-  }
- ],
- "bilinenler": [
-  {
-   "ad": "Math.min(...dizi) yığın taşması",
-   "not": "app.js:764; app.js:5084; gerok.js:448; sihirbaz.js:454; sihirbaz.js:455; sihirbaz.js:456 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
-  }
- ],
+ "sorunlar": [],
+ "bilinenler": [],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 10,
-   "toplam": 10,
-   "sinama": 102
+   "gecen": 3,
+   "toplam": 3,
+   "sinama": 6
   },
   "bekci": {
-   "gecen": 3,
-   "toplam": 4,
-   "sinama": 16
-  },
-  "yedek": {
    "gecen": 1,
    "toplam": 1,
-   "sinama": 2
+   "sinama": 8
   },
   "koprü": {
    "gecen": 1,
    "toplam": 1,
    "sinama": 23
-  },
-  "kod": {
-   "gecen": 9,
-   "toplam": 9,
-   "sinama": 1518
-  },
-  "veri": {
-   "gecen": 2,
-   "toplam": 2,
-   "sinama": 9
-  },
-  "gizlilik": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 79
-  },
-  "bilgi": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 492
   }
  },
  "derin": {
@@ -136,13 +98,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "8dde610b822f",
-   "t": 1788078527463,
-   "onem": "sorun",
-   "baslik": "2 sorun buldum",
-   "govde": "• [yuksek] Kurmancî sözlüğü tam\n   2 çeviri eksik: ['app.js: Tur bittikten sonra', 'app.js: Tur yok']\n• [yuksek] Kurucu iki yerde aynı\n   daldaki nüsha Mac'tekinden farklı — yayın kuralları ayrışmış"
-  },
   {
    "id": "c5e639a8f0d8",
    "t": 1788078796433,
@@ -310,6 +265,13 @@
    "onem": "sorun",
    "baslik": "1 sorun buldum",
    "govde": "Haftalık olarak yapılması planlanan sistem kontrolleri 14.4 gündür çalıştırılmamış görünüyor. Bu durumun nedeni şu an için belli değil. Uygulamanın arka planda düzenli çalışmasını sağlayan bu otomatik süreçleri sistem yöneticinizle görüşerek yeniden başlatmanız gerekiyor.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Koşular taze\n   haftalik: 14.4 gündür koşmadı"
+  },
+  {
+   "id": "b3f91981b54e",
+   "t": 1789083896949,
+   "onem": "iyi",
+   "baslik": "Söylediğim sorunlar kapandı",
+   "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
   }
  ],
  "bekleyen": [
@@ -341,12 +303,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-09-07T10:48:23+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
   {
    "t": "2026-09-07T12:37:24+03:00",
    "k": "saatlik",
@@ -580,6 +536,12 @@
    "k": "6saat",
    "g": 35,
    "n": 37
+  },
+  {
+   "t": "2026-09-11T02:44:56+03:00",
+   "k": "saatlik",
+   "g": 5,
+   "n": 5
   }
  ]
 }
