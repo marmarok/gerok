@@ -1,116 +1,35 @@
 {
  "bicim": 1,
- "zaman": "2026-09-11T11:52:43+03:00",
- "kadans": "gunluk",
- "durum": "sorun",
+ "zaman": "2026-09-11T13:17:19+03:00",
+ "kadans": "saatlik",
+ "durum": "iyi",
  "sayilar": {
-  "kontrol": 110,
-  "sinama": 2838,
-  "gecen": 104,
-  "bilinen": 1,
-  "sorun": 5,
-  "sure": 484.8,
-  "kosu": 283
+  "kontrol": 5,
+  "sinama": 37,
+  "gecen": 5,
+  "bilinen": 0,
+  "sorun": 0,
+  "sure": 1.1,
+  "kosu": 284
  },
- "sorunlar": [
-  {
-   "ad": "Koşular taze",
-   "onem": "yuksek",
-   "oyku": "bekci",
-   "not": "haftalik: 14.8 gündür koşmadı",
-   "onarilabilir": false
-  },
-  {
-   "ad": "Diskte yer var",
-   "onem": "yuksek",
-   "oyku": "depolama",
-   "not": "4.4 GB boş",
-   "onarilabilir": false
-  },
-  {
-   "ad": "Sohbette yer sorusu, detay ve terim uçtan uca çalışıyor",
-   "onem": "yuksek",
-   "oyku": "davranis",
-   "not": "Runtime.evaluate zaman aşımı",
-   "onarilabilir": false
-  },
-  {
-   "ad": "Harita alanı: uzaktaki dosyadan parça parça okunuyor",
-   "onem": "kritik",
-   "oyku": "davranis",
-   "not": "Runtime.evaluate zaman aşımı",
-   "onarilabilir": false
-  },
-  {
-   "ad": "Yayınlanmamış bir yer de basınca iniyor (İstanbul, Tokyo)",
-   "onem": "kritik",
-   "oyku": "davranis",
-   "not": "Runtime.evaluate zaman aşımı",
-   "onarilabilir": false
-  }
- ],
- "bilinenler": [
-  {
-   "ad": "Math.min(...dizi) yığın taşması",
-   "not": "app.js:764; app.js:5084; gerok.js:448; sihirbaz.js:454; sihirbaz.js:455; sihirbaz.js:456 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
-  }
- ],
+ "sorunlar": [],
+ "bilinenler": [],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 15,
-   "toplam": 15,
-   "sinama": 146
+   "gecen": 3,
+   "toplam": 3,
+   "sinama": 6
   },
   "bekci": {
-   "gecen": 8,
-   "toplam": 9,
-   "sinama": 83
-  },
-  "yedek": {
    "gecen": 1,
    "toplam": 1,
-   "sinama": 2
+   "sinama": 8
   },
   "koprü": {
    "gecen": 1,
    "toplam": 1,
    "sinama": 23
-  },
-  "kod": {
-   "gecen": 11,
-   "toplam": 11,
-   "sinama": 1535
-  },
-  "veri": {
-   "gecen": 2,
-   "toplam": 2,
-   "sinama": 9
-  },
-  "gizlilik": {
-   "gecen": 7,
-   "toplam": 7,
-   "sinama": 81
-  },
-  "bilgi": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 492
-  },
-  "sartname": {
-   "gecen": 1,
-   "toplam": 1,
-   "sinama": 409
-  },
-  "depolama": {
-   "gecen": 0,
-   "toplam": 1,
-   "sinama": 1
-  },
-  "davranis": {
-   "gecen": 54,
-   "toplam": 57,
-   "sinama": 57
   }
  },
  "derin": {
@@ -179,13 +98,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "56379096ef59",
-   "t": 1788079203839,
-   "onem": "sorun",
-   "baslik": "1 sorun buldum",
-   "govde": "• [orta] Yayınlanmamış değişiklik yok\n   2 dosya: s/diller/ku.js, surum.json"
-  },
   {
    "id": "b76ba10f9528",
    "t": 1788079372690,
@@ -353,6 +265,13 @@
    "onem": "sorun",
    "baslik": "5 sorun buldum",
    "govde": "• [yuksek] Koşular taze\n   haftalik: 14.8 gündür koşmadı\n• [yuksek] Diskte yer var\n   4.4 GB boş\n• [yuksek] Sohbette yer sorusu, detay ve terim uçtan uca çalışıyor\n   Runtime.evaluate zaman aşımı\n• [kritik] Harita alanı: uzaktaki dosyadan parça parça okunuyor\n   Runtime.evaluate zaman aşımı\n• [kritik] Yayınlanmamış bir yer de basınca iniyor (İstanbul, Tokyo)\n   Runtime.evaluate zaman aşımı"
+  },
+  {
+   "id": "444e776ae3c2",
+   "t": 1789121839821,
+   "onem": "iyi",
+   "baslik": "Söylediğim sorunlar kapandı",
+   "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
   }
  ],
  "bekleyen": [
@@ -411,12 +330,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-09-07T16:57:50+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
   {
    "t": "2026-09-07T17:02:17+03:00",
    "k": "6saat",
@@ -650,6 +563,12 @@
    "k": "gunluk",
    "g": 104,
    "n": 110
+  },
+  {
+   "t": "2026-09-11T13:17:19+03:00",
+   "k": "saatlik",
+   "g": 5,
+   "n": 5
   }
  ]
 }
