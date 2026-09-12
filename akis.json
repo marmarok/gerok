@@ -1,118 +1,35 @@
 {
  "bicim": 1,
- "zaman": "2026-09-12T11:25:03+03:00",
- "kadans": "haftalik",
- "durum": "sorun",
+ "zaman": "2026-09-12T12:28:05+03:00",
+ "kadans": "saatlik",
+ "durum": "iyi",
  "sayilar": {
-  "kontrol": 118,
-  "sinama": 2853,
-  "gecen": 112,
-  "bilinen": 2,
-  "sorun": 4,
-  "sure": 133.4,
-  "kosu": 293
+  "kontrol": 5,
+  "sinama": 37,
+  "gecen": 5,
+  "bilinen": 0,
+  "sorun": 0,
+  "sure": 0.7,
+  "kosu": 294
  },
- "sorunlar": [
-  {
-   "ad": "Telefon yedeği duruyor",
-   "onem": "yuksek",
-   "oyku": "yedek",
-   "not": "2 yedek · en yenisi 14.9 gün önce, 378 MB — 14 günden eski",
-   "onarilabilir": false
-  },
-  {
-   "ad": "Koşular taze",
-   "onem": "yuksek",
-   "oyku": "bekci",
-   "not": "haftalik: 15.8 gündür koşmadı",
-   "onarilabilir": false
-  },
-  {
-   "ad": "Diskte yer var",
-   "onem": "yuksek",
-   "oyku": "depolama",
-   "not": "4.0 GB boş",
-   "onarilabilir": false
-  },
-  {
-   "ad": "Akıl hocası dosyaları bayatlamamış",
-   "onem": "orta",
-   "oyku": "bekci",
-   "not": "1 dosya 3 günden uzun süredir bekliyor: 20260908-2359-diskte-yer-var",
-   "onarilabilir": false
-  }
- ],
- "bilinenler": [
-  {
-   "ad": "Math.min(...dizi) yığın taşması",
-   "not": "app.js:764; app.js:5084; gerok.js:448; sihirbaz.js:454; sihirbaz.js:455; sihirbaz.js:456 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
-  },
-  {
-   "ad": "Arşivde fotoğrafların aslı var",
-   "not": "(ayrıntı panoda)"
-  }
- ],
+ "sorunlar": [],
+ "bilinenler": [],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 15,
-   "toplam": 15,
-   "sinama": 146
+   "gecen": 3,
+   "toplam": 3,
+   "sinama": 6
   },
   "bekci": {
-   "gecen": 7,
-   "toplam": 9,
-   "sinama": 84
-  },
-  "yedek": {
-   "gecen": 0,
+   "gecen": 1,
    "toplam": 1,
-   "sinama": 2
+   "sinama": 8
   },
   "koprü": {
    "gecen": 1,
    "toplam": 1,
    "sinama": 23
-  },
-  "kod": {
-   "gecen": 11,
-   "toplam": 11,
-   "sinama": 1535
-  },
-  "veri": {
-   "gecen": 2,
-   "toplam": 2,
-   "sinama": 9
-  },
-  "gizlilik": {
-   "gecen": 7,
-   "toplam": 7,
-   "sinama": 81
-  },
-  "bilgi": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 492
-  },
-  "sartname": {
-   "gecen": 1,
-   "toplam": 1,
-   "sinama": 409
-  },
-  "depolama": {
-   "gecen": 3,
-   "toplam": 4,
-   "sinama": 4
-  },
-  "kaynak": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 11
-  },
-  "davranis": {
-   "gecen": 57,
-   "toplam": 57,
-   "sinama": 57
   }
  },
  "derin": {
@@ -186,13 +103,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "36727ca5ca6b",
-   "t": 1788269954192,
-   "onem": "sorun",
-   "baslik": "1 sorun buldum",
-   "govde": "Uygulamanın internet tarayıcısı üzerinde doğru çalışıp çalışmadığını test eden sistemde bir aksaklık yaşandı ve Chrome tarayıcısı başlatılamadı. Bu durum \"tarayici.mjs\" isimli dosyanın 66. satırındaki bir hatadan kaynaklanıyor; ancak tarayıcının neden açılmadığının sebebi şu an için belli değil. Bilgisayarınızda Chrome tarayıcısının yüklü ve güncel olduğundan emin olup testi yeniden çalıştırmayı deneyebilirsiniz.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [kritik] Tarayıcı sınamaları\n   file://~/gerok/bekci/tarayici.mjs:66\n  throw new Error('Chrome açılmadı');\n        ^\n\nError: Chrome açılmadı\n    at chromeBaslat (file://~/gerok/bekci/tarayici.mjs:66"
-  },
   {
    "id": "df6f714b09b3",
    "t": 1788273801384,
@@ -360,6 +270,13 @@
    "onem": "sorun",
    "baslik": "4 sorun buldum",
    "govde": "Uygulamanızda bazı rutin kontroller süresini aşmış ve disk alanınız azalmış görünüyor. Telefon yedeğiniz 14 günü geçmiş, haftalık koşularınız 15 gündür yapılmamış ve \"20260908-2359-diskte-yer-var\" isimli akıl hocası dosyası 3 günden uzun süredir bekliyor. Bu durumları düzeltmek için yeni bir telefon yedeği almalı, koşuları başlatmalı, bekleyen dosyayı güncellemeli ve 4 GB kalan disk alanınızı rahatlatmak için gereksiz dosyaları temizlemelisiniz.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 14.9 gün önce, 378 MB — 14 günden eski\n• [yuksek] Koşular taze\n   haftalik: 15.8 gündür koşmadı\n• [yuksek] Diskte yer var\n   "
+  },
+  {
+   "id": "314045ce6425",
+   "t": 1789205285515,
+   "onem": "iyi",
+   "baslik": "Söylediğim sorunlar kapandı",
+   "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
   }
  ],
  "bekleyen": [
@@ -400,12 +317,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-09-08T18:35:51+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
   {
    "t": "2026-09-08T19:40:57+03:00",
    "k": "saatlik",
@@ -639,6 +550,12 @@
    "k": "haftalik",
    "g": 112,
    "n": 118
+  },
+  {
+   "t": "2026-09-12T12:28:05+03:00",
+   "k": "saatlik",
+   "g": 5,
+   "n": 5
   }
  ]
 }
