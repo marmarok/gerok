@@ -1,44 +1,111 @@
 {
  "bicim": 1,
- "zaman": "2026-09-13T12:32:51+03:00",
- "kadans": "saatlik",
- "durum": "iyi",
+ "zaman": "2026-09-13T12:41:50+03:00",
+ "kadans": "gunluk",
+ "durum": "sorun",
  "sayilar": {
-  "kontrol": 5,
-  "sinama": 37,
-  "gecen": 5,
-  "bilinen": 0,
-  "sorun": 0,
-  "sure": 0.8,
-  "kosu": 301
+  "kontrol": 110,
+  "sinama": 2881,
+  "gecen": 106,
+  "bilinen": 1,
+  "sorun": 3,
+  "sure": 115.2,
+  "kosu": 302
  },
- "sorunlar": [],
- "bilinenler": [],
+ "sorunlar": [
+  {
+   "ad": "Telefon yedeği duruyor",
+   "onem": "yuksek",
+   "oyku": "yedek",
+   "not": "2 yedek · en yenisi 16.0 gün önce, 378 MB — 14 günden eski",
+   "onarilabilir": false
+  },
+  {
+   "ad": "Diskte yer var",
+   "onem": "yuksek",
+   "oyku": "depolama",
+   "not": "2.0 GB boş",
+   "onarilabilir": false
+  },
+  {
+   "ad": "Akıl hocası dosyaları bayatlamamış",
+   "onem": "orta",
+   "oyku": "bekci",
+   "not": "1 dosya 3 günden uzun süredir bekliyor: 20260908-2359-diskte-yer-var",
+   "onarilabilir": false
+  }
+ ],
+ "bilinenler": [
+  {
+   "ad": "Math.min(...dizi) yığın taşması",
+   "not": "app.js:764; app.js:5084; gerok.js:448; sihirbaz.js:454; sihirbaz.js:455; sihirbaz.js:456 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
+  }
+ ],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 3,
-   "toplam": 3,
-   "sinama": 6
+   "gecen": 15,
+   "toplam": 15,
+   "sinama": 146
   },
   "bekci": {
-   "gecen": 1,
+   "gecen": 8,
+   "toplam": 9,
+   "sinama": 84
+  },
+  "yedek": {
+   "gecen": 0,
    "toplam": 1,
-   "sinama": 8
+   "sinama": 2
   },
   "koprü": {
    "gecen": 1,
    "toplam": 1,
    "sinama": 23
+  },
+  "kod": {
+   "gecen": 11,
+   "toplam": 11,
+   "sinama": 1535
+  },
+  "veri": {
+   "gecen": 2,
+   "toplam": 2,
+   "sinama": 9
+  },
+  "gizlilik": {
+   "gecen": 7,
+   "toplam": 7,
+   "sinama": 86
+  },
+  "bilgi": {
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 529
+  },
+  "sartname": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 409
+  },
+  "depolama": {
+   "gecen": 0,
+   "toplam": 1,
+   "sinama": 1
+  },
+  "davranis": {
+   "gecen": 57,
+   "toplam": 57,
+   "sinama": 57
   }
  },
  "derin": {
-  "kadans": "haftalik",
-  "zaman": "2026-09-12T11:25:03+03:00",
-  "kontrol": 118,
-  "sinama": 2853,
-  "gecen": 112,
-  "sorun": 4,
+  "kadans": "gunluk",
+  "zaman": "2026-09-13T12:41:50+03:00",
+  "kontrol": 110,
+  "sinama": 2881,
+  "gecen": 106,
+  "sorun": 3,
   "gruplar": {
    "yayin": {
     "gecen": 15,
@@ -46,7 +113,7 @@
     "sinama": 146
    },
    "bekci": {
-    "gecen": 7,
+    "gecen": 8,
     "toplam": 9,
     "sinama": 84
    },
@@ -73,12 +140,12 @@
    "gizlilik": {
     "gecen": 7,
     "toplam": 7,
-    "sinama": 81
+    "sinama": 86
    },
    "bilgi": {
     "gecen": 5,
     "toplam": 5,
-    "sinama": 492
+    "sinama": 529
    },
    "sartname": {
     "gecen": 1,
@@ -86,14 +153,9 @@
     "sinama": 409
    },
    "depolama": {
-    "gecen": 3,
-    "toplam": 4,
-    "sinama": 4
-   },
-   "kaynak": {
-    "gecen": 5,
-    "toplam": 5,
-    "sinama": 11
+    "gecen": 0,
+    "toplam": 1,
+    "sinama": 1
    },
    "davranis": {
     "gecen": 57,
@@ -103,13 +165,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "baf72fe4f900",
-   "t": 1788419979383,
-   "onem": "sorun",
-   "baslik": "1 sorun buldum",
-   "govde": "Uygulamanın arka plandaki düzenli veri güncelleme kontrolleri (koşular) en son 1.6 gün önce yapılmış, yani sistem bir süredir güncellenmemiş. Bu durumun nedeni henüz belli değil. Uygulamanın sunucu ayarlarını kontrol edip bu otomatik güncellemelerin yeniden çalışmasını sağlamanız gerekiyor.\n\n— bunu yazan yapay zekâ (google (önbellek)); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Koşular taze\n   6saat: 1.6 gündür koşmadı"
-  },
   {
    "id": "431b61a31c45",
    "t": 1788420188768,
@@ -277,6 +332,13 @@
    "onem": "iyi",
    "baslik": "Söylediğim sorunlar kapandı",
    "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
+  },
+  {
+   "id": "cdf0d84bb7e3",
+   "t": 1789292511840,
+   "onem": "sorun",
+   "baslik": "3 sorun buldum",
+   "govde": "Uygulamanızda telefon yedeklerinin güncel olmaması, disk alanının sınırda olması ve bir adet akıl hocası dosyasının güncelliğini yitirmesi nedeniyle bazı kontroller başarısız oldu. Bu durumları düzeltmek için yeni bir telefon yedeği almalı, diskte yer açmalı ve \"20260908-2359-diskte-yer-var\" isimli eskiyen dosyayı güncellemelisiniz. Endişelenmeyin, bu küçük düzenlemelerle uygulamanız tekrar sorunsuz çalışacaktır.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 16.0 gün önce, 378 MB — 14 günden eski\n• [yuksek] Diskte yer var\n   2.0 GB boş\n• [orta] Akıl hocası dosyaları bayatlamamış\n   1 dosya 3 günden uzun süredir be"
   }
  ],
  "bekleyen": [
@@ -308,12 +370,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-09-09T01:06:19+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
   {
    "t": "2026-09-09T02:11:23+03:00",
    "k": "saatlik",
@@ -547,6 +603,12 @@
    "k": "saatlik",
    "g": 5,
    "n": 5
+  },
+  {
+   "t": "2026-09-13T12:41:50+03:00",
+   "k": "gunluk",
+   "g": 106,
+   "n": 110
   }
  ]
 }
