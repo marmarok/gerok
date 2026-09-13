@@ -1,73 +1,35 @@
 {
  "bicim": 1,
- "zaman": "2026-09-13T08:54:34+03:00",
- "kadans": "6saat",
- "durum": "sorun",
+ "zaman": "2026-09-13T09:59:22+03:00",
+ "kadans": "saatlik",
+ "durum": "iyi",
  "sayilar": {
-  "kontrol": 37,
-  "sinama": 2283,
-  "gecen": 35,
-  "bilinen": 1,
-  "sorun": 1,
-  "sure": 17.7,
-  "kosu": 299
+  "kontrol": 5,
+  "sinama": 37,
+  "gecen": 5,
+  "bilinen": 0,
+  "sorun": 0,
+  "sure": 1.0,
+  "kosu": 300
  },
- "sorunlar": [
-  {
-   "ad": "Telefon yedeği duruyor",
-   "onem": "yuksek",
-   "oyku": "yedek",
-   "not": "2 yedek · en yenisi 15.8 gün önce, 378 MB — 14 günden eski",
-   "onarilabilir": false
-  }
- ],
- "bilinenler": [
-  {
-   "ad": "Math.min(...dizi) yığın taşması",
-   "not": "app.js:764; app.js:5084; gerok.js:448; sihirbaz.js:454; sihirbaz.js:455; sihirbaz.js:456 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
-  }
- ],
+ "sorunlar": [],
+ "bilinenler": [],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 10,
-   "toplam": 10,
-   "sinama": 102
+   "gecen": 3,
+   "toplam": 3,
+   "sinama": 6
   },
   "bekci": {
-   "gecen": 4,
-   "toplam": 4,
-   "sinama": 16
-  },
-  "yedek": {
-   "gecen": 0,
+   "gecen": 1,
    "toplam": 1,
-   "sinama": 2
+   "sinama": 8
   },
   "koprü": {
    "gecen": 1,
    "toplam": 1,
    "sinama": 23
-  },
-  "kod": {
-   "gecen": 9,
-   "toplam": 9,
-   "sinama": 1518
-  },
-  "veri": {
-   "gecen": 2,
-   "toplam": 2,
-   "sinama": 9
-  },
-  "gizlilik": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 84
-  },
-  "bilgi": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 529
   }
  },
  "derin": {
@@ -141,13 +103,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "545e4d38c1d2",
-   "t": 1788419858809,
-   "onem": "sorun",
-   "baslik": "1 sorun buldum",
-   "govde": "Uygulamanın arka plandaki düzenli veri güncelleme kontrolleri (koşular) en son 1.6 gün önce yapılmış, yani sistem bir süredir güncellenmemiş. Bu durumun nedeni henüz belli değil. Uygulamanın sunucu ayarlarını kontrol edip bu otomatik güncellemelerin yeniden çalışmasını sağlamanız gerekiyor.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Koşular taze\n   6saat: 1.6 gündür koşmadı"
-  },
   {
    "id": "baf72fe4f900",
    "t": 1788419979383,
@@ -315,6 +270,13 @@
    "onem": "sorun",
    "baslik": "1 sorun buldum",
    "govde": "Telefonunuzdaki gezi defteri verilerinin güvenliği için alınan yedeklerden en yenisi 15.8 gün öncesine ait ve bu süre sınır olan 14 günü aşmış durumda. Uygulamanın içindeki ayarlar bölümünden güncel verilerinizi manuel olarak tekrar yedeklemeniz gerekiyor. Bu işlem, olası bir veri kaybını önlemek için yapılan rutin bir kontroldür.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 15.8 gün önce, 378 MB — 14 günden eski"
+  },
+  {
+   "id": "4c89c96d7ad9",
+   "t": 1789282762858,
+   "onem": "iyi",
+   "baslik": "Söylediğim sorunlar kapandı",
+   "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
   }
  ],
  "bekleyen": [
@@ -346,12 +308,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-09-08T23:59:49+03:00",
-   "k": "gunluk",
-   "g": 108,
-   "n": 110
-  },
   {
    "t": "2026-09-09T00:01:14+03:00",
    "k": "saatlik",
@@ -585,6 +541,12 @@
    "k": "6saat",
    "g": 35,
    "n": 37
+  },
+  {
+   "t": "2026-09-13T09:59:22+03:00",
+   "k": "saatlik",
+   "g": 5,
+   "n": 5
   }
  ]
 }
