@@ -479,5 +479,44 @@
   "kisa": "UNESCO'nun insan ile doğanın birlikte sürdürülebilir yaşadığı örnek bölgelere verdiği koruma statüsü.",
   "uzun": "Dünya Mirası'ndan farkı şu: bölgede tarım, turizm ve yerleşim gibi insan faaliyetleri sürdürülebilir kullanım şartıyla devam eder. Tara Nehri Havzası 1977'de bu statüyü kazanan ilk Balkan bölgelerinden biri oldu.",
   "oyku": "balkan"
+ },
+ "İlinden İsyanı": {
+  "kisa": "1903'te Osmanlı'ya karşı Makedonya ve Trakya'da başlayan halk ayaklanması.",
+  "uzun": "2 Ağustos 1903'te (Aziz İlya/İlinden günü) patlak veren, Osmanlı yönetimine karşı en geniş çaplı Balkan ayaklanmalarından biri. Kruševo'da isyancılar on gün süren kısa ömürlü bir cumhuriyet ilan etti; ayaklanma Osmanlı ordusunca bastırıldı ve pek çok köy yakıldı. Bugün Kuzey Makedonya'da millî bayram olarak anılıyor, Makedonium gibi anıtların çoğu bu olayı hatırlatıyor.",
+  "oyku": "balkan",
+  "ilgili": [
+   "spomenik"
+  ]
+ },
+ "spomenik": {
+  "kisa": "Yugoslavya döneminde II. Dünya Savaşı ve halk direnişi anılarına yapılan, soyut biçimli devasa beton anıtlar.",
+  "uzun": "1960-80'lerde Tito Yugoslavyası'nda inşa edilen bu anıtlar bilinçli olarak dini ya da milliyetçi sembollerden kaçınıp soyut, fütüristik biçimler kullanıyor — çiçek, yumruk, kanat ya da UFO'yu andıran formlar gibi. Kruševo'daki Makedonium en bilinenlerinden biri. Yugoslavya dağıldıktan sonra çoğu bakımsız kaldı; son yıllarda fotoğrafçılar ve gezginler arasında ayrı bir ilgi odağı hâline geldi.",
+  "oyku": "balkan",
+  "ilgili": [
+   "İlinden İsyanı"
+  ]
+ },
+ "dar hat": {
+  "kisa": "Standarttan daha dar ray aralığıyla yapılan, genelde dağlık arazide kullanılan demiryolu.",
+  "uzun": "Avusturya-Macaristan döneminde Balkan dağlarında yaygın olarak kullanılan 760 mm'lik dar hat sistemi, dik yamaçlarda standart hatlardan daha ucuz ve pratikti. Bugün ticari işlevini yitiren hatların çoğu söküldü; Mokra Gora'daki Šargan Sekizi gibi birkaç parça, dağı sekiz rakamı çizerek tırmanan güzergâhıyla nostalji treni olarak turizme kazandırıldı.",
+  "oyku": "balkan"
+ },
+ "sarkıt": {
+  "kisa": "Mağara tavanından aşağı doğru, damlayan sudaki kalsiyum karbonatın birikmesiyle uzayan oluşum.",
+  "uzun": "Su, tavandaki çatlaklardan sızarken içindeki kalsiyum karbonatın bir kısmını bırakır; bu birikim binlerce yılda sarkıt biçimini alır. Büyüme çok yavaştır — Kosova'daki Gadime Mağarası'nda ortalama otuz bin yılda bir milimetre. Tabandan yukarı uzayan karşılığına dikit denir.",
+  "oyku": "balkan",
+  "ilgili": [
+   "dikit",
+   "karst"
+  ]
+ },
+ "dikit": {
+  "kisa": "Mağara tabanından yukarı doğru, damlayan sudaki kalsiyum karbonatın birikmesiyle uzayan oluşum.",
+  "uzun": "Sarkıttan damlayan suyun tabana bıraktığı kalsiyum karbonat birikintisi zamanla yukarı doğru uzar. Bir sarkıt ile altındaki dikit birleşirse sütun oluşur. Kosova'daki Gadime (Mermer) Mağarası bu oluşumların mermer görünümlü, parlak örnekleriyle tanınıyor.",
+  "oyku": "balkan",
+  "ilgili": [
+   "sarkıt",
+   "karst"
+  ]
  }
 }

@@ -628,12 +628,22 @@
   ],
   "ozet": "Ohrid Gölü'nün kuzey ucu; Kara Drim nehrinin gölden çıktığı yer.",
   "neden": "Ohrid'e 14 km. Daha sakin, daha yerel. Nehrin göle karıştığı köprü akşam yürüyüşünün merkezi.",
-  "tarih": "Şiir Akşamları festivaliyle bilinir.",
+  "tarih": "Struga, Kara Drim Nehri'nin Ohrid Gölü'nden çıktığı nadir noktada kurulmuş antik bir yerleşim; Bizans, Slav ve Osmanlı izleri taşıyor. 19. yüzyılda modern Makedon şiirinin kurucusu sayılan Konstantin Miladinov ve ağabeyi Dimitar'ın doğduğu şehir olması, 1961'de -Miladinov Kardeşler'in halk şarkıları derlemesinin 100. yılında- başlayan Struga Şiir Akşamları festivalinin temelini attı. Festival 1966'dan beri her ağustos, en prestijli ödülü Altın Çelenk'i dağıtıyor; W.H. Auden, Pablo Neruda ve Seamus Heaney gibi isimler bu ödülü aldı.",
   "gez": [
    {
     "ad": "Drim köprüsü ve kıyı",
     "not": "Akşam yürüyüşü.",
     "sure": "30 dk"
+   },
+   {
+    "ad": "Nina'nın Köprüsü",
+    "not": "Ahşap dilek köprüsü, nehir üzerinde.",
+    "sure": "15 dk"
+   },
+   {
+    "ad": "Struga plajı",
+    "not": "Ohrid Gölü'nün Kuzey Makedonya tarafındaki en iyi plajlarından.",
+    "sure": "—"
    }
   ],
   "ye": [
@@ -641,6 +651,12 @@
     "ad": "Göl balığı",
     "ne": "Ohrid'den ucuz.",
     "fiyat": "400–800 MKD",
+    "not": "Nehir kıyısı restoranlarında Ohrid'e göre genelde %20-30 ucuz."
+   },
+   {
+    "ad": "Ohrid alabalığı (pastrmka) menüsü",
+    "ne": "Kıyı restoranlarında.",
+    "fiyat": "800–1400 MKD",
     "not": ""
    }
   ],
@@ -650,14 +666,27 @@
     "ne": "Yerel pazar salı ve cuma.",
     "fiyat": "—",
     "dikkat": ""
+   },
+   {
+    "ad": "El işi ve hediyelik",
+    "ne": "Kara Drim kıyısındaki tezgahlarda dokuma ve süs eşyası.",
+    "fiyat": "—",
+    "dikkat": "Pazarlık payı var, özellikle turistik tezgahlarda."
    }
   ],
   "gezgin": [
-   "Ohrid kalabalığından kaçmak için iyi."
+   "Ohrid kalabalığından kaçmak için iyi.",
+   "Ohrid'e otobüsle yaklaşık 20 dakika, sık seferli; günübirlik gidip gelmek kolay.",
+   "Ağustosta Şiir Akşamları ile çakışırsa şehir doluyor ve pahalılaşıyor; sakinlik istiyorsan mayıs-haziran ya da eylül tercih et.",
+   "Nehir kıyısındaki restoranlar Ohrid'dekiyle aynı balığı genelde %20-30 ucuza satıyor."
   ],
-  "dikkat": [],
-  "turkiye": "Ucuz.",
-  "terim": []
+  "dikkat": [
+   "Pazar yalnızca salı ve cuma kurulur; diğer günler bazı tezgahlar kapalı."
+  ],
+  "turkiye": "Ohrid'e göre yeme-içme ve konaklama daha ucuz; genel seviye Türkiye'yle yakın ya da biraz altında.",
+  "terim": [
+   "pastrmka"
+  ]
  },
  {
   "id": "belgrad",
@@ -2047,7 +2076,7 @@
   ],
   "ozet": "Hersek'in güneyinde, çınarlı meydanı ve şarabıyla bilinen sıcak şehir.",
   "neden": "Dubrovnik ve Kotor'a yakın; Akdeniz iklimi. Arslanagić Köprüsü ve tepedeki Hercegovačka Gračanica kilisesi.",
-  "tarih": "Osmanlı çarşısı ve Avusturya dönemi cepheleri iç içe.",
+  "tarih": "Arslanagić Köprüsü'nün asıl adı Perović Köprüsü; 1574'te Sadrazam Sokollu Mehmed Paşa, Venedik'le savaşta ölen oğlu adına yaptırdı. Köprü 1687'de Herceg Novi'den göç eden ve geçiş ücreti toplamakla görevlendirilen Arslan-ağa'dan bugünkü adını aldı; 1965'te bir hidroelektrik göleti köprüyü sular altında bırakacakken, 1970'te taş taş sökülüp bugünkü yerine taşındı.",
   "gez": [
    {
     "ad": "Eski şehir ve çınarlı meydan",
@@ -2058,6 +2087,16 @@
     "ad": "Arslanagić Köprüsü",
     "not": "17. yy Osmanlı.",
     "sure": "20 dk"
+   },
+   {
+    "ad": "Hercegovačka Gračanica Manastırı",
+    "not": "Crkvina tepesinde, 2000'de tamamlandı; Kosova'daki Gračanica'dan esinlenilmiş, şair Jovan Dučić'in kalıntıları burada. Tepeden eski şehir ve nehir manzarası var.",
+    "sure": "45 dk (yürüyerek çıkış 20–25 dk)"
+   },
+   {
+    "ad": "Trebišnjica nehir kıyısı",
+    "not": "Kahve ve akşam yürüyüşü için popüler.",
+    "sure": "30 dk"
    }
   ],
   "ye": [
@@ -2065,6 +2104,18 @@
     "ad": "Hersek şarabı",
     "ne": "Žilavka beyaz, Vranac kırmızı.",
     "fiyat": "Kadeh 3–6 BAM",
+    "not": ""
+   },
+   {
+    "ad": "Ćevapi",
+    "ne": "Yerel lokantalarda.",
+    "fiyat": "5–10 KM",
+    "not": ""
+   },
+   {
+    "ad": "Şarap mahzeni tadımı",
+    "ne": "Şehir dışındaki aile işletmesi şaraphanelerde, yemek dahil tadım turu.",
+    "fiyat": "10 KM'den başlıyor",
     "not": ""
    }
   ],
@@ -2074,16 +2125,28 @@
     "ne": "",
     "fiyat": "15–40 BAM",
     "dikkat": "Bavula."
+   },
+   {
+    "ad": "Ev yapımı rakı, bal, incir",
+    "ne": "Sabah pazarında satılıyor.",
+    "fiyat": "—",
+    "dikkat": "Rakı sıvı, bavula; cam şişe iyi sarılmalı."
    }
   ],
   "gezgin": [
-   "Meydandaki çınarların altı sıcakta en serin yer."
+   "Meydandaki çınarların altı sıcakta en serin yer.",
+   "Dubrovnik'e ~30–34 km, sınır geçişiyle 40–50 dakika; Dubrovnik'ten en kolay günübirlik sınır ötesi gezilerden biri.",
+   "Dubrovnik'e göre çok daha sakin ve otantik; yaz kalabalığından kaçmak isteyenler için iyi.",
+   "Sınır geçişinde pasaport kontrolü var — kimlik değil pasaport yanında olsun."
   ],
-  "dikkat": [],
-  "turkiye": "Ucuz.",
+  "dikkat": [
+   "Turistik lokantalarda ćevapi fiyatı yerel ortalamanın üzerinde olabiliyor; birkaç yerde karşılaştır."
+  ],
+  "turkiye": "Yemek ve şarap fiyatları Türkiye'ye göre ucuz; Dubrovnik'in yanında kaldığı için bu bölgedeki en uygun fiyatlı duraklardan biri.",
   "terim": [
    "çarşı",
-   "eski şehir"
+   "eski şehir",
+   "manastır"
   ]
  },
  {
@@ -2999,7 +3062,7 @@
   ],
   "ozet": "Adriyatik kıyısında liman şehri; Balkanların en büyük Roma amfitiyatrosu burada.",
   "neden": "Tiran'a 35 km, ülkenin ana plaj bölgesi. Amfitiyatro şehrin tam ortasında ve 20 bin kişilikti.",
-  "tarih": "MÖ 627'de Epidamnos olarak kuruldu; Via Egnatia'nın başlangıç noktasıydı.",
+  "tarih": "Durrës, MÖ 7. yüzyılda Korfu ve Korinth kolonistlerince Epidamnos adıyla kuruldu; Roma döneminde Dyrrhachium olarak Via Egnatia'nın Adriyatik ucundaki terminali oldu ve MS 4. yüzyılda Epirus Nova eyaletinin başkenti oldu. 15 Nisan 1979'da merkez üssü Karadağ kıyısında olan büyük deprem (M 6.9) şehri ağır vurdu; Arnavutluk genelinde 35 kişi öldü, 100 binden fazla kişi evsiz kaldı.",
   "gez": [
    {
     "ad": "Roma Amfitiyatrosu",
@@ -3011,6 +3074,11 @@
     "ad": "Arkeoloji Müzesi",
     "not": "",
     "sure": "45 dk"
+   },
+   {
+    "ad": "Golem Plajı",
+    "not": "Ana plaja göre daha temiz ve sakin, şehrin 8–10 km güneyinde.",
+    "sure": "—"
    }
   ],
   "ye": [
@@ -3019,14 +3087,32 @@
     "ne": "Ülkenin en tazesi.",
     "fiyat": "600–1200 lek",
     "not": ""
+   },
+   {
+    "ad": "Byrek",
+    "ne": "Sokak lezzeti, ucuz ve hızlı.",
+    "fiyat": "100–200 LEK",
+    "not": ""
    }
   ],
-  "al": [],
-  "gezgin": [
-   "Plajlar yazın çok kalabalık."
+  "al": [
+   {
+    "ad": "Zeytinyağı ve yöresel ürünler",
+    "ne": "Liman çevresindeki dükkanlarda.",
+    "fiyat": "—",
+    "dikkat": "Sıvı, bavula."
+   }
   ],
-  "dikkat": [],
-  "turkiye": "Ucuz.",
+  "gezgin": [
+   "Plajlar yazın çok kalabalık.",
+   "Ana plaj yazın çok kalabalık ve gürültülü; haziran ya da eylülde çok daha sakin.",
+   "Tiran'a otobüsle her 20–30 dakikada bir sefer var, yaklaşık 35–50 dakika sürüyor — günübirlik gidilip gelinebilir.",
+   "Durrës limanından İtalya'ya (Bari, Ancona) feribot kalkıyor; Bari hattı yaz sezonunda günde birkaç sefer."
+  ],
+  "dikkat": [
+   "Su kalitesi son yıllarda iyileşti ama ana plaj hâlâ en kalabalık; Golem gibi güney plajları daha sakin."
+  ],
+  "turkiye": "Plaj ve yemek fiyatları Türkiye'nin sahil kasabalarına göre ucuz; feribotla İtalya'ya gitmek meraklısı için ilginç bir opsiyon.",
   "terim": []
  },
  {
@@ -4514,6 +4600,409 @@
   ],
   "turkiye": "Yiyecek-içecek ve ulaşım Türkiye'den ucuz; benzer bir doğa parkına göre çok daha az işletilmiş, bu da hem avantaj hem dezavantaj.",
   "terim": [
+   "karst"
+  ]
+ },
+ {
+  "id": "krusevo",
+  "ad": "Kruševo",
+  "ulke": "MK",
+  "lat": 41.37,
+  "lon": 21.2483,
+  "yaricap": 6000,
+  "eslesme": [
+   "kruševo",
+   "krusevo",
+   "krushevo"
+  ],
+  "ozet": "Balkanların en yüksekteki şehirlerinden biri; 1903'te on gün süren bağımsız cumhuriyetin başkenti olmuş dağ kasabası.",
+  "neden": "Kruševo, Balkanların ilk ve en kısa ömürlü cumhuriyet deneyiminin sahnesi: 1903'te Osmanlı'ya karşı ayaklanan isyancılar burada etnik kökenden bağımsız bir halk cumhuriyeti ilan etmiş, on gün sonra ordu tarafından bastırılmış. Bugün kasabaya tepeden bakan, UFO biçimli dev beton anıt Makedonium bu tarihin ağırlığını taşırken, 1350 metre rakımın getirdiği serin dağ havası, taş kaldırımlı eski çarşı ve mavi kepenkli Osmanlı evleri kasabaya melankolik ve sakin bir hava veriyor. Ünlü şarkıcı Toše Proeski'nin memleketi olması da genç bir gezgin kuşağı için ayrı bir çekim noktası.",
+  "tarih": "2 Ağustos 1903'te (İlinden günü) isyancılar kasabayı ele geçirip Nikola Karev başkanlığında geçici bir hükümet kurdu; Kruševo Manifestosu Slav, Arnavut ve Ulahları ortak mücadeleye çağırdı. 12 Ağustos 1903'te Osmanlı ordusu kasabaya girip isyanı bastırdı ve şehri büyük ölçüde tahrip etti. Makedonium anıtı, isyanın 71. yıldönümü olan 2 Ağustos 1974'te açıldı; hem 1903 isyanını hem de II. Dünya Savaşı partizanlarını anıyor.",
+  "gez": [
+   {
+    "ad": "Makedonium (İlinden Anıtı)",
+    "not": "Tepedeki UFO biçimli beton anıt; içeride tek büyük boşluk ve cumhuriyet başkanı Nikola Karev'in mezarı var, fotoğraf çekmek yasak. Zaman zaman restorasyon nedeniyle kapalı olabiliyor.",
+    "sure": "30–45 dk",
+    "fiyat": "yaklaşık 100 MKD"
+   },
+   {
+    "ad": "Eski Çarşı",
+    "not": "Taş kaldırımlı sokaklar, mavi kepenkli Osmanlı dönemi evleri, saat kuleli St. Nicholas Kilisesi.",
+    "sure": "1–1,5 saat"
+   },
+   {
+    "ad": "Toše Proeski Anı Evi",
+    "not": "Haç biçimli bina, 2011'de açıldı; şarkıcının 350'den fazla kişisel eşyası sergileniyor.",
+    "sure": "45 dk–1 saat"
+   },
+   {
+    "ad": "Ulah (Aromanian) Kilisesi",
+    "not": "İnşaatı 1897'de başlayıp 1904'te bitmiş; büyük ahşap ikonostasis.",
+    "sure": "20 dk"
+   }
+  ],
+  "ye": [
+   {
+    "ad": "Tavče gravče",
+    "ne": "Toprak sahanda fırınlanmış kuru fasulye, millî yemek.",
+    "fiyat": "250–450 MKD",
+    "not": ""
+   },
+   {
+    "ad": "Kruševo lokumu",
+    "ne": "Kasabaya özgü, nesillerdir aynı tarifle yapılan lokum.",
+    "fiyat": "yaklaşık 150 MKD/kutu",
+    "not": ""
+   },
+   {
+    "ad": "Vlaško kjofte",
+    "ne": "Domates-biber soslu köfte, Ulah mutfağından.",
+    "fiyat": "250–400 MKD",
+    "not": ""
+   }
+  ],
+  "al": [
+   {
+    "ad": "Ahşap oyma",
+    "ne": "Kaşık, süs panelleri; çarşı çevresindeki küçük atölyelerde.",
+    "fiyat": "—",
+    "dikkat": "Düzensiz çekiç/oyma izi el işinin işaretidir; kusursuz düzgünlük makine işi demektir."
+   },
+   {
+    "ad": "Bal ve lokum",
+    "ne": "Yerel bal ve Kruševo lokumu.",
+    "fiyat": "150–300 MKD",
+    "dikkat": "Katı ürünler, el bagajına sorun çıkarmaz."
+   }
+  ],
+  "gezgin": [
+   "Rakım 1350 metre; yazın bile akşamları serin oluyor, kışın kar ve don var — kalın kıyafet götür.",
+   "Makedonium zaman zaman restorasyon nedeniyle kapalı oluyor; gitmeden önce açık olup olmadığını sor.",
+   "Ohrid'den günde sadece bir otobüs seferi var; kiralık araç ya da taksi çok daha esnek.",
+   "Bitola'dan otobüs seferleri daha sık, öğleden sonra yoğunlaşıyor."
+  ],
+  "dikkat": [
+   "Dağ yolları dar ve virajlı; kışın buzlanma riski var.",
+   "Küçük bir kasaba — akşam ulaşım ve yemek seçenekleri kısıtlı, plan yapmadan gitme."
+  ],
+  "turkiye": "Yemek fiyatları (bir porsiyon yaklaşık 4–8 €) Türkiye'deki orta segment lokantalarla benzer ya da biraz ucuz. Müze ve anıt giriş ücretleri Türkiye'ye göre ucuz.",
+  "terim": [
+   "İlinden İsyanı",
+   "spomenik"
+  ]
+ },
+ {
+  "id": "drvengrad",
+  "ad": "Drvengrad (Küstendorf) ve Šargan Sekizi",
+  "ulke": "RS",
+  "lat": 43.7956,
+  "lon": 19.508,
+  "yaricap": 4000,
+  "eslesme": [
+   "drvengrad",
+   "küstendorf",
+   "kustendorf",
+   "mećavnik",
+   "mecavnik",
+   "mokra gora",
+   "šarganska osmica",
+   "sarganska osmica",
+   "şargan sekizi"
+  ],
+  "ozet": "Yönetmen Emir Kusturica'nın film seti olarak kurduğu, sonradan gerçek bir köye dönüşen ahşap Drvengrad ile yanı başındaki nostaljik dar hatlı Šargan Sekizi treni.",
+  "neden": "Drvengrad, bir film setinin gerçek yaşayan bir köye dönüşmesinin nadir örneği: kilisesi, sineması, kütüphanesi ve ahşap evleriyle hem açık hava müzesi hem tatil köyü gibi. Hemen yanındaki Šargan Sekizi ise bambaşka bir deneyim — 1920'lerden kalma nostalji treni, dağı sekiz rakamı çizerek tırmanırken tünellerden ve viyadüklerden geçiyor, Tara-Zlatibor dağlarının manzarasını sunuyor. İkisi bir arada, Batı Sırbistan'ın klasik rota dışı durağı.",
+  "tarih": "Drvengrad, Kusturica'nın \"Yaşam Bir Mucizedir\" filmi için 2003–2004'te Mećavnik tepesinde inşa edildi; çekimler bitince kalıcı hale getirilip otel, sinema, kütüphane ve restoran eklendi. Šarganska osmica'nın yapımına 1916'da Avusturya-Macaristan döneminde başlandı, bir kaya çökmesinde yaklaşık 200 işçi öldü ve inşaat durdu; hat 1921'de yeniden başlayıp 2 Şubat 1925'te tamamlandı. Kusturica'nın kurduğu Küstendorf Film ve Müzik Festivali ilk kez Ocak 2008'de, kırmızı halısız ve reklamsız bir konseptle düzenlendi.",
+  "gez": [
+   {
+    "ad": "Drvengrad köyü gezisi",
+    "not": "Ahşap evler, kilise, sinema, kütüphane; serbest dolaşım.",
+    "sure": "1–1,5 saat",
+    "fiyat": "yaklaşık 300 RSD"
+   },
+   {
+    "ad": "Šargan Sekizi tren yolculuğu",
+    "not": "Mokra Gora–Šargan Vitasi arası, dağı sekiz rakamı çizerek tırmanıyor; 5 köprü, 22 tünelden geçiyor.",
+    "sure": "gidiş-dönüş yaklaşık 2 saat",
+    "fiyat": "yaklaşık 1500 RSD (~13 €)"
+   },
+   {
+    "ad": "Küstendorf Film ve Müzik Festivali",
+    "not": "Her yıl ocak ayında, kırmızı halısız ve reklamsız bir konseptle düzenleniyor.",
+    "sure": "—"
+   }
+  ],
+  "ye": [
+   {
+    "ad": "Lotika restoranı yemekleri",
+    "ne": "Köyün kendi bahçesinden kajmak, ev yapımı peynir, yoğurt.",
+    "fiyat": "yaklaşık 800–1500 RSD",
+    "not": ""
+   },
+   {
+    "ad": "Sacda pişmiş dana eti",
+    "ne": "Bölgenin geleneksel pişirme yöntemi (ispod sača).",
+    "fiyat": "yaklaşık 1000–1800 RSD",
+    "not": ""
+   }
+  ],
+  "al": [
+   {
+    "ad": "Kajmak, pekmez, ev yapımı peynir",
+    "ne": "Drvengrad içindeki küçük dükkanda.",
+    "fiyat": "—",
+    "dikkat": "Süt ürünleri soğuk zincir gerektirir; uçakla dönüşte dikkat et."
+   }
+  ],
+  "gezgin": [
+   "Tren bileti kontenjanlı; yaz aylarında ve hafta sonları erken saatteki 10:30 seferini tercih et, öğleden sonrakiler dolu çıkabiliyor.",
+   "Zlatibor'dan (~28–40 km, yaklaşık 1 saat) günübirlik gitmek en pratik yol; araç yoksa Zlatibor'dan köy+tren birlikte satılan organize tur var.",
+   "Kışın tren seferleri seyrekleşiyor; gitmeden önce güncel tarifeyi kontrol et.",
+   "Köy aynı zamanda otel olarak çalışıyor — ocaktaki festivalde ve yaz hafta sonlarında konaklama erken doluyor."
+  ],
+  "dikkat": [
+   "Dağlık, dar yollarda kış aylarında buzlanma olabilir.",
+   "Tren bileti gişeden ya da Sırbistan Demiryolları üzerinden alınıyor; yaz sezonunda önceden almak gerekebilir."
+  ],
+  "turkiye": "Tren bileti (~13 €) ve köy giriş ücreti Türkiye'deki benzer aktivitelere göre ucuz. Zlatibor'dan organize turlar ulaşım ve rehber dahil olduğu için TL bazında daha pahalıya gelebilir.",
+  "terim": [
+   "dar hat"
+  ]
+ },
+ {
+  "id": "durmitor",
+  "ad": "Durmitor ve Žabljak",
+  "ulke": "ME",
+  "lat": 43.155,
+  "lon": 19.121,
+  "yaricap": 12000,
+  "eslesme": [
+   "durmitor",
+   "žabljak",
+   "zabljak",
+   "crno jezero",
+   "kara göl"
+  ],
+  "ozet": "Karadağ'ın en yüksek zirvesini ve UNESCO listesindeki buzul göllerini barındıran dağ milli parkının kapı kasabası, Balkanların en yüksekte kurulu yerleşimlerinden.",
+  "neden": "Durmitor, Karadağ'ın kıyı şeridinden tamamen farklı bir yüzünü gösteriyor: keskin kireçtaşı doruklar, derin karst kanyonları ve 48 buzul gölüyle bir Alp manzarasını andırıyor. Kapı kasabası Žabljak 1456 metrede kurulu; Kara Göl'ün (Crno Jezero) etrafındaki kolay yürüyüşten ülkenin en yüksek zirvesi Bobotov Kuk'a (2523 m) zorlu tırmanışa kadar geniş bir yelpaze sunuyor, kışın da kayak merkezi oluyor.",
+  "tarih": "Milli park 1952'de kuruldu, UNESCO Dünya Mirası listesine 1980'de girdi ve 2005'te sınırları genişletildi. Crno Jezero, aslında dar bir kanalla birbirine bağlanan iki buzul havzasından (Veliko Jezero ve Malo Jezero) oluşuyor; adını suyun renginden değil kıyısını saran koyu karaçam ormanından alıyor.",
+  "gez": [
+   {
+    "ad": "Crno Jezero (Kara Göl) çevre yürüyüşü",
+    "not": "Düz, bakımlı, göl kenarında yaklaşık 3,6 km'lik tur.",
+    "sure": "yaklaşık 1 saat",
+    "fiyat": "milli park girişi yaklaşık 5 €/gün"
+   },
+   {
+    "ad": "Bobotov Kuk tırmanışı",
+    "not": "Karadağ'ın en yüksek zirvesi; Sedlo Geçidi'nden başlayan rota daha kısa. Temmuz başına kadar zirvede kar/buz kalabiliyor.",
+    "sure": "Sedlo'dan 5–8 saat, Žabljak'tan 10–12 saat"
+   },
+   {
+    "ad": "Savin Kuk kayak merkezi",
+    "not": "Kışın; 2313 m zirve, gondol ve üç telesiyej, gece kayağı imkânı var.",
+    "sure": "—"
+   },
+   {
+    "ad": "Zip-line",
+    "not": "Avrupa'nın en uzun hatlarından biri olarak tanıtılıyor.",
+    "sure": "—",
+    "fiyat": "yaklaşık 20 €'dan başlıyor"
+   },
+   {
+    "ad": "Sedlo Geçidi panoramik yolu",
+    "not": "Mayıs–ekim arası açık; erken kar yağarsa ekim sonunda kapanıyor.",
+    "sure": "—"
+   }
+  ],
+  "ye": [
+   {
+    "ad": "Kaçamak",
+    "ne": "Mısır unu, patates ve kaymakla yapılan geleneksel lapa, bölgenin millî yemeği.",
+    "fiyat": "—",
+    "not": ""
+   },
+   {
+    "ad": "Sac altında kuzu (ispod sača)",
+    "ne": "Toprak/metal kapak altında ağır ateşte pişirilir.",
+    "fiyat": "yaklaşık 10–18 €",
+    "not": ""
+   },
+   {
+    "ad": "Čičvara",
+    "ne": "Kajmak ve peynirle yapılan mısır lapası.",
+    "fiyat": "—",
+    "not": ""
+   }
+  ],
+  "al": [
+   {
+    "ad": "Durmitor balı",
+    "ne": "Bölgenin koyu, yoğun aromalı balı; Karadağ'ın en iyisi sayılıyor.",
+    "fiyat": "—",
+    "dikkat": "Kavanoz sıvı sayılır, el bagajına giremez."
+   },
+   {
+    "ad": "El örgüsü yün ürünler",
+    "ne": "Kuzey Karadağ kadınlarının ördüğü çorap, atkı, bere.",
+    "fiyat": "—",
+    "dikkat": "Fabrika ipliğiyle karışabiliyor; sıkı ve hafif düzensiz ilmek el işinin işaretidir."
+   }
+  ],
+  "gezgin": [
+   "Yürüyüş sezonu haziran sonu–ekim ortası; temmuz-ağustos en öngörülebilir hava, ama Bobotov Kuk'ta temmuz başına kadar kar/buz kalabiliyor.",
+   "Kotor'dan ~160 km, araçla 2 saat 40 dk–2 saat 50 dk; dağ yolu tek şeritli bölümler içeriyor, gündüz sürmek daha güvenli.",
+   "Tara Kanyonu raftingi genelde Žabljak yakınındaki Splavište mevkiinden başlıyor; yarım gün ~65–90 €, tam gün (öğle yemeği dahil) ~100–150 €.",
+   "Yükseklikte hava çok hızlı değişiyor — güneşli başlayıp aniden sağanağa dönebilir, tırmanış öncesi hava durumunu kontrol et."
+  ],
+  "dikkat": [
+   "Patikalar beyaz ortalı kırmızı daire işaretleriyle gösteriliyor; işaretsiz rotaya sapma.",
+   "Kışın Sedlo Geçidi gibi yollar kapanıyor, ulaşım planını ona göre yap."
+  ],
+  "turkiye": "Milli park girişi (günlük 5 €) ve restoran fiyatları (ana yemek 10–18 €) Kotor/Budva kıyısına göre daha ucuz; rafting ve kayak Türkiye standartlarına göre orta-yüksek fiyatta.",
+  "terim": [
+   "UNESCO Dünya Mirası",
+   "karst"
+  ]
+ },
+ {
+  "id": "sarande",
+  "ad": "Sarandë (Saranda) ve Butrint",
+  "ulke": "AL",
+  "lat": 39.867,
+  "lon": 20.0,
+  "yaricap": 8000,
+  "eslesme": [
+   "sarandë",
+   "saranda",
+   "onchesmos"
+  ],
+  "ozet": "Arnavutluk Rivierası'nın güney ucunda, Korfu'nun karşısında, hem canlı bir sahil kasabası hem de yakınındaki antik Butrint kentine geçiş kapısı olan liman şehri.",
+  "neden": "Sarandë, palmiyeli sahil bulvarı ve İyon Denizi manzarasıyla Arnavutluk Rivierası'nın turizm merkezi; Korfu'ya feribotla bir saatten kısa sürede ulaşılabiliyor. Aynı zamanda şehrin 18 km güneyinde, Yunan, Roma, Bizans ve Venedik katmanlarının üst üste bindiği UNESCO Dünya Mirası'ndaki Butrint antik kenti bulunuyor — bu da Sarandë'yi hem plaj tatili hem tarih gezisi için uğrak noktası yapıyor.",
+  "tarih": "Antik dönemde Kaon şehri Onchesmos olarak biliniyordu; bugünkü ad 16. yüzyılda buradaki Bizans dönemi \"Kırk Aziz\" manastırından geliyor. 18 km güneyindeki Butrint, MÖ 8. yüzyılda Kaonlar tarafından kurulup sırasıyla Yunan kolonisi, Roma şehri ve Bizans piskoposluk merkezi oldu; Orta Çağ sonunda bataklıklaşınca terk edildi ve 1992'de Arnavutluk'un ilk UNESCO Dünya Mirası alanı ilan edildi.",
+  "gez": [
+   {
+    "ad": "Sahil yürüyüşü (lungomare)",
+    "not": "Palmiyeli bulvar, gün batımında en keyifli.",
+    "sure": "1–2 saat"
+   },
+   {
+    "ad": "Lekursi Kalesi",
+    "not": "1537'de Kanuni'nin Korfu seferi sırasında yapıldı; şehre ve körfeze geniş açılı manzara, içinde restoran var.",
+    "sure": "30–45 dk"
+   },
+   {
+    "ad": "Butrint Milli Parkı",
+    "not": "Yunan-Roma-Bizans-Venedik katmanları üst üste; şehir merkezinden otobüsle ~45 dk.",
+    "sure": "1,5–2,5 saat",
+    "fiyat": "yaklaşık 1000 LEK (~10 €); 12–18 yaş 500 LEK, 0–12 yaş ücretsiz"
+   },
+   {
+    "ad": "Ksamil adaları",
+    "not": "Şehre ~17 km, turkuaz koylar; öğle 10'dan sonra çok kalabalıklaşıyor.",
+    "sure": "yarım gün"
+   },
+   {
+    "ad": "Korfu feribotu",
+    "not": "Yaz sezonunda sık sefer; hızlı feribotla 25–30 dk.",
+    "sure": "—",
+    "fiyat": "yaklaşık 10–36 €"
+   }
+  ],
+  "ye": [
+   {
+    "ad": "Izgara çipura/levrek",
+    "ne": "Sahildeki balık lokantalarında.",
+    "fiyat": "1200–2500 LEK",
+    "not": ""
+   },
+   {
+    "ad": "Deniz ürünlü linguine",
+    "ne": "",
+    "fiyat": "yaklaşık 2050 LEK",
+    "not": ""
+   },
+   {
+    "ad": "Byrek",
+    "ne": "Sokak lezzeti, ucuz ve doyurucu.",
+    "fiyat": "100–200 LEK",
+    "not": ""
+   }
+  ],
+  "al": [
+   {
+    "ad": "Zeytinyağı ve bal",
+    "ne": "",
+    "fiyat": "—",
+    "dikkat": "Sıvı, el bagajına giremez."
+   },
+   {
+    "ad": "Rakı (raki)",
+    "ne": "Yerel damıtım.",
+    "fiyat": "—",
+    "dikkat": "Sıvı, bavula; ev yapımı cam şişe iyi sarılmalı."
+   }
+  ],
+  "gezgin": [
+   "Ksamil'e sabah 08:00–09:00 arası git; öğleye doğru (temmuz-ağustos) plajlar ve adacıklar doluyor.",
+   "Butrint'e otobüs en ucuz ve pratik yol: liman/feribot terminali yanından 06:30–18:30 arası her 30 dakikada bir kalkıyor, ~200 LEK; taksi tek yön 38–50 €.",
+   "En sakin dönem mayıs-haziran ve eylül sonu-ekim başı; ağustos aşırı kalabalık ve sıcak.",
+   "Kart her yerde geçmiyor, nakit (LEK ya da EUR) taşı — özellikle Butrint otobüsünde ve küçük lokantalarda."
+  ],
+  "dikkat": [
+   "Yaz aylarında Ksamil ve Butrint yolları/otoparkları çok yoğunlaşıyor."
+  ],
+  "turkiye": "Yemek ve konaklama genelde Bodrum/Kaş gibi Türkiye sahil kasabalarına göre biraz ucuz, ama temmuz-ağustosta fiyatlar yükseliyor. Butrint giriş ücreti (~10 €) Türkiye'deki büyük ören yerleriyle benzer seviyede.",
+  "terim": [
+   "UNESCO Dünya Mirası"
+  ]
+ },
+ {
+  "id": "gadime",
+  "ad": "Gadime Mağarası (Mermer Mağarası)",
+  "ulke": "XK",
+  "lat": 42.48006,
+  "lon": 21.20554,
+  "yaricap": 1500,
+  "eslesme": [
+   "gadime",
+   "gadime mağarası",
+   "mermer mağarası",
+   "marble cave",
+   "shpella e gadimes"
+  ],
+  "ozet": "Priştine'ye 25 km, bir köylünün 1966'da tesadüfen bulduğu, mermer görünümlü kalsit sarkıt ve dikitleriyle Kosova'nın en uzun mağara sistemi.",
+  "neden": "Kosova'da nadir bulunan, gerçek mermer damarlarından oluşmuş, nemli ve parlak yüzeyli sarkıt-dikit galerileri barındırıyor; kısa sürede gezilebilen kompakt yapısıyla hem doğa meraklıları hem aileler için rahat bir durak. Dışarısı sıcakken içerideki sabit serinlik ayrı bir keyif katıyor.",
+  "tarih": "1966'da köylü Ahmet Asllani bahçesinde kazı yaparken mağarayı tesadüfen buldu; on yıl sonra, 1976'da turizme açıldı. Mağaranın mermer kayalıkları Tersiyer döneminde kireçtaşının başkalaşımıyla oluştu; sarkıt ve dikitler ortalama otuz bin yılda bir milimetre büyüyor.",
+  "gez": [
+   {
+    "ad": "Rehberli mağara turu",
+    "not": "Bilinen yaklaşık 1260 metrelik sistemin turlanabilen ~500 metrelik bölümü aydınlatmalı; geri kalanı ziyarete kapalı.",
+    "sure": "30–40 dk",
+    "fiyat": "yaklaşık 2–3 €"
+   }
+  ],
+  "ye": [
+   {
+    "ad": "Restoran Jeta",
+    "ne": "Mağara girişinin hemen yanında; gişe bu restoranın arkasında.",
+    "fiyat": "—",
+    "not": ""
+   }
+  ],
+  "al": [],
+  "gezgin": [
+   "Mağara içi sıcaklık yıl boyu 10–15°C arası sabit; dışarısı sıcak olsa da hafif bir şey al, taban kaygan olabileceği için kapalı ve kaymaz ayakkabı giy.",
+   "Gişe öğle arası (yaklaşık 12:00–13:00) kapanabiliyor, son tur saat 15:30 civarı — erken git.",
+   "Priştine'den taksi ~20–30 dakika (~27–35 $, iki yönde pazarlıkla ucuzlayabilir); otobüs+taksi kombinasyonu daha ucuz ama daha yavaş."
+  ],
+  "dikkat": [
+   "Zemin nemli ve kaygan olabilir, dikkatli yürü.",
+   "Mağaranın büyük kısmı keşfedilmemiş/kapalı; sadece güvenli bölüm gezdiriliyor."
+  ],
+  "turkiye": "Giriş ücreti (2–3 €) Türkiye'deki büyük mağaralara (Damlataş, Dim Mağarası gibi) göre benzer ya da biraz ucuz; taksiyle ulaşım Türkiye standartlarına göre nispeten pahalı.",
+  "terim": [
+   "sarkıt",
+   "dikit",
    "karst"
   ]
  }
