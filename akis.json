@@ -1,73 +1,35 @@
 {
  "bicim": 1,
- "zaman": "2026-09-14T22:20:20+03:00",
- "kadans": "6saat",
- "durum": "sorun",
+ "zaman": "2026-09-14T22:50:48+03:00",
+ "kadans": "saatlik",
+ "durum": "iyi",
  "sayilar": {
-  "kontrol": 37,
-  "sinama": 2283,
-  "gecen": 35,
-  "bilinen": 1,
-  "sorun": 1,
-  "sure": 13.2,
-  "kosu": 324
+  "kontrol": 5,
+  "sinama": 37,
+  "gecen": 5,
+  "bilinen": 0,
+  "sorun": 0,
+  "sure": 0.8,
+  "kosu": 325
  },
- "sorunlar": [
-  {
-   "ad": "Telefon yedeği duruyor",
-   "onem": "yuksek",
-   "oyku": "yedek",
-   "not": "2 yedek · en yenisi 17.4 gün önce, 378 MB — 14 günden eski",
-   "onarilabilir": false
-  }
- ],
- "bilinenler": [
-  {
-   "ad": "Math.min(...dizi) yığın taşması",
-   "not": "app.js:764; app.js:5084; gerok.js:448; sihirbaz.js:454; sihirbaz.js:455; sihirbaz.js:456 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
-  }
- ],
+ "sorunlar": [],
+ "bilinenler": [],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 10,
-   "toplam": 10,
-   "sinama": 102
+   "gecen": 3,
+   "toplam": 3,
+   "sinama": 6
   },
   "bekci": {
-   "gecen": 4,
-   "toplam": 4,
-   "sinama": 16
-  },
-  "yedek": {
-   "gecen": 0,
+   "gecen": 1,
    "toplam": 1,
-   "sinama": 2
+   "sinama": 8
   },
   "koprü": {
    "gecen": 1,
    "toplam": 1,
    "sinama": 23
-  },
-  "kod": {
-   "gecen": 9,
-   "toplam": 9,
-   "sinama": 1518
-  },
-  "veri": {
-   "gecen": 2,
-   "toplam": 2,
-   "sinama": 9
-  },
-  "gizlilik": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 84
-  },
-  "bilgi": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 529
   }
  },
  "derin": {
@@ -136,13 +98,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "47b51af597be",
-   "t": 1789081290020,
-   "onem": "sorun",
-   "baslik": "1 sorun buldum",
-   "govde": "Haftalık olarak yapılması planlanan sistem kontrolleri 14.4 gündür çalıştırılmamış görünüyor. Bu durumun nedeni şu an için belli değil. Uygulamanın arka planda düzenli çalışmasını sağlayan bu otomatik süreçleri sistem yöneticinizle görüşerek yeniden başlatmanız gerekiyor.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Koşular taze\n   haftalik: 14.4 gündür koşmadı"
-  },
   {
    "id": "b3f91981b54e",
    "t": 1789083896949,
@@ -310,6 +265,13 @@
    "onem": "sorun",
    "baslik": "1 sorun buldum",
    "govde": "Telefonunuzda 17.4 gün öncesine ait 378 MB boyutunda eski bir yedekleme dosyası birikmiş durumda. Bu durum sistemde gereksiz yer kapladığı için güvenlik uyarısı vermektedir. Uygulama ayarlarından eski yedekleme dosyalarını bularak silmeniz veya güncellemeniz gerekiyor.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 17.4 gün önce, 378 MB — 14 günden eski"
+  },
+  {
+   "id": "59a63a70f731",
+   "t": 1789415449000,
+   "onem": "iyi",
+   "baslik": "Söylediğim sorunlar kapandı",
+   "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
   }
  ],
  "bekleyen": [
@@ -332,12 +294,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-09-11T16:22:38+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
   {
    "t": "2026-09-11T19:08:45+03:00",
    "k": "6saat",
@@ -571,6 +527,12 @@
    "k": "6saat",
    "g": 35,
    "n": 37
+  },
+  {
+   "t": "2026-09-14T22:50:48+03:00",
+   "k": "saatlik",
+   "g": 5,
+   "n": 5
   }
  ]
 }
