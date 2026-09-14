@@ -1,16 +1,16 @@
 {
  "bicim": 1,
- "zaman": "2026-09-14T16:10:02+03:00",
- "kadans": "6saat",
+ "zaman": "2026-09-14T16:11:48+03:00",
+ "kadans": "gunluk",
  "durum": "sorun",
  "sayilar": {
-  "kontrol": 37,
-  "sinama": 2283,
-  "gecen": 35,
+  "kontrol": 110,
+  "sinama": 2881,
+  "gecen": 107,
   "bilinen": 1,
-  "sorun": 1,
-  "sure": 15.2,
-  "kosu": 317
+  "sorun": 2,
+  "sure": 121.0,
+  "kosu": 318
  },
  "sorunlar": [
   {
@@ -18,6 +18,13 @@
    "onem": "yuksek",
    "oyku": "yedek",
    "not": "2 yedek · en yenisi 17.1 gün önce, 378 MB — 14 günden eski",
+   "onarilabilir": false
+  },
+  {
+   "ad": "Akıl hocası dosyaları bayatlamamış",
+   "onem": "orta",
+   "oyku": "bekci",
+   "not": "1 dosya 3 günden uzun süredir bekliyor: 20260908-2359-diskte-yer-var",
    "onarilabilir": false
   }
  ],
@@ -30,14 +37,14 @@
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 10,
-   "toplam": 10,
-   "sinama": 102
+   "gecen": 15,
+   "toplam": 15,
+   "sinama": 146
   },
   "bekci": {
-   "gecen": 4,
-   "toplam": 4,
-   "sinama": 16
+   "gecen": 8,
+   "toplam": 9,
+   "sinama": 84
   },
   "yedek": {
    "gecen": 0,
@@ -50,9 +57,9 @@
    "sinama": 23
   },
   "kod": {
-   "gecen": 9,
-   "toplam": 9,
-   "sinama": 1518
+   "gecen": 11,
+   "toplam": 11,
+   "sinama": 1535
   },
   "veri": {
    "gecen": 2,
@@ -60,23 +67,38 @@
    "sinama": 9
   },
   "gizlilik": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 84
+   "gecen": 7,
+   "toplam": 7,
+   "sinama": 86
   },
   "bilgi": {
    "gecen": 5,
    "toplam": 5,
    "sinama": 529
+  },
+  "sartname": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 409
+  },
+  "depolama": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 1
+  },
+  "davranis": {
+   "gecen": 57,
+   "toplam": 57,
+   "sinama": 57
   }
  },
  "derin": {
   "kadans": "gunluk",
-  "zaman": "2026-09-13T12:41:50+03:00",
+  "zaman": "2026-09-14T16:11:48+03:00",
   "kontrol": 110,
   "sinama": 2881,
-  "gecen": 106,
-  "sorun": 3,
+  "gecen": 107,
+  "sorun": 2,
   "gruplar": {
    "yayin": {
     "gecen": 15,
@@ -124,7 +146,7 @@
     "sinama": 409
    },
    "depolama": {
-    "gecen": 0,
+    "gecen": 1,
     "toplam": 1,
     "sinama": 1
    },
@@ -136,13 +158,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "f4f3dbaa8c50",
-   "t": 1788967309246,
-   "onem": "iyi",
-   "baslik": "Söylediğim sorunlar kapandı",
-   "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
-  },
   {
    "id": "634e139c2fc8",
    "t": 1789019403078,
@@ -310,18 +325,16 @@
    "onem": "sorun",
    "baslik": "1 sorun buldum",
    "govde": "Telefonunuzda 17,1 gün öncesine ait 378 MB boyutunda eski bir yedekleme dosyası kalmış görünüyor. Sistem güvenliği ve güncellik için bu yedekleme süresinin 14 günü geçmemesi gerekiyor. Uygulama ayarlarından eski yedekleri silip yeni bir yedekleme başlatarak bu durumu düzeltebilirsiniz.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 17.1 gün önce, 378 MB — 14 günden eski"
+  },
+  {
+   "id": "af997427543d",
+   "t": 1789391510606,
+   "onem": "sorun",
+   "baslik": "2 sorun buldum",
+   "govde": "Telefonunuzdaki uygulama yedeklerinden en yenisi 17 gün öncesine ait olduğu için sistem bunu eski olarak işaretlemiş ve ayrıca \"20260908-2359-diskte-yer-var\" isimli akıl hocası dosyası 3 günden uzun süredir bekliyor. Bu durumun önüne geçmek için telefonunuzun yedekleme işlemini elinizle yeniden başlatmalı ve bahsi geçen dosyayı güncellemeli veya kontrol etmelisiniz. Bu işlemler uygulamanızın güncel ve güvenli kalmasını sağlayacaktır.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 17.1 gün önce, 378 MB — 14 günden eski\n• [orta] Akıl hocası dosyaları bayatlamamış\n   1 dosya 3 günden uzun süredir bekliyor: 20260908-23"
   }
  ],
  "bekleyen": [
-  {
-   "id": "be125fd2b347",
-   "soru": "“Diskte yer var” kontrolü takılıyor ve kendim onaramadım. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu? (Ayrıntısı panoda duruyor.)",
-   "secenekler": [
-    "Bu bilinen bir durum",
-    "Gerçekten bozuk, bak",
-    "Yanlış alarm"
-   ]
-  },
   {
    "id": "2c5cbfa50559",
    "soru": "“Telefon yedeği duruyor” kontrolü takılıyor ve kendim onaramadım. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu? (Ayrıntısı panoda duruyor.)",
@@ -341,12 +354,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-09-11T02:01:13+03:00",
-   "k": "6saat",
-   "g": 35,
-   "n": 37
-  },
   {
    "t": "2026-09-11T02:44:56+03:00",
    "k": "saatlik",
@@ -580,6 +587,12 @@
    "k": "6saat",
    "g": 35,
    "n": 37
+  },
+  {
+   "t": "2026-09-14T16:11:48+03:00",
+   "k": "gunluk",
+   "g": 107,
+   "n": 110
   }
  ]
 }
