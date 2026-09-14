@@ -1,73 +1,35 @@
 {
  "bicim": 1,
- "zaman": "2026-09-14T07:54:49+03:00",
- "kadans": "6saat",
- "durum": "sorun",
+ "zaman": "2026-09-14T08:59:36+03:00",
+ "kadans": "saatlik",
+ "durum": "iyi",
  "sayilar": {
-  "kontrol": 37,
-  "sinama": 2283,
-  "gecen": 35,
-  "bilinen": 1,
-  "sorun": 1,
-  "sure": 21.5,
-  "kosu": 314
+  "kontrol": 5,
+  "sinama": 37,
+  "gecen": 5,
+  "bilinen": 0,
+  "sorun": 0,
+  "sure": 0.8,
+  "kosu": 315
  },
- "sorunlar": [
-  {
-   "ad": "Telefon yedeği duruyor",
-   "onem": "yuksek",
-   "oyku": "yedek",
-   "not": "2 yedek · en yenisi 16.8 gün önce, 378 MB — 14 günden eski",
-   "onarilabilir": false
-  }
- ],
- "bilinenler": [
-  {
-   "ad": "Math.min(...dizi) yığın taşması",
-   "not": "app.js:764; app.js:5084; gerok.js:448; sihirbaz.js:454; sihirbaz.js:455; sihirbaz.js:456 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
-  }
- ],
+ "sorunlar": [],
+ "bilinenler": [],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 10,
-   "toplam": 10,
-   "sinama": 102
+   "gecen": 3,
+   "toplam": 3,
+   "sinama": 6
   },
   "bekci": {
-   "gecen": 4,
-   "toplam": 4,
-   "sinama": 16
-  },
-  "yedek": {
-   "gecen": 0,
+   "gecen": 1,
    "toplam": 1,
-   "sinama": 2
+   "sinama": 8
   },
   "koprü": {
    "gecen": 1,
    "toplam": 1,
    "sinama": 23
-  },
-  "kod": {
-   "gecen": 9,
-   "toplam": 9,
-   "sinama": 1518
-  },
-  "veri": {
-   "gecen": 2,
-   "toplam": 2,
-   "sinama": 9
-  },
-  "gizlilik": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 84
-  },
-  "bilgi": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 529
   }
  },
  "derin": {
@@ -136,13 +98,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "d4453749b00f",
-   "t": 1788901274637,
-   "onem": "iyi",
-   "baslik": "Söylediğim sorunlar kapandı",
-   "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
-  },
   {
    "id": "5e71211cbd7a",
    "t": 1788963977661,
@@ -310,6 +265,13 @@
    "onem": "sorun",
    "baslik": "1 sorun buldum",
    "govde": "Telefonunuzda 14 günden daha eski olan ve 378 MB yer kaplayan iki adet eski veri yedeklemesi kalmış görünüyor. Bu durum uygulamanın hafızasında gereksiz yer kapladığı için sistem tarafından yüksek öncelikli bir temizlik uyarısı verilmiş. Uygulama ayarlarından eski yedekleme dosyalarını bulup silmeniz veya güncel bir yedekleme alarak eskiyen bu verileri temizlemeniz gerekiyor.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 16.8 gün önce, 378 MB — 14 günden eski"
+  },
+  {
+   "id": "abe9486d9072",
+   "t": 1789365576973,
+   "onem": "iyi",
+   "baslik": "Söylediğim sorunlar kapandı",
+   "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
   }
  ],
  "bekleyen": [
@@ -341,12 +303,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-09-10T18:43:07+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
   {
    "t": "2026-09-10T19:55:29+03:00",
    "k": "saatlik",
@@ -580,6 +536,12 @@
    "k": "6saat",
    "g": 35,
    "n": 37
+  },
+  {
+   "t": "2026-09-14T08:59:36+03:00",
+   "k": "saatlik",
+   "g": 5,
+   "n": 5
   }
  ]
 }
