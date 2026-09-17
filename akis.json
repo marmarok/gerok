@@ -1,16 +1,16 @@
 {
  "bicim": 1,
- "zaman": "2026-09-17T12:58:01+03:00",
- "kadans": "saatlik",
+ "zaman": "2026-09-17T12:58:14+03:00",
+ "kadans": "6saat",
  "durum": "sorun",
  "sayilar": {
-  "kontrol": 5,
-  "sinama": 34,
-  "gecen": 3,
-  "bilinen": 0,
-  "sorun": 2,
-  "sure": 12.4,
-  "kosu": 362
+  "kontrol": 37,
+  "sinama": 2280,
+  "gecen": 31,
+  "bilinen": 1,
+  "sorun": 5,
+  "sure": 25.4,
+  "kosu": 363
  },
  "sorunlar": [
   {
@@ -26,25 +26,76 @@
    "oyku": "yayin",
    "not": "<urlopen error [Errno 8] nodename nor servname provided, or not known>",
    "onarilabilir": false
+  },
+  {
+   "ad": "Canlı sürüm yereldekiyle aynı",
+   "onem": "yuksek",
+   "oyku": "yayin",
+   "not": "okunamadı: <urlopen error [Errno 8] nodename nor servname provided, or not known>",
+   "onarilabilir": false
+  },
+  {
+   "ad": "Telefon yedeği duruyor",
+   "onem": "yuksek",
+   "oyku": "yedek",
+   "not": "2 yedek · en yenisi 20.0 gün önce, 378 MB — 14 günden eski",
+   "onarilabilir": false
+  },
+  {
+   "ad": "Bilgi paketi yayında",
+   "onem": "orta",
+   "oyku": "yayin",
+   "not": "canlı pakete ulaşılamadı",
+   "onarilabilir": false
   }
  ],
- "bilinenler": [],
+ "bilinenler": [
+  {
+   "ad": "Math.min(...dizi) yığın taşması",
+   "not": "app.js:764; app.js:5084; gerok.js:448; sihirbaz.js:454; sihirbaz.js:455; sihirbaz.js:456 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
+  }
+ ],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 1,
-   "toplam": 3,
-   "sinama": 3
+   "gecen": 6,
+   "toplam": 10,
+   "sinama": 99
   },
   "bekci": {
-   "gecen": 1,
+   "gecen": 4,
+   "toplam": 4,
+   "sinama": 16
+  },
+  "yedek": {
+   "gecen": 0,
    "toplam": 1,
-   "sinama": 8
+   "sinama": 2
   },
   "koprü": {
    "gecen": 1,
    "toplam": 1,
    "sinama": 23
+  },
+  "kod": {
+   "gecen": 9,
+   "toplam": 9,
+   "sinama": 1518
+  },
+  "veri": {
+   "gecen": 2,
+   "toplam": 2,
+   "sinama": 9
+  },
+  "gizlilik": {
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 84
+  },
+  "bilgi": {
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 529
   }
  },
  "derin": {
@@ -113,13 +164,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "14cf46ab7790",
-   "t": 1789332723946,
-   "onem": "sorun",
-   "baslik": "1 sorun buldum",
-   "govde": "Uygulamanızda telefon yedeklerinin biriktiği ve en son alınan yedeğin 14 günden daha eski (16.4 gün önce) olduğu tespit edildi. Bu durumun önüne geçmek için eski yedekleri temizlemeniz ve güncel bir yedekleme işlemi başlatmanız gerekiyor. Bu basit bakım adımı, uygulamanızın güvenle çalışmaya devam etmesini sağlayacaktır.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 16.4 gün önce, 378 MB — 14 günden eski"
-  },
   {
    "id": "9c577f015f35",
    "t": 1789336615589,
@@ -287,6 +331,13 @@
    "onem": "sorun",
    "baslik": "2 sorun buldum",
    "govde": "- [kritik] Canlı site ayakta\n  Not: Canlı site bağlantısı sağlanamıyor, lütfen kontrol et.\n- [kritik] Canlı index.html açılıyor\n  Not: Canlı index.html açılıp çalışıyor, lütfen kontrol et.\n\n— bunu yazan yapay zekâ (yerel (önbellek)); aşağısı bekçinin kendi ölçümü —\n\n• [kritik] Canlı site ayakta\n   URLError: <urlopen error [Errno 8] nodename nor servname provided, or not known>\n• [kritik] Canlı index.html açılıyor\n   <urlopen error [Errno 8] nodename nor servname provided, or not known>"
+  },
+  {
+   "id": "586a892d5679",
+   "t": 1789639152549,
+   "onem": "sorun",
+   "baslik": "5 sorun buldum",
+   "govde": "- [kritik] Canlı site ayakta\n  UYDURMA: Canlı site açılıyor, ancak bağlanamadı\n- [kritik] Canlı index.html açılıyor\n  UYDURMA: Canlı index.html açılıyor, ancak bağlanamadı\n- [yuksek] Canlı sürüm yereldekiyle aynı\n  UYDURMA: Canlı sürüm karşılaşılan hata ile aynı\n- [yuksek] Telefon yedeği duruyor\n  2 yedek · en yenisi 20.0 gün önce, 378 MB — 14 günden eski\n- [orta] Bilgi paketi yayında\n  UYDURMA: Bilgi paketi yayında, ancak bağlanamadı\n\n— bunu yazan yapay zekâ (yerel); aşağısı bekçinin kendi ölçümü —\n\n• [kritik] Canlı site ayakta\n   URLError: <urlopen error [Errno 8] nodename nor servname provided, or not known>\n• [kritik] Canlı index.html açılıyor\n   <urlopen error [Errno 8] nodename nor ser"
   }
  ],
  "bekleyen": [
@@ -316,6 +367,15 @@
     "Gerçekten bozuk, bak",
     "Yanlış alarm"
    ]
+  },
+  {
+   "id": "9dce39dd5dee",
+   "soru": "“Canlı sürüm yereldekiyle aynı” kontrolü takılıyor ve kendim onaramadım. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu? (Ayrıntısı panoda duruyor.)",
+   "secenekler": [
+    "Bu bilinen bir durum",
+    "Gerçekten bozuk, bak",
+    "Yanlış alarm"
+   ]
   }
  ],
  "telefonSinamasi": [
@@ -327,12 +387,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-09-14T21:45:44+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
   {
    "t": "2026-09-14T22:20:20+03:00",
    "k": "6saat",
@@ -566,6 +620,12 @@
    "k": "saatlik",
    "g": 3,
    "n": 5
+  },
+  {
+   "t": "2026-09-17T12:58:14+03:00",
+   "k": "6saat",
+   "g": 31,
+   "n": 37
   }
  ]
 }
