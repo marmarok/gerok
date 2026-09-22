@@ -1,44 +1,23 @@
 {
  "bicim": 1,
- "zaman": "2026-09-22T09:41:23+03:00",
- "kadans": "gunluk",
+ "zaman": "2026-09-22T09:46:01+03:00",
+ "kadans": "6saat",
  "durum": "sorun",
  "sayilar": {
-  "kontrol": 110,
-  "sinama": 2880,
-  "gecen": 105,
+  "kontrol": 37,
+  "sinama": 2283,
+  "gecen": 35,
   "bilinen": 1,
-  "sorun": 4,
-  "sure": 126.5,
-  "kosu": 439
+  "sorun": 1,
+  "sure": 10.4,
+  "kosu": 440
  },
  "sorunlar": [
   {
    "ad": "Telefon yedeği duruyor",
    "onem": "yuksek",
    "oyku": "yedek",
-   "not": "2 yedek · en yenisi 24.8 gün önce, 378 MB — 14 günden eski",
-   "onarilabilir": false
-  },
-  {
-   "ad": "Diskte yer var",
-   "onem": "yuksek",
-   "oyku": "depolama",
-   "not": "1.2 GB boş",
-   "onarilabilir": false
-  },
-  {
-   "ad": "Akıl hocası dosyaları bayatlamamış",
-   "onem": "orta",
-   "oyku": "bekci",
-   "not": "1 dosya 3 günden uzun süredir bekliyor: 20260911-1908-telefon-yede-i-duruyor",
-   "onarilabilir": false
-  },
-  {
-   "ad": "Bekçi paneli açılıyor ve karşılıyor",
-   "onem": "yuksek",
-   "oyku": "davranis",
-   "not": "sohbet açılmadı",
+   "not": "2 yedek · en yenisi 24.9 gün önce, 378 MB — 14 günden eski",
    "onarilabilir": false
   }
  ],
@@ -51,14 +30,14 @@
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 15,
-   "toplam": 15,
-   "sinama": 146
+   "gecen": 10,
+   "toplam": 10,
+   "sinama": 102
   },
   "bekci": {
-   "gecen": 8,
-   "toplam": 9,
-   "sinama": 83
+   "gecen": 4,
+   "toplam": 4,
+   "sinama": 16
   },
   "yedek": {
    "gecen": 0,
@@ -71,9 +50,9 @@
    "sinama": 23
   },
   "kod": {
-   "gecen": 11,
-   "toplam": 11,
-   "sinama": 1535
+   "gecen": 9,
+   "toplam": 9,
+   "sinama": 1518
   },
   "veri": {
    "gecen": 2,
@@ -81,29 +60,14 @@
    "sinama": 9
   },
   "gizlilik": {
-   "gecen": 7,
-   "toplam": 7,
-   "sinama": 86
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 84
   },
   "bilgi": {
    "gecen": 5,
    "toplam": 5,
    "sinama": 529
-  },
-  "sartname": {
-   "gecen": 1,
-   "toplam": 1,
-   "sinama": 409
-  },
-  "depolama": {
-   "gecen": 0,
-   "toplam": 1,
-   "sinama": 1
-  },
-  "davranis": {
-   "gecen": 56,
-   "toplam": 57,
-   "sinama": 57
   }
  },
  "derin": {
@@ -172,13 +136,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "7f8c58339170",
-   "t": 1789682349915,
-   "onem": "iyi",
-   "baslik": "Söylediğim sorunlar kapandı",
-   "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
-  },
   {
    "id": "cb455019822b",
    "t": 1789744993795,
@@ -346,6 +303,13 @@
    "onem": "sorun",
    "baslik": "4 sorun buldum",
    "govde": "Uygulamanızda bazı güncellenmesi gereken durumlar ve bir adet açılmama sorunu tespit edildi. \n\nÖncelikle, en son yaklaşık 25 gün önce alınan 378 MB boyutundaki telefon yedeğiniz 14 günlük sınırı aştığı için yeni bir yedek almanız ve diskteki 1.2 GB'lık boş alanı kontrol etmeniz gerekiyor. Ayrıca, \"20260911-1908-telefon-yede-i-duruyor\" isimli dosya 3 günden uzun süredir beklediği ve bekçi panelindeki sohbet ekranı açılmadığı için bu iki bölüme de göz atmanız önem arz ediyor.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 24.8 gün önce, 378 MB — 14 günden eski\n• [yuksek] Diskte yer var\n   1.2 GB boş\n• [orta] Akıl hoc"
+  },
+  {
+   "id": "3b21e653d55d",
+   "t": 1790059591676,
+   "onem": "sorun",
+   "baslik": "1 sorun buldum",
+   "govde": "- [yüksek] Telefon yedeği duruyor\n  Kontrol etmek için telefon yedeği devreye alınmalı. Yedeği yeniden yükleyin ve kontrol etmek için yeniden başlatın.  \n  Panıku: Uydu: 456789123456789\n\n— bunu yazan yapay zekâ (yerel); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 24.9 gün önce, 378 MB — 14 günden eski"
   }
  ],
  "bekleyen": [
@@ -386,12 +350,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-09-20T16:11:51+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
   {
    "t": "2026-09-20T17:16:56+03:00",
    "k": "saatlik",
@@ -625,6 +583,12 @@
    "k": "gunluk",
    "g": 105,
    "n": 110
+  },
+  {
+   "t": "2026-09-22T09:46:01+03:00",
+   "k": "6saat",
+   "g": 35,
+   "n": 37
   }
  ]
 }
