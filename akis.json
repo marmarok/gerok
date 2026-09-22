@@ -1,6 +1,6 @@
 {
  "bicim": 1,
- "zaman": "2026-09-22T12:11:30+03:00",
+ "zaman": "2026-09-22T14:21:48+03:00",
  "kadans": "saatlik",
  "durum": "iyi",
  "sayilar": {
@@ -9,8 +9,8 @@
   "gecen": 5,
   "bilinen": 0,
   "sorun": 0,
-  "sure": 0.8,
-  "kosu": 443
+  "sure": 1.1,
+  "kosu": 445
  },
  "sorunlar": [],
  "bilinenler": [],
@@ -98,20 +98,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "4196135840e3",
-   "t": 1789748194570,
-   "onem": "iyi",
-   "baslik": "Söylediğim sorunlar kapandı",
-   "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
-  },
-  {
-   "id": "1a8e00838fce",
-   "t": 1789764584394,
-   "onem": "sorun",
-   "baslik": "1 sorun buldum",
-   "govde": "- [yüksek] Telefon yedeği duruyor\n  Kontrol etmek için telefon yedeği devreyi açın. Eğer yedeği değiştirme işlemini yapmakta zorlanıyorsanız, yedeği devreyi yeniden başlatın. Eğer yedeği değiştirme işlemini de başarısız tutuyorsanız, yedeği devreyi yeniden başlatın ve daha sonra yedeği değiştirin. Sebebi belli değil.\n\n— bunu yazan yapay zekâ (yerel); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 21.4 gün önce, 378 MB — 14 günden eski"
-  },
   {
    "id": "43fdba6423ab",
    "t": 1789778741443,
@@ -272,6 +258,20 @@
    "onem": "iyi",
    "baslik": "Söylediğim sorunlar kapandı",
    "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
+  },
+  {
+   "id": "7392c9eb9576",
+   "t": 1790072206719,
+   "onem": "sorun",
+   "baslik": "2 sorun buldum",
+   "govde": "- [kritik] Canlı site ayakta\n  Not: Canlı site bağlantısı sağlanamıyor, lütfen kontrol et.\n- [kritik] Canlı index.html açılıyor\n  Not: Canlı index.html açılıp çalışıyor, lütfen kontrol et.\n\n— bunu yazan yapay zekâ (yerel (önbellek)); aşağısı bekçinin kendi ölçümü —\n\n• [kritik] Canlı site ayakta\n   URLError: <urlopen error [Errno 8] nodename nor servname provided, or not known>\n• [kritik] Canlı index.html açılıyor\n   <urlopen error [Errno 8] nodename nor servname provided, or not known>"
+  },
+  {
+   "id": "b4e5b8b25b90",
+   "t": 1790076108172,
+   "onem": "iyi",
+   "baslik": "Söylediğim sorunlar kapandı",
+   "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
   }
  ],
  "bekleyen": [
@@ -312,18 +312,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-09-20T19:27:05+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
-  {
-   "t": "2026-09-20T20:32:11+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
   {
    "t": "2026-09-20T21:37:17+03:00",
    "k": "saatlik",
@@ -548,6 +536,18 @@
   },
   {
    "t": "2026-09-22T12:11:30+03:00",
+   "k": "saatlik",
+   "g": 5,
+   "n": 5
+  },
+  {
+   "t": "2026-09-22T13:16:46+03:00",
+   "k": "saatlik",
+   "g": 3,
+   "n": 5
+  },
+  {
+   "t": "2026-09-22T14:21:48+03:00",
    "k": "saatlik",
    "g": 5,
    "n": 5
