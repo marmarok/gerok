@@ -1,6 +1,6 @@
 {
  "bicim": 1,
- "zaman": "2026-09-23T02:30:04+03:00",
+ "zaman": "2026-09-23T18:00:52+03:00",
  "kadans": "saatlik",
  "durum": "iyi",
  "sayilar": {
@@ -9,8 +9,8 @@
   "gecen": 5,
   "bilinen": 0,
   "sorun": 0,
-  "sure": 0.7,
-  "kosu": 458
+  "sure": 0.8,
+  "kosu": 460
  },
  "sorunlar": [],
  "bilinenler": [],
@@ -98,20 +98,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "fcf2717c68fc",
-   "t": 1789826727994,
-   "onem": "iyi",
-   "baslik": "Söylediğim sorunlar kapandı",
-   "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
-  },
-  {
-   "id": "4ad907d64b6f",
-   "t": 1789891365669,
-   "onem": "sorun",
-   "baslik": "1 sorun buldum",
-   "govde": "Uygulamada telefon yedeklerinin çok eski kaldığı tespit edildi. En son yedekleme yaklaşık 23 gün önce yapıldığı için sistem bunu yüksek öncelikli bir sorun olarak görüyor. Bu durumu düzeltmek için uygulamanın ayarlarından yeni ve güncel bir yedekleme başlatmanız gerekiyor.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 22.9 gün önce, 378 MB — 14 günden eski"
-  },
   {
    "id": "a1276e82c066",
    "t": 1789895438872,
@@ -272,6 +258,20 @@
    "onem": "iyi",
    "baslik": "Söylediğim sorunlar kapandı",
    "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
+  },
+  {
+   "id": "dba3b558eaa6",
+   "t": 1790142996124,
+   "onem": "sorun",
+   "baslik": "2 sorun buldum",
+   "govde": "- [kritik] Canlı site ayakta\n  Not: Canlı site bağlantısı sağlanamıyor, lütfen kontrol et.\n- [kritik] Canlı index.html açılıyor\n  Not: Canlı index.html açılıp çalışıyor, lütfen kontrol et.\n\n— bunu yazan yapay zekâ (yerel (önbellek)); aşağısı bekçinin kendi ölçümü —\n\n• [kritik] Canlı site ayakta\n   URLError: <urlopen error [Errno 8] nodename nor servname provided, or not known>\n• [kritik] Canlı index.html açılıyor\n   <urlopen error [Errno 8] nodename nor servname provided, or not known>"
+  },
+  {
+   "id": "cc79a67d7aa4",
+   "t": 1790175652908,
+   "onem": "iyi",
+   "baslik": "Söylediğim sorunlar kapandı",
+   "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
   }
  ],
  "bekleyen": [
@@ -312,18 +312,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-09-21T14:29:36+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
-  {
-   "t": "2026-09-21T15:14:29+03:00",
-   "k": "6saat",
-   "g": 35,
-   "n": 37
-  },
   {
    "t": "2026-09-21T15:34:41+03:00",
    "k": "saatlik",
@@ -548,6 +536,18 @@
   },
   {
    "t": "2026-09-23T02:30:04+03:00",
+   "k": "saatlik",
+   "g": 5,
+   "n": 5
+  },
+  {
+   "t": "2026-09-23T08:56:36+03:00",
+   "k": "saatlik",
+   "g": 3,
+   "n": 5
+  },
+  {
+   "t": "2026-09-23T18:00:52+03:00",
    "k": "saatlik",
    "g": 5,
    "n": 5
