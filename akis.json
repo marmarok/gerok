@@ -1,80 +1,35 @@
 {
  "bicim": 1,
- "zaman": "2026-09-28T12:19:38+03:00",
- "kadans": "6saat",
- "durum": "sorun",
+ "zaman": "2026-09-28T13:24:30+03:00",
+ "kadans": "saatlik",
+ "durum": "iyi",
  "sayilar": {
-  "kontrol": 37,
-  "sinama": 2283,
-  "gecen": 34,
-  "bilinen": 1,
-  "sorun": 2,
-  "sure": 15.1,
-  "kosu": 526
+  "kontrol": 5,
+  "sinama": 37,
+  "gecen": 5,
+  "bilinen": 0,
+  "sorun": 0,
+  "sure": 1.0,
+  "kosu": 527
  },
- "sorunlar": [
-  {
-   "ad": "Telefon yedeği duruyor",
-   "onem": "yuksek",
-   "oyku": "yedek",
-   "not": "2 yedek · en yenisi 31.0 gün önce, 378 MB — 14 günden eski",
-   "onarilabilir": false
-  },
-  {
-   "ad": "Koşular taze",
-   "onem": "yuksek",
-   "oyku": "bekci",
-   "not": "haftalik: 16.0 gündür koşmadı",
-   "onarilabilir": false
-  }
- ],
- "bilinenler": [
-  {
-   "ad": "Math.min(...dizi) yığın taşması",
-   "not": "app.js:764; app.js:5084; gerok.js:448; sihirbaz.js:454; sihirbaz.js:455; sihirbaz.js:456 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
-  }
- ],
+ "sorunlar": [],
+ "bilinenler": [],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 10,
-   "toplam": 10,
-   "sinama": 102
+   "gecen": 3,
+   "toplam": 3,
+   "sinama": 6
   },
   "bekci": {
-   "gecen": 3,
-   "toplam": 4,
-   "sinama": 16
-  },
-  "yedek": {
-   "gecen": 0,
+   "gecen": 1,
    "toplam": 1,
-   "sinama": 2
+   "sinama": 8
   },
   "koprü": {
    "gecen": 1,
    "toplam": 1,
    "sinama": 23
-  },
-  "kod": {
-   "gecen": 9,
-   "toplam": 9,
-   "sinama": 1518
-  },
-  "veri": {
-   "gecen": 2,
-   "toplam": 2,
-   "sinama": 9
-  },
-  "gizlilik": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 84
-  },
-  "bilgi": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 529
   }
  },
  "derin": {
@@ -143,13 +98,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "dba3b558eaa6",
-   "t": 1790142996124,
-   "onem": "sorun",
-   "baslik": "2 sorun buldum",
-   "govde": "- [kritik] Canlı site ayakta\n  Not: Canlı site bağlantısı sağlanamıyor, lütfen kontrol et.\n- [kritik] Canlı index.html açılıyor\n  Not: Canlı index.html açılıp çalışıyor, lütfen kontrol et.\n\n— bunu yazan yapay zekâ (yerel (önbellek)); aşağısı bekçinin kendi ölçümü —\n\n• [kritik] Canlı site ayakta\n   URLError: <urlopen error [Errno 8] nodename nor servname provided, or not known>\n• [kritik] Canlı index.html açılıyor\n   <urlopen error [Errno 8] nodename nor servname provided, or not known>"
-  },
   {
    "id": "cc79a67d7aa4",
    "t": 1790175652908,
@@ -317,6 +265,13 @@
    "onem": "sorun",
    "baslik": "2 sorun buldum",
    "govde": "- [yüksek] Telefon yedeği bakım yap\n  1 yedek · en yenisi 31 gün önce, 378 MB — 14 günden eski\n- [yüksek] Koşular taze\n  haftalik: 16 gün geçmedi\n\n— bunu yazan yapay zekâ (yerel); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 31.0 gün önce, 378 MB — 14 günden eski\n• [yuksek] Koşular taze\n   haftalik: 16.0 gündür koşmadı"
+  },
+  {
+   "id": "d8ab44b8a193",
+   "t": 1790591070477,
+   "onem": "iyi",
+   "baslik": "Söylediğim sorunlar kapandı",
+   "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
   }
  ],
  "bekleyen": [
@@ -357,12 +312,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-09-25T17:44:41+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
   {
    "t": "2026-09-25T18:49:46+03:00",
    "k": "saatlik",
@@ -596,6 +545,12 @@
    "k": "6saat",
    "g": 34,
    "n": 37
+  },
+  {
+   "t": "2026-09-28T13:24:30+03:00",
+   "k": "saatlik",
+   "g": 5,
+   "n": 5
   }
  ]
 }
