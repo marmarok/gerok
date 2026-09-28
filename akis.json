@@ -1,40 +1,107 @@
 {
  "bicim": 1,
- "zaman": "2026-09-28T22:14:53+03:00",
- "kadans": "saatlik",
- "durum": "iyi",
+ "zaman": "2026-09-28T22:17:13+03:00",
+ "kadans": "gunluk",
+ "durum": "sorun",
  "sayilar": {
-  "kontrol": 5,
-  "sinama": 37,
-  "gecen": 5,
-  "bilinen": 0,
-  "sorun": 0,
-  "sure": 1.2,
-  "kosu": 533
+  "kontrol": 110,
+  "sinama": 2880,
+  "gecen": 106,
+  "bilinen": 1,
+  "sorun": 3,
+  "sure": 140.8,
+  "kosu": 534
  },
- "sorunlar": [],
- "bilinenler": [],
+ "sorunlar": [
+  {
+   "ad": "Telefon yedeği duruyor",
+   "onem": "yuksek",
+   "oyku": "yedek",
+   "not": "2 yedek · en yenisi 31.4 gün önce, 378 MB — 14 günden eski",
+   "onarilabilir": false
+  },
+  {
+   "ad": "Koşular taze",
+   "onem": "yuksek",
+   "oyku": "bekci",
+   "not": "gunluk: 4.2 gündür koşmadı · haftalik: 16.5 gündür koşmadı",
+   "onarilabilir": false
+  },
+  {
+   "ad": "Akıl hocası dosyaları bayatlamamış",
+   "onem": "orta",
+   "oyku": "bekci",
+   "not": "1 dosya 3 günden uzun süredir bekliyor: 20260911-1908-telefon-yede-i-duruyor",
+   "onarilabilir": false
+  }
+ ],
+ "bilinenler": [
+  {
+   "ad": "Math.min(...dizi) yığın taşması",
+   "not": "app.js:764; app.js:5084; gerok.js:448; sihirbaz.js:454; sihirbaz.js:455; sihirbaz.js:456 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
+  }
+ ],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 3,
-   "toplam": 3,
-   "sinama": 6
+   "gecen": 15,
+   "toplam": 15,
+   "sinama": 146
   },
   "bekci": {
-   "gecen": 1,
+   "gecen": 7,
+   "toplam": 9,
+   "sinama": 83
+  },
+  "yedek": {
+   "gecen": 0,
    "toplam": 1,
-   "sinama": 8
+   "sinama": 2
   },
   "koprü": {
    "gecen": 1,
    "toplam": 1,
    "sinama": 23
+  },
+  "kod": {
+   "gecen": 11,
+   "toplam": 11,
+   "sinama": 1535
+  },
+  "veri": {
+   "gecen": 2,
+   "toplam": 2,
+   "sinama": 9
+  },
+  "gizlilik": {
+   "gecen": 7,
+   "toplam": 7,
+   "sinama": 86
+  },
+  "bilgi": {
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 529
+  },
+  "sartname": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 409
+  },
+  "depolama": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 1
+  },
+  "davranis": {
+   "gecen": 57,
+   "toplam": 57,
+   "sinama": 57
   }
  },
  "derin": {
   "kadans": "gunluk",
-  "zaman": "2026-09-24T17:47:14+03:00",
+  "zaman": "2026-09-28T22:17:13+03:00",
   "kontrol": 110,
   "sinama": 2880,
   "gecen": 106,
@@ -46,7 +113,7 @@
     "sinama": 146
    },
    "bekci": {
-    "gecen": 8,
+    "gecen": 7,
     "toplam": 9,
     "sinama": 83
    },
@@ -86,7 +153,7 @@
     "sinama": 409
    },
    "depolama": {
-    "gecen": 0,
+    "gecen": 1,
     "toplam": 1,
     "sinama": 1
    },
@@ -98,13 +165,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "efa46b909c87",
-   "t": 1790195779473,
-   "onem": "iyi",
-   "baslik": "Söylediğim sorunlar kapandı",
-   "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
-  },
   {
    "id": "d8b950ad2d2d",
    "t": 1790227210768,
@@ -272,21 +332,19 @@
    "onem": "iyi",
    "baslik": "Söylediğim sorunlar kapandı",
    "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
+  },
+  {
+   "id": "fbd3ba8b5e04",
+   "t": 1790623074893,
+   "onem": "sorun",
+   "baslik": "3 sorun buldum",
+   "govde": "- [yuksek] Telefon yedeği duruyor\n  2 yedek · en yenisi 31.4 gün önce, 378 MB — 14 günden eski\n- [orta] Akıl hocası dosyaları bayatlamamış\n  1 dosya 3 günden uzun süredir bekliyor: 20260911-1908-telefon-yede-i-duruyor\n- [orta] Koşular taze\n  gunluk: 4.2 gündür koşmadı · haftalik: 16.5 gündür koşmadı\n\n— bunu yazan yapay zekâ (yerel); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 31.4 gün önce, 378 MB — 14 günden eski\n• [yuksek] Koşular taze\n   gunluk: 4.2 gündür koşmadı · haftalik: 16.5 gündür koşmadı\n• [orta] Akıl hocası dosyaları bayatlamamış\n   1 dosya 3 günden uzun süredir bekliyor: 20260911-1908-telefon-yede-i-duruyor"
   }
  ],
  "bekleyen": [
   {
    "id": "2c5cbfa50559",
    "soru": "“Telefon yedeği duruyor” kontrolü takılıyor ve kendim onaramadım. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu? (Ayrıntısı panoda duruyor.)",
-   "secenekler": [
-    "Bu bilinen bir durum",
-    "Gerçekten bozuk, bak",
-    "Yanlış alarm"
-   ]
-  },
-  {
-   "id": "f47005997a52",
-   "soru": "“Diskte yer var” kontrolü takılıyor ve kendim onaramadım. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu? (Ayrıntısı panoda duruyor.)",
    "secenekler": [
     "Bu bilinen bir durum",
     "Gerçekten bozuk, bak",
@@ -312,12 +370,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-09-26T00:15:10+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
   {
    "t": "2026-09-26T01:20:15+03:00",
    "k": "saatlik",
@@ -551,6 +603,12 @@
    "k": "saatlik",
    "g": 5,
    "n": 5
+  },
+  {
+   "t": "2026-09-28T22:17:13+03:00",
+   "k": "gunluk",
+   "g": 106,
+   "n": 110
   }
  ]
 }
