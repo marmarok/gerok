@@ -1,80 +1,35 @@
 {
  "bicim": 1,
- "zaman": "2026-09-28T04:49:45+03:00",
- "kadans": "6saat",
- "durum": "sorun",
+ "zaman": "2026-09-28T05:54:34+03:00",
+ "kadans": "saatlik",
+ "durum": "iyi",
  "sayilar": {
-  "kontrol": 37,
-  "sinama": 2283,
-  "gecen": 34,
-  "bilinen": 1,
-  "sorun": 2,
-  "sure": 20.0,
-  "kosu": 520
+  "kontrol": 5,
+  "sinama": 37,
+  "gecen": 5,
+  "bilinen": 0,
+  "sorun": 0,
+  "sure": 0.8,
+  "kosu": 521
  },
- "sorunlar": [
-  {
-   "ad": "Telefon yedeği duruyor",
-   "onem": "yuksek",
-   "oyku": "yedek",
-   "not": "2 yedek · en yenisi 30.6 gün önce, 378 MB — 14 günden eski",
-   "onarilabilir": false
-  },
-  {
-   "ad": "Koşular taze",
-   "onem": "yuksek",
-   "oyku": "bekci",
-   "not": "haftalik: 15.7 gündür koşmadı",
-   "onarilabilir": false
-  }
- ],
- "bilinenler": [
-  {
-   "ad": "Math.min(...dizi) yığın taşması",
-   "not": "app.js:764; app.js:5084; gerok.js:448; sihirbaz.js:454; sihirbaz.js:455; sihirbaz.js:456 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
-  }
- ],
+ "sorunlar": [],
+ "bilinenler": [],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 10,
-   "toplam": 10,
-   "sinama": 102
+   "gecen": 3,
+   "toplam": 3,
+   "sinama": 6
   },
   "bekci": {
-   "gecen": 3,
-   "toplam": 4,
-   "sinama": 16
-  },
-  "yedek": {
-   "gecen": 0,
+   "gecen": 1,
    "toplam": 1,
-   "sinama": 2
+   "sinama": 8
   },
   "koprü": {
    "gecen": 1,
    "toplam": 1,
    "sinama": 23
-  },
-  "kod": {
-   "gecen": 9,
-   "toplam": 9,
-   "sinama": 1518
-  },
-  "veri": {
-   "gecen": 2,
-   "toplam": 2,
-   "sinama": 9
-  },
-  "gizlilik": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 84
-  },
-  "bilgi": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 529
   }
  },
  "derin": {
@@ -143,13 +98,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "11575dcdc362",
-   "t": 1790104090293,
-   "onem": "sorun",
-   "baslik": "1 sorun buldum",
-   "govde": "- Telefon yedeği durumunu kontrol et\n  - Teknik adı: TelefonYedeğiDurumKontrolü\n  - Not: Yedeği açıp kapattıktan sonra devam et. Eğer devam ederse, telefonunun yedeği bilgisini kontrol edin.\n\n— bunu yazan yapay zekâ (yerel); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 25.4 gün önce, 378 MB — 14 günden eski"
-  },
   {
    "id": "7458a345c8db",
    "t": 1790108090643,
@@ -317,6 +265,13 @@
    "onem": "sorun",
    "baslik": "2 sorun buldum",
    "govde": "- [yüksek] Telefon yedeği bakım yap\n  Telefon yedeği bakım ekranına gidip, yedeği yeniden yükleyin\n- [yüksek] Koşular taze edici\n  Koşular taze edici programını çalıştırın, koşuları taze edin.\n\n— bunu yazan yapay zekâ (yerel); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 30.6 gün önce, 378 MB — 14 günden eski\n• [yuksek] Koşular taze\n   haftalik: 15.7 gündür koşmadı"
+  },
+  {
+   "id": "215a8d4a7a8c",
+   "t": 1790564074334,
+   "onem": "iyi",
+   "baslik": "Söylediğim sorunlar kapandı",
+   "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
   }
  ],
  "bekleyen": [
@@ -357,12 +312,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-09-25T09:58:00+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
   {
    "t": "2026-09-25T11:03:05+03:00",
    "k": "saatlik",
@@ -596,6 +545,12 @@
    "k": "6saat",
    "g": 34,
    "n": 37
+  },
+  {
+   "t": "2026-09-28T05:54:34+03:00",
+   "k": "saatlik",
+   "g": 5,
+   "n": 5
   }
  ]
 }
