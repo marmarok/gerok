@@ -1,109 +1,35 @@
 {
  "bicim": 1,
- "zaman": "2026-10-04T03:23:32+03:00",
- "kadans": "gunluk",
- "durum": "sorun",
+ "zaman": "2026-10-04T03:40:51+03:00",
+ "kadans": "saatlik",
+ "durum": "iyi",
  "sayilar": {
-  "kontrol": 110,
-  "sinama": 2880,
-  "gecen": 105,
-  "bilinen": 1,
-  "sorun": 4,
-  "sure": 127.4,
-  "kosu": 586
+  "kontrol": 5,
+  "sinama": 37,
+  "gecen": 5,
+  "bilinen": 0,
+  "sorun": 0,
+  "sure": 0.7,
+  "kosu": 587
  },
- "sorunlar": [
-  {
-   "ad": "Telefon yedeği duruyor",
-   "onem": "yuksek",
-   "oyku": "yedek",
-   "not": "2 yedek · en yenisi 36.6 gün önce, 378 MB — 14 günden eski",
-   "onarilabilir": false
-  },
-  {
-   "ad": "Koşular taze",
-   "onem": "yuksek",
-   "oyku": "bekci",
-   "not": "haftalik: 21.7 gündür koşmadı",
-   "onarilabilir": false
-  },
-  {
-   "ad": "Diskte yer var",
-   "onem": "yuksek",
-   "oyku": "depolama",
-   "not": "6.3 GB boş",
-   "onarilabilir": false
-  },
-  {
-   "ad": "Akıl hocası dosyaları bayatlamamış",
-   "onem": "orta",
-   "oyku": "bekci",
-   "not": "1 dosya 3 günden uzun süredir bekliyor: 20260911-1908-telefon-yede-i-duruyor",
-   "onarilabilir": false
-  }
- ],
- "bilinenler": [
-  {
-   "ad": "Math.min(...dizi) yığın taşması",
-   "not": "app.js:764; app.js:5084; gerok.js:448; sihirbaz.js:454; sihirbaz.js:455; sihirbaz.js:456 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
-  }
- ],
+ "sorunlar": [],
+ "bilinenler": [],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 15,
-   "toplam": 15,
-   "sinama": 146
+   "gecen": 3,
+   "toplam": 3,
+   "sinama": 6
   },
   "bekci": {
-   "gecen": 7,
-   "toplam": 9,
-   "sinama": 83
-  },
-  "yedek": {
-   "gecen": 0,
+   "gecen": 1,
    "toplam": 1,
-   "sinama": 2
+   "sinama": 8
   },
   "koprü": {
    "gecen": 1,
    "toplam": 1,
    "sinama": 23
-  },
-  "kod": {
-   "gecen": 11,
-   "toplam": 11,
-   "sinama": 1535
-  },
-  "veri": {
-   "gecen": 2,
-   "toplam": 2,
-   "sinama": 9
-  },
-  "gizlilik": {
-   "gecen": 7,
-   "toplam": 7,
-   "sinama": 86
-  },
-  "bilgi": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 529
-  },
-  "sartname": {
-   "gecen": 1,
-   "toplam": 1,
-   "sinama": 409
-  },
-  "depolama": {
-   "gecen": 0,
-   "toplam": 1,
-   "sinama": 1
-  },
-  "davranis": {
-   "gecen": 57,
-   "toplam": 57,
-   "sinama": 57
   }
  },
  "derin": {
@@ -172,13 +98,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "d60df2db66fb",
-   "t": 1790587195906,
-   "onem": "sorun",
-   "baslik": "2 sorun buldum",
-   "govde": "- [yüksek] Telefon yedeği bakım yap\n  1 yedek · en yenisi 31 gün önce, 378 MB — 14 günden eski\n- [yüksek] Koşular taze\n  haftalik: 16 gün geçmedi\n\n— bunu yazan yapay zekâ (yerel); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 31.0 gün önce, 378 MB — 14 günden eski\n• [yuksek] Koşular taze\n   haftalik: 16.0 gündür koşmadı"
-  },
   {
    "id": "d8ab44b8a193",
    "t": 1790591070477,
@@ -346,6 +265,13 @@
    "onem": "sorun",
    "baslik": "4 sorun buldum",
    "govde": "- [orta] Telefon yedeği duruyor\n  2 yedek · en yenisi 36 gün önce, 378 MB — 14 günden eski\n- [orta] Koşular taze\n  haftalik: 21 gün önce koşmadı\n- [orta] Diskte yer var\n  6.3 GB boş\n- [yakınlık] Akıl hocası dosyaları bayatlamamış\n  1 dosya 3 günden uzun süredir bekliyor: UYDURMA 20260911-1908-telefon-yede-i-duruyor\n\n— bunu yazan yapay zekâ (yerel); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 36.6 gün önce, 378 MB — 14 günden eski\n• [yuksek] Koşular taze\n   haftalik: 21.7 gündür koşmadı\n• [yuksek] Diskte yer var\n   6.3 GB boş\n• [orta] Akıl hocası dosyaları bayatlamamış\n   1 dosya 3 günden uzun süredir bekliyor: 20260911-1908-telefon-yede-i-duruyor"
+  },
+  {
+   "id": "b22a6cffa7a5",
+   "t": 1791074451486,
+   "onem": "iyi",
+   "baslik": "Söylediğim sorunlar kapandı",
+   "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
   }
  ],
  "bekleyen": [
@@ -386,12 +312,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-09-30T02:03:30+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
   {
    "t": "2026-09-30T09:35:09+03:00",
    "k": "saatlik",
@@ -625,6 +545,12 @@
    "k": "gunluk",
    "g": 105,
    "n": 110
+  },
+  {
+   "t": "2026-10-04T03:40:51+03:00",
+   "k": "saatlik",
+   "g": 5,
+   "n": 5
   }
  ]
 }
