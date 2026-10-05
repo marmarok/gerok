@@ -1,16 +1,16 @@
 {
  "bicim": 1,
- "zaman": "2026-10-05T10:21:46+03:00",
- "kadans": "6saat",
+ "zaman": "2026-10-05T10:40:11+03:00",
+ "kadans": "gunluk",
  "durum": "sorun",
  "sayilar": {
-  "kontrol": 37,
-  "sinama": 2283,
-  "gecen": 34,
+  "kontrol": 110,
+  "sinama": 2880,
+  "gecen": 105,
   "bilinen": 1,
-  "sorun": 2,
-  "sure": 12.5,
-  "kosu": 608
+  "sorun": 4,
+  "sure": 121.0,
+  "kosu": 609
  },
  "sorunlar": [
   {
@@ -26,6 +26,20 @@
    "oyku": "bekci",
    "not": "haftalik: 23.0 gündür koşmadı",
    "onarilabilir": false
+  },
+  {
+   "ad": "Diskte yer var",
+   "onem": "yuksek",
+   "oyku": "depolama",
+   "not": "6.5 GB boş",
+   "onarilabilir": false
+  },
+  {
+   "ad": "Akıl hocası dosyaları bayatlamamış",
+   "onem": "orta",
+   "oyku": "bekci",
+   "not": "1 dosya 3 günden uzun süredir bekliyor: 20260911-1908-telefon-yede-i-duruyor",
+   "onarilabilir": false
   }
  ],
  "bilinenler": [
@@ -37,14 +51,14 @@
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 10,
-   "toplam": 10,
-   "sinama": 102
+   "gecen": 15,
+   "toplam": 15,
+   "sinama": 146
   },
   "bekci": {
-   "gecen": 3,
-   "toplam": 4,
-   "sinama": 16
+   "gecen": 7,
+   "toplam": 9,
+   "sinama": 83
   },
   "yedek": {
    "gecen": 0,
@@ -57,9 +71,9 @@
    "sinama": 23
   },
   "kod": {
-   "gecen": 9,
-   "toplam": 9,
-   "sinama": 1518
+   "gecen": 11,
+   "toplam": 11,
+   "sinama": 1535
   },
   "veri": {
    "gecen": 2,
@@ -67,19 +81,34 @@
    "sinama": 9
   },
   "gizlilik": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 84
+   "gecen": 7,
+   "toplam": 7,
+   "sinama": 86
   },
   "bilgi": {
    "gecen": 5,
    "toplam": 5,
    "sinama": 529
+  },
+  "sartname": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 409
+  },
+  "depolama": {
+   "gecen": 0,
+   "toplam": 1,
+   "sinama": 1
+  },
+  "davranis": {
+   "gecen": 57,
+   "toplam": 57,
+   "sinama": 57
   }
  },
  "derin": {
   "kadans": "gunluk",
-  "zaman": "2026-10-04T03:23:32+03:00",
+  "zaman": "2026-10-05T10:40:11+03:00",
   "kontrol": 110,
   "sinama": 2880,
   "gecen": 105,
@@ -143,13 +172,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "587f38527670",
-   "t": 1790708711678,
-   "onem": "sorun",
-   "baslik": "2 sorun buldum",
-   "govde": "Uygulamanızda iki önemli bakım konusu bulunuyor: Telefon yedekleriniz güncel değil ve haftalık otomatik sistem işlemleriniz 17 günden fazladır çalıştırılmadı. Bu durumları düzeltmek için öncelikle en son telefon yedeğinizi manuel olarak yeniden almalı ve ardından haftalık sistem işlemlerini tetikleyerek sistemin güncelliğini sağlamalısınız. Endişelenecek bir durum yok, sadece bu iki adımı sırasıyla uygulayarak sisteminizi kolayca güncel hale getirebilirsiniz.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 32.4 gün önce, 378 MB — 14 günden eski\n• [yuksek] Koşular taze\n   haftalik: 17.4 gündür koşmadı"
-  },
   {
    "id": "3659c19e6e12",
    "t": 1790711296667,
@@ -317,6 +339,13 @@
    "onem": "sorun",
    "baslik": "2 sorun buldum",
    "govde": "- [yüksek] Telefon yedeği kontrolü başarısız\n  2 yedek · en yenisi 37.9 gün önce, 378 MB — 14 günden eski\n- [yüksek] Koşular taze kontrolü başarısız\n  Haftalik: 23.0 gündür koşmadı\n\n— bunu yazan yapay zekâ (yerel); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 37.9 gün önce, 378 MB — 14 günden eski\n• [yuksek] Koşular taze\n   haftalik: 23.0 gündür koşmadı"
+  },
+  {
+   "id": "e2e8d10fc4ca",
+   "t": 1791186025559,
+   "onem": "sorun",
+   "baslik": "4 sorun buldum",
+   "govde": "Uygulamanızda bazı güncel olmayan dosyalar ve geciken işlemler tespit edildi. \n\nTelefon yedeklerinizin en sonuncusu 37 gün önce alınmış ve haftalık koşu işlemleri 23 gündür yapılmamış; ayrıca \"20260911-1908-telefon-yede-i-duruyor\" isimli bir akıl hocası dosyası 3 günden uzun süredir bekliyor. \n\nBu durumları düzeltmek için telefon yedeğinizi güncellemeniz, bekleyen koşu işlemlerini başlatmanız ve bahsi geçen dosyayı gözden geçirip güncellemeniz gerekiyor.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 37.9 gün önce, 378 MB — 14 günden eski\n• [yuksek] Koşular taze\n   haftalik: 23.0 gündür koşmadı\n• [yuksek] Diskte ye"
   }
  ],
  "bekleyen": [
@@ -357,12 +386,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-10-01T22:47:53+03:00",
-   "k": "6saat",
-   "g": 34,
-   "n": 37
-  },
   {
    "t": "2026-10-02T07:46:06+03:00",
    "k": "saatlik",
@@ -596,6 +619,12 @@
    "k": "6saat",
    "g": 34,
    "n": 37
+  },
+  {
+   "t": "2026-10-05T10:40:11+03:00",
+   "k": "gunluk",
+   "g": 105,
+   "n": 110
   }
  ]
 }
