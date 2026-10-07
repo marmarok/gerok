@@ -1,44 +1,125 @@
 {
  "bicim": 1,
- "zaman": "2026-10-07T10:23:48+03:00",
- "kadans": "saatlik",
- "durum": "iyi",
+ "zaman": "2026-10-07T10:41:56+03:00",
+ "kadans": "gunluk",
+ "durum": "sorun",
  "sayilar": {
-  "kontrol": 5,
-  "sinama": 37,
-  "gecen": 5,
-  "bilinen": 0,
-  "sorun": 0,
-  "sure": 1.5,
-  "kosu": 632
+  "kontrol": 54,
+  "sinama": 2824,
+  "gecen": 48,
+  "bilinen": 1,
+  "sorun": 5,
+  "sure": 104.3,
+  "kosu": 633
  },
- "sorunlar": [],
- "bilinenler": [],
+ "sorunlar": [
+  {
+   "ad": "Telefon yedeği duruyor",
+   "onem": "yuksek",
+   "oyku": "yedek",
+   "not": "2 yedek · en yenisi 39.9 gün önce, 378 MB — 14 günden eski",
+   "onarilabilir": false
+  },
+  {
+   "ad": "Koşular taze",
+   "onem": "yuksek",
+   "oyku": "bekci",
+   "not": "haftalik: 25.0 gündür koşmadı",
+   "onarilabilir": false
+  },
+  {
+   "ad": "Diskte yer var",
+   "onem": "yuksek",
+   "oyku": "depolama",
+   "not": "0.7 GB boş",
+   "onarilabilir": false
+  },
+  {
+   "ad": "Akıl hocası dosyaları bayatlamamış",
+   "onem": "orta",
+   "oyku": "bekci",
+   "not": "1 dosya 3 günden uzun süredir bekliyor: 20260911-1908-telefon-yede-i-duruyor",
+   "onarilabilir": false
+  },
+  {
+   "ad": "Tarayıcı sınamaları",
+   "onem": "kritik",
+   "oyku": "davranis",
+   "not": "file://~/gerok/bekci/tarayici.mjs:66\n  throw new Error('Chrome açılmadı');\n        ^\n\nError: Chrome açılmadı\n    at chromeBaslat (file://~/gerok/bekci/tarayici.mjs:66:9)\n    at async file://~/gerok/bekci/tarayici.mjs:2261:19\n\nNode.js v26.5.",
+   "onarilabilir": false
+  }
+ ],
+ "bilinenler": [
+  {
+   "ad": "Math.min(...dizi) yığın taşması",
+   "not": "app.js:764; app.js:5084; gerok.js:448; sihirbaz.js:454; sihirbaz.js:455; sihirbaz.js:456 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
+  }
+ ],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 3,
-   "toplam": 3,
-   "sinama": 6
+   "gecen": 15,
+   "toplam": 15,
+   "sinama": 146
   },
   "bekci": {
-   "gecen": 1,
+   "gecen": 7,
+   "toplam": 9,
+   "sinama": 83
+  },
+  "yedek": {
+   "gecen": 0,
    "toplam": 1,
-   "sinama": 8
+   "sinama": 2
   },
   "koprü": {
    "gecen": 1,
    "toplam": 1,
    "sinama": 23
+  },
+  "kod": {
+   "gecen": 11,
+   "toplam": 11,
+   "sinama": 1535
+  },
+  "veri": {
+   "gecen": 2,
+   "toplam": 2,
+   "sinama": 9
+  },
+  "gizlilik": {
+   "gecen": 7,
+   "toplam": 7,
+   "sinama": 86
+  },
+  "bilgi": {
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 529
+  },
+  "sartname": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 409
+  },
+  "depolama": {
+   "gecen": 0,
+   "toplam": 1,
+   "sinama": 1
+  },
+  "davranis": {
+   "gecen": 0,
+   "toplam": 1,
+   "sinama": 1
   }
  },
  "derin": {
   "kadans": "gunluk",
-  "zaman": "2026-10-05T10:40:11+03:00",
-  "kontrol": 110,
-  "sinama": 2880,
-  "gecen": 105,
-  "sorun": 4,
+  "zaman": "2026-10-07T10:41:56+03:00",
+  "kontrol": 54,
+  "sinama": 2824,
+  "gecen": 48,
+  "sorun": 5,
   "gruplar": {
    "yayin": {
     "gecen": 15,
@@ -91,20 +172,13 @@
     "sinama": 1
    },
    "davranis": {
-    "gecen": 57,
-    "toplam": 57,
-    "sinama": 57
+    "gecen": 0,
+    "toplam": 1,
+    "sinama": 1
    }
   }
  },
  "mesajlar": [
-  {
-   "id": "395e78302a1a",
-   "t": 1790820306680,
-   "onem": "sorun",
-   "baslik": "2 sorun buldum",
-   "govde": "Uygulamanızda iki önemli bakım konusu bulunuyor: Telefon yedekleriniz 14 günden daha eski (en son 33.7 gün önce yedeklenmiş) ve haftalık sistem koşularınız 18.7 gündür çalıştırılmamış. Bu durumları düzeltmek için öncelikle yeni bir telefon yedeği almalı ve ardından sistemin haftalık rutin koşularını yeniden başlatmalısınız. Bu işlemler uygulamanızın güncel ve güvenli kalmasını sağlayacaktır.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 33.7 gün önce, 378 MB — 14 günden eski\n• [yuksek] Koşular taze\n   haftalik: 18.7 gündür koşmadı"
-  },
   {
    "id": "147f8ced68f2",
    "t": 1790820910668,
@@ -272,6 +346,13 @@
    "onem": "iyi",
    "baslik": "Söylediğim sorunlar kapandı",
    "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
+  },
+  {
+   "id": "27338c2cbd26",
+   "t": 1791358945042,
+   "onem": "sorun",
+   "baslik": "5 sorun buldum",
+   "govde": "Uygulamanızda telefon yedeğinin eski olması, haftalık koşuların yapılmaması, disk alanının 0.7 GB'a düşmesi ve bir akıl hocası dosyasının beklemesi gibi sorunlar var; ayrıca internet tarayıcısını test eden sistem Chrome açılmadığı için hata vermiş. Bu durumları düzeltmek için diskte yer açmanız, yedekleri ve koşuları güncellemeniz ve Chrome tarayıcısının neden açılmadığını kontrol etmeniz gerekiyor. Tarayıcı hatasının tam teknik sebebi ise şu an için belli değil.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 39.9 gün önce, 378 MB — 14 günden eski\n• [yuksek] Koşular taze\n   haftalik: 25.0 gündür koşmadı\n• [yuksek] "
   }
  ],
  "bekleyen": [
@@ -301,6 +382,15 @@
     "Gerçekten bozuk, bak",
     "Yanlış alarm"
    ]
+  },
+  {
+   "id": "1440a1d2d1d5",
+   "soru": "“Tarayıcı sınamaları” kontrolü takılıyor ve kendim onaramadım. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu? (Ayrıntısı panoda duruyor.)",
+   "secenekler": [
+    "Bu bilinen bir durum",
+    "Gerçekten bozuk, bak",
+    "Yanlış alarm"
+   ]
   }
  ],
  "telefonSinamasi": [
@@ -312,12 +402,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-10-04T16:10:29+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
   {
    "t": "2026-10-04T17:15:34+03:00",
    "k": "saatlik",
@@ -551,6 +635,12 @@
    "k": "saatlik",
    "g": 5,
    "n": 5
+  },
+  {
+   "t": "2026-10-07T10:41:56+03:00",
+   "k": "gunluk",
+   "g": 48,
+   "n": 54
   }
  ]
 }
