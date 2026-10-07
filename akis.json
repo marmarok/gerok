@@ -1,80 +1,35 @@
 {
  "bicim": 1,
- "zaman": "2026-10-07T11:14:33+03:00",
- "kadans": "6saat",
- "durum": "sorun",
+ "zaman": "2026-10-07T11:28:55+03:00",
+ "kadans": "saatlik",
+ "durum": "iyi",
  "sayilar": {
-  "kontrol": 37,
-  "sinama": 2283,
-  "gecen": 34,
-  "bilinen": 1,
-  "sorun": 2,
-  "sure": 18.0,
-  "kosu": 634
+  "kontrol": 5,
+  "sinama": 37,
+  "gecen": 5,
+  "bilinen": 0,
+  "sorun": 0,
+  "sure": 1.1,
+  "kosu": 635
  },
- "sorunlar": [
-  {
-   "ad": "Telefon yedeği duruyor",
-   "onem": "yuksek",
-   "oyku": "yedek",
-   "not": "2 yedek · en yenisi 39.9 gün önce, 378 MB — 14 günden eski",
-   "onarilabilir": false
-  },
-  {
-   "ad": "Koşular taze",
-   "onem": "yuksek",
-   "oyku": "bekci",
-   "not": "haftalik: 25.0 gündür koşmadı",
-   "onarilabilir": false
-  }
- ],
- "bilinenler": [
-  {
-   "ad": "Math.min(...dizi) yığın taşması",
-   "not": "app.js:764; app.js:5084; gerok.js:448; sihirbaz.js:454; sihirbaz.js:455; sihirbaz.js:456 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
-  }
- ],
+ "sorunlar": [],
+ "bilinenler": [],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 10,
-   "toplam": 10,
-   "sinama": 102
+   "gecen": 3,
+   "toplam": 3,
+   "sinama": 6
   },
   "bekci": {
-   "gecen": 3,
-   "toplam": 4,
-   "sinama": 16
-  },
-  "yedek": {
-   "gecen": 0,
+   "gecen": 1,
    "toplam": 1,
-   "sinama": 2
+   "sinama": 8
   },
   "koprü": {
    "gecen": 1,
    "toplam": 1,
    "sinama": 23
-  },
-  "kod": {
-   "gecen": 9,
-   "toplam": 9,
-   "sinama": 1518
-  },
-  "veri": {
-   "gecen": 2,
-   "toplam": 2,
-   "sinama": 9
-  },
-  "gizlilik": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 84
-  },
-  "bilgi": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 529
   }
  },
  "derin": {
@@ -143,13 +98,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "50c576725d9f",
-   "t": 1790884111263,
-   "onem": "sorun",
-   "baslik": "2 sorun buldum",
-   "govde": "Uygulamanızda iki adet yüksek öncelikli bakım durumu tespit edildi. İlki, telefon yedeklerinizin en son 34.4 gün önce alınmış olması ve belirlenen 14 günlük süreyi aşmasıdır; bu durumu düzeltmek için yeni bir yedekleme başlatmanız gerekiyor. İkincisi ise haftalık olarak çalışması gereken sistem rutinlerinin 19.5 gündür çalışmamış olmasıdır; bu işlemlerin yeniden düzenli çalışmasını sağlamalısınız.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 34.4 gün önce, 378 MB — 14 günden eski\n• [yuksek] Koşular taze\n   haftalik: 19.5 gündür koşmadı"
-  },
   {
    "id": "9cb7d955d318",
    "t": 1790916366915,
@@ -317,6 +265,13 @@
    "onem": "sorun",
    "baslik": "2 sorun buldum",
    "govde": "- [yüksek] Telefon yedeği bakım bekçisi: Telefon yedeği durumunu kontrol et. Teknik adı: \"Telefon Yedeği Durum Kontrolü\". Not: \"Telefon yedeği, 378 MB'lik 2 yedeği, 39 gün önce yedeği değiştirilmiş. Yedeği kontrol et ve uygun şekilde bakım yap.\" \n\n- [yüksek] Koşular bakım bekçisi: Koşular taze durumu kontrol et. Teknik adı: \"Koşular Taze Durumu Kontrolü\". Not: \"Koşular, haftalik 25 gün önce koşulmuş. Yeni taze durumu kontrol edin ve uygun şekilde bakım yap.\"\n\n— bunu yazan yapay zekâ (yerel); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 39.9 gün önce, 378 MB — 14 günden eski\n• [yuksek] Koşular taze\n   haftalik: 25.0 gündür koşmadı"
+  },
+  {
+   "id": "1b931f24943f",
+   "t": 1791361735853,
+   "onem": "iyi",
+   "baslik": "Söylediğim sorunlar kapandı",
+   "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
   }
  ],
  "bekleyen": [
@@ -366,12 +321,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-10-04T18:20:43+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
   {
    "t": "2026-10-04T19:06:02+03:00",
    "k": "6saat",
@@ -605,6 +554,12 @@
    "k": "6saat",
    "g": 34,
    "n": 37
+  },
+  {
+   "t": "2026-10-07T11:28:55+03:00",
+   "k": "saatlik",
+   "g": 5,
+   "n": 5
   }
  ]
 }
