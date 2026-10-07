@@ -1,6 +1,6 @@
 {
  "bicim": 1,
- "zaman": "2026-10-07T11:28:55+03:00",
+ "zaman": "2026-10-07T17:34:41+03:00",
  "kadans": "saatlik",
  "durum": "iyi",
  "sayilar": {
@@ -9,8 +9,8 @@
   "gecen": 5,
   "bilinen": 0,
   "sorun": 0,
-  "sure": 1.1,
-  "kosu": 635
+  "sure": 0.9,
+  "kosu": 637
  },
  "sorunlar": [],
  "bilinenler": [],
@@ -98,20 +98,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "9cb7d955d318",
-   "t": 1790916366915,
-   "onem": "iyi",
-   "baslik": "Söylediğim sorunlar kapandı",
-   "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
-  },
-  {
-   "id": "4636f0ea6e39",
-   "t": 1791022220709,
-   "onem": "sorun",
-   "baslik": "2 sorun buldum",
-   "govde": "Uygulamanızda iki önemli bakım konusu bulunuyor: Telefon yedekleriniz güncel değil ve arka planda yapılması gereken rutin sistem çalışmaları aksamış durumda. En son telefon yedeği 36 gün önce alındığı için acilen yeni bir yedekleme başlatmanız gerekiyor. Ayrıca, uygulamanın kendi içindeki haftalık ve 6 saatlik rutin işlemlerin yeniden düzenli çalışabilmesi için sistemi kontrol etmelisiniz.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 36.0 gün önce, 378 MB — 14 günden eski\n• [yuksek] Koşular taze\n   6saat: 1.6 gündür koşmadı · haftalik: 21.1 gündür koşmadı"
-  },
   {
    "id": "d9558336c901",
    "t": 1791025198105,
@@ -272,6 +258,20 @@
    "onem": "iyi",
    "baslik": "Söylediğim sorunlar kapandı",
    "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
+  },
+  {
+   "id": "e1b600f5858d",
+   "t": 1791365918931,
+   "onem": "sorun",
+   "baslik": "2 sorun buldum",
+   "govde": "- [kritik] Canlı site ayakta\n  Not: Canlı siteye erişim sağlanıyor, ancak bazı kontroller başarısız kalmıştır. Teknik adı: URLError: <urlopen error [Errno 8] nodename nor servname provided, or not known>\n- [kritik] Canlı index.html açılıyor\n  Not: Canlı index.html dosyası açılıyor, ancak bazı kontroller başarısız kalmıştır. Teknik adı: URLError: <urlopen error [Errno 8] nodename nor servname provided, or not known>\n\n— bunu yazan yapay zekâ (yerel); aşağısı bekçinin kendi ölçümü —\n\n• [kritik] Canlı site ayakta\n   URLError: <urlopen error [Errno 8] nodename nor servname provided, or not known>\n• [kritik] Canlı index.html açılıyor\n   <urlopen error [Errno 8] nodename nor servname provided, or n"
+  },
+  {
+   "id": "dbf91b43443a",
+   "t": 1791383681093,
+   "onem": "iyi",
+   "baslik": "Söylediğim sorunlar kapandı",
+   "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
   }
  ],
  "bekleyen": [
@@ -321,18 +321,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-10-04T19:06:02+03:00",
-   "k": "6saat",
-   "g": 34,
-   "n": 37
-  },
-  {
-   "t": "2026-10-04T19:25:48+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
   {
    "t": "2026-10-04T20:30:52+03:00",
    "k": "saatlik",
@@ -557,6 +545,18 @@
   },
   {
    "t": "2026-10-07T11:28:55+03:00",
+   "k": "saatlik",
+   "g": 5,
+   "n": 5
+  },
+  {
+   "t": "2026-10-07T12:37:16+03:00",
+   "k": "saatlik",
+   "g": 3,
+   "n": 5
+  },
+  {
+   "t": "2026-10-07T17:34:41+03:00",
    "k": "saatlik",
    "g": 5,
    "n": 5
