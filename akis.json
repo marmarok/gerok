@@ -1,102 +1,35 @@
 {
  "bicim": 1,
- "zaman": "2026-10-09T03:01:28+03:00",
- "kadans": "gunluk",
- "durum": "sorun",
+ "zaman": "2026-10-09T10:29:23+03:00",
+ "kadans": "saatlik",
+ "durum": "iyi",
  "sayilar": {
-  "kontrol": 110,
-  "sinama": 2880,
-  "gecen": 106,
-  "bilinen": 1,
-  "sorun": 3,
-  "sure": 141.3,
-  "kosu": 655
+  "kontrol": 5,
+  "sinama": 37,
+  "gecen": 5,
+  "bilinen": 0,
+  "sorun": 0,
+  "sure": 1.0,
+  "kosu": 656
  },
- "sorunlar": [
-  {
-   "ad": "Telefon yedeği duruyor",
-   "onem": "yuksek",
-   "oyku": "yedek",
-   "not": "2 yedek · en yenisi 41.6 gün önce, 378 MB — 14 günden eski",
-   "onarilabilir": false
-  },
-  {
-   "ad": "Koşular taze",
-   "onem": "yuksek",
-   "oyku": "bekci",
-   "not": "haftalik: 26.6 gündür koşmadı",
-   "onarilabilir": false
-  },
-  {
-   "ad": "Akıl hocası dosyaları bayatlamamış",
-   "onem": "orta",
-   "oyku": "bekci",
-   "not": "1 dosya 3 günden uzun süredir bekliyor: 20260911-1908-telefon-yede-i-duruyor",
-   "onarilabilir": false
-  }
- ],
- "bilinenler": [
-  {
-   "ad": "Math.min(...dizi) yığın taşması",
-   "not": "app.js:764; app.js:5084; gerok.js:448; sihirbaz.js:454; sihirbaz.js:455; sihirbaz.js:456 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
-  }
- ],
+ "sorunlar": [],
+ "bilinenler": [],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 15,
-   "toplam": 15,
-   "sinama": 146
+   "gecen": 3,
+   "toplam": 3,
+   "sinama": 6
   },
   "bekci": {
-   "gecen": 7,
-   "toplam": 9,
-   "sinama": 83
-  },
-  "yedek": {
-   "gecen": 0,
+   "gecen": 1,
    "toplam": 1,
-   "sinama": 2
+   "sinama": 8
   },
   "koprü": {
    "gecen": 1,
    "toplam": 1,
    "sinama": 23
-  },
-  "kod": {
-   "gecen": 11,
-   "toplam": 11,
-   "sinama": 1535
-  },
-  "veri": {
-   "gecen": 2,
-   "toplam": 2,
-   "sinama": 9
-  },
-  "gizlilik": {
-   "gecen": 7,
-   "toplam": 7,
-   "sinama": 86
-  },
-  "bilgi": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 529
-  },
-  "sartname": {
-   "gecen": 1,
-   "toplam": 1,
-   "sinama": 409
-  },
-  "depolama": {
-   "gecen": 1,
-   "toplam": 1,
-   "sinama": 1
-  },
-  "davranis": {
-   "gecen": 57,
-   "toplam": 57,
-   "sinama": 57
   }
  },
  "derin": {
@@ -165,13 +98,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "dbb5db6d753a",
-   "t": 1791129964627,
-   "onem": "sorun",
-   "baslik": "2 sorun buldum",
-   "govde": "Uygulamanızda iki adet yüksek öncelikli bakım ihtiyacı bulunuyor. İlki, telefon yedeklerinizin en son 37.2 gün önce alınmış olması ve 14 günlük güvenli sınırı aşmasıdır; bu durumu düzeltmek için yeni bir yedekleme yapmanız gerekiyor. İkincisi ise haftalık koşu verilerinizin 22.3 gündür güncellenmemiş olmasıdır; uygulamanın güncelliğini korumak için bu koşu kayıtlarını yenilemelisiniz.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 37.2 gün önce, 378 MB — 14 günden eski\n• [yuksek] Koşular taze\n   haftalik: 22.3 gündür koşmadı"
-  },
   {
    "id": "3d3942c3959f",
    "t": 1791131148321,
@@ -339,6 +265,13 @@
    "onem": "sorun",
    "baslik": "3 sorun buldum",
    "govde": "Uygulamanızda üç adet bakım uyarısı bulunuyor: Telefon yedekleriniz 14 günden daha eski (en son 41.6 gün önce yedeklenmiş), haftalık koşu kontrolleri 26.6 gündür yapılmamış ve \"20260911-1908-telefon-yede-i-duruyor\" isimli bir akıl hocası dosyası 3 günden uzun süredir bekliyor. Bu durumları düzeltmek için yeni bir telefon yedeği almalı, haftalık koşu sistemini çalıştırmalı ve bekleyen dosyayı güncelleyerek sisteminizi tazelemelisiniz. Endişelenecek bir durum yok, sadece rutin bir temizlik ve güncelleme yapılması gerekiyor.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 41.6 gün önce, 378 MB — 14 günden eski\n• [yukse"
+  },
+  {
+   "id": "ca8cf380ab25",
+   "t": 1791530963876,
+   "onem": "iyi",
+   "baslik": "Söylediğim sorunlar kapandı",
+   "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
   }
  ],
  "bekleyen": [
@@ -379,12 +312,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-10-05T23:30:48+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
   {
    "t": "2026-10-06T00:35:52+03:00",
    "k": "saatlik",
@@ -618,6 +545,12 @@
    "k": "gunluk",
    "g": 106,
    "n": 110
+  },
+  {
+   "t": "2026-10-09T10:29:23+03:00",
+   "k": "saatlik",
+   "g": 5,
+   "n": 5
   }
  ]
 }
