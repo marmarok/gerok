@@ -1,43 +1,119 @@
 {
  "bicim": 1,
- "zaman": "2026-10-11T00:48:06+03:00",
- "kadans": "saatlik",
- "durum": "iyi",
+ "zaman": "2026-10-11T01:08:42+03:00",
+ "kadans": "haftalik",
+ "durum": "sorun",
  "sayilar": {
-  "kontrol": 5,
-  "sinama": 37,
-  "gecen": 5,
-  "bilinen": 0,
-  "sorun": 0,
-  "sure": 0.9,
-  "kosu": 672
+  "kontrol": 118,
+  "sinama": 2894,
+  "gecen": 113,
+  "bilinen": 2,
+  "sorun": 3,
+  "sure": 120.0,
+  "kosu": 673
  },
- "sorunlar": [],
- "bilinenler": [],
+ "sorunlar": [
+  {
+   "ad": "Telefon yedeği duruyor",
+   "onem": "yuksek",
+   "oyku": "yedek",
+   "not": "2 yedek · en yenisi 43.5 gün önce, 378 MB — 14 günden eski",
+   "onarilabilir": false
+  },
+  {
+   "ad": "Koşular taze",
+   "onem": "yuksek",
+   "oyku": "bekci",
+   "not": "haftalik: 28.6 gündür koşmadı",
+   "onarilabilir": false
+  },
+  {
+   "ad": "Akıl hocası dosyaları bayatlamamış",
+   "onem": "orta",
+   "oyku": "bekci",
+   "not": "1 dosya 3 günden uzun süredir bekliyor: 20260911-1908-telefon-yede-i-duruyor",
+   "onarilabilir": false
+  }
+ ],
+ "bilinenler": [
+  {
+   "ad": "Math.min(...dizi) yığın taşması",
+   "not": "app.js:764; app.js:5084; gerok.js:448; sihirbaz.js:454; sihirbaz.js:455; sihirbaz.js:456 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
+  },
+  {
+   "ad": "Arşivde fotoğrafların aslı var",
+   "not": "(ayrıntı panoda)"
+  }
+ ],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 3,
-   "toplam": 3,
-   "sinama": 6
+   "gecen": 15,
+   "toplam": 15,
+   "sinama": 146
   },
   "bekci": {
-   "gecen": 1,
+   "gecen": 7,
+   "toplam": 9,
+   "sinama": 83
+  },
+  "yedek": {
+   "gecen": 0,
    "toplam": 1,
-   "sinama": 8
+   "sinama": 2
   },
   "koprü": {
    "gecen": 1,
    "toplam": 1,
    "sinama": 23
+  },
+  "kod": {
+   "gecen": 11,
+   "toplam": 11,
+   "sinama": 1535
+  },
+  "veri": {
+   "gecen": 2,
+   "toplam": 2,
+   "sinama": 9
+  },
+  "gizlilik": {
+   "gecen": 7,
+   "toplam": 7,
+   "sinama": 86
+  },
+  "bilgi": {
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 529
+  },
+  "sartname": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 409
+  },
+  "depolama": {
+   "gecen": 4,
+   "toplam": 4,
+   "sinama": 4
+  },
+  "kaynak": {
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 11
+  },
+  "davranis": {
+   "gecen": 57,
+   "toplam": 57,
+   "sinama": 57
   }
  },
  "derin": {
-  "kadans": "gunluk",
-  "zaman": "2026-10-09T03:01:28+03:00",
-  "kontrol": 110,
-  "sinama": 2880,
-  "gecen": 106,
+  "kadans": "haftalik",
+  "zaman": "2026-10-11T01:08:42+03:00",
+  "kontrol": 118,
+  "sinama": 2894,
+  "gecen": 113,
   "sorun": 3,
   "gruplar": {
    "yayin": {
@@ -86,9 +162,14 @@
     "sinama": 409
    },
    "depolama": {
-    "gecen": 1,
-    "toplam": 1,
-    "sinama": 1
+    "gecen": 4,
+    "toplam": 4,
+    "sinama": 4
+   },
+   "kaynak": {
+    "gecen": 5,
+    "toplam": 5,
+    "sinama": 11
    },
    "davranis": {
     "gecen": 57,
@@ -98,13 +179,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "fb46e81b6254",
-   "t": 1791210862471,
-   "onem": "sorun",
-   "baslik": "2 sorun buldum",
-   "govde": "Uygulamanızda iki önemli bakım konusu bulunuyor: Telefon yedekleriniz güncel değil (en son yedekleme 38 gün önce yapılmış) ve haftalık koşu verileriniz 23 gündür güncellenmemiş. Bu durumları düzeltmek için telefonunuzun yedekleme işlemini manuel olarak başlatmalı ve uygulamadaki koşu verilerinizi yeniden senkronize etmelisiniz. Endişelenecek bir durum yok, sadece verilerinizin güncel kalması için bu adımları takip etmeniz yeterlidir.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 38.2 gün önce, 378 MB — 14 günden eski\n• [yuksek] Koşular taze\n   haftalik: 23.3 gündür koşmadı"
-  },
   {
    "id": "9e9613049337",
    "t": 1791214746907,
@@ -272,6 +346,13 @@
    "onem": "iyi",
    "baslik": "Söylediğim sorunlar kapandı",
    "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
+  },
+  {
+   "id": "e83c2a960d6b",
+   "t": 1791670124641,
+   "onem": "sorun",
+   "baslik": "3 sorun buldum",
+   "govde": "Sisteminizde telefon yedeğinin güncel olmaması, haftalık kontrollerin uzun süredir çalışmaması ve beklemede kalan bir akıl hocası dosyası tespit edildi. Telefonunuzun yeni bir yedeğini alıp haftalık bakım işlemlerini tekrar başlatmanız gerekiyor. Ayrıca bekleyen \"20260911-1908-telefon-yede-i-duruyor\" isimli dosyayı kontrol edip güncelleyerek bu sorunları kolayca çözebilirsiniz.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 43.5 gün önce, 378 MB — 14 günden eski\n• [yuksek] Koşular taze\n   haftalik: 28.6 gündür koşmadı\n• [orta] Akıl hocası dosyaları bayatlamamış\n   1 dosya 3 günden uzun süredir bekliyor: 20260911-19"
   }
  ],
  "bekleyen": [
@@ -312,12 +393,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-10-07T10:41:56+03:00",
-   "k": "gunluk",
-   "g": 48,
-   "n": 54
-  },
   {
    "t": "2026-10-07T11:14:33+03:00",
    "k": "6saat",
@@ -551,6 +626,12 @@
    "k": "saatlik",
    "g": 5,
    "n": 5
+  },
+  {
+   "t": "2026-10-11T01:08:42+03:00",
+   "k": "haftalik",
+   "g": 113,
+   "n": 118
   }
  ]
 }
