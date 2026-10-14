@@ -1,16 +1,16 @@
 {
  "bicim": 1,
- "zaman": "2026-10-14T08:01:27+03:00",
- "kadans": "6saat",
+ "zaman": "2026-10-14T08:02:02+03:00",
+ "kadans": "gunluk",
  "durum": "sorun",
  "sayilar": {
-  "kontrol": 37,
-  "sinama": 2283,
-  "gecen": 35,
+  "kontrol": 54,
+  "sinama": 2824,
+  "gecen": 50,
   "bilinen": 1,
-  "sorun": 1,
-  "sure": 15.8,
-  "kosu": 725
+  "sorun": 3,
+  "sure": 50.9,
+  "kosu": 726
  },
  "sorunlar": [
   {
@@ -18,6 +18,20 @@
    "onem": "yuksek",
    "oyku": "yedek",
    "not": "2 yedek · en yenisi 46.8 gün önce, 378 MB — 14 günden eski",
+   "onarilabilir": false
+  },
+  {
+   "ad": "Akıl hocası dosyaları bayatlamamış",
+   "onem": "orta",
+   "oyku": "bekci",
+   "not": "1 dosya 3 günden uzun süredir bekliyor: 20260911-1908-telefon-yede-i-duruyor",
+   "onarilabilir": false
+  },
+  {
+   "ad": "Tarayıcı sınamaları",
+   "onem": "kritik",
+   "oyku": "davranis",
+   "not": "file://~/gerok/bekci/tarayici.mjs:66\n  throw new Error('Chrome açılmadı');\n        ^\n\nError: Chrome açılmadı\n    at chromeBaslat (file://~/gerok/bekci/tarayici.mjs:66:9)\n    at async file://~/gerok/bekci/tarayici.mjs:2261:19\n\nNode.js v26.5.",
    "onarilabilir": false
   }
  ],
@@ -30,14 +44,14 @@
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 10,
-   "toplam": 10,
-   "sinama": 102
+   "gecen": 15,
+   "toplam": 15,
+   "sinama": 146
   },
   "bekci": {
-   "gecen": 4,
-   "toplam": 4,
-   "sinama": 16
+   "gecen": 8,
+   "toplam": 9,
+   "sinama": 83
   },
   "yedek": {
    "gecen": 0,
@@ -50,9 +64,9 @@
    "sinama": 23
   },
   "kod": {
-   "gecen": 9,
-   "toplam": 9,
-   "sinama": 1518
+   "gecen": 11,
+   "toplam": 11,
+   "sinama": 1535
   },
   "veri": {
    "gecen": 2,
@@ -60,23 +74,38 @@
    "sinama": 9
   },
   "gizlilik": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 84
+   "gecen": 7,
+   "toplam": 7,
+   "sinama": 86
   },
   "bilgi": {
    "gecen": 5,
    "toplam": 5,
    "sinama": 529
+  },
+  "sartname": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 409
+  },
+  "depolama": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 1
+  },
+  "davranis": {
+   "gecen": 0,
+   "toplam": 1,
+   "sinama": 1
   }
  },
  "derin": {
   "kadans": "gunluk",
-  "zaman": "2026-10-12T12:30:05+03:00",
-  "kontrol": 110,
-  "sinama": 2880,
-  "gecen": 107,
-  "sorun": 2,
+  "zaman": "2026-10-14T08:02:02+03:00",
+  "kontrol": 54,
+  "sinama": 2824,
+  "gecen": 50,
+  "sorun": 3,
   "gruplar": {
    "yayin": {
     "gecen": 15,
@@ -129,20 +158,13 @@
     "sinama": 1
    },
    "davranis": {
-    "gecen": 57,
-    "toplam": 57,
-    "sinama": 57
+    "gecen": 0,
+    "toplam": 1,
+    "sinama": 1
    }
   }
  },
  "mesajlar": [
-  {
-   "id": "dc9f99e35137",
-   "t": 1791556836113,
-   "onem": "iyi",
-   "baslik": "Söylediğim sorunlar kapandı",
-   "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
-  },
   {
    "id": "58597c60139e",
    "t": 1791639820376,
@@ -310,6 +332,13 @@
    "onem": "sorun",
    "baslik": "1 sorun buldum",
    "govde": "Telefonunuzdaki gezi defteri yedeği 14 günden daha eski olduğu için güncelleme yapılması gerekiyor. Son yedekleme 46.8 gün önce yapılmış ve 378 MB büyüklüğünde görünüyor. Verilerinizin kaybolmaması için uygulama ayarlarından yeni bir telefon yedeği almanız yeterlidir.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 46.8 gün önce, 378 MB — 14 günden eski"
+  },
+  {
+   "id": "f9f66cb656b4",
+   "t": 1791954124939,
+   "onem": "sorun",
+   "baslik": "3 sorun buldum",
+   "govde": "Sisteminizde telefon yedeğinin çok eskimesi, işlenmeyi bekleyen bir akıl hocası dosyası bulunması ve Chrome açılamadığı için tarayıcı testlerinin yarıda kalması gibi üç farklı sorun var. Telefon yedeğinizi tazelemek, bekleyen dosyayı temizlemek ve Chrome'un neden açılmadığını denetlemek için ilgili ayarları kontrol etmelisiniz. Tarayıcı testinin tam olarak neden başarısız olduğu ise verilen bilgilerde belli değil.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 46.8 gün önce, 378 MB — 14 günden eski\n• [orta] Akıl hocası dosyaları bayatlamamış\n   1 dosya 3 günden uzun süredir bekliyor: 20260911-1908-telefon-yede-i-du"
   }
  ],
  "bekleyen": [
@@ -341,12 +370,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-10-11T19:44:47+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
   {
    "t": "2026-10-11T20:50:02+03:00",
    "k": "saatlik",
@@ -580,6 +603,12 @@
    "k": "6saat",
    "g": 35,
    "n": 37
+  },
+  {
+   "t": "2026-10-14T08:02:02+03:00",
+   "k": "gunluk",
+   "g": 50,
+   "n": 54
   }
  ]
 }
