@@ -1,104 +1,35 @@
 {
  "bicim": 1,
- "zaman": "2026-10-20T20:46:53+03:00",
- "kadans": "haftalik",
- "durum": "sorun",
+ "zaman": "2026-10-20T21:36:14+03:00",
+ "kadans": "saatlik",
+ "durum": "iyi",
  "sayilar": {
-  "kontrol": 118,
-  "sinama": 2894,
-  "gecen": 114,
-  "bilinen": 2,
-  "sorun": 2,
-  "sure": 129.4,
-  "kosu": 821
+  "kontrol": 5,
+  "sinama": 37,
+  "gecen": 5,
+  "bilinen": 0,
+  "sorun": 0,
+  "sure": 0.8,
+  "kosu": 822
  },
- "sorunlar": [
-  {
-   "ad": "Telefon yedeği duruyor",
-   "onem": "yuksek",
-   "oyku": "yedek",
-   "not": "2 yedek · en yenisi 53.3 gün önce, 378 MB — 14 günden eski",
-   "onarilabilir": false
-  },
-  {
-   "ad": "Akıl hocası dosyaları bayatlamamış",
-   "onem": "orta",
-   "oyku": "bekci",
-   "not": "1 dosya 3 günden uzun süredir bekliyor: 20260911-1908-telefon-yede-i-duruyor",
-   "onarilabilir": false
-  }
- ],
- "bilinenler": [
-  {
-   "ad": "Math.min(...dizi) yığın taşması",
-   "not": "app.js:764; app.js:5084; gerok.js:448; sihirbaz.js:454; sihirbaz.js:455; sihirbaz.js:456 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
-  },
-  {
-   "ad": "Arşivde fotoğrafların aslı var",
-   "not": "(ayrıntı panoda)"
-  }
- ],
+ "sorunlar": [],
+ "bilinenler": [],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 15,
-   "toplam": 15,
-   "sinama": 146
+   "gecen": 3,
+   "toplam": 3,
+   "sinama": 6
   },
   "bekci": {
-   "gecen": 8,
-   "toplam": 9,
-   "sinama": 83
-  },
-  "yedek": {
-   "gecen": 0,
+   "gecen": 1,
    "toplam": 1,
-   "sinama": 2
+   "sinama": 8
   },
   "koprü": {
    "gecen": 1,
    "toplam": 1,
    "sinama": 23
-  },
-  "kod": {
-   "gecen": 11,
-   "toplam": 11,
-   "sinama": 1535
-  },
-  "veri": {
-   "gecen": 2,
-   "toplam": 2,
-   "sinama": 9
-  },
-  "gizlilik": {
-   "gecen": 7,
-   "toplam": 7,
-   "sinama": 86
-  },
-  "bilgi": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 529
-  },
-  "sartname": {
-   "gecen": 1,
-   "toplam": 1,
-   "sinama": 409
-  },
-  "depolama": {
-   "gecen": 4,
-   "toplam": 4,
-   "sinama": 4
-  },
-  "kaynak": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 11
-  },
-  "davranis": {
-   "gecen": 57,
-   "toplam": 57,
-   "sinama": 57
   }
  },
  "derin": {
@@ -172,13 +103,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "31edc0ce1b5b",
-   "t": 1792127063026,
-   "onem": "sorun",
-   "baslik": "1 sorun buldum",
-   "govde": "Uygulamanızın telefonundaki verilerinin kaybolmaması için alınan en son yedek 48.8 gün önceye ait ve 14 günlük güvenlik sınırını aşmış durumda. Bu durum, olası bir aksilikte son gezilerinize ait verileri kaybetme riski yaratır. Lütfen uygulamanın ayarlarından yeni bir yedekleme işlemi başlatın.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 48.8 gün önce, 378 MB — 14 günden eski"
-  },
   {
    "id": "8e7a33f89d2a",
    "t": 1792144026402,
@@ -346,6 +270,13 @@
    "onem": "sorun",
    "baslik": "2 sorun buldum",
    "govde": "Telefonunuzdaki gezi verilerinin güvenliği için alınan son yedek 53 günden daha eski olduğu için güncelleme yapılması gerekiyor. Ayrıca arka planda rehberlik eden bir çalışma dosyası da 3 gündür onaylanmadan bekliyor. Uygulama verilerinizi güvenceye almak için yeni bir yedek oluşturup bekleyen dosyayı gözden geçirip onaylamalısınız.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 53.3 gün önce, 378 MB — 14 günden eski\n• [orta] Akıl hocası dosyaları bayatlamamış\n   1 dosya 3 günden uzun süredir bekliyor: 20260911-1908-telefon-yede-i-duruyor"
+  },
+  {
+   "id": "eacdc4551663",
+   "t": 1792521374643,
+   "onem": "iyi",
+   "baslik": "Söylediğim sorunlar kapandı",
+   "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
   }
  ],
  "bekleyen": [
@@ -377,12 +308,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-10-18T15:11:35+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
   {
    "t": "2026-10-18T16:16:40+03:00",
    "k": "saatlik",
@@ -616,6 +541,12 @@
    "k": "haftalik",
    "g": 114,
    "n": 118
+  },
+  {
+   "t": "2026-10-20T21:36:14+03:00",
+   "k": "saatlik",
+   "g": 5,
+   "n": 5
   }
  ]
 }
