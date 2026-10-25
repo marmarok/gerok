@@ -1,95 +1,35 @@
 {
  "bicim": 1,
- "zaman": "2026-10-25T11:56:29+03:00",
- "kadans": "gunluk",
- "durum": "sorun",
+ "zaman": "2026-10-25T12:59:29+03:00",
+ "kadans": "saatlik",
+ "durum": "iyi",
  "sayilar": {
-  "kontrol": 110,
-  "sinama": 2880,
-  "gecen": 107,
-  "bilinen": 1,
-  "sorun": 2,
-  "sure": 127.0,
-  "kosu": 867
+  "kontrol": 5,
+  "sinama": 37,
+  "gecen": 5,
+  "bilinen": 0,
+  "sorun": 0,
+  "sure": 0.8,
+  "kosu": 868
  },
- "sorunlar": [
-  {
-   "ad": "Telefon yedeği duruyor",
-   "onem": "yuksek",
-   "oyku": "yedek",
-   "not": "2 yedek · en yenisi 57.9 gün önce, 378 MB — 14 günden eski",
-   "onarilabilir": false
-  },
-  {
-   "ad": "Akıl hocası dosyaları bayatlamamış",
-   "onem": "orta",
-   "oyku": "bekci",
-   "not": "1 dosya 3 günden uzun süredir bekliyor: 20260911-1908-telefon-yede-i-duruyor",
-   "onarilabilir": false
-  }
- ],
- "bilinenler": [
-  {
-   "ad": "Math.min(...dizi) yığın taşması",
-   "not": "app.js:764; app.js:5084; gerok.js:448; sihirbaz.js:454; sihirbaz.js:455; sihirbaz.js:456 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
-  }
- ],
+ "sorunlar": [],
+ "bilinenler": [],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 15,
-   "toplam": 15,
-   "sinama": 146
+   "gecen": 3,
+   "toplam": 3,
+   "sinama": 6
   },
   "bekci": {
-   "gecen": 8,
-   "toplam": 9,
-   "sinama": 83
-  },
-  "yedek": {
-   "gecen": 0,
+   "gecen": 1,
    "toplam": 1,
-   "sinama": 2
+   "sinama": 8
   },
   "koprü": {
    "gecen": 1,
    "toplam": 1,
    "sinama": 23
-  },
-  "kod": {
-   "gecen": 11,
-   "toplam": 11,
-   "sinama": 1535
-  },
-  "veri": {
-   "gecen": 2,
-   "toplam": 2,
-   "sinama": 9
-  },
-  "gizlilik": {
-   "gecen": 7,
-   "toplam": 7,
-   "sinama": 86
-  },
-  "bilgi": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 529
-  },
-  "sartname": {
-   "gecen": 1,
-   "toplam": 1,
-   "sinama": 409
-  },
-  "depolama": {
-   "gecen": 1,
-   "toplam": 1,
-   "sinama": 1
-  },
-  "davranis": {
-   "gecen": 57,
-   "toplam": 57,
-   "sinama": 57
   }
  },
  "derin": {
@@ -158,13 +98,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "4eb993f7b6b5",
-   "t": 1792473811389,
-   "onem": "sorun",
-   "baslik": "1 sorun buldum",
-   "govde": "Telefonunuzda kalan yedek dosyası 14 günden daha eski ve fazla yer kaplıyor. Bu eski yedekleri silip güncel bir yedek oluşturarak telefonunuzda yer açabilirsiniz. İşlem tamamlandığında uygulamanız sorunsuz şekilde güncellenmeye devam edecektir.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 52.8 gün önce, 378 MB — 14 günden eski"
-  },
   {
    "id": "d45aac3c5eaf",
    "t": 1792489965022,
@@ -332,6 +265,13 @@
    "onem": "sorun",
    "baslik": "2 sorun buldum",
    "govde": "Uygulamanızda 57,9 gün öncesinden kalan 378 MB boyutunda eski bir telefon yedeği ve 3 günden fazladır bekleyen bir akıl hocası dosyası bulunuyor. Sisteminizin güncel ve düzenli kalması için bu eski yedekleri ve bekleyen dosyayı temizlemeniz gerekmektedir. İşlemleri tamamladıktan sonra güncel durumun kaydedilmesi için kontrol panelinizden değişiklikleri onaylayan kaydet düğmesine basmalısınız.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 57.9 gün önce, 378 MB — 14 günden eski\n• [orta] Akıl hocası dosyaları bayatlamamış\n   1 dosya 3 günden uzun süredir bekliyor: 20260911-1908-telefon-yede-i-duruyor"
+  },
+  {
+   "id": "e06720fce820",
+   "t": 1792922369988,
+   "onem": "iyi",
+   "baslik": "Söylediğim sorunlar kapandı",
+   "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
   }
  ],
  "bekleyen": [
@@ -363,12 +303,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-10-21T12:59:55+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
   {
    "t": "2026-10-21T14:04:59+03:00",
    "k": "saatlik",
@@ -602,6 +536,12 @@
    "k": "gunluk",
    "g": 107,
    "n": 110
+  },
+  {
+   "t": "2026-10-25T12:59:29+03:00",
+   "k": "saatlik",
+   "g": 5,
+   "n": 5
   }
  ]
 }
