@@ -1,6 +1,6 @@
 {
  "bicim": 1,
- "zaman": "2026-10-25T19:05:36+03:00",
+ "zaman": "2026-10-25T20:26:48+03:00",
  "kadans": "saatlik",
  "durum": "iyi",
  "sayilar": {
@@ -9,8 +9,8 @@
   "gecen": 5,
   "bilinen": 0,
   "sorun": 0,
-  "sure": 0.8,
-  "kosu": 873
+  "sure": 0.7,
+  "kosu": 875
  },
  "sorunlar": [],
  "bilinenler": [],
@@ -98,20 +98,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "4bd1baf75a8b",
-   "t": 1792509804041,
-   "onem": "sorun",
-   "baslik": "2 sorun buldum",
-   "govde": "Sistemde 14 günden daha eski iki adet telefon yedeği ile 3 günden uzun süredir bekleyen bir akıl hocası dosyası bulunuyor. Eski telefon yedeklerini silip güncel bir yedek almalı ve beklemede kalan akıl hocası dosyasını gözden geçirmelisiniz. Bu rutin bir bakım işlemidir, endişelenmenize gerek yok.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 53.2 gün önce, 378 MB — 14 günden eski\n• [orta] Akıl hocası dosyaları bayatlamamış\n   1 dosya 3 günden uzun süredir bekliyor: 20260911-1908-telefon-yede-i-duruyor"
-  },
-  {
-   "id": "fb1a06fa3ab3",
-   "t": 1792513563656,
-   "onem": "iyi",
-   "baslik": "Söylediğim sorunlar kapandı",
-   "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
-  },
   {
    "id": "191da9383115",
    "t": 1792518415609,
@@ -272,6 +258,20 @@
    "onem": "iyi",
    "baslik": "Söylediğim sorunlar kapandı",
    "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
+  },
+  {
+   "id": "0956bb44a94a",
+   "t": 1792948137170,
+   "onem": "sorun",
+   "baslik": "1 sorun buldum",
+   "govde": "Uygulamanızda 58.3 gün öncesine ait 378 MB boyutunda eski bir telefon yedeği kalmış durumda. Sistem güvenliği ve düzeni için yedeklerin 14 günden daha eski olmaması gerekiyor. Lütfen sistemde biriken bu eski yedek dosyasını silin veya yenisiyle güncelleyin.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 58.3 gün önce, 378 MB — 14 günden eski"
+  },
+  {
+   "id": "f42af6d99e65",
+   "t": 1792949208805,
+   "onem": "iyi",
+   "baslik": "Söylediğim sorunlar kapandı",
+   "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
   }
  ],
  "bekleyen": [
@@ -303,18 +303,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-10-21T18:47:20+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
-  {
-   "t": "2026-10-21T19:52:24+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
   {
    "t": "2026-10-21T20:57:29+03:00",
    "k": "saatlik",
@@ -539,6 +527,18 @@
   },
   {
    "t": "2026-10-25T19:05:36+03:00",
+   "k": "saatlik",
+   "g": 5,
+   "n": 5
+  },
+  {
+   "t": "2026-10-25T20:08:54+03:00",
+   "k": "6saat",
+   "g": 35,
+   "n": 37
+  },
+  {
+   "t": "2026-10-25T20:26:48+03:00",
    "k": "saatlik",
    "g": 5,
    "n": 5
