@@ -1,35 +1,73 @@
 {
  "bicim": 1,
- "zaman": "2026-10-31T12:27:09+03:00",
- "kadans": "saatlik",
- "durum": "iyi",
+ "zaman": "2026-10-31T12:27:30+03:00",
+ "kadans": "6saat",
+ "durum": "sorun",
  "sayilar": {
-  "kontrol": 5,
-  "sinama": 37,
-  "gecen": 5,
-  "bilinen": 0,
-  "sorun": 0,
-  "sure": 1.5,
-  "kosu": 960
+  "kontrol": 37,
+  "sinama": 2283,
+  "gecen": 35,
+  "bilinen": 1,
+  "sorun": 1,
+  "sure": 21.7,
+  "kosu": 961
  },
- "sorunlar": [],
- "bilinenler": [],
+ "sorunlar": [
+  {
+   "ad": "Telefon yedeği duruyor",
+   "onem": "yuksek",
+   "oyku": "yedek",
+   "not": "2 yedek · en yenisi 64.0 gün önce, 378 MB — 14 günden eski",
+   "onarilabilir": false
+  }
+ ],
+ "bilinenler": [
+  {
+   "ad": "Math.min(...dizi) yığın taşması",
+   "not": "app.js:764; app.js:5084; gerok.js:448; sihirbaz.js:454; sihirbaz.js:455; sihirbaz.js:456 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
+  }
+ ],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 3,
-   "toplam": 3,
-   "sinama": 6
+   "gecen": 10,
+   "toplam": 10,
+   "sinama": 102
   },
   "bekci": {
-   "gecen": 1,
+   "gecen": 4,
+   "toplam": 4,
+   "sinama": 16
+  },
+  "yedek": {
+   "gecen": 0,
    "toplam": 1,
-   "sinama": 8
+   "sinama": 2
   },
   "koprü": {
    "gecen": 1,
    "toplam": 1,
    "sinama": 23
+  },
+  "kod": {
+   "gecen": 9,
+   "toplam": 9,
+   "sinama": 1518
+  },
+  "veri": {
+   "gecen": 2,
+   "toplam": 2,
+   "sinama": 9
+  },
+  "gizlilik": {
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 84
+  },
+  "bilgi": {
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 529
   }
  },
  "derin": {
@@ -98,13 +136,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "e01675449dd7",
-   "t": 1793083414725,
-   "onem": "iyi",
-   "baslik": "Söylediğim sorunlar kapandı",
-   "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
-  },
   {
    "id": "1f6f62d2c047",
    "t": 1793122081745,
@@ -272,6 +303,13 @@
    "onem": "iyi",
    "baslik": "Söylediğim sorunlar kapandı",
    "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
+  },
+  {
+   "id": "7ffc5f1483b0",
+   "t": 1793438853202,
+   "onem": "sorun",
+   "baslik": "1 sorun buldum",
+   "govde": "Sisteminizde 14 günden daha eski olan 378 MB boyutunda bir telefon yedeği tespit edildi. Veri güvenliğiniz ve saklama alanınız için eskiyen bu yedek dosyasını kontrol edip silmeniz veya güntelemeniz gerekmektedir. Yedekleme ayarlarınızı gözden geçirerek en güncel verilerinizin korunduğundan emin olun.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 64.0 gün önce, 378 MB — 14 günden eski"
   }
  ],
  "bekleyen": [
@@ -303,12 +341,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-10-28T20:58:21+03:00",
-   "k": "6saat",
-   "g": 35,
-   "n": 37
-  },
   {
    "t": "2026-10-29T01:26:57+03:00",
    "k": "saatlik",
@@ -542,6 +574,12 @@
    "k": "saatlik",
    "g": 5,
    "n": 5
+  },
+  {
+   "t": "2026-10-31T12:27:30+03:00",
+   "k": "6saat",
+   "g": 35,
+   "n": 37
   }
  ]
 }
