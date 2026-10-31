@@ -1,16 +1,16 @@
 {
  "bicim": 1,
- "zaman": "2026-10-31T16:15:56+03:00",
- "kadans": "haftalik",
+ "zaman": "2026-10-31T16:26:10+03:00",
+ "kadans": "gunluk",
  "durum": "sorun",
  "sayilar": {
-  "kontrol": 118,
-  "sinama": 2894,
-  "gecen": 114,
-  "bilinen": 2,
+  "kontrol": 110,
+  "sinama": 2880,
+  "gecen": 107,
+  "bilinen": 1,
   "sorun": 2,
-  "sure": 130.8,
-  "kosu": 965
+  "sure": 125.9,
+  "kosu": 966
  },
  "sorunlar": [
   {
@@ -32,10 +32,6 @@
   {
    "ad": "Math.min(...dizi) yığın taşması",
    "not": "app.js:764; app.js:5084; gerok.js:448; sihirbaz.js:454; sihirbaz.js:455; sihirbaz.js:456 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
-  },
-  {
-   "ad": "Arşivde fotoğrafların aslı var",
-   "not": "(ayrıntı panoda)"
   }
  ],
  "onarilan": [],
@@ -86,14 +82,9 @@
    "sinama": 409
   },
   "depolama": {
-   "gecen": 4,
-   "toplam": 4,
-   "sinama": 4
-  },
-  "kaynak": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 11
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 1
   },
   "davranis": {
    "gecen": 57,
@@ -102,11 +93,11 @@
   }
  },
  "derin": {
-  "kadans": "haftalik",
-  "zaman": "2026-10-31T16:15:56+03:00",
-  "kontrol": 118,
-  "sinama": 2894,
-  "gecen": 114,
+  "kadans": "gunluk",
+  "zaman": "2026-10-31T16:26:10+03:00",
+  "kontrol": 110,
+  "sinama": 2880,
+  "gecen": 107,
   "sorun": 2,
   "gruplar": {
    "yayin": {
@@ -155,14 +146,9 @@
     "sinama": 409
    },
    "depolama": {
-    "gecen": 4,
-    "toplam": 4,
-    "sinama": 4
-   },
-   "kaynak": {
-    "gecen": 5,
-    "toplam": 5,
-    "sinama": 11
+    "gecen": 1,
+    "toplam": 1,
+    "sinama": 1
    },
    "davranis": {
     "gecen": 57,
@@ -172,13 +158,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "f0fb8c99d2ea",
-   "t": 1793136857773,
-   "onem": "sorun",
-   "baslik": "2 sorun buldum",
-   "govde": "Telefonunuzdaki uygulama verilerinin yedeklenme süresi 14 günü geçmiş ve güncellenmeyi bekleyen 1 adet yardım dosyası birikmiş. Sisteminizin güncel ve güvenli kalması için yeni bir telefon yedeği almanız gerekiyor. Ardından beklemede kalan yardım dosyasını kontrol edip onaylayarak işlemleri tamamlayabilirsiniz.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 60.5 gün önce, 378 MB — 14 günden eski\n• [orta] Akıl hocası dosyaları bayatlamamış\n   1 dosya 3 günden uzun süredir bekliyor: 20260911-1908-telefon-yede-i-duruyor"
-  },
   {
    "id": "25063b40a07c",
    "t": 1793142388219,
@@ -346,6 +325,13 @@
    "onem": "sorun",
    "baslik": "2 sorun buldum",
    "govde": "Telefon yedeğiniz 64 gün öncesine ait olduğu için çok eskimiş ve düzenleme bekleyen bir dosyanız 3 günden uzun süredir sırasını bekliyor. Uygulamanızdaki bilgilerin kaybolmaması için yeni bir yedek alma işlemini başlatmanız gerekiyor. Ayrıca bekleyen dosyanızı kontrol edip onaylayarak süreci tamamlayabilirsiniz.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 64.1 gün önce, 378 MB — 14 günden eski\n• [orta] Akıl hocası dosyaları bayatlamamış\n   1 dosya 3 günden uzun süredir bekliyor: 20260911-1908-telefon-yede-i-duruyor"
+  },
+  {
+   "id": "c13b118191b8",
+   "t": 1793453170630,
+   "onem": "sorun",
+   "baslik": "2 sorun buldum",
+   "govde": "Telefon yedeğiniz 64 gün öncesine ait olduğu için çok eskimiş ve düzenleme bekleyen bir dosyanız 3 günden uzun süredir sırasını bekliyor. Uygulamanızdaki bilgilerin kaybolmaması için yeni bir yedek alma işlemini başlatmanız gerekiyor. Ayrıca bekleyen dosyanızı kontrol edip onaylayarak süreci tamamlayabilirsiniz.\n\n— bunu yazan yapay zekâ (google (önbellek)); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 64.1 gün önce, 378 MB — 14 günden eski\n• [orta] Akıl hocası dosyaları bayatlamamış\n   1 dosya 3 günden uzun süredir bekliyor: 20260911-1908-telefon-yede-i-duruyor"
   }
  ],
  "bekleyen": [
@@ -377,12 +363,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-10-29T09:20:59+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
   {
    "t": "2026-10-29T09:21:12+03:00",
    "k": "gunluk",
@@ -616,6 +596,12 @@
    "k": "haftalik",
    "g": 114,
    "n": 118
+  },
+  {
+   "t": "2026-10-31T16:26:10+03:00",
+   "k": "gunluk",
+   "g": 107,
+   "n": 110
   }
  ]
 }
