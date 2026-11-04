@@ -1,102 +1,35 @@
 {
  "bicim": 1,
- "zaman": "2026-11-04T08:15:29+03:00",
- "kadans": "gunluk",
- "durum": "sorun",
+ "zaman": "2026-11-04T09:09:38+03:00",
+ "kadans": "saatlik",
+ "durum": "iyi",
  "sayilar": {
-  "kontrol": 54,
-  "sinama": 2824,
-  "gecen": 50,
-  "bilinen": 1,
-  "sorun": 3,
-  "sure": 82.0,
-  "kosu": 1030
+  "kontrol": 5,
+  "sinama": 37,
+  "gecen": 5,
+  "bilinen": 0,
+  "sorun": 0,
+  "sure": 2.7,
+  "kosu": 1031
  },
- "sorunlar": [
-  {
-   "ad": "Telefon yedeği duruyor",
-   "onem": "yuksek",
-   "oyku": "yedek",
-   "not": "2 yedek · en yenisi 67.8 gün önce, 378 MB — 14 günden eski",
-   "onarilabilir": false
-  },
-  {
-   "ad": "Akıl hocası dosyaları bayatlamamış",
-   "onem": "orta",
-   "oyku": "bekci",
-   "not": "1 dosya 3 günden uzun süredir bekliyor: 20260911-1908-telefon-yede-i-duruyor",
-   "onarilabilir": false
-  },
-  {
-   "ad": "Tarayıcı sınamaları",
-   "onem": "kritik",
-   "oyku": "davranis",
-   "not": "file://~/gerok/bekci/tarayici.mjs:66\n  throw new Error('Chrome açılmadı');\n        ^\n\nError: Chrome açılmadı\n    at chromeBaslat (file://~/gerok/bekci/tarayici.mjs:66:9)\n    at async file://~/gerok/bekci/tarayici.mjs:2261:19\n\nNode.js v26.5.",
-   "onarilabilir": false
-  }
- ],
- "bilinenler": [
-  {
-   "ad": "Math.min(...dizi) yığın taşması",
-   "not": "app.js:764; app.js:5084; gerok.js:448; sihirbaz.js:454; sihirbaz.js:455; sihirbaz.js:456 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
-  }
- ],
+ "sorunlar": [],
+ "bilinenler": [],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 15,
-   "toplam": 15,
-   "sinama": 146
+   "gecen": 3,
+   "toplam": 3,
+   "sinama": 6
   },
   "bekci": {
-   "gecen": 8,
-   "toplam": 9,
-   "sinama": 83
-  },
-  "yedek": {
-   "gecen": 0,
+   "gecen": 1,
    "toplam": 1,
-   "sinama": 2
+   "sinama": 8
   },
   "koprü": {
    "gecen": 1,
    "toplam": 1,
    "sinama": 23
-  },
-  "kod": {
-   "gecen": 11,
-   "toplam": 11,
-   "sinama": 1535
-  },
-  "veri": {
-   "gecen": 2,
-   "toplam": 2,
-   "sinama": 9
-  },
-  "gizlilik": {
-   "gecen": 7,
-   "toplam": 7,
-   "sinama": 86
-  },
-  "bilgi": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 529
-  },
-  "sartname": {
-   "gecen": 1,
-   "toplam": 1,
-   "sinama": 409
-  },
-  "depolama": {
-   "gecen": 1,
-   "toplam": 1,
-   "sinama": 1
-  },
-  "davranis": {
-   "gecen": 0,
-   "toplam": 1,
-   "sinama": 1
   }
  },
  "derin": {
@@ -165,13 +98,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "04a29afe4b4e",
-   "t": 1793512759299,
-   "onem": "sorun",
-   "baslik": "2 sorun buldum",
-   "govde": "Telefonunuzda kalan yedekler 14 günden daha eski olduğu için güncelliğini kaybetmiş durumda. Ayrıca uygulamanın arka planda her saat çalışması gereken otomatik kontrol görevi de yaklaşık yarım gündür durmuş görünüyor. Lütfen yeni bir yedek alma işlemini başlatın ve otomatik çalışan sistem görevlerinin aktif olduğundan emin olun.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 64.8 gün önce, 378 MB — 14 günden eski\n• [yuksek] Koşular taze\n   saatlik: 0.4 gündür koşmadı"
-  },
   {
    "id": "dcb01a812ebc",
    "t": 1793513883484,
@@ -339,6 +265,13 @@
    "onem": "sorun",
    "baslik": "3 sorun buldum",
    "govde": "Telefon yedeğiniz 14 günden eski olduğu için güncelliğini kaybetmiş ve buna bağlı bir dosya 3 günden fazladır bekletiliyor; ayrıca uygulamanın otomatik testleri Chrome internet tarayıcısı açılamadığı için yarıda kalmış. \n\nÖncelikle yeni bir telefon yedeği alarak eski bilgileri tazelemelisiniz. Ardından tarayıcınızın düzgün çalışıp çalışmadığını kontrol edip testleri tekrar başlatmanız gerekiyor.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 67.8 gün önce, 378 MB — 14 günden eski\n• [orta] Akıl hocası dosyaları bayatlamamış\n   1 dosya 3 günden uzun süredir bekliyor: 20260911-1908-telefon-yede-i-duruyor\n• [kritik] Ta"
+  },
+  {
+   "id": "b8ffe79d6cf0",
+   "t": 1793772578686,
+   "onem": "iyi",
+   "baslik": "Söylediğim sorunlar kapandı",
+   "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
   }
  ],
  "bekleyen": [
@@ -370,12 +303,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-11-02T02:00:42+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
   {
    "t": "2026-11-02T08:03:03+03:00",
    "k": "saatlik",
@@ -609,6 +536,12 @@
    "k": "gunluk",
    "g": 50,
    "n": 54
+  },
+  {
+   "t": "2026-11-04T09:09:38+03:00",
+   "k": "saatlik",
+   "g": 5,
+   "n": 5
   }
  ]
 }
