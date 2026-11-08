@@ -1,44 +1,104 @@
 {
  "bicim": 1,
- "zaman": "2026-11-08T14:14:03+03:00",
- "kadans": "saatlik",
- "durum": "iyi",
+ "zaman": "2026-11-08T15:14:32+03:00",
+ "kadans": "gunluk",
+ "durum": "sorun",
  "sayilar": {
-  "kontrol": 5,
-  "sinama": 37,
-  "gecen": 5,
-  "bilinen": 0,
-  "sorun": 0,
-  "sure": 1.3,
-  "kosu": 1115
+  "kontrol": 110,
+  "sinama": 2880,
+  "gecen": 107,
+  "bilinen": 1,
+  "sorun": 2,
+  "sure": 119.5,
+  "kosu": 1116
  },
- "sorunlar": [],
- "bilinenler": [],
+ "sorunlar": [
+  {
+   "ad": "Telefon yedeği duruyor",
+   "onem": "yuksek",
+   "oyku": "yedek",
+   "not": "2 yedek · en yenisi 72.1 gün önce, 378 MB — 14 günden eski",
+   "onarilabilir": false
+  },
+  {
+   "ad": "Akıl hocası dosyaları bayatlamamış",
+   "onem": "orta",
+   "oyku": "bekci",
+   "not": "1 dosya 3 günden uzun süredir bekliyor: 20260911-1908-telefon-yede-i-duruyor",
+   "onarilabilir": false
+  }
+ ],
+ "bilinenler": [
+  {
+   "ad": "Math.min(...dizi) yığın taşması",
+   "not": "app.js:764; app.js:5084; gerok.js:448; sihirbaz.js:454; sihirbaz.js:455; sihirbaz.js:456 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
+  }
+ ],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 3,
-   "toplam": 3,
-   "sinama": 6
+   "gecen": 15,
+   "toplam": 15,
+   "sinama": 146
   },
   "bekci": {
-   "gecen": 1,
+   "gecen": 8,
+   "toplam": 9,
+   "sinama": 83
+  },
+  "yedek": {
+   "gecen": 0,
    "toplam": 1,
-   "sinama": 8
+   "sinama": 2
   },
   "koprü": {
    "gecen": 1,
    "toplam": 1,
    "sinama": 23
+  },
+  "kod": {
+   "gecen": 11,
+   "toplam": 11,
+   "sinama": 1535
+  },
+  "veri": {
+   "gecen": 2,
+   "toplam": 2,
+   "sinama": 9
+  },
+  "gizlilik": {
+   "gecen": 7,
+   "toplam": 7,
+   "sinama": 86
+  },
+  "bilgi": {
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 529
+  },
+  "sartname": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 409
+  },
+  "depolama": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 1
+  },
+  "davranis": {
+   "gecen": 57,
+   "toplam": 57,
+   "sinama": 57
   }
  },
  "derin": {
   "kadans": "gunluk",
-  "zaman": "2026-11-07T14:26:27+03:00",
+  "zaman": "2026-11-08T15:14:32+03:00",
   "kontrol": 110,
   "sinama": 2880,
-  "gecen": 106,
-  "sorun": 3,
+  "gecen": 107,
+  "sorun": 2,
   "gruplar": {
    "yayin": {
     "gecen": 15,
@@ -91,20 +151,13 @@
     "sinama": 1
    },
    "davranis": {
-    "gecen": 56,
+    "gecen": 57,
     "toplam": 57,
     "sinama": 57
    }
   }
  },
  "mesajlar": [
-  {
-   "id": "7e4cc26edc48",
-   "t": 1793873556713,
-   "onem": "sorun",
-   "baslik": "1 sorun buldum",
-   "govde": "Telefonunuzdaki gezi defteri yedeği 69 gün öncesine ait olduğu için çok eskimiş durumda. Verilerinizi kaybetmemek adına en kısa sürede uygulamanız üzerinden güncel bir telefon yedeği almanız gerekiyor. Yeni bir yedek aldıktan sonra bu kontrol otomatik olarak düzelecektir.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 69.0 gün önce, 378 MB — 14 günden eski"
-  },
   {
    "id": "44dd72922465",
    "t": 1793876331025,
@@ -272,6 +325,13 @@
    "onem": "iyi",
    "baslik": "Söylediğim sorunlar kapandı",
    "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
+  },
+  {
+   "id": "f7699d8a7136",
+   "t": 1794140073817,
+   "onem": "sorun",
+   "baslik": "2 sorun buldum",
+   "govde": "Telefonunuzdaki uygulama verilerinin güvenliği için alınan son yedek 72 günden fazla öncesine ait ve güncelliğini kaybetmiş. Ayrıca bu durumla ilgili çözüm beklemede kalan bir yardım dosyası bulunuyor. Veri kaybını önlemek için yeni bir yedekleme almanız ve ilgili yardım dosyasındaki işlemleri tamamlamanız gerekiyor.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 72.1 gün önce, 378 MB — 14 günden eski\n• [orta] Akıl hocası dosyaları bayatlamamış\n   1 dosya 3 günden uzun süredir bekliyor: 20260911-1908-telefon-yede-i-duruyor"
   }
  ],
  "bekleyen": [
@@ -292,24 +352,6 @@
     "Gerçekten bozuk, bak",
     "Yanlış alarm"
    ]
-  },
-  {
-   "id": "e018c057e1f5",
-   "soru": "“Ekleme anını kaçırmış duraklar için de soruyor” kontrolü takılıyor ve kendim onaramadım. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu? (Ayrıntısı panoda duruyor.)",
-   "secenekler": [
-    "Bu bilinen bir durum",
-    "Gerçekten bozuk, bak",
-    "Yanlış alarm"
-   ]
-  },
-  {
-   "id": "7c4f91125e82",
-   "soru": "“Canlı sürüm yereldekiyle aynı” kontrolü takılıyor ve kendim onaramadım. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu? (Ayrıntısı panoda duruyor.)",
-   "secenekler": [
-    "Bu bilinen bir durum",
-    "Gerçekten bozuk, bak",
-    "Yanlış alarm"
-   ]
   }
  ],
  "telefonSinamasi": [
@@ -321,12 +363,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-11-07T03:20:08+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
   {
    "t": "2026-11-07T04:25:14+03:00",
    "k": "saatlik",
@@ -560,6 +596,12 @@
    "k": "saatlik",
    "g": 5,
    "n": 5
+  },
+  {
+   "t": "2026-11-08T15:14:32+03:00",
+   "k": "gunluk",
+   "g": 107,
+   "n": 110
   }
  ]
 }
