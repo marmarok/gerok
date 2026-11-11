@@ -1,73 +1,35 @@
 {
  "bicim": 1,
- "zaman": "2026-11-11T15:24:56+03:00",
- "kadans": "6saat",
- "durum": "sorun",
+ "zaman": "2026-11-11T16:01:29+03:00",
+ "kadans": "saatlik",
+ "durum": "iyi",
  "sayilar": {
-  "kontrol": 37,
-  "sinama": 2283,
-  "gecen": 35,
-  "bilinen": 1,
-  "sorun": 1,
-  "sure": 13.5,
-  "kosu": 1198
+  "kontrol": 5,
+  "sinama": 37,
+  "gecen": 5,
+  "bilinen": 0,
+  "sorun": 0,
+  "sure": 0.8,
+  "kosu": 1199
  },
- "sorunlar": [
-  {
-   "ad": "Telefon yedeği duruyor",
-   "onem": "yuksek",
-   "oyku": "yedek",
-   "not": "2 yedek · en yenisi 75.1 gün önce, 378 MB — 14 günden eski",
-   "onarilabilir": false
-  }
- ],
- "bilinenler": [
-  {
-   "ad": "Math.min(...dizi) yığın taşması",
-   "not": "app.js:764; app.js:5084; gerok.js:448; sihirbaz.js:454; sihirbaz.js:455; sihirbaz.js:456 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
-  }
- ],
+ "sorunlar": [],
+ "bilinenler": [],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 10,
-   "toplam": 10,
-   "sinama": 102
+   "gecen": 3,
+   "toplam": 3,
+   "sinama": 6
   },
   "bekci": {
-   "gecen": 4,
-   "toplam": 4,
-   "sinama": 16
-  },
-  "yedek": {
-   "gecen": 0,
+   "gecen": 1,
    "toplam": 1,
-   "sinama": 2
+   "sinama": 8
   },
   "koprü": {
    "gecen": 1,
    "toplam": 1,
    "sinama": 23
-  },
-  "kod": {
-   "gecen": 9,
-   "toplam": 9,
-   "sinama": 1518
-  },
-  "veri": {
-   "gecen": 2,
-   "toplam": 2,
-   "sinama": 9
-  },
-  "gizlilik": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 84
-  },
-  "bilgi": {
-   "gecen": 5,
-   "toplam": 5,
-   "sinama": 529
   }
  },
  "derin": {
@@ -141,13 +103,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "035de2f84b4c",
-   "t": 1794199836272,
-   "onem": "sorun",
-   "baslik": "1 sorun buldum",
-   "govde": "Telefonunuzdaki gezi verilerinin kaybolmaması için alınan yedekleme işlemi çok uzun süredir yapılmamış. En son yedek 72.8 gün önce alınmış ve 14 günlük güvenlik sınırını geçmiş durumda. Uygulamaya girip yeni bir yedek oluşturarak verilerinizi güvenle koruma altına almanız gerekiyor.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 72.8 gün önce, 378 MB — 14 günden eski"
-  },
   {
    "id": "bb90f0745fe0",
    "t": 1794202871263,
@@ -315,6 +270,13 @@
    "onem": "sorun",
    "baslik": "1 sorun buldum",
    "govde": "Telefonunuzdaki verilerin güvende kalmasını sağlayan yedekleme işlemi uzun süredir yapılmadığı için bu kontrol başarısız oldu. En son yedek 75.1 gün önce alınmış, ancak sistem 14 günden daha eski yedekleri kabul etmiyor. Uygulama ayarlarından yeni bir telefon yedeği alarak bu sorunu kolayca çözebilirsiniz.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 75.1 gün önce, 378 MB — 14 günden eski"
+  },
+  {
+   "id": "8dd9b446b43d",
+   "t": 1794402089034,
+   "onem": "iyi",
+   "baslik": "Söylediğim sorunlar kapandı",
+   "govde": "Hepsi geçti. 5/5 kontrol · 37 ayrı sınama."
   }
  ],
  "bekleyen": [
@@ -355,12 +317,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-11-10T05:18:04+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
   {
    "t": "2026-11-10T06:23:09+03:00",
    "k": "saatlik",
@@ -594,6 +550,12 @@
    "k": "6saat",
    "g": 35,
    "n": 37
+  },
+  {
+   "t": "2026-11-11T16:01:29+03:00",
+   "k": "saatlik",
+   "g": 5,
+   "n": 5
   }
  ]
 }
