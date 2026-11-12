@@ -63,9 +63,38 @@ KAYNAK_KLASOR = "bilgi-kaynak"
 #
 # Mac'in çalışma kopyası akış yayınıyla ortak: bekci/akis-kopya.
 
-# Rota paketinin bulunduğu YEREL yer. Bu dosya asla yayınlanmıyor; yalnızca
-# "hangi durağın kartı eksik" sorusunu cevaplamak için okunuyor.
-ROTA = Path.home() / "gerok" / "belge" / "balkanlar.gerok"
+# Rota paketlerinin bulunduğu YEREL klasör. Buradaki dosyalar asla
+# yayınlanmıyor; yalnızca "hangi durağın kartı eksik" sorusunu cevaplamak
+# için okunuyor.
+#
+# Eskiden tek bir dosya adı yazılıydı ve yalnızca İLK gezi denetleniyordu:
+# ikinci bir gezinin durakları ne "kart eksik" listesine girdi ne de
+# "liste rotanın kopyası olmasın" kuralına. Şimdi klasördeki her gezi paketi
+# okunuyor. Gezi adı koda yazılmıyor — bu dosya herkese açık dala da gidiyor.
+ROTA_KLASOR = Path.home() / "gerok" / "belge"
+
+
+def rota_duraklari():
+    """Bütün gezi paketlerinin durakları. Aynı gezinin iki kopyası varsa
+    (paketin eski ve yeni hâli) en yenisi sayılıyor; yama ve çözüm
+    dosyalarında `gerok` ya da durak olmadığı için onlar kendiliğinden düşüyor."""
+    if not ROTA_KLASOR.is_dir():
+        return []
+    geziler = {}
+    for dosya in sorted(ROTA_KLASOR.glob("*.gerok*")):
+        try:
+            p = json.loads(dosya.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        kimlik = (p.get("gerok") or {}).get("id") if isinstance(p, dict) else None
+        duraklar = p.get("duraklar") if isinstance(p, dict) else None
+        if not kimlik or not isinstance(duraklar, list):
+            continue
+        an = dosya.stat().st_mtime
+        if kimlik not in geziler or an > geziler[kimlik][0]:
+            geziler[kimlik] = (an, duraklar)
+    return [d for _, ds in geziler.values() for d in ds
+            if isinstance(d, dict) and "lat" in d and "lon" in d]
 
 # Pakette bulunmasına izin verilen alanlar. Beyaz liste: yeni bir alan
 # eklenirse buraya da yazılmadıkça dışarı çıkamıyor.
@@ -96,6 +125,13 @@ def _kopya(taze=True):
         akis._git(kopya, ["checkout", "-q", "-B", akis.DAL,
                           "FETCH_HEAD" if kod == 0 else "--orphan"])
     elif taze:
+        # Kaynakta henüz itilmemiş bir düzenleme varsa TAZELEME YOK. Paket her
+        # kurulduğunda buradan geçiyor ve `reset --hard` o düzenlemeyi haber
+        # vermeden siliyordu: yeni kartlar yazılıp paket kurulunca kartlar yok
+        # oluyordu (ölçüldü). Yerel değişiklik asıl iştir; yayın onu itecek.
+        kod, durum = akis._git(kopya, ["status", "--porcelain"])
+        if kod == 0 and durum.strip():
+            return kopya
         kod, _ = akis._git(kopya, ["fetch", "-q", "--depth", "1", "origin", akis.DAL])
         if kod == 0:
             akis._git(kopya, ["reset", "-q", "--hard", "FETCH_HEAD"])
@@ -243,9 +279,9 @@ def kapsam(paket=None):
     """
     if paket is None:
         paket = paket_uret()
-    if not ROTA.exists():
+    duraklar = rota_duraklari()
+    if not duraklar:
         return [], [], []
-    duraklar = json.loads(ROTA.read_text(encoding="utf-8")).get("duraklar", [])
     kapsanan, eksik, disarida = [], [], []
     for d in duraklar:
         kart, _ = kart_bul(d, paket["yerler"])
@@ -294,8 +330,8 @@ def gizlilik_dene(paket):
             bulgu.append(f"{u}: yalnızca {n} kart — bir ülke en az 5 yerle temsil edilmeli")
 
     # Liste rotanın kopyası olmasın: hem toplamda hem HER ÜLKEDE fazlalık ara.
-    if ROTA.exists():
-        rota = json.loads(ROTA.read_text(encoding="utf-8")).get("duraklar", [])
+    rota = rota_duraklari()
+    if rota:
         kapsanan, _, _ = kapsam(paket)
         eslesen = {k["kart"] for k in kapsanan if k["kart"]}
         if len(paket["yerler"]) < len(rota) * 1.6:
