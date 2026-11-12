@@ -5005,5 +5005,2251 @@
    "dikit",
    "karst"
   ]
+ },
+ {
+  "id": "kahire",
+  "ad": "Kahire",
+  "ulke": "EG",
+  "lat": 30.0444,
+  "lon": 31.2357,
+  "yaricap": 20000,
+  "eslesme": [
+   "kahire",
+   "cairo",
+   "el-kahire",
+   "kahire şehir turu"
+  ],
+  "ozet": "Yirmi milyonu aşan nüfusuyla Arap dünyasının en büyük şehri: bin minareli eski Kahire, Nil kıyısındaki merkez ve batıda Gize piramitleri.",
+  "neden": "Kahire üst üste binmiş üç şehir gibi. Güneydoğuda Fatımi, Memlük ve Osmanlı camileriyle dolu 'İslami Kahire' var; UNESCO onu 'bin minareli şehir' diye korumaya aldı. Ortada 19. yüzyılda Paris örnek alınarak kurulan Avrupai merkez, batıda Nil'in öbür yakasında Gize. Trafiği, gürültüsü ve kalabalığı ilk gün yorar; bir kahvehanede çay içip sokağı seyretmeye başlayınca şehir açılır.",
+  "tarih": "Bugünkü Kahire'yi 969'da Fatımiler kurdu ve adını 'el-Kahire' (muzaffer) koydu. Daha güneyde Arapların 641'de kurduğu Fustat vardı, daha da eskisi firavunların başkenti Memfis. Selahaddin Eyyubi 12. yüzyılda kaleyi yaptırdı; Memlükler (1250–1517) şehri en zengin dönemine taşıdı. 1517'de Yavuz Sultan Selim aldı. Osmanlı yönetimi kâğıt üstünde 1914'e kadar sürdü, ama 19. yüzyılda Mehmet Ali Paşa ve onun soyundan gelen hidivler ülkeyi fiilen kendileri yönetti.",
+  "gez": [
+   {
+    "ad": "İslami Kahire ve Muiz Caddesi",
+    "not": "Fatımi kapılarından Han el-Halili'ye uzanan cadde; camiler, sebiller, medreseler yan yana.",
+    "sure": "2–3 sa"
+   },
+   {
+    "ad": "Kale ve Mehmet Ali Paşa Camii",
+    "not": "Şehre tepeden bakan kale, Osmanlı üslubunda kaymaktaşı kaplı cami.",
+    "sure": "1–1,5 sa"
+   },
+   {
+    "ad": "Nil kıyısı (Korniş)",
+    "not": "Akşam serinliğinde yürüyüş, köprülerden ışıklı şehir.",
+    "sure": "1 sa"
+   },
+   {
+    "ad": "Nil'de akşam teknesi",
+    "not": "Yemekli ve müzikli turlar akşam kalkıyor.",
+    "sure": "2–3 sa"
+   },
+   {
+    "ad": "Kıpti Kahire",
+    "not": "Asılı Kilise ve eski Fustat: şehrin Hristiyan ve Yahudi geçmişi.",
+    "sure": "1,5 sa"
+   }
+  ],
+  "ye": [
+   {
+    "ad": "Koşari",
+    "ne": "Pirinç, mercimek, makarna ve nohudun üstüne domatesli sos, sirkeli sarımsak ve kızarmış soğan. Mısır'ın millî sokak yemeği.",
+    "fiyat": "30–80 EGP",
+    "not": "Bilinen koşari salonları kalabalık ama hızlı; acı sosu az az ekle."
+   },
+   {
+    "ad": "Ful ve tamiyye",
+    "ne": "Bakla ezmesi (ful) ve baklayla yapılan Mısır falafeli (tamiyye), aiş ekmeğinde. Kahvaltının ta kendisi.",
+    "fiyat": "Sandviç 10–30 EGP",
+    "not": "Sabah açılan büfelerde en taze hâli."
+   },
+   {
+    "ad": "Molohiya",
+    "ne": "Yeşil, kıvamlı yaprak çorbası; tavuk ya da tavşanla.",
+    "fiyat": "Lokantada 80–200 EGP",
+    "not": "Kıvamı ilk seferde şaşırtır; Mısırlıların en sevdiği ev yemeği."
+   },
+   {
+    "ad": "Karkade ve nane çayı",
+    "ne": "Hibiskus çayı, soğuk ya da sıcak; bardakta nane çayı.",
+    "fiyat": "20–60 EGP",
+    "not": "Turistik kahvehanede iki-üç katı."
+   }
+  ],
+  "al": [
+   {
+    "ad": "Baharat",
+    "ne": "Kimyon, kişniş, kurutulmuş hibiskus, aspir.",
+    "fiyat": "100 gr 30–100 EGP",
+    "dikkat": "Ucuz 'safran' çoğunlukla aspirdir; gerçek safran gramla ve pahalı satılır."
+   },
+   {
+    "ad": "Papirüs",
+    "ne": "Gerçek papirüs kâğıdına baskı ya da el boyaması.",
+    "fiyat": "Küçük boy 100–400 EGP",
+    "dikkat": "Ucuz olanların çoğu muz yaprağından. Gerçeği ışığa tutunca lif örgüsü görünür."
+   },
+   {
+    "ad": "Bakır ve pirinç işleri",
+    "ne": "Tepsi, fener, kakmalı kutu.",
+    "fiyat": "Küçük parça 200–1.000 EGP",
+    "dikkat": "Pazarlıkla yarı fiyata inebilir."
+   }
+  ],
+  "gezgin": [
+   "Uber gibi uygulamalar şehir içinde en rahat yol: fiyat baştan belli, pazarlık yok.",
+   "Trafikte karşıdan karşıya geçmek bir beceri: yerlilerin yanında, onların hızında geç.",
+   "'Hoş geldin, çay içelim' diye başlayan sohbetlerin çoğu bir dükkânda biter; kibarca 'la, şukran' de ve yürü.",
+   "Metro ucuz ve hızlı; kadınlara ayrılmış vagonlar var."
+  ],
+  "dikkat": [
+   "Musluk suyu içilmez; kapalı şişe su al.",
+   "Askerî tesisleri, polisi ve devlet binalarını fotoğraflama.",
+   "Drone getirme; gümrükte el konuyor.",
+   "Cuma öğle namazında camiler ziyarete kapanır, bazı dükkânlar namazdan sonra açılır."
+  ],
+  "turkiye": "Sokak yemeği ve şehir içi ulaşım Türkiye'den ucuz; turistik lokanta, müze bileti ve piramit çevresindeki her şey pahalı. Mısır lirası neredeyse TL'ye denk (Kasım 2026'da 1 EGP ≈ 0,94 TL): fiyatı TL gibi okuyabilirsin.",
+  "terim": [
+   "Fatımiler",
+   "Memlükler",
+   "koşari",
+   "ful",
+   "tamiyye",
+   "karkade",
+   "bakşiş",
+   "UNESCO Dünya Mirası"
+  ]
+ },
+ {
+  "id": "kahire-kalesi",
+  "ad": "Kahire Kalesi ve Mehmet Ali Paşa Camii",
+  "ulke": "EG",
+  "lat": 30.029,
+  "lon": 31.2605,
+  "yaricap": 900,
+  "eslesme": [
+   "kahire kalesi",
+   "selahaddin kalesi",
+   "mehmet ali paşa camii",
+   "kahire kalesi · mehmet ali paşa camii",
+   "kaymak camii",
+   "citadel",
+   "muhammad ali mosque"
+  ],
+  "ozet": "Selahaddin Eyyubi'nin kalesi ve içinde, İstanbul camilerinin kardeşi gibi duran kaymaktaşı kaplı Mehmet Ali Paşa Camii.",
+  "neden": "Kahire'nin siluetini belirleyen iki ince minare buradan yükseliyor. Cami, İstanbul'un büyük Osmanlı camilerini örnek alarak 19. yüzyılda yapıldı; bir Türk için Kahire'nin ortasında İstanbul'dan bir parça gibi. Terasından bütün şehir görünür; havası açık bir günde ufukta Gize piramitleri seçilir.",
+  "tarih": "Kaleyi Selahaddin Eyyubi 1176'da Haçlılara karşı yaptırmaya başladı; yaklaşık 700 yıl Mısır'ı yönetenlerin sarayı oldu. Mehmet Ali Paşa 1811'de Memlük beylerini burada bir ziyafete çağırıp kale yolunda öldürttü; Mısır'daki Memlük gücü böyle bitti. Paşanın camisi 1830–1848 arasında yapıldı ve paşa da içindeki türbesinde yatıyor. Avludaki saat kulesi, Luxor dikilitaşı Paris'e gönderilince Fransa kralı Louis-Philippe'in verdiği karşılık hediyesidir.",
+  "gez": [
+   {
+    "ad": "Mehmet Ali Paşa Camii",
+    "not": "Dev kubbe, kaymaktaşı duvarlar, paşanın türbesi; içeride ayakkabı çıkarılıyor.",
+    "sure": "30 dk"
+   },
+   {
+    "ad": "Avludaki saat kulesi",
+    "not": "Fransa'nın hediyesi; rivayete göre gelişinden beri doğru dürüst çalışmadı.",
+    "sure": "5 dk"
+   },
+   {
+    "ad": "Seyir terası",
+    "not": "Caminin yanından bütün Kahire; fotoğrafın yeri.",
+    "sure": "15 dk"
+   },
+   {
+    "ad": "En-Nasır Muhammed Camii",
+    "not": "14. yüzyıldan, kalenin içindeki Memlük camisi.",
+    "sure": "15 dk"
+   }
+  ],
+  "ye": [
+   {
+    "ad": "Kale kafeteryası",
+    "ne": "Su, meşrubat, atıştırmalık.",
+    "fiyat": "Şehir fiyatının iki katı",
+    "not": "Suyunu yanında getir."
+   }
+  ],
+  "al": [
+   {
+    "ad": "Kaymaktaşı eşyalar",
+    "ne": "Vazo, küçük piramit, kandil.",
+    "fiyat": "Küçük parça 150–600 EGP",
+    "dikkat": "Gerçek taş ışığı geçirir ve ağırdır; plastik ya da alçı taklitleri ışık geçirmez, eline alınca hafiftir."
+   }
+  ],
+  "gezgin": [
+   "Kale öğlen kalabalık ve sıcak; mümkünse sabah erken ya da öğleden sonra geç.",
+   "Terastan fotoğraf için öğleden sonraki ışık şehrin pusunu azaltıyor."
+  ],
+  "dikkat": [
+   "Cuma günü öğle namazında cami ziyarete kapalı olabilir.",
+   "Kale içinde gölge az; şapka ve su."
+  ],
+  "turkiye": "Mimari İstanbul'u andırır: kubbe ve yarım kubbeler, büyük avize, kalem işi. İç süslemedeki kaymaktaşı ve Avrupai dokunuşlar Türkiye'deki camilerden en belirgin farkı.",
+  "terim": [
+   "Eyyubiler",
+   "Memlükler",
+   "kaymaktaşı",
+   "hidiv",
+   "türbe",
+   "dikilitaş"
+  ]
+ },
+ {
+  "id": "sultan-hasan",
+  "ad": "Sultan Hasan Külliyesi ve Rifai Camii",
+  "ulke": "EG",
+  "lat": 30.0324,
+  "lon": 31.2562,
+  "yaricap": 500,
+  "eslesme": [
+   "sultan hasan",
+   "sultan hasan külliyesi",
+   "sultan hasan külliyesi · rifai camii",
+   "rifai camii",
+   "er-rifai",
+   "sultan hassan"
+  ],
+  "ozet": "Memlük mimarisinin zirvesi sayılan dev medrese-cami ile karşısında, Mısır'ın kral ailesinin yattığı Rifai Camii.",
+  "neden": "İki yapının arasındaki dar yolda durup yukarı bakınca boyutları insanı ezer. Sultan Hasan'ın avlusu dört dev eyvanla çevrili; her eyvan dört Sünni mezhepten birine ders verilen ayrı bir medreseydi. Karşıdaki Rifai Camii beş yüz yıl sonra, ona ölçüde uyulsun diye yapıldı; içinde Hidiv İsmail, Kral Faruk ve İran'ın son şahı Muhammed Rıza Pehlevi yatıyor.",
+  "tarih": "Sultan Nasır Hasan külliyeyi 1356'da başlattı; inşaat 1363'te, sultan öldürüldükten sonra bitti. Kahire o yıllarda veba salgınından yeni çıkmıştı ve bu ölçekte bir yapı devletin bütün gücünü istiyordu. Rifai Camii'ni Hidiv İsmail'in annesi Hoşyar Hanım 1869'da başlattı; 1912'de tamamlandı ve hidiv ailesinin türbesi oldu.",
+  "gez": [
+   {
+    "ad": "Sultan Hasan'ın avlusu",
+    "not": "Dört eyvan, ortada şadırvan; sessizce durup ölçeği hisset.",
+    "sure": "30 dk"
+   },
+   {
+    "ad": "Kıble eyvanı ve türbe",
+    "not": "Mermer mihrap ve arkasındaki kubbeli türbe.",
+    "sure": "15 dk"
+   },
+   {
+    "ad": "Rifai Camii",
+    "not": "Kral ve şah türbeleri, zengin mermer ve ahşap işçilik.",
+    "sure": "30 dk"
+   },
+   {
+    "ad": "İki yapı arasındaki yol",
+    "not": "Yukarı bakarak çekilen kare Kahire'nin en bilinen fotoğraflarından.",
+    "sure": "5 dk"
+   }
+  ],
+  "ye": [],
+  "al": [],
+  "gezgin": [
+   "Kale'nin hemen altında; ikisini aynı yarım günde gezmek kolay.",
+   "Öğle sıcağında avlunun gölgeli eyvanları serin kalır."
+  ],
+  "dikkat": [
+   "Cami içinde yüksek sesle konuşma; ibadet edenler var.",
+   "Cuma öğle namazında ziyaret kapalı olabilir."
+  ],
+  "turkiye": "Anadolu Selçuklu medreselerinin eyvanlı avlusunu bilen biri planı hemen tanır, ama boyut bambaşka. Türkiye'de bu ölçekte bir Memlük yapısı yok.",
+  "terim": [
+   "Memlükler",
+   "medrese",
+   "eyvan",
+   "türbe",
+   "hidiv",
+   "mihrap"
+  ]
+ },
+ {
+  "id": "imam-safii",
+  "ad": "İmam Şafii Türbesi",
+  "ulke": "EG",
+  "lat": 30.0117,
+  "lon": 31.2581,
+  "yaricap": 600,
+  "eslesme": [
+   "imam şafii",
+   "imam şafii türbesi",
+   "imam shafii",
+   "imam al-shafii",
+   "şafii türbesi"
+  ],
+  "ozet": "Şafii mezhebinin kurucusu İmam Şafii'nin, Kahire'nin büyük mezarlığı Karafe'deki türbesi.",
+  "neden": "Türkiye'de özellikle Kürtler arasında yaygın olan Şafii mezhebinin imamı burada yatıyor; o gelenekten gelen biri için Kahire'nin en anlamlı duraklarından. Türbe uzun bir restorasyondan sonra yeniden ziyarete açıldı; ahşap kubbenin süslemesi ve kubbenin tepesindeki gemi biçimli alem görülmeye değer.",
+  "tarih": "İmam Şafii 767'de Gazze'de doğdu, 820'de Fustat'ta öldü. Selahaddin Eyyubi kabrinin yanında bir medrese açtırdı; bugünkü ahşap kubbeli türbeyi 1211'de Eyyubi sultanı Melik Kâmil yaptırdı. Kubbenin tepesindeki gemi biçimli alemin içine kuşlar için tahıl konduğu anlatılır.",
+  "gez": [
+   {
+    "ad": "Türbenin içi",
+    "not": "Ahşap kubbe, kalem işi ve İmam'ın sandukası.",
+    "sure": "20 dk"
+   },
+   {
+    "ad": "Kubbe ve gemi alemi",
+    "not": "Dışarıdan yukarı bak.",
+    "sure": "5 dk"
+   },
+   {
+    "ad": "Karafe",
+    "not": "İnsanların mezarlar arasında yaşadığı tarihî mezarlık; rehbersiz içerilere dalma.",
+    "sure": "—"
+   }
+  ],
+  "ye": [],
+  "al": [],
+  "gezgin": [
+   "Ziyaretçiler genelde dua edip sessizce çıkar; içeride fotoğraf için görevliye sor.",
+   "Mahalle turistik değil; grupla ya da rehberle gel."
+  ],
+  "dikkat": [
+   "Kadınlar başörtüsüyle, herkes omuz ve diz kapalı girer.",
+   "Cuma öğle namazında ziyaret kapalı olabilir."
+  ],
+  "turkiye": "Türkiye'deki türbe ziyareti âdetine çok benzer: dua, Fatiha, kısa bir sessizlik. Fark, yapının 800 yıllık olması ve çevresindeki yaşayan mezarlık.",
+  "terim": [
+   "Eyyubiler",
+   "türbe",
+   "medrese",
+   "Karafe"
+  ]
+ },
+ {
+  "id": "mechul-asker",
+  "ad": "Meçhul Asker Anıtı ve Enver Sedat'ın Kabri",
+  "ulke": "EG",
+  "lat": 30.0654,
+  "lon": 31.3138,
+  "yaricap": 700,
+  "eslesme": [
+   "meçhul asker",
+   "meçhul asker anıtı",
+   "meçhul asker anıtı · enver sedat'ın kabri",
+   "enver sedat",
+   "sedat'ın kabri",
+   "unknown soldier"
+  ],
+  "ozet": "1973 savaşının şehitleri için yapılmış piramit biçimli anıt ve hemen önünde yatan Devlet Başkanı Enver Sedat.",
+  "neden": "Kahire'nin en sade ama çok şey anlatan duraklarından. Sedat, 1981'deki zafer geçidinde yolun tam karşısındaki tören kürsüsünde suikasta uğradı ve bu anıtın önüne gömüldü. Mezar taşında onu 'savaşın ve barışın kahramanı' diye anan bir yazı var.",
+  "tarih": "Anıt 1974–1975'te Ekim Savaşı'nda ölen Mısırlı ve Arap askerler için yapıldı. Sedat 1978'de Camp David anlaşmalarıyla Nobel Barış Ödülü'nü aldı ve 1979'da İsrail'le barış imzaladı; bu barış ona ülkesinde düşman da kazandırdı. 6 Ekim 1981'de, savaşın yıl dönümü geçidinde öldürüldü.",
+  "gez": [
+   {
+    "ad": "Anıt ve Sedat'ın kabri",
+    "not": "Kısa bir durak; nöbetçi askerler var.",
+    "sure": "15 dk"
+   },
+   {
+    "ad": "Tören kürsüsü",
+    "not": "Yolun karşısında; 1981 suikastının yeri.",
+    "sure": "5 dk"
+   }
+  ],
+  "ye": [],
+  "al": [],
+  "gezgin": [
+   "Panoramik şehir turunda genellikle otobüsten kısa bir iniş; uzun kalınmıyor."
+  ],
+  "dikkat": [
+   "Çevre askerî bölge; nöbetçilerin ve askerî tesislerin fotoğrafını çekme.",
+   "Anıta tırmanma, basamaklarına oturma."
+  ],
+  "turkiye": "Türkiye'deki şehitlik ve anıt mezar ziyaretlerine benzer bir ciddiyet beklenir.",
+  "terim": [
+   "Ekim Savaşı"
+  ]
+ },
+ {
+  "id": "el-ezher",
+  "ad": "Ezher Camii",
+  "ulke": "EG",
+  "lat": 30.0458,
+  "lon": 31.2627,
+  "yaricap": 400,
+  "eslesme": [
+   "ezher",
+   "el-ezher",
+   "ezher camii",
+   "el-ezher camii",
+   "al-azhar"
+  ],
+  "ozet": "970'te Fatımilerin kurduğu, bugün Sünni dünyanın en etkili ilim merkezlerinden El-Ezher'in doğduğu cami.",
+  "neden": "Bin yılı aşkın süredir ders verilen bir yer: farklı dönemlerden beş minare aynı avluya bakıyor. Avlunun beyaz mermeri öğle güneşinde göz alır; öğrenciler hâlâ sütunların dibinde kitap okur. Giriş ücretsiz.",
+  "tarih": "Fatımiler 970'te kurup 972'de ibadete açtı; Şii Fatımilerin dâvet merkeziydi. Selahaddin Eyyubi Mısır'ı Sünnîliğe döndürünce bir süre burada cuma namazı kılınmadı. Memlükler döneminde yeniden canlandı ve Sünni dünyanın en büyük medreselerinden biri oldu; 1961'den beri modern bir üniversite.",
+  "gez": [
+   {
+    "ad": "Mermer avlu",
+    "not": "Beş minare, Fatımi kemerleri.",
+    "sure": "20 dk"
+   },
+   {
+    "ad": "İbadet salonu",
+    "not": "Sütun ormanı; ayakkabılar girişte.",
+    "sure": "15 dk"
+   },
+   {
+    "ad": "El-Hüseyin Camii",
+    "not": "Yolun karşısında; Hz. Hüseyin'in başının gömüldüğüne inanılan türbe.",
+    "sure": "15 dk"
+   }
+  ],
+  "ye": [
+   {
+    "ad": "Fatır",
+    "ne": "Kat kat açılıp yağla pişirilen hamur; tatlı (bal, pudra şekeri) ya da tuzlu (peynir, kıyma).",
+    "fiyat": "80–200 EGP",
+    "not": "Ezher ve Hüseyin çevresindeki fatır fırınları ünlü."
+   }
+  ],
+  "al": [
+   {
+    "ad": "Tespih ve kitap",
+    "ne": "Çevredeki kitapçılarda Arapça kitaplar, tespih, misk.",
+    "fiyat": "Tespih 50–300 EGP",
+    "dikkat": "Misk ve ud yağlarında karışım çok; ucuz olan saf değildir."
+   }
+  ],
+  "gezgin": [
+   "Kadınlara girişte örtü veriliyor.",
+   "Öğle namazında turistlere kapatılabiliyor; namazdan sonra gel."
+  ],
+  "dikkat": [
+   "Cuma öğle namazında ziyaret kapalı.",
+   "Ayakkabıları girişteki görevliye bırakınca küçük bir bahşiş beklenir."
+  ],
+  "turkiye": "Avlusu ve sütunlu salonu Osmanlı camilerinden çok Kurtuba ve Kayrevan'daki eski Arap camilerine benzer; Türkiye'de bu plana pek rastlanmaz.",
+  "terim": [
+   "Fatımiler",
+   "Memlükler",
+   "medrese",
+   "bakşiş"
+  ]
+ },
+ {
+  "id": "han-el-halili",
+  "ad": "Han el-Halili",
+  "ulke": "EG",
+  "lat": 30.0477,
+  "lon": 31.2622,
+  "yaricap": 500,
+  "eslesme": [
+   "han el-halili",
+   "han el-halili çarşısı",
+   "khan el-khalili",
+   "khan al-khalili"
+  ],
+  "ozet": "Memlük döneminden kalma, dar sokaklı büyük çarşı: bakırcılar, baharatçılar, fenerciler ve iki yüz yıllık bir kahvehane.",
+  "neden": "Kahire'nin en eski ticaret merkezinin üstünde kurulu; Fatımi sarayının olduğu yere 14. yüzyılda bir han yapılmasıyla başladı. Turistik olduğu kadar gerçek de: arka sokaklarda Kahirelilerin kendi alışverişi sürüyor. Akşam fenerler yanınca en güzel hâline gelir.",
+  "tarih": "Memlük emiri Cehârkes el-Halili 1382'de buraya bir kervansaray yaptırdı; çarşının adı ondan geliyor. 16. yüzyılın başında Memlük sultanı Kansu Gavri bölgeyi yeniden düzenledi; Osmanlı döneminde Kahire'nin dış ticaretinin kalbi oldu. Kenardaki El-Fişavi kahvesinin 18. yüzyıldan beri açık olduğu söylenir; Nobel ödüllü yazar Necip Mahfuz'un uğrak yeriydi.",
+  "gez": [
+   {
+    "ad": "El-Fişavi kahvesi",
+    "not": "Aynalı, dar bir geçitte kahvehane; nane çayı ya da karkade.",
+    "sure": "30 dk"
+   },
+   {
+    "ad": "Muiz Caddesi",
+    "not": "Çarşının kuzeyinde Fatımi ve Memlük yapılarıyla dolu yaya caddesi.",
+    "sure": "1 sa"
+   },
+   {
+    "ad": "Bab el-Futuh ve Bab en-Nasr",
+    "not": "Caddenin kuzey ucundaki Fatımi şehir kapıları.",
+    "sure": "20 dk"
+   },
+   {
+    "ad": "Fenerciler ve bakırcılar",
+    "not": "Akşam ışıklarıyla.",
+    "sure": "30 dk"
+   }
+  ],
+  "ye": [
+   {
+    "ad": "Nane çayı ve karkade",
+    "ne": "El-Fişavi'de ya da çarşı kahvehanelerinde.",
+    "fiyat": "50–120 EGP",
+    "not": "Turistik; fiyatı oturmadan sor."
+   },
+   {
+    "ad": "Fatır",
+    "ne": "Ezher tarafındaki fırınlarda tatlı ya da tuzlu.",
+    "fiyat": "80–200 EGP",
+    "not": "Paylaşmalık büyüklükte."
+   },
+   {
+    "ad": "Taze meyve suyu",
+    "ne": "Şeker kamışı, mango, guava.",
+    "fiyat": "20–60 EGP",
+    "not": "Bardağın temiz yıkandığı büfeyi seç."
+   }
+  ],
+  "al": [
+   {
+    "ad": "Fener ve lamba",
+    "ne": "Delikli bakır ve renkli camlı fenerler.",
+    "fiyat": "Küçük 300–1.500 EGP",
+    "dikkat": "İlk fiyatın yarısından başla; aynı mal birçok dükkânda var, karşılaştır."
+   },
+   {
+    "ad": "Baharat ve karkade",
+    "ne": "Açık baharat ve kurutulmuş hibiskus.",
+    "fiyat": "100 gr 30–100 EGP",
+    "dikkat": "Tartıyı gör; 'safran' çoğu zaman aspirdir."
+   },
+   {
+    "ad": "Galabiye ve şal",
+    "ne": "Pamuklu Mısır entarisi, işlemeli şallar.",
+    "fiyat": "300–1.500 EGP",
+    "dikkat": "'Yüzde yüz Mısır pamuğu' iddiası çok sık; dokuya bak."
+   }
+  ],
+  "gezgin": [
+   "Pazarlık beklenir: ilk fiyatın yarısından başla, güler yüzle ortada buluş.",
+   "'Sadece bak, almak zorunda değilsin' diye içeri çağıran çok; ilgilenmiyorsan 'la, şukran' de, durma.",
+   "Kalabalıkta telefonu ve cüzdanı ön cepte tut.",
+   "Cuma sabahı ve öğle saatinde dükkânların bir kısmı kapalı."
+  ],
+  "dikkat": [
+   "Kartla ödeme az; nakit Mısır lirası ve bozuk para taşı.",
+   "Fiyatı dolarla söylerlerse Mısır lirasıyla sor; çoğu zaman lira daha ucuz çıkar."
+  ],
+  "turkiye": "Kapalıçarşı'nın daha dağınık ve daha sesli hâli gibi. Bakır ve fener işleri İstanbul'dan ucuz, baharat Türkiye'ye yakın.",
+  "terim": [
+   "Memlükler",
+   "Fatımiler",
+   "han",
+   "kervansaray",
+   "çarşı",
+   "karkade",
+   "galabiye",
+   "bakşiş"
+  ]
+ },
+ {
+  "id": "islam-sanatlari-muzesi",
+  "ad": "İslam Sanatları Müzesi",
+  "ulke": "EG",
+  "lat": 30.0448,
+  "lon": 31.2527,
+  "yaricap": 400,
+  "eslesme": [
+   "islam sanatları müzesi",
+   "islam sanatları",
+   "museum of islamic art",
+   "bab el-halk"
+  ],
+  "ozet": "Dünyanın en zengin İslam sanatları koleksiyonlarından biri: Memlük cam kandilleri, Osmanlı çinileri, el yazmaları.",
+  "neden": "Mısır'ın İslami dönemine ait mihraplardan halılara on binlerce eser burada. Kahire'nin camilerini gezdikten sonra o camilerden çıkmış kandilleri ve kapı kanatlarını yakından görmek bambaşka bir deneyim.",
+  "tarih": "1881'de Fatımi camisi El-Hakim'in içinde bir koleksiyon olarak kuruldu, bugünkü binasına 1903'te taşındı. 2014'te karşıdaki emniyet binasına yapılan bombalı saldırıda ağır hasar gördü; onarılıp 2017'de yeniden açıldı.",
+  "gez": [
+   {
+    "ad": "Memlük cam kandilleri",
+    "not": "Mineli cam kandiller.",
+    "sure": "20 dk"
+   },
+   {
+    "ad": "Ahşap mihraplar",
+    "not": "Fatımi ve Memlük dönemi.",
+    "sure": "20 dk"
+   },
+   {
+    "ad": "Osmanlı çinileri",
+    "not": "İznik çinileriyle Türkiye'den bir parça.",
+    "sure": "15 dk"
+   }
+  ],
+  "ye": [],
+  "al": [],
+  "gezgin": [
+   "Panoramik turda genellikle dışarıdan geçiliyor; girmek istersen en az bir saat ayır."
+  ],
+  "dikkat": [
+   "Bilet ücretli; fotoğraf için ayrı izin istenebilir."
+  ],
+  "turkiye": "Osmanlı salonundaki İznik çinileri ve halılar Türkiye'deki müzelerde gördüklerinle akraba; Memlük eserleri ise Türkiye'de pek bulunmaz.",
+  "terim": [
+   "Memlükler",
+   "Fatımiler",
+   "mihrap"
+  ]
+ },
+ {
+  "id": "tahrir",
+  "ad": "Tahrir Meydanı ve Mısır Müzesi",
+  "ulke": "EG",
+  "lat": 30.0444,
+  "lon": 31.2357,
+  "yaricap": 700,
+  "eslesme": [
+   "tahrir",
+   "tahrir meydanı",
+   "mısır müzesi",
+   "egyptian museum",
+   "eski mısır müzesi"
+  ],
+  "ozet": "2011 devriminin meydanı ve kuzey kenarındaki pembe binada, yüz yılı aşkın Mısır Müzesi.",
+  "neden": "Kahire merkezinin tam ortası. 2011'de milyonların toplandığı meydan bugün düzenlenmiş; ortasında II. Ramses'in dikilitaşı ve Karnak'tan getirilmiş koç başlı sfenksler var. Pembe Mısır Müzesi, Tutankamon eserlerini Büyük Mısır Müzesi'ne vermiş olsa da hâlâ dünyanın en büyük antik Mısır koleksiyonlarından birini sergiliyor.",
+  "tarih": "Meydanın adı 'kurtuluş' demek. 25 Ocak 2011'de başlayan gösteriler 18 gün sonra Hüsnü Mübarek'in istifasıyla sonuçlandı. 2020'de meydana Tanis'ten bir II. Ramses dikilitaşı ve dört koç başlı sfenks dikildi. Mısır Müzesi'nin binası 1902'de açıldı; kraliyet mumyaları 2021'de Fustat'taki Uygarlık Müzesi'ne taşındı.",
+  "gez": [
+   {
+    "ad": "Mısır Müzesi",
+    "not": "Eski Krallık heykelleri, Amarna dönemi, binlerce eser.",
+    "sure": "1,5–2 sa"
+   },
+   {
+    "ad": "Dikilitaş ve koç başlı sfenksler",
+    "not": "Meydanın ortasında.",
+    "sure": "10 dk"
+   },
+   {
+    "ad": "Talat Harb Caddesi",
+    "not": "Eski merkezin 20. yüzyıl başı binaları; akşam yürüyüşü.",
+    "sure": "30 dk"
+   }
+  ],
+  "ye": [
+   {
+    "ad": "Koşari",
+    "ne": "Merkezin bilinen koşari salonları bu çevrede.",
+    "fiyat": "30–80 EGP",
+    "not": "Salon kalabalık ama servis hızlı."
+   },
+   {
+    "ad": "Sahlep",
+    "ne": "Kasım akşamlarında sıcak, tarçınlı.",
+    "fiyat": "40–100 EGP",
+    "not": "Merkezdeki kahvehanelerde."
+   }
+  ],
+  "al": [],
+  "gezgin": [
+   "Meydanda 'müze bugün kapalı, seni başka yere götüreyim' diyen sahte rehberlere aldırma; kapıya kendin git.",
+   "Gece de canlı; çevredeki kafeler geç saate kadar açık."
+  ],
+  "dikkat": [
+   "Meydanda gösteri ya da yoğun polis görürsen uzak dur, fotoğraf çekme."
+  ],
+  "turkiye": "Taksim'in Kahire karşılığı gibi düşün: hem ulaşım düğümü hem siyasi hafıza.",
+  "terim": [
+   "25 Ocak Devrimi",
+   "dikilitaş",
+   "firavun",
+   "Tutankamon",
+   "mumya"
+  ]
+ },
+ {
+  "id": "kahire-kulesi",
+  "ad": "Kahire Kulesi ve Zamalek",
+  "ulke": "EG",
+  "lat": 30.046,
+  "lon": 31.2243,
+  "yaricap": 800,
+  "eslesme": [
+   "kahire kulesi",
+   "cairo tower",
+   "zamalek",
+   "gezire"
+  ],
+  "ozet": "Nil'in ortasındaki Gezire adasında 187 metrelik kafes desenli kule ve adanın ağaçlı, sakin mahallesi Zamalek.",
+  "neden": "Kahire'yi bir harita gibi anlamanın en kolay yolu: tepeden bakınca Nil, köprüler, merkez ve batıda Gize ufku bir arada görünür. Zamalek'in ağaçlı sokakları şehrin geri kalanının gürültüsünden sonra nefes aldırır.",
+  "tarih": "Kule 1961'de tamamlandı; gövdesindeki kafes deseni bir nilüferi andırır. Anlatılana göre ABD'nin Cemal Abdünnasır'a verdiği para bu kulenin yapımına harcandı — Nasır'ın cevabı olarak. Gezire 19. yüzyılda Hidiv İsmail'in saray adasıydı.",
+  "gez": [
+   {
+    "ad": "Seyir terası",
+    "not": "Gün batımında en güzel; kuyruk olabilir.",
+    "sure": "45 dk"
+   },
+   {
+    "ad": "Zamalek sokakları",
+    "not": "Kafeler, kitapçılar, sanat galerileri.",
+    "sure": "1 sa"
+   },
+   {
+    "ad": "Kasr en-Nil Köprüsü",
+    "not": "Aslan heykelli köprü; Tahrir'e yürüyüş.",
+    "sure": "20 dk"
+   }
+  ],
+  "ye": [
+   {
+    "ad": "Zamalek kafeleri",
+    "ne": "Kahve, tatlı, Batı tarzı kahvaltı.",
+    "fiyat": "Kahve 60–150 EGP",
+    "not": "Şehrin geri kalanından pahalı."
+   }
+  ],
+  "al": [],
+  "gezgin": [
+   "Teras rüzgârlı; akşam için ince bir hırka.",
+   "Gün batımına yarım saat kala çıkarsan hem gündüz hem gece manzarasını görürsün."
+  ],
+  "dikkat": [
+   "Kulenin kafesi pahalı; manzara için oturmak şart değil."
+  ],
+  "turkiye": "Galata Kulesi'nden manzara izlemeye benzer, ama yükseklik iki katından fazla ve altında bir nehir akıyor.",
+  "terim": [
+   "hidiv",
+   "Nil"
+  ]
+ },
+ {
+  "id": "gize-piramitleri",
+  "ad": "Gize Piramitleri",
+  "ulke": "EG",
+  "lat": 29.9792,
+  "lon": 31.1342,
+  "yaricap": 2000,
+  "eslesme": [
+   "gize",
+   "giza",
+   "gize piramitleri",
+   "gize piramitleri · keops",
+   "keops",
+   "kefren",
+   "mikerinos",
+   "büyük piramit"
+  ],
+  "ozet": "Antik dünyanın yedi harikasından ayakta kalan tek yapı: Keops, Kefren ve Mikerinos piramitleri.",
+  "neden": "Fotoğraflardan bilinen bir şeyi ilk kez gözle görmenin şaşkınlığı burada gerçekten yaşanır. Büyük Piramit yaklaşık 2,3 milyon taş bloktan oluşuyor ve 3.800 yıl boyunca dünyanın en yüksek insan yapısıydı. Panorama noktasından bütün piramitler tek karede; sabahın erken saati hem serin hem sakin.",
+  "tarih": "Piramitler Dördüncü Hanedan firavunları için yaklaşık MÖ 2600–2500 arasında yapıldı: önce Keops (Hufu), sonra oğlu Kefren (Hafre) ve onun oğlu Mikerinos (Menkaure). Büyük Piramit başlangıçta 146 metreydi; dış kaplama taşları sonraki yüzyıllarda Kahire'nin yapılarında kullanıldı. Yakındaki işçi köyü kazıları, yapımında köle değil ücretli işçilerin çalıştığını gösterdi.",
+  "gez": [
+   {
+    "ad": "Büyük Piramit (Keops)",
+    "not": "İçine girmek ayrı ve pahalı bilet; dar, dik ve sıcak bir koridor. Kapalı yer korkusu olan girmesin.",
+    "sure": "30–45 dk"
+   },
+   {
+    "ad": "Panorama noktası",
+    "not": "Bütün piramitler tek karede; deve fotoğrafları burada.",
+    "sure": "20 dk"
+   },
+   {
+    "ad": "Kefren piramidi",
+    "not": "Tepesinde dış kaplama taşlarından bir parça hâlâ duruyor.",
+    "sure": "15 dk"
+   }
+  ],
+  "ye": [
+   {
+    "ad": "Piramit manzaralı lokantalar",
+    "ne": "Plato çıkışındaki teraslarda Mısır mutfağı.",
+    "fiyat": "Ana yemek 300–800 EGP",
+    "not": "Manzaranın parası ödenir; turda öğle yemeği zaten var."
+   }
+  ],
+  "al": [
+   {
+    "ad": "Taş piramit ve sfenks figürleri",
+    "ne": "Kaymaktaşı ve bazalt hatıralıklar.",
+    "fiyat": "Küçük 100–500 EGP",
+    "dikkat": "Seyyar satıcılar 'bir dolar' der, sonra 'tanesi bir dolar' olur; parayı vermeden toplamı söylet."
+   }
+  ],
+  "gezgin": [
+   "Deveci ve atçılar 'bedava fotoğraf', 'hediye' der, sonra para ister: hiçbir şeyi elden alma, fiyatı binmeden netleştir.",
+   "Plato bileti piramidin içini kapsamaz: Büyük Piramit'in içi ve bazı mezarlar ayrı bilet.",
+   "Platonun yeni girişinden içeride servis araçları dolaşıyor; uzun yürüyüşü kısaltır.",
+   "Sabah 8–10 arası hem serin hem kalabalık az."
+  ],
+  "dikkat": [
+   "Piramitlere tırmanmak kesinlikle yasak, cezası ağır.",
+   "Kasımda öğlen 25 derece civarı ve güneş sert: şapka, su, güneş kremi.",
+   "Kötü görünen ata ya da deveye binme."
+  ],
+  "turkiye": "Türkiye'de karşılaştırılacak bir yapı yok; Göbeklitepe piramitlerden yaklaşık yedi bin yıl daha eski, ama ölçek bambaşka. Bilet fiyatları Türkiye'deki ören yerlerinin birkaç katı (plato yabancıya yaklaşık 700 EGP, piramidin içi ayrıca).",
+  "terim": [
+   "firavun",
+   "hiyeroglif",
+   "mastaba",
+   "UNESCO Dünya Mirası",
+   "bakşiş"
+  ]
+ },
+ {
+  "id": "sfenks",
+  "ad": "Büyük Sfenks",
+  "ulke": "EG",
+  "lat": 29.9753,
+  "lon": 31.1375,
+  "yaricap": 500,
+  "eslesme": [
+   "sfenks",
+   "büyük sfenks",
+   "sphinx",
+   "ebülhevl"
+  ],
+  "ozet": "Kefren piramidinin önünde, tek kayadan oyulmuş, aslan gövdeli ve insan başlı dev heykel.",
+  "neden": "Yaklaşık 73 metre uzunluğu ve 20 metre yüksekliğiyle bilinen en büyük tek parça heykellerden. Arapçadaki adı 'Ebü'l-Hevl', yani 'dehşetin babası'. Yanındaki vadi tapınağından bakınca piramitle aynı karede durur.",
+  "tarih": "Büyük olasılıkla Kefren döneminde, MÖ 2500 civarında yapıldı. Yüzyıllarca boynuna kadar kuma gömülü kaldı; IV. Tutmosis'in onu kumdan kurtardığını anlatan 'Rüya Steli' hâlâ pençelerinin arasında. Burnu Napolyon'un askerlerinden çok önce kırıktı: 1737'deki çizimlerde de burunsuz.",
+  "gez": [
+   {
+    "ad": "Sfenks seyir alanı",
+    "not": "Önden ve yandan; piramitle aynı karede fotoğraf.",
+    "sure": "20 dk"
+   },
+   {
+    "ad": "Kefren Vadi Tapınağı",
+    "not": "Granit bloklardan, Sfenks'in hemen yanında.",
+    "sure": "15 dk"
+   }
+  ],
+  "ye": [],
+  "al": [],
+  "gezgin": [
+   "Kalabalık sabah erken azalır; fotoğraf için en iyi saat o."
+  ],
+  "dikkat": [
+   "Çıkış yolunda satıcılar yoğun; yürümeye devam et."
+  ],
+  "turkiye": "Alacahöyük'teki Hitit sfenksleri bundan bin yıldan fazla sonra yapıldı ve çok daha küçük.",
+  "terim": [
+   "firavun"
+  ]
+ },
+ {
+  "id": "buyuk-misir-muzesi",
+  "ad": "Büyük Mısır Müzesi",
+  "ulke": "EG",
+  "lat": 29.9946,
+  "lon": 31.1191,
+  "yaricap": 800,
+  "eslesme": [
+   "büyük mısır müzesi",
+   "grand egyptian museum",
+   "yeni kahire müzesi",
+   "kahire müzesi"
+  ],
+  "ozet": "Piramitlerin iki kilometre yakınında, tek bir uygarlığa ayrılmış dünyanın en büyük müzesi; Tutankamon'un hazinesi ilk kez bir arada.",
+  "neden": "Girişte 11 metrelik II. Ramses heykeli, ardından firavun heykelleriyle dolu Büyük Merdiven ve tepesinde piramitlere bakan cam cephe. Tutankamon'un mezarından çıkan beş binden fazla eser iki dev salonda ilk kez birlikte sergileniyor.",
+  "tarih": "Yapımına 2000'lerin başında başlandı; Tutankamon salonlarıyla birlikte tamamı Kasım 2025'te açıldı. II. Ramses heykeli 2006'da Kahire'deki Ramses Meydanı'ndan buraya taşındı. Keops'un 4.500 yıllık Güneş Teknesi de artık bu müzede.",
+  "gez": [
+   {
+    "ad": "Büyük Salon ve II. Ramses",
+    "not": "Girişte; hemen fotoğraf.",
+    "sure": "10 dk"
+   },
+   {
+    "ad": "Büyük Merdiven",
+    "not": "Heykellerle dolu merdivenin tepesinden piramit manzarası.",
+    "sure": "30 dk"
+   },
+   {
+    "ad": "Tutankamon salonları",
+    "not": "Altın maske, tahtlar, savaş arabaları.",
+    "sure": "1–1,5 sa"
+   },
+   {
+    "ad": "Keops'un Güneş Teknesi",
+    "not": "Ayrı bölümde.",
+    "sure": "20 dk"
+   }
+  ],
+  "ye": [
+   {
+    "ad": "Müze kafeleri",
+    "ne": "Kahve, sandviç.",
+    "fiyat": "Şehrin iki-üç katı",
+    "not": "Turda öğle yemeği dışarıda veriliyor."
+   }
+  ],
+  "al": [
+   {
+    "ad": "Müze dükkânı",
+    "ne": "Resmî replika takılar, kitaplar.",
+    "fiyat": "Etiketli, sabit",
+    "dikkat": "Çarşıdan pahalı ama işçilik daha iyi."
+   }
+  ],
+  "gezgin": [
+   "Biletler yalnızca internetten, saatli satılıyor; turda acente ayarlıyor.",
+   "Tutankamon salonları en kalabalık yer: önce oraya git, sonra merdivene dön."
+  ],
+  "dikkat": [
+   "Büyük bir müze: rahat ayakkabı ve en az iki-üç saat.",
+   "Flaşlı fotoğraf yasak."
+  ],
+  "turkiye": "Ölçeği İstanbul Arkeoloji Müzeleri'nin birkaç katı; giriş ücreti de (yabancıya Kasım 2026'dan beri yaklaşık 35 dolar) Türkiye'deki müzelerin birkaç katı.",
+  "terim": [
+   "firavun",
+   "Tutankamon",
+   "hiyeroglif",
+   "kartuş",
+   "mumya"
+  ]
+ },
+ {
+  "id": "suveys-kanali",
+  "ad": "Süveyş Kanalı ve Ahmed Hamdi Tüneli",
+  "ulke": "EG",
+  "lat": 30.0923,
+  "lon": 32.5696,
+  "yaricap": 15000,
+  "eslesme": [
+   "süveyş",
+   "süveyş kanalı",
+   "ahmed hamdi",
+   "ahmed hamdi tüneli",
+   "ahmed hamdi tüneli · süveyş kanalı",
+   "suez"
+  ],
+  "ozet": "Akdeniz'i Kızıldeniz'e bağlayan kanal ve altından Afrika'dan Asya'ya, Sina Yarımadası'na geçiren tünel.",
+  "neden": "Kanalı yoldan görmek zor ama altından geçmek bile bir eşik: bir kıtadan öbürüne geçiyorsun. Dünyanın deniz ticaretinin önemli bir kısmı bu dar sudan geçer. Tünelden çıkınca manzara bir anda Sina'nın çıplak dağlarına döner.",
+  "tarih": "Kanal 17 Kasım 1869'da açıldı. 1956'da Cemal Abdünnasır kanalı millîleştirince İngiltere, Fransa ve İsrail savaş açtı. 1967 savaşından sonra kanal sekiz yıl kapalı kaldı. Tünel 1981'de açıldı; adını 1973 savaşında ölen mühendis tuğgeneral Ahmed Hamdi'den alıyor.",
+  "gez": [
+   {
+    "ad": "Tünel geçişi",
+    "not": "Yaklaşık 1,6 km; birkaç dakika.",
+    "sure": "5 dk"
+   }
+  ],
+  "ye": [
+   {
+    "ad": "Yol üstü dinlenme tesisleri",
+    "ne": "Sina yolunda çay, meyve suyu, atıştırmalık.",
+    "fiyat": "Şehirden pahalı",
+    "not": "Tuvalet molaları burada; bozuk para taşı."
+   }
+  ],
+  "al": [],
+  "gezgin": [
+   "Kontrol noktalarında otobüs durur, pasaportlara bakılabilir; sakin kal, fotoğraf çekme."
+  ],
+  "dikkat": [
+   "Kontrol noktalarını ve askerleri fotoğraflama.",
+   "Pasaportu bagaja değil yanına koy."
+  ],
+  "turkiye": "İstanbul Boğazı gibi iki kıta arasında bir geçit; burada suyun üstünden değil altından geçiliyor.",
+  "terim": [
+   "Sina Yarımadası",
+   "Ekim Savaşı"
+  ]
+ },
+ {
+  "id": "el-tor",
+  "ad": "Tor (El-Tor)",
+  "ulke": "EG",
+  "lat": 28.2417,
+  "lon": 33.6236,
+  "yaricap": 8000,
+  "eslesme": [
+   "el-tor",
+   "et-tur",
+   "tor sina"
+  ],
+  "ozet": "Sina'nın batı kıyısında, Güney Sina'nın yönetim merkezi; hacıların eski karantina limanı.",
+  "neden": "Kahire–Şarm yolunun ortasında bir mola yeri. Yakınındaki Hammam Musa sıcak su kaynakları yerli halkın sevdiği bir yer.",
+  "tarih": "19. yüzyılın ortasından 20. yüzyılın ortasına kadar Hicaz'dan dönen hacılar burada karantinaya alınırdı.",
+  "gez": [
+   {
+    "ad": "Hammam Musa",
+    "not": "Sıcak su kaynağı.",
+    "sure": "1 sa"
+   }
+  ],
+  "ye": [],
+  "al": [],
+  "gezgin": [
+   "Yol üstünde mola verilirse tuvalet ve çay için."
+  ],
+  "dikkat": [
+   "Kontrol noktaları sık."
+  ],
+  "turkiye": "Türkiye'deki kaplıca kasabalarını andırır, ama çölün ve denizin arasında.",
+  "terim": [
+   "Sina Yarımadası"
+  ]
+ },
+ {
+  "id": "ras-sudr",
+  "ad": "Ras Sudr",
+  "ulke": "EG",
+  "lat": 29.5856,
+  "lon": 32.7097,
+  "yaricap": 8000,
+  "eslesme": [
+   "ras sudr",
+   "ras sidr"
+  ],
+  "ozet": "Süveyş Körfezi kıyısında, rüzgâr sörfçülerinin sevdiği sade bir sahil kasabası.",
+  "neden": "Kahire'ye en yakın Sina kıyısı; sürekli esen rüzgâr ve sığ deniz uçurtma sörfü için çok uygun.",
+  "tarih": "Petrol sahalarının çevresinde büyüyen bir yerleşim; 2000'lerden sonra tatil köyleri açıldı.",
+  "gez": [
+   {
+    "ad": "Sahil",
+    "not": "Rüzgâr ve uçurtma sörfü.",
+    "sure": "—"
+   }
+  ],
+  "ye": [],
+  "al": [],
+  "gezgin": [
+   "Şarm yolunda geçilir; çoğu tur durmaz."
+  ],
+  "dikkat": [
+   "Rüzgâr sert, akşamları serin."
+  ],
+  "turkiye": "Alaçatı'nın Kızıldeniz kıyısındaki karşılığı gibi.",
+  "terim": [
+   "Sina Yarımadası"
+  ]
+ },
+ {
+  "id": "sarm-el-seyh",
+  "ad": "Şarm El-Şeyh",
+  "ulke": "EG",
+  "lat": 27.9,
+  "lon": 34.32,
+  "yaricap": 15000,
+  "eslesme": [
+   "şarm",
+   "şarm el-şeyh",
+   "sharm",
+   "sharm el sheikh",
+   "sharm el-sheikh"
+  ],
+  "ozet": "Sina'nın güney ucunda, Kızıldeniz'in mercan resifleri üstüne kurulmuş tatil şehri.",
+  "neden": "Şarm'ı Şarm yapan şey kumsal değil, suyun altı: kıyıdan birkaç metre açılınca mercanlar ve rengârenk balıklar başlıyor. Ras Muhammed ve Tiran Boğazı dünyanın en bilinen dalış yerlerinden. Akşamları Naama Koyu ve Soho Meydanı canlanıyor; çöl ise şehrin hemen arkasında.",
+  "tarih": "1960'lara kadar küçük bir balıkçı ve Bedevi yerleşimiydi. 1967'de İsrail Sina'yı işgal etti ve ilk tatil tesisleri o dönemde kuruldu; bölge 1982'de Mısır'a geri verildi. Uluslararası zirveler yapıldığı için 'barış şehri' diye anıldı; 2022'de BM İklim Konferansı (COP27) burada toplandı.",
+  "gez": [
+   {
+    "ad": "Naama Koyu",
+    "not": "Sahil yürüyüş yolu ve akşam hayatı.",
+    "sure": "Akşam"
+   },
+   {
+    "ad": "Eski Pazar ve El-Sahaba Camii",
+    "not": "Şarm el-Maya'da çarşı ve büyük cami.",
+    "sure": "1–2 sa"
+   },
+   {
+    "ad": "Ras Muhammed",
+    "not": "Milli park ve resifler; tekneyle ya da karadan.",
+    "sure": "Yarım gün"
+   },
+   {
+    "ad": "Çöl safarisi",
+    "not": "ATV, buggy ya da deveyle gün batımı ve Bedevi çayı.",
+    "sure": "2–3 sa"
+   }
+  ],
+  "ye": [
+   {
+    "ad": "Balık ve deniz ürünleri",
+    "ne": "Izgara balık, kalamar, karides; Eski Pazar çevresindeki balık lokantalarında.",
+    "fiyat": "Kişi başı 600–1.500 EGP",
+    "not": "Balık tartıyla satılır; pişirmeden önce fiyatı sor."
+   },
+   {
+    "ad": "Bedevi çayı",
+    "ne": "Dağ otlarıyla demlenen tatlı çay.",
+    "fiyat": "Çoğu zaman ikram",
+    "not": "Çöl turlarında sunulur."
+   }
+  ],
+  "al": [
+   {
+    "ad": "Bedevi işlemeleri",
+    "ne": "Renkli işlemeli çanta, şal.",
+    "fiyat": "200–1.000 EGP",
+    "dikkat": "Pazarlık şart."
+   }
+  ],
+  "gezgin": [
+   "Otelden çıkınca taksiler pazarlıklı; fiyatı binmeden netleştir.",
+   "Mercana basmak, dokunmak, kırmak yasak ve cezalı.",
+   "Kasımda deniz suyu yaklaşık 25–26 derece; şnorkel için ideal."
+  ],
+  "dikkat": [
+   "Aslan balığı ve taş balığı zehirlidir; hiçbir canlıya dokunma.",
+   "Güneş kasımda da yakar; suda tişört giy, kremini yenile.",
+   "Şehir dışına çıkarken pasaportu yanına al; Sina'da kontrol noktaları var."
+  ],
+  "turkiye": "Antalya'nın her şey dahil düzenine benzer; fark suyun altında. Dışarıdaki yemek ve tur fiyatları çoğu zaman dolarla söylenir ve Türkiye'den pahalı gelebilir.",
+  "terim": [
+   "mercan resifi",
+   "şnorkel",
+   "Bedevi",
+   "Sina Yarımadası"
+  ]
+ },
+ {
+  "id": "naama",
+  "ad": "Naama Koyu",
+  "ulke": "EG",
+  "lat": 27.9133,
+  "lon": 34.3267,
+  "yaricap": 1500,
+  "eslesme": [
+   "naama",
+   "naama koyu",
+   "naama bay"
+  ],
+  "ozet": "Şarm'ın kalbi: kumsal, yürüyüş yolu, kafeler ve geç saate kadar açık dükkânlar.",
+  "neden": "Akşam olunca Şarm'ın kalabalığı buraya akar: sahil boyunca uzanan yaya yolunda nargile kafeleri, balık lokantaları, hediyelik dükkânları. Koyun suyu sakin, kumsalı yüzmeye uygun.",
+  "tarih": "Şarm'ın ilk otelleri bu koyda açıldı; şehir buradan büyüdü.",
+  "gez": [
+   {
+    "ad": "Sahil yürüyüş yolu",
+    "not": "Akşam serinliğinde.",
+    "sure": "1 sa"
+   },
+   {
+    "ad": "Kumsal",
+    "not": "Sakin su, aileler için uygun.",
+    "sure": "—"
+   }
+  ],
+  "ye": [
+   {
+    "ad": "Nargile ve taze meyve suyu",
+    "ne": "Sahil kafelerinde.",
+    "fiyat": "Nargile 150–400 EGP",
+    "not": "Turistik fiyat; menüyü önce gör."
+   }
+  ],
+  "al": [
+   {
+    "ad": "Hediyelik",
+    "ne": "Tişört, magnet, papirüs, parfüm yağı.",
+    "fiyat": "Değişken",
+    "dikkat": "Parfüm esanslarının çoğu seyreltilmiş; pazarlıkla ve küçük şişe."
+   }
+  ],
+  "gezgin": [
+   "Dükkân önlerinden ısrarla çağrılırsın; gülümse, 'la, şukran' de, yürü.",
+   "Gece geç saatte de kalabalık ve aydınlık."
+  ],
+  "dikkat": [
+   "Bazı lokantalar menü fiyatına servis ve vergi ekler (toplam yüzde 20'yi aşabilir); hesabı kontrol et."
+  ],
+  "turkiye": "Bodrum çarşısının gece hâline benzer; fiyatlar dolar düşünülerek konmuş.",
+  "terim": [
+   "şişa",
+   "bakşiş"
+  ]
+ },
+ {
+  "id": "eski-pazar",
+  "ad": "Eski Pazar ve El-Sahaba Camii",
+  "ulke": "EG",
+  "lat": 27.8663,
+  "lon": 34.295,
+  "yaricap": 800,
+  "eslesme": [
+   "eski pazar",
+   "eski pazar · el-sahaba camii",
+   "old market",
+   "el-sahaba camii",
+   "sahaba camii",
+   "şarm el-maya"
+  ],
+  "ozet": "Şarm el-Maya'daki eski çarşı ve 2017'de açılan, Osmanlı ile Memlük üslubunu birleştiren büyük El-Sahaba Camii.",
+  "neden": "Otellerden sonra Şarm'ın yaşayan şehir yüzünü görmek için en iyi yer. Baharatçılar, balık lokantaları ve kahvehaneler arasında dolaşırken El-Sahaba Camii'nin aydınlatılmış minareleri yol gösterir. Yakındaki Kıpti Semaviler Katedrali de şehir turlarında çoğu kez birlikte gezilir.",
+  "tarih": "Şarm el-Maya, Şarm'ın ilk yerleşimi ve limanı. El-Sahaba Camii 2017'de açıldı; kubbeleri ve minareleri Kahire'nin Memlük ve Osmanlı camilerinden esinlenir.",
+  "gez": [
+   {
+    "ad": "El-Sahaba Camii",
+    "not": "Namaz saatleri dışında gezilebilir; gece ışıklandırması güzel.",
+    "sure": "20 dk"
+   },
+   {
+    "ad": "Eski Pazar",
+    "not": "Baharat, nargile, hediyelik.",
+    "sure": "1 sa"
+   },
+   {
+    "ad": "Semaviler Katedrali",
+    "not": "Kıpti katedrali; zengin iç süsleme.",
+    "sure": "20 dk"
+   }
+  ],
+  "ye": [
+   {
+    "ad": "Balık lokantaları",
+    "ne": "Tezgâhtan balığı seç; ızgara ya da tavada.",
+    "fiyat": "Kişi başı 600–1.500 EGP",
+    "not": "Tartıyı ve fiyatı pişirmeden önce netleştir."
+   }
+  ],
+  "al": [
+   {
+    "ad": "Baharat",
+    "ne": "Kimyon, karkade, mango kurusu.",
+    "fiyat": "100 gr 50–150 EGP",
+    "dikkat": "Kahire'den pahalı; pazarlık et."
+   },
+   {
+    "ad": "Papirüs",
+    "ne": "Baskılı ya da el boyaması.",
+    "fiyat": "100–500 EGP",
+    "dikkat": "Ucuzların çoğu muz yaprağı."
+   }
+  ],
+  "gezgin": [
+   "Şehir turunda akşam yemeği genellikle bu çevrede bir balık lokantasında.",
+   "Pazarda ilk fiyat turist fiyatıdır; yarısından başla."
+  ],
+  "dikkat": [
+   "Camiye omuz ve diz kapalı gir; kadınlar başörtüsüyle."
+  ],
+  "turkiye": "Kuşadası ya da Marmaris çarşılarına benzer; fiyatlar dövizle düşünülmüş.",
+  "terim": [
+   "Kıpti",
+   "Memlükler",
+   "çarşı",
+   "papirüs"
+  ]
+ },
+ {
+  "id": "farsha",
+  "ad": "El-Farsha Kafe",
+  "ulke": "EG",
+  "lat": 27.8498,
+  "lon": 34.3076,
+  "yaricap": 500,
+  "eslesme": [
+   "farsha",
+   "el-farsha",
+   "el-farsha kafe",
+   "farsha cafe"
+  ],
+  "ozet": "Kayalıkların üstüne kurulmuş, minderli, fenerli ve deniz manzaralı Bedevi tarzı kafe.",
+  "neden": "Kayalara asılı gibi duran katlarında, halıların ve fenerlerin arasında Kızıldeniz'e bakarak çay ya da nargile: Şarm'ın en çok fotoğraflanan akşam yerlerinden. Gün batımından önce gidersen hem ışık hem yer bulursun.",
+  "tarih": "Hadaba'nın kıyı kayalıklarında, eski eşya ve halılarla süslenmiş bir mekân; şehir turlarının akşam durağı.",
+  "gez": [
+   {
+    "ad": "Kayalık kenarındaki teraslar",
+    "not": "Gün batımında.",
+    "sure": "1 sa"
+   }
+  ],
+  "ye": [
+   {
+    "ad": "Bedevi çayı, nargile, meyve suyu",
+    "ne": "Minderlere uzanarak.",
+    "fiyat": "İçecek 100–250 EGP",
+    "not": "En az harcama şartı olabilir; oturmadan sor."
+   }
+  ],
+  "al": [],
+  "gezgin": [
+   "Merdivenler dik ve karanlıkta loş; düz tabanlı ayakkabı giy.",
+   "Akşam dolar, yer bulmak zorlaşır."
+  ],
+  "dikkat": [
+   "Kayalık kenarlarda çocuklara dikkat."
+  ],
+  "turkiye": "Kaş ya da Kabak'taki minderli kafelerin çöl ve deniz karışımı hâli.",
+  "terim": [
+   "Bedevi",
+   "şişa"
+  ]
+ },
+ {
+  "id": "soho",
+  "ad": "Soho Meydanı",
+  "ulke": "EG",
+  "lat": 27.9627,
+  "lon": 34.3939,
+  "yaricap": 600,
+  "eslesme": [
+   "soho",
+   "soho meydanı",
+   "soho square"
+  ],
+  "ozet": "Havalimanına yakın, müzikle dans eden fıskiyeleri, kafeleri ve buz barıyla akşam eğlence meydanı.",
+  "neden": "Ailece akşam gezmek için düzenlenmiş, temiz ve sakin bir meydan: müzik eşliğinde fıskiye gösterileri, etrafında lokantalar, bowling ve buzdan yapılmış bir bar.",
+  "tarih": "Yeni Şarm'ın 2000'lerden sonra kurulan eğlence alanlarından.",
+  "gez": [
+   {
+    "ad": "Dans eden fıskiyeler",
+    "not": "Akşamları müzikle.",
+    "sure": "15 dk"
+   },
+   {
+    "ad": "Buz bar",
+    "not": "İçerisi sıfırın altında; kalın giysi veriliyor.",
+    "sure": "20 dk"
+   }
+  ],
+  "ye": [
+   {
+    "ad": "Meydan lokantaları",
+    "ne": "Uluslararası mutfak, kafeler.",
+    "fiyat": "Ana yemek 400–900 EGP",
+    "not": "Turistik fiyat."
+   }
+  ],
+  "al": [],
+  "gezgin": [
+   "Fıskiye gösterisi akşam kalabalığı çeker; erken git."
+  ],
+  "dikkat": [
+   "Taksi fiyatını binmeden sor; dönüş için de aynı fiyatı netleştir."
+  ],
+  "turkiye": "Antalya'daki büyük otel çarşılarının açık hava hâli.",
+  "terim": []
+ },
+ {
+  "id": "ras-muhammed",
+  "ad": "Ras Muhammed Milli Parkı",
+  "ulke": "EG",
+  "lat": 27.7315,
+  "lon": 34.2541,
+  "yaricap": 8000,
+  "eslesme": [
+   "ras muhammed",
+   "ras muhammed milli parkı",
+   "ras mohammed",
+   "ras mohamed",
+   "yolanda",
+   "shark reef"
+  ],
+  "ozet": "Sina'nın en güney ucunda, Kızıldeniz'in en ünlü mercan resiflerinin bulunduğu milli park.",
+  "neden": "Süveyş ve Akabe körfezleri burada birleşir; akıntı besin getirir ve resifler balıkla dolar. Shark ve Yolanda resifleri dünyanın en bilinen dalış noktalarından. Tekneyle gelince şnorkelle bile renkli bir dünyaya bakılır; karadan mangrov ağaçları görülür.",
+  "tarih": "1983'te Mısır'ın ilk milli parkı ilan edildi. Yolanda resifinin dibinde, 1980'de batan bir gemiden saçılmış klozet ve lavabolar hâlâ duruyor — dalgıçların en sevdiği tuhaflık.",
+  "gez": [
+   {
+    "ad": "Shark ve Yolanda resifleri",
+    "not": "Tekne ve dalış turlarının ana noktası.",
+    "sure": "—"
+   },
+   {
+    "ad": "Beyaz Ada",
+    "not": "Denizin ortasında kum dili.",
+    "sure": "1 sa"
+   },
+   {
+    "ad": "Mangrov kanalı",
+    "not": "Karadan gelinirse.",
+    "sure": "20 dk"
+   }
+  ],
+  "ye": [
+   {
+    "ad": "Teknede açık büfe",
+    "ne": "Salata, ızgara tavuk ve köfte, pilav, makarna.",
+    "fiyat": "Tur fiyatında",
+    "not": "Suya girmeden ağır yeme."
+   }
+  ],
+  "al": [],
+  "gezgin": [
+   "Deniz tutmasına yatkınsan teknede değil, tekneden önce ilacını al.",
+   "Mercana basma, dokunma; güneş kremini suya girmeden yarım saat önce sür.",
+   "Maske, palet ve şnorkel teknede kiralanır (parça başı yaklaşık 3 dolar)."
+  ],
+  "dikkat": [
+   "Tüplü dalıştan sonra en az 18 saat uçağa binilmez.",
+   "Milli park giriş ücreti tur fiyatına dahil mi, sor.",
+   "Akıntı güçlü olabilir; rehberden uzaklaşma."
+  ],
+  "turkiye": "Kaş ve Fethiye dalışlarından en büyük fark mercan: Akdeniz'de olmayan renk ve balık bolluğu.",
+  "terim": [
+   "mercan resifi",
+   "şnorkel",
+   "dalış ve uçuş",
+   "Sina Yarımadası"
+  ]
+ },
+ {
+  "id": "beyaz-ada",
+  "ad": "Beyaz Ada",
+  "ulke": "EG",
+  "lat": 27.7443,
+  "lon": 34.1638,
+  "yaricap": 2000,
+  "eslesme": [
+   "beyaz ada",
+   "white island"
+  ],
+  "ozet": "Ras Muhammed açıklarında, turkuaz suyun ortasında bembeyaz bir kum dili.",
+  "neden": "Tekne turlarının en çok fotoğraflanan durağı: sığ, berrak su ve dümdüz beyaz kum. Kenarındaki resiflerde şnorkel yapılır.",
+  "tarih": "Deniz seviyesine göre büyüyüp küçülen bir kum adası; ocak–şubatta su yükselince görülemeyebiliyor.",
+  "gez": [
+   {
+    "ad": "Kum adası",
+    "not": "Yürüyüş ve fotoğraf.",
+    "sure": "30–45 dk"
+   }
+  ],
+  "ye": [],
+  "al": [],
+  "gezgin": [
+   "Kumda gölge yok; şapka ve güneş kremi şart.",
+   "Sığ suda bile resif ayakkabısı işe yarar."
+  ],
+  "dikkat": [
+   "Mercan parçası ya da deniz kabuğu toplamak yasak; havalimanında el konur, ceza kesilebilir."
+  ],
+  "turkiye": "Türkiye kıyılarında benzeri yok.",
+  "terim": [
+   "mercan resifi",
+   "şnorkel"
+  ]
+ },
+ {
+  "id": "ras-um-sid",
+  "ad": "Ras Um Sid",
+  "ulke": "EG",
+  "lat": 27.8482,
+  "lon": 34.3104,
+  "yaricap": 1200,
+  "eslesme": [
+   "ras um sid",
+   "hadaba"
+  ],
+  "ozet": "Hadaba'nın denize uzanan ucunda, deniz feneri ve kıyıdan girilen bir mercan duvarı.",
+  "neden": "Kıyıdan birkaç adımda dik inen bir resif; şnorkel için Şarm'ın en kolay noktalarından. Fener çevresi akşam yürüyüşü yeri.",
+  "tarih": "Hadaba platosu Şarm'ın otellerle dolan ilk bölgelerinden.",
+  "gez": [
+   {
+    "ad": "Resif",
+    "not": "Merdivenli iskeleden.",
+    "sure": "1–2 sa"
+   },
+   {
+    "ad": "Fener çevresi",
+    "not": "Gün batımı.",
+    "sure": "30 dk"
+   }
+  ],
+  "ye": [],
+  "al": [],
+  "gezgin": [
+   "Bazı plajlar ücretli; otel dışından girişte sor."
+  ],
+  "dikkat": [
+   "Dik resif duvarında akıntıya dikkat."
+  ],
+  "turkiye": "Kaş'taki kıyıdan dalışlara benzer.",
+  "terim": [
+   "mercan resifi",
+   "şnorkel"
+  ]
+ },
+ {
+  "id": "tiran-bogazi",
+  "ad": "Tiran Boğazı",
+  "ulke": "EG",
+  "lat": 27.9785,
+  "lon": 34.4636,
+  "yaricap": 6000,
+  "eslesme": [
+   "tiran boğazı",
+   "tiran adası",
+   "jackson resifi",
+   "gordon resifi"
+  ],
+  "ozet": "Şarm'ın kuzeydoğusunda, Akabe Körfezi'nin ağzında dört büyük resifin sıralandığı boğaz.",
+  "neden": "Jackson, Woodhouse, Thomas ve Gordon resifleri tekne turlarının klasik durakları; Gordon resifinde yıllardır yan yatmış bir gemi enkazı var.",
+  "tarih": "Akabe Körfezi'ne açılan tek kapı olduğu için 1956 ve 1967 savaşlarında kilit rol oynadı. Tiran Adası 2017'de Suudi Arabistan'a devredildi.",
+  "gez": [
+   {
+    "ad": "Resifler",
+    "not": "Tekneyle şnorkel ve dalış.",
+    "sure": "Tam gün"
+   }
+  ],
+  "ye": [],
+  "al": [],
+  "gezgin": [
+   "Akıntı güçlü olabilir; rehberin gösterdiği yerden suya gir."
+  ],
+  "dikkat": [
+   "Adaya çıkılmaz."
+  ],
+  "turkiye": "Türkiye'de benzeri yok.",
+  "terim": [
+   "mercan resifi",
+   "şnorkel"
+  ]
+ },
+ {
+  "id": "nabk",
+  "ad": "Nabk Koruma Alanı",
+  "ulke": "EG",
+  "lat": 28.15,
+  "lon": 34.43,
+  "yaricap": 10000,
+  "eslesme": [
+   "nabk",
+   "nabq",
+   "nabk koruma alanı"
+  ],
+  "ozet": "Şarm'ın kuzeyinde mangrov ormanları, kumullar ve Bedevi köyleriyle korunan kıyı.",
+  "neden": "Kalabalıktan uzak: mangrovlar, sığ resifler ve kıyıda yıllardır duran bir gemi enkazı.",
+  "tarih": "1992'de koruma alanı ilan edildi.",
+  "gez": [
+   {
+    "ad": "Mangrovlar",
+    "not": "Sabah erken.",
+    "sure": "1 sa"
+   }
+  ],
+  "ye": [],
+  "al": [],
+  "gezgin": [
+   "Çöl jip turlarıyla gidilir."
+  ],
+  "dikkat": [
+   "Koruma alanında yolların dışına çıkılmaz."
+  ],
+  "turkiye": "Türkiye'de mangrov yok.",
+  "terim": [
+   "Bedevi"
+  ]
+ },
+ {
+  "id": "sarm-havalimani",
+  "ad": "Şarm El-Şeyh Havalimanı",
+  "ulke": "EG",
+  "lat": 27.9795,
+  "lon": 34.3946,
+  "yaricap": 3000,
+  "eslesme": [
+   "şarm el-şeyh havalimanı",
+   "şarm el-şeyh havalimanı (ssh)",
+   "sharm el sheikh airport"
+  ],
+  "ozet": "Sina'nın güneyinin ana havalimanı; Naama Koyu'na yaklaşık 15 dakika.",
+  "neden": "Dönüşün son durağı: güvenlik kontrolleri sıkı, kuyruk uzun olabilir; erken gelmek iyi olur.",
+  "tarih": "1968'de İsrail'in hava üssü olarak kuruldu, 1982'de Mısır'a geçti; sivil terminaller sonradan büyütüldü.",
+  "gez": [
+   {
+    "ad": "Gümrüksüz satış",
+    "not": "Yerel ürün az, fiyatlar dolar.",
+    "sure": "—"
+   }
+  ],
+  "ye": [
+   {
+    "ad": "Kafeler",
+    "ne": "Kahve ve sandviç.",
+    "fiyat": "Şehrin iki-üç katı",
+    "not": "Otelden su ve atıştırmalık al."
+   }
+  ],
+  "al": [],
+  "gezgin": [
+   "Kalan Mısır lirasını burada harca ya da bozdur; Türkiye'de bozdurmak zor.",
+   "Terminale girerken bile güvenlik var; ilk taramaya erken gel."
+  ],
+  "dikkat": [
+   "Mercan, deniz kabuğu ve kum götürmek yasak; bagajda bulunursa el konur."
+  ],
+  "turkiye": "Antalya Havalimanı'nın dış hatlar terminalinin küçük hâli.",
+  "terim": [
+   "cüneyh",
+   "mercan resifi"
+  ]
+ },
+ {
+  "id": "sfenks-havalimani",
+  "ad": "Sfenks Havalimanı",
+  "ulke": "EG",
+  "lat": 30.1092,
+  "lon": 30.8816,
+  "yaricap": 3000,
+  "eslesme": [
+   "sfenks havalimanı",
+   "sfenks havalimanı (spx)",
+   "sphinx airport"
+  ],
+  "ozet": "Kahire'nin batısında, Gize'ye yakın küçük uluslararası havalimanı; çoğunlukla özel seferler iniyor.",
+  "neden": "Kahire Uluslararası Havalimanı'ndan çok daha sakin; piramitlere yaklaşık yarım saat, şehir merkezine bir saat.",
+  "tarih": "Eski bir askerî hava üssü yenilenerek 2019'da sivil uçuşlara açıldı.",
+  "gez": [
+   {
+    "ad": "Vize gişesi",
+    "not": "Pasaport kontrolünden önce bankadan vize (30 dolar).",
+    "sure": "15 dk"
+   }
+  ],
+  "ye": [],
+  "al": [],
+  "gezgin": [
+   "Vize ücretini temiz, yırtıksız dolarla öde; para üstü verilmeyebilir.",
+   "Telefon hattı şehirde Vodafone, Orange, Etisalat ya da WE bayilerinden pasaportla alınır; o zamana kadar otel wi-fi'sine güven."
+  ],
+  "dikkat": [
+   "Saatin bir saat geri gittiğini kontrol et: Mısır kasımda Türkiye'den bir saat geride.",
+   "Drone getirme; gümrükte el konuyor."
+  ],
+  "turkiye": "Türkiye'deki küçük bölge havalimanlarına benzer; kuyruklar kısa.",
+  "terim": [
+   "kapıda vize",
+   "cüneyh"
+  ]
+ },
+ {
+  "id": "kahire-havalimani",
+  "ad": "Kahire Uluslararası Havalimanı",
+  "ulke": "EG",
+  "lat": 30.1219,
+  "lon": 31.4056,
+  "yaricap": 4000,
+  "eslesme": [
+   "kahire havalimanı",
+   "kahire uluslararası havalimanı",
+   "cairo airport"
+  ],
+  "ozet": "Mısır'ın ana havalimanı; şehrin kuzeydoğusunda, merkeze trafiğe göre 40–90 dakika.",
+  "neden": "Tarifeli uçuşların çoğu buraya iner; terminaller arasında servis var.",
+  "tarih": "2. Dünya Savaşı'nda kurulan bir hava üssü 1945'te sivil havalimanına dönüştürüldü.",
+  "gez": [],
+  "ye": [],
+  "al": [],
+  "gezgin": [
+   "Taksi yerine uygulamayla araç çağır; fiyat baştan belli."
+  ],
+  "dikkat": [
+   "Gelişte 'resmî taksi' diye yaklaşan aracılara dikkat."
+  ],
+  "turkiye": "İstanbul havalimanlarından küçük ve daha karmaşık.",
+  "terim": [
+   "kapıda vize"
+  ]
+ },
+ {
+  "id": "kipti-kahire",
+  "ad": "Kıpti Kahire (Eski Kahire)",
+  "ulke": "EG",
+  "lat": 30.0059,
+  "lon": 31.2302,
+  "yaricap": 800,
+  "eslesme": [
+   "kıpti kahire",
+   "eski kahire",
+   "asılı kilise",
+   "muallaka",
+   "coptic cairo",
+   "amr ibn el-as"
+  ],
+  "ozet": "Roma'nın Babil kalesinin içinde Asılı Kilise, Ben Ezra Sinagogu ve Afrika'nın ilk camilerinden Amr ibn el-As.",
+  "neden": "Mısır'ın Hristiyan ve Yahudi geçmişinin en yoğun olduğu küçük bir mahalle: dar sokaklarda kiliseler, Kıpti Müzesi ve rivayete göre Kutsal Aile'nin sığındığı mağaranın üstüne yapılmış Abu Serga Kilisesi.",
+  "tarih": "Burası Roma'nın Babil kalesiydi. Araplar 641'de kaleyi aldı, yanına Fustat'ı ve Amr ibn el-As Camii'ni kurdu. Asılı Kilise, kale kapısının üstüne kurulduğu için 'Muallaka' (asılı) adını taşır.",
+  "gez": [
+   {
+    "ad": "Asılı Kilise",
+    "not": "Ahşap tavan, ikonalar.",
+    "sure": "30 dk"
+   },
+   {
+    "ad": "Kıpti Müzesi",
+    "not": "Erken Hristiyan sanatı.",
+    "sure": "1 sa"
+   },
+   {
+    "ad": "Amr ibn el-As Camii",
+    "not": "Mısır'ın ilk camisinin yeri.",
+    "sure": "20 dk"
+   }
+  ],
+  "ye": [],
+  "al": [],
+  "gezgin": [
+   "Metronun Mar Girgis istasyonu kapının önünde."
+  ],
+  "dikkat": [
+   "Kiliselerde omuz ve diz kapalı; ayin sırasında fotoğraf çekme."
+  ],
+  "turkiye": "Süryani kiliseleriyle akraba bir gelenek: Kıptiler de Süryaniler gibi kadim bir Doğu Hristiyan topluluğu.",
+  "terim": [
+   "Kıpti"
+  ]
+ },
+ {
+  "id": "ibn-tolun",
+  "ad": "İbn Tolun Camii",
+  "ulke": "EG",
+  "lat": 30.0288,
+  "lon": 31.2495,
+  "yaricap": 500,
+  "eslesme": [
+   "ibn tolun",
+   "ibn tolun camii",
+   "ibn tulun",
+   "gayer-anderson"
+  ],
+  "ozet": "Kahire'nin özgün hâliyle ayakta kalan en eski camisi; dışarıdan dolanan minaresi ve dev avlusuyla.",
+  "neden": "Sade ve büyük: avlusu insanı susturur. Dışarıdan dolanan merdivenli minaresine çıkılırsa Kale ve şehir manzarası. Yanındaki Gayer-Anderson Müzesi eski bir Kahire konağının içi.",
+  "tarih": "879'da Abbasilerin Mısır valisi Ahmed ibn Tolun yaptırdı; Irak'taki Samarra camisinden etkilenen minare bu yüzden sarmal.",
+  "gez": [
+   {
+    "ad": "Avlu ve kemerler",
+    "not": "Tuğla ve sıva süslemeler.",
+    "sure": "30 dk"
+   },
+   {
+    "ad": "Minare",
+    "not": "Dışarıdan dolanan merdiven.",
+    "sure": "20 dk"
+   },
+   {
+    "ad": "Gayer-Anderson Müzesi",
+    "not": "Meşrebiyeli eski konak.",
+    "sure": "30 dk"
+   }
+  ],
+  "ye": [],
+  "al": [],
+  "gezgin": [
+   "Kale'ye yürüme mesafesinde; ikisini birleştir."
+  ],
+  "dikkat": [
+   "Minare merdiveninde korkuluk az."
+  ],
+  "turkiye": "Türkiye'de bu dönemden, 9. yüzyıldan ayakta bir cami yok.",
+  "terim": [
+   "meşrebiye"
+  ]
+ },
+ {
+  "id": "muiz",
+  "ad": "Muiz Caddesi ve Bab Züveyle",
+  "ulke": "EG",
+  "lat": 30.0505,
+  "lon": 31.2617,
+  "yaricap": 600,
+  "eslesme": [
+   "muiz",
+   "muiz caddesi",
+   "bab züveyle",
+   "bab zuweila"
+  ],
+  "ozet": "Fatımi Kahire'nin ana caddesi: bir kilometre boyunca camiler, medreseler, sebiller ve şehir kapıları.",
+  "neden": "Ortaçağ İslam mimarisinin en yoğun toplandığı yerlerden; araca kapalı bölümünde akşam ışıklarıyla yürümek ayrı güzel. Güney ucundaki Bab Züveyle'nin minarelerine çıkılırsa çatıların üstünden Kahire.",
+  "tarih": "Cadde 969'da Fatımi şehriyle birlikte açıldı. Bab Züveyle 1092'de yapıldı; 1517'de son Memlük sultanı Tomanbay, Yavuz Sultan Selim'in emriyle bu kapıda asıldı.",
+  "gez": [
+   {
+    "ad": "Kalavun Külliyesi",
+    "not": "Hastane, medrese ve türbe bir arada.",
+    "sure": "30 dk"
+   },
+   {
+    "ad": "Beyt es-Suheymi",
+    "not": "Osmanlı dönemi konak, meşrebiyeler.",
+    "sure": "30 dk"
+   },
+   {
+    "ad": "Bab Züveyle",
+    "not": "Minarelerinden manzara.",
+    "sure": "30 dk"
+   }
+  ],
+  "ye": [],
+  "al": [],
+  "gezgin": [
+   "Han el-Halili'den yürüyerek; akşam en güzel."
+  ],
+  "dikkat": [
+   "Bazı yapılar biletli; birden çok yapıyı kapsayan bilet olabilir, gişede sor."
+  ],
+  "turkiye": "Osmanlı'dan önceki Fatımi ve Memlük katmanlarının bir arada görüldüğü, Türkiye'de benzeri olmayan bir cadde.",
+  "terim": [
+   "Fatımiler",
+   "Memlükler",
+   "sebil",
+   "medrese",
+   "meşrebiye"
+  ]
+ },
+ {
+  "id": "uygarlik-muzesi",
+  "ad": "Ulusal Mısır Uygarlığı Müzesi",
+  "ulke": "EG",
+  "lat": 30.0084,
+  "lon": 31.2479,
+  "yaricap": 600,
+  "eslesme": [
+   "uygarlık müzesi",
+   "ulusal mısır uygarlığı müzesi",
+   "kraliyet mumyaları"
+  ],
+  "ozet": "Firavunların kraliyet mumyalarının karanlık, sessiz bir salonda sergilendiği müze.",
+  "neden": "II. Ramses ve Hatşepsut gibi yirmiden fazla firavunun mumyası burada; yüz yüze bakmak hem tuhaf hem etkileyici.",
+  "tarih": "Mumyalar Nisan 2021'de Tahrir'deki Mısır Müzesi'nden 'Firavunların Altın Geçidi' denen bir törenle taşındı.",
+  "gez": [
+   {
+    "ad": "Kraliyet mumyaları salonu",
+    "not": "Fotoğraf yasak.",
+    "sure": "45 dk"
+   },
+   {
+    "ad": "Ana salon",
+    "not": "Mısır tarihinin özeti.",
+    "sure": "1 sa"
+   }
+  ],
+  "ye": [],
+  "al": [],
+  "gezgin": [
+   "Kıpti Kahire'ye yakın; ikisini birleştir."
+  ],
+  "dikkat": [
+   "Mumya salonunda fotoğraf yasak."
+  ],
+  "turkiye": "Türkiye'de sergilenen bir kral mumyası yok.",
+  "terim": [
+   "mumya",
+   "firavun"
+  ]
+ },
+ {
+  "id": "sakkara",
+  "ad": "Sakkara",
+  "ulke": "EG",
+  "lat": 29.8713,
+  "lon": 31.2165,
+  "yaricap": 4000,
+  "eslesme": [
+   "sakkara",
+   "saqqara",
+   "basamaklı piramit",
+   "zoser"
+  ],
+  "ozet": "Firavun Zoser'in basamaklı piramidi: Mısır'ın ilk büyük taş yapısı.",
+  "neden": "Gize'den daha sakin ve daha eski; çevresindeki mastaba mezarlarının duvar kabartmaları balıkçılığı, tarımı, pazarı şaşırtıcı bir canlılıkla anlatır.",
+  "tarih": "Basamaklı piramit yaklaşık MÖ 2650'de mimar İmhotep'in elinden çıktı; Gize piramitlerinden yaklaşık yüz yıl önce.",
+  "gez": [
+   {
+    "ad": "Zoser'in Basamaklı Piramidi",
+    "not": "İçi restorasyondan sonra açıldı.",
+    "sure": "45 dk"
+   },
+   {
+    "ad": "Mastaba mezarları",
+    "not": "Kabartmalar.",
+    "sure": "1 sa"
+   }
+  ],
+  "ye": [],
+  "al": [],
+  "gezgin": [
+   "Dahşur'la aynı gün gezilir; araç gerekir."
+  ],
+  "dikkat": [
+   "Gölge yok; su ve şapka."
+  ],
+  "turkiye": "Türkiye'de karşılığı yok; Nemrut Dağı'nın tümülüsü bundan 2.500 yıldan fazla sonra.",
+  "terim": [
+   "mastaba",
+   "firavun",
+   "hiyeroglif"
+  ]
+ },
+ {
+  "id": "dahsur",
+  "ad": "Dahşur",
+  "ulke": "EG",
+  "lat": 29.7906,
+  "lon": 31.2094,
+  "yaricap": 4000,
+  "eslesme": [
+   "dahşur",
+   "dahshur",
+   "kırık piramit",
+   "kızıl piramit"
+  ],
+  "ozet": "Kırık Piramit ve Kızıl Piramit: piramit yapmayı öğrenmenin taştan iki denemesi.",
+  "neden": "Firavun Snefru burada iki piramit yaptırdı: birincisinin açısı yarı yolda değiştirildi (Kırık Piramit), ikincisi ilk düz kenarlı 'gerçek' piramit (Kızıl Piramit). Kalabalık neredeyse yok.",
+  "tarih": "MÖ 2600 civarı. Snefru, Keops'un babası; oğlu bu tecrübenin üstüne Gize'de Büyük Piramit'i yaptırdı.",
+  "gez": [
+   {
+    "ad": "Kızıl Piramit",
+    "not": "İçine inilebiliyor; havası ağır.",
+    "sure": "40 dk"
+   },
+   {
+    "ad": "Kırık Piramit",
+    "not": "Kaplama taşlarının çoğu yerinde.",
+    "sure": "30 dk"
+   }
+  ],
+  "ye": [],
+  "al": [],
+  "gezgin": [
+   "Sakkara'yla birleştir; yarım gün."
+  ],
+  "dikkat": [
+   "İşaretli alanın dışına çıkma; çevrede askerî bölge var."
+  ],
+  "turkiye": "Türkiye'de benzeri yok.",
+  "terim": [
+   "firavun"
+  ]
+ },
+ {
+  "id": "fayum",
+  "ad": "Fayum ve Vadi el-Hitan",
+  "ulke": "EG",
+  "lat": 29.2708,
+  "lon": 30.0261,
+  "yaricap": 15000,
+  "eslesme": [
+   "fayum",
+   "fayoum",
+   "vadi el-hitan",
+   "balinalar vadisi"
+  ],
+  "ozet": "Kahire'nin güneybatısında göl ve vaha; çölde 40 milyon yıllık balina fosilleriyle Balinalar Vadisi.",
+  "neden": "Çölün ortasında, burası deniz olduğu zamanlardan kalma bacaklı balina iskeletleri.",
+  "tarih": "Vadi el-Hitan 2005'te UNESCO Dünya Mirası listesine girdi.",
+  "gez": [
+   {
+    "ad": "Balinalar Vadisi",
+    "not": "Açık hava fosil yolu.",
+    "sure": "3 sa"
+   }
+  ],
+  "ye": [],
+  "al": [],
+  "gezgin": [
+   "Kahire'den günübirlik, arazi aracıyla."
+  ],
+  "dikkat": [
+   "Çölde rehbersiz yola çıkma."
+  ],
+  "turkiye": "Türkiye'de benzer bir fosil sahası yok.",
+  "terim": [
+   "vadi",
+   "UNESCO Dünya Mirası"
+  ]
+ },
+ {
+  "id": "iskenderiye",
+  "ad": "İskenderiye",
+  "ulke": "EG",
+  "lat": 31.2001,
+  "lon": 29.9187,
+  "yaricap": 15000,
+  "eslesme": [
+   "iskenderiye",
+   "alexandria"
+  ],
+  "ozet": "Büyük İskender'in kurduğu, antik dünyanın kütüphane ve fener şehri; bugün Mısır'ın Akdeniz kıyısındaki en büyük kenti.",
+  "neden": "Kahire'den çok farklı bir hava: uzun bir sahil yolu, Akdeniz balıkçı lokantaları ve modern Bibliotheca Alexandrina. Antik Fener'in yerinde Kayıtbay Kalesi duruyor.",
+  "tarih": "MÖ 331'de İskender kurdu; Ptolemaioslar döneminde dünyanın bilim merkeziydi. Antik Fener 14. yüzyıldaki depremlerde yıkıldı; Memlük sultanı Kayıtbay 1477'de yerine kaleyi yaptırdı.",
+  "gez": [
+   {
+    "ad": "Kayıtbay Kalesi",
+    "not": "Antik Fener'in yerinde.",
+    "sure": "1 sa"
+   },
+   {
+    "ad": "Bibliotheca Alexandrina",
+    "not": "2002'de açılan dev kütüphane.",
+    "sure": "1 sa"
+   },
+   {
+    "ad": "Kom eş-Şukafa yeraltı mezarları",
+    "not": "Roma dönemi.",
+    "sure": "1 sa"
+   }
+  ],
+  "ye": [
+   {
+    "ad": "Balık ve deniz ürünleri",
+    "ne": "Kıyıdaki balıkçılarda.",
+    "fiyat": "Kişi başı 500–1.200 EGP",
+    "not": "Tartıyla satılır; fiyatı önce sor."
+   }
+  ],
+  "al": [],
+  "gezgin": [
+   "Kahire'den trenle 2,5–3 saat."
+  ],
+  "dikkat": [
+   "Kışın deniz dalgalı; sahilde yüzme yaz işi."
+  ],
+  "turkiye": "İzmir Kordon'una benzer bir sahil şehri havası.",
+  "terim": [
+   "Memlükler"
+  ]
+ },
+ {
+  "id": "luksor",
+  "ad": "Luksor",
+  "ulke": "EG",
+  "lat": 25.6872,
+  "lon": 32.6396,
+  "yaricap": 20000,
+  "eslesme": [
+   "luksor",
+   "luxor",
+   "karnak",
+   "krallar vadisi"
+  ],
+  "ozet": "Antik Teb: Karnak ve Luksor tapınakları, Nil'in batısında Krallar Vadisi; dünyanın en büyük açık hava müzesi.",
+  "neden": "Mısır'ın tapınak ve mezarlarının çoğu burada. Doğu yakada Karnak'ın sütunlu salonu, batı yakada Tutankamon'un da yattığı Krallar Vadisi ve Hatşepsut Tapınağı. Sabah balonla gün doğumu çok sevilir.",
+  "tarih": "Orta ve Yeni Krallık dönemlerinde Mısır'ın başkenti Teb'di. Tutankamon'un mezarı 1922'de Howard Carter tarafından Krallar Vadisi'nde bulundu.",
+  "gez": [
+   {
+    "ad": "Karnak Tapınağı",
+    "not": "134 sütunlu büyük salon.",
+    "sure": "2 sa"
+   },
+   {
+    "ad": "Krallar Vadisi",
+    "not": "Bilet belli sayıda mezarı kapsar.",
+    "sure": "3 sa"
+   },
+   {
+    "ad": "Hatşepsut Tapınağı",
+    "not": "Kayalara yaslanan teraslar.",
+    "sure": "1 sa"
+   }
+  ],
+  "ye": [],
+  "al": [],
+  "gezgin": [
+   "Kahire'den uçakla bir saat, trenle bir gece."
+  ],
+  "dikkat": [
+   "Yazın aşırı sıcak; kasım en iyi mevsim."
+  ],
+  "turkiye": "Ölçeği Efes'in birkaç katı.",
+  "terim": [
+   "firavun",
+   "hiyeroglif",
+   "Tutankamon"
+  ]
+ },
+ {
+  "id": "asvan",
+  "ad": "Asvan",
+  "ulke": "EG",
+  "lat": 24.0889,
+  "lon": 32.8998,
+  "yaricap": 15000,
+  "eslesme": [
+   "asvan",
+   "aswan",
+   "philae"
+  ],
+  "ozet": "Nil'in granit kayalar arasından aktığı, Nubya kültürünün ve Philae Tapınağı'nın şehri.",
+  "neden": "Felukkayla Nil gezintisi, renkli Nubya köyleri ve sulardan kurtarılmak için taşınan İsis Tapınağı.",
+  "tarih": "Asvan Yüksek Barajı 1970'te tamamlandı; arkasında oluşan Nasır Gölü onlarca anıtı tehdit edince UNESCO'nun kurtarma kampanyasıyla Philae ve Ebu Simbel taşındı.",
+  "gez": [
+   {
+    "ad": "Philae Tapınağı",
+    "not": "Tekneyle adaya.",
+    "sure": "1,5 sa"
+   },
+   {
+    "ad": "Felukka gezintisi",
+    "not": "Gün batımında.",
+    "sure": "1 sa"
+   },
+   {
+    "ad": "Nubya köyü",
+    "not": "Renkli evler, Nubya mutfağı.",
+    "sure": "2 sa"
+   }
+  ],
+  "ye": [],
+  "al": [],
+  "gezgin": [
+   "Felukka fiyatını binmeden saat başına netleştir."
+  ],
+  "dikkat": [
+   "Güneş çok sert."
+  ],
+  "turkiye": "Hasankeyf'in sular altında kalmasına benzer bir hikâye; burada anıtların çoğu taşınarak kurtarıldı.",
+  "terim": [
+   "felukka",
+   "UNESCO Dünya Mirası",
+   "Nil"
+  ]
+ },
+ {
+  "id": "ebu-simbel",
+  "ad": "Ebu Simbel",
+  "ulke": "EG",
+  "lat": 22.3372,
+  "lon": 31.6258,
+  "yaricap": 3000,
+  "eslesme": [
+   "ebu simbel",
+   "abu simbel"
+  ],
+  "ozet": "II. Ramses'in kayaya oyulmuş dev tapınakları; 1960'larda bloklara kesilip daha yükseğe taşındı.",
+  "neden": "Dört dev Ramses heykeli ve yılda iki kez, şubat ve ekim sonlarında güneşin tapınağın en içindeki heykelleri aydınlattığı sabahlar.",
+  "tarih": "MÖ 13. yüzyıl. Asvan Barajı'nın gölü yükselince 1964–1968 arasında binden fazla bloğa kesilip yaklaşık 65 metre yukarı taşındı.",
+  "gez": [
+   {
+    "ad": "Büyük Tapınak",
+    "not": "Ramses'in dört heykeli.",
+    "sure": "1 sa"
+   },
+   {
+    "ad": "Nefertari Tapınağı",
+    "not": "Hemen yanında.",
+    "sure": "30 dk"
+   }
+  ],
+  "ye": [],
+  "al": [],
+  "gezgin": [
+   "Asvan'dan sabaha karşı kalkan araçlarla ya da uçakla."
+  ],
+  "dikkat": [
+   "Sudan sınırına yakın; tek başına yola çıkma."
+  ],
+  "turkiye": "Türkiye'de taşınan anıtların hiçbiri bu ölçekte değil.",
+  "terim": [
+   "firavun",
+   "UNESCO Dünya Mirası"
+  ]
+ },
+ {
+  "id": "hurgada",
+  "ad": "Hurgada",
+  "ulke": "EG",
+  "lat": 27.2579,
+  "lon": 33.8116,
+  "yaricap": 15000,
+  "eslesme": [
+   "hurgada",
+   "hurghada",
+   "el guna"
+  ],
+  "ozet": "Kızıldeniz'in Afrika kıyısındaki büyük tatil şehri; adaları ve dalış noktalarıyla.",
+  "neden": "Şarm'ın karşı kıyısı: Giftun adaları, tekne turları ve Luksor'a günübirlik gezilerin çıkış noktası.",
+  "tarih": "Küçük bir balıkçı köyüyken 1980'lerden itibaren tatil kentine dönüştü.",
+  "gez": [
+   {
+    "ad": "Giftun Adası",
+    "not": "Tekneyle; şnorkel.",
+    "sure": "Tam gün"
+   },
+   {
+    "ad": "El Guna",
+    "not": "Kanallarla kurulmuş tatil kasabası.",
+    "sure": "Yarım gün"
+   }
+  ],
+  "ye": [],
+  "al": [],
+  "gezgin": [
+   "Şarm'la arasında mevsime göre feribot seferleri var."
+  ],
+  "dikkat": [
+   "Tekne turlarında can yeleği iste."
+  ],
+  "turkiye": "Antalya'nın Kızıldeniz karşılığı.",
+  "terim": [
+   "mercan resifi",
+   "şnorkel"
+  ]
+ },
+ {
+  "id": "dahab",
+  "ad": "Dahab",
+  "ulke": "EG",
+  "lat": 28.5091,
+  "lon": 34.5136,
+  "yaricap": 8000,
+  "eslesme": [
+   "dahab",
+   "mavi delik",
+   "blue hole"
+  ],
+  "ozet": "Şarm'ın kuzeyinde, sakin ve kafeli bir sahil kasabası; ünlü dalış noktası Mavi Delik'le.",
+  "neden": "Şarm'dan daha rahat ve daha ucuz: deniz kenarında minderli kafeler, Bedevi kampları ve kıyıdan girilen resifler.",
+  "tarih": "Bedevi balıkçı köyüyken 1980'lerden sonra gezginlerin uğrak yeri oldu.",
+  "gez": [
+   {
+    "ad": "Mavi Delik",
+    "not": "Derin dikey bir çukur; yalnız deneyimli dalgıçlar için.",
+    "sure": "Yarım gün"
+   },
+   {
+    "ad": "Sahil yolu",
+    "not": "Kafeler ve resifler.",
+    "sure": "2 sa"
+   }
+  ],
+  "ye": [],
+  "al": [],
+  "gezgin": [
+   "Şarm'dan yaklaşık 1–1,5 saat; günübirlik turlar var."
+  ],
+  "dikkat": [
+   "Mavi Delik'te dalış sınırını aşma; burada çok can kaybı oldu."
+  ],
+  "turkiye": "Kaş'ın daha sakin, çöl kenarındaki hâli.",
+  "terim": [
+   "Bedevi",
+   "mercan resifi"
+  ]
+ },
+ {
+  "id": "sina-dagi",
+  "ad": "Sina Dağı ve Aziz Katerina Manastırı",
+  "ulke": "EG",
+  "lat": 28.5559,
+  "lon": 33.9758,
+  "yaricap": 8000,
+  "eslesme": [
+   "sina dağı",
+   "tur-i sina",
+   "musa dağı",
+   "aziz katerina",
+   "saint catherine"
+  ],
+  "ozet": "Hz. Musa'ya on emrin verildiğine inanılan dağ ve eteğinde, dünyanın hâlâ kullanılan en eski manastırlarından biri.",
+  "neden": "Gece yola çıkıp sabahı 2.285 metrelik zirvede karşılamak Sina'nın en bilinen deneyimi. Manastırın içinde 'yanan çalı' olarak bilinen bitki ve küçük bir cami var.",
+  "tarih": "Manastır 6. yüzyılda İmparator Justinianus döneminde yapıldı. Hz. Muhammed'in manastırı koruma altına aldığına inanılan ahitnamenin bir kopyası burada; aslının 1517'de Yavuz Sultan Selim tarafından İstanbul'a götürüldüğü anlatılır.",
+  "gez": [
+   {
+    "ad": "Zirve yürüyüşü",
+    "not": "Gece 2 civarı başlar, gün doğumunda zirve.",
+    "sure": "5–7 sa"
+   },
+   {
+    "ad": "Aziz Katerina Manastırı",
+    "not": "Ziyaret saatleri kısa.",
+    "sure": "1 sa"
+   }
+  ],
+  "ye": [],
+  "al": [],
+  "gezgin": [
+   "Şarm'dan gece kalkan turlarla gidilir; zirvede mont şart."
+  ],
+  "dikkat": [
+   "Kasımda zirvede sıcaklık sıfıra yaklaşır."
+  ],
+  "turkiye": "Kutsal dağ ve manastır ikilisi Trabzon'daki Sümela'yı andırır.",
+  "terim": [
+   "Sina Yarımadası",
+   "Bedevi"
+  ]
+ },
+ {
+  "id": "siva",
+  "ad": "Siva Vahası",
+  "ulke": "EG",
+  "lat": 29.2032,
+  "lon": 25.5195,
+  "yaricap": 15000,
+  "eslesme": [
+   "siva",
+   "siwa"
+  ],
+  "ozet": "Libya sınırına yakın; tuz gölleri, kerpiç eski şehir Şali ve Amon Kâhini'yle uzak bir vaha.",
+  "neden": "Mısır'ın geri kalanından ayrı bir dünya: Berberi dili, hurma bahçeleri ve tuzlu göllerde yüzmek.",
+  "tarih": "Büyük İskender MÖ 331'de buradaki Amon kâhinine danışmaya gelmişti.",
+  "gez": [
+   {
+    "ad": "Şali",
+    "not": "Kerpiç eski şehir.",
+    "sure": "1 sa"
+   }
+  ],
+  "ye": [],
+  "al": [],
+  "gezgin": [
+   "Kahire'den karayoluyla on saati aşan yol; çoğu kişi geceli gider."
+  ],
+  "dikkat": [
+   "Uzak bölge; kontrol noktaları ve izin gerekebilir."
+  ],
+  "turkiye": "Türkiye'de benzeri yok.",
+  "terim": []
  }
 ]

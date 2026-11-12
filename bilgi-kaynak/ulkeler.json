@@ -414,5 +414,91 @@
   ],
   "tuvalet": "Kafeler ücretsiz.",
   "internet": "Priştine ve Prizren'de iyi."
+ },
+ {
+  "kod": "EG",
+  "ad": "Mısır",
+  "baskent": "Kahire",
+  "para": {
+   "kod": "EGP",
+   "ad": "Mısır lirası (cüneyh)",
+   "kur": "1 USD ≈ 53 EGP · 1 EGP ≈ 0,94 TL (11 Kasım 2026)",
+   "nakit": "Turistik yerlerde dolar da geçer ama lirayla ödemek çoğu zaman daha ucuz çıkar. Parayı banka ya da resmî döviz bürosunda bozdur; sokakta bozduranlardan uzak dur. Bahşiş için küçük banknot (5, 10, 20 lira) hep lazım."
+  },
+  "dil": "Arapça (Mısır ağzı). Turistik yerlerde İngilizce yaygın; tabelaların çoğu iki dilli.",
+  "sozler": [
+   [
+    "Merhaba",
+    "es-selamu aleykum · ahlen"
+   ],
+   [
+    "Teşekkürler",
+    "şukran"
+   ],
+   [
+    "Hayır, teşekkürler",
+    "la, şukran"
+   ],
+   [
+    "Ne kadar?",
+    "bikem?"
+   ],
+   [
+    "Su",
+    "mayye"
+   ],
+   [
+    "Hesap",
+    "el-hisab"
+   ],
+   [
+    "Pahalı",
+    "gali"
+   ],
+   [
+    "Tamam",
+    "maşi"
+   ],
+   [
+    "Yeter, oldu",
+    "halas"
+   ]
+  ],
+  "fiyat": [
+   [
+    "Koşari (kâse)",
+    "30–80 EGP"
+   ],
+   [
+    "Ful ya da tamiyye sandviç",
+    "10–30 EGP"
+   ],
+   [
+    "Çay ya da karkade (kahvehane)",
+    "20–60 EGP"
+   ],
+   [
+    "1,5 lt su (market)",
+    "15–30 EGP"
+   ],
+   [
+    "Şehir içi araç (uygulamayla)",
+    "50–200 EGP"
+   ],
+   [
+    "Piramit platosu bileti (yabancı)",
+    "≈ 700 EGP"
+   ]
+  ],
+  "turkiye": "Sokak yemeği, market ve şehir içi ulaşım Türkiye'den ucuz; müze ve ören yeri biletleri, turistik lokanta ve turlar pahalı. Mısır lirası ile TL neredeyse bire bir: etiketteki sayıyı TL gibi okuyabilirsin.",
+  "dikkat": [
+   "Kasımda Mısır, Türkiye'den bir saat geride (UTC+2).",
+   "Musluk suyu içilmez; buz ve yıkanmış salata konusunda dikkatli ol.",
+   "Askerî tesisleri, polisi ve kontrol noktalarını fotoğraflama; drone getirme.",
+   "Cuma hafta tatili: öğle namazında camiler ziyarete kapanır.",
+   "Mercan, deniz kabuğu ve kum götürmek yasak."
+  ],
+  "tuvalet": "Turistik yerlerde görevli bulunur ve küçük bir bahşiş (5–10 EGP) beklenir. Yanında kâğıt mendil taşı.",
+  "internet": "Otellerde wi-fi var ama yavaş olabilir. Hat Vodafone, Orange, Etisalat ya da WE bayilerinden pasaportla alınır; Türk hattının yurt dışı paketi pahalı olabilir."
  }
 ]

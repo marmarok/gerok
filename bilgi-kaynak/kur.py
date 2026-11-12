@@ -394,10 +394,21 @@ def yayinla(paket=None, kuru=False):
     if kod != 0:
         # Aynı dala akış da yazıyor; arada kalırsak itme reddediliyor.
         # Bir kez yeniden deniyoruz: uzağın üstüne bin, paketi tekrar yaz.
-        # Paket kaynaktan üretildiği için bu kayıpsız bir işlem.
+        #
+        # KAYNAK DOSYALAR KORUNMALI. Eskiden burada yalnızca paket yeniden
+        # yazılıyordu ve "paket kaynaktan üretildiği için kayıpsız" sanılıyordu;
+        # oysa `reset --hard` bu yayınla gelen YENİ kartların kaynağını siliyordu.
+        # Sonuç (13 Kasım 2026'da ölçüldü): telefondaki paket yeni kartlarla
+        # yayında, daldaki kaynakta kartlar yok — bir sonraki kurulum kartları
+        # paketten de silecekti. Kaynak dosyalar sıfırlamadan önce alınıp
+        # sonra geri yazılıyor.
+        kaynaklar = {p.name: p.read_bytes()
+                     for p in (kopya / KAYNAK_KLASOR).glob("*.json")}
         akis._git(kopya, ["fetch", "-q", "--depth", "1", "origin", akis.DAL])
         akis._git(kopya, ["reset", "-q", "--hard", "FETCH_HEAD"])
         (kopya / KAYNAK_KLASOR).mkdir(exist_ok=True)
+        for ad, icerik in kaynaklar.items():
+            (kopya / KAYNAK_KLASOR / ad).write_bytes(icerik)
         (kopya / KAYNAK_KLASOR / "kur.py").write_text(
             Path(__file__).read_text(encoding="utf-8"), encoding="utf-8")
         yol.write_text(metin)
