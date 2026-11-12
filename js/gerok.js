@@ -664,11 +664,17 @@ export function yakinDuraklar(lat, lon, enFazlaMetre = 30000, gerok = aktif) {
 
 // ---- Ülke tespiti ---------------------------------------------------------
 // Sınır geçişlerini kendiliğinden işaretlemek için hangi ülkede olduğumuzu
-// bilmemiz gerekiyor. Tam sınır poligonu yerine, gezilen altı ülkenin kaba
+// bilmemiz gerekiyor. Tam sınır poligonu yerine, gezilen ülkelerin kaba
 // sınır kutuları + duraklara yakınlık yeterli: rota zaten bu ülkelerden geçiyor
 // ve geçişler birbirinden yüzlerce km uzakta.
+//
+// Listede olmayan bir ülkede `ulkeBul` null döner: ne ülke adı yazılır ne de
+// sınır geçişi işlenir — hata da vermez. Yeni bir ülkeye gidilecekse ÖNCE
+// buraya eklenmeli. Mısır kutusu Sina'nın doğusunda komşu kıyılara da
+// taşıyor; kaba kutu yönteminin bedeli, bilerek kabul edildi.
 
 const ULKE_KUTULARI = [
+  { kod: 'EG', ad: 'Mısır',           bayrak: '🇪🇬', kutu: [24.7, 22.0, 36.9, 31.7] },
   { kod: 'RS', ad: 'Sırbistan',       bayrak: '🇷🇸', kutu: [18.8, 42.2, 23.0, 46.2] },
   { kod: 'BA', ad: 'Bosna-Hersek',    bayrak: '🇧🇦', kutu: [15.7, 42.5, 19.7, 45.3] },
   { kod: 'ME', ad: 'Karadağ',         bayrak: '🇲🇪', kutu: [18.4, 41.8, 20.4, 43.6] },

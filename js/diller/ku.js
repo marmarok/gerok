@@ -60,6 +60,7 @@ export const KU = {
   'Türkiye': 'Tirkiye',
   'Bulgaristan': 'Bulgaristan',
   'Yunanistan': 'Yewnanistan',
+  'Mısır': 'Misir',
 
   // -------------------------------------------------------- gerok paketi ---
   'Dosya okunamadı — geçerli bir Gerok paketi değil.':
@@ -307,6 +308,14 @@ export const KU = {
   'Rotanın önündeki haritayı indir': 'Nexşeya pêşiya rê daxîne',
   'Rotanın kalanı · wi-fi bekler': 'Ya mayî ya rê · li benda wi-fiyê ye',
   'Harita paketi': 'Pakêta nexşeyê',
+  'Gezinin haritası': 'Nexşeya rêwîtiyê',
+  "Bu duraklar internetsiz haritada yok. Bir bölgeye dokun; harita oraya gider, sonra “Bu alanı indir”e bas. Ev ya da otel wi-fi'sinde yap.":
+    'Ev rawestgeh di nexşeya bêînternet de tune ne. Li herêmekê bitikîne; nexşe diçe wir, paşê li “Vê deverê daxîne” bitikîne. Vê yekê li ser wi-fiya malê an otêlê bike.',
+  'Bütün durakların haritası telefonda.': 'Nexşeya hemû rawestgehan di telefonê de ye.',
+  'Bütün gezi · yol ayrıntısı': 'Hemû rêwîtî · hûrgiliya rê',
+  'Duraklar arasındaki yolculuk için kaba harita: sokak adı yok, ama yolda nerede olduğunu gösterir.':
+    'Ji bo rêwîtiya navbera rawestgehan nexşeyeke giştî: navên kolanan tê de tune ne, lê di rê de nîşan dide tu li ku yî.',
+  '{0}–{1}. gün': 'rojên {0}an–{1}an',
 
   // -------------------------------- Gün Sonu ve Gezi Sonu (gunsonu.js) ---
   'Günün özeti': 'Kurteya rojê',

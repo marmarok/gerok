@@ -2,6 +2,20 @@
   "aciklama": "Her güncellemede ne eklendi, ne düzeldi, ne çıktı. En yeni en üstte. Bu dosya güncelleme kartında okunuyor; boş bırakılamaz, yayınlama betiği kontrol ediyor.",
   "surumler": [
     {
+      "sayi": 130,
+      "tarih": "2026-11-12",
+      "eklendi": [
+        "Mısır eklendi: uygulama artık Mısır'da olduğunu biliyor. Ülke adı yazılıyor ve Mısır'a girdiğinde ya da çıktığında sınır geçişi zaman çizgisine kendiliğinden işleniyor.",
+        "Gerok → Bağlantı → “Rotanın önündeki haritayı indir” artık internetsiz haritası olmayan bölgeleri tek tek gösteriyor: gezinin her şehri ayrı satırda. Bölgeye dokununca harita oraya gidiyor; “Bu alanı indir” demek yetiyor. En altta bütün gezinin yol haritası da var: şehirler arası yolculukta harita boş kalmasın.",
+        "Harcamada Mısır lirası tanınıyor: “Mısır lirası”, “LE”, “E£”, “pound” ya da “EGP” yazabilirsin; tek toplam hesaplanırken bunlar da çevriliyor."
+      ],
+      "duzeldi": [
+        "Arap harfli ülkelerde harita yazısız kalıyordu: uygulamanın yazı tipinde Arap harfleri yok ve o bölgenin bütün yer ve sokak adları düşüyordu. Artık adın Türkçesi ya da İngilizcesi yazılıyor.",
+        "Harita uyarısı yanlış yere bakıyordu: yalnızca eski Balkanlar haritası telefonda var mı diye soruyordu. O dosya duran telefonda başka bir ülkeye gidilse bile “harita eksik” uyarısı hiç çıkmıyordu, yeni kuranda ise hiç kaybolmuyordu. Artık gezinin duraklarının haritası gerçekten inmiş mi, ona bakılıyor."
+      ],
+      "cikti": []
+    },
+    {
       "sayi": 129,
       "tarih": "2026-08-30",
       "eklendi": [

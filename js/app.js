@@ -5,7 +5,7 @@
 // Neden önbelleğin adına bakmıyoruz: yeni sürüm indiğinde önbellek adı değişiyor
 // ama ekrandaki kod hâlâ eski oluyor — uygulama kendini güncellenmiş sanıyordu.
 // Bu satır ekrandaki dosyanın içinde olduğu için yalan söyleyemiyor.
-const BU_SURUM = 'gerok-129-20260830-210145';
+const BU_SURUM = 'gerok-130-20261112-235751';
 
 import * as veri from './veri.js';
 import * as iz from './iz.js';
@@ -13,7 +13,7 @@ import * as gerok from './gerok.js';
 import * as kayit from './kayit.js';
 import { haritaKur, haritaGuncelle, haritaBoyutTazele, konumaGit, hepsiniGoster,
          kipDegistir, aktifKipAl, haritaMerkezi, durakTiklamasi,
-         duragaUc, gorunenKutu, hareketDinle, hareketiBirak } from './harita.js';
+         duragaUc, gorunenKutu, hareketDinle, hareketiBirak, kutuyaOtur } from './harita.js';
 import * as haritaAlan from './harita-alan.js';
 import { gunSonuAc, geziSonuAc, baslangicKaydiAc, bitisKaydiAc, mektupAc } from './gunsonu.js';
 import { paketGonder, paketAl, yedekAl, sonYedekZamani, yedekSina,
@@ -4760,8 +4760,8 @@ async function isCalistir(anahtar, ag, kuyruk, { sessiz = false } = {}) {
     return;
   }
 
-  // Harita kendi akışını açıyor: önce alan seçiliyor, indirme ondan sonra.
-  if (anahtar === 'harita') { haritaAlaniSec(); return; }
+  // Harita kendi akışını açıyor: önce bölge, sonra alan, indirme en son.
+  if (anahtar === 'harita') { haritaBolgeSec(); return; }
 
   const yaz = (m) => { const e = $('#netIlerleme'); if (e) e.textContent = m; kayitBildir(m); };
   yaz(`${is.ad}…`);
@@ -5563,15 +5563,69 @@ async function tamHaritayiSilSor(boyut) {
 
 
 /**
+ * "Rotanın önündeki haritayı indir" — hangi bölge?
+ *
+ * Eskiden doğrudan alan seçme çubuğu açılıyordu ve harita o an nereye
+ * bakıyorsa orada duruyordu: başka bir ülkeye gidecek biri gideceği şehri
+ * haritada elle bulmak zorundaydı. Şimdi haritası telefonda olmayan duraklar
+ * bölge bölge listeleniyor; bölgeye dokununca harita oraya oturuyor ve
+ * indirme çubuğu açılıyor. En altta bütün gezinin kaba haritası: duraklar
+ * arasındaki uzun yolculuk internetsiz bomboş kalmasın.
+ */
+async function haritaBolgeSec() {
+  const bolgeler = await baglanti.haritasizBolgeler().catch(() => []);
+  const gezi = baglanti.geziKutusu();
+  if (!bolgeler.length && !gezi) { haritaAlaniSec(); return; }
+
+  const gunYazi = (g) => !g.length ? '' : g.length === 1
+    ? ç`${g[0]}. gün` : ç`${g[0]}–${g[g.length - 1]}. gün`;
+
+  ortuAc(`
+    <div class="ortu-baslik">${ç`Gezinin haritası`}</div>
+    <div class="ortu-alt">${bolgeler.length
+      ? ç`Bu duraklar internetsiz haritada yok. Bir bölgeye dokun; harita oraya gider, sonra “Bu alanı indir”e bas. Ev ya da otel wi-fi'sinde yap.`
+      : ç`Bütün durakların haritası telefonda.`}</div>
+    ${bolgeler.map((b, i) => `
+      <button class="sec-satir" data-hbolge="${i}">
+        <span class="sec-yazi"><b>${kacis(b.ad)}</b>${b.digerleri.length
+          ? kacis(ç` ve ${b.digerleri.length} tane daha`) : ''}
+          <div class="panel-not">${kacis(gunYazi(b.gunler))}${b.digerleri.length
+            ? ' · ' + kacis(b.digerleri.slice(0, 3).map(d => d.ad).join(', ')) : ''}</div>
+        </span>
+      </button>`).join('')}
+    ${gezi ? `
+      <button class="sec-satir" id="hbGezi">
+        <span class="sec-yazi"><b>${ç`Bütün gezi · yol ayrıntısı`}</b>
+          <div class="panel-not">${ç`Duraklar arasındaki yolculuk için kaba harita: sokak adı yok, ama yolda nerede olduğunu gösterir.`}</div>
+        </span>
+      </button>` : ''}
+    <button class="eylem-dugme" id="hbKapat">${ç`Kapat`}</button>
+  `);
+
+  $('#hbKapat').addEventListener('click', ortuKapat);
+  $$('[data-hbolge]').forEach(el => el.addEventListener('click', () => {
+    const b = bolgeler[+el.dataset.hbolge];
+    ortuKapat();
+    haritaAlaniSec(b.kutu, 'sokak');
+  }));
+  $('#hbGezi')?.addEventListener('click', () => { ortuKapat(); haritaAlaniSec(gezi, 'yol'); });
+}
+
+
+/**
  * "Harita alanı indir" — haritada gördüğün yeri cihaza almak.
  *
  * Neden kutu çizdirmiyoruz: telefonda parmakla dikdörtgen çizmek haritayı
  * kaydırmakla karışıyor ve iki parmakla yakınlaştırmayı bozuyor. Zaten
  * baktığın yeri indirmek hem tek dokunuş hem de ne alacağını GÖRÜYORSUN.
  */
-async function haritaAlaniSec() {
+async function haritaAlaniSec(kutu = null, ayrinti = null) {
   ekranAc('harita');
   await haritaKur();
+  // Bölge listesinden gelindiyse harita o bölgeye oturuyor; düğmelerden
+  // gelen olay nesnesi kutu sayılmasın diye `bati` aranıyor.
+  if (kutu && Number.isFinite(kutu.bati)) kutuyaOtur(kutu);
+  if (ayrinti === 'sokak' || ayrinti === 'yol') alanAyrinti = ayrinti;
   const bar = $('#haritaAlanBar');
   bar.classList.remove('gizli');
   $('#alanAyrinti').textContent = alanAyrinti === 'sokak' ? ç`Sokak` : ç`Yol`;

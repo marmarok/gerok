@@ -293,6 +293,17 @@ export function gorunenKutu() {
            guney: s.getSouth(), kuzey: s.getNorth() };
 }
 
+/**
+ * Haritayı bir kutuya oturt — "gezinin haritası" listesinden bölge seçilince.
+ * Animasyonsuz: alan indirme çubuğu açılmadan harita yerinde olsun, tahmin
+ * de doğru yeri hesaplasın.
+ */
+export function kutuyaOtur(kutu) {
+  if (!harita || !kutu || !Number.isFinite(kutu.bati)) return;
+  harita.fitBounds([[kutu.bati, kutu.guney], [kutu.dogu, kutu.kuzey]],
+    { padding: 20, animate: false, maxZoom: 14 });
+}
+
 /** Harita durduğunda haber ver. Tahmin her kaydırmada değil, durunca yenileniyor. */
 export function hareketDinle(fn) { harita?.on('moveend', fn); }
 export function hareketiBirak(fn) { harita?.off('moveend', fn); }

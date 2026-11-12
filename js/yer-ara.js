@@ -56,7 +56,7 @@ export function sadelestir(s) {
 const ULKE_ADI = {
   MK: 'Kuzey Makedonya', RS: 'Sırbistan', BA: 'Bosna-Hersek', ME: 'Karadağ',
   AL: 'Arnavutluk', XK: 'Kosova', HR: 'Hırvatistan', BG: 'Bulgaristan',
-  GR: 'Yunanistan', TR: 'Türkiye'
+  GR: 'Yunanistan', TR: 'Türkiye', EG: 'Mısır'
 };
 
 /**

@@ -131,6 +131,13 @@ const PARA_TAKMA = {
   bam: 'bam', km: 'bam', mark: 'bam', marka: 'bam',
   bgn: 'bgn', lev: 'bgn', leva: 'bgn',
   gbp: 'gbp', chf: 'chf', ron: 'ron', leu: 'ron',
+  // Mısır lirası: Türkçede "Mısır lirası", yerinde "pound", Arapçası
+  // "cüneyh"; fiyat etiketlerinde "LE" ve "E£". Tek başına "lira" yine
+  // Türk lirası kalıyor — belirsizi uydurmuyoruz.
+  egp: 'egp', le: 'egp', 'l.e': 'egp', 'e£': 'egp', '£e': 'egp',
+  'mısır lirası': 'egp', 'misir lirasi': 'egp', 'mısır': 'egp', 'misir': 'egp',
+  pound: 'egp', paund: 'egp', 'cüneyh': 'egp', cuneyh: 'egp',
+  gineh: 'egp', geneh: 'egp', 'جنيه': 'egp', 'ج.م': 'egp',
 };
 
 export function paraKodu(ham) {
@@ -592,12 +599,97 @@ export async function durakBilgileriniGetir(ilerleme = null) {
 
 // ======================================================= 4) HARİTA =========
 //
-// Harita paketi zaten Gerok → bu telefon'dan indiriliyor; buradaki iş onu
-// kuyruğun bir parçası yapıyor: bir eksik varsa bağlantı panelinde görünsün.
+// Kuyruktaki iş: gezinin durakları internetsiz haritada var mı?
+//
+// Eskiden yalnızca 375 MB'lık eski tam haritanın telefonda durup durmadığına
+// bakıyordu. O dosya artık hiç inmiyor ve yalnızca Balkanlar'ı kapsıyordu:
+// yeni kuranda iş sonsuza dek "bekliyor" kalıyor, o dosyası olanda ise —
+// başka bir ülkeye gidiyor olsa bile — hiç görünmüyordu. Yolda internet
+// yokken harita bomboş açılır ve önceden hiçbir şey uyarmamış olurdu.
+//
+// Soru şimdi doğru soruluyor: bu gezinin henüz geride kalmamış durakları,
+// SOKAK ayrıntısıyla inmiş bir alanın içinde mi? Olmayanlar yakınlığa göre
+// bölgelere toplanıyor; bağlantı panelinden bölgeye dokununca harita oraya
+// oturuyor, geriye "Bu alanı indir" demek kalıyor.
+
+const BOLGE_KM = 60;      // bölgenin ilk durağına bu kadar yakın olan aynı bölgede
+const SOKAK_Z = 14;       // durak çevresinde gezilir; yol ayrıntısı yetmez
+
+function kmArasi(a, b) {
+  const r = Math.PI / 180;
+  const dLat = (b.lat - a.lat) * r, dLon = (b.lon - a.lon) * r;
+  const s = Math.sin(dLat / 2) ** 2 +
+    Math.cos(a.lat * r) * Math.cos(b.lat * r) * Math.sin(dLon / 2) ** 2;
+  return 2 * 6371 * Math.asin(Math.min(1, Math.sqrt(s)));
+}
+
+// Durakları saran kutu; her durak kendi yarıçapı kadar (en az 1,5 km)
+// genişletiliyor ki durak kenarda kalıp çevresi boş inmesin.
+function durakKutusu(liste) {
+  let bati = 180, dogu = -180, guney = 90, kuzey = -90;
+  for (const d of liste) {
+    const km = Math.max(1.5, (+d.yaricap || 0) / 1000);
+    const dLat = km / 111;
+    const dLon = km / (111 * Math.max(0.2, Math.cos(d.lat * Math.PI / 180)));
+    bati = Math.min(bati, d.lon - dLon); dogu = Math.max(dogu, d.lon + dLon);
+    guney = Math.min(guney, d.lat - dLat); kuzey = Math.max(kuzey, d.lat + dLat);
+  }
+  return { bati, dogu, guney, kuzey };
+}
+
+function konumluDuraklar() {
+  return gerok.duraklar()
+    .map(d => ({ ...d, lat: +d.lat, lon: +d.lon }))
+    .filter(d => Number.isFinite(d.lat) && Number.isFinite(d.lon));
+}
+
+/** Haritası telefonda olmayan duraklar, bölge bölge. Rota sırasıyla. */
+export async function haritasizBolgeler() {
+  const { inenAlanlar } = await import('./harita-alan.js');
+  const alanlar = (await inenAlanlar()).filter(a => (a.enFazlaZ ?? 0) >= SOKAK_Z);
+  const kapsaniyor = (d) => alanlar.some(({ kutu: k }) => k &&
+    d.lat >= k.guney && d.lat <= k.kuzey && d.lon >= k.bati && d.lon <= k.dogu);
+  const bugun = gerok.bugununGunu()?.no ?? 0;
+
+  const eksik = konumluDuraklar()
+    .filter(d => d.gun == null || d.gun >= bugun)     // geride kalan günler sorulmuyor
+    .filter(d => !kapsaniyor(d));
+
+  const bolgeler = [];
+  for (const d of eksik) {
+    const b = bolgeler.find(x => kmArasi(x.duraklar[0], d) <= BOLGE_KM);
+    if (b) b.duraklar.push(d); else bolgeler.push({ duraklar: [d] });
+  }
+  // Bölgenin adı havalimanı olmayan ilk durak: "… Havalimanı ve 12 tane
+  // daha" şehri anlatmıyor, şehrin içindeki bir durağın adı anlatıyor.
+  return bolgeler.map(b => {
+    const bas = b.duraklar.find(d => d.tur !== 'havalimani') || b.duraklar[0];
+    return {
+      ad: bas.ad,
+      digerleri: b.duraklar.filter(d => d !== bas),
+      duraklar: b.duraklar,
+      gunler: [...new Set(b.duraklar.map(d => d.gun).filter(g => g != null))].sort((x, y) => x - y),
+      kutu: durakKutusu(b.duraklar)
+    };
+  });
+}
+
+/**
+ * Bütün gezinin kaba haritası için kutu — duraklar arasındaki yolculuk
+ * (iki şehir arasında yedi saatlik bir otobüs gibi) internetsiz boş kalmasın.
+ * Gezinin kendi ülkeleri dışındaki duraklar (evin yanındaki havalimanı)
+ * kutuyu bir ucundan öbür ülkeye uzatmasın diye dışarıda bırakılıyor.
+ */
+export function geziKutusu() {
+  const ulkeler = gerok.aktifGerok()?.ulkeler || [];
+  let liste = konumluDuraklar();
+  const ic = liste.filter(d => !d.ulke || ulkeler.includes(d.ulke));
+  if (ulkeler.length && ic.length) liste = ic;
+  return liste.length ? durakKutusu(liste) : null;
+}
 
 export async function haritaBekliyorMu() {
-  const { haritaVarMi } = await import('./harita.js');
-  return !(await haritaVarMi());
+  return (await haritasizBolgeler()).length > 0;
 }
 
 // ======================================================== KUYRUK ============
@@ -638,7 +730,7 @@ export const ISLER = [
     // yerine kaç megabayt olduğunu söylüyor.
     boyutYazi: ç`Harita paketi`,
     buyuk: true,
-    bekleyen: async () => (await haritaBekliyorMu()) ? 1 : 0,
+    bekleyen: async () => (await haritasizBolgeler()).length,
     calistir: null            // arayüz kendi indirme akışını açıyor
   }
 ];

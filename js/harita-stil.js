@@ -18,8 +18,26 @@ const YAZI = 'yazi/{fontstack}/{range}.pbf';
 //
 // İkinci satır yalnızca yazı Latin DEĞİLKEN ekleniyor. Latin adlarda eklenseydi
 // OSM'deki tuhaf çeviriler de gelirdi — okunabilen bir adı bozmanın anlamı yok.
+//
+// ÇİZEMEDİĞİMİZ YAZI: yazı tipi dosyalarımızda yalnızca Latin, Yunan ve Kiril
+// harfleri var. Arapça bir ad istenince MapLibre o harflerin dosyasını ister,
+// dosya yok (404) ve o karonun o katmandaki BÜTÜN yazıları düşer — Arap harfli
+// bir şehirde harita yazısız kalıyordu. Ayrıca Arap harfi sağdan sola eklentisi olmadan
+// kopuk ve ters çizilir; okunmaz.
+// `is-supported-script` tam bunu soruyor (eklenti yokken sağdan sola yazıya
+// "hayır" diyor). `script` alanı ek güvence: Çin, Gürcü, Ermeni gibi
+// dosyamızda olmayan yazılar için. Okunamayacak adın yerine Türkçesi ya da
+// İngilizcesi yazılıyor; o da yoksa hiçbir şey — bozuk yazıdan iyidir.
+const CIZILEBILIR = ['all',
+  ['is-supported-script', ['coalesce', ['get', 'name'], '']],
+  ['any', ['!', ['has', 'script']],
+    ['in', ['get', 'script'], ['literal', ['Latin', 'Greek', 'Cyrillic']]]]
+];
+const OKUNUR_KARSILIK = ['coalesce', ['get', 'name:tr'], ['get', 'name:en'], ''];
+
 const YER_ADI = [
   'case',
+  ['!', CIZILEBILIR], OKUNUR_KARSILIK,
   ['all',
     ['has', 'script'], ['!=', ['get', 'script'], 'Latin'],
     ['any', ['has', 'name:tr'], ['has', 'name:en']]],
@@ -27,15 +45,20 @@ const YER_ADI = [
   ['coalesce', ['get', 'name'], ['get', 'name:en'], '']
 ];
 
-// Ülke adlarında Türkçesi her zaman yazılıyor: altı ülke, altısı da bilinen ad.
+// Ülke adlarında Türkçesi her zaman yazılıyor: gezilen ülkelerin hepsi bilinen ad.
 const ULKE_ADI = [
   'case',
+  ['!', CIZILEBILIR], OKUNUR_KARSILIK,
   ['all', ['has', 'name:tr'], ['!=', ['get', 'name:tr'], ['get', 'name']]],
   ['concat', ['get', 'name'], '\n', ['get', 'name:tr']],
   ['coalesce', ['get', 'name'], '']
 ];
 
-const YOL_ADI = ['coalesce', ['get', 'name'], ''];
+const YOL_ADI = [
+  'case',
+  ['!', CIZILEBILIR], OKUNUR_KARSILIK,
+  ['coalesce', ['get', 'name'], '']
+];
 
 const RENKLER = {
   gunduz: {
