@@ -1,6 +1,6 @@
 {
  "bicim": 1,
- "zaman": "2026-11-16T19:35:20+03:00",
+ "zaman": "2026-11-16T21:45:39+03:00",
  "kadans": "saatlik",
  "durum": "iyi",
  "sayilar": {
@@ -9,8 +9,8 @@
   "gecen": 5,
   "bilinen": 0,
   "sorun": 0,
-  "sure": 0.8,
-  "kosu": 1325
+  "sure": 0.9,
+  "kosu": 1327
  },
  "sorunlar": [],
  "bilinenler": [],
@@ -98,20 +98,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "5082cc157db1",
-   "t": 1794601425286,
-   "onem": "iyi",
-   "baslik": "Söylediğim sorunlar kapandı",
-   "govde": "Hepsi geçti. 5/5 kontrol · 38 ayrı sınama."
-  },
-  {
-   "id": "5552e960d966",
-   "t": 1794622269741,
-   "onem": "sorun",
-   "baslik": "2 sorun buldum",
-   "govde": "Uygulamanızda iki önemli bakım ihtiyacı bulunuyor. İlk olarak, en son telefon yedeğiniz 77.7 gün önce alındığı için verilerinizin güncel bir kopyası mevcut değil; uygulamanın yedeğini hemen tazelemeniz gerekiyor. İkinci olarak, Kurmancî dil seçeneğinde \"app.js\" dosyasındaki bir cümlenin çevirisi eksik kalmış; bu eksik metnin tercümesini tamamlamanız faydalı olacaktır.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 77.7 gün önce, 378 MB — 14 günden eski\n• [yuksek] Kurmancî sözlüğü tam\n   1 çeviri eksik: ['app.js: Bu duraklar internetsiz haritada yok. Bir bö']"
-  },
   {
    "id": "f55f333fe0d1",
    "t": 1794624860504,
@@ -272,6 +258,20 @@
    "onem": "iyi",
    "baslik": "Söylediğim sorunlar kapandı",
    "govde": "Hepsi geçti. 5/5 kontrol · 38 ayrı sınama."
+  },
+  {
+   "id": "bc579bf5eb7e",
+   "t": 1794850837010,
+   "onem": "sorun",
+   "baslik": "2 sorun buldum",
+   "govde": "• [kritik] Canlı site ayakta\n   URLError: <urlopen error [Errno 51] Network is unreachable>\n• [kritik] Canlı index.html açılıyor\n   <urlopen error [Errno 51] Network is unreachable>"
+  },
+  {
+   "id": "20c2e37fbc3b",
+   "t": 1794854739425,
+   "onem": "iyi",
+   "baslik": "Söylediğim sorunlar kapandı",
+   "govde": "Hepsi geçti. 5/5 kontrol · 38 ayrı sınama."
   }
  ],
  "bekleyen": [
@@ -312,18 +312,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-11-14T21:06:11+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
-  {
-   "t": "2026-11-14T22:11:21+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
   {
    "t": "2026-11-14T23:16:26+03:00",
    "k": "saatlik",
@@ -548,6 +536,18 @@
   },
   {
    "t": "2026-11-16T19:35:20+03:00",
+   "k": "saatlik",
+   "g": 5,
+   "n": 5
+  },
+  {
+   "t": "2026-11-16T20:40:36+03:00",
+   "k": "saatlik",
+   "g": 3,
+   "n": 5
+  },
+  {
+   "t": "2026-11-16T21:45:39+03:00",
    "k": "saatlik",
    "g": 5,
    "n": 5
