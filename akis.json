@@ -1,6 +1,6 @@
 {
  "bicim": 1,
- "zaman": "2026-11-16T09:48:13+03:00",
+ "zaman": "2026-11-16T15:14:29+03:00",
  "kadans": "saatlik",
  "durum": "iyi",
  "sayilar": {
@@ -9,8 +9,8 @@
   "gecen": 5,
   "bilinen": 0,
   "sorun": 0,
-  "sure": 0.8,
-  "kosu": 1314
+  "sure": 3.6,
+  "kosu": 1320
  },
  "sorunlar": [],
  "bilinenler": [],
@@ -98,34 +98,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "ed83d2281801",
-   "t": 1794558444224,
-   "onem": "iyi",
-   "baslik": "Söylediğim sorunlar kapandı",
-   "govde": "Hepsi geçti. 5/5 kontrol · 38 ayrı sınama."
-  },
-  {
-   "id": "fa12bbf7c90d",
-   "t": 1794577828338,
-   "onem": "sorun",
-   "baslik": "2 sorun buldum",
-   "govde": "Uygulamanızda telefon yedeğinin çok eski kaldığı ve Kurmanca sözlükte tek bir çevirinin eksik olduğu tespit edildi. Telefon yedeğini yenilemeniz ve `app.js` dosyasındaki eksik metnin Kurmanca karşılığını sisteme eklemeniz gerekiyor. Bu küçük düzeltmeleri yaptıktan sonra uygulamanız sorunsuz çalışmaya devam edecektir.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 77.1 gün önce, 378 MB — 14 günden eski\n• [yuksek] Kurmancî sözlüğü tam\n   1 çeviri eksik: ['app.js: Bu duraklar internetsiz haritada yok. Bir bö']"
-  },
-  {
-   "id": "a5abd83343a3",
-   "t": 1794577982461,
-   "onem": "iyi",
-   "baslik": "Söylediğim sorunlar kapandı",
-   "govde": "Hepsi geçti. 5/5 kontrol · 38 ayrı sınama."
-  },
-  {
-   "id": "a2e5edcccb17",
-   "t": 1794583348328,
-   "onem": "sorun",
-   "baslik": "3 sorun buldum",
-   "govde": "Uygulamanızda telefon yedeğinin çok eski kalması, Kürtçe sözlükte bir cümlenin çevirisinin eksik olması ve bir rehber dosyasının üç günden fazladır güncellenmemesi sorunları var. Bu durumları düzeltmek için yeni bir yedek almalı, app.js dosyasındaki eksik çeviriyi tamamlamalı ve belirtilen rehber dosyasını güncellemelisiniz. Endişelenmeyin, bunlar düzenli bakım adımlarıyla kolayca çözülebilecek ufak eksikliklerdir.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 77.2 gün önce, 378 MB — 14 günden eski\n• [yuksek] Kurmancî sözlüğü tam\n   1 çeviri eksik: ['app.js: Bu duraklar internetsiz haritada yok. Bir bö']\n• [orta] "
-  },
   {
    "id": "8a3fcc785bd8",
    "t": 1794585792777,
@@ -272,6 +244,34 @@
    "onem": "iyi",
    "baslik": "Söylediğim sorunlar kapandı",
    "govde": "Hepsi geçti. 5/5 kontrol · 38 ayrı sınama."
+  },
+  {
+   "id": "aefa3db48980",
+   "t": 1794815613098,
+   "onem": "sorun",
+   "baslik": "2 sorun buldum",
+   "govde": "• [kritik] Canlı site ayakta\n   URLError: <urlopen error [Errno 8] nodename nor servname provided, or not known>\n• [kritik] Canlı index.html açılıyor\n   <urlopen error [Errno 8] nodename nor servname provided, or not known>"
+  },
+  {
+   "id": "cfac2b3fbb1a",
+   "t": 1794820165251,
+   "onem": "sorun",
+   "baslik": "6 sorun buldum",
+   "govde": "• [kritik] Canlı site ayakta\n   URLError: <urlopen error [Errno 8] nodename nor servname provided, or not known>\n• [kritik] Canlı index.html açılıyor\n   <urlopen error [Errno 8] nodename nor servname provided, or not known>\n• [yuksek] Canlı sürüm yereldekiyle aynı\n   okunamadı: <urlopen error [Errno 8] nodename nor servname provided, or not known>\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 80.0 gün önce, 378 MB — 14 günden eski\n• [yuksek] Kurmancî sözlüğü tam\n   1 çeviri eksik: ['app.js: Bu duraklar internetsiz haritada yok. Bir bö']\n• [orta] Bilgi paketi yayında\n   canlı pakete ulaşılamadı"
+  },
+  {
+   "id": "61c37f25ac54",
+   "t": 1794823441384,
+   "onem": "sorun",
+   "baslik": "2 sorun buldum",
+   "govde": "• [kritik] Canlı site ayakta\n   URLError: <urlopen error [Errno 8] nodename nor servname provided, or not known>\n• [kritik] Canlı index.html açılıyor\n   <urlopen error [Errno 8] nodename nor servname provided, or not known>"
+  },
+  {
+   "id": "ca85fa63d931",
+   "t": 1794831269709,
+   "onem": "iyi",
+   "baslik": "Söylediğim sorunlar kapandı",
+   "govde": "Hepsi geçti. 5/5 kontrol · 38 ayrı sınama."
   }
  ],
  "bekleyen": [
@@ -301,6 +301,15 @@
     "Gerçekten bozuk, bak",
     "Yanlış alarm"
    ]
+  },
+  {
+   "id": "5ac506c98e9c",
+   "soru": "“Canlı sürüm yereldekiyle aynı” kontrolü takılıyor ve kendim onaramadım. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu? (Ayrıntısı panoda duruyor.)",
+   "secenekler": [
+    "Bu bilinen bir durum",
+    "Gerçekten bozuk, bak",
+    "Yanlış alarm"
+   ]
   }
  ],
  "telefonSinamasi": [
@@ -312,42 +321,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-11-14T11:21:51+03:00",
-   "k": "6saat",
-   "g": 34,
-   "n": 37
-  },
-  {
-   "t": "2026-11-14T12:24:59+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
-  {
-   "t": "2026-11-14T13:30:05+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
-  {
-   "t": "2026-11-14T14:35:11+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
-  {
-   "t": "2026-11-14T15:40:19+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
-  {
-   "t": "2026-11-14T16:45:32+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
   {
    "t": "2026-11-14T17:32:19+03:00",
    "k": "6saat",
@@ -548,6 +521,42 @@
   },
   {
    "t": "2026-11-16T09:48:13+03:00",
+   "k": "saatlik",
+   "g": 5,
+   "n": 5
+  },
+  {
+   "t": "2026-11-16T10:53:31+03:00",
+   "k": "saatlik",
+   "g": 3,
+   "n": 5
+  },
+  {
+   "t": "2026-11-16T11:58:47+03:00",
+   "k": "saatlik",
+   "g": 3,
+   "n": 5
+  },
+  {
+   "t": "2026-11-16T12:09:25+03:00",
+   "k": "6saat",
+   "g": 30,
+   "n": 37
+  },
+  {
+   "t": "2026-11-16T13:04:01+03:00",
+   "k": "saatlik",
+   "g": 3,
+   "n": 5
+  },
+  {
+   "t": "2026-11-16T14:09:15+03:00",
+   "k": "saatlik",
+   "g": 3,
+   "n": 5
+  },
+  {
+   "t": "2026-11-16T15:14:29+03:00",
    "k": "saatlik",
    "g": 5,
    "n": 5
