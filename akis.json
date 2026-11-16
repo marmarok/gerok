@@ -1,40 +1,107 @@
 {
  "bicim": 1,
- "zaman": "2026-11-16T06:32:56+03:00",
- "kadans": "saatlik",
- "durum": "iyi",
+ "zaman": "2026-11-16T07:21:20+03:00",
+ "kadans": "gunluk",
+ "durum": "sorun",
  "sayilar": {
-  "kontrol": 5,
-  "sinama": 38,
-  "gecen": 5,
-  "bilinen": 0,
-  "sorun": 0,
-  "sure": 0.8,
-  "kosu": 1310
+  "kontrol": 110,
+  "sinama": 3290,
+  "gecen": 106,
+  "bilinen": 1,
+  "sorun": 3,
+  "sure": 129.8,
+  "kosu": 1311
  },
- "sorunlar": [],
- "bilinenler": [],
+ "sorunlar": [
+  {
+   "ad": "Telefon yedeği duruyor",
+   "onem": "yuksek",
+   "oyku": "yedek",
+   "not": "2 yedek · en yenisi 79.7 gün önce, 378 MB — 14 günden eski",
+   "onarilabilir": false
+  },
+  {
+   "ad": "Kurmancî sözlüğü tam",
+   "onem": "yuksek",
+   "oyku": "kod",
+   "not": "1 çeviri eksik: ['app.js: Bu duraklar internetsiz haritada yok. Bir bö']",
+   "onarilabilir": false
+  },
+  {
+   "ad": "Akıl hocası dosyaları bayatlamamış",
+   "onem": "orta",
+   "oyku": "bekci",
+   "not": "1 dosya 3 günden uzun süredir bekliyor: 20260911-1908-telefon-yede-i-duruyor",
+   "onarilabilir": false
+  }
+ ],
+ "bilinenler": [
+  {
+   "ad": "Math.min(...dizi) yığın taşması",
+   "not": "app.js:764; app.js:5084; gerok.js:448; sihirbaz.js:454; sihirbaz.js:455; sihirbaz.js:456 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
+  }
+ ],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 3,
-   "toplam": 3,
-   "sinama": 6
+   "gecen": 15,
+   "toplam": 15,
+   "sinama": 147
   },
   "bekci": {
-   "gecen": 1,
+   "gecen": 8,
+   "toplam": 9,
+   "sinama": 83
+  },
+  "yedek": {
+   "gecen": 0,
    "toplam": 1,
-   "sinama": 8
+   "sinama": 2
   },
   "koprü": {
    "gecen": 1,
    "toplam": 1,
    "sinama": 24
+  },
+  "kod": {
+   "gecen": 10,
+   "toplam": 11,
+   "sinama": 1545
+  },
+  "veri": {
+   "gecen": 2,
+   "toplam": 2,
+   "sinama": 9
+  },
+  "gizlilik": {
+   "gecen": 7,
+   "toplam": 7,
+   "sinama": 130
+  },
+  "bilgi": {
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 883
+  },
+  "sartname": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 409
+  },
+  "depolama": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 1
+  },
+  "davranis": {
+   "gecen": 57,
+   "toplam": 57,
+   "sinama": 57
   }
  },
  "derin": {
   "kadans": "gunluk",
-  "zaman": "2026-11-14T18:59:34+03:00",
+  "zaman": "2026-11-16T07:21:20+03:00",
   "kontrol": 110,
   "sinama": 3290,
   "gecen": 106,
@@ -98,13 +165,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "76caf9e87dda",
-   "t": 1794535012018,
-   "onem": "iyi",
-   "baslik": "Söylediğim sorunlar kapandı",
-   "govde": "Hepsi geçti. 5/5 kontrol · 38 ayrı sınama."
-  },
   {
    "id": "a3c036010501",
    "t": 1794555605164,
@@ -272,6 +332,13 @@
    "onem": "iyi",
    "baslik": "Söylediğim sorunlar kapandı",
    "govde": "Hepsi geçti. 5/5 kontrol · 38 ayrı sınama."
+  },
+  {
+   "id": "75a9c5af9144",
+   "t": 1794802882492,
+   "onem": "sorun",
+   "baslik": "3 sorun buldum",
+   "govde": "Telefon yedeğiniz 14 günden eski olduğu için güncelliğini kaybetmiş ve Kürtçe (Kurmancî) sözlüğünüzde `app.js` dosyasındaki bir düzelmenin çevirisi eksik kalmış. Ayrıca sistemde 3 günden uzun süredir onay bekleyen 1 adet düzenleme dosyası bulunuyor. Lütfen telefonunuzun yeni bir yedeğini alın, eksik olan bu tek çeviriyi tamamlayın ve bekleyen dosyayı onaylayıp güncelleyin.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 79.7 gün önce, 378 MB — 14 günden eski\n• [yuksek] Kurmancî sözlüğü tam\n   1 çeviri eksik: ['app.js: Bu duraklar internetsiz haritada yok. Bir bö']\n• [orta] Akıl hocası dosyaları bayatlamamış\n   1 dos"
   }
  ],
  "bekleyen": [
@@ -312,12 +379,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-11-14T08:04:33+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
   {
    "t": "2026-11-14T09:09:39+03:00",
    "k": "saatlik",
@@ -551,6 +612,12 @@
    "k": "saatlik",
    "g": 5,
    "n": 5
+  },
+  {
+   "t": "2026-11-16T07:21:20+03:00",
+   "k": "gunluk",
+   "g": 106,
+   "n": 110
   }
  ]
 }
