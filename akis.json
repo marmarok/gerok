@@ -1,35 +1,80 @@
 {
  "bicim": 1,
- "zaman": "2026-11-18T12:49:02+03:00",
- "kadans": "saatlik",
- "durum": "iyi",
+ "zaman": "2026-11-18T13:36:55+03:00",
+ "kadans": "6saat",
+ "durum": "sorun",
  "sayilar": {
-  "kontrol": 5,
-  "sinama": 38,
-  "gecen": 5,
-  "bilinen": 0,
-  "sorun": 0,
-  "sure": 1.6,
-  "kosu": 1371
+  "kontrol": 37,
+  "sinama": 2693,
+  "gecen": 34,
+  "bilinen": 1,
+  "sorun": 2,
+  "sure": 17.8,
+  "kosu": 1372
  },
- "sorunlar": [],
- "bilinenler": [],
+ "sorunlar": [
+  {
+   "ad": "Telefon yedeği duruyor",
+   "onem": "yuksek",
+   "oyku": "yedek",
+   "not": "2 yedek · en yenisi 82.0 gün önce, 378 MB — 14 günden eski",
+   "onarilabilir": false
+  },
+  {
+   "ad": "Kurmancî sözlüğü tam",
+   "onem": "yuksek",
+   "oyku": "kod",
+   "not": "1 çeviri eksik: ['app.js: Bu duraklar internetsiz haritada yok. Bir bö']",
+   "onarilabilir": false
+  }
+ ],
+ "bilinenler": [
+  {
+   "ad": "Math.min(...dizi) yığın taşması",
+   "not": "app.js:764; app.js:5084; gerok.js:448; sihirbaz.js:454; sihirbaz.js:455; sihirbaz.js:456 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
+  }
+ ],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 3,
-   "toplam": 3,
-   "sinama": 6
+   "gecen": 10,
+   "toplam": 10,
+   "sinama": 103
   },
   "bekci": {
-   "gecen": 1,
+   "gecen": 4,
+   "toplam": 4,
+   "sinama": 16
+  },
+  "yedek": {
+   "gecen": 0,
    "toplam": 1,
-   "sinama": 8
+   "sinama": 2
   },
   "koprü": {
    "gecen": 1,
    "toplam": 1,
    "sinama": 24
+  },
+  "kod": {
+   "gecen": 8,
+   "toplam": 9,
+   "sinama": 1528
+  },
+  "veri": {
+   "gecen": 2,
+   "toplam": 2,
+   "sinama": 9
+  },
+  "gizlilik": {
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 128
+  },
+  "bilgi": {
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 883
   }
  },
  "derin": {
@@ -98,13 +143,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "b7aee0e1307c",
-   "t": 1794803882869,
-   "onem": "iyi",
-   "baslik": "Söylediğim sorunlar kapandı",
-   "govde": "Hepsi geçti. 5/5 kontrol · 38 ayrı sınama."
-  },
   {
    "id": "aefa3db48980",
    "t": 1794815613098,
@@ -272,6 +310,13 @@
    "onem": "iyi",
    "baslik": "Söylediğim sorunlar kapandı",
    "govde": "Hepsi geçti. 5/5 kontrol · 38 ayrı sınama."
+  },
+  {
+   "id": "08b658f306bc",
+   "t": 1794998244143,
+   "onem": "sorun",
+   "baslik": "2 sorun buldum",
+   "govde": "Uygulamanızda iki önemli bakım eksikliği tespit edildi: Telefonunuzdaki yedek 82 gündür güncellenmemiş ve Kurmancî dil seçeneğinde bir kelimenin çevirisi eksik kalmış. \n\nVerilerinizin kaybolmaması için hemen yeni bir yedek almalı ve `app.js` dosyasındaki eksik Kurmancî çeviriyi tamamlamalısınız. Bu adımları attığınızda uygulamanız güvenle çalışmaya devam edecektir.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 82.0 gün önce, 378 MB — 14 günden eski\n• [yuksek] Kurmancî sözlüğü tam\n   1 çeviri eksik: ['app.js: Bu duraklar internetsiz haritada yok. Bir bö']"
   }
  ],
  "bekleyen": [
@@ -312,12 +357,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-11-17T02:06:03+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
   {
    "t": "2026-11-17T03:11:08+03:00",
    "k": "saatlik",
@@ -551,6 +590,12 @@
    "k": "saatlik",
    "g": 5,
    "n": 5
+  },
+  {
+   "t": "2026-11-18T13:36:55+03:00",
+   "k": "6saat",
+   "g": 34,
+   "n": 37
   }
  ]
 }
