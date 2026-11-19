@@ -1,43 +1,119 @@
 {
  "bicim": 1,
- "zaman": "2026-11-19T14:50:01+03:00",
- "kadans": "saatlik",
- "durum": "iyi",
+ "zaman": "2026-11-19T15:27:14+03:00",
+ "kadans": "haftalik",
+ "durum": "sorun",
  "sayilar": {
-  "kontrol": 5,
-  "sinama": 38,
-  "gecen": 5,
-  "bilinen": 0,
-  "sorun": 0,
-  "sure": 0.8,
-  "kosu": 1388
+  "kontrol": 118,
+  "sinama": 3304,
+  "gecen": 113,
+  "bilinen": 2,
+  "sorun": 3,
+  "sure": 125.8,
+  "kosu": 1389
  },
- "sorunlar": [],
- "bilinenler": [],
+ "sorunlar": [
+  {
+   "ad": "Telefon yedeği duruyor",
+   "onem": "yuksek",
+   "oyku": "yedek",
+   "not": "2 yedek · en yenisi 83.1 gün önce, 378 MB — 14 günden eski",
+   "onarilabilir": false
+  },
+  {
+   "ad": "Kurmancî sözlüğü tam",
+   "onem": "yuksek",
+   "oyku": "kod",
+   "not": "1 çeviri eksik: ['app.js: Bu duraklar internetsiz haritada yok. Bir bö']",
+   "onarilabilir": false
+  },
+  {
+   "ad": "Akıl hocası dosyaları bayatlamamış",
+   "onem": "orta",
+   "oyku": "bekci",
+   "not": "1 dosya 3 günden uzun süredir bekliyor: 20260911-1908-telefon-yede-i-duruyor",
+   "onarilabilir": false
+  }
+ ],
+ "bilinenler": [
+  {
+   "ad": "Math.min(...dizi) yığın taşması",
+   "not": "app.js:764; app.js:5084; gerok.js:448; sihirbaz.js:454; sihirbaz.js:455; sihirbaz.js:456 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
+  },
+  {
+   "ad": "Arşivde fotoğrafların aslı var",
+   "not": "(ayrıntı panoda)"
+  }
+ ],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 3,
-   "toplam": 3,
-   "sinama": 6
+   "gecen": 15,
+   "toplam": 15,
+   "sinama": 147
   },
   "bekci": {
-   "gecen": 1,
+   "gecen": 8,
+   "toplam": 9,
+   "sinama": 83
+  },
+  "yedek": {
+   "gecen": 0,
    "toplam": 1,
-   "sinama": 8
+   "sinama": 2
   },
   "koprü": {
    "gecen": 1,
    "toplam": 1,
    "sinama": 24
+  },
+  "kod": {
+   "gecen": 10,
+   "toplam": 11,
+   "sinama": 1545
+  },
+  "veri": {
+   "gecen": 2,
+   "toplam": 2,
+   "sinama": 9
+  },
+  "gizlilik": {
+   "gecen": 7,
+   "toplam": 7,
+   "sinama": 130
+  },
+  "bilgi": {
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 883
+  },
+  "sartname": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 409
+  },
+  "depolama": {
+   "gecen": 4,
+   "toplam": 4,
+   "sinama": 4
+  },
+  "kaynak": {
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 11
+  },
+  "davranis": {
+   "gecen": 57,
+   "toplam": 57,
+   "sinama": 57
   }
  },
  "derin": {
-  "kadans": "gunluk",
-  "zaman": "2026-11-18T08:36:00+03:00",
-  "kontrol": 110,
-  "sinama": 3290,
-  "gecen": 106,
+  "kadans": "haftalik",
+  "zaman": "2026-11-19T15:27:14+03:00",
+  "kontrol": 118,
+  "sinama": 3304,
+  "gecen": 113,
   "sorun": 3,
   "gruplar": {
    "yayin": {
@@ -86,9 +162,14 @@
     "sinama": 409
    },
    "depolama": {
-    "gecen": 1,
-    "toplam": 1,
-    "sinama": 1
+    "gecen": 4,
+    "toplam": 4,
+    "sinama": 4
+   },
+   "kaynak": {
+    "gecen": 5,
+    "toplam": 5,
+    "sinama": 11
    },
    "davranis": {
     "gecen": 57,
@@ -98,13 +179,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "32155d6f44d5",
-   "t": 1794843011658,
-   "onem": "iyi",
-   "baslik": "Söylediğim sorunlar kapandı",
-   "govde": "Hepsi geçti. 5/5 kontrol · 38 ayrı sınama."
-  },
   {
    "id": "bc579bf5eb7e",
    "t": 1794850837010,
@@ -272,6 +346,13 @@
    "onem": "iyi",
    "baslik": "Söylediğim sorunlar kapandı",
    "govde": "Hepsi geçti. 5/5 kontrol · 38 ayrı sınama."
+  },
+  {
+   "id": "94bf5cae6eff",
+   "t": 1795091275929,
+   "onem": "sorun",
+   "baslik": "3 sorun buldum",
+   "govde": "Telefonunuzdaki uygulama yedeği 83 gündür güncellenmediği için eski kalmış, ayrıca \"app.js\" dosyasında Kurmancî diline çevrilmemiş bir cümle ve 3 günden fazla süredir bekleyen bir akıl hocası dosyası bulunuyor. \n\nBu durumların düzelmesi için yeni bir yedek oluşturmalı, eksik kalan çeviri cümlesini tamamlamalı ve bekleyen akıl hocası dosyasını gözden geçirmelisiniz. \n\nKorkulacak bir şey yok, sadece uygulamanızın düzenli çalışması için küçük bir temizlik ve güncelleme yapmanız gerekiyor.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 83.1 gün önce, 378 MB — 14 günden eski\n• [yuksek] Kurmancî sözlüğü tam\n   1 çeviri e"
   }
  ],
  "bekleyen": [
@@ -312,12 +393,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-11-17T17:17:17+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
   {
    "t": "2026-11-17T18:22:22+03:00",
    "k": "saatlik",
@@ -551,6 +626,12 @@
    "k": "saatlik",
    "g": 5,
    "n": 5
+  },
+  {
+   "t": "2026-11-19T15:27:14+03:00",
+   "k": "haftalik",
+   "g": 113,
+   "n": 118
   }
  ]
 }
