@@ -1,44 +1,111 @@
 {
  "bicim": 1,
- "zaman": "2026-11-25T00:24:34+03:00",
- "kadans": "saatlik",
- "durum": "iyi",
+ "zaman": "2026-11-25T01:09:47+03:00",
+ "kadans": "gunluk",
+ "durum": "sorun",
  "sayilar": {
-  "kontrol": 5,
-  "sinama": 38,
-  "gecen": 5,
-  "bilinen": 0,
-  "sorun": 0,
-  "sure": 0.9,
-  "kosu": 1489
+  "kontrol": 110,
+  "sinama": 3290,
+  "gecen": 106,
+  "bilinen": 1,
+  "sorun": 3,
+  "sure": 138.2,
+  "kosu": 1490
  },
- "sorunlar": [],
- "bilinenler": [],
+ "sorunlar": [
+  {
+   "ad": "Telefon yedeği duruyor",
+   "onem": "yuksek",
+   "oyku": "yedek",
+   "not": "2 yedek · en yenisi 88.5 gün önce, 378 MB — 14 günden eski",
+   "onarilabilir": false
+  },
+  {
+   "ad": "Kurmancî sözlüğü tam",
+   "onem": "yuksek",
+   "oyku": "kod",
+   "not": "1 çeviri eksik: ['app.js: Bu duraklar internetsiz haritada yok. Bir bö']",
+   "onarilabilir": false
+  },
+  {
+   "ad": "Akıl hocası dosyaları bayatlamamış",
+   "onem": "orta",
+   "oyku": "bekci",
+   "not": "1 dosya 3 günden uzun süredir bekliyor: 20260911-1908-telefon-yede-i-duruyor",
+   "onarilabilir": false
+  }
+ ],
+ "bilinenler": [
+  {
+   "ad": "Math.min(...dizi) yığın taşması",
+   "not": "app.js:764; app.js:5084; gerok.js:448; sihirbaz.js:454; sihirbaz.js:455; sihirbaz.js:456 · kabul edildi: Altı yerin hepsi küçük dizi (gün sayısı, durak sayısı, "
+  }
+ ],
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 3,
-   "toplam": 3,
-   "sinama": 6
+   "gecen": 15,
+   "toplam": 15,
+   "sinama": 147
   },
   "bekci": {
-   "gecen": 1,
+   "gecen": 8,
+   "toplam": 9,
+   "sinama": 83
+  },
+  "yedek": {
+   "gecen": 0,
    "toplam": 1,
-   "sinama": 8
+   "sinama": 2
   },
   "koprü": {
    "gecen": 1,
    "toplam": 1,
    "sinama": 24
+  },
+  "kod": {
+   "gecen": 10,
+   "toplam": 11,
+   "sinama": 1545
+  },
+  "veri": {
+   "gecen": 2,
+   "toplam": 2,
+   "sinama": 9
+  },
+  "gizlilik": {
+   "gecen": 7,
+   "toplam": 7,
+   "sinama": 130
+  },
+  "bilgi": {
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 883
+  },
+  "sartname": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 409
+  },
+  "depolama": {
+   "gecen": 1,
+   "toplam": 1,
+   "sinama": 1
+  },
+  "davranis": {
+   "gecen": 57,
+   "toplam": 57,
+   "sinama": 57
   }
  },
  "derin": {
   "kadans": "gunluk",
-  "zaman": "2026-11-23T16:19:35+03:00",
+  "zaman": "2026-11-25T01:09:47+03:00",
   "kontrol": 110,
   "sinama": 3290,
-  "gecen": 105,
-  "sorun": 4,
+  "gecen": 106,
+  "sorun": 3,
   "gruplar": {
    "yayin": {
     "gecen": 15,
@@ -91,20 +158,13 @@
     "sinama": 1
    },
    "davranis": {
-    "gecen": 56,
+    "gecen": 57,
     "toplam": 57,
     "sinama": 57
    }
   }
  },
  "mesajlar": [
-  {
-   "id": "c22372ae3744",
-   "t": 1795170398497,
-   "onem": "sorun",
-   "baslik": "2 sorun buldum",
-   "govde": "• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 84.0 gün önce, 378 MB — 14 günden eski\n• [yuksek] Kurmancî sözlüğü tam\n   1 çeviri eksik: ['app.js: Bu duraklar internetsiz haritada yok. Bir bö']"
-  },
   {
    "id": "c0dc847c23fa",
    "t": 1795173491220,
@@ -272,6 +332,13 @@
    "onem": "iyi",
    "baslik": "Söylediğim sorunlar kapandı",
    "govde": "Hepsi geçti. 5/5 kontrol · 38 ayrı sınama."
+  },
+  {
+   "id": "39d1f5b541fe",
+   "t": 1795558199003,
+   "onem": "sorun",
+   "baslik": "3 sorun buldum",
+   "govde": "Telefonunuzdaki uygulama yedeği 88 gündür yenilenmediği için güvenlik riski oluşturuyor ve uygulamanızın Kurmancî dil seçeneğinde bir kelimenin çevirisi eksik kalmış. Ayrıca sistemdeki rehber dosyalarından biri 3 günden uzun süredir güncellenmeyi bekliyor. Uygulama ayarlarından yeni bir yedek almalı, eksik kalan çeviri cümlesini tamamlamalı ve bekleyen dosyayı güncellemelisiniz.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 88.5 gün önce, 378 MB — 14 günden eski\n• [yuksek] Kurmancî sözlüğü tam\n   1 çeviri eksik: ['app.js: Bu duraklar internetsiz haritada yok. Bir bö']\n• [orta] Akıl hocası dosyaları bayatlamamış\n  "
   }
  ],
  "bekleyen": [
@@ -301,15 +368,6 @@
     "Gerçekten bozuk, bak",
     "Yanlış alarm"
    ]
-  },
-  {
-   "id": "b82c73415008",
-   "soru": "“Bekçi paneli açılıyor ve karşılıyor” kontrolü takılıyor ve kendim onaramadım. Bu senin bildiğin ve kabul ettiğin bir durum mu, yoksa gerçekten bozuk mu? (Ayrıntısı panoda duruyor.)",
-   "secenekler": [
-    "Bu bilinen bir durum",
-    "Gerçekten bozuk, bak",
-    "Yanlış alarm"
-   ]
   }
  ],
  "telefonSinamasi": [
@@ -321,12 +379,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-11-23T07:01:23+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
   {
    "t": "2026-11-23T08:06:34+03:00",
    "k": "saatlik",
@@ -560,6 +612,12 @@
    "k": "saatlik",
    "g": 5,
    "n": 5
+  },
+  {
+   "t": "2026-11-25T01:09:47+03:00",
+   "k": "gunluk",
+   "g": 106,
+   "n": 110
   }
  ]
 }
