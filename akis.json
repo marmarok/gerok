@@ -1,16 +1,16 @@
 {
  "bicim": 1,
- "zaman": "2026-11-25T01:09:47+03:00",
- "kadans": "gunluk",
+ "zaman": "2026-11-25T01:16:31+03:00",
+ "kadans": "6saat",
  "durum": "sorun",
  "sayilar": {
-  "kontrol": 110,
-  "sinama": 3290,
-  "gecen": 106,
+  "kontrol": 37,
+  "sinama": 2693,
+  "gecen": 34,
   "bilinen": 1,
-  "sorun": 3,
-  "sure": 138.2,
-  "kosu": 1490
+  "sorun": 2,
+  "sure": 13.4,
+  "kosu": 1491
  },
  "sorunlar": [
   {
@@ -26,13 +26,6 @@
    "oyku": "kod",
    "not": "1 çeviri eksik: ['app.js: Bu duraklar internetsiz haritada yok. Bir bö']",
    "onarilabilir": false
-  },
-  {
-   "ad": "Akıl hocası dosyaları bayatlamamış",
-   "onem": "orta",
-   "oyku": "bekci",
-   "not": "1 dosya 3 günden uzun süredir bekliyor: 20260911-1908-telefon-yede-i-duruyor",
-   "onarilabilir": false
   }
  ],
  "bilinenler": [
@@ -44,14 +37,14 @@
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 15,
-   "toplam": 15,
-   "sinama": 147
+   "gecen": 10,
+   "toplam": 10,
+   "sinama": 103
   },
   "bekci": {
-   "gecen": 8,
-   "toplam": 9,
-   "sinama": 83
+   "gecen": 4,
+   "toplam": 4,
+   "sinama": 16
   },
   "yedek": {
    "gecen": 0,
@@ -64,9 +57,9 @@
    "sinama": 24
   },
   "kod": {
-   "gecen": 10,
-   "toplam": 11,
-   "sinama": 1545
+   "gecen": 8,
+   "toplam": 9,
+   "sinama": 1528
   },
   "veri": {
    "gecen": 2,
@@ -74,29 +67,14 @@
    "sinama": 9
   },
   "gizlilik": {
-   "gecen": 7,
-   "toplam": 7,
-   "sinama": 130
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 128
   },
   "bilgi": {
    "gecen": 5,
    "toplam": 5,
    "sinama": 883
-  },
-  "sartname": {
-   "gecen": 1,
-   "toplam": 1,
-   "sinama": 409
-  },
-  "depolama": {
-   "gecen": 1,
-   "toplam": 1,
-   "sinama": 1
-  },
-  "davranis": {
-   "gecen": 57,
-   "toplam": 57,
-   "sinama": 57
   }
  },
  "derin": {
@@ -165,13 +143,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "c0dc847c23fa",
-   "t": 1795173491220,
-   "onem": "iyi",
-   "baslik": "Söylediğim sorunlar kapandı",
-   "govde": "Hepsi geçti. 5/5 kontrol · 38 ayrı sınama."
-  },
   {
    "id": "87ca3edbc0a0",
    "t": 1795192747446,
@@ -339,6 +310,13 @@
    "onem": "sorun",
    "baslik": "3 sorun buldum",
    "govde": "Telefonunuzdaki uygulama yedeği 88 gündür yenilenmediği için güvenlik riski oluşturuyor ve uygulamanızın Kurmancî dil seçeneğinde bir kelimenin çevirisi eksik kalmış. Ayrıca sistemdeki rehber dosyalarından biri 3 günden uzun süredir güncellenmeyi bekliyor. Uygulama ayarlarından yeni bir yedek almalı, eksik kalan çeviri cümlesini tamamlamalı ve bekleyen dosyayı güncellemelisiniz.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 88.5 gün önce, 378 MB — 14 günden eski\n• [yuksek] Kurmancî sözlüğü tam\n   1 çeviri eksik: ['app.js: Bu duraklar internetsiz haritada yok. Bir bö']\n• [orta] Akıl hocası dosyaları bayatlamamış\n  "
+  },
+  {
+   "id": "efbdc2fb80e6",
+   "t": 1795558604569,
+   "onem": "sorun",
+   "baslik": "2 sorun buldum",
+   "govde": "Uygulamanızda telefon yedeklerinin çok eskide kalması ve Kurmancî dil seçeneğinde bir cümlenin eksik olması nedeniyle iki güvenlik ve düzen kontrolü sağlanamadı. \n\nİlk olarak en son 88,5 gün önce alınan telefon yedeğini yenilemeniz, ardından `app.js` dosyasında yarım kalan Kurmancî çeviri metnini tamamlamanız gerekiyor. Bu düzeltmeleri yaptıktan sonra uygulamanız sorunsuz şekilde güncellenecektir.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 88.5 gün önce, 378 MB — 14 günden eski\n• [yuksek] Kurmancî sözlüğü tam\n   1 çeviri eksik: ['app.js: Bu duraklar internetsiz haritada yok. Bir bö']"
   }
  ],
  "bekleyen": [
@@ -379,12 +357,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-11-23T08:06:34+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
   {
    "t": "2026-11-23T09:11:41+03:00",
    "k": "saatlik",
@@ -618,6 +590,12 @@
    "k": "gunluk",
    "g": 106,
    "n": 110
+  },
+  {
+   "t": "2026-11-25T01:16:31+03:00",
+   "k": "6saat",
+   "g": 34,
+   "n": 37
   }
  ]
 }
