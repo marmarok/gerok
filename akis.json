@@ -1,16 +1,16 @@
 {
  "bicim": 1,
- "zaman": "2026-11-26T01:51:09+03:00",
- "kadans": "gunluk",
+ "zaman": "2026-11-26T01:58:50+03:00",
+ "kadans": "6saat",
  "durum": "sorun",
  "sayilar": {
-  "kontrol": 110,
-  "sinama": 3290,
-  "gecen": 105,
+  "kontrol": 37,
+  "sinama": 2693,
+  "gecen": 34,
   "bilinen": 1,
-  "sorun": 4,
-  "sure": 366.8,
-  "kosu": 1518
+  "sorun": 2,
+  "sure": 32.6,
+  "kosu": 1519
  },
  "sorunlar": [
   {
@@ -26,20 +26,6 @@
    "oyku": "kod",
    "not": "1 çeviri eksik: ['app.js: Bu duraklar internetsiz haritada yok. Bir bö']",
    "onarilabilir": false
-  },
-  {
-   "ad": "Akıl hocası dosyaları bayatlamamış",
-   "onem": "orta",
-   "oyku": "bekci",
-   "not": "1 dosya 3 günden uzun süredir bekliyor: 20260911-1908-telefon-yede-i-duruyor",
-   "onarilabilir": false
-  },
-  {
-   "ad": "Bekçi paneli açılıyor ve karşılıyor",
-   "onem": "yuksek",
-   "oyku": "davranis",
-   "not": "sohbet açılmadı",
-   "onarilabilir": false
   }
  ],
  "bilinenler": [
@@ -51,14 +37,14 @@
  "onarilan": [],
  "gruplar": {
   "yayin": {
-   "gecen": 15,
-   "toplam": 15,
-   "sinama": 147
+   "gecen": 10,
+   "toplam": 10,
+   "sinama": 103
   },
   "bekci": {
-   "gecen": 8,
-   "toplam": 9,
-   "sinama": 83
+   "gecen": 4,
+   "toplam": 4,
+   "sinama": 16
   },
   "yedek": {
    "gecen": 0,
@@ -71,9 +57,9 @@
    "sinama": 24
   },
   "kod": {
-   "gecen": 10,
-   "toplam": 11,
-   "sinama": 1545
+   "gecen": 8,
+   "toplam": 9,
+   "sinama": 1528
   },
   "veri": {
    "gecen": 2,
@@ -81,29 +67,14 @@
    "sinama": 9
   },
   "gizlilik": {
-   "gecen": 7,
-   "toplam": 7,
-   "sinama": 130
+   "gecen": 5,
+   "toplam": 5,
+   "sinama": 128
   },
   "bilgi": {
    "gecen": 5,
    "toplam": 5,
    "sinama": 883
-  },
-  "sartname": {
-   "gecen": 1,
-   "toplam": 1,
-   "sinama": 409
-  },
-  "depolama": {
-   "gecen": 1,
-   "toplam": 1,
-   "sinama": 1
-  },
-  "davranis": {
-   "gecen": 56,
-   "toplam": 57,
-   "sinama": 57
   }
  },
  "derin": {
@@ -172,13 +143,6 @@
   }
  },
  "mesajlar": [
-  {
-   "id": "48d94f451779",
-   "t": 1795373589344,
-   "onem": "sorun",
-   "baslik": "3 sorun buldum",
-   "govde": "Uygulamanızda telefon yedeğinin çok eski olması, Kurmancî dilinde bir cümlenin eksik kalması ve otomatik arka plan işlemlerinin bir günden uzun süredir çalışmaması gibi üç farklı sorun tespit edildi. Bu durum, veri kaybına ve uygulama içinde eksik yazılar görünmesine yol açabilir. Sorunları çözmek için güncel bir yedek almalı, eksik kalan çeviri cümlesini tamamlamalı ve durmuş olan otomatik işlemleri yeniden başlatmalısınız.\n\n— bunu yazan yapay zekâ (google); aşağısı bekçinin kendi ölçümü —\n\n• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 86.4 gün önce, 378 MB — 14 günden eski\n• [yuksek] Kurmancî sözlüğü tam\n   1 çeviri eksik: ['app.js: Bu duraklar internetsiz haritada yok. Bir bö']"
-  },
   {
    "id": "def81583570c",
    "t": 1795375015044,
@@ -346,6 +310,13 @@
    "onem": "sorun",
    "baslik": "4 sorun buldum",
    "govde": "• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 89.5 gün önce, 378 MB — 14 günden eski\n• [yuksek] Kurmancî sözlüğü tam\n   1 çeviri eksik: ['app.js: Bu duraklar internetsiz haritada yok. Bir bö']\n• [orta] Akıl hocası dosyaları bayatlamamış\n   1 dosya 3 günden uzun süredir bekliyor: 20260911-1908-telefon-yede-i-duruyor\n• [yuksek] Bekçi paneli açılıyor ve karşılıyor\n   sohbet açılmadı"
+  },
+  {
+   "id": "22c69650d9bf",
+   "t": 1795647655981,
+   "onem": "sorun",
+   "baslik": "2 sorun buldum",
+   "govde": "• [yuksek] Telefon yedeği duruyor\n   2 yedek · en yenisi 89.5 gün önce, 378 MB — 14 günden eski\n• [yuksek] Kurmancî sözlüğü tam\n   1 çeviri eksik: ['app.js: Bu duraklar internetsiz haritada yok. Bir bö']"
   }
  ],
  "bekleyen": [
@@ -395,12 +366,6 @@
   "Bir sesin altındaki 'Yazıyı düzelt' — açılıyor, kaydediyor mu?"
  ],
  "gecmis": [
-  {
-   "t": "2026-11-24T09:19:45+03:00",
-   "k": "saatlik",
-   "g": 5,
-   "n": 5
-  },
   {
    "t": "2026-11-24T10:24:50+03:00",
    "k": "saatlik",
@@ -634,6 +599,12 @@
    "k": "gunluk",
    "g": 105,
    "n": 110
+  },
+  {
+   "t": "2026-11-26T01:58:50+03:00",
+   "k": "6saat",
+   "g": 34,
+   "n": 37
   }
  ]
 }
